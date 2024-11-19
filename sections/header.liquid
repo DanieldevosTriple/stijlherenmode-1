@@ -150,7 +150,9 @@
   endfor
 -%}
 
-<sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}"
+<sticky-header
+  data-sticky-type="{{ section.settings.sticky_header_type }}"
+  data-theme-mode="{{ section.settings.header_theme_mode }}"
   class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}{% if section.settings.transparent_header and request.page_type == 'index' %} header-wrapper--transparent{% endif %}">
   {%- liquid
     assign social_links = false
@@ -331,64 +333,78 @@
   {%- render 'cart-notification', color_scheme: section.settings.color_scheme, desktop_menu_type: section.settings.menu_type_desktop -%}
 {%- endif -%}
 
-{% javascript %}
-class StickyHeader extends HTMLElement {
+<script>
+  class StickyHeader extends HTMLElement {
     connectedCallback() {
-        this.header = document.querySelector('.section-header');
-        this.headerBounds = {};
-        this.currentScrollTop = 0;
+      // Get header element and settings
+      this.header = document.querySelector('.section-header');
+      this.stickyType = this.getAttribute('data-sticky-type');
+      this.themeMode = this.getAttribute('data-theme-mode'); // Background color mode
+      this.currentScrollTop = 0;
 
-        this.stickyType = this.getAttribute('data-sticky-type');
-        this.isTransparent = this.header.classList.contains('header-wrapper--transparent');
-
-        this.setHeaderHeight();
-        window.addEventListener('resize', this.setHeaderHeight.bind(this));
-
-        window.addEventListener('scroll', this.onScroll.bind(this), false);
+      // Initial setup for header styles
+      this.setHeaderHeight();
+      this.updateHeaderTheme();
+      
+      // Event listeners for scroll and resize
+      window.addEventListener('resize', this.setHeaderHeight.bind(this));
+      window.addEventListener('scroll', this.onScroll.bind(this), false);
     }
 
     setHeaderHeight() {
-        document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`);
+      // Set CSS variable for header height
+      document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`);
+    }
+
+    updateHeaderTheme() {
+      // Update header theme based on scroll position and theme mode
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop === 0) {
+        if (this.themeMode === 'transparent') {
+          this.header.classList.add('transparent');
+          this.header.classList.remove('scrolled-past-header');
+        } else if (this.themeMode === 'system') {
+          // Use system preference for dark or light mode
+          const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          this.header.style.backgroundColor = darkMode ? '#000000' : '#ffffff';
+          this.header.style.color = darkMode ? '#ffffff' : '#000000';
+          this.header.classList.remove('transparent', 'scrolled-past-header');
+        } else {
+          // Default to solid background color
+          this.header.classList.remove('transparent');
+        }
+      }
     }
 
     onScroll() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        // Transparantie bij scrollen naar boven en top
-        if (this.isTransparent) {
-            if (scrollTop <= 0) {
-                this.header.classList.add('transparent');
-                this.header.classList.remove('scrolled-past-header');
-            } else {
-                this.header.classList.remove('transparent');
-                this.header.classList.add('scrolled-past-header');
-            }
+      // Sticky behavior logic
+      if (this.stickyType === 'on-scroll-up') {
+        if (scrollTop > this.currentScrollTop && scrollTop > 100) {
+          this.header.classList.add('hidden');
+        } else if (scrollTop < this.currentScrollTop) {
+          this.header.classList.remove('hidden');
+          this.header.classList.add('scrolled-past-header');
         }
+      } else if (this.stickyType === 'always') {
+        this.header.classList.add('scrolled-past-header');
+      }
 
-        // Logica voor sticky types
-        if (this.stickyType === 'on-scroll-up') {
-            if (scrollTop > this.currentScrollTop && scrollTop > 100) {
-                this.header.classList.add('hidden');
-            } else if (scrollTop < this.currentScrollTop) {
-                this.header.classList.remove('hidden');
-                this.header.classList.add('scrolled-past-header');
-            }
-        }
+      // Reset to theme logic when at the top
+      if (scrollTop === 0) {
+        this.updateHeaderTheme();
+      } else {
+        this.header.classList.remove('transparent');
+        this.header.classList.add('scrolled-past-header');
+      }
 
-        if (this.stickyType === 'always') {
-            this.header.classList.add('scrolled-past-header');
-        }
-
-        if (this.stickyType === 'reduce-logo-size') {
-            this.header.classList.add('reduce-logo');
-        }
-
-        this.currentScrollTop = scrollTop;
+      this.currentScrollTop = scrollTop;
     }
-}
+  }
 
-customElements.define('sticky-header', StickyHeader);
-{% endjavascript %}
+  customElements.define('sticky-header', StickyHeader);
+</script>
 
 <script type="application/ld+json">
   {
@@ -489,26 +505,6 @@ customElements.define('sticky-header', StickyHeader);
       "info": "t:sections.header.settings.menu_type_desktop.info"
     },
     {
-      "type": "select",
-      "id": "sticky_header_type",
-      "options": [
-        {
-          "value": "none",
-          "label": "t:sections.header.settings.sticky_header_type.options__1.label"
-        },
-        {
-          "value": "on-scroll-up",
-          "label": "t:sections.header.settings.sticky_header_type.options__2.label"
-        },
-        {
-          "value": "always",
-          "label": "t:sections.header.settings.sticky_header_type.options__3.label"
-        }
-      ],
-      "default": "on-scroll-up",
-      "label": "t:sections.header.settings.sticky_header_type.label"
-    },
-    {
       "type": "checkbox",
       "id": "show_line_separator",
       "default": true,
@@ -529,10 +525,26 @@ customElements.define('sticky-header', StickyHeader);
       "content": "Transparent Header (Only on Homepage)",
     },
     {
-      "type": "checkbox",
-      "id": "transparent_header",
-      "default": false,
-      "label": "Make header transparent on homepage"
+      "type": "select",
+      "id": "header_theme_mode",
+      "label": "Header Theme Mode",
+      "default": "transparent",
+      "options": [
+        { "value": "transparent", "label": "Transparent" },
+        { "value": "solid", "label": "Solid Color" },
+        { "value": "system", "label": "Follow System Settings" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "sticky_header_type",
+      "label": "Sticky Header Behavior",
+      "default": "on-scroll-up",
+      "options": [
+        { "value": "none", "label": "No Sticky" },
+        { "value": "on-scroll-up", "label": "Show on Scroll Up" },
+        { "value": "always", "label": "Always Sticky" }
+      ]
     },
     {
       "type": "color_scheme",
