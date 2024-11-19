@@ -32,31 +32,6 @@
     }
   {%- endif -%}
 
-  /* Transparant header */
-  .header-wrapper--transparent {
-    background-color: transparent;
-    position: absolute;
-    z-index: 10;
-    width: 100%;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  /* Scroll header */
-  .scrolled-past-header .header-wrapper--transparent {
-    background-color: white; /* Wordt wit bij scrollen */
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Optioneel: voeg een schaduw toe */
-  }
-
-  .scrolled-past-header .header-wrapper--transparent .header__heading-link,
-  .scrolled-past-header .header-wrapper--transparent .header__icon {
-    color: black; /* Zorg ervoor dat iconen en tekst zichtbaar blijven */
-  }
- 
-  .header-wrapper--transparent .header__heading-link,
-  .header-wrapper--transparent .header__icon {
-    color: white;
-  }
-
   .menu-drawer-container {
     display: flex;
   }
@@ -131,8 +106,7 @@
   endfor
 -%}
 
-<{% if section.settings.sticky_header_type != 'none' %}sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}"{% else %}div{% endif %} 
-class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}{% if section.settings.transparent_header and request.page_type == 'index' %} header-wrapper--transparent{% endif %}">
+<{% if section.settings.sticky_header_type != 'none' %}sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}"{% else %}div{% endif %} class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}">
   {%- liquid
     assign social_links = false
     assign localization_forms = false
@@ -567,17 +541,6 @@ class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if se
       "id": "menu_color_scheme",
       "label": "t:sections.header.settings.menu_color_scheme.label",
       "default": "scheme-1"
-    },
-    { 
-      "type": "header",
-      "content": "Header Transparancy",
-      "info": "Customize the header background"
-    },
-    {
-      "type": "checkbox",
-      "id": "transparent_header",
-      "default": false,
-      "label": "Make header transparent on homepage"
     },
     {
       "type": "header",
