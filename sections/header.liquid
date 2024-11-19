@@ -335,12 +335,15 @@ class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if se
       }
 
       createObserver() {
-        let observer = new IntersectionObserver((entries, observer) => {
-          this.headerBounds = entries[0].intersectionRect;
-          observer.disconnect();
-        });
+          const observer = new IntersectionObserver((entries) => {
+              if (entries[0].isIntersecting) {
+                  this.header.classList.remove('scrolled-past-header');
+              } else {
+                  this.header.classList.add('scrolled-past-header');
+              }
+          }, { threshold: [0] });
 
-        observer.observe(this.header);
+          observer.observe(this.header);
       }
 
       onScroll() {
