@@ -38,13 +38,13 @@
     "header": {
       "type": "header",
       "settings": {
-        "logo_position": "middle-left",
+        "logo_position": "middle-center",
         "menu": "main-menu",
         "menu_type_desktop": "dropdown",
-        "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
         "color_scheme": "scheme-1",
-        "transparent_header": true,
+        "header_theme_mode": "transparent",
+        "sticky_header_type": "on-scroll-up",
         "menu_color_scheme": "",
         "enable_country_selector": true,
         "enable_language_selector": true,
