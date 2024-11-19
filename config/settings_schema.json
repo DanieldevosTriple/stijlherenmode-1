@@ -12,8 +12,13 @@
     "settings": [
       {
         "type": "image_picker",
-        "id": "logo",
-        "label": "t:settings_schema.logo.settings.logo_image.label"
+        "id": "logo_white",
+        "label": "t:settings_schema.logo.settings.logo_image_white.label"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_black",
+        "label": "t:settings_schema.logo.settings.logo_image_black.label"
       },
       {
         "type": "range",

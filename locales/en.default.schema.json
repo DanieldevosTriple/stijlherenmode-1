@@ -141,8 +141,11 @@
     "logo": {
       "name": "Logo",
       "settings": {
-        "logo_image": {
-          "label": "Logo"
+        "logo_image_black": {
+          "label": "Logo Black"
+        },
+        "logo_image_white": {
+          "label": "Logo White"
         },
         "logo_width": {
           "label": "Desktop logo width",
