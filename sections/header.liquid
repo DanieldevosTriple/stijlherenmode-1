@@ -103,14 +103,6 @@
     color: white;
   }
 
-  .section-header {
-      position: -webkit-sticky;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
-  }
-
   .section-header.hidden {
       transform: translateY(-100%);
       opacity: 0;
@@ -122,19 +114,26 @@
       opacity: 1;
   }
 
+  .section-header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .section-header.transparent {
+        background-color: transparent;
+        color: white;
+    }
+
+    .section-header.transparent.scrolled-past-header {
+        background-color: white;
+        color: black;
+    }
+
   .section-header.reduce-logo .header__heading-logo-wrapper {
       width: 75%;
-  }
-
-  .section-header.transparent {
-      background-color: transparent;
-      color: white;
-      transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  .section-header.transparent.scrolled-past-header {
-      background-color: white;
-      color: black;
   }
 
   @media screen and (min-width: 750px) {
@@ -343,13 +342,14 @@
 {%- endif -%}
 
 {% javascript %}
-  class StickyHeader extends HTMLElement {
+class StickyHeader extends HTMLElement {
     connectedCallback() {
         this.header = document.querySelector('.section-header');
         this.headerBounds = {};
         this.currentScrollTop = 0;
 
         this.stickyType = this.getAttribute('data-sticky-type');
+        this.isTransparent = this.header.classList.contains('header-wrapper--transparent');
 
         this.setHeaderHeight();
         window.addEventListener('resize', this.setHeaderHeight.bind(this));
@@ -369,8 +369,14 @@
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
                 this.header.classList.remove('scrolled-past-header');
+                if (this.isTransparent) {
+                    this.header.classList.add('transparent');
+                }
             } else {
                 this.header.classList.add('scrolled-past-header');
+                if (this.isTransparent) {
+                    this.header.classList.remove('transparent');
+                }
             }
         }, { threshold: [0] });
 
@@ -397,11 +403,18 @@
             this.header.classList.add('reduce-logo');
         }
 
+        // Reset naar transparant als helemaal boven
+        if (scrollTop <= 0 && this.isTransparent) {
+            this.header.classList.remove('scrolled-past-header');
+            this.header.classList.add('transparent');
+        }
+
         this.currentScrollTop = scrollTop;
     }
 }
 
 customElements.define('sticky-header', StickyHeader);
+
 {% endjavascript %}
 
 <script type="application/ld+json">
