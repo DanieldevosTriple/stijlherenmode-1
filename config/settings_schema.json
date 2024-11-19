@@ -1,11 +1,37 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Stijl Herenmode",
-    "theme_version": "1.0",
-    "theme_author": "Daniel de Vos",
+    "theme_name": "Dawn",
+    "theme_version": "15.2.0",
+    "theme_author": "Shopify",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "t:settings_schema.logo.name",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "t:settings_schema.logo.settings.logo_image.label"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 50,
+        "max": 300,
+        "step": 10,
+        "default": 100,
+        "unit": "px",
+        "label": "t:settings_schema.logo.settings.logo_width.label"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "t:settings_schema.logo.settings.favicon.label",
+        "info": "t:settings_schema.logo.settings.favicon.info"
+      }
+    ]
   },
   {
     "name": "t:settings_schema.colors.name",
@@ -1437,17 +1463,6 @@
         "id": "cart_color_scheme",
         "label": "t:sections.all.colors.label",
         "default": "scheme-1"
-      }
-    ]
-  },
-  {
-    "name": "Header Settings",
-    "settings": [
-      {
-        "type": "checkbox",
-        "id": "transparent_header",
-        "label": "Enable transparent header on homepage",
-        "default": false
       }
     ]
   }
