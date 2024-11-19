@@ -344,15 +344,20 @@ class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if se
       }
 
       onScroll() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
-          this.header.classList.add('scrolled-past-header');
-        } else if (scrollTop <= this.headerBounds.top) {
-          this.header.classList.remove('scrolled-past-header');
-        }
+          if (scrollTop > this.currentScrollTop) {
+              // Naar beneden scrollen
+              this.header.classList.add('scrolled-past-header');
+          } else if (scrollTop < this.currentScrollTop && scrollTop > 0) {
+              // Naar boven scrollen
+              this.header.classList.remove('scrolled-past-header');
+          } else if (scrollTop <= 0) {
+              // Helemaal bovenaan
+              this.header.classList.remove('scrolled-past-header');
+          }
 
-        this.currentScrollTop = scrollTop;
+          this.currentScrollTop = scrollTop;
       }
     }
 
