@@ -104,9 +104,12 @@
   }
 
   .section-header {
-    position: sticky; /* This is for fixing a Safari z-index issue. PR #2147 */
-    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Zorg dat het header-element bovenaan blijft */
   }
+
 
   @media screen and (min-width: 750px) {
     .section-header {
