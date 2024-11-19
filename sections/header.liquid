@@ -104,12 +104,38 @@
   }
 
   .section-header {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    z-index: 1000; /* Zorg dat het header-element bovenaan blijft */
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
   }
 
+  .section-header.hidden {
+      transform: translateY(-100%);
+      opacity: 0;
+  }
+
+  .section-header.scrolled-past-header {
+      background-color: white;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+      opacity: 1;
+  }
+
+  .section-header.reduce-logo .header__heading-logo-wrapper {
+      width: 75%;
+  }
+
+  .section-header.transparent {
+      background-color: transparent;
+      color: white;
+      transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .section-header.transparent.scrolled-past-header {
+      background-color: white;
+      color: black;
+  }
 
   @media screen and (min-width: 750px) {
     .section-header {
@@ -135,8 +161,8 @@
   endfor
 -%}
 
-<{% if section.settings.sticky_header_type != 'none' %}sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}"{% else %}div{% endif %} 
-class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}{% if section.settings.transparent_header and request.page_type == 'index' %} header-wrapper--transparent{% endif %}">
+<sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}"
+  class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}{% if section.settings.transparent_header and request.page_type == 'index' %} header-wrapper--transparent{% endif %}">
   {%- liquid
     assign social_links = false
     assign localization_forms = false
@@ -318,85 +344,64 @@ class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if se
 
 {% javascript %}
   class StickyHeader extends HTMLElement {
-      connectedCallback() {
+    connectedCallback() {
         this.header = document.querySelector('.section-header');
         this.headerBounds = {};
+        this.currentScrollTop = 0;
+
+        this.stickyType = this.getAttribute('data-sticky-type');
 
         this.setHeaderHeight();
-
-        window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
-
-        this.currentScrollTop = 0;
+        window.addEventListener('resize', this.setHeaderHeight.bind(this));
 
         window.addEventListener('scroll', this.onScroll.bind(this), false);
 
-        this.createObserver();
-      }
+        if (this.stickyType === 'on-scroll-up') {
+            this.createObserver();
+        }
+    }
 
-      setHeaderHeight() {
+    setHeaderHeight() {
         document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`);
-      }
-
-      createObserver() {
-          const observer = new IntersectionObserver((entries) => {
-              if (entries[0].isIntersecting) {
-                  this.header.classList.remove('scrolled-past-header');
-              } else {
-                  this.header.classList.add('scrolled-past-header');
-              }
-          }, { threshold: [0] });
-
-          observer.observe(this.header);
-      }
-
-      onScroll() {
-          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-          if (scrollTop > this.currentScrollTop) {
-              // Naar beneden scrollen
-              this.header.classList.add('scrolled-past-header');
-          } else if (scrollTop < this.currentScrollTop && scrollTop > 0) {
-              // Naar boven scrollen
-              this.header.classList.remove('scrolled-past-header');
-          } else if (scrollTop <= 0) {
-              // Helemaal bovenaan
-              this.header.classList.remove('scrolled-past-header');
-          }
-
-          this.currentScrollTop = scrollTop;
-      }
     }
 
-    hide() {
-      if (this.headerIsAlwaysSticky) return;
-      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
-      this.closeMenuDisclosure();
-      this.closeSearchModal();
+    createObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                this.header.classList.remove('scrolled-past-header');
+            } else {
+                this.header.classList.add('scrolled-past-header');
+            }
+        }, { threshold: [0] });
+
+        observer.observe(this.header);
     }
 
-    reveal() {
-      if (this.headerIsAlwaysSticky) return;
-      this.header.classList.add('shopify-section-header-sticky', 'animate');
-      this.header.classList.remove('shopify-section-header-hidden');
-    }
+    onScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-    reset() {
-      if (this.headerIsAlwaysSticky) return;
-      this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
-    }
+        if (this.stickyType === 'on-scroll-up') {
+            if (scrollTop > this.currentScrollTop && scrollTop > 100) {
+                this.header.classList.add('hidden');
+            } else if (scrollTop < this.currentScrollTop) {
+                this.header.classList.remove('hidden');
+                this.header.classList.add('scrolled-past-header');
+            }
+        }
 
-    closeMenuDisclosure() {
-      this.disclosures = this.disclosures || this.header.querySelectorAll('header-menu');
-      this.disclosures.forEach(disclosure => disclosure.close());
-    }
+        if (this.stickyType === 'always') {
+            this.header.classList.add('scrolled-past-header');
+        }
 
-    closeSearchModal() {
-      this.searchModal = this.searchModal || this.header.querySelector('details-modal');
-      this.searchModal.close(false);
-    }
-  }
+        if (this.stickyType === 'reduce-logo-size') {
+            this.header.classList.add('reduce-logo');
+        }
 
-  customElements.define('sticky-header', StickyHeader);
+        this.currentScrollTop = scrollTop;
+    }
+}
+
+customElements.define('sticky-header', StickyHeader);
 {% endjavascript %}
 
 <script type="application/ld+json">
