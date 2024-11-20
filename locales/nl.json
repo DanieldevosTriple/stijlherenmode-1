@@ -271,7 +271,7 @@
       "cart": "Winkelwagen",
       "cart_count": {
         "one": "{{ count }} artikel",
-        "other": "{{ count }} artikelen",
+        "other": "{{ count }} artikelen"
       }
     },
     "cart": {
