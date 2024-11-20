@@ -268,10 +268,10 @@
     "header": {
       "announcement": "Aankondiging",
       "menu": "Menu",
+      "cart": "Winkelwagen",
       "cart_count": {
         "one": "{{ count }} artikel",
         "other": "{{ count }} artikelen",
-        "cart": "Winkelwagen"
       }
     },
     "cart": {
