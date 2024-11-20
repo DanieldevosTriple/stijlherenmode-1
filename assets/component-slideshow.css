@@ -61,9 +61,11 @@ slideshow-component .slideshow.banner {
 }
 
 .slideshow_wrapper {
-  align-items: center;
-  justify-content: center;
+  display: flex; /* Make it a flex container */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
   max-width: var(--page-width);
+  height: 100%; /* Ensure it has height to center the content */
 }
 
 @media screen and (max-width: 749px) {
