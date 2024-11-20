@@ -2867,14 +2867,14 @@ details[open] .modal-overlay::after {
   .header__icons {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    max-width: 80px;
+    justify-content: flex-end; /* Zorgt ervoor dat de iconen naar rechts worden uitgelijnd */
+    padding-right: 16px; /* Pas deze waarde aan naar de gewenste afstand van de rechterkant */
   }
 
   .header__search, .header__cart {
     display: inline-flex;
     max-width: 40px;
-    margin-right: 10px;
+    margin-left: 8px; /* Voeg een beetje ruimte tussen de iconen toe */
   }
 
   .header__search {
