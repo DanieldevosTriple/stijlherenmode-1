@@ -2469,6 +2469,19 @@ input[type='checkbox'] {
 }
 
 @media screen and (max-width: 749px) {
+  .header {
+    display: grid;
+    grid-template-areas: 'menu-drawer heading icons';
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+  }
+
+  .header--mobile-middle-center {
+    grid-area: menu-drawer;
+  }
+}
+
+@media screen and (max-width: 749px) {
   .header--has-app {
     grid-template-columns: auto 1fr auto;
   }
