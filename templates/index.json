@@ -11,28 +11,6 @@
   "sections": {
     "slideshow_adRpPg": {
       "type": "slideshow",
-      "blocks": {
-        "slide_NjWNYD": {
-          "type": "slide",
-          "settings": {
-            "heading": "Afbeelding dia",
-            "heading_size": "h0",
-            "subheading": "Vertel met afbeeldingen het verhaal van je merk",
-            "button_label": "Knoplabel",
-            "link": "",
-            "button_style_secondary": false,
-            "box_align": "middle-center",
-            "show_text_box": false,
-            "text_alignment": "center",
-            "image_overlay_opacity": 0,
-            "color_scheme": "",
-            "text_alignment_mobile": "center"
-          }
-        }
-      },
-      "block_order": [
-        "slide_NjWNYD"
-      ],
       "settings": {
         "layout": "full_bleed",
         "slide_height": "large",
