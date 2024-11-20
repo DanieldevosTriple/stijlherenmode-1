@@ -433,27 +433,9 @@
   }
 }
 
-.slideshow__text-wrapper {
-  display: flex; /* Use flexbox to enable easy alignment */
-  justify-content: center; /* Center content horizontally */
-  align-items: center; /* Center content vertically */
-  height: 100%; /* Make the container span the full height of the slideshow */
-  text-align: center; /* Center text inside the element */
-}
-
-.slideshow__text {
-  max-width: 800px; /* Optional: Limit the maximum width of the text */
-  margin: 0 auto; /* Center the text block horizontally */
-}
-
-.banner__heading {
+.banner__heading h2 {
   font-size: 2rem; /* Adjust font size for the heading */
   font-weight: bold; /* Make the heading bold */
-}
-
-.banner__subheading {
-  font-size: 1rem; /* Adjust font size for the subheading */
-  margin-top: 1rem; /* Optional: Add spacing between heading and subheading */
 }
 
 .banner__buttons {
