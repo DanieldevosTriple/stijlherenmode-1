@@ -441,7 +441,10 @@
 }
 
 .banner__heading {
+  font-size: clamp(1.5rem, 5vw, 3rem);
   text-align: center; 
+  max-width: 100%; 
+  word-wrap: break-word;
   margin: 0 auto; 
 }
 
