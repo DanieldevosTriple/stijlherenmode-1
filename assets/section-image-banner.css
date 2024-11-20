@@ -445,11 +445,10 @@
 }
 
 .banner__heading {
-  font-size: clamp(1rem, 5vw, 3rem); 
-  text-align: center; 
-  white-space: nowrap; 
-  overflow: hidden;
-  text-overflow: ellipsis; 
+  position: relative;
+  font-size: clamp(1.5rem, 4vw, 5rem); 
+  text-align: center;
+  margin: 0 auto;
 }
 
 .banner__buttons {
