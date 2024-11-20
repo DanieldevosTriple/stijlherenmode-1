@@ -215,7 +215,7 @@
       assign localization_forms = true
     endif
   -%}
-  <header class="header header--middle-center page-width">
+  <header class="header header--middle-center page-width{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if social_links %} header--has-social{% endif %}">
   {%- liquid
         if section.settings.menu != blank
           render 'header-drawer'
