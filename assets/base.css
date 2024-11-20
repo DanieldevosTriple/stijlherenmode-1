@@ -2619,6 +2619,7 @@ input[type='checkbox'] {
   grid-template-areas: 'search cart';
   grid-template-columns: 1fr 1fr;
   column-gap: 2rem;
+  justify-content: end;
 }
 
 .header__search {
