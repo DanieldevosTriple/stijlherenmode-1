@@ -2952,7 +2952,7 @@ details[open] > .header__submenu {
 
   .header__icons {
     grid-area: mobile-icons;
-    display: grid;
+    display: flex;
     justify-content: end;
   }
 
