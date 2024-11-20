@@ -1,13 +1,13 @@
+* {
+  outline: 1px solid red; /*debug*/
+}
+
 .banner {
   display: flex;
   position: relative;
   flex-direction: column;
   z-index: auto;
   isolation: isolate;
-}
-
-.banner__box {
-  text-align: center;
 }
 
 /* Needed for gradient continuity with or without animation, the transform scopes the gradient to its container which happens already when animation are turned on */
@@ -434,21 +434,25 @@
   }
 }
 
+.banner__box,
+.slideshow__text-wrapper {
+  width: 100%;
+  max-width: none; 
+}
+
 .slideshow__text-wrapper {
   display: flex;
   align-items: center; 
   justify-content: center; 
-  height: 100%; 
-  width: 100%; 
+  width: 100%;
   max-width: none; 
 }
 
 .banner__heading {
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  text-align: center; 
-  max-width: 100%; 
-  word-wrap: break-word;
-  margin: 0 auto; 
+  font-size: clamp(1.5rem, 4vw, 5rem); 
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .banner__buttons {
