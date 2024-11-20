@@ -431,13 +431,12 @@
 }
 
 .banner__heading {
-  position: relative; /* Zorgt dat het gepositioneerd kan worden */
-  font-size: 2rem; /* Baseline font-size, wordt door JS aangepast */
-  text-align: center; /* Zorgt dat de tekst gecentreerd blijft */
-  margin: 0 auto; /* Zorgt dat het element gecentreerd blijft */
-  white-space: nowrap; /* Forceert tekst op één regel */
-  overflow: hidden; /* Voorkomt overlopen van tekst */
-  max-width: 100%; /* Houdt de tekst binnen de containerbreedte */
+  position: relative;
+  font-size: 10px; /* Initial font size, dynamically updated by JavaScript */
+  text-align: center;
+  margin: 0 auto;
+  white-space: nowrap; /* Ensure text stays on one line */
+  overflow: hidden; /* Prevents text overflow */
 }
 
 .banner__buttons {

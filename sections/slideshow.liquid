@@ -243,44 +243,36 @@
 {%- endif -%}
 
 <script>
-function adjustFontSizeForAllSlides() {
-    const slides = document.querySelectorAll('.slideshow_wrapper'); // Selecteer alle slides
+function adjustFontSizeForSlides() {
+    const slides = document.querySelectorAll('.slideshow_wrapper'); // Select all slides
 
     slides.forEach((slide) => {
-        const heading = slide.querySelector('.banner__heading'); // Selecteer de heading binnen deze slide
+        const heading = slide.querySelector('.banner__heading'); // Select the heading in this slide
         if (heading) {
-            heading.style.whiteSpace = 'normal'; // Sta meerdere regels toe
-            heading.style.wordWrap = 'break-word'; // Breek woorden als nodig
-            heading.style.fontSize = '10px'; // Begin met een kleine lettergrootte
+            let fontSize = 10; // Start with a small font size
+            heading.style.fontSize = `${fontSize}px`; // Set initial font size
+            heading.style.whiteSpace = 'nowrap'; // Ensure text stays on one line
+            heading.style.overflow = 'hidden'; // Prevent overflow
+            heading.style.textAlign = 'center'; // Center the text
 
-            const containerWidth = slide.offsetWidth; // Breedte van de container
-            const containerHeight = slide.offsetHeight; // Hoogte van de container
-            let fontSize = 10; // Start met een minimale lettergrootte
+            const containerWidth = slide.offsetWidth; // Width of the container
 
-            // Vergroot de font-size totdat de tekst niet meer past binnen de container
-            while (
-                heading.scrollWidth <= containerWidth &&
-                heading.scrollHeight <= containerHeight
-            ) {
+            // Increase font size until text exceeds container width
+            while (heading.scrollWidth <= containerWidth) {
                 fontSize += 1;
                 heading.style.fontSize = `${fontSize}px`;
             }
 
-            // Verklein de font-size als de tekst te groot is
-            while (
-                heading.scrollWidth > containerWidth ||
-                heading.scrollHeight > containerHeight
-            ) {
-                fontSize -= 1;
-                heading.style.fontSize = `${fontSize}px`;
-            }
+            // Reduce font size by 1 to fit the container exactly
+            fontSize -= 1;
+            heading.style.fontSize = `${fontSize}px`;
         }
     });
 }
 
-// Voer de functie uit bij laden en resizing van het scherm
-window.addEventListener('resize', adjustFontSizeForAllSlides);
-adjustFontSizeForAllSlides();
+// Run the function on page load and whenever the window is resized
+window.addEventListener('resize', adjustFontSizeForSlides);
+adjustFontSizeForSlides();
 </script>
 
 {% schema %}
