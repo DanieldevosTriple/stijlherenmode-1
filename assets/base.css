@@ -2657,7 +2657,7 @@ input[type='checkbox'] {
 }
 
 .header__icon-text {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .header__icons .shopify-app-block {
