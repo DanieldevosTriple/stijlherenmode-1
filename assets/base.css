@@ -2472,12 +2472,19 @@ input[type='checkbox'] {
   .header {
     display: grid;
     grid-template-areas: 'menu-drawer heading icons';
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
   }
 
   .header--mobile-middle-center {
     grid-area: menu-drawer;
+  }
+
+  .header__icons {
+    display: flex; /* Switch to Flexbox for horizontal alignment */
+    justify-content: flex-end; /* Align the icons to the right side */
+    align-items: center; /* Align items vertically in the middle */
+    gap: 2rem; /* Add space between the icons */
   }
 }
 
