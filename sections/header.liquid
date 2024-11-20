@@ -268,12 +268,12 @@
     <div class="header__icons">
 
       <!-- Search -->
-      <div class="header__icon header__search">
+      <div class="header__icon__search">
         {% render 'header-search', input_id: 'Search-In-Modal' %}
       </div>
 
       <!-- Cart -->
-      <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset header__cart" id="cart-icon">
+      <a href="{{ routes.cart_url }}" class="header__icon__cart" id="cart-icon">
         <span class="desktop-cart-text">
           {%- if cart.item_count > 0 -%}
             <span class="cart-text">{{ 'cart' | t }} ({{ cart.item_count }})</span>
