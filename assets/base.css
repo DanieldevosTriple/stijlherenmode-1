@@ -2656,6 +2656,10 @@ input[type='checkbox'] {
   min-width: 100px; /* Ensure "Zoeken" also fits well */
 }
 
+.header__icon-text {
+  text-decoration: none;
+}
+
 .header__icons .shopify-app-block {
   max-width: 4.4rem;
   max-height: 4.4rem;
