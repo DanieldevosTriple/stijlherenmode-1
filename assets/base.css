@@ -2468,6 +2468,47 @@ input[type='checkbox'] {
   align-items: center;
 }
 
+@media screen and (max-width: 749px) {
+  .header {
+      display: grid;
+      grid-template-areas: "menu-drawer heading icons";
+      grid-template-columns: 1fr 1fr 1fr; /* Drie gelijke kolommen */
+      align-items: center; /* Verticaal centreren van de inhoud */
+      justify-items: center; /* Horizontaal centreren van de inhoud */
+  }
+}
+
+  .header--mobile-middle-center {
+    grid-area: menu-drawer;
+  }
+
+  .header__icons {
+    grid-area: icons;
+  }
+
+  .header__icons {
+    display: flex; /* Gebruik Flexbox voor horizontale uitlijning van de iconen */
+    justify-content: center; /* Zet de iconen in het midden van de kolom */
+    align-items: center; /* Verticaal centreren van de iconen */
+    gap: 1rem; /* Verminder de ruimte tussen de iconen om ze dichter bij elkaar te brengen */
+    width: 100%; /* Zorg ervoor dat de iconen-container de volledige breedte van de kolom inneemt */
+  }
+
+  .header__search, .header__cart {
+    width: auto; /* Zorg dat de breedte zich aanpast aan de inhoud */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+}
+
+@media screen and (max-width: 749px) {
+  .header--has-app {
+    grid-template-columns: auto 1fr auto;
+  }
+}
+
 @media screen and (min-width: 990px) {
   .header {
     grid-template-columns: 1fr auto 1fr;
