@@ -2479,13 +2479,11 @@ input[type='checkbox'] {
 }
 
 @media screen and (max-width: 749px) {
-.header__icons {
-  display: flex; /* Gebruik Flexbox voor horizontale uitlijning van de iconen */
-  justify-content: center; /* Zet de iconen in het midden van de kolom */
-  align-items: center; /* Verticaal centreren van de iconen */
-  gap: 1rem; /* Ruimte tussen de iconen */
-  width: 100%; /* Zorg ervoor dat de container de volledige breedte van de kolom inneemt */
-}
+    .header__icons {
+        display: grid;
+        grid-template-areas: "search cart";
+        justify-content: end;
+    }
 }
 
 @media screen and (max-width: 749px) {
@@ -2509,7 +2507,7 @@ input[type='checkbox'] {
     max-width: 40px;
   }
 
-  
+
 }
 
 @media screen and (min-width: 990px) {
