@@ -215,8 +215,27 @@
       assign localization_forms = true
     endif
   -%}
-  <header class="header header--middle-center page-width header--has-menu">
-  {%- liquid render 'header-drawer' -%}
+  <header class="header header--middle-center page-width{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if social_links %} header--has-social{% endif %}">
+  {%- liquid
+        if section.settings.menu != blank
+          render 'header-drawer'
+        endif
+
+        if section.settings.logo_position == 'top-center' or section.settings.menu == blank
+          render 'header-search', input_id: 'Search-In-Modal-1'
+        endif
+      -%}
+
+
+  {%- liquid
+      if section.settings.menu != blank
+        if section.settings.menu_type_desktop == 'dropdown'
+          render 'header-dropdown-menu'
+        elsif section.settings.menu_type_desktop != 'drawer'
+          render 'header-mega-menu'
+        endif
+      endif
+    %}
 
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
