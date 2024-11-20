@@ -2616,9 +2616,10 @@ input[type='checkbox'] {
 /* Header icons */
 .header__icons {
   display: flex;
-  align-items: center; /* Align items vertically centered */
-  justify-content: space-between; /* Adjust as per the required spacing */
-  gap: 10px; /* Space between the icons */
+  align-items: center; /* Aligns the icons vertically */
+  justify-content: center; /* Or use 'space-around'/'space-between' to distribute evenly */
+  gap: 10px; /* Add small spacing if needed */
+  padding: 0 20px; /* Adjust as needed to bring the icons closer */
 }
 
 .header__icons .shopify-app-block {
@@ -2635,9 +2636,12 @@ input[type='checkbox'] {
 }
 
 .header__icon {
+  flex-basis: auto;
   color: rgb(var(--color-foreground));
   display: inline-flex; /* Ensures each icon is treated as an inline element within the flex container */
   align-items: center;
+  margin: 0; /* Ensure there's no unwanted margin */
+  padding: 0; /* Remove padding that pushes icons away from each other */
 }
 
 .header__icon span {
