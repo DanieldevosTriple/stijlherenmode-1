@@ -385,6 +385,28 @@
 </script>
 
 <script>
+function adjustHeadingFontSize() {
+  const bannerHeading = document.querySelector('.banner__heading');
+  if (!bannerHeading) return;
+  
+  const parentWidth = bannerHeading.parentElement.clientWidth;
+  let fontSize = parseInt(window.getComputedStyle(bannerHeading).fontSize, 10);
+  
+  // Adjust font size to fit within the parent's width
+  while (bannerHeading.scrollWidth > parentWidth && fontSize > 0) {
+    fontSize -= 1;
+    bannerHeading.style.fontSize = `${fontSize}px`;
+  }
+}
+
+// Initial adjustment
+window.addEventListener('DOMContentLoaded', adjustHeadingFontSize);
+
+// Adjust on window resize
+window.addEventListener('resize', adjustHeadingFontSize);
+</script>
+
+<script>
 document.addEventListener('DOMContentLoaded', function () {
   const logoBlack = document.querySelector('.logo-black');
   const logoWhite = document.querySelector('.logo-white');
