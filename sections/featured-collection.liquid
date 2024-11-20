@@ -1,49 +1,36 @@
-{{ 'component-card.css' | asset_url | stylesheet_tag }}
-{{ 'component-slider.css' | asset_url | stylesheet_tag }}
-
-{%- style -%}
-  .section-{{ section.id }} {
-    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
-  }
-
-  @media (min-width: 750px) {
-    .section-{{ section.id }} {
-      padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
-
 <div class="section section-{{ section.id }} color-{{ section.settings.color_scheme }}">
   <div class="section__inner page-width">
     {%- if section.settings.title != blank -%}
       <h2 class="title {{ section.settings.heading_size }}">{{ section.settings.title }}</h2>
     {%- endif -%}
 
-    <slider-component 
-      class="slider-component{% if section.settings.full_width %} slider-component-full-width{% endif %}">
-      <ul 
-        class="grid product-grid contains-card grid--1-col-mobile grid--3-col-desktop"
-        role="list" 
+    <slider-component
+      class="slider-component slider--desktop slider-component-full-width"
+    >
+      <ul
+        id="Slider-{{ section.id }}"
+        class="slider slider--desktop grid grid--1-col-tablet-down grid--3-col-desktop"
+        role="list"
         aria-label="{{ 'general.slider.name' | t }}"
-        id="Slider-{{ section.id }}">
+      >
         {%- for product in section.settings.collection.products limit: 10 -%}
-          <li class="grid__item slider__slide">
+          <li class="slider__slide grid__item">
             {% render 'card-product', card_product: product %}
           </li>
         {%- endfor -%}
       </ul>
-      
+
       <div class="slider-buttons">
         <button 
-          class="slider-button slider-button--prev"
-          type="button"
+          class="slider-button slider-button--prev" 
+          type="button" 
           aria-label="Previous"
           onclick="moveSlider('Slider-{{ section.id }}', -1)">
           &#9664;
         </button>
         <button 
-          class="slider-button slider-button--next"
-          type="button"
+          class="slider-button slider-button--next" 
+          type="button" 
           aria-label="Next"
           onclick="moveSlider('Slider-{{ section.id }}', 1)">
           &#9654;
@@ -56,19 +43,39 @@
 <script>
   function moveSlider(sliderId, direction) {
     const slider = document.getElementById(sliderId);
-    const scrollAmount = slider.offsetWidth;
+    const scrollAmount = slider.offsetWidth / 3; // Adjust for 3 items per view on desktop
     slider.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
+
+    const prevButton = slider.parentElement.querySelector('.slider-button--prev');
+    const nextButton = slider.parentElement.querySelector('.slider-button--next');
+
+    setTimeout(() => {
+      prevButton.disabled = slider.scrollLeft === 0;
+      nextButton.disabled = slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth;
+    }, 300);
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const sliders = document.querySelectorAll('.slider-component');
+    sliders.forEach(wrapper => {
+      const slider = wrapper.querySelector('.slider');
+      const prevButton = wrapper.querySelector('.slider-button--prev');
+      const nextButton = wrapper.querySelector('.slider-button--next');
+
+      prevButton.disabled = slider.scrollLeft === 0;
+      nextButton.disabled = slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth;
+    });
+  });
 </script>
 
 {% schema %}
 {
-  "name": "Featured Collection",
+  "name": "Single Row Carousel",
   "settings": [
     {
       "type": "text",
       "id": "title",
-      "default": "Featured Collection",
+      "default": "Featured Products",
       "label": "Section Title"
     },
     {
@@ -105,7 +112,7 @@
   ],
   "presets": [
     {
-      "name": "Featured Collection"
+      "name": "Single Row Carousel"
     }
   ]
 }
