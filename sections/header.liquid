@@ -216,17 +216,15 @@
     endif
   -%}
   <header class="header header--middle-center page-width">
-  {%- liquid render 'header-drawer' -%}
-
   {%- liquid
-      if section.settings.menu != blank
-        if section.settings.menu_type_desktop == 'dropdown'
-          render 'header-dropdown-menu'
-        elsif section.settings.menu_type_desktop != 'drawer'
-          render 'header-mega-menu'
+        if section.settings.menu != blank
+          render 'header-drawer'
         endif
-      endif
-    %}
+
+        if section.settings.logo_position == 'top-center' or section.settings.menu == blank
+          render 'header-search', input_id: 'Search-In-Modal-1'
+        endif
+      -%}
 
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
