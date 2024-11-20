@@ -2908,6 +2908,32 @@ details[open] > .header__submenu {
 /* Header menu */
 @media (max-width: 768px) {
 
+  .header__icon {
+    flex: unset;
+    text-align: unset;
+    padding: unset;
+  }
+  
+  .header__icon--search,
+  .header__icon--cart {
+    flex-grow: unset;
+  }
+  
+  .header__icon--search,
+  .header__icon--cart {
+    margin: unset;
+    padding: unset;
+    text-align: unset;
+  }
+  
+  .header__icon--cart {
+    min-width: unset;
+  }
+  
+  .header__icon--search {
+    min-width: unset;
+  }
+
   .header {
     padding: 10px 3rem 10px 3rem;
     display: grid;
