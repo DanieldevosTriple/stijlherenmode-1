@@ -2932,12 +2932,11 @@ details[open] > .header__submenu {
   }
 
   .header__icon__search {
-    max-width: 40px;
+    max-width: 35px;
     grid-area: search-mobile;
   }
 
   .header__icon__cart {
-    max-width: 40px;
     grid-area: cart-mobile;
   }
 
