@@ -217,7 +217,15 @@
   -%}
   <header class="header header--middle-center header--mobile-middle-center page-width{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if social_links %} header--has-social{% endif %}">
 
-    {%- liquid render 'header-dropdown-menu'%}
+  {%- liquid
+      if section.settings.menu != blank
+        if section.settings.menu_type_desktop == 'dropdown'
+          render 'header-dropdown-menu'
+        elsif section.settings.menu_type_desktop != 'drawer'
+          render 'header-mega-menu'
+        endif
+      endif
+    %}
 
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
