@@ -2492,6 +2492,24 @@ input[type='checkbox'] {
   .header--has-app {
     grid-template-columns: auto 1fr auto;
   }
+
+  .header__search {
+    max-width: 40px;
+  }
+
+  .header__icon:not(.header__icon--summary), .header__icon span {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
+
+  .header__icon--cart {
+    position: relative;
+    margin-right: 0rem;
+    max-width: 40px;
+  }
+
+  
 }
 
 @media screen and (min-width: 990px) {
