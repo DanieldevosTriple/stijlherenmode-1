@@ -12,6 +12,25 @@
 {%- endif -%}
 
 {%- style -%}
+  /* Hide SVG on desktop */
+  .svg-mobile {
+    display: inline-block;
+  }
+
+  .text-desktop {
+    display: none;
+  }
+
+  /* Adjust for larger screens (desktop) */
+  @media screen and (min-width: 768px) {
+    .svg-mobile {
+      display: none;
+    }
+    .text-desktop {
+      display: inline-block;
+    }
+  }
+
  header-drawer {
     justify-self: start;
     margin-left: -1.2rem;
