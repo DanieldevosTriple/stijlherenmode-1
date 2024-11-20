@@ -249,26 +249,36 @@ function adjustFontSizeForAllSlides() {
     slides.forEach((slide) => {
         const heading = slide.querySelector('.banner__heading'); // Selecteer de heading binnen deze slide
         if (heading) {
-            let fontSize = 10; // Start met een kleine lettergrootte
-            heading.style.fontSize = `${fontSize}px`;
-            heading.style.whiteSpace = 'nowrap'; // Forceer de tekst op één regel
+            heading.style.whiteSpace = 'normal'; // Sta meerdere regels toe
+            heading.style.wordWrap = 'break-word'; // Breek woorden als nodig
+            heading.style.fontSize = '10px'; // Begin met een kleine lettergrootte
 
-            // Vergroot de font-size totdat de tekst breder wordt dan de container
-            while (heading.scrollWidth < slide.offsetWidth) {
-                fontSize += 1; // Vergroot de lettergrootte
+            const containerWidth = slide.offsetWidth; // Breedte van de container
+            const containerHeight = slide.offsetHeight; // Hoogte van de container
+            let fontSize = 10; // Start met een minimale lettergrootte
+
+            // Vergroot de font-size totdat de tekst niet meer past binnen de container
+            while (
+                heading.scrollWidth <= containerWidth &&
+                heading.scrollHeight <= containerHeight
+            ) {
+                fontSize += 1;
                 heading.style.fontSize = `${fontSize}px`;
             }
 
-            // Verklein de font-size als de tekst te breed is
-            while (heading.scrollWidth > slide.offsetWidth) {
-                fontSize -= 1; // Verklein de lettergrootte
+            // Verklein de font-size als de tekst te groot is
+            while (
+                heading.scrollWidth > containerWidth ||
+                heading.scrollHeight > containerHeight
+            ) {
+                fontSize -= 1;
                 heading.style.fontSize = `${fontSize}px`;
             }
         }
     });
 }
 
-// Voer de functie uit bij laden en bij vensterresizing
+// Voer de functie uit bij laden en resizing van het scherm
 window.addEventListener('resize', adjustFontSizeForAllSlides);
 adjustFontSizeForAllSlides();
 </script>
