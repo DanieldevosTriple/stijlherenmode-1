@@ -2615,10 +2615,18 @@ input[type='checkbox'] {
 
 /* Header icons */
 .header__icons {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%; /* Ensures the icons use the entire header width */
+  display: grid;
+  grid-template-areas: 'search cart';
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2rem;
+}
+
+.header__search {
+  grid-area: search;
+}
+
+.header__cart {
+  grid-area: cart;
 }
 
 .header__icon {
@@ -2701,7 +2709,7 @@ input[type='checkbox'] {
 
 .header__icon--cart {
   position: relative;
-  margin-right: -1.2rem;
+  margin-right: 0.0rem;
 }
 
 .header__icon--menu[aria-expanded='true']::before {
