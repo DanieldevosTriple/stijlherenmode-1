@@ -97,62 +97,61 @@
     </div>
   {%- endif -%}
 
-  <div
-    class="slideshow banner banner--adapt_image grid grid--1-col slider slider--everywhere {% if section.blocks.first.settings.image == blank %} slideshow--placeholder{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
-    id="Slider-{{ section.id }}"
-    aria-live="polite"
-    aria-atomic="true"
-    data-autoplay="{{ section.settings.auto_rotate }}"
-    data-speed="{{ section.settings.change_slides_speed }}"
-  >
-    {%- for block in section.blocks -%}
-      <style>
-        #Slide-{{ section.id }}-{{ forloop.index }} .banner__media::after {
-          opacity: {{ block.settings.image_overlay_opacity | divided_by: 100.0 }};
-        }
-      </style>
-      <div
-        class="slideshow__slide grid__item grid--1-col slider__slide"
-        id="Slide-{{ section.id }}-{{ forloop.index }}"
-        {{ block.shopify_attributes }}
-        role="group"
-        aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
-        aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
-        tabindex="-1"
-      >
-        <div class="slideshow__media banner__media media{% if block.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}">
-          {%- if block.settings.image -%}
-            {%- liquid
-              assign height = block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round
-              if section.settings.image_behavior == 'ambient'
-                assign sizes = '120vw'
-                assign widths = '450, 660, 900, 1320, 1800, 2136, 2400, 3600, 7680'
-              else
-                assign sizes = '100vw'
-                assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
-              endif
-              assign fetch_priority = 'auto'
-              if section.index == 1
-                assign fetch_priority = 'high'
-              endif
-            -%}
-            <div class="full-page-image">
-              {%- if forloop.first %}
-                {{
-                  block.settings.image
-                  | image_url: width: 3840
-                  | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
-                }}
-              {%- else -%}
-                {{
-                  block.settings.image
-                  | image_url: width: 3840
-                  | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
-                }}
-              {%- endif -%}
-            </div>
-          {%- endif -%}
-          {%- else -%}
+ <div
+  class="slideshow banner banner--adapt_image grid grid--1-col slider slider--everywhere {% if section.blocks.first.settings.image == blank %} slideshow--placeholder{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  id="Slider-{{ section.id }}"
+  aria-live="polite"
+  aria-atomic="true"
+  data-autoplay="{{ section.settings.auto_rotate }}"
+  data-speed="{{ section.settings.change_slides_speed }}"
+>
+  {%- for block in section.blocks -%}
+    <style>
+      #Slide-{{ section.id }}-{{ forloop.index }} .banner__media::after {
+        opacity: {{ block.settings.image_overlay_opacity | divided_by: 100.0 }};
+      }
+    </style>
+    <div
+      class="slideshow__slide grid__item grid--1-col slider__slide"
+      id="Slide-{{ section.id }}-{{ forloop.index }}"
+      {{ block.shopify_attributes }}
+      role="group"
+      aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
+      aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+      tabindex="-1"
+    >
+      <div class="slideshow__media banner__media media{% if block.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}">
+        {%- if block.settings.image -%}
+          {%- liquid
+            assign height = block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round
+            if section.settings.image_behavior == 'ambient'
+              assign sizes = '120vw'
+              assign widths = '450, 660, 900, 1320, 1800, 2136, 2400, 3600, 7680'
+            else
+              assign sizes = '100vw'
+              assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+            endif
+            assign fetch_priority = 'auto'
+            if section.index == 1
+              assign fetch_priority = 'high'
+            endif
+          -%}
+          <div class="full-page-image">
+            {%- if forloop.first %}
+              {{
+                block.settings.image
+                | image_url: width: 3840
+                | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
+              }}
+            {%- else -%}
+              {{
+                block.settings.image
+                | image_url: width: 3840
+                | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
+              }}
+            {%- endif -%}
+          </div>
+        {%- else -%}
           {%- assign placeholder_slide = forloop.index | modulo: 2 -%}
           <div class="full-page-placeholder">
             {%- if placeholder_slide == 1 -%}
@@ -162,18 +161,17 @@
             {%- endif -%}
           </div>
         {%- endif -%}
-        </div>
-        <div class="slideshow_wrapper page-width">
-          <div class="slideshow__text content-container">
-            <h2 class="banner__heading">
-              {{ block.settings.heading }}
-            </h2>
-          </div>
-        </div>
-
       </div>
-    {%- endfor -%}
-  </div>
+      <div class="slideshow_wrapper page-width">
+        <div class="slideshow__text content-container">
+          <h2 class="banner__heading">
+            {{ block.settings.heading }}
+          </h2>
+        </div>
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
 
   {%- if section.blocks.size > 1 and section.settings.auto_rotate == false -%}
     <div class="slideshow__controls slider-buttons{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
