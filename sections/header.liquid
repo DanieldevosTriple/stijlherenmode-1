@@ -273,7 +273,8 @@
       </div>
 
       <!-- Cart -->
-      <a href="{{ routes.cart_url }}" class="header__icon__cart" id="cart-icon">
+      <div class="header__icon__cart">
+      <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset header__cart" id="cart-icon">
         <span class="desktop-cart-text">
           {%- if cart.item_count > 0 -%}
             <span class="cart-text">{{ 'cart' | t }} ({{ cart.item_count }})</span>
@@ -299,7 +300,7 @@
         </span>
       </a>
 
-    </div>
+    </div></div>
 
   </header>
 </{% if section.settings.sticky_header_type != 'none' %}sticky-header{% else %}div{% endif %}>
