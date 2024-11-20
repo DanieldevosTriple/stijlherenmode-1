@@ -445,6 +445,7 @@
 }
 
 .banner__heading {
+  position: relative;
   font-size: clamp(1.5rem, 4vw, 5rem); 
   text-align: center;
   margin: 0 auto;
