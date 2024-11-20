@@ -2868,6 +2868,7 @@ details[open] .modal-overlay::after {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: 80px;
   }
 
   .header__search, .header__cart {
