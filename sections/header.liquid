@@ -11,26 +11,8 @@
   <link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endif -%}
 
-
-<style>
-
-  .desktop-cart-text {
-    display: none;
-  }
-  .mobile-cart-icon {
-    display: inline-block;
-  }
-
-  @media (min-width: 768px) { /* Adjust breakpoint as needed */
-    .desktop-cart-text {
-      display: inline-block;
-    }
-    .mobile-cart-icon {
-      display: none;
-    }
-  }
-
-  header-drawer {
+{%- style -%}
+ header-drawer {
     justify-self: start;
     margin-left: -1.2rem;
   }
@@ -87,9 +69,24 @@
       padding-top: 0.5rem;
     }
   }
-</style>
 
-{%- style -%}
+  /* Ensure higher specificity to override other styles */
+  #cart-icon .desktop-cart-text {
+    display: none; /* Default hidden for mobile */
+  }
+  #cart-icon .mobile-cart-icon {
+    display: inline-block; /* Default visible for mobile */
+  }
+
+  @media (min-width: 768px) { /* Adjust the breakpoint if necessary */
+    #cart-icon .desktop-cart-text {
+      display: inline-block; /* Show for desktop */
+    }
+    #cart-icon .mobile-cart-icon {
+      display: none; /* Hide for desktop */
+    }
+  }
+
   .header {
     padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem;
   }
