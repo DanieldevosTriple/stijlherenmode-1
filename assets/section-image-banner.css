@@ -430,31 +430,15 @@
   }
 }
 
-.banner__box,
-.slideshow__text-wrapper {
-  width: 100%;
-  max-width: none; 
-}
-
-.slideshow__text-wrapper {
-  display: flex;
-  align-items: center; 
-  justify-content: center; 
-  width: 100%;
-  max-width: none; 
-}
-
 .banner__heading {
-  position: relative;
-  font-size: clamp(1rem, 5vw, 8rem); /* Dynamisch schalen: minimum 1rem, maximum 8rem */
-  text-align: center; /* Centreert de tekst */
-  margin: 0 auto;
-  white-space: normal; /* Sta toe dat tekst op meerdere regels kan */
-  max-width: 90%; /* Houd tekst binnen de containerbreedte */
-  line-height: 1.2; /* Zorg voor een prettige leesbaarheid */
-  word-wrap: break-word; /* Breek woorden indien nodig */
+  position: relative; /* Zorgt dat het gepositioneerd kan worden */
+  font-size: 2rem; /* Baseline font-size, wordt door JS aangepast */
+  text-align: center; /* Zorgt dat de tekst gecentreerd blijft */
+  margin: 0 auto; /* Zorgt dat het element gecentreerd blijft */
+  white-space: nowrap; /* Forceert tekst op één regel */
+  overflow: hidden; /* Voorkomt overlopen van tekst */
+  max-width: 100%; /* Houdt de tekst binnen de containerbreedte */
 }
-
 
 .banner__buttons {
   display: inline-flex;

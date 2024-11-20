@@ -61,11 +61,12 @@ slideshow-component .slideshow.banner {
 }
 
 .slideshow_wrapper {
-  display: flex; /* Make it a flex container */
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
-  max-width: var(--page-width);
-  height: 100%; /* Ensure it has height to center the content */
+  display: flex; /* Maakt het een flex-container */
+  align-items: center; /* Centreert verticaal */
+  justify-content: center; /* Centreert horizontaal */
+  max-width: var(--page-width); /* Houdt de breedte binnen een limiet */
+  height: 100%; /* Zorgt dat het containerhoogte heeft */
+  overflow: hidden; /* Voorkomt overlopen van content */
 }
 
 @media screen and (max-width: 749px) {
