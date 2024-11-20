@@ -243,24 +243,30 @@
 {%- endif -%}
 
 <script>
-function adjustFontSizeToContainer() {
+function adjustFontSizeToFullWidth() {
     const heading = document.querySelector('.banner__heading');
     const container = document.querySelector('.slideshow_wrapper');
 
-    let fontSize = 100; // Startwaarde voor de font-size
-    heading.style.fontSize = `${fontSize}px`; // Stel initiële font-size in
-    heading.style.whiteSpace = 'nowrap'; // Zorgt dat de tekst op één regel blijft
+    let fontSize = 10; // Begin met een kleine lettergrootte
+    heading.style.fontSize = `${fontSize}px`;
+    heading.style.whiteSpace = 'nowrap'; // Forceer de tekst op één regel
 
-    // Verklein de font-size zolang de tekst breder is dan de container
-    while (heading.scrollWidth > container.offsetWidth && fontSize > 1) {
+    // Verhoog de font-size totdat de tekst breder wordt dan de container
+    while (heading.scrollWidth < container.offsetWidth) {
+        fontSize += 1; // Vergroot de lettergrootte
+        heading.style.fontSize = `${fontSize}px`;
+    }
+
+    // Verlaag de font-size als de tekst te breed is
+    while (heading.scrollWidth > container.offsetWidth) {
         fontSize -= 1; // Verklein de lettergrootte
         heading.style.fontSize = `${fontSize}px`;
     }
 }
 
-// Voer de functie uit bij het laden en bij resize van het scherm
-window.addEventListener('resize', adjustFontSizeToContainer);
-adjustFontSizeToContainer();
+// Voer de functie uit bij laden en bij het wijzigen van het vensterformaat
+window.addEventListener('resize', adjustFontSizeToFullWidth);
+adjustFontSizeToFullWidth();
 </script>
 
 {% schema %}
