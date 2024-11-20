@@ -13,7 +13,7 @@
 
 {%- style -%}
   /* Adjust for larger screens (desktop) */
-  @media screen and (min-width: 768px) {
+  @media screen and (max-width: 768px) {
     .svg-mobile {
       display: inline-block !important;;
     }
@@ -21,7 +21,7 @@
       display: none !important;;
     }
   }
-
+  @media (min-width: 768px) {
   /* Hide SVG on desktop */
   .svg-mobile {
     display: none !important;;
@@ -30,6 +30,7 @@
   .text-desktop {
     display: inline-block !important;;
   }
+}
 
  header-drawer {
     justify-self: start;
