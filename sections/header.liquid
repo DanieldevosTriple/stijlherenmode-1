@@ -13,6 +13,24 @@
 
 
 <style>
+  .mobile-only {
+  display: none;
+  }
+
+  .desktop-only {
+    display: inline;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-only {
+      display: inline;
+    }
+
+    .desktop-only {
+      display: none;
+    }
+  }
+
   header-drawer {
     justify-self: start;
     margin-left: -1.2rem;
@@ -268,9 +286,15 @@
 
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-text">
         {%- if cart.item_count > 0 -%}
-          <span class="cart-text">{{ 'cart' | t }} ({{ cart.item_count }})</span>
+          <span class="cart-text desktop-only">{{ 'cart' | t }} ({{ cart.item_count }})</span>
+          <span class="cart-icon-mobile mobile-only">
+            <img src="{{ 'cart-icon.svg' | asset_url }}" alt="Cart">
+          </span>
         {%- else -%}
-          <span class="cart-text">{{ 'cart' | t }}</span>
+          <span class="cart-text desktop-only">{{ 'cart' | t }}</span>
+          <span class="cart-icon-mobile mobile-only">
+            <img src="{{ 'cart-icon.svg' | asset_url }}" alt="Cart">
+          </span>
         {%- endif -%}
       </a>
 
