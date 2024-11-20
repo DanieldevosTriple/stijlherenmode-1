@@ -12,8 +12,6 @@
     "logo_white": "shopify://shop_images/logo.svg",
     "logo_black": "shopify://shop_images/logo-black_c5193df7-2700-4cb5-972d-04667f2a7de1.svg",
     "logo_width": 90,
-    "heading_scale": 100,
-    "body_scale": 100,
     "page_width": 1600,
     "spacing_sections": 0,
     "spacing_grid_horizontal": 8,
@@ -120,6 +118,8 @@
     "show_vendor": false,
     "show_cart_note": false,
     "cart_drawer_collection": "",
+    "heading_scale": 100,
+    "body_scale": 100,
     "sections": {
       "main-password-header": {
         "type": "main-password-header",
