@@ -2906,7 +2906,6 @@ details[open] > .header__submenu {
 }
 
 /* Header menu */
-/* Header menu drawer */
 @media (max-width: 768px) {
 
   .header {
@@ -2927,7 +2926,16 @@ details[open] > .header__submenu {
 
   .header__icons {
     grid-area: mobile-icons;
+    display: flex;
+    justify-content: flex-end;  /* Zorgt ervoor dat de iconen aan de rechterkant staan */
+    align-items: center;  /* Zorgt ervoor dat de iconen verticaal gecentreerd zijn */
+    gap: 10px; /* Voeg eventueel ruimte toe tussen de iconen */
   }
+  
+  .header__icon {
+    margin: 0;
+  }
+
 }
 
 .header__inline-menu {
