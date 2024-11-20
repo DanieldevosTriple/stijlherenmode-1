@@ -446,10 +446,15 @@
 
 .banner__heading {
   position: relative;
-  font-size: clamp(1.5rem, 4vw, 5rem); 
+  font-size: clamp(2rem, 20rem, 30rem); 
   text-align: center;
   margin: 0 auto;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  max-width: 100%; 
 }
+
 
 .banner__buttons {
   display: inline-flex;
