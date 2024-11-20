@@ -35,7 +35,7 @@ body {
   max-width: var(--page-width);
   margin: 0 auto;
   flex: 1 0 auto;
-  font-family: var(--font-body-family);
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
   font-style: var(--font-body-style);
   font-weight: var(--font-body-weight);
 }
