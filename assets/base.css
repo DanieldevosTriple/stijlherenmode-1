@@ -2656,7 +2656,7 @@ input[type='checkbox'] {
   min-width: 100px; /* Ensure "Zoeken" also fits well */
 }
 
-.header__icon-text {
+.header__icon-text span{
   text-decoration: none !important;
 }
 
