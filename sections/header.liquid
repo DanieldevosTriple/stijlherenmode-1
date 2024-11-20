@@ -7,6 +7,11 @@
   <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endif -%}
 
+{%- if section.settings.menu_type_desktop == 'mega' -%}
+  <link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- endif -%}
+
+
 <style>
   header-drawer {
     justify-self: start;
@@ -217,6 +222,16 @@
       {%- endif -%}
     {%- endif -%}
 
+    {%- liquid
+      if section.settings.menu != blank
+        if section.settings.menu_type_desktop == 'dropdown'
+          render 'header-dropdown-menu'
+        elsif section.settings.menu_type_desktop != 'drawer'
+          render 'header-mega-menu'
+        endif
+      endif
+    %}
+
     {%- if section.settings.logo_position == 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
@@ -413,7 +428,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const header = document.querySelector('.section-header');
 
   let lastScrollPosition = 0; // Keep track of the last scroll position
-  let isScrolling = false; // Debounce mechanism
 
   // Function to determine if the background color is light or dark
   function setLogoBasedOnBackground() {
@@ -454,33 +468,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Function to handle scroll behavior with debounce
+  // Function to handle scroll behavior
   function handleScroll() {
     const currentScrollPosition = window.scrollY;
 
-    // Only trigger if the scroll difference exceeds the threshold
-    if (Math.abs(currentScrollPosition - lastScrollPosition) > 10) {
-      if (window.innerWidth > 750) {
-        // Only apply scrolling logic on desktop
-        if (currentScrollPosition > lastScrollPosition) {
-          // Scrolling down
-          header.classList.add('hidden'); // Hide the header
-        } else {
-          // Scrolling up
-          header.classList.remove('hidden'); // Show the header
-        }
+    if (window.innerWidth > 750) {
+      // Only apply scrolling logic on desktop
+      if (currentScrollPosition > lastScrollPosition) {
+        // Scrolling down
+        header.classList.add('hidden'); // Hide the header
+      } else {
+        // Scrolling up
+        header.classList.remove('hidden'); // Show the header
       }
-
-      lastScrollPosition = currentScrollPosition; // Update the last scroll position
     }
 
-    // Mark as still scrolling
-    isScrolling = true;
-
-    // Reset debounce after 100ms
-    setTimeout(() => {
-      isScrolling = false;
-    }, 100);
+    lastScrollPosition = currentScrollPosition; // Update the last scroll position
   }
 
   // Initial function calls
@@ -493,11 +496,7 @@ document.addEventListener('DOMContentLoaded', function () {
     updateHeaderTransparency(); // Recheck header transparency
   });
 
-  window.addEventListener('scroll', function () {
-    if (!isScrolling) {
-      handleScroll();
-    }
-  }); // Handle scroll behavior with debounce
+  window.addEventListener('scroll', handleScroll); // Handle scroll behavior
 });
 </script>
 
