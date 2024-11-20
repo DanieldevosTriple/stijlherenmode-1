@@ -2500,8 +2500,6 @@ input[type='checkbox'] {
     align-items: center;
     justify-content: center;
   }
-  
-}
 
 @media screen and (max-width: 749px) {
   .header--has-app {
