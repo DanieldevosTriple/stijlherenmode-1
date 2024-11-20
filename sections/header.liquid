@@ -448,25 +448,24 @@ document.addEventListener('DOMContentLoaded', function () {
     return luminance > 0.5; // Light if luminance is greater than 0.5
   }
 
-  // Function to disable transparency on mobile devices
-  function updateHeaderTransparencyForMobile() {
+  // Function to update header transparency, disabling it for mobile
+  function updateHeaderTransparency() {
     if (window.innerWidth <= 750) {
-      header.classList.remove('transparent'); // Remove transparent class
-      header.style.backgroundColor = 'white'; // Set a solid white background
+      header.classList.remove('transparent'); // Always remove transparent class for mobile
+      header.style.backgroundColor = 'white'; // Force solid white background
     } else {
-      // Reapply transparency for desktop
-      header.classList.add('transparent');
+      header.classList.add('transparent'); // Apply transparency only for desktop
     }
   }
 
   // Initial function calls
   setLogoBasedOnBackground(); // Set logo based on initial background
-  updateHeaderTransparencyForMobile(); // Disable transparency on mobile
+  updateHeaderTransparency(); // Set header transparency based on viewport size
 
   // Event listeners for updates on resize
   window.addEventListener('resize', function () {
     setLogoBasedOnBackground(); // Recheck logo visibility
-    updateHeaderTransparencyForMobile(); // Recheck header transparency
+    updateHeaderTransparency(); // Recheck header transparency
   });
 });
 </script>
