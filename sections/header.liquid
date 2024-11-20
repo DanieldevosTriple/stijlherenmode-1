@@ -427,6 +427,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const logoWhite = document.querySelector('.logo-white');
   const header = document.querySelector('.section-header');
 
+  let lastScrollPosition = 0; // Keep track of the last scroll position
+
   // Function to determine if the background color is light or dark
   function setLogoBasedOnBackground() {
     const backgroundColor = window.getComputedStyle(document.body).backgroundColor;
@@ -450,23 +452,51 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to update header transparency, disabling it for mobile
   function updateHeaderTransparency() {
-    if (window.innerWidth <= 750) {
-      header.classList.remove('transparent'); // Always remove transparent class for mobile
-      header.style.backgroundColor = 'white'; // Force solid white background
+    const isMobile = window.innerWidth <= 750;
+
+    if (isMobile) {
+      if (!header.classList.contains('solid')) {
+        header.classList.remove('transparent'); // Always remove transparent class for mobile
+        header.classList.add('solid'); // Add a solid class to prevent flickering
+        header.style.backgroundColor = 'white'; // Force solid white background
+      }
     } else {
-      header.classList.add('transparent'); // Apply transparency only for desktop
+      if (header.classList.contains('solid')) {
+        header.classList.remove('solid'); // Remove solid class for desktop
+        header.classList.add('transparent'); // Apply transparency only for desktop
+      }
     }
+  }
+
+  // Function to handle scroll behavior
+  function handleScroll() {
+    const currentScrollPosition = window.scrollY;
+
+    if (window.innerWidth > 750) {
+      // Only apply scrolling logic on desktop
+      if (currentScrollPosition > lastScrollPosition) {
+        // Scrolling down
+        header.classList.add('hidden'); // Hide the header
+      } else {
+        // Scrolling up
+        header.classList.remove('hidden'); // Show the header
+      }
+    }
+
+    lastScrollPosition = currentScrollPosition; // Update the last scroll position
   }
 
   // Initial function calls
   setLogoBasedOnBackground(); // Set logo based on initial background
   updateHeaderTransparency(); // Set header transparency based on viewport size
 
-  // Event listeners for updates on resize
+  // Event listeners
   window.addEventListener('resize', function () {
     setLogoBasedOnBackground(); // Recheck logo visibility
     updateHeaderTransparency(); // Recheck header transparency
   });
+
+  window.addEventListener('scroll', handleScroll); // Handle scroll behavior
 });
 </script>
 
