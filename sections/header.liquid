@@ -182,25 +182,25 @@
         <h1 class="header__heading">
       {%- endif -%}
           <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
-            {%- if settings.logo != blank -%}
-              <div class="header__heading-logo-wrapper">
-                {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-                {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
-                {% capture sizes %}(max-width: {{ settings.logo_width | times: 2 }}px) 50vw, {{ settings.logo_width }}px{% endcapture %}
-                {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
-                {{ settings.logo | image_url: width: 600 | image_tag:
-                  class: 'header__heading-logo motion-reduce',
-                  widths: widths,
-                  height: logo_height,
-                  width: settings.logo_width,
-                  alt: logo_alt,
-                  sizes: sizes,
-                  preload: true
-                }}
-              </div>
-            {%- else -%}
-              <span class="h2">{{ shop.name }}</span>
-            {%- endif -%}
+            <div class="header__heading-logo-wrapper">
+              {%- assign logo_black_alt = settings.logo_black.alt | default: shop.name | escape -%}
+              {%- assign logo_white_alt = settings.logo_white.alt | default: shop.name | escape -%}
+
+              <img 
+                src="{{ settings.logo_black | image_url: width: settings.logo_width }}" 
+                alt="{{ logo_black_alt }}" 
+                class="header__heading-logo logo-black motion-reduce" 
+                width="{{ settings.logo_width }}" 
+                style="display: none;"
+              />
+              <img 
+                src="{{ settings.logo_white | image_url: width: settings.logo_width }}" 
+                alt="{{ logo_white_alt }}" 
+                class="header__heading-logo logo-white motion-reduce" 
+                width="{{ settings.logo_width }}" 
+                style="display: none;"
+              />
+            </div>
           </a>
       {%- if request.page_type == 'index' -%}
         </h1>
@@ -404,6 +404,37 @@
   }
 
   customElements.define('sticky-header', StickyHeader);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const logoBlack = document.querySelector('.logo-black');
+  const logoWhite = document.querySelector('.logo-white');
+
+  function setLogoBasedOnBackground() {
+    const backgroundColor = window.getComputedStyle(document.body).backgroundColor;
+    const isLightBackground = isLightColor(backgroundColor);
+
+    if (isLightBackground) {
+      logoBlack.style.display = 'block';
+      logoWhite.style.display = 'none';
+    } else {
+      logoBlack.style.display = 'none';
+      logoWhite.style.display = 'block';
+    }
+  }
+
+  function isLightColor(color) {
+    const rgb = color.match(/\d+/g).map(Number); // Extract RGB values
+    const luminance = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+    return luminance > 0.5; // Light if luminance is greater than 0.5
+  }
+
+  setLogoBasedOnBackground();
+
+  // Recheck when the window is resized
+  window.addEventListener('resize', setLogoBasedOnBackground);
+});
 </script>
 
 <script type="application/ld+json">
