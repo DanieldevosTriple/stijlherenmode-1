@@ -446,15 +446,13 @@
 
 .banner__heading {
   position: relative;
-  font-size: clamp(2rem, 20rem, 30rem); 
-  text-align: center;
+  font-size: clamp(2rem, 20rem, 30rem); /* Dynamische schaalbare font-grootte */
+  text-align: center; /* Centreert tekst horizontaal */
   margin: 0 auto;
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  max-width: 100%; 
+  white-space: nowrap; /* Voorkomt tekstafbreking */
+  max-width: 100%; /* Houd tekst binnen de containerbreedte */
+  overflow: hidden; /* Voorkomt tekstoverloop */
 }
-
 
 .banner__buttons {
   display: inline-flex;
