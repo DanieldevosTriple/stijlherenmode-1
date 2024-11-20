@@ -2616,9 +2616,9 @@ input[type='checkbox'] {
 /* Header icons */
 .header__icons {
   display: flex;
-  grid-area: icons;
-  justify-self: end;
-  padding-right: 0.8rem;
+  align-items: center; /* Align items vertically centered */
+  justify-content: space-between; /* Adjust as per the required spacing */
+  gap: 10px; /* Space between the icons */
 }
 
 .header__icons .shopify-app-block {
@@ -2636,6 +2636,8 @@ input[type='checkbox'] {
 
 .header__icon {
   color: rgb(var(--color-foreground));
+  display: inline-flex; /* Ensures each icon is treated as an inline element within the flex container */
+  align-items: center;
 }
 
 .header__icon span {
