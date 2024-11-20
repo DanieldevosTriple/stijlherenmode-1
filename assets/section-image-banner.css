@@ -1,7 +1,3 @@
-* {
-  outline: 1px solid red; /*debug*/
-}
-
 .banner {
   display: flex;
   position: relative;
