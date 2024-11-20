@@ -2617,8 +2617,34 @@ input[type='checkbox'] {
 .header__icons {
   display: flex;
   align-items: center;
-  justify-content: space-around; /* Distribute items evenly, preventing overlap */
-  gap: 20px; /* Increase the gap between the icons */
+  justify-content: space-between;
+  width: 100%; /* Ensures the icons use the entire header width */
+}
+
+.header__icon {
+  flex: 1; /* Distribute available space evenly between icons */
+  text-align: center; /* Align text/icons within each container */
+  padding: 0 10px; /* Adds some internal spacing */
+}
+
+.header__icon--search,
+.header__icon--cart {
+  flex-grow: 1; /* Makes them take up equal available space */
+}
+
+.header__icon--search,
+.header__icon--cart {
+  margin: 0;
+  padding: 0;
+  text-align: center; /* Ensure everything centers properly */
+}
+
+.header__icon--cart {
+  min-width: 120px; /* Adjust based on your needs to ensure "Winkelwagen" fits */
+}
+
+.header__icon--search {
+  min-width: 100px; /* Ensure "Zoeken" also fits well */
 }
 
 .header__icons .shopify-app-block {
@@ -2632,12 +2658,6 @@ input[type='checkbox'] {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.header__icon {
-  display: inline-flex;
-  align-items: center;
-  margin: 0;
 }
 
 .header__icon span {
