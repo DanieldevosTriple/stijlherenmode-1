@@ -433,9 +433,16 @@
   }
 }
 
-.banner__heading h2 {
-  font-size: 2rem; /* Adjust font size for the heading */
-  font-weight: bold; /* Make the heading bold */
+.slideshow__text-wrapper {
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  height: 100%; 
+}
+
+.banner__heading {
+  text-align: center; 
+  margin: 0 auto; 
 }
 
 .banner__buttons {
