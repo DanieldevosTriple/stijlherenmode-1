@@ -219,7 +219,6 @@
 
     {%- liquid render 'header-dropdown-menu'%}
 
-    {%- if section.settings.logo_position == 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
       {%- endif -%}
@@ -247,7 +246,6 @@
       {%- if request.page_type == 'index' -%}
         </h1>
       {%- endif -%}
-    {%- endif -%}
 
     <div class="header__icons">
 
