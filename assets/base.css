@@ -2469,33 +2469,6 @@ input[type='checkbox'] {
 }
 
 @media screen and (max-width: 749px) {
-  .header {
-    display: grid;
-    grid-template-columns: auto 1fr auto; /* Dit zorgt voor een layout: menu, logo, icons */
-    align-items: center; /* Verticaal centreren van alle header-elementen */
-  }
-
-  .header--mobile-middle-center {
-    grid-area: menu-drawer;
-  }
-
-  .header__icons {
-    display: flex; /* Gebruik Flexbox voor horizontale uitlijning */
-    align-items: center; /* Verticaal centreren van de items */
-    margin-left: auto; /* Duwt de iconen naar de rechterkant van de header */
-    gap: 1rem; /* Verminder de ruimte tussen de iconen om ze dichter bij elkaar te brengen */
-  }
-
-  .header__search, .header__cart {
-    width: auto; /* Zorg dat de breedte zich aanpast aan de inhoud */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-}
-
-@media screen and (max-width: 749px) {
   .header--has-app {
     grid-template-columns: auto 1fr auto;
   }
