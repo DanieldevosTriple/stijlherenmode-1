@@ -2926,15 +2926,22 @@ details[open] > .header__submenu {
 
   .header__icons {
     grid-area: mobile-icons;
-    display: grid;
+    grid-template-areas: "search-mobile search-mobile";
+    display: flex;
     align-items: center;  /* Zorgt ervoor dat de iconen verticaal gecentreerd zijn */
   }
 
   .header__icon__search {
-    margin: 0;
+    max-width: 40px;
+    grid-area: search-mobile;
   }
 
   .header__icon__cart {
+    max-width: 40px;
+    grid-area: cart-mobile;
+  }
+
+  .header__icon {
     margin: 0;
   }
 
