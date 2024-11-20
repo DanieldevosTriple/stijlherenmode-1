@@ -43,7 +43,7 @@
       "view": "Winkelwagen bekijken ({{ count }})",
       "item_added": "Artikel toegevoegd aan winkelwagen",
       "view_empty_cart": "Winkelwagen bekijken",
-      "Cart": "Winkelwagen"
+      "cart": "Winkelwagen"
     },
     "share": {
       "copy_to_clipboard": "Link kopiëren",
