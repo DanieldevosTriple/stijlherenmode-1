@@ -367,6 +367,7 @@ h5,
 .h4,
 .h5 {
   font-family: 'TradeGothicLT', sans-serif;
+  text-transform: uppercase;
   font-style: var(--font-heading-style);
   font-weight: var(--font-heading-weight);
   letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
