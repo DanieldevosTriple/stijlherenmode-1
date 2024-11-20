@@ -2478,9 +2478,11 @@ input[type='checkbox'] {
   }
     .header__icons {
         display: grid;
-        grid-template-areas: "search cart";
+        grid-template-areas: "search-mobile cart-mobile";
         justify-content: end;
   }
+
+  
 }
 
 @media screen and (min-width: 990px) {
