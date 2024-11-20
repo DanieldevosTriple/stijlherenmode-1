@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const header = document.querySelector('.section-header');
 
   let lastScrollPosition = 0; // Keep track of the last scroll position
-  const scrollThreshold = 10; // Minimum scroll difference before triggering logic
+  let isScrolling = false; // Debounce mechanism
 
   // Function to determine if the background color is light or dark
   function setLogoBasedOnBackground() {
@@ -469,12 +469,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Function to handle scroll behavior with a threshold
+  // Function to handle scroll behavior with debounce
   function handleScroll() {
     const currentScrollPosition = window.scrollY;
 
     // Only trigger if the scroll difference exceeds the threshold
-    if (Math.abs(currentScrollPosition - lastScrollPosition) > scrollThreshold) {
+    if (Math.abs(currentScrollPosition - lastScrollPosition) > 10) {
       if (window.innerWidth > 750) {
         // Only apply scrolling logic on desktop
         if (currentScrollPosition > lastScrollPosition) {
@@ -488,6 +488,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
       lastScrollPosition = currentScrollPosition; // Update the last scroll position
     }
+
+    // Mark as still scrolling
+    isScrolling = true;
+
+    // Reset debounce after 100ms
+    setTimeout(() => {
+      isScrolling = false;
+    }, 100);
   }
 
   // Initial function calls
@@ -500,7 +508,11 @@ document.addEventListener('DOMContentLoaded', function () {
     updateHeaderTransparency(); // Recheck header transparency
   });
 
-  window.addEventListener('scroll', handleScroll); // Handle scroll behavior
+  window.addEventListener('scroll', function () {
+    if (!isScrolling) {
+      handleScroll();
+    }
+  }); // Handle scroll behavior with debounce
 });
 </script>
 
