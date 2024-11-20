@@ -2614,6 +2614,7 @@ input[type='checkbox'] {
 }
 
 /* Header icons */
+@media (min-width: 989px) {
 .header__icons {
   display: grid;
   grid-template-areas: 'search cart';
@@ -2627,6 +2628,8 @@ input[type='checkbox'] {
 
 .header__cart {
   grid-area: cart;
+}
+
 }
 
 .header__icon {
