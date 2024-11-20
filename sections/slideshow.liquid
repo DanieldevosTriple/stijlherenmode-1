@@ -26,7 +26,7 @@
 {%- endif -%}
 
 <slideshow-component
-  class="slider-mobile-gutter{% if section.settings.layout == 'grid' %} page-width{% endif %}"
+  class="slider-mobile-gutter"
   role="region"
   aria-roledescription="{{ 'sections.slideshow.carousel' | t }}"
   aria-label="{{ section.settings.accessibility_info | escape }}"
@@ -44,29 +44,18 @@
           {{- 'icon-caret.svg' | inline_asset_content -}}
         </span>
       </button>
-      <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}{% if section.settings.slider_visual == 'counter' or section.settings.slider_visual == 'numbers' %} caption{% endif %}">
-        {%- if section.settings.slider_visual == 'counter' -%}
-          <span class="slider-counter--current">1</span>
-          <span aria-hidden="true"> / </span>
-          <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
-          <span class="slider-counter--total">{{ section.blocks.size }}</span>
-        {%- else -%}
+      <div class="slider-counter slider-counter--dots">
           <div class="slideshow__control-wrapper">
             {%- for block in section.blocks -%}
               <button
-                class="slider-counter__link slider-counter__link--{{ section.settings.slider_visual }} link"
+                class="slider-counter__link slider-counter__link--dots link"
                 aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
                 aria-controls="Slider-{{ section.id }}"
               >
-                {%- if section.settings.slider_visual == 'numbers' -%}
-                  {{ forloop.index -}}
-                {%- else -%}
                   <span class="dot"></span>
-                {%- endif -%}
               </button>
             {%- endfor -%}
           </div>
-        {%- endif -%}
       </div>
       <button
         type="button"
@@ -184,29 +173,18 @@
           {{- 'icon-caret.svg' | inline_asset_content -}}
         </span>
       </button>
-      <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}{% if section.settings.slider_visual == 'counter' or section.settings.slider_visual == 'numbers' %} caption{% endif %}">
-        {%- if section.settings.slider_visual == 'counter' -%}
-          <span class="slider-counter--current">1</span>
-          <span aria-hidden="true"> / </span>
-          <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
-          <span class="slider-counter--total">{{ section.blocks.size }}</span>
-        {%- else -%}
+      <div class="slider-counter slider-counter--dots">
           <div class="slideshow__control-wrapper">
             {%- for block in section.blocks -%}
               <button
-                class="slider-counter__link slider-counter__link--{{ section.settings.slider_visual }} link"
+                class="slider-counter__link slider-counter__link--dots link"
                 aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
                 aria-controls="Slider-{{ section.id }}"
               >
-                {%- if section.settings.slider_visual == 'numbers' -%}
-                  {{ forloop.index -}}
-                {%- else -%}
                   <span class="dot"></span>
-                {%- endif -%}
               </button>
             {%- endfor -%}
           </div>
-        {%- endif -%}
       </div>
       <button
         type="button"
@@ -242,39 +220,6 @@
   <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-<script>
-function adjustFontSizeForSlides() {
-    const slides = document.querySelectorAll('.slideshow_wrapper'); // Select all slides
-
-    slides.forEach((slide) => {
-        const heading = slide.querySelector('.banner__heading'); // Select the heading in this slide
-        if (heading) {
-            let fontSize = 10; // Start with a small font size
-            heading.style.fontSize = `${fontSize}px`; // Set initial font size
-            heading.style.whiteSpace = 'nowrap'; // Ensure text stays on one line
-            heading.style.overflow = 'hidden'; // Prevent overflow
-            heading.style.textAlign = 'center'; // Center the text
-
-            const containerWidth = slide.offsetWidth; // Width of the container
-
-            // Increase font size until text exceeds container width
-            while (heading.scrollWidth <= containerWidth) {
-                fontSize += 1;
-                heading.style.fontSize = `${fontSize}px`;
-            }
-
-            // Reduce font size by 1 to fit the container exactly
-            fontSize -= 1;
-            heading.style.fontSize = `${fontSize}px`;
-        }
-    });
-}
-
-// Run the function on page load and whenever the window is resized
-window.addEventListener('resize', adjustFontSizeForSlides);
-adjustFontSizeForSlides();
-</script>
-
 {% schema %}
 {
   "name": "t:sections.slideshow.name",
@@ -284,42 +229,6 @@ adjustFontSizeForSlides();
     "groups": ["header", "footer"]
   },
   "settings": [
-    {
-      "type": "select",
-      "id": "layout",
-      "options": [
-        {
-          "value": "full_bleed",
-          "label": "t:sections.slideshow.settings.layout.options__1.label"
-        },
-        {
-          "value": "grid",
-          "label": "t:sections.slideshow.settings.layout.options__2.label"
-        }
-      ],
-      "default": "full_bleed",
-      "label": "t:sections.slideshow.settings.layout.label"
-    },
-    {
-      "type": "select",
-      "id": "slider_visual",
-      "options": [
-        {
-          "value": "dots",
-          "label": "t:sections.slideshow.settings.slider_visual.options__2.label"
-        },
-        {
-          "value": "counter",
-          "label": "t:sections.slideshow.settings.slider_visual.options__1.label"
-        },
-        {
-          "value": "numbers",
-          "label": "t:sections.slideshow.settings.slider_visual.options__3.label"
-        }
-      ],
-      "default": "counter",
-      "label": "t:sections.slideshow.settings.slider_visual.label"
-    },
     {
       "type": "checkbox",
       "id": "auto_rotate",
@@ -404,26 +313,6 @@ adjustFontSizeForSlides();
         {
           "type": "header",
           "content": "t:sections.slideshow.settings.mobile.content"
-        },
-        {
-          "type": "select",
-          "id": "text_alignment_mobile",
-          "options": [
-            {
-              "value": "left",
-              "label": "t:sections.slideshow.blocks.slide.settings.text_alignment_mobile.options__1.label"
-            },
-            {
-              "value": "center",
-              "label": "t:sections.slideshow.blocks.slide.settings.text_alignment_mobile.options__2.label"
-            },
-            {
-              "value": "right",
-              "label": "t:sections.slideshow.blocks.slide.settings.text_alignment_mobile.options__3.label"
-            }
-          ],
-          "default": "center",
-          "label": "t:sections.slideshow.blocks.slide.settings.text_alignment_mobile.label"
         }
       ]
     }
