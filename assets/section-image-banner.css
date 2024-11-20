@@ -446,13 +446,15 @@
 
 .banner__heading {
   position: relative;
-  font-size: clamp(2rem, 20rem, 30rem); /* Dynamische schaalbare font-grootte */
-  text-align: center; /* Centreert tekst horizontaal */
+  font-size: clamp(1rem, 5vw, 8rem); /* Dynamisch schalen: minimum 1rem, maximum 8rem */
+  text-align: center; /* Centreert de tekst */
   margin: 0 auto;
-  white-space: nowrap; /* Voorkomt tekstafbreking */
-  max-width: 100%; /* Houd tekst binnen de containerbreedte */
-  overflow: hidden; /* Voorkomt tekstoverloop */
+  white-space: normal; /* Sta toe dat tekst op meerdere regels kan */
+  max-width: 90%; /* Houd tekst binnen de containerbreedte */
+  line-height: 1.2; /* Zorg voor een prettige leesbaarheid */
+  word-wrap: break-word; /* Breek woorden indien nodig */
 }
+
 
 .banner__buttons {
   display: inline-flex;
