@@ -428,6 +428,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const header = document.querySelector('.section-header');
 
   let lastScrollPosition = 0; // Keep track of the last scroll position
+  const scrollThreshold = 10; // Minimum scroll difference before triggering logic
 
   // Function to determine if the background color is light or dark
   function setLogoBasedOnBackground() {
@@ -468,22 +469,25 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Function to handle scroll behavior
+  // Function to handle scroll behavior with a threshold
   function handleScroll() {
     const currentScrollPosition = window.scrollY;
 
-    if (window.innerWidth > 750) {
-      // Only apply scrolling logic on desktop
-      if (currentScrollPosition > lastScrollPosition) {
-        // Scrolling down
-        header.classList.add('hidden'); // Hide the header
-      } else {
-        // Scrolling up
-        header.classList.remove('hidden'); // Show the header
+    // Only trigger if the scroll difference exceeds the threshold
+    if (Math.abs(currentScrollPosition - lastScrollPosition) > scrollThreshold) {
+      if (window.innerWidth > 750) {
+        // Only apply scrolling logic on desktop
+        if (currentScrollPosition > lastScrollPosition) {
+          // Scrolling down
+          header.classList.add('hidden'); // Hide the header
+        } else {
+          // Scrolling up
+          header.classList.remove('hidden'); // Show the header
+        }
       }
-    }
 
-    lastScrollPosition = currentScrollPosition; // Update the last scroll position
+      lastScrollPosition = currentScrollPosition; // Update the last scroll position
+    }
   }
 
   // Initial function calls
