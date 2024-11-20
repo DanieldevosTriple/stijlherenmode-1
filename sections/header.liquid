@@ -77,13 +77,26 @@
     padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem;
   }
 
-  /* Transparant header */
+  /* Transparent header for desktop only */
   .header-wrapper--transparent {
     background-color: transparent;
     position: absolute;
     z-index: 10;
     width: 100%;
     transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* For mobile devices, disable transparency */
+  @media screen and (max-width: 750px) {
+    .header-wrapper--transparent {
+      background-color: white !important; /* Always solid background for mobile */
+      position: relative;
+    }
+
+    .header-wrapper--transparent .header__heading-link,
+    .header-wrapper--transparent .header__icon {
+      color: black; /* Ensure icons and text are visible */
+    }
   }
 
   /* Scroll-activated header */
@@ -305,7 +318,9 @@
 document.addEventListener('DOMContentLoaded', function () {
   const logoBlack = document.querySelector('.logo-black');
   const logoWhite = document.querySelector('.logo-white');
+  const header = document.querySelector('.section-header');
 
+  // Function to determine if the background color is light or dark
   function setLogoBasedOnBackground() {
     const backgroundColor = window.getComputedStyle(document.body).backgroundColor;
     const isLightBackground = isLightColor(backgroundColor);
@@ -319,16 +334,33 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // Helper function to calculate luminance
   function isLightColor(color) {
     const rgb = color.match(/\d+/g).map(Number); // Extract RGB values
     const luminance = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
     return luminance > 0.5; // Light if luminance is greater than 0.5
   }
 
-  setLogoBasedOnBackground();
+  // Function to disable transparency on mobile devices
+  function updateHeaderTransparencyForMobile() {
+    if (window.innerWidth <= 750) {
+      header.classList.remove('transparent'); // Remove transparent class
+      header.style.backgroundColor = 'white'; // Set a solid white background
+    } else {
+      // Reapply transparency for desktop
+      header.classList.add('transparent');
+    }
+  }
 
-  // Recheck when the window is resized
-  window.addEventListener('resize', setLogoBasedOnBackground);
+  // Initial function calls
+  setLogoBasedOnBackground(); // Set logo based on initial background
+  updateHeaderTransparencyForMobile(); // Disable transparency on mobile
+
+  // Event listeners for updates on resize
+  window.addEventListener('resize', function () {
+    setLogoBasedOnBackground(); // Recheck logo visibility
+    updateHeaderTransparencyForMobile(); // Recheck header transparency
+  });
 });
 </script>
 
