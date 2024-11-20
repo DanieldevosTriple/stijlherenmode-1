@@ -268,9 +268,9 @@
 
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-text">
         {%- if cart.item_count > 0 -%}
-          <span class="cart-text">{{ 'section.header.cart' | t }} ({{ cart.item_count }})</span>
+          <span class="cart-text">{{ 'cart' | t }} ({{ cart.item_count }})</span>
         {%- else -%}
-          <span class="cart-text">{{ 'section.header.cart' | t }}</span>
+          <span class="cart-text">{{ 'cart' | t }}</span>
         {%- endif -%}
       </a>
 
