@@ -11,29 +11,6 @@
   "sections": {
     "slideshow_adRpPg": {
       "type": "slideshow",
-      "blocks": {
-        "slide_yB4cze": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/bannerheadline.png",
-            "heading": "Afbeelding dia",
-            "heading_size": "h1",
-            "subheading": "Vertel met afbeeldingen het verhaal van je merk",
-            "button_label": "Knoplabel",
-            "link": "",
-            "button_style_secondary": false,
-            "box_align": "middle-center",
-            "show_text_box": true,
-            "text_alignment": "center",
-            "image_overlay_opacity": 0,
-            "color_scheme": "scheme-1",
-            "text_alignment_mobile": "center"
-          }
-        }
-      },
-      "block_order": [
-        "slide_yB4cze"
-      ],
       "settings": {
         "layout": "full_bleed",
         "slide_height": "large",
