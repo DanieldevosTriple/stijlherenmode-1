@@ -57,16 +57,20 @@
   
   @media (max-width: 768px) {
     .two-columns-overlay .grid {
-      display: block; /* Stacks the grid items vertically */
+      display: block; /* Stack the items vertically */
     }
   
     .two-columns-overlay .grid__item {
-      width: 100%; /* Ensures each item takes the full width */
-      margin-bottom: 20px; /* Adds spacing between items */
+      width: 100%; /* Make each item take full width */
+      margin-bottom: 20px; /* Add spacing between stacked items */
+    }
+  
+    .image-overlay-block {
+      width: 100%; /* Ensure the block also takes full width */
     }
   
     .image-overlay-block__title {
-      font-size: 2.5em; /* Adjust font size for better readability on small screens */
+      font-size: 2.5em; /* Adjust font size for mobile */
     }
   
     .button {
@@ -74,4 +78,5 @@
       padding: 8px 16px; /* Adjust padding for a more compact button */
     }
   }
+  
   
