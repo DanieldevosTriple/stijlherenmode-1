@@ -91,7 +91,12 @@
     },
     "featured_banner_tBJDRR": {
       "type": "featured-banner",
-      "settings": {}
+      "settings": {
+        "image": "shopify://shop_images/image.png",
+        "image_alt": "Featured Banner",
+        "link_to_collection": "",
+        "banner_height": 500
+      }
     }
   },
   "order": [
