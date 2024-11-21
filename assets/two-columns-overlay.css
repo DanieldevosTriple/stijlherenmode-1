@@ -55,3 +55,23 @@
     background-color: #444;
   }
   
+  @media (max-width: 768px) {
+    .two-columns-overlay .grid {
+      display: block; /* Stacks the grid items vertically */
+    }
+  
+    .two-columns-overlay .grid__item {
+      width: 100%; /* Ensures each item takes the full width */
+      margin-bottom: 20px; /* Adds spacing between items */
+    }
+  
+    .image-overlay-block__title {
+      font-size: 2.5em; /* Adjust font size for better readability on small screens */
+    }
+  
+    .button {
+      font-size: 0.9em; /* Make the button text slightly smaller for mobile */
+      padding: 8px 16px; /* Adjust padding for a more compact button */
+    }
+  }
+  
