@@ -331,6 +331,12 @@ slider-component.slider-component-full-width {
   color: rgb(var(--color-foreground));
 }
 
+.slider-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
 .collection__header {
   display: flex;
   justify-content: space-between; /* Titel links, knoppen rechts */
@@ -343,11 +349,11 @@ slider-component.slider-component-full-width {
   flex-grow: 1; /* Laat de titel alle resterende ruimte gebruiken indien nodig */
 }
 
-.slider-buttons {
+.carousel-buttons {
   display: flex;
   align-items: center; /* Verticaal centreren van de knoppen en teller */
   gap: 0.5rem; /* Ruimte tussen de knoppen en teller */
-}s
+}
 
 @media screen and (min-width: 990px) {
   .slider:not(.slider--everywhere):not(.slider--desktop) + .slider-buttons {
