@@ -205,10 +205,9 @@ var watchList = Array.from(document.querySelectorAll(selector))
 
 // Functie die de schaal instelt op basis van de breedte van de ouder
 const resize = function (watchEl) {
-    const maxWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--page-width')) || watchEl.clientWidth;
     watchEl.querySelectorAll(':scope > ' + selector)
         .forEach(function(el) {
-            const scale = Math.min(el.parentNode.clientWidth, maxWidth) / el.clientWidth;
+            const scale = el.parentNode.clientWidth / el.clientWidth;
             el.style.setProperty("--efiScale", scale);
             el.style.setProperty("--efiHeightDiff", el.clientHeight * (scale - 1) + "px");
         });
