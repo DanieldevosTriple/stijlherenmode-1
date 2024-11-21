@@ -97,6 +97,46 @@
         "link_to_collection": "",
         "banner_height": 500
       }
+    },
+    "store_selection_ygz9BV": {
+      "type": "store-selection",
+      "blocks": {
+        "menu_item_EPViKT": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Amsterdam",
+            "image": "shopify://shop_images/Rectangle_9.png"
+          }
+        },
+        "menu_item_fjywjz": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Amsterdam",
+            "image": "shopify://shop_images/image2.png"
+          }
+        },
+        "menu_item_wWKLWq": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Amsterdam"
+          }
+        },
+        "menu_item_Ud97em": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Amsterdam"
+          }
+        }
+      },
+      "block_order": [
+        "menu_item_EPViKT",
+        "menu_item_fjywjz",
+        "menu_item_wWKLWq",
+        "menu_item_Ud97em"
+      ],
+      "settings": {
+        "title": "Onze winkels"
+      }
     }
   },
   "order": [
@@ -104,6 +144,7 @@
     "featured_collection_JGD7p8",
     "two_grid_navigation_cards_gLnhfz",
     "featured_product_custom_BpBaCC",
-    "featured_banner_tBJDRR"
+    "featured_banner_tBJDRR",
+    "store_selection_ygz9BV"
   ]
 }
