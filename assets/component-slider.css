@@ -36,9 +36,7 @@ slider-component.slider-component-full-width {
 /* Het te schalen en te centreren element */
 .elixon-fits-in {
   overflow: visible;
-  white-space: pre;
   transform: scale(var(--efiScale, 1));
-  transform-origin: left top;
   margin-bottom: calc(var(--efiHeightDiff, 0) + 2em);
   box-sizing: border-box;
   outline: 1px solid rgba(0, 255, 0, .2);
