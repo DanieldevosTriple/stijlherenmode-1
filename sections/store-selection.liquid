@@ -4,10 +4,10 @@
   <div class="grid">
     <!-- Left: Title and Vertical Menu -->
     <div class="grid__item medium-up--one-third store-selector__menu">
-      <h2 class="store-selector__title">Onze winkels</h2>
+      <h2 class="store-selector__title">{{ section.settings.title }}</h2>
       <ul class="store-selector__list">
         {% for block in section.blocks %}
-        <li class="store-selector__item" data-image="{{ block.settings.image | file_url }}">
+        <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url }}">
           {{ block.settings.title }}
         </li>
         {% endfor %}
@@ -17,10 +17,9 @@
     <!-- Right: Image and Message -->
     <div class="grid__item medium-up--two-thirds store-selector__content">
       <div class="store-selector__image-container">
-        <img class="store-selector__image" src="{{ section.settings.default_image | file_url }}" alt="Store Image">
-      </div>
-      <div class="store-selector__message">
-        <p>{{ section.settings.message_text }}</p>
+        {% if section.blocks.size > 0 %}
+        <img class="store-selector__image" src="{{ section.blocks[0].settings.image | file_url }}" alt="Store Image">
+        {% endif %}
       </div>
     </div>
   </div>
@@ -30,27 +29,43 @@
   document.addEventListener('DOMContentLoaded', () => {
     const items = document.querySelectorAll('.store-selector__item');
     const image = document.querySelector('.store-selector__image');
-    const defaultImage = image.src;
 
-    items.forEach(item => {
-      item.addEventListener('mouseover', () => {
-        const hoverImage = item.getAttribute('data-image');
-        if (hoverImage) {
-          image.src = hoverImage;
-        }
-      });
+    if (items.length > 0) {
+      // Set the first menu item's image as the default
+      const firstImage = items[0].getAttribute('data-image');
+      if (firstImage) {
+        image.src = firstImage;
+        items[0].classList.add('active');
+      }
 
-      item.addEventListener('mouseout', () => {
-        image.src = defaultImage;
+      items.forEach(item => {
+        item.addEventListener('mouseover', () => {
+          // Change the image to the hovered item's image
+          const hoverImage = item.getAttribute('data-image');
+          if (hoverImage) {
+            image.src = hoverImage;
+
+            // Update active state
+            items.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+          }
+        });
       });
-    });
+    }
   });
 </script>
 
 {% schema %}
 {
   "name": "Store Selection",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Onze winkels"
+    }
+  ],
   "blocks": [
     {
       "type": "menu_item",
@@ -65,7 +80,7 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"s
+          "label": "Image"
         }
       ]
     }
