@@ -10,10 +10,14 @@
     display: flex;
     width: 100%;
     gap: 20px;
+    align-items: center; /* Vertically centers the content */
   }
   
   .featured-product__content {
     width: 33.33%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically centers the elements within the content */
   }
   
   .featured-product__title {
@@ -33,6 +37,7 @@
     background-color: #000000;
     text-decoration: none;
   }
+  
   
   .featured-product__image-wrapper {
     width: 66.67%;
