@@ -129,7 +129,7 @@
         {%- endif -%}
       </div>
       <div class="slideshow_wrapper page-width">
-        <h2 class="banner__heading fits-in">
+        <h2 class="fits-in">
           {{ block.settings.heading }}
         </h2>
       </div>
@@ -198,8 +198,6 @@
 {%- endif -%}
 
 <script>
-// EFI :-) Elixon Fits In trick by cyrex.tech guys
-// HTML EFI by CYREX.tech / CC BY
 const selector = ".elixon-fits-in";
 var watchList = Array.from(document.querySelectorAll(selector))
     .map((el) => el.parentNode);
