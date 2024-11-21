@@ -58,25 +58,33 @@
   @media (max-width: 768px) {
     .two-columns-overlay .grid {
       display: block; /* Stack the items vertically */
+      width: 100%; /* Ensure the grid container spans full width */
     }
   
     .two-columns-overlay .grid__item {
-      width: 100%; /* Make each item take full width */
+      width: 100%; /* Each item takes full width */
       margin-bottom: 20px; /* Add spacing between stacked items */
     }
   
     .image-overlay-block {
-      width: 100%; /* Ensure the block also takes full width */
+      width: 100%; /* Ensure the image block spans full width */
+    }
+  
+    .image-overlay-block__image {
+      width: 100%; /* Ensure images fit fully */
+      height: auto; /* Maintain aspect ratio for images */
     }
   
     .image-overlay-block__title {
-      font-size: 2.5em; /* Adjust font size for mobile */
+      font-size: 2em; /* Adjust font size for mobile screens */
+      padding: 10px; /* Optional padding for better alignment */
     }
   
     .button {
-      font-size: 0.9em; /* Make the button text slightly smaller for mobile */
-      padding: 8px 16px; /* Adjust padding for a more compact button */
+      font-size: 0.9em; /* Slightly smaller buttons for mobile */
+      padding: 8px 16px; /* Adjust padding for compact appearance */
     }
   }
+  
   
   
