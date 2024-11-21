@@ -198,32 +198,34 @@
 {%- endif -%}
 
 <script>
-function adjustHeadingFontSize() {
-  const bannerHeading = document.querySelector('.banner__heading');
-  if (!bannerHeading) return;
-  
-  const parentWidth = bannerHeading.parentElement.clientWidth;
-  const maxWidth = getComputedStyle(document.documentElement).getPropertyValue('--page-width');
-  const maxFontSize = 36; // Set the maximum font size you want
-  let fontSize = parseInt(window.getComputedStyle(bannerHeading).fontSize, 10);
-  
-  // Adjust font size to fit within the parent's width, but not exceed the maximum
-  while (bannerHeading.scrollWidth > parentWidth && fontSize > 0) {
-    fontSize -= 1;
-    bannerHeading.style.fontSize = `${fontSize}px`;
-  }
-  
-  // Ensure the font size does not exceed the maximum value
-  if (fontSize > maxFontSize) {
-    bannerHeading.style.fontSize = `${maxFontSize}px`;
-  }
-}
+// Selecteer alle elementen met de klasse .elixon-fits-in
+const selector = ".elixon-fits-in";
+var watchList = Array.from(document.querySelectorAll(selector))
+    .map((el) => el.parentNode);
 
-// Initial adjustment
-window.addEventListener('DOMContentLoaded', adjustHeadingFontSize);
+// Functie die de schaal instelt op basis van de breedte van de ouder
+const resize = function (watchEl) {
+    const maxWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--page-width')) || watchEl.clientWidth;
+    watchEl.querySelectorAll(':scope > ' + selector)
+        .forEach(function(el) {
+            const scale = Math.min(el.parentNode.clientWidth, maxWidth) / el.clientWidth;
+            el.style.setProperty("--efiScale", scale);
+            el.style.setProperty("--efiHeightDiff", el.clientHeight * (scale - 1) + "px");
+        });
+};
 
-// Adjust on window resize
-window.addEventListener('resize', adjustHeadingFontSize);
+// ResizeObserver om wijzigingen in de grootte van de ouder te observeren
+const observer = new ResizeObserver(function (entries) {
+    for (let entry of entries) {
+        resize(entry.target);
+    }
+});
+
+// Observeer elke ouder om schaalveranderingen te detecteren
+watchList.forEach(function(el) {
+    resize(el);
+    observer.observe(el);
+});
 </script>
 
 {% schema %}
