@@ -23,16 +23,26 @@ slider-component.slider-component-full-width {
   }
 }
 
+/* De container die het element .elixon-fits-in bevat */
+.slide-show-content {
+  display: flex;
+  justify-content: center; /* Horizontaal centreren */
+  align-items: center; /* Verticaal centreren */
+  height: 100%; /* Pas aan naar behoefte */
+  position: relative; /* Nodig voor absolute centrering */
+  overflow: hidden; /* Zorg ervoor dat overbodige inhoud wordt verborgen indien nodig */
+}
 
+/* Het te schalen en te centreren element */
 .elixon-fits-in {
   overflow: visible;
   white-space: pre;
   transform: scale(var(--efiScale, 1));
   transform-origin: left top;
-  margin-bottom: calc(var(--efiHeightDiff, 0) + 2em); /* we add our own dynamic margin-bottom to compensate for 2D transfom: var(--efiDiff) */
+  margin-bottom: calc(var(--efiHeightDiff, 0) + 2em);
   box-sizing: border-box;
-  outline: 1px solid rgba(0, 255, 0, 0.2);
-  display: table; /* we need block that does not spread, like inline-block */
+  outline: 1px solid rgba(0, 255, 0, .2);
+  display: table;
 }
 
 .slider__slide {
