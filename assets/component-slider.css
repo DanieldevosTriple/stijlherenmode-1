@@ -385,6 +385,18 @@ slider-component.slider-component-full-width {
   justify-content: center;
 }
 
+.slider-button-featured-products {
+  color: rgba(var(--color-foreground), 0.75);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .slider-button:not([disabled]):hover {
   color: rgb(var(--color-foreground));
 }
