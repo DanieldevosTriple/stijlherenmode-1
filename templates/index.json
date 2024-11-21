@@ -77,11 +77,23 @@
         "block_pDxANz"
       ],
       "settings": {}
+    },
+    "featured_product_custom_BpBaCC": {
+      "type": "featured-product-custom",
+      "settings": {
+        "title": "Featured Product",
+        "description": "Add a description of your featured product here.",
+        "button_text": "Learn More",
+        "button_link": "/",
+        "featured_image": "shopify://shop_images/jacobcohen_1.png",
+        "featured_image_alt": "Featured Product Image"
+      }
     }
   },
   "order": [
     "slideshow_adRpPg",
     "featured_collection_JGD7p8",
-    "two_grid_navigation_cards_gLnhfz"
+    "two_grid_navigation_cards_gLnhfz",
+    "featured_product_custom_BpBaCC"
   ]
 }
