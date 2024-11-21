@@ -105,14 +105,16 @@
           "type": "menu_item",
           "settings": {
             "title": "Stijl Herenmode",
-            "image": "shopify://shop_images/Rectangle_9.png"
+            "image": "shopify://shop_images/Rectangle_9.png",
+            "description": "Houttil 17, <br>1811 JL Alkmaar<br>\nTelefoon: 072 511 2587"
           }
         },
         "menu_item_fjywjz": {
           "type": "menu_item",
           "settings": {
             "title": "Stijl Casual",
-            "image": "shopify://shop_images/image2.png"
+            "image": "shopify://shop_images/image2.png",
+            "description": "Beschrijving van de winkel."
           }
         }
       },
