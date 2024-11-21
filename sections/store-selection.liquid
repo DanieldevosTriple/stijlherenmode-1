@@ -18,7 +18,7 @@
     <div class="grid__item medium-up--two-thirds store-selector__content">
       <div class="store-selector__image-container">
         {% if section.blocks.size > 0 %}
-        <img class="store-selector__image" src="{{ section.blocks[0].settings.image | file_url | replace: 'files/files/', 'files/' }}" alt="Store Image">
+        <img class="store-selector__image" src="{{ section.blocks[0].settings.image | file_url }}" alt="Store Image">
         {% endif %}
       </div>
     </div>
