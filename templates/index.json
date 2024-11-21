@@ -53,15 +53,6 @@
     "two_grid_navigation_cards_gLnhfz": {
       "type": "two-grid-navigation-cards",
       "blocks": {
-        "block_pDxANz": {
-          "type": "block",
-          "settings": {
-            "image": "shopify://shop_images/image2.png",
-            "title": "",
-            "button_link": "",
-            "button_text": "Learn More"
-          }
-        },
         "block_Efmtxr": {
           "type": "block",
           "settings": {
@@ -70,11 +61,20 @@
             "button_link": "",
             "button_text": "Learn More"
           }
+        },
+        "block_pDxANz": {
+          "type": "block",
+          "settings": {
+            "image": "shopify://shop_images/image2.png",
+            "title": "",
+            "button_link": "",
+            "button_text": "Learn More"
+          }
         }
       },
       "block_order": [
-        "block_pDxANz",
-        "block_Efmtxr"
+        "block_Efmtxr",
+        "block_pDxANz"
       ],
       "settings": {}
     }
