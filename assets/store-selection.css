@@ -24,6 +24,7 @@
     border-radius: 5px;
     transition: all 0.3s ease;
     text-align: left;
+    position: relative; /* Ensures the description can be positioned correctly */
   }
   
   .store-selector__item:hover {
@@ -43,7 +44,7 @@
     color: #000;
     font-weight: bold;
   }
-
+  
   .store-selector__item.active::before,
   .store-selector__item.active::after {
     content: "⎯"; /* Subtle decoration */
@@ -54,6 +55,21 @@
   
   .store-selector__item:focus {
     color: #000;
+  }
+  
+  /* Description styling */
+  .store-selector__description {
+    color: #888; /* Light grey */
+    font-size: 14px;
+    line-height: 1.4;
+    margin-top: 5px; /* Add space above description */
+    display: none; /* Hidden by default */
+  }
+  
+  /* Make description visible for active or hovered items */
+  .store-selector__item:hover .store-selector__description,
+  .store-selector__item.active .store-selector__description {
+    display: block;
   }
   
   .store-selector__content {
