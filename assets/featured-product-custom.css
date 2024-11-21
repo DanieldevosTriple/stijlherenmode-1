@@ -41,10 +41,13 @@
   
   .featured-product__image-wrapper {
     width: 66.67%;
+    display: flex;
+    justify-content: center; /* Centers the image horizontally */
+    align-items: center; /* Centers the image vertically within the column */
   }
   
   .featured-product__image {
-    width: 100%;
+    width: 60%; /* Sets the image to 60% of its container width */
     height: auto;
     object-fit: cover;
   }
