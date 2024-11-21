@@ -88,12 +88,17 @@
         "featured_image": "shopify://shop_images/jacobcohen_1.png",
         "featured_image_alt": "Featured Product Image"
       }
+    },
+    "featured_banner_tBJDRR": {
+      "type": "featured-banner",
+      "settings": {}
     }
   },
   "order": [
     "slideshow_adRpPg",
     "featured_collection_JGD7p8",
     "two_grid_navigation_cards_gLnhfz",
-    "featured_product_custom_BpBaCC"
+    "featured_product_custom_BpBaCC",
+    "featured_banner_tBJDRR"
   ]
 }
