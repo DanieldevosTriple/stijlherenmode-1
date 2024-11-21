@@ -21,7 +21,6 @@
     padding: 12px; /* Increased padding for better spacing */
     margin-bottom: 10px; /* Consistent spacing */
     cursor: pointer;
-    background-color: #eaeaea;
     border-radius: 5px;
     transition: all 0.3s ease;
     text-align: left;
@@ -41,15 +40,12 @@
   }
   
   .store-selector__item.active {
-    background-color: #005b99; /* Darker shade for active state */
-    color: #fff;
+    color: #000;
     font-weight: bold;
   }
   
   .store-selector__item:focus {
-    outline: 2px solid #007ace; /* Accessible focus outline */
-    background-color: #005b99; /* Same as active for consistency */
-    color: #fff;
+    color: #000;
   }
   
   .store-selector__content {
