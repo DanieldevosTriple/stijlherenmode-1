@@ -58,8 +58,8 @@
           "settings": {
             "image": "shopify://shop_images/Rectangle_9.png",
             "title": "Stijl Herenmode",
-            "button_link": "",
-            "button_text": "Learn More"
+            "button_link": "shopify://products/aeden-silver-tee",
+            "button_text": "Ontdek"
           }
         },
         "block_pDxANz": {
@@ -68,7 +68,7 @@
             "image": "shopify://shop_images/image2.png",
             "title": "Stijl Casual",
             "button_link": "shopify://products/aeden-silver-tee",
-            "button_text": "Learn More"
+            "button_text": "Ontdek"
           }
         }
       },
