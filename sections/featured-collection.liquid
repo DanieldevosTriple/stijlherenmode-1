@@ -38,7 +38,6 @@
     </div>
 
     <slider-component class="slider-mobile-gutter{% if show_mobile_slider == false %} page-width{% endif %} slider-component-desktop{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      <div class="page-width>
       <div class="slider-buttons">
           <button
             type="button"
@@ -68,7 +67,6 @@
               {{- 'icon-caret.svg' | inline_asset_content -}}
             </span>
           </button>
-        </div>
         </div>
       <ul
         id="Slider-{{ section.id }}"
