@@ -22,10 +22,12 @@
   
   .image-overlay-block__content {
     position: absolute;
-    bottom: 10px; /* Positioned slightly above the bottom edge */
-    left: 10px; /* Positioned slightly away from the left edge */
+    bottom: 0; /* Perfectly aligned with the bottom edge */
+    left: 0; /* Perfectly aligned with the left edge */
     text-align: left;
     color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: Adds background to enhance readability */
+    padding: 5px; /* Optional: Adds padding for better readability of the text */
   }
   
   .image-overlay-block__title {
