@@ -7,8 +7,11 @@
       <h2 class="store-selector__title">{{ section.settings.title }}</h2>
       <ul class="store-selector__list">
         {% for block in section.blocks %}
-        <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url | replace: 'files/files', 'files' }}">
+        <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url | replace: 'files/files', 'files' }}" data-description="{{ block.settings.description }}">
           {{ block.settings.title }}
+          <div class="store-selector__description {% if forloop.first %}visible{% else %}hidden{% endif %}">
+            {{ block.settings.description }}
+          </div>
         </li>
         {% endfor %}
       </ul>
@@ -31,33 +34,58 @@ document.addEventListener('DOMContentLoaded', () => {
   const image = document.querySelector('.store-selector__image');
 
   if (items.length > 0) {
-    // Set the first item's image as default and active
+    // Set the first item's image and description as default and active
     const firstImage = items[0].getAttribute('data-image');
+    const firstDescription = items[0].getAttribute('data-description');
     if (firstImage) {
       image.src = firstImage;
       items[0].classList.add('active');
     }
+    if (firstDescription) {
+      items[0].querySelector('.store-selector__description').classList.add('visible');
+    }
 
-    items.forEach((item, index) => {
+    items.forEach((item) => {
       item.addEventListener('mouseover', () => {
         const hoverImage = item.getAttribute('data-image');
+        const hoverDescription = item.getAttribute('data-description');
+
         if (hoverImage) {
           image.src = hoverImage;
-
-          // Update active state
-          items.forEach(i => i.classList.remove('active'));
-          item.classList.add('active');
         }
+
+        // Update descriptions
+        document.querySelectorAll('.store-selector__description').forEach(desc => desc.classList.add('hidden'));
+        const descriptionElement = item.querySelector('.store-selector__description');
+        if (descriptionElement) {
+          descriptionElement.classList.remove('hidden');
+          descriptionElement.classList.add('visible');
+        }
+
+        // Update active state
+        items.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
       });
 
       item.addEventListener('mouseout', () => {
         // Reset to the first item's image and active state
         const firstItemImage = items[0].getAttribute('data-image');
-        if (firstItemImage && !document.querySelector('.store-selector__item:hover')) {
+        const firstItemDescription = items[0].getAttribute('data-description');
+
+        if (firstItemImage) {
           image.src = firstItemImage;
-          items.forEach(i => i.classList.remove('active'));
-          items[0].classList.add('active');
         }
+
+        // Reset descriptions
+        document.querySelectorAll('.store-selector__description').forEach(desc => desc.classList.add('hidden'));
+        const firstDescriptionElement = items[0].querySelector('.store-selector__description');
+        if (firstDescriptionElement) {
+          firstDescriptionElement.classList.remove('hidden');
+          firstDescriptionElement.classList.add('visible');
+        }
+
+        items.forEach(i => i.classList.remove('active'));
+        items[0].classList.add('active');
       });
     });
   }
@@ -87,9 +115,15 @@ document.addEventListener('DOMContentLoaded', () => {
           "default": "Amsterdam"
         },
         {
-            "type": "image_picker",
-            "id": "image",
-            "label": "Afbeelding"
+          "type": "image_picker",
+          "id": "image",
+          "label": "Afbeelding"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Beschrijving",
+          "default": "Beschrijving van de winkel."
         }
       ]
     }
