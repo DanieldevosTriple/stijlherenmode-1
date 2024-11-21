@@ -67,7 +67,7 @@
           "settings": {
             "image": "shopify://shop_images/image2.png",
             "title": "Stijl Casual",
-            "button_link": "",
+            "button_link": "shopify://products/aeden-silver-tee",
             "button_text": "Learn More"
           }
         }
