@@ -406,7 +406,7 @@ slider-component.slider-component-full-width {
 }
 
 .slider-button-featured-products .icon {
-  height: 1.6rem;
+  height: 3rem;
 }
 
 .slider-button .icon {
@@ -437,4 +437,12 @@ slider-component.slider-component-full-width {
 
 .slider-button--prev:not([disabled]):hover .icon {
   transform: rotate(90deg) scale(1.1);
+}
+
+.svg-wrapper-arrow {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
 }
