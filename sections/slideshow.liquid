@@ -129,7 +129,7 @@
         {%- endif -%}
       </div>
       <div class="slideshow_wrapper page-width">
-        <h2 class="banner__heading">
+        <h2 class="banner__heading fits-in">
           {{ block.settings.heading }}
         </h2>
       </div>
@@ -196,6 +196,34 @@
 {%- if request.design_mode -%}
   <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
+
+<script>
+// EFI :-) Elixon Fits In trick by cyrex.tech guys
+// HTML EFI by CYREX.tech / CC BY
+const selector = ".elixon-fits-in";
+var watchList = Array.from(document.querySelectorAll(selector))
+    .map((el) => el.parentNode);
+
+const resize = function (watchEl) {
+    watchEl.querySelectorAll(':scope > ' + selector)
+	.forEach(function(el) {
+	    const scale = el.parentNode.clientWidth / el.clientWidth;
+	    el.style.setProperty("--efiScale", scale);
+	    // el.style.setProperty("--efiHeightReal", el.clientHeight + "px");          
+	    // el.style.setProperty("--efiHeightVisual", (el.clientHeight * scale) + "px");           
+	    el.style.setProperty("--efiHeightDiff", el.clientHeight * (scale - 1) + "px");       
+	});
+};
+
+const observer = new ResizeObserver(function (entries) {
+    for (let entry of entries) resize(entry.target);
+});
+
+watchList.forEach(function(el) {
+    resize(el);
+    observer.observe(el);
+});
+</script>
 
 {% schema %}
 {

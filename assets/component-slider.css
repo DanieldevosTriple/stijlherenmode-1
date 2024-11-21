@@ -23,6 +23,18 @@ slider-component.slider-component-full-width {
   }
 }
 
+
+.fits-in {
+  overflow: visible;
+  white-space: pre;
+  transform: scale(var(--efiScale, 1));
+  transform-origin: left top;
+  margin-bottom: calc(var(--efiHeightDiff, 0) + 2em); /* we add our own dynamic margin-bottom to compensate for 2D transfom: var(--efiDiff) */
+  box-sizing: border-box;
+  outline: 1px solid rgba(0, 255, 0, 0.2);
+  display: table; /* we need block that does not spread, like inline-block */
+}
+
 .slider__slide {
   --focus-outline-padding: 0.5rem;
   --shadow-padding-top: calc((var(--shadow-vertical-offset) * -1 + var(--shadow-blur-radius)) * var(--shadow-visible));
