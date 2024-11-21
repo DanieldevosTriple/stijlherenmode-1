@@ -7,7 +7,7 @@
       <h2 class="store-selector__title">{{ section.settings.title }}</h2>
       <ul class="store-selector__list">
         {% for block in section.blocks %}
-        <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ section.blocks[0].settings.image | file_url | split: '/files/' | join: '/files/' }}">
+        <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url }}">
           {{ block.settings.title }}
         </li>
         {% endfor %}
