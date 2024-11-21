@@ -397,6 +397,10 @@ slider-component.slider-component-full-width {
   justify-content: center;
 }
 
+.slider-button-featured-products:hover {
+  color: rgb(var(--color-foreground));
+}
+
 .slider-button:not([disabled]):hover {
   color: rgb(var(--color-foreground));
 }
@@ -407,6 +411,11 @@ slider-component.slider-component-full-width {
 
 .slider-button .icon {
   height: 0.6rem;
+}
+
+.slider-button-featured-products[disabled] .icon {
+  color: rgba(var(--color-foreground), 0.3);
+  cursor: not-allowed;
 }
 
 .slider-button[disabled] .icon {
