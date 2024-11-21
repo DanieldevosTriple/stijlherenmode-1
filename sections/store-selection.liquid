@@ -7,7 +7,7 @@
       <h2 class="store-selector__title">{{ section.settings.title }}</h2>
       <ul class="store-selector__list">
         {% for block in section.blocks %}
-        <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url }}">
+        <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url | replace: 'files/files', 'files' }}">
           {{ block.settings.title }}
         </li>
         {% endfor %}
@@ -87,9 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
           "default": "Amsterdam"
         },
         {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image"
+            "type": "image_picker",
+            "id": "image",
+            "label": "Afbeelding"
         }
       ]
     }
