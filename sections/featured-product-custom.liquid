@@ -1,0 +1,61 @@
+{% comment %} featured-product-custom.liquid {% endcomment %}
+
+{{ 'featured-product-custom.css' | asset_url | stylesheet_tag }}
+
+<section class="featured-product-custom page-width">
+  <div class="featured-product__wrapper">
+    <div class="featured-product__content">
+      <h2 class="featured-product__title">{{ section.settings.title }}</h2>
+      <p class="featured-product__description">{{ section.settings.description }}</p>
+      {% if section.settings.button_text != blank %}
+        <a href="{{ section.settings.button_link }}" class="featured-product__button">{{ section.settings.button_text }}</a>
+      {% endif %}
+    </div>
+    <div class="featured-product__image-wrapper">
+      <img src="{{ section.settings.featured_image | img_url: 'master' }}" alt="{{ section.settings.featured_image_alt }}" class="featured-product__image">
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Product Custom",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Featured Product"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Add a description of your featured product here."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "#"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": "Featured Image"
+    },
+    {
+      "type": "text",
+      "id": "featured_image_alt",
+      "label": "Featured Image Alt Text",
+      "default": "Featured Product Image"
+    }
+  ]
+}
+{% endschema %}
