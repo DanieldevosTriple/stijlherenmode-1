@@ -2672,6 +2672,7 @@ input[type='checkbox'] {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-transform: uppercase;
 }
 
 .header__icon span {
@@ -3000,6 +3001,7 @@ details[open] > .header__submenu {
   padding: 1.2rem;
   text-decoration: none;
   color: rgba(var(--color-foreground), 0.75);
+  text-transform: uppercase;
 }
 
 .header__menu-item:hover {
