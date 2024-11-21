@@ -24,7 +24,7 @@ slider-component.slider-component-full-width {
 }
 
 
-.fits-in {
+.elixon-fits-in {
   overflow: visible;
   white-space: pre;
   transform: scale(var(--efiScale, 1));
