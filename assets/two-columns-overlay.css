@@ -1,6 +1,6 @@
 .two-columns-overlay .grid {
     display: flex;
-    gap: 20px;
+    gap: 0px;
   }
   
   .image-overlay-block {
@@ -26,8 +26,7 @@
     left: 0; /* Perfectly aligned with the left edge */
     text-align: left;
     color: #ffffff;
-    background-color: rgba(0, 0, 0, 0.5); /* Optional: Adds background to enhance readability */
-    padding: 5px; /* Optional: Adds padding for better readability of the text */
+    padding: 0px; /* Optional: Adds padding for better readability of the text */
   }
   
   .image-overlay-block__title {
