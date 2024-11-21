@@ -33,7 +33,8 @@
   }
   
   .store-selector__item:hover::before,
-  .store-selector__item:hover::after {
+  .store-selector__item:hover::after
+  .store-selector__title {
     content: "⎯"; /* Subtle decoration */
     margin: 0 5px;
     font-size: 14px;
@@ -46,7 +47,8 @@
   }
   
   .store-selector__item.active::before,
-  .store-selector__item.active::after {
+  .store-selector__item.active::after
+  .store-selector__title {
     content: "⎯"; /* Subtle decoration */
     margin: 0 5px;
     font-size: 14px;

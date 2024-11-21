@@ -9,7 +9,7 @@
         {% for block in section.blocks %}
         <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url | replace: 'files/files', 'files' }}" data-description="{{ block.settings.description }}">
           <!-- Menu Title -->
-          {{ block.settings.title }}
+          <div class="store-selector__title>{{ block.settings.title }}</div>
           <!-- Description in a separate div -->
           <div class="store-selector__description">
             {{ block.settings.description }}
