@@ -1,10 +1,62 @@
 {{ 'featured-banner.css' | asset_url | stylesheet_tag }}
 
+<section class="featured-banner" style="height: {{ section.settings.banner_height }}px;">
+  <a href="{{ section.settings.link_to_collection | link }}" class="featured-banner__link" {% if section.settings.link_to_collection == blank %}style="pointer-events: none;"{% endif %}>
+    <div class="featured-banner__content">
+      <img src="{{ section.settings.image | image_url }}" alt="{{ section.settings.image_alt }}" class="featured-banner__image">
+      {% if section.settings.logo != blank %}
+        <img src="{{ section.settings.logo | image_url }}" alt="Banner Logo" class="featured-banner__logo">
+      {% endif %}
+    </div>
+  </a>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const banner = document.querySelector(".featured-banner");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          banner.classList.add("animate");
+        }
+      });
+    }, { threshold: 0.5 });
+    observer.observe(banner);
+  });
+</script>
+
 {% schema %}
 {
   "name": "Featured Banner",
-  "settings": [],
-  "blocks": [],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Alt Text for Image",
+      "default": "Featured Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (optional)"
+    },
+    {
+      "type": "url",
+      "id": "link_to_collection",
+      "label": "Link to Collection (optional)"
+    },
+    {
+      "type": "number",
+      "id": "banner_height",
+      "label": "Banner Height (px)",
+      "default": 500
+    }
+  ],
   "presets": [
     {
       "name": "Featured Banner",
