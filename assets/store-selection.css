@@ -28,8 +28,7 @@
   }
   
   .store-selector__item:hover {
-    background-color: #007ace; /* Bright hover color */
-    color: #fff;
+    color: #000;
     font-weight: bold;
   }
   
@@ -38,7 +37,7 @@
     content: "⎯"; /* Subtle decoration */
     margin: 0 5px;
     font-size: 14px;
-    color: #fff;
+    color: #000;
   }
   
   .store-selector__item.active {
@@ -66,7 +65,6 @@
     max-width: 100%;
     max-height: 400px; /* Limits image height */
     object-fit: cover;
-    border-radius: 10px;
   }
   
   .store-selector__message {
