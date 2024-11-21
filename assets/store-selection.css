@@ -3,7 +3,7 @@
   }
   
   .store-selector__menu {
-    margin-bottom: 30px; /* Increased spacing for better visual balance */
+    margin-bottom: 30px;
   }
   
   .store-selector__title {
@@ -18,57 +18,45 @@
   }
   
   .store-selector__item {
-    padding: 12px; /* Increased padding for better spacing */
-    margin-bottom: 10px; /* Consistent spacing */
+    padding: 12px;
+    margin-bottom: 10px;
     cursor: pointer;
     border-radius: 5px;
     transition: all 0.3s ease;
     text-align: left;
-    position: relative; /* Ensures the description can be positioned correctly */
+    position: relative;
   }
   
-  .store-selector__item:hover {
-    color: #000;
-    font-weight: bold;
+  /* Title with '--' decorations */
+  .store-selector__title-wrapper {
+    position: relative;
   }
   
-  .store-selector__item:hover::before,
-  .store-selector__item:hover::after
-  .store-selector__title {
-    content: "⎯"; /* Subtle decoration */
+  .store-selector__item:hover .store-selector__title-wrapper::before,
+  .store-selector__item:hover .store-selector__title-wrapper::after,
+  .store-selector__item.active .store-selector__title-wrapper::before,
+  .store-selector__item.active .store-selector__title-wrapper::after {
+    content: "⎯";
     margin: 0 5px;
     font-size: 14px;
     color: #000;
   }
   
-  .store-selector__item.active {
-    color: #000;
-    font-weight: bold;
-  }
-  
-  .store-selector__item.active::before,
-  .store-selector__item.active::after
-  .store-selector__title {
-    content: "⎯"; /* Subtle decoration */
-    margin: 0 5px;
-    font-size: 14px;
-    color: #000;
-  }
-  
-  .store-selector__item:focus {
-    color: #000;
+  .store-selector__title-wrapper::before,
+  .store-selector__title-wrapper::after {
+    content: ""; /* Default empty */
+    margin: 0;
   }
   
   /* Description styling */
   .store-selector__description {
-    color: #888; /* Light grey */
+    color: #888;
     font-size: 14px;
     line-height: 1.4;
-    margin-top: 5px; /* Add space above description */
-    display: none; /* Hidden by default */
+    margin-top: 5px;
+    display: none;
   }
   
-  /* Make description visible for active or hovered items */
   .store-selector__item:hover .store-selector__description,
   .store-selector__item.active .store-selector__description {
     display: block;
@@ -85,12 +73,7 @@
   .store-selector__image {
     width: auto;
     max-width: 100%;
-    max-height: 400px; /* Limits image height */
+    max-height: 400px;
     object-fit: cover;
-  }
-  
-  .store-selector__message {
-    font-size: 16px;
-    line-height: 1.5;
   }
   
