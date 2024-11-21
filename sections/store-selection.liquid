@@ -7,7 +7,7 @@
       <h2 class="store-selector__title">{{ section.settings.title }}</h2>
       <ul class="store-selector__list">
         {% for block in section.blocks %}
-        <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url }}">
+        <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ section.blocks[0].settings.image | file_url | split: '/files/' | join: '/files/' }}">
           {{ block.settings.title }}
         </li>
         {% endfor %}
@@ -18,7 +18,7 @@
     <div class="grid__item medium-up--two-thirds store-selector__content">
       <div class="store-selector__image-container">
         {% if section.blocks.size > 0 %}
-        <img class="store-selector__image" src="{{ section.blocks[0].settings.image | file_url | replace_first: '/files/files/', '/files/' }}" alt="Store Image">
+        <img class="store-selector__image" src="{{ section.blocks[0].settings.image | file_url | split: '/files/' | join: '/files/' }}" alt="Store Image">
         {% endif %}
       </div>
     </div>
