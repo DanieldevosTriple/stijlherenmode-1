@@ -31,12 +31,14 @@
   >
 
     <slider-component class="slider-mobile-gutter{% if show_mobile_slider == false %} page-width{% endif %} slider-component-desktop{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <div>
     <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %} collection__title--desktop-slider">
       {%- if section.settings.title != blank -%}
         <h2 class="title inline-richtext h2 {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           {{ section.settings.title }}
         </h2>
       {%- endif -%}
+    </div>
     </div>
       <div class="page-width slider-buttons">
           <button
