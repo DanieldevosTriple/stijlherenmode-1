@@ -389,6 +389,10 @@ slider-component.slider-component-full-width {
   color: rgb(var(--color-foreground));
 }
 
+.slider-button-featured-products .icon {
+  height: 1.6rem;
+}
+
 .slider-button .icon {
   height: 0.6rem;
 }
