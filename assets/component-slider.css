@@ -31,6 +31,8 @@ slider-component.slider-component-full-width {
   height: 100%; /* Pas aan naar behoefte */
   position: relative; /* Nodig voor absolute centrering */
   overflow: hidden; /* Zorg ervoor dat overbodige inhoud wordt verborgen indien nodig */
+  width: var(--page-width);
+  margin: 0px auto;
 }
 
 /* Het te schalen en te centreren element */
