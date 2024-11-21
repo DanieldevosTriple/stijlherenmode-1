@@ -2650,7 +2650,7 @@ input[type='checkbox'] {
 }
 
 .header__icon--cart {
-  min-width: 120px; /* Adjust based on your needs to ensure "Winkelwagen" fits */
+  min-width: 135px; /* Adjust based on your needs to ensure "Winkelwagen" fits */
 }
 
 .header__icon--search {
@@ -2673,6 +2673,7 @@ input[type='checkbox'] {
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
+  text-decoration: none;
 }
 
 .header__icon span {
