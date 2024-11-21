@@ -44,8 +44,8 @@
     font-weight: bold;
   }
 
-  .store-selector__item:active::before,
-  .store-selector__item:active::after {
+  .store-selector__item.active::before,
+  .store-selector__item.active::after {
     content: "⎯"; /* Subtle decoration */
     margin: 0 5px;
     font-size: 14px;
