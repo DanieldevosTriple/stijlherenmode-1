@@ -5,14 +5,19 @@
   
   .image-overlay-block {
     position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* Forces the block to be square */
   }
   
   .image-overlay-block__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-size: cover;
     background-position: center;
-    width: 100%;
-    height: 300px;
-    position: relative;
+    object-fit: cover; /* Ensures the image fits perfectly */
   }
   
   .image-overlay-block__content {
@@ -41,3 +46,4 @@
   .button:hover {
     background-color: #444;
   }
+  
