@@ -331,11 +331,23 @@ slider-component.slider-component-full-width {
   color: rgb(var(--color-foreground));
 }
 
+.collection__header {
+  display: flex;
+  justify-content: space-between; /* Titel links, knoppen rechts */
+  align-items: center; /* Verticaal centreren */
+  gap: 1rem; /* Optionele ruimte tussen de titel en knoppen */
+  margin-bottom: 1rem; /* Ruimte onder de header */
+}
+
+.collection__title {
+  flex-grow: 1; /* Laat de titel alle resterende ruimte gebruiken indien nodig */
+}
+
 .slider-buttons {
   display: flex;
-  align-items: center;
-  justify-content: right;
-}
+  align-items: center; /* Verticaal centreren van de knoppen en teller */
+  gap: 0.5rem; /* Ruimte tussen de knoppen en teller */
+}s
 
 @media screen and (min-width: 990px) {
   .slider:not(.slider--everywhere):not(.slider--desktop) + .slider-buttons {
