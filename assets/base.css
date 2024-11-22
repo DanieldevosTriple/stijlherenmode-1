@@ -1000,6 +1000,11 @@ summary::-webkit-details-marker {
   left: 50%;
 }
 
+.padding-button {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .subtitle {
   font-size: 1.8rem;
   line-height: calc(1 + 0.8 / var(--font-body-scale));
