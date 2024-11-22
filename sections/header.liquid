@@ -466,6 +466,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // Scrolling up
         header.classList.remove('hidden'); // Show the header
       }
+
+      // Reset logic when at the top
+      if (currentScrollPosition === 0) {
+        header.classList.remove('hidden'); // Ensure header is visible
+        updateHeaderTransparency(); // Reset header transparency
+        setLogoBasedOnBackground(); // Recheck logo visibility
+      }
     }
 
     lastScrollPosition = currentScrollPosition; // Update the last scroll position
