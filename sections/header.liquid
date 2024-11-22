@@ -458,7 +458,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentScrollPosition = window.scrollY;
 
     if (window.innerWidth > 750) {
-      // Only apply scrolling logic on desktop
       if (currentScrollPosition > lastScrollPosition) {
         // Scrolling down
         header.classList.add('hidden'); // Hide the header
@@ -467,10 +466,10 @@ document.addEventListener('DOMContentLoaded', function () {
         header.classList.remove('hidden'); // Show the header
       }
 
-      // Reset logic when at the top
       if (currentScrollPosition === 0) {
+        // Reset when scrolled to top
         header.classList.remove('hidden'); // Ensure header is visible
-        updateHeaderTransparency(); // Reset header transparency
+        updateHeaderTransparency(); // Reapply transparency
         setLogoBasedOnBackground(); // Recheck logo visibility
       }
     }
