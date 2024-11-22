@@ -994,6 +994,9 @@ summary::-webkit-details-marker {
   font-size: 16px;
   text-transform: uppercase;
   font-weight: 600;
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
 
 .subtitle {
