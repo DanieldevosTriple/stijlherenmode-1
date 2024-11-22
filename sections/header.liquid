@@ -162,6 +162,7 @@
         background-color: white;
         box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
         color: black;
+        transform: translateY(0);
     }
 
     .section-header.hidden {
@@ -416,7 +417,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to determine if the background color is light or dark
   function setLogoBasedOnBackground() {
-    const backgroundColor = window.getComputedStyle(document.body).backgroundColor;
+    const backgroundColor = window.getComputedStyle(header).backgroundColor;
     const isLightBackground = isLightColor(backgroundColor);
 
     if (isLightBackground) {
@@ -435,52 +436,39 @@ document.addEventListener('DOMContentLoaded', function () {
     return luminance > 0.5; // Light if luminance is greater than 0.5
   }
 
-  // Function to update header transparency
-  function updateHeaderTransparency() {
-    const isMobile = window.innerWidth <= 750;
-
-    if (isMobile) {
-      header.classList.remove('transparent'); // Always remove transparent for mobile
-      header.classList.add('solid'); // Force solid style for mobile
-      header.style.backgroundColor = 'white'; // Set white background
-    } else {
-      header.classList.remove('solid'); // Remove solid for desktop
-      header.classList.add('transparent'); // Apply transparency for desktop
-    }
-  }
-
   // Function to handle scroll behavior
   function handleScroll() {
     const currentScrollPosition = window.scrollY;
 
-    if (window.innerWidth > 750) {
-      if (currentScrollPosition === 0) {
-        // Reset when scrolled to top
-        header.classList.remove('hidden'); // Ensure header is visible
-        updateHeaderTransparency(); // Reapply transparency
-        setLogoBasedOnBackground(); // Recheck logo visibility
-      } else if (currentScrollPosition > lastScrollPosition) {
-        // Scrolling down
-        header.classList.add('hidden'); // Hide the header
-      } else {
-        // Scrolling up
-        header.classList.remove('hidden'); // Show the header
-      }
+    if (currentScrollPosition === 0) {
+      // At the top, set header to transparent
+      header.classList.remove('scrolled');
+      header.classList.remove('hidden');
+
+      // Wait for the transition to complete before updating logo
+      header.addEventListener('transitionend', function onTransitionEnd(event) {
+        if (event.propertyName === 'background-color') {
+          setLogoBasedOnBackground(); // Update the logo based on new background
+          header.removeEventListener('transitionend', onTransitionEnd);
+        }
+      });
+    } else if (currentScrollPosition > lastScrollPosition) {
+      // Scrolling down
+      header.classList.add('hidden'); // Hide the header
+    } else {
+      // Scrolling up
+      header.classList.remove('hidden'); // Show the header
+      header.classList.add('scrolled'); // Set to solid
     }
 
-    lastScrollPosition = currentScrollPosition; // Update the last scroll position
+    lastScrollPosition = currentScrollPosition; // Update last scroll position
   }
 
-  // Initial function calls
-  setLogoBasedOnBackground(); // Set logo based on initial background
-  updateHeaderTransparency(); // Set header transparency based on viewport size
+  // Initial setup
+  setLogoBasedOnBackground();
 
   // Event listeners
-  window.addEventListener('resize', function () {
-    setLogoBasedOnBackground(); // Recheck logo visibility
-    updateHeaderTransparency(); // Recheck header transparency
-  });
-
+  window.addEventListener('resize', setLogoBasedOnBackground); // Recheck logo on resize
   window.addEventListener('scroll', handleScroll); // Handle scroll behavior
 });
 </script>
