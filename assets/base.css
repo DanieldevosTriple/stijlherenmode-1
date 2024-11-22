@@ -974,7 +974,7 @@ summary::-webkit-details-marker {
   background-color: transparent;
   border: 2px solid;
   color: black;
-  padding: 10px 25px;
+  padding: 5px 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -987,7 +987,7 @@ summary::-webkit-details-marker {
   background-color: transparent;
   border: 2px solid white;
   color: white;
-  padding: 10px 25px;
+  padding: 5px 25px;
   transform: translate(-50%, -50%);
   text-align: center;
   text-decoration: none;
@@ -1004,7 +1004,7 @@ summary::-webkit-details-marker {
   background-color: transparent;
   border: 2px solid black;
   color: black;
-  padding: 10px 25px;
+  padding: 5px 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
