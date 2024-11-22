@@ -233,7 +233,7 @@ watchList.forEach(function(el) {
 </script>
 
 <script>
-function adjustTextColor(selector, parentSelector = null) {
+function adjustTextColorAndLogos(selector, parentSelector = null, logos = null) {
     document.querySelectorAll(selector).forEach(element => {
         // Bepaal de achtergrondkleur (van de parent als aangegeven, anders van het element zelf)
         const parent = parentSelector ? element.closest(parentSelector) : element.parentElement;
@@ -245,17 +245,35 @@ function adjustTextColor(selector, parentSelector = null) {
 
         // Pas de kleur aan: wit voor donkere achtergronden, zwart voor lichte achtergronden
         element.style.color = brightness > 128 ? 'black' : 'white';
+
+        // Optioneel: Wissel tussen logo's als die zijn meegegeven
+        if (logos) {
+            const [blackLogo, whiteLogo] = logos;
+            if (brightness > 128) {
+                blackLogo.style.display = "block";
+                whiteLogo.style.display = "none";
+            } else {
+                blackLogo.style.display = "none";
+                whiteLogo.style.display = "block";
+            }
+        }
     });
 }
 
 // Pas de kleur aan voor elixon-fits-in elementen
-adjustTextColor('.elixon-fits-in');
+adjustTextColorAndLogos('.elixon-fits-in');
 
 // Pas de kleur aan voor header menu items
-adjustTextColor('.header__menu-item');
+adjustTextColorAndLogos('.header__menu-item');
 
 // Pas de kleur aan voor cart-color
-adjustTextColor('.cart-color');
+adjustTextColorAndLogos('.cart-color');
+
+// Pas de logo's aan in de header
+const blackLogo = document.querySelector('.logo-black');
+const whiteLogo = document.querySelector('.logo-white');
+adjustTextColorAndLogos('.header__menu-item', '.header', [blackLogo, whiteLogo]);
+
 </script>
 
 {% schema %}
