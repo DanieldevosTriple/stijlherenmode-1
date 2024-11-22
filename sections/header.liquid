@@ -435,21 +435,17 @@ document.addEventListener('DOMContentLoaded', function () {
     return luminance > 0.5; // Light if luminance is greater than 0.5
   }
 
-  // Function to update header transparency, disabling it for mobile
+  // Function to update header transparency
   function updateHeaderTransparency() {
     const isMobile = window.innerWidth <= 750;
 
     if (isMobile) {
-      if (!header.classList.contains('solid')) {
-        header.classList.remove('transparent'); // Always remove transparent class for mobile
-        header.classList.add('solid'); // Add a solid class to prevent flickering
-        header.style.backgroundColor = 'white'; // Force solid white background
-      }
+      header.classList.remove('transparent'); // Always remove transparent for mobile
+      header.classList.add('solid'); // Force solid style for mobile
+      header.style.backgroundColor = 'white'; // Set white background
     } else {
-      if (header.classList.contains('solid')) {
-        header.classList.remove('solid'); // Remove solid class for desktop
-        header.classList.add('transparent'); // Apply transparency only for desktop
-      }
+      header.classList.remove('solid'); // Remove solid for desktop
+      header.classList.add('transparent'); // Apply transparency for desktop
     }
   }
 
@@ -458,19 +454,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentScrollPosition = window.scrollY;
 
     if (window.innerWidth > 750) {
-      if (currentScrollPosition > lastScrollPosition) {
-        // Scrolling down
-        header.classList.add('hidden'); // Hide the header
-      } else {
-        // Scrolling up
-        header.classList.remove('hidden'); // Show the header
-      }
-
       if (currentScrollPosition === 0) {
         // Reset when scrolled to top
         header.classList.remove('hidden'); // Ensure header is visible
         updateHeaderTransparency(); // Reapply transparency
         setLogoBasedOnBackground(); // Recheck logo visibility
+      } else if (currentScrollPosition > lastScrollPosition) {
+        // Scrolling down
+        header.classList.add('hidden'); // Hide the header
+      } else {
+        // Scrolling up
+        header.classList.remove('hidden'); // Show the header
       }
     }
 
