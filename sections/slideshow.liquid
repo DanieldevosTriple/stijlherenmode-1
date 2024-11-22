@@ -282,6 +282,11 @@ window.addEventListener('scroll', () => {
     const header = document.querySelector('.section-header');
     if (header) {
         checkHeaderColors();
+
+        // Controleer of helemaal naar boven is gescrold
+        if (window.scrollY === 0) {
+            checkHeaderColors();
+        }
     }
 });
 
@@ -289,6 +294,7 @@ window.addEventListener('scroll', () => {
 document.addEventListener('DOMContentLoaded', () => {
     checkHeaderColors();
 });
+
 </script>
 
 {% schema %}
