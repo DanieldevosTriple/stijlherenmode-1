@@ -45,6 +45,7 @@
       "settings": {
         "title": "Uitgelichte collectie",
         "collection": "nieuwe-collectie",
+        "view_all_style": "solid",
         "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 36
@@ -95,7 +96,7 @@
         "image": "shopify://shop_images/image.png",
         "image_alt": "Featured Banner",
         "link_to_collection": "",
-        "banner_height": 500
+        "banner_height": 400
       }
     },
     "store_selection_ygz9BV": {
