@@ -1002,8 +1002,8 @@ summary::-webkit-details-marker {
 
 .button-featured-product-custom {
   background-color: transparent;
-  border: 2px solid white;
-  color: white;
+  border: 2px solid black;
+  color: black;
   padding: 10px 25px;
   transform: translate(-50%, -50%);
   text-align: center;
