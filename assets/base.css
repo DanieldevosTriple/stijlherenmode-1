@@ -983,6 +983,11 @@ summary::-webkit-details-marker {
   font-weight: 600;
 }
 
+.button-two-blocks {
+  background-color: transparent;
+  border: 1px solid;
+}
+
 .subtitle {
   font-size: 1.8rem;
   line-height: calc(1 + 0.8 / var(--font-body-scale));
