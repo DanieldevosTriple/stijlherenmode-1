@@ -233,86 +233,78 @@ watchList.forEach(function(el) {
 </script>
 
 <script>
-function adjustTextColorAndLogos(selector, parentSelector = null, logos = null, reset = false) {
-    document.querySelectorAll(selector).forEach(element => {
-        // Bepaal de achtergrondkleur (van de parent als aangegeven, anders van het element zelf)
-        const parent = parentSelector ? element.closest(parentSelector) : element.parentElement;
+let lastScrollTop = 0;
 
-        if (reset) {
-            // Reset naar originele kleur
-            element.style.color = '';
-            if (logos) {
-                logos[0].style.display = "block"; // logo-black
-                logos[1].style.display = "none"; // logo-white
-            }
-            return;
+function adjustHeaderAppearance() {
+    const header = document.querySelector('.section-header');
+    const menuItems = document.querySelectorAll('.header__menu-item');
+    const cart = document.querySelector('.cart-color');
+    const blackLogo = document.querySelector('.logo-black');
+    const whiteLogo = document.querySelector('.logo-white');
+
+    if (!header) return;
+
+    // Check if the header is in "transparent" mode
+    const isTransparent = header.classList.contains('transparent');
+
+    // Function to calculate brightness
+    const calculateBrightness = (color) => {
+        const [r, g, b] = color.match(/\d+/g).map(Number);
+        return (r * 299 + g * 587 + b * 114) / 1000;
+    };
+
+    // Determine background color and brightness
+    const bgColor = window.getComputedStyle(header).backgroundColor;
+    const brightness = calculateBrightness(bgColor);
+
+    // Determine text color based on brightness
+    const textColor = brightness > 128 ? 'black' : 'white';
+
+    if (isTransparent) {
+        // Transparent header: Reset to original
+        menuItems.forEach(item => item.style.color = '');
+        if (cart) cart.style.color = '';
+        if (blackLogo) blackLogo.style.display = "block";
+        if (whiteLogo) whiteLogo.style.display = "none";
+    } else {
+        // Sticky header: Adjust based on brightness
+        menuItems.forEach(item => item.style.color = textColor);
+        if (cart) cart.style.color = textColor;
+
+        if (brightness > 128) {
+            if (blackLogo) blackLogo.style.display = "block";
+            if (whiteLogo) whiteLogo.style.display = "none";
+        } else {
+            if (blackLogo) blackLogo.style.display = "none";
+            if (whiteLogo) whiteLogo.style.display = "block";
         }
-
-        const bgColor = window.getComputedStyle(parent).backgroundColor;
-
-        // Haal RGB-waarden op en bereken de helderheid
-        const [r, g, b] = bgColor.match(/\d+/g).map(Number);
-        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-
-        // Pas de kleur aan: wit voor donkere achtergronden, zwart voor lichte achtergronden
-        element.style.color = brightness > 128 ? 'black' : 'white';
-
-        // Optioneel: Wissel tussen logo's als die zijn meegegeven
-        if (logos) {
-            if (brightness > 128) {
-                logos[0].style.display = "block"; // logo-black
-                logos[1].style.display = "none"; // logo-white
-            } else {
-                logos[0].style.display = "none"; // logo-black
-                logos[1].style.display = "block"; // logo-white
-            }
-        }
-    });
+    }
 }
 
-function checkHeaderColors() {
+function handleScroll() {
     const header = document.querySelector('.section-header');
     if (!header) return;
 
-    // Controleer of de header de "transparent" klasse heeft
-    const isTransparent = header.classList.contains('transparent');
+    const scrollTop = window.scrollY;
 
-    if (isTransparent) {
-        // Reset naar originele kleuren en logo's
-        adjustTextColorAndLogos('.header__menu-item', '.section-header', null, true);
-        adjustTextColorAndLogos('.cart-color', '.section-header', null, true);
-
-        const blackLogo = document.querySelector('.logo-black');
-        const whiteLogo = document.querySelector('.logo-white');
-        if (blackLogo && whiteLogo) {
-            adjustTextColorAndLogos('.header__menu-item', '.section-header', [blackLogo, whiteLogo], true);
-        }
+    if (scrollTop === 0) {
+        // At the top of the page, check header again
+        adjustHeaderAppearance();
+    } else if (scrollTop > lastScrollTop) {
+        // Scrolling down, menu hidden
+        header.classList.add('hidden');
     } else {
-        // Pas kleuren aan voor header__menu-item en cart-color
-        adjustTextColorAndLogos('.header__menu-item', '.section-header');
-        adjustTextColorAndLogos('.cart-color', '.section-header');
-
-        // Pas logo's aan in de header
-        const blackLogo = document.querySelector('.logo-black');
-        const whiteLogo = document.querySelector('.logo-white');
-        if (blackLogo && whiteLogo) {
-            adjustTextColorAndLogos('.header__menu-item', '.section-header', [blackLogo, whiteLogo]);
-        }
+        // Scrolling up, menu visible
+        header.classList.remove('hidden');
+        adjustHeaderAppearance();
     }
+
+    lastScrollTop = scrollTop;
 }
 
-// Voeg scroll event listener toe
-window.addEventListener('scroll', () => {
-    const header = document.querySelector('.section-header');
-    if (header) {
-        checkHeaderColors();
-    }
-});
-
-// Voer bij het laden ook een controle uit
-document.addEventListener('DOMContentLoaded', () => {
-    checkHeaderColors();
-});
+// Event listeners for page load and scroll
+window.addEventListener('scroll', handleScroll);
+document.addEventListener('DOMContentLoaded', adjustHeaderAppearance);
 </script>
 
 {% schema %}
