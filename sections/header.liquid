@@ -451,9 +451,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const currentScrollPosition = window.scrollY;
 
         if (currentScrollPosition === 0) {
-            // Bovenaan: header transparant maken
+            // Helemaal naar boven: header transparant maken en kleuren herberekenen
             header.classList.remove('scrolled');
             header.classList.remove('hidden');
+            adjustColorsAndLogos(); // Kleuren en logo's opnieuw berekenen
         } else if (currentScrollPosition > lastScrollPosition) {
             // Naar beneden scrollen: header verbergen
             header.classList.add('hidden');
@@ -462,9 +463,6 @@ document.addEventListener('DOMContentLoaded', function () {
             header.classList.remove('hidden');
             header.classList.add('scrolled');
         }
-
-        // Update de kleuren bij zichtbare header
-        adjustColorsAndLogos();
 
         lastScrollPosition = currentScrollPosition; // Laatste scrollpositie bijwerken
     }
