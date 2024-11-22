@@ -10,7 +10,6 @@
     width: 100%;
     gap: 20px;
     align-items: center; /* Vertically centers the content */
-    margin: 50px;
   }
   
   .featured-product__content {
