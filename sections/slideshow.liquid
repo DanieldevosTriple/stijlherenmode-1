@@ -260,20 +260,35 @@ function adjustTextColorAndLogos(selector, parentSelector = null, logos = null) 
     });
 }
 
-// Pas de kleur aan voor elixon-fits-in elementen
-adjustTextColorAndLogos('.elixon-fits-in');
+// Functie om headerkleuren opnieuw te berekenen
+function checkHeaderColors() {
+    const header = document.querySelector('.section-header');
+    if (!header) return;
 
-// Pas de kleur aan voor header menu items
-adjustTextColorAndLogos('.header__menu-item');
+    // Pas kleuren aan voor header__menu-item en cart-color
+    adjustTextColorAndLogos('.header__menu-item', '.section-header');
+    adjustTextColorAndLogos('.cart-color', '.section-header');
 
-// Pas de kleur aan voor cart-color
-adjustTextColorAndLogos('.cart-color');
+    // Pas logo's aan in de header
+    const blackLogo = document.querySelector('.logo-black');
+    const whiteLogo = document.querySelector('.logo-white');
+    if (blackLogo && whiteLogo) {
+        adjustTextColorAndLogos('.header__menu-item', '.section-header', [blackLogo, whiteLogo]);
+    }
+}
 
-// Pas de logo's aan in de header
-const blackLogo = document.querySelector('.logo-black');
-const whiteLogo = document.querySelector('.logo-white');
-adjustTextColorAndLogos('.header__menu-item', '.header', [blackLogo, whiteLogo]);
+// Voeg scroll event listener toe
+window.addEventListener('scroll', () => {
+    const header = document.querySelector('.section-header');
+    if (header) {
+        checkHeaderColors();
+    }
+});
 
+// Voer bij het laden ook een controle uit
+document.addEventListener('DOMContentLoaded', () => {
+    checkHeaderColors();
+});
 </script>
 
 {% schema %}
