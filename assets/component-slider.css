@@ -39,7 +39,6 @@ slider-component.slider-component-full-width {
   transform: scale(var(--efiScale, 1));
   font-weight: 700;
   box-sizing: border-box;
-  outline: 1px solid rgba(0, 255, 0, .2);
   display: table;
   color: white; /* Standaard tekstkleur */
 }

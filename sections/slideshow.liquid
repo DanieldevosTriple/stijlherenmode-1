@@ -233,16 +233,29 @@ watchList.forEach(function(el) {
 </script>
 
 <script>
-document.querySelectorAll('.elixon-fits-in').forEach(h2 => {
-    const bgColor = window.getComputedStyle(h2.parentElement).backgroundColor;
+function adjustTextColor(selector, parentSelector = null) {
+    document.querySelectorAll(selector).forEach(element => {
+        // Bepaal de achtergrondkleur (van de parent als aangegeven, anders van het element zelf)
+        const parent = parentSelector ? element.closest(parentSelector) : element.parentElement;
+        const bgColor = window.getComputedStyle(parent).backgroundColor;
 
-    // RGB-waarden ophalen en helderheid berekenen
-    const [r, g, b] = bgColor.match(/\d+/g).map(Number);
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // Haal RGB-waarden op en bereken de helderheid
+        const [r, g, b] = bgColor.match(/\d+/g).map(Number);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
 
-    // Pas de kleur aan: wit voor donkere achtergronden, zwart voor lichte achtergronden
-    h2.style.color = brightness > 128 ? 'black' : 'white';
-});
+        // Pas de kleur aan: wit voor donkere achtergronden, zwart voor lichte achtergronden
+        element.style.color = brightness > 128 ? 'black' : 'white';
+    });
+}
+
+// Pas de kleur aan voor elixon-fits-in elementen
+adjustTextColor('.elixon-fits-in');
+
+// Pas de kleur aan voor header menu items
+adjustTextColor('.header__menu-item');
+
+// Pas de kleur aan voor cart-color
+adjustTextColor('.cart-color');
 </script>
 
 {% schema %}
