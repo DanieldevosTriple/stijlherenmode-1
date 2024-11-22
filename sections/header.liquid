@@ -454,22 +454,17 @@ document.addEventListener('DOMContentLoaded', function () {
             // Bovenaan: header transparant maken
             header.classList.remove('scrolled');
             header.classList.remove('hidden');
-
-            // Wacht tot de transitie voltooid is voordat het logo wordt aangepast
-            header.addEventListener('transitionend', function onTransitionEnd(event) {
-                if (event.propertyName === 'background-color') {
-                    adjustColorsAndLogos();
-                    header.removeEventListener('transitionend', onTransitionEnd);
-                }
-            });
         } else if (currentScrollPosition > lastScrollPosition) {
-            // Naar beneden scrollen
-            header.classList.add('hidden'); // Header verbergen
+            // Naar beneden scrollen: header verbergen
+            header.classList.add('hidden');
         } else {
-            // Naar boven scrollen
-            header.classList.remove('hidden'); // Header tonen
-            header.classList.add('scrolled'); // Solid achtergrond instellen
+            // Naar boven scrollen: header tonen
+            header.classList.remove('hidden');
+            header.classList.add('scrolled');
         }
+
+        // Update de kleuren bij zichtbare header
+        adjustColorsAndLogos();
 
         lastScrollPosition = currentScrollPosition; // Laatste scrollpositie bijwerken
     }
