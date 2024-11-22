@@ -3,6 +3,8 @@
     flex-wrap: wrap;
     gap: 30px;
     margin: 0 auto;
+    padding-top: 80px;
+    padding-bottom: 80px;
   }
   
   .featured-product__wrapper {
