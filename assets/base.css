@@ -974,7 +974,7 @@ summary::-webkit-details-marker {
   background-color: transparent;/* Green */
   border: 1px solid;
   color: black;
-  padding: 15px 32px;
+  padding: 10px 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
