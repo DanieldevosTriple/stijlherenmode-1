@@ -233,10 +233,21 @@ watchList.forEach(function(el) {
 </script>
 
 <script>
-function adjustTextColorAndLogos(selector, parentSelector = null, logos = null) {
+function adjustTextColorAndLogos(selector, parentSelector = null, logos = null, reset = false) {
     document.querySelectorAll(selector).forEach(element => {
         // Bepaal de achtergrondkleur (van de parent als aangegeven, anders van het element zelf)
         const parent = parentSelector ? element.closest(parentSelector) : element.parentElement;
+
+        if (reset) {
+            // Reset naar originele kleur
+            element.style.color = '';
+            if (logos) {
+                logos[0].style.display = "block"; // logo-black
+                logos[1].style.display = "none"; // logo-white
+            }
+            return;
+        }
+
         const bgColor = window.getComputedStyle(parent).backgroundColor;
 
         // Haal RGB-waarden op en bereken de helderheid
@@ -248,32 +259,45 @@ function adjustTextColorAndLogos(selector, parentSelector = null, logos = null) 
 
         // Optioneel: Wissel tussen logo's als die zijn meegegeven
         if (logos) {
-            const [blackLogo, whiteLogo] = logos;
             if (brightness > 128) {
-                blackLogo.style.display = "block";
-                whiteLogo.style.display = "none";
+                logos[0].style.display = "block"; // logo-black
+                logos[1].style.display = "none"; // logo-white
             } else {
-                blackLogo.style.display = "none";
-                whiteLogo.style.display = "block";
+                logos[0].style.display = "none"; // logo-black
+                logos[1].style.display = "block"; // logo-white
             }
         }
     });
 }
 
-// Functie om headerkleuren opnieuw te berekenen
 function checkHeaderColors() {
     const header = document.querySelector('.section-header');
     if (!header) return;
 
-    // Pas kleuren aan voor header__menu-item en cart-color
-    adjustTextColorAndLogos('.header__menu-item', '.section-header');
-    adjustTextColorAndLogos('.cart-color', '.section-header');
+    // Controleer of de header de "transparent" klasse heeft
+    const isTransparent = header.classList.contains('transparent');
 
-    // Pas logo's aan in de header
-    const blackLogo = document.querySelector('.logo-black');
-    const whiteLogo = document.querySelector('.logo-white');
-    if (blackLogo && whiteLogo) {
-        adjustTextColorAndLogos('.header__menu-item', '.section-header', [blackLogo, whiteLogo]);
+    if (isTransparent) {
+        // Reset naar originele kleuren en logo's
+        adjustTextColorAndLogos('.header__menu-item', '.section-header', null, true);
+        adjustTextColorAndLogos('.cart-color', '.section-header', null, true);
+
+        const blackLogo = document.querySelector('.logo-black');
+        const whiteLogo = document.querySelector('.logo-white');
+        if (blackLogo && whiteLogo) {
+            adjustTextColorAndLogos('.header__menu-item', '.section-header', [blackLogo, whiteLogo], true);
+        }
+    } else {
+        // Pas kleuren aan voor header__menu-item en cart-color
+        adjustTextColorAndLogos('.header__menu-item', '.section-header');
+        adjustTextColorAndLogos('.cart-color', '.section-header');
+
+        // Pas logo's aan in de header
+        const blackLogo = document.querySelector('.logo-black');
+        const whiteLogo = document.querySelector('.logo-white');
+        if (blackLogo && whiteLogo) {
+            adjustTextColorAndLogos('.header__menu-item', '.section-header', [blackLogo, whiteLogo]);
+        }
     }
 }
 
