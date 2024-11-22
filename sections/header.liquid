@@ -409,67 +409,77 @@ window.addEventListener('resize', adjustHeadingFontSize);
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  const logoBlack = document.querySelector('.logo-black');
-  const logoWhite = document.querySelector('.logo-white');
-  const header = document.querySelector('.section-header');
+    const logoBlack = document.querySelector('.logo-black');
+    const logoWhite = document.querySelector('.logo-white');
+    const header = document.querySelector('.section-header');
+    const menuItems = document.querySelectorAll('.header__menu-item');
+    const cartColors = document.querySelectorAll('.cart-color');
 
-  let lastScrollPosition = 0; // Keep track of the last scroll position
+    let lastScrollPosition = 0;
 
-  // Function to determine if the background color is light or dark
-  function setLogoBasedOnBackground() {
-    const backgroundColor = window.getComputedStyle(header).backgroundColor;
-    const isLightBackground = isLightColor(backgroundColor);
-
-    if (isLightBackground) {
-      logoBlack.style.display = 'block';
-      logoWhite.style.display = 'none';
-    } else {
-      logoBlack.style.display = 'none';
-      logoWhite.style.display = 'block';
+    // Helperfunctie om te bepalen of een kleur licht of donker is
+    function isLightColor(color) {
+        const rgb = color.match(/\d+/g).map(Number);
+        const luminance = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+        return luminance > 0.5;
     }
-  }
 
-  // Helper function to calculate luminance
-  function isLightColor(color) {
-    const rgb = color.match(/\d+/g).map(Number); // Extract RGB values
-    const luminance = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
-    return luminance > 0.5; // Light if luminance is greater than 0.5
-  }
+    // Functie om tekstkleuren en logo's aan te passen op basis van de achtergrondkleur
+    function adjustColorsAndLogos() {
+        if (!header) return;
 
-  // Function to handle scroll behavior
-  function handleScroll() {
-    const currentScrollPosition = window.scrollY;
+        const backgroundColor = window.getComputedStyle(header).backgroundColor;
+        const isLightBackground = isLightColor(backgroundColor);
 
-    if (currentScrollPosition === 0) {
-      // At the top, set header to transparent
-      header.classList.remove('scrolled');
-      header.classList.remove('hidden');
-
-      // Wait for the transition to complete before updating logo
-      header.addEventListener('transitionend', function onTransitionEnd(event) {
-        if (event.propertyName === 'background-color') {
-          setLogoBasedOnBackground(); // Update the logo based on new background
-          header.removeEventListener('transitionend', onTransitionEnd);
+        // Logo aanpassen
+        if (isLightBackground) {
+            logoBlack.style.display = 'block';
+            logoWhite.style.display = 'none';
+        } else {
+            logoBlack.style.display = 'none';
+            logoWhite.style.display = 'block';
         }
-      });
-    } else if (currentScrollPosition > lastScrollPosition) {
-      // Scrolling down
-      header.classList.add('hidden'); // Hide the header
-    } else {
-      // Scrolling up
-      header.classList.remove('hidden'); // Show the header
-      header.classList.add('scrolled'); // Set to solid
+
+        // Tekstkleur van menu-items en winkelmand aanpassen
+        const textColor = isLightBackground ? 'black' : 'white';
+        menuItems.forEach(item => item.style.color = textColor);
+        cartColors.forEach(item => item.style.color = textColor);
     }
 
-    lastScrollPosition = currentScrollPosition; // Update last scroll position
-  }
+    // Functie voor scrollgedrag
+    function handleScroll() {
+        const currentScrollPosition = window.scrollY;
 
-  // Initial setup
-  setLogoBasedOnBackground();
+        if (currentScrollPosition === 0) {
+            // Bovenaan: header transparant maken
+            header.classList.remove('scrolled');
+            header.classList.remove('hidden');
 
-  // Event listeners
-  window.addEventListener('resize', setLogoBasedOnBackground); // Recheck logo on resize
-  window.addEventListener('scroll', handleScroll); // Handle scroll behavior
+            // Wacht tot de transitie voltooid is voordat het logo wordt aangepast
+            header.addEventListener('transitionend', function onTransitionEnd(event) {
+                if (event.propertyName === 'background-color') {
+                    adjustColorsAndLogos();
+                    header.removeEventListener('transitionend', onTransitionEnd);
+                }
+            });
+        } else if (currentScrollPosition > lastScrollPosition) {
+            // Naar beneden scrollen
+            header.classList.add('hidden'); // Header verbergen
+        } else {
+            // Naar boven scrollen
+            header.classList.remove('hidden'); // Header tonen
+            header.classList.add('scrolled'); // Solid achtergrond instellen
+        }
+
+        lastScrollPosition = currentScrollPosition; // Laatste scrollpositie bijwerken
+    }
+
+    // Initialisatie
+    adjustColorsAndLogos();
+
+    // Event listeners
+    window.addEventListener('resize', adjustColorsAndLogos); // Logo en kleuren opnieuw berekenen bij resize
+    window.addEventListener('scroll', handleScroll); // Scrollgedrag afhandelen
 });
 </script>
 
