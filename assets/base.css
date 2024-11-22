@@ -988,6 +988,7 @@ summary::-webkit-details-marker {
   border: 1px solid;
   color: black;
   padding: 10px 25px;
+  transform: translate(-50%, -50%);
   text-align: center;
   text-decoration: none;
   display: inline-block;
