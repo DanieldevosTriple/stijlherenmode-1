@@ -985,8 +985,8 @@ summary::-webkit-details-marker {
 
 .button-two-blocks {
   background-color: transparent;
-  border: 1px solid;
-  color: black;
+  border: 1px solid white;
+  color: white;
   padding: 10px 25px;
   transform: translate(-50%, -50%);
   text-align: center;
