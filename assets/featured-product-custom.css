@@ -24,6 +24,7 @@
   .featured-product__title {
     font-size: 2rem;
     font-weight: bold;
+    margin-bottom: 0px;
   }
   
   .featured-product__description {
