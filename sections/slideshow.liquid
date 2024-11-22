@@ -232,6 +232,19 @@ watchList.forEach(function(el) {
 });
 </script>
 
+<script>
+document.querySelectorAll('.elixon-fits-in').forEach(h2 => {
+    const bgColor = window.getComputedStyle(h2.parentElement).backgroundColor;
+
+    // RGB-waarden ophalen en helderheid berekenen
+    const [r, g, b] = bgColor.match(/\d+/g).map(Number);
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+    // Pas de kleur aan: wit voor donkere achtergronden, zwart voor lichte achtergronden
+    h2.style.color = brightness > 128 ? 'black' : 'white';
+});
+</script>
+
 {% schema %}
 {
   "name": "t:sections.slideshow.name",

@@ -42,7 +42,6 @@ slider-component.slider-component-full-width {
   outline: 1px solid rgba(0, 255, 0, .2);
   display: table;
   color: white; /* Standaard tekstkleur */
-  mix-blend-mode: difference; /* Zorgt voor contrast afhankelijk van de achtergrond */
 }
 
 .slider__slide {
