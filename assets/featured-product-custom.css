@@ -28,7 +28,7 @@
   
   .featured-product__description {
     font-size: 1.4rem;
-    margin-bottom: 35px;
+    margin-bottom: 35px 0px;
   }
   
   .featured-product__image-wrapper {
