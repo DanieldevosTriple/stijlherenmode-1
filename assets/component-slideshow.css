@@ -4,11 +4,6 @@ slideshow-component {
   flex-direction: column;
 }
 
-.elixon-fits-in h2 {
-  color: white; /* Standaard tekstkleur */
-  mix-blend-mode: difference;
-}
-
 slideshow-component .slideshow.banner {
   flex-direction: row;
   flex-wrap: nowrap;
