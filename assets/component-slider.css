@@ -41,6 +41,8 @@ slider-component.slider-component-full-width {
   box-sizing: border-box;
   outline: 1px solid rgba(0, 255, 0, .2);
   display: table;
+  color: white; /* Standaard tekstkleur */
+  mix-blend-mode: difference; /* Zorgt voor contrast afhankelijk van de achtergrond */
 }
 
 .slider__slide {
@@ -50,8 +52,6 @@ slider-component.slider-component-full-width {
   scroll-snap-align: start;
   flex-shrink: 0;
   padding-bottom: 0;
-  color: white; /* Standaard tekstkleur */
-  mix-blend-mode: difference; /* Zorgt voor contrast afhankelijk van de achtergrond */
 }
 
 @media screen and (max-width: 749px) {
