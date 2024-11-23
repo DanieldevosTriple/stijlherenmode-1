@@ -52,6 +52,12 @@ slideshow-component .slideshow.banner {
   object-position: center; 
 }
 
+.slideshow {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+
+
 .slideshow__slide {
   padding: 0;
   position: relative;
