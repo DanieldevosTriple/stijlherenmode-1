@@ -2061,12 +2061,12 @@ input[type='checkbox'] {
 }
 
 @media screen and (min-width: 990px) {
-  .utility-bar__grid--3-col {
+  .utility-bar__col-md-4 {
     grid-template-columns: 3fr 4fr 3fr;
     grid-template-areas: 'social-icons announcements language-currency';
   }
 
-  .utility-bar__grid--2-col {
+  .utility-bar__col-md-6 {
     grid-template-columns: 1fr 1fr;
     grid-template-areas: 'social-icons language-currency';
   }
