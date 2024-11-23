@@ -210,9 +210,9 @@ slider-component.slider-component-full-width {
   }
 
   .slider--desktop.grid--3-col-desktop .grid__item {
-    width: calc((100% - var(--desktop-margin-left-first-item)) / 3 - var(--grid-desktop-horizontal-spacing) * 5);
+    width: calc((100% - var(--desktop-margin-left-first-item) - (var(--grid-desktop-horizontal-spacing) * 2)) / 3);
   }
-
+  }
   .slider--desktop.grid--2-col-desktop .grid__item {
     width: calc((100% - var(--desktop-margin-left-first-item)) / 2 - var(--grid-desktop-horizontal-spacing) * 6);
   }
