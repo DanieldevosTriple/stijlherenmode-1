@@ -9,10 +9,8 @@
             <div class="image-overlay-block__image" 
                  style="background-image: url({{ block.settings.image | img_url: 'master' }}); background-size: cover; background-position: center;">
               
-              {% if block.settings.button_link != blank %}
-                <a href="{{ block.settings.button_link }}" class="image-overlay-block__button">
-                  {{ block.settings.button_text }}
-                </a>
+             {% if block.settings.button_link != blank %}
+                  <a href="{{ block.settings.button_link }}" class="button-two-blocks">{{ block.settings.button_text }}</a>
               {% endif %}
               
               <div class="image-overlay-block__content text-center">
