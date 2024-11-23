@@ -7,11 +7,15 @@
       <h2 class="store-selector__title">{{ section.settings.title }}</h2>
       <ul class="list-group store-selector__list">
         {% for block in section.blocks %}
-        <li class="list-group-item store-selector__item {% if forloop.first %}active{% endif %}" 
-            data-image="{{ block.settings.image | file_url | replace: 'files/files', 'files' }}" 
-            data-description="{{ block.settings.description }}">
-          <span class="store-selector__title-wrapper">{{ block.settings.title }}</span>
-          <div class="store-selector__description">{{ block.settings.description }}</div>
+        <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url | replace: 'files/files', 'files' }}" data-description="{{ block.settings.description }}">
+          <!-- Menu Title with '--' styling -->
+          <span class="store-selector__title-wrapper">
+            {{ block.settings.title }}
+          </span>
+          <!-- Description in a separate div -->
+          <div class="store-selector__description">
+            {{ block.settings.description }}
+          </div>
         </li>
         {% endfor %}
       </ul>
