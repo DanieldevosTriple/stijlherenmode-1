@@ -55,6 +55,10 @@
   .button:hover {
     background-color: #444;
   }
+
+  .col-md-6-no-padding {
+    padding: 0px !important;
+  }
   
   @media (max-width: 768px) {
     .two-columns-overlay .grid {
