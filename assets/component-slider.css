@@ -23,12 +23,6 @@ slider-component.slider-component-full-width {
   }
 }
 
-@media (min-width: 749px) and (max-width: 990px) {
-  .slider--tablet .slider__slide:first-child {
-    margin-left: var(--desktop-margin-left-first-item);
-    scroll-margin-left: var(--desktop-margin-left-first-item);
-  }
-}
 
 /* De container die het element .elixon-fits-in bevat */
 .slide-show-content {
