@@ -185,6 +185,9 @@
 }
 
 /* base */
+.no-padding {
+  padding: 0px;
+}
 
 .col-12 {
   max-width: var(--page-width);
