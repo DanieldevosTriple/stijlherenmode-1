@@ -1,16 +1,23 @@
 {{ 'featured-product-custom.css' | asset_url | stylesheet_tag }}
 
-<section class="featured-product-custom page-width">
-  <div class="featured-product__wrapper">
-    <div class="featured-product__content">
+<section class="featured-product-custom container py-5">
+  <div class="row align-items-center">
+    <!-- Content -->
+    <div class="col-md-6">
       <h2 class="featured-product__title">{{ section.settings.title }}</h2>
       <p class="featured-product__description">{{ section.settings.description }}</p>
       {% if section.settings.button_text != blank %}
-        <a href="{{ section.settings.button_link }}" class="button-featured-product-custom">{{ section.settings.button_text }}</a>
+        <a href="{{ section.settings.button_link }}" class="btn btn-primary mt-3">
+          {{ section.settings.button_text }}
+        </a>
       {% endif %}
     </div>
-    <div class="featured-product__image-wrapper">
-      <img src="{{ section.settings.featured_image | img_url: 'master' }}" alt="{{ section.settings.featured_image_alt }}" class="featured-product__image">
+
+    <!-- Image -->
+    <div class="col-md-6 text-center">
+      <img src="{{ section.settings.featured_image | img_url: 'master' }}" 
+           alt="{{ section.settings.featured_image_alt }}" 
+           class="img-fluid featured-product__image">
     </div>
   </div>
 </section>

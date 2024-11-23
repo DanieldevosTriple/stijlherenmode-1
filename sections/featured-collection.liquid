@@ -30,8 +30,8 @@
     data-id="{{ section.id }}"
   >
 
-    <slider-component class="slider-mobile-gutter{% if show_mobile_slider == false %} page-width{% endif %} slider-component-desktop{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-    <div class="collection__header page-width">
+    <slider-component class="slider-mobile-gutter col-12 slider-component-desktop{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <div class="collection__header col-12">
       <div class="collection__title title-wrapper--no-top-margin{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %} collection__title--desktop-slider">
         {%- if section.settings.title != blank -%}
           <h2 class="carouseltitle inline-richtext h2 {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
