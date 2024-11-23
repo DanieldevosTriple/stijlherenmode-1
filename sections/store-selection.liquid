@@ -1,36 +1,33 @@
 {{ 'store-selection.css' | asset_url | stylesheet_tag }}
 
-<section class="store-selector page-width">
-  <div class="grid">
+<section class="store-selector container py-5">
+  <div class="row">
     <!-- Left: Title and Vertical Menu -->
-    <div class="grid__item medium-up--one-third store-selector__menu">
+    <div class="col-md-4">
       <h2 class="store-selector__title">{{ section.settings.title }}</h2>
-      <ul class="store-selector__list">
+      <ul class="list-group store-selector__list">
         {% for block in section.blocks %}
-        <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url | replace: 'files/files', 'files' }}" data-description="{{ block.settings.description }}">
-          <!-- Menu Title with '--' styling -->
-          <span class="store-selector__title-wrapper">
-            {{ block.settings.title }}
-          </span>
-          <!-- Description in a separate div -->
-          <div class="store-selector__description">
-            {{ block.settings.description }}
-          </div>
+        <li class="list-group-item store-selector__item {% if forloop.first %}active{% endif %}" 
+            data-image="{{ block.settings.image | file_url | replace: 'files/files', 'files' }}" 
+            data-description="{{ block.settings.description }}">
+          <span class="store-selector__title-wrapper">{{ block.settings.title }}</span>
+          <div class="store-selector__description">{{ block.settings.description }}</div>
         </li>
         {% endfor %}
       </ul>
     </div>
 
     <!-- Right: Image and Message -->
-    <div class="grid__item medium-up--two-thirds store-selector__content">
+    <div class="col-md-8 text-center">
       <div class="store-selector__image-container">
         {% if section.blocks.size > 0 %}
-        <img class="store-selector__image" src="{{ section.blocks[0].settings.image | file_url }}" alt="Store Image">
+        <img class="img-fluid store-selector__image" src="{{ section.blocks[0].settings.image | file_url }}" alt="Store Image">
         {% endif %}
       </div>
     </div>
   </div>
 </section>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
