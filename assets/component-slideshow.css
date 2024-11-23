@@ -1,6 +1,5 @@
 slideshow-component {
   position: relative;
-  display: flex;
   flex-direction: column;
 }
 
