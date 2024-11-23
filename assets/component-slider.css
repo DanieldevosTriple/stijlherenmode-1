@@ -153,20 +153,10 @@ slider-component.slider-component-full-width {
 }
 
 @media screen and (min-width: 990px) {
-  .slider-component-desktop {
-    max-width: var(--page-width); /* Houd consistentie met andere secties */
-    margin: 0 auto; /* Centreer de carousel */
-    padding: 0 1.5rem; /* Zorg dat de padding hetzelfde is als .page-width */
+  .slider-component-desktop.page-width {
+    max-width: none;
   }
-  
-  .grid.product-grid {
-    display: grid; /* Zorg dat de grid consistent blijft */
-    grid-template-columns: repeat(3, 1fr); /* 3 kolommen op desktop */
-    gap: var(--grid-desktop-horizontal-spacing); /* Consistente tussenruimtes */
-    max-width: var(--page-width); /* Houd consistentie met de containerbreedte */
-    margin: 0 auto; /* Centreer de grid */
-  }
-  
+
   .slider--desktop {
     position: relative;
     flex-wrap: inherit;
