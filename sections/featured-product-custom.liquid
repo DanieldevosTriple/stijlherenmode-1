@@ -7,9 +7,7 @@
       <h2 class="featured-product__title">{{ section.settings.title }}</h2>
       <p class="featured-product__description">{{ section.settings.description }}</p>
       {% if section.settings.button_text != blank %}
-        <a href="{{ section.settings.button_link }}" class="btn btn-primary mt-3">
-          {{ section.settings.button_text }}
-        </a>
+        <a href="{{ section.settings.button_link }}" class="button-featured-product-custom">{{ section.settings.button_text }}</a>
       {% endif %}
     </div>
 
