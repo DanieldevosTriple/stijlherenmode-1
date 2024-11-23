@@ -415,3 +415,12 @@ slider-component.slider-component-full-width {
   width: 30px;
   height: 30px;
 }
+
+ul {
+  display: flex; /* Flexbox activeren */
+  flex-wrap: wrap; /* Items naar een nieuwe regel laten springen indien nodig */
+  gap: 1rem; /* Ruimte tussen items */
+  padding: 0; /* Padding verwijderen */
+  margin: 0; /* Marges verwijderen */
+  list-style-type: none; /* Verwijder bullet points */
+}
