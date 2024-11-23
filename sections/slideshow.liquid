@@ -64,7 +64,7 @@
   {%- endif -%}
 
  <div
-  class="slideshow banner banner--adapt_image grid grid--1-col slider slider--everywhere {% if section.blocks.first.settings.image == blank %} slideshow--placeholder{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  class="slideshow banner banner--adapt_image grid col-12 slider slider--everywhere {% if section.blocks.first.settings.image == blank %} slideshow--placeholder{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
   id="Slider-{{ section.id }}"
   aria-live="polite"
   aria-atomic="true"
@@ -78,7 +78,7 @@
       }
     </style>
     <div
-      class="slideshow__slide grid__item grid--1-col slider__slide"
+      class="slideshow__slide grid__item col-12 slider__slide"
       id="Slide-{{ section.id }}-{{ forloop.index }}"
       {{ block.shopify_attributes }}
       role="group"
