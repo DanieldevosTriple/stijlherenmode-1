@@ -186,7 +186,7 @@
 
 /* base */
 .no-padding {
-  padding: 0px;
+  padding: 0px !important;
 }
 
 .col-12 {
