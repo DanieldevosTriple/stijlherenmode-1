@@ -54,7 +54,7 @@ slider-component.slider-component-full-width {
 }
 
 @media screen and (max-width: 749px) {
-  .slider.slider--mobile {
+  .slider--mobile {
     position: relative;
     flex-wrap: inherit;
     overflow-x: auto;
@@ -154,6 +154,12 @@ slider-component.slider-component-full-width {
 }
 
 @media screen and (min-width: 990px) {
+
+  .container-desktop {
+    padding-left: 17.5rem;
+    padding-right: 17.5rem;
+  }
+
   .slider-component-desktop.page-width {
     max-width: none;
   }
