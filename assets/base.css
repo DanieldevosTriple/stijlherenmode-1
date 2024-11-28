@@ -1048,8 +1048,8 @@ summary::-webkit-details-marker {
 }
 
 .padding-button {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 5rem;
+  padding-bottom: 10rem;
 }
 
 .subtitle {
