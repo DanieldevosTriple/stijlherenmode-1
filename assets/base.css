@@ -202,7 +202,7 @@
 
 @media screen and (min-width: 990px) {
 
-.container-desktop {
+.col12.container-desktop {
   padding-left: 17.5rem;
   padding-right: 17.5rem;
 }
