@@ -200,6 +200,23 @@
   overflow: hidden;
 }
 
+@media screen and (min-width: 990px) {
+
+.container-desktop {
+  padding-left: 17.5rem;
+  padding-right: 17.5rem;
+}
+
+.container-desktop-left-padding {
+  padding-left: 17.5rem;
+}
+
+.container-desktop-right-padding {
+  padding-right: 17.5rem;
+}
+
+}
+
 .col-12 {
   max-width: var(--page-width);
 }
