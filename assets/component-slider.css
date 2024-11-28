@@ -158,10 +158,10 @@ slider-component.slider-component-full-width {
     max-width: none;
   }
 
-  .slider--desktop {
+  .slider-desktop {
     position: relative;
     flex-wrap: inherit;
-    overflow-x: auto;
+    overflow-x: visible;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
