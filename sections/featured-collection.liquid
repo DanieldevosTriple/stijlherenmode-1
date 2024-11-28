@@ -30,7 +30,7 @@
     data-id="{{ section.id }}"
   >
 
-    <slider-component class="slider-mobile-gutter col-12 slider-component-desktop{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <slider-component class="col-12 slider-collection{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
     <div class="collection__header col-12">
       <div class="collection__title title-wrapper--no-top-margin{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %} collection__title--desktop-slider">
         {%- if section.settings.title != blank -%}
@@ -75,7 +75,7 @@
         {%- for product in section.settings.collection.products limit: 10 -%}
           <li
             id="Slide-{{ section.id }}-{{ forloop.index }}"
-            class="col-12 col-sm-6 col-lg-4 no-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            class="slider-item col-12 col-sm-6 col-lg-4 no-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
             {% if settings.animations_reveal_on_scroll %}
               data-cascade
               style="--animation-order: {{ forloop.index }};"
@@ -96,7 +96,7 @@
         {%- else -%}
           {%- for i in (1..3) -%}
             <li
-              class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              class="slider-item grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
               {% if settings.animations_reveal_on_scroll %}
                 data-cascade
                 style="--animation-order: {{ forloop.index }};"
