@@ -189,21 +189,18 @@
   padding: 0px !important;
 }
 
+.container {
+  padding: 16px; /* Basis padding voor kleinere schermen */
+  max-width: 1200px; /* Om de site niet te breed te maken */
+  margin: 0 auto; /* Center de container */
+}
+
 .col-12 {
   max-width: var(--page-width);
 }
 
 .col-12-full-width {
   width: 100%;
-}
-
-.not-full-screen {
-  padding-left: 2.5rem !important;
-  padding-right: 2.5rem;
-}
-
-.carousel-overflow {
-  padding-right: 0rem !important;
 }
 
 body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
