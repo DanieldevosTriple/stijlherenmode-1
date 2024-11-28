@@ -197,6 +197,15 @@
   width: 100%;
 }
 
+.not-full-screen {
+  padding-left: 2rem !important;
+  padding-right: 2rem;
+}
+
+.carousel-overflow {
+  padding-right: 0rem !important;
+}
+
 body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   max-width: 100%;
 }
