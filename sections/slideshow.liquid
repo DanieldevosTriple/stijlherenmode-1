@@ -78,7 +78,7 @@
       }
     </style>
     <div
-      class="slideshow__slide grid__item col-12 slider__slide"
+      class="slideshow__slide grid__item col-12 slider__slide container-desktop"
       id="Slide-{{ section.id }}-{{ forloop.index }}"
       {{ block.shopify_attributes }}
       role="group"
@@ -204,7 +204,7 @@ var watchList = Array.from(document.querySelectorAll(selector))
     .map((el) => el.parentNode);
 
 // Stel een maximale schaal in
-const maxScale = 8.236263736263735; // Stel de maximale schaal in, bijvoorbeeld 2x de originele grootte
+const maxScale = 100; // Stel de maximale schaal in, bijvoorbeeld 2x de originele grootte
 
 // Functie die de schaal instelt op basis van de breedte van de ouder
 const resize = function (watchEl) {
