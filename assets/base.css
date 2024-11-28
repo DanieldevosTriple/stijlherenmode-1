@@ -189,7 +189,7 @@
   padding: 0px !important;
 }
 
-.container {
+.container-stijl {
   padding: 16px; /* Basis padding voor kleinere schermen */
   max-width: 1600px; /* Om de site niet te breed te maken */
   margin: 0 auto; /* Center de container */
