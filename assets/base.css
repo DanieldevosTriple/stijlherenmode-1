@@ -3316,9 +3316,9 @@ details-disclosure > details {
     opacity: 0.01;
   }
 
-  /*.scroll-trigger.animate--slide-in {
+  .scroll-trigger.animate--slide-in {
     transform: translateY(2rem);
-  } */
+  }
 
   .scroll-trigger:not(.scroll-trigger--offscreen).animate--fade-in {
     opacity: 1;
