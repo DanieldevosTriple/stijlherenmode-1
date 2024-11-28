@@ -8,6 +8,18 @@
     width: 100%;
     padding-bottom: 100%; /* Forces the block to be square */
   }
+
+@media (min-width: 1200px) {
+
+  .image-overlay-block:nth-child(1) .image-overlay-block__title {
+    padding-left: 17.5rem; /* Pas de waarde aan naar jouw voorkeur */
+  }
+  
+  .image-overlay-block:nth-child(2) .image-overlay-block__title {
+    padding-right: 17.5rem; /* Pas de waarde aan naar jouw voorkeur */
+  }
+
+}
   
   .image-overlay-block__image {
     position: absolute;
