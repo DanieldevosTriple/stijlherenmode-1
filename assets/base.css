@@ -196,6 +196,10 @@
   overflow: hidden;
 }
 
+.container-general {
+  overflow: hidden;
+}
+
 .col-12 {
   max-width: var(--page-width);
 }
