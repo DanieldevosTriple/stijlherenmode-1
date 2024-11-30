@@ -122,6 +122,8 @@
 .footer__column {
   width: 100%;
   align-items: flex-end;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .footer__column--info {
