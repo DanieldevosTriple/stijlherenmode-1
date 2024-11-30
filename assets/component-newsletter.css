@@ -45,8 +45,7 @@
   margin: 0;
   right: var(--inputs-border-width);
   top: 0;
-  z-index: 2;
-  border: none;
+  border: 1px solid #fff;
 }
 
 .newsletter-form__button:focus-visible {
@@ -66,4 +65,8 @@
 
 .newsletter-form__button .icon {
   width: 1.5rem;
+}
+
+.newsletter-form__field {
+  border: 1px solid #fff;
 }
