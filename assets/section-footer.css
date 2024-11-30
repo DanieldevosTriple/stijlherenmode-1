@@ -43,6 +43,17 @@
   text-decoration: underline; /* Optioneel: voegt onderstreping toe bij hover */
 }
 
+/* Verberg de toggle knoppen op tablet en desktop */
+@media (min-width: 768px) {
+  .footer__toggle {
+    display: none;
+  }
+
+  .footer__menu {
+    display: block !important;
+  }
+}
+
 @media screen and (max-width: 749px) {
   .footer {
     padding-left: 15px !important;

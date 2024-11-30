@@ -117,25 +117,48 @@
   document.addEventListener('DOMContentLoaded', function () {
     const toggles = document.querySelectorAll('.footer__toggle');
   
-    toggles.forEach((toggle) => {
-      toggle.addEventListener('click', function () {
-        const menu = this.parentElement.nextElementSibling;
-        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+    function handleToggle() {
+      const menu = this.parentElement.nextElementSibling;
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
   
-        // Toggle de aria-expanded status
-        this.setAttribute('aria-expanded', !isExpanded);
+      // Toggle de aria-expanded status
+      this.setAttribute('aria-expanded', !isExpanded);
   
-        // Toggle de hidden status van het menu
-        if (isExpanded) {
+      // Toggle de hidden status van het menu
+      if (isExpanded) {
+        menu.hidden = true;
+      } else {
+        menu.hidden = false;
+      }
+  
+      // Toggle de extra klasse voor styling
+      menu.classList.toggle('footer__menu--expanded');
+    }
+  
+    function toggleHandler() {
+      const screenWidth = window.innerWidth;
+  
+      toggles.forEach((toggle) => {
+        const menu = toggle.parentElement.nextElementSibling;
+  
+        if (screenWidth < 768) {
+          toggle.style.display = 'inline-block';
+          toggle.removeEventListener('click', handleToggle); // Verwijder eerdere event
+          toggle.addEventListener('click', handleToggle);
           menu.hidden = true;
         } else {
+          toggle.style.display = 'none';
+          toggle.removeEventListener('click', handleToggle); // Geen toggle functionaliteit
           menu.hidden = false;
         }
-  
-        // Toggle de extra klasse voor styling
-        menu.classList.toggle('footer__menu--expanded');
       });
-    });
+    }
+  
+    // Initiele check
+    toggleHandler();
+  
+    // Hercontroleer bij schermgrootte verandering
+    window.addEventListener('resize', toggleHandler);
   });  
 </script>
 
