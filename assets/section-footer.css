@@ -127,6 +127,10 @@
     padding-left: 15px;
   }
 
+  .footer__content-top {
+    display: block;
+  }
+
 }
 
 .footer__column {
