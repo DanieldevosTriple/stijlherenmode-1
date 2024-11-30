@@ -44,6 +44,11 @@
 }
 
 @media screen and (max-width: 749px) {
+  .footer {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+
   .footer .grid {
     display: block;
   }
@@ -95,8 +100,16 @@
     display: block;
     padding-right: 15px;
     padding-left: 15px;
-    padding-top: 10rem;
+    padding-top: 5rem;
     padding-bottom: 0rem;
+  }
+
+  .footer__copyright {
+    order: 2;
+  }
+
+  .footer__payment {
+    order: 1;
   }
 
 }
