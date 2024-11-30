@@ -98,4 +98,5 @@
 .footer-block__heading {
   text-transform: uppercase;
   color: white;
+  text-align: left;
 }
