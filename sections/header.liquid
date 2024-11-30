@@ -424,6 +424,14 @@ window.addEventListener('resize', adjustHeadingFontSize);
       function adjustColorsAndLogos() {
           if (!header) return;
   
+          if (window.innerWidth <= 750) {
+              // Altijd zwart logo voor kleinere schermen
+              logoBlack.style.display = 'block';
+              logoWhite.style.display = 'none';
+              return;
+          }
+  
+          // Dynamische kleur aanpassing voor grotere schermen
           const backgroundColor = window.getComputedStyle(header).backgroundColor;
           const isLightBackground = isLightColor(backgroundColor);
   
@@ -472,7 +480,9 @@ window.addEventListener('resize', adjustHeadingFontSize);
               window.addEventListener('resize', onResize); // Event listener voor resize
               window.addEventListener('scroll', handleScroll); // Scrollgedrag afhandelen
           } else {
-              cleanup(); // Verwijder event listeners als de breedte kleiner is
+              // Voor apparaten kleiner dan 750px: zwart logo forceren
+              adjustColorsAndLogos();
+              cleanup(); // Verwijder onnodige event listeners
           }
       }
   
