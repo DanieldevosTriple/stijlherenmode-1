@@ -44,3 +44,8 @@
     object-fit: cover;
   }
   
+  .featured-product-text {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
