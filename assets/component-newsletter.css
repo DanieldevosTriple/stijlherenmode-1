@@ -71,7 +71,6 @@
   position: relative;
   width: 100%;
   display: flex;
-  transition: box-shadow var(--duration-short) ease;
   border: 1px solid #fff;
 }
 
