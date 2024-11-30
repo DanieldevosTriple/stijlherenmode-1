@@ -43,7 +43,7 @@
             {%- if block.settings.heading != blank -%}
               <h2 class="footer-block__heading">{{ block.settings.heading }}</h2>
             {%- endif -%}
-            <ul class="list-unstyled">
+            <ul class="footer__menu">
               {%- for link in linklists[section.settings.menu_1].links -%}
                 <li>
                   <a href="{{ link.url }}" class="link">{{ link.title }}</a>
@@ -63,7 +63,7 @@
             {%- if block.settings.heading != blank -%}
               <h3 class="footer-block__heading">{{ block.settings.heading }}</h3>
             {%- endif -%}
-            <ul class="list-unstyled">
+            <ul class="footer__menu">
               {%- for link in linklists[section.settings.menu_2].links -%}
                 <li>
                   <a href="{{ link.url }}" class="link">{{ link.title }}</a>

@@ -13,6 +13,10 @@
   display: block;
 }
 
+.footer__menu {
+  color: #fff;
+}
+
 @media screen and (max-width: 749px) {
   .footer .grid {
     display: block;
