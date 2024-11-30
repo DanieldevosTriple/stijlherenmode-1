@@ -27,7 +27,7 @@
   }
 {%- endstyle -%}
 
-<footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding container-desktop">
+<footer class="footer row color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding container-desktop">
   {%- liquid
     assign has_social_icons = true
     if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
@@ -51,7 +51,7 @@
     {%- unless only_empty_brand -%}
 
       <div
-        class="footer-block--newsletter col-xs-12 col-md-5 col-lg-5{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        class="footer-block--newsletter col-xs-12 col-md-7 col-lg-7{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
         {% if settings.animations_reveal_on_scroll %}
           data-cascade
         {% endif %}
@@ -128,7 +128,7 @@
         {%- endif -%}
       </div>
 
-      <div class="footer__content-top row">
+      <div class="footer__content-top col-xs-12 col-md-5 col-lg-5">
         {%- if section.blocks.size > 0 -%}
           {%- liquid
             if section.blocks.size == 9
