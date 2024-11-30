@@ -41,12 +41,12 @@
 }
 
 .newsletter-form__button {
-  width: 4.4rem;
+  width: 20rem;
   margin: 0;
   right: var(--inputs-border-width);
   top: 0;
-  height: 100%;
   z-index: 2;
+  border: none;
 }
 
 .newsletter-form__button:focus-visible {
