@@ -10,7 +10,7 @@
 
 .footer__content-top {
   padding-bottom: 5rem;
-  display: block;
+  display: flex;
 }
 
 .footer__menu .link {
