@@ -93,6 +93,7 @@
       "type": "featured-banner",
       "settings": {
         "image": "shopify://shop_images/image.png",
+        "mobile_image": "shopify://shop_images/image_31d8a3b3-b22d-4f72-b5fc-9a96fd15ff99.png",
         "image_alt": "Featured Banner",
         "logo": "shopify://shop_images/logo-black_c5193df7-2700-4cb5-972d-04667f2a7de1.svg",
         "link_to_collection": "",
