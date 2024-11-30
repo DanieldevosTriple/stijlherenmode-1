@@ -136,7 +136,7 @@ product-info {
   font-size: 1.2rem;
   line-height: calc(1 + 0.5 / var(--font-body-scale));
   letter-spacing: 0.05rem;
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 0.3rem;
 }
 
@@ -1171,7 +1171,7 @@ a.product__text {
 }
 
 .product__view-details:hover {
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 0.3rem;
 }
 

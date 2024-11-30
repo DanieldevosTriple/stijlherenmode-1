@@ -162,7 +162,7 @@
 }
 
 .card__information-volume-pricing-note--button:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .card__information-volume-pricing-note--button + .global-settings-popup.quantity-popover__info {
@@ -403,7 +403,7 @@
   }
 
   .underline-links-hover:hover a {
-    text-decoration: underline;
+    text-decoration: none;
     text-underline-offset: 0.3rem;
   }
 }

@@ -320,7 +320,7 @@ quick-order-list-remove-button:hover .icon-remove {
 }
 
 .quick-order-list-total__info quick-order-list-remove-all-button:hover {
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 0.3rem;
 }
 

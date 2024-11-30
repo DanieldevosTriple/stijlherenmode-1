@@ -99,7 +99,7 @@ variant-selects {
 
 @media screen and (forced-colors: active) {
   .product-form__input--pill input[type='radio']:checked + label {
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   .product-form__input--pill input[type='radio']:focus-visible + label {

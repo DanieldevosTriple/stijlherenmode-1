@@ -40,7 +40,7 @@
 
 .footer__menu .link:hover {
   color: #ccc; /* Optioneel: een lichtere kleur bij hover */
-  text-decoration: underline; /* Optioneel: voegt onderstreping toe bij hover */
+  text-decoration: none; /* Optioneel: voegt onderstreping toe bij hover */
 }
 
 /* Verberg de toggle knoppen op tablet en desktop */
@@ -458,7 +458,7 @@
   .footer-block__details-content .list-menu__item--link:hover,
   .copyright__content a:hover {
     color: rgb(var(--color-foreground));
-    text-decoration: underline;
+    text-decoration: none;
     text-underline-offset: 0.3rem;
   }
 

@@ -52,7 +52,7 @@ quantity-popover quick-order-list-remove-button .button {
 }
 
 .quantity-popover__info-button--open {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .quantity-popover__info-button span {

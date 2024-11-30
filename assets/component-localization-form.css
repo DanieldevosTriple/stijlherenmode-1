@@ -352,7 +352,7 @@
 }
 
 .header-localization .disclosure .localization-form__select:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .header-localization .localization-form__select.link:after,
