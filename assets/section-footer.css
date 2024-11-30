@@ -66,8 +66,6 @@
   .footer__content-bottom {
     flex-wrap: wrap;
     padding-top: 0;
-    padding-left: 0;
-    padding-right: 0;
     row-gap: 1.5rem;
   }
 
