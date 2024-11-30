@@ -200,6 +200,11 @@
   overflow: hidden;
 }
 
+.shopify-section {
+  padding-top: 15rem;
+  padding-bottom: 15rem;
+}
+
 @media screen and (min-width: 990px) {
 
 .container-desktop {
