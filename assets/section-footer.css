@@ -1,6 +1,7 @@
 .footer {
   border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
   background-color: black;
+  margin-top: 15rem;
 }
 
 .footer:not(.color-scheme-1) {
