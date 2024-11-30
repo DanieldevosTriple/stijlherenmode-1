@@ -84,3 +84,7 @@
   font-size: 1.5rem;
   border-style: none;
 }
+
+.newsletter-form__field-input:focus-visible {
+  box-shadow: none;
+}
