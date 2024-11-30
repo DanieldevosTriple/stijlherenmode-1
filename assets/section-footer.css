@@ -35,6 +35,7 @@
   text-align: left;
   text-transform: uppercase;
   font-weight: 600;
+  padding-top: 1rem;
 }
 
 .footer__menu .link:hover {
