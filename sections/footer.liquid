@@ -33,67 +33,71 @@
   {%- endif -%}
 
   <!-- Content Section -->
-  <div class="footer__content-top col-xs-12 col-md-5 col-lg-5">
-    <!-- Column 1 -->
-    <div class="footer__column col-xs-12 col-md-6 col-lg-6">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'link_list' and forloop.first -%}
-          <div class="footer-block footer-block--menu">
-            {%- if block.settings.heading != blank -%}
-              <h2 class="footer-block__heading">{{ block.settings.heading }}</h2>
-            {%- endif -%}
-            <ul class="footer__menu">
-              {%- for link in linklists[section.settings.menu_1].links -%}
-                <li>
-                  <a href="{{ link.url }}" class="link">{{ link.title }}</a>
-                </li>
-              {%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
-
-    <!-- Column 2 -->
-    <div class="footer__column col-xs-12 col-md-6 col-lg-6">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'link_list' and forloop.index == 2 -%}
-          <div class="footer-block footer-block--menu">
-            {%- if block.settings.heading != blank -%}
-              <h3 class="footer-block__heading">{{ block.settings.heading }}</h3>
-            {%- endif -%}
-            <ul class="footer__menu">
-              {%- for link in linklists[section.settings.menu_2].links -%}
-                <li>
-                  <a href="{{ link.url }}" class="link">{{ link.title }}</a>
-                </li>
-              {%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-
-      {%- if section.settings.show_social -%}
-        <div class="footer-block footer-block--social">
-          {%- render 'social-icons', class: 'footer__list-social' -%}
+<div class="footer__content-top col-xs-12 col-md-5 col-lg-5">
+  <!-- Column 1 -->
+  <div class="footer__column col-xs-12 col-md-6 col-lg-6">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'link_list' and forloop.first -%}
+        <div class="footer-block footer-block--menu">
+          {%- if block.settings.heading != blank -%}
+            <h2 class="footer-block__heading">{{ block.settings.heading }}</h2>
+          {%- else -%}
+            <h2 class="footer-block__heading">{{ linklists[section.settings.menu_1].title }}</h2>
+          {%- endif -%}
+          <ul class="footer__menu">
+            {%- for link in linklists[section.settings.menu_1].links -%}
+              <li>
+                <a href="{{ link.url }}" class="link">{{ link.title }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
         </div>
       {%- endif -%}
-    </div>
+    {%- endfor -%}
   </div>
 
-  <!-- Bottom Section -->
-  <div class="footer__content-bottom col-12">
-    <div class="footer__payment">
-      <ul class="list-payment" role="list">
-        {%- for type in shop.enabled_payment_types -%}
-          <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
-        {%- endfor -%}
-      </ul>
-    </div>
-    <div class="footer__copyright">
-      <small>&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</small>
-    </div>
+  <!-- Column 2 -->
+  <div class="footer__column col-xs-12 col-md-6 col-lg-6">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'link_list' and forloop.index == 2 -%}
+        <div class="footer-block footer-block--menu">
+          {%- if block.settings.heading != blank -%}
+            <h3 class="footer-block__heading">{{ block.settings.heading }}</h3>
+          {%- else -%}
+            <h3 class="footer-block__heading">{{ linklists[section.settings.menu_2].title }}</h3>
+          {%- endif -%}
+          <ul class="footer__menu">
+            {%- for link in linklists[section.settings.menu_2].links -%}
+              <li>
+                <a href="{{ link.url }}" class="link">{{ link.title }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if section.settings.show_social -%}
+      <div class="footer-block footer-block--social">
+        {%- render 'social-icons', class: 'footer__list-social' -%}
+      </div>
+    {%- endif -%}
   </div>
+</div>
+
+<!-- Bottom Section -->
+<div class="footer__content-bottom col-12">
+  <div class="footer__payment">
+    <ul class="list-payment" role="list">
+      {%- for type in shop.enabled_payment_types -%}
+        <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
+      {%- endfor -%}
+    </ul>
+  </div>
+  <div class="footer__copyright">
+    <small>&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</small>
+  </div>
+</div>
 </footer>
 
 {% schema %}
@@ -137,5 +141,6 @@
   ]
 }
 {% endschema %}
+
 
 
