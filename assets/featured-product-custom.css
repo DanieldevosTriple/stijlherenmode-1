@@ -60,4 +60,10 @@
       order: 1;
     }
 
+    .button-featured-product-custom {
+      display: block;
+      margin: 10px auto;
+      max-width: 20rem;
+    }
+
   }
