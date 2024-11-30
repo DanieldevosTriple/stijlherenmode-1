@@ -14,9 +14,16 @@
   display: flex;
 }
 
+.footer__menu {
+  list-style-type: none; /* Removes bullet points */
+  padding: 0; /* Removes padding */
+  margin: 0; /* Removes margin */
+}
+
 .footer__menu .link {
   color: white; /* Maakt de tekst wit */
   text-decoration: none; /* Verwijdert standaard onderstreping */
+  display: block;
 }
 
 .footer__menu .link:hover {
