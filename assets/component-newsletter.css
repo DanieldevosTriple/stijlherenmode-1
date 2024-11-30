@@ -88,3 +88,8 @@
 .newsletter-form__field-input:focus-visible {
   box-shadow: none;
 }
+
+.button-text {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
