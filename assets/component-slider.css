@@ -69,6 +69,7 @@ slider-component.slider-component-full-width {
   .button-view-all {
     display: block; /* Allows block-level centering */
     margin: 10px auto; /* Centers horizontally */
+    max-width: 20rem;
   }
 
   /* Fix to show some space at the end of our sliders in all browsers */
