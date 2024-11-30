@@ -63,6 +63,12 @@ slider-component.slider-component-full-width {
     scroll-padding-left: 1.5rem;
     -webkit-overflow-scrolling: touch;
     margin-bottom: 1rem;
+    overflow-y: hidden;
+  }
+
+  .button-view-all {
+    display: block; /* Allows block-level centering */
+    margin: 10px auto; /* Centers horizontally */
   }
 
   /* Fix to show some space at the end of our sliders in all browsers */
