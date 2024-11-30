@@ -1,7 +1,8 @@
 .footer {
   border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
   background-color: black;
-  padding-top: 5rem;
+  padding-top: 15rem;
+  padding-bottom: 15rem;
 }
 
 .footer:not(.color-scheme-1) {
