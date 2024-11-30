@@ -34,9 +34,9 @@
   {%- endif -%}
 
   <!-- Content Section -->
-  <div class="footer__content-top row">
+  <div class="footer__content-top col-xs-12 col-md-5 col-lg-5">
     <!-- Column 1 -->
-    <div class="footer__column col-12 col-md-6">
+    <div class="footer__column col-12">
       {%- for block in section.blocks -%}
         {%- if block.type == 'link_list' and forloop.first -%}
           <div class="footer-block footer-block--menu">
@@ -56,7 +56,7 @@
     </div>
 
     <!-- Column 2 -->
-    <div class="footer__column col-12 col-md-6">
+    <div class="footer__column col-12">
       {%- for block in section.blocks -%}
         {%- if block.type == 'link_list' and forloop.index == 2 -%}
           <div class="footer-block footer-block--menu">
@@ -83,7 +83,7 @@
   </div>
 
   <!-- Bottom Section -->
-  <div class="footer__content-bottom">
+  <div class="footer__content-bottom col-12">
     <div class="footer__payment">
       <ul class="list-payment" role="list">
         {%- for type in shop.enabled_payment_types -%}
