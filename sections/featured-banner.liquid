@@ -3,9 +3,31 @@
 <section class="featured-banner" style="height: {{ section.settings.banner_height }}px;">
   <a href="{{ section.settings.link_to_collection | link }}" class="featured-banner__link" {% if section.settings.link_to_collection == blank %}style="pointer-events: none;"{% endif %}>
     <div class="featured-banner__content">
-      <img src="{{ section.settings.image | image_url }}" alt="{{ section.settings.image_alt }}" class="featured-banner__image">
+      <!-- Desktop Image -->
+      <img 
+        src="{{ section.settings.image | image_url: '1024x' }}" 
+        alt="{{ section.settings.image_alt }}" 
+        class="featured-banner__image featured-banner__image--desktop"
+        width="1024"
+        height="512">
+      
+      <!-- Mobile Image -->
+      {% if section.settings.mobile_image != blank %}
+        <img 
+          src="{{ section.settings.mobile_image | image_url: '768x' }}" 
+          alt="{{ section.settings.image_alt }}" 
+          class="featured-banner__image featured-banner__image--mobile"
+          width="768"
+          height="384">
+      {% endif %}
+      
       {% if section.settings.logo != blank %}
-        <img src="{{ section.settings.logo | image_url }}" alt="Banner Logo" class="featured-banner__logo">
+        <img 
+          src="{{ section.settings.logo | image_url: '150x150' }}" 
+          alt="Banner Logo" 
+          class="featured-banner__logo"
+          width="150"
+          height="150">
       {% endif %}
     </div>
   </a>
@@ -32,7 +54,12 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Banner Image"
+      "label": "Desktop Banner Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Banner Image"
     },
     {
       "type": "text",
