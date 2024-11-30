@@ -66,4 +66,12 @@
       max-width: 20rem;
     }
 
+    .featured-product__title {
+      text-align: center;
+    }
+
+    .featured-product__description {
+      text-align: center;
+    }
+
   }
