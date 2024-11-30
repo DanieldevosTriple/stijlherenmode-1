@@ -193,6 +193,44 @@
   }
 }
 
+@media (max-width: 768px) {
+  .footer-block--menu {
+    width: 100%;
+  }
+
+  .footer-block__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .footer__menu {
+    width: 100%;
+    background-color: #f8f8f8; /* Pas aan naar wens */
+    padding: 10px;
+    margin: 0;
+    list-style: none;
+    display: none;
+  }
+
+  .footer__menu li {
+    margin-bottom: 5px;
+  }
+
+  .footer__toggle {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .footer__menu--expanded {
+    display: block;
+  }
+}
+
+
 @media screen and (min-width: 750px) {
   .footer-block--newsletter {
     flex-wrap: nowrap;
