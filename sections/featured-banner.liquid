@@ -1,6 +1,6 @@
 {{ 'featured-banner.css' | asset_url | stylesheet_tag }}
 
-<section class="featured-banner section-padding" style="height: {{ section.settings.banner_height }}px;">
+<section class="featured-banner" style="height: {{ section.settings.banner_height }}px;">
   <a href="{{ section.settings.link_to_collection | link }}" class="featured-banner__link" {% if section.settings.link_to_collection == blank %}style="pointer-events: none;"{% endif %}>
     <div class="featured-banner__content">
       <img src="{{ section.settings.image | image_url }}" alt="{{ section.settings.image_alt }}" class="featured-banner__image">
