@@ -95,6 +95,8 @@
     display: block;
     padding-right: 15px;
     padding-left: 15px;
+    padding-top: 10rem;
+    padding-bottom: 0rem;
   }
 
 }
