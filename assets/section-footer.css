@@ -116,8 +116,6 @@
 @media screen and (max-width: 749px) {
   .footer__localization:empty + .footer__column {
     padding-top: 1.5rem;
-    padding-right: 15px;
-    padding-left: 15px;
   }
 
   .footer {
@@ -125,6 +123,8 @@
     background-color: black;
     padding-top: 5rem;
     padding-bottom: 5rem;
+    padding-right: 15px;
+    padding-left: 15px;
   }
 
 }
