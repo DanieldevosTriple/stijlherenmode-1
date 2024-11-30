@@ -30,6 +30,7 @@
   /* Title with '--' decorations */
   .store-selector__title-wrapper {
     position: relative;
+    font-size: 1.5rem;
   }
   
   .store-selector__item:hover .store-selector__title-wrapper::before,
