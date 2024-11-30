@@ -5,7 +5,7 @@
 {{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
 {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 
-<footer class="footer col-12 color-black gradient section-{{ section.id }}-padding container-desktop">
+<footer class="footer row color-black gradient section-{{ section.id }}-padding container-desktop">
   <!-- Newsletter Section -->
   {%- if section.settings.newsletter_enable -%}
     <div class="footer-block--newsletter col-xs-12 col-md-6 col-lg-6">
