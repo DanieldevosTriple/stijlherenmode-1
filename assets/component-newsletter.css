@@ -94,3 +94,8 @@
   font-size: 1.5rem;
   text-transform: uppercase;
 }
+
+.footer-block__heading {
+  text-transform: uppercase;
+  color: white;
+}
