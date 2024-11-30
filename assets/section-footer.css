@@ -176,7 +176,8 @@
 }
 
 .footer-block__newsletter {
-  text-align: center;
+  text-align: left;
+  justify-content: center;
   flex-grow: 1;
 }
 
