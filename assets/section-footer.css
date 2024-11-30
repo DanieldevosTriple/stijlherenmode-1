@@ -13,8 +13,14 @@
   display: block;
 }
 
-.footer__menu.link {
-  color: #fff;
+.footer__menu .link {
+  color: white; /* Maakt de tekst wit */
+  text-decoration: none; /* Verwijdert standaard onderstreping */
+}
+
+.footer__menu .link:hover {
+  color: #ccc; /* Optioneel: een lichtere kleur bij hover */
+  text-decoration: underline; /* Optioneel: voegt onderstreping toe bij hover */
 }
 
 @media screen and (max-width: 749px) {
