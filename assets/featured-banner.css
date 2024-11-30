@@ -68,7 +68,7 @@
 
   .featured-banner__logo {
     max-width: 25%; /* Verklein logo voor mobiel */
-    top: 40%;
+    top: 50%;
     transform: translate(-50%, -50%);
   }
 }
