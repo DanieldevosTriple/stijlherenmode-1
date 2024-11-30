@@ -18,12 +18,23 @@
   list-style-type: none; /* Removes bullet points */
   padding: 0; /* Removes padding */
   margin: 0; /* Removes margin */
+  display: block;
+}
+
+.footer-block__heading {
+  text-transform: uppercase;
+  color: white;
+  text-align: left;
+  font-weight: 300;
 }
 
 .footer__menu .link {
   color: white; /* Maakt de tekst wit */
   text-decoration: none; /* Verwijdert standaard onderstreping */
   display: block;
+  text-align: left;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .footer__menu .link:hover {
