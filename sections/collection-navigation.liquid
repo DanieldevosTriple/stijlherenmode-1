@@ -17,19 +17,22 @@
       <div class="col-md-6 container-desktop">
         <h2 class="collection-selector__title">{{ section.settings.title }}</h2>
         <ul class="list-group collection-selector__list">
-          {% for block in section.blocks %}
-          <li class="collection-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url | replace: 'files/files', 'files' }}" data-description="{{ block.settings.description }}">
-            <!-- Menu Title with '--' styling -->
-            <span class="collection-selector__title-wrapper">
-              {{ block.settings.title }}
-            </span>
-            <!-- Description in a separate div -->
-            <div class="collection-selector__description">
-              {{ block.settings.description }}
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
+            {% for block in section.blocks %}
+            {% assign collection = block.settings.collection | default: null %}
+            {% if collection %}
+            {% assign collection_obj = collections[collection] %}
+            <li class="collection-selector__item {% if forloop.first %}active{% endif %}" 
+                data-image="{{ collection_obj.image | img_url: '600x600' }}" 
+                data-description="{{ collection_obj.description }}">
+              <a href="{{ collection_obj.url }}" class="collection-selector__link">
+                <span class="collection-selector__title-wrapper">
+                  {{ collection_obj.title }}
+                </span>
+              </a>
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>          
       </div>
 
     </div>
@@ -119,18 +122,12 @@
               "type": "text",
               "id": "title",
               "label": "Title",
-              "default": "Amsterdam"
+              "default": "Collection"
             },
             {
-              "type": "image_picker",
-              "id": "image",
-              "label": "Afbeelding"
-            },
-            {
-              "type": "textarea",
-              "id": "description",
-              "label": "Beschrijving",
-              "default": "Beschrijving van de winkel."
+              "type": "collection",
+              "id": "collection",
+              "label": "Select Collection"
             }
           ]
         }
@@ -143,3 +140,4 @@
       ]
     }
     {% endschema %}
+    
