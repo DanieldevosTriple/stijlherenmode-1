@@ -118,7 +118,7 @@
       {%- endif -%}
 
       <div
-        class="product-grid-container{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        class="product-grid-container scroll-trigger animate--slide-in"
         id="ProductGridContainer"
         {% if settings.animations_reveal_on_scroll %}
           data-cascade
@@ -146,10 +146,7 @@
             <ul
               id="product-grid"
               data-id="{{ section.id }}"
-              class="
-                grid product-grid col-12 col-md-4 col-lg-4
-              "
-            >
+              class="product-grid col-12 col-md-4 col-lg-4">
               {% assign skip_card_product_styles = false %}
               {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
