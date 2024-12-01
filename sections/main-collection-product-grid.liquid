@@ -139,14 +139,12 @@
             </div>
           </div>
         {%- else -%}
-          <div
-            class="collection col-12"
-          >
+          <div class="collection">
             <div class="loading-overlay gradient"></div>
             <ul
               id="product-grid"
               data-id="{{ section.id }}"
-              class="product-grid col-12 col-md-4 col-lg-4">
+              class="product-grid row g-4">
               {% assign skip_card_product_styles = false %}
               {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
@@ -154,7 +152,7 @@
                   {%- assign lazy_load = true -%}
                 {%- endif -%}
                 <li
-                  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  class="col-sm-6 col-md-4 col-lg-3 scroll-trigger animate--slide-in"
                   {% if settings.animations_reveal_on_scroll %}
                     data-cascade
                     style="--animation-order: {{ forloop.index }};"
