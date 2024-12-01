@@ -1,0 +1,88 @@
+.collection-selector {
+    padding-top: 15rem;
+    padding-top: 15rem;
+  }
+  
+  .collection-selector__menu {
+    margin-bottom: 30px;
+  }
+  
+  .collection-selector__title {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .collection-selector__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .collection-selector__item {
+    padding: 12px 0px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-align: left;
+    position: relative;
+  }
+  
+  /* Title with '--' decorations */
+  .collection-selector__title-wrapper {
+    position: relative;
+    font-size: 1.5rem;
+  }
+  
+  .collection-selector__item:hover .collection-selector__title-wrapper::before,
+  .collection-selector__item:hover .collection-selector__title-wrapper::after,
+  .collection-selector__item.active .collection-selector__title-wrapper::before,
+  .collection-selector__item.active .collection-selector__title-wrapper::after {
+    content: "⎯";
+    margin: 0 5px;
+    font-size: 14px;
+    color: #000;
+  }
+  
+  .collection-selector__title-wrapper::before,
+  .collection-selector__title-wrapper::after {
+    content: ""; /* Default empty */
+    margin: 0;
+  }
+  
+  /* Description styling */
+  .collection-selector__description {
+    color: #888;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-top: 5px;
+    display: none;
+  }
+  
+  .collection-selector__item:hover .collection-selector__description,
+  .collection-selector__item.active .collection-selector__description {
+    display: block;
+  }
+  
+  .collection-selector__content {
+    text-align: center;
+  }
+  
+  .collection-selector__image-container {
+    margin-bottom: 20px;
+  }
+  
+  .collection-selector__image {
+    width: auto;
+    max-width: 100%;
+    object-fit: cover;
+  }
+
+  .text-right {
+    text-align: right !important;
+  }
+  
+  .no-right-padding {
+    padding-right: 0px !important;
+  }
+  

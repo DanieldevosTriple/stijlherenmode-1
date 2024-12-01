@@ -1,0 +1,145 @@
+{{ 'collection-navigation.css' | asset_url | stylesheet_tag }}
+
+<section class="collection-selector col-12 section-padding">
+    <div class="row">
+
+      <!-- Left: Image and Message -->
+      <div class="col-md-6 text-right no-right-padding">
+        <div class="collection-selector__image-container">
+          {% if section.blocks.size > 0 %}
+          <img class="img-fluid collection-selector__image" src="{{ section.blocks[0].settings.image | file_url }}" alt="Collection Image">
+          {% endif %}
+        </div>
+      </div>
+
+
+      <!-- Right: Title and Vertical Menu -->
+      <div class="col-md-6 container-desktop">
+        <h2 class="collection-selector__title">{{ section.settings.title }}</h2>
+        <ul class="list-group collection-selector__list">
+          {% for block in section.blocks %}
+          <li class="collection-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url | replace: 'files/files', 'files' }}" data-description="{{ block.settings.description }}">
+            <!-- Menu Title with '--' styling -->
+            <span class="collection-selector__title-wrapper">
+              {{ block.settings.title }}
+            </span>
+            <!-- Description in a separate div -->
+            <div class="collection-selector__description">
+              {{ block.settings.description }}
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+  </section>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const items = document.querySelectorAll('.collection-selector__item');
+      const image = document.querySelector('.collection-selector__image');
+    
+      if (items.length > 0) {
+        // Set the first item's image and description as default and active
+        const firstImage = items[0].getAttribute('data-image');
+        const firstDescription = items[0].getAttribute('data-description');
+        if (firstImage) {
+          image.src = firstImage;
+          items[0].classList.add('active');
+        }
+        if (firstDescription) {
+          items[0].querySelector('.collection-selector__description').classList.add('visible');
+        }
+    
+        items.forEach((item) => {
+          item.addEventListener('mouseover', () => {
+            const hoverImage = item.getAttribute('data-image');
+            const hoverDescription = item.getAttribute('data-description');
+    
+            if (hoverImage) {
+              image.src = hoverImage;
+            }
+    
+            // Update descriptions
+            document.querySelectorAll('.collection-selector__description').forEach(desc => desc.classList.add('hidden'));
+            const descriptionElement = item.querySelector('.collection-selector__description');
+            if (descriptionElement) {
+              descriptionElement.classList.remove('hidden');
+              descriptionElement.classList.add('visible');
+            }
+    
+            // Update active state
+            items.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+          });
+    
+          item.addEventListener('mouseout', () => {
+            // Reset to the first item's image and active state
+            const firstItemImage = items[0].getAttribute('data-image');
+            const firstItemDescription = items[0].getAttribute('data-description');
+    
+            if (firstItemImage) {
+              image.src = firstItemImage;
+            }
+    
+            // Reset descriptions
+            document.querySelectorAll('.collection-selector__description').forEach(desc => desc.classList.add('hidden'));
+            const firstDescriptionElement = items[0].querySelector('.collection-selector__description');
+            if (firstDescriptionElement) {
+              firstDescriptionElement.classList.remove('hidden');
+              firstDescriptionElement.classList.add('visible');
+            }
+    
+            items.forEach(i => i.classList.remove('active'));
+            items[0].classList.add('active');
+          });
+        });
+      }
+    });
+    </script>
+    
+    {% schema %}
+    {
+      "name": "Collection Selection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Section Title",
+          "default": "Collectie Title"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "menu_item",
+          "name": "Menu Item",
+          "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Title",
+              "default": "Amsterdam"
+            },
+            {
+              "type": "image_picker",
+              "id": "image",
+              "label": "Afbeelding"
+            },
+            {
+              "type": "textarea",
+              "id": "description",
+              "label": "Beschrijving",
+              "default": "Beschrijving van de winkel."
+            }
+          ]
+        }
+      ],
+      "presets": [
+        {
+          "name": "Collection Selection",
+          "category": "Custom"
+        }
+      ]
+    }
+    {% endschema %}
