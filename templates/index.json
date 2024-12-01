@@ -89,6 +89,32 @@
         "featured_image_alt": "Featured Product Image"
       }
     },
+    "collection_navigation_jeAiJL": {
+      "type": "collection-navigation",
+      "blocks": {
+        "menu_item_yzQxrm": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Amsterdam",
+            "description": "Beschrijving van de winkel."
+          }
+        },
+        "menu_item_aAizJp": {
+          "type": "menu_item",
+          "settings": {
+            "title": "Amsterdam",
+            "description": "Beschrijving van de winkel."
+          }
+        }
+      },
+      "block_order": [
+        "menu_item_yzQxrm",
+        "menu_item_aAizJp"
+      ],
+      "settings": {
+        "title": "Collectie Title"
+      }
+    },
     "featured_banner_tBJDRR": {
       "type": "featured-banner",
       "settings": {
@@ -134,6 +160,7 @@
     "featured_collection_JGD7p8",
     "two_grid_navigation_cards_gLnhfz",
     "featured_product_custom_BpBaCC",
+    "collection_navigation_jeAiJL",
     "featured_banner_tBJDRR",
     "store_selection_ygz9BV"
   ]
