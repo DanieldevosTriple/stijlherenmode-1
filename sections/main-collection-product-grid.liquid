@@ -146,47 +146,52 @@
               {% assign skip_card_product_styles = false %}
             
               {%- for product in collection.products -%}
-                {%- for variant in product.variants -%}
-                  {%- assign color_option = variant.option1 | downcase %}
-                  {%- if product.options contains 'Color' or product.options contains 'Kleur' -%}
-                    <li
-                      class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
-                      {% if settings.animations_reveal_on_scroll %}
-                        data-cascade
-                        style="--animation-order: {{ forloop.index }};"
-                      {% endif %}
-                    >
-                      <a href="{{ product.url | append: '?variant=' | append: variant.id }}">
-                        <div class="product-card">
-                          {%- if variant.featured_image -%}
-                            <img
-                              src="{{ variant.featured_image.src | img_url: 'medium' }}"
-                              alt="{{ variant.title }}"
-                              loading="lazy"
-                            />
-                          {%- else -%}
-                            <img
-                              src="{{ product.featured_image | img_url: 'medium' }}"
-                              alt="{{ product.title }}"
-                              loading="lazy"
-                            />
-                          {%- endif -%}
-                          <div class="product-card__info">
-                            <h3 class="product-title">
-                              {{ product.title }} - {{ variant.option1 }}
-                            </h3>
-                            <p class="product-price">
-                              {{ variant.price | money }}
-                            </p>
+                {%- assign color_index = product.options.index_of('Color') %}
+                {%- if color_index > -1 -%} {# Controleer of "Color" een optie is #}
+                  {%- assign shown_colors = '' -%} {# Houd bij welke kleuren al getoond zijn #}
+                  {%- for variant in product.variants -%}
+                    {%- assign color = variant.options[color_index] %}
+                    {%- unless shown_colors contains color -%} {# Alleen unieke kleuren tonen #}
+                      <li
+                        class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
+                        {% if settings.animations_reveal_on_scroll %}
+                          data-cascade
+                          style="--animation-order: {{ forloop.index }};"
+                        {% endif %}
+                      >
+                        <a href="{{ product.url | append: '?variant=' | append: variant.id }}">
+                          <div class="product-card">
+                            {%- if variant.featured_image -%}
+                              <img
+                                src="{{ variant.featured_image.src | img_url: 'medium' }}"
+                                alt="{{ color }}"
+                                loading="lazy"
+                              />
+                            {%- else -%}
+                              <img
+                                src="{{ product.featured_image | img_url: 'medium' }}"
+                                alt="{{ product.title }}"
+                                loading="lazy"
+                              />
+                            {%- endif -%}
+                            <div class="product-card__info">
+                              <h3 class="product-title">
+                                {{ product.title }} - {{ color }}
+                              </h3>
+                              <p class="product-price">
+                                {{ variant.price | money }}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      </a>
-                    </li>
-                  {%- endif -%}
-                {%- endfor -%}
+                        </a>
+                      </li>
+                      {%- assign shown_colors = shown_colors | append: color | append: ',' -%}
+                    {%- endunless -%}
+                  {%- endfor -%}
+                {%- endif -%}
               {%- endfor -%}
-            </ul>            
-
+            </ul>
+                      
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
