@@ -28,6 +28,50 @@
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
   {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 {%- endunless -%}
+
+{%- if featured_image -%}
+  <img
+    srcset="
+      {{ featured_image | image_url: width: 165 }} 165w,
+      {{ featured_image | image_url: width: 360 }} 360w,
+      {{ featured_image | image_url: width: 533 }} 533w,
+      {{ featured_image | image_url: width: 720 }} 720w,
+      {{ featured_image | image_url: width: 940 }} 940w,
+      {{ featured_image | image_url: width: 1066 }} 1066w,
+      {{ featured_image | image_url }} {{ featured_image.width }}w
+    "
+    src="{{ featured_image | image_url: width: 533 }}"
+    sizes="(min-width: 1600px) 367px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+    alt="{{ product_title | default: card_product.title | escape }}"
+    class="motion-reduce"
+    {% unless lazy_load == false %}
+      loading="lazy"
+    {% endunless %}
+  >
+{%- elsif card_product.featured_media -%}
+  <!-- Debugging -->
+  <p>Debug - Fallback Image in Card Product: {{ card_product.featured_media | img_url: 'medium' }}</p>
+
+  <img
+    srcset="
+      {{ card_product.featured_media | image_url: width: 165 }} 165w,
+      {{ card_product.featured_media | image_url: width: 360 }} 360w,
+      {{ card_product.featured_media | image_url: width: 533 }} 533w,
+      {{ card_product.featured_media | image_url: width: 720 }} 720w,
+      {{ card_product.featured_media | image_url: width: 940 }} 940w,
+      {{ card_product.featured_media | image_url: width: 1066 }} 1066w,
+      {{ card_product.featured_media | image_url }} {{ card_product.featured_media.width }}w
+    "
+    src="{{ card_product.featured_media | image_url: width: 533 }}"
+    sizes="(min-width: 1600px) 367px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+    alt="{{ card_product.title | escape }}"
+    class="motion-reduce"
+    {% unless lazy_load == false %}
+      loading="lazy"
+    {% endunless %}
+  >
+{%- endif -%}
+
 {%- if card_product and card_product != empty -%}
   {%- liquid
     assign ratio = 1
