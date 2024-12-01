@@ -183,6 +183,14 @@
                             featured_image: image_to_use,
                             product_title: product.title | append: ' - ' | append: color_option
                           %}
+                          <h3 class="card__heading">
+                            <a
+                              href="{{ card_product.url }}"
+                              class="full-unstyled-link"
+                            >
+                              {{ product_title | default: card_product.title | escape }}
+                            </a>
+                          </h3>                          
                           <p>Image to Use: {{ image_to_use | img_url: 'medium' }}</p>
                           <p>Product Title: {{ product.title | append: ' - ' | append: color_option }}</p>
 
