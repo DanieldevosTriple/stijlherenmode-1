@@ -60,11 +60,11 @@
       {% assign skip_card_product_styles = false %}
     
       {%- for product in section.settings.collection.products limit: 10 -%}
-        {%- if product.options contains 'Color' or product.options contains 'Kleur' -%} {# Controleer of kleur een optie is #}
-          {%- assign shown_colors = '' -%} {# Houd bij welke kleuren al getoond zijn #}
+        {%- if product.options contains 'Color' or product.options contains 'Kleur' -%}
+          {%- assign shown_colors = '' -%} 
           {%- for variant in product.variants -%}
-            {%- assign color_option = variant.options | first %} {# Neem de eerste optie als kleur #}
-            {%- unless shown_colors contains color_option -%} {# Alleen unieke kleuren tonen #}
+            {%- assign color_option = variant.options | first %} 
+            {%- unless shown_colors contains color_option -%} 
               <li
                 id="Slide-{{ section.id }}-{{ forloop.index }}"
                 class="col-12 col-sm-6 col-lg-4 slider-item no-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
