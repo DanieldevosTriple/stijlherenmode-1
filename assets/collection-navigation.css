@@ -51,7 +51,10 @@
   }
 
   .text-container {
-    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centreert de tekst verticaal */
+    height: 100%; /* Zorgt dat het de volledige hoogte van de container gebruikt */
   }
   
   /* Description styling */
