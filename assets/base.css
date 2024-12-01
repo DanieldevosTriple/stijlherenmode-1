@@ -3008,6 +3008,7 @@ details-disclosure > details {
   background: rgb(var(--color-background));
   background: var(--gradient-background);
   background-attachment: fixed;
+  width: 100%;
 }
 
 @media screen and (forced-colors: active) {
