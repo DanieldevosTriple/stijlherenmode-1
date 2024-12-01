@@ -161,6 +161,7 @@
                     {%- if color_option != '' -%}
                       {%- assign color_check = ',' | append: color_option | append: ',' -%}
                       {%- unless shown_colors contains color_check -%}
+                        {%- assign image_to_use = variant.featured_image | default: product.featured_image -%}
                         <li
                           class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
                           {% if settings.animations_reveal_on_scroll %}
@@ -179,11 +180,9 @@
                             skip_styles: skip_card_product_styles,
                             quick_add: section.settings.quick_add,
                             section_id: section.id,
-                            featured_image: variant.featured_image,
+                            featured_image: image_to_use,
                             product_title: product.title | append: ' - ' | append: color_option
-                         %}
-                          <p>Variant Image: {{ variant.featured_image | img_url: 'medium' }}</p>
-                          <p>Product Title: {{ product.title | append: ' - ' | append: color_option }}</p>
+                          %}
                         </li>
                         {%- assign shown_colors = shown_colors | append: color_check -%}
                       {%- endunless -%}
@@ -192,7 +191,7 @@
                 {%- endif -%}
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
-            </ul>                              
+            </ul>                                         
                          
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
