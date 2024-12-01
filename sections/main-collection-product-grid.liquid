@@ -183,6 +183,7 @@
                             product_title: product.title | append: ' - ' | append: color_option
                          %}
                           <p>Variant Image: {{ variant.featured_image | img_url: 'medium' }}</p>
+                          <p>Product Title: {{ product.title | append: ' - ' | append: color_option }}</p>
                         </li>
                         {%- assign shown_colors = shown_colors | append: color_check -%}
                       {%- endunless -%}
