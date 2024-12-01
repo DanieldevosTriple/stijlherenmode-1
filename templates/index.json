@@ -96,14 +96,14 @@
           "type": "menu_item",
           "settings": {
             "title": "Amsterdam",
-            "description": "Beschrijving van de winkel."
+            "collection": "aeden"
           }
         },
         "menu_item_aAizJp": {
           "type": "menu_item",
           "settings": {
             "title": "Amsterdam",
-            "description": "Beschrijving van de winkel."
+            "collection": ""
           }
         }
       },
