@@ -4,7 +4,7 @@
   <div class="row">
     <!-- Left: Title and Vertical Menu -->
     <div class="col-md-4 container-desktop">
-      <h2 class="store-selector__title">{{ section.settings.title }}</h2>
+      <h2 class="store-selector__title h2">{{ section.settings.title }}</h2>
       <ul class="list-group store-selector__list">
         {% for block in section.blocks %}
         <li class="store-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ block.settings.image | file_url | replace: 'files/files', 'files' }}" data-description="{{ block.settings.description }}">

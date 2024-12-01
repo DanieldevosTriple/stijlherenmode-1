@@ -15,7 +15,7 @@
 
       <!-- Right: Title and Vertical Menu -->
       <div class="col-md-6 container-desktop">
-        <h2 class="collection-selector__title h3">{{ section.settings.title }}</h2>
+        <h2 class="collection-selector__title h2">{{ section.settings.title }}</h2>
         <ul class="list-group collection-selector__list">
             {% for block in section.blocks %}
             {% assign collection = block.settings.collection | default: null %}
