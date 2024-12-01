@@ -146,11 +146,11 @@
               {% assign skip_card_product_styles = false %}
             
               {%- for product in collection.products -%}
-                {%- if product.options contains 'Color' or product.options contains 'Kleur' -%} {# Controleer of het product een optie voor kleur heeft #}
-                  {%- assign shown_colors = '' -%} {# Houd bij welke kleuren al getoond zijn #}
+                {%- if product.options contains 'Color' or product.options contains 'Kleur' -%} 
+                  {%- assign shown_colors = '' -%} 
                   {%- for variant in product.variants -%}
-                    {%- assign color_option = variant.options | first %} {# Neem de eerste optie als kleur (aanpassen indien nodig) #}
-                    {%- unless shown_colors contains color_option -%} {# Alleen unieke kleuren tonen #}
+                    {%- assign color_option = variant.options | first %} 
+                    {%- unless shown_colors contains color_option -%} 
                       <li
                         class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
                         {% if settings.animations_reveal_on_scroll %}
