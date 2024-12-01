@@ -49,6 +49,12 @@
     content: ""; /* Default empty */
     margin: 0;
   }
+
+  .text-container {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
   
   /* Description styling */
   .collection-selector__description {
