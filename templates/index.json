@@ -81,9 +81,9 @@
     "featured_product_custom_BpBaCC": {
       "type": "featured-product-custom",
       "settings": {
-        "title": "Featured Product",
-        "description": "Add a description of your featured product here.",
-        "button_text": "Learn More",
+        "title": "Jacob cöhen",
+        "description": "Jacob Cohen blijft ook in seizoen 24 trouw aan zijn kern: Italiaanse vakmanschap en hoogwaardige denim, gecombineerd met een modern randje. Deze collectie zet in op subtiele innovatie met nieuwe wassingen, opvallende stikdetails en verfijnde pasvormen.",
+        "button_text": "SHOP NU",
         "button_link": "/",
         "featured_image": "shopify://shop_images/jacob_cohen.webp",
         "featured_image_alt": "Featured Product Image"
