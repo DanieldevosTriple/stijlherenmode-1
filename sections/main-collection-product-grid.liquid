@@ -164,12 +164,6 @@
                         {% assign image_to_use = variant.featured_image | default: product.featured_image %}
                         {% assign product_title_with_color = product.title | append: ' - ' | append: color_option %}
             
-                        <!-- Debugging -->
-                        <p>Debug - Variant Image: {{ variant.featured_image | img_url: 'medium' }}</p>
-                        <p>Debug - Fallback Image: {{ product.featured_image | img_url: 'medium' }}</p>
-                        <p>Debug - Image to Use: {{ image_to_use | img_url: 'medium' }}</p>
-                        <p>Debug - Product Title: {{ product_title_with_color }}</p>
-            
                         <li
                           class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
                           {% if settings.animations_reveal_on_scroll %}
