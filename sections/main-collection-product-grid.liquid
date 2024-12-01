@@ -158,38 +158,39 @@
                         {%- assign color_option = variant.options[option_index] -%}
                       {%- endif -%}
                     {%- endfor -%}
-                    {%- assign color_check = ',' | append: color_option | append: ',' -%}
-                    {%- unless shown_colors contains color_check -%}
-                      <li
-                        class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
-                        {% if settings.animations_reveal_on_scroll %}
-                          data-cascade
-                          style="--animation-order: {{ forloop.index }};"
-                        {% endif %}
-                      >
-                        {% render 'card-product',
-                          card_product: product,
-                          media_aspect_ratio: section.settings.image_ratio,
-                          image_shape: section.settings.image_shape,
-                          show_secondary_image: section.settings.show_secondary_image,
-                          show_vendor: section.settings.show_vendor,
-                          show_rating: section.settings.show_rating,
-                          lazy_load: lazy_load,
-                          skip_styles: skip_card_product_styles,
-                          quick_add: section.settings.quick_add,
-                          section_id: section.id
-                        %}
-                        <p>{{ product.options | join: ', ' }}</p>
-                        <p>Color option: {{ color_option }}</p>
-                        <p>Shown colors: {{ shown_colors }}</p>                        
-                      </li>
-                      {%- assign shown_colors = shown_colors | append: color_check -%}
-                    {%- endunless -%}
+                    {%- if color_option != '' -%}
+                      {%- assign color_check = ',' | append: color_option | append: ',' -%}
+                      {%- unless shown_colors contains color_check -%}
+                        <li
+                          class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
+                          {% if settings.animations_reveal_on_scroll %}
+                            data-cascade
+                            style="--animation-order: {{ forloop.index }};"
+                          {% endif %}
+                        >
+                          {% render 'card-product',
+                            card_product: product,
+                            media_aspect_ratio: section.settings.image_ratio,
+                            image_shape: section.settings.image_shape,
+                            show_secondary_image: section.settings.show_secondary_image,
+                            show_vendor: section.settings.show_vendor,
+                            show_rating: section.settings.show_rating,
+                            lazy_load: lazy_load,
+                            skip_styles: skip_card_product_styles,
+                            quick_add: section.settings.quick_add,
+                            section_id: section.id
+                          %}
+                          <p>Color option: {{ color_option }}</p>
+                          <p>Shown colors: {{ shown_colors }}</p>
+                        </li>
+                        {%- assign shown_colors = shown_colors | append: color_check -%}
+                      {%- endunless -%}
+                    {%- endif -%}
                   {%- endfor -%}
                 {%- endif -%}
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
-            </ul>            
+            </ul>                      
                          
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
