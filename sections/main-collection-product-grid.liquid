@@ -183,6 +183,9 @@
                             featured_image: image_to_use,
                             product_title: product.title | append: ' - ' | append: color_option
                           %}
+                          <p>Image to Use: {{ image_to_use | img_url: 'medium' }}</p>
+                          <p>Product Title: {{ product.title | append: ' - ' | append: color_option }}</p>
+
                         </li>
                         {%- assign shown_colors = shown_colors | append: color_check -%}
                       {%- endunless -%}
