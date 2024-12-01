@@ -4,7 +4,7 @@
     <div class="row g-3">
 
       <!-- Left: Image and Message -->
-      <div class="col-md-6 text-right no-right-padding">
+      <div class="col-md-7 text-right no-right-padding">
         <div class="collection-selector__image-container">
           {% if section.blocks.size > 0 %}
           <img class="img-fluid collection-selector__image" src="{{ section.blocks[0].settings.image | file_url }}" alt="Collection Image">
@@ -14,7 +14,7 @@
 
  
       <!-- Right: Title and Vertical Menu -->
-      <div class="col-md-6 container-desktop">
+      <div class="col-md-5">
         <h2 class="collection-selector__title h2">{{ section.settings.title }}</h2>
         <ul class="list-group collection-selector__list">
             {% for block in section.blocks %}
