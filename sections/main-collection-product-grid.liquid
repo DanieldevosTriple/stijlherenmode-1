@@ -173,6 +173,7 @@
                           quick_add: section.settings.quick_add,
                           section_id: section.id
                         %}
+                        <p>Shown colors: {{ shown_colors }}</p>
                       </li>
                       {%- assign shown_colors = shown_colors | append: ',' | append: color_option | append: ',' -%}
                     {%- endunless -%}
