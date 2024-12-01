@@ -144,10 +144,11 @@
             <div class="loading-overlay gradient"></div>
             <ul id="product-grid" data-id="{{ section.id }}" class="product-grid row g-4">
               {% assign skip_card_product_styles = false %}
-              
+            
               {%- for product in collection.products -%}
                 {%- for variant in product.variants -%}
-                  {%- if variant.option1 contains 'Color' or variant.option1 contains 'Kleur' -%}
+                  {%- assign color_option = variant.option1 | downcase %}
+                  {%- if product.options contains 'Color' or product.options contains 'Kleur' -%}
                     <li
                       class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
                       {% if settings.animations_reveal_on_scroll %}
@@ -157,13 +158,23 @@
                     >
                       <a href="{{ product.url | append: '?variant=' | append: variant.id }}">
                         <div class="product-card">
-                          <img
-                            src="{{ variant.featured_image | img_url: 'medium' }}"
-                            alt="{{ variant.title }}"
-                            loading="lazy"
-                          />
+                          {%- if variant.featured_image -%}
+                            <img
+                              src="{{ variant.featured_image.src | img_url: 'medium' }}"
+                              alt="{{ variant.title }}"
+                              loading="lazy"
+                            />
+                          {%- else -%}
+                            <img
+                              src="{{ product.featured_image | img_url: 'medium' }}"
+                              alt="{{ product.title }}"
+                              loading="lazy"
+                            />
+                          {%- endif -%}
                           <div class="product-card__info">
-                            <h3 class="product-title">{{ product.title }} - {{ variant.title }}</h3>
+                            <h3 class="product-title">
+                              {{ product.title }} - {{ variant.option1 }}
+                            </h3>
                             <p class="product-price">
                               {{ variant.price | money }}
                             </p>
@@ -173,9 +184,9 @@
                     </li>
                   {%- endif -%}
                 {%- endfor -%}
-                {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
-            </ul>
+            </ul>            
+
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
