@@ -51,10 +51,8 @@
   }
 
   .text-container {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-}
+    justify-content: center;
+  }
   
   /* Description styling */
   .collection-selector__description {
