@@ -146,12 +146,11 @@
               {% assign skip_card_product_styles = false %}
             
               {%- for product in collection.products -%}
-                {%- assign color_index = product.options.index_of('Color') %}
-                {%- if color_index > -1 -%} {# Controleer of "Color" een optie is #}
+                {%- if product.options contains 'Color' or product.options contains 'Kleur' -%} {# Controleer of het product een optie voor kleur heeft #}
                   {%- assign shown_colors = '' -%} {# Houd bij welke kleuren al getoond zijn #}
                   {%- for variant in product.variants -%}
-                    {%- assign color = variant.options[color_index] %}
-                    {%- unless shown_colors contains color -%} {# Alleen unieke kleuren tonen #}
+                    {%- assign color_option = variant.options | first %} {# Neem de eerste optie als kleur (aanpassen indien nodig) #}
+                    {%- unless shown_colors contains color_option -%} {# Alleen unieke kleuren tonen #}
                       <li
                         class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
                         {% if settings.animations_reveal_on_scroll %}
@@ -164,7 +163,7 @@
                             {%- if variant.featured_image -%}
                               <img
                                 src="{{ variant.featured_image.src | img_url: 'medium' }}"
-                                alt="{{ color }}"
+                                alt="{{ color_option }}"
                                 loading="lazy"
                               />
                             {%- else -%}
@@ -173,10 +172,10 @@
                                 alt="{{ product.title }}"
                                 loading="lazy"
                               />
-                            {%- endif -%}
+                            {%- endif %}
                             <div class="product-card__info">
                               <h3 class="product-title">
-                                {{ product.title }} - {{ color }}
+                                {{ product.title }} - {{ color_option }}
                               </h3>
                               <p class="product-price">
                                 {{ variant.price | money }}
@@ -185,13 +184,13 @@
                           </div>
                         </a>
                       </li>
-                      {%- assign shown_colors = shown_colors | append: color | append: ',' -%}
+                      {%- assign shown_colors = shown_colors | append: color_option | append: ',' -%}
                     {%- endunless -%}
                   {%- endfor -%}
                 {%- endif -%}
               {%- endfor -%}
             </ul>
-                      
+                 
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
