@@ -51,7 +51,7 @@
   }
 
   .text-container {
-    justify-content: center;
+    justify-self: center;
   }
   
   /* Description styling */
