@@ -149,12 +149,13 @@
               {% assign skip_card_product_styles = false %}
               
               {%- for product in collection.products -%}
-                {%- if product.options contains 'Color' or product.options contains 'Kleur' -%} 
-                  {%- assign shown_colors = '' -%} 
+                {%- if product.options contains 'Color' -%}
+                  {%- assign shown_colors = '' -%}
                   {%- for variant in product.variants -%}
-                    {%- assign color_option = variant.options | first %} 
-                    {%- assign color_check = ',' | append: color_option | append: ',' -%} 
-                    {%- unless shown_colors contains color_check -%} 
+                    {%- assign color_index = product.options.index_of('Color') -%}
+                    {%- assign color_option = variant.options[color_index] -%}
+                    {%- assign color_check = ',' | append: color_option | append: ',' -%}
+                    {%- unless shown_colors contains color_check -%}
                       <li
                         class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
                         {% if settings.animations_reveal_on_scroll %}
@@ -174,8 +175,6 @@
                           quick_add: section.settings.quick_add,
                           section_id: section.id
                         %}
-                        <p>{{ product.options | join: ', ' }}</p>
-                        <p>Shown colors: {{ shown_colors }}</p>
                       </li>
                       {%- assign shown_colors = shown_colors | append: color_check -%}
                     {%- endunless -%}
