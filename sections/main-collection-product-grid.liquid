@@ -153,7 +153,8 @@
                   {%- assign shown_colors = '' -%} 
                   {%- for variant in product.variants -%}
                     {%- assign color_option = variant.options | first %} 
-                    {%- unless shown_colors contains ',' | append: color_option | append: ',' -%}
+                    {%- assign color_check = ',' | append: color_option | append: ',' -%} 
+                    {%- unless shown_colors contains color_check -%} 
                       <li
                         class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
                         {% if settings.animations_reveal_on_scroll %}
@@ -173,16 +174,15 @@
                           quick_add: section.settings.quick_add,
                           section_id: section.id
                         %}
-                        <p>Shown colors: {{ shown_colors }}</p>
                       </li>
-                      {%- assign shown_colors = shown_colors | append: ',' | append: color_option | append: ',' -%}
+                      {%- assign shown_colors = shown_colors | append: color_check -%} {# Voeg toe aan de lijst van getoonde kleuren #}
                     {%- endunless -%}
                   {%- endfor -%}
                 {%- endif -%}
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
             </ul>
-                      
+                         
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
