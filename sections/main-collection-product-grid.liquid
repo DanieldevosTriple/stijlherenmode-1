@@ -152,8 +152,12 @@
                 {%- if product.options contains 'Color' -%}
                   {%- assign shown_colors = '' -%}
                   {%- for variant in product.variants -%}
-                    {%- assign color_index = product.options.index_of('Color') -%}
-                    {%- assign color_option = variant.options[color_index] -%}
+                    {%- assign color_option = '' -%}
+                    {%- for option_index in (0..product.options.size) -%}
+                      {%- if product.options[option_index] == 'Color' -%}
+                        {%- assign color_option = variant.options[option_index] -%}
+                      {%- endif -%}
+                    {%- endfor -%}
                     {%- assign color_check = ',' | append: color_option | append: ',' -%}
                     {%- unless shown_colors contains color_check -%}
                       <li
@@ -182,7 +186,7 @@
                 {%- endif -%}
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
-            </ul>
+            </ul>            
                          
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
