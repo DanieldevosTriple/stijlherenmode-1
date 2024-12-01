@@ -3,7 +3,7 @@
 <section class="featured-product-custom container-desktop col-12 section-padding">
   <div class="row">
     <!-- Content -->
-    <div class="col-md-6 text-container">
+    <div class="col-md-5 text-container">
       <div class="featured-product-text">
       <h2 class="featured-product__title">{{ section.settings.title }}</h2>
       <p class="featured-product__description">{{ section.settings.description }}</p>
@@ -14,7 +14,7 @@
   </div>
 
     <!-- Image -->
-    <div class="col-md-6 text-center image-container">
+    <div class="col-md-7 text-center image-container">
       <img src="{{ section.settings.featured_image | img_url: 'master' }}" 
            alt="{{ section.settings.featured_image_alt }}" 
            class="img-fluid featured-product__image" width="100%" height="100%">
