@@ -179,9 +179,9 @@
                             skip_styles: skip_card_product_styles,
                             quick_add: section.settings.quick_add,
                             section_id: section.id,
-                            featured_image: variant.featured_image
+                            featured_image: variant.featured_image,
                             product_title: product.title | append: ' - ' | append: color_option
-                          %}
+                         %}
                           <p>Variant Image: {{ variant.featured_image | img_url: 'medium' }}</p>
                         </li>
                         {%- assign shown_colors = shown_colors | append: color_check -%}
