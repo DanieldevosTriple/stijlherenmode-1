@@ -7,6 +7,10 @@ slider-component {
   display: block;
 }
 
+.carouseltitle {
+  font-weight: 600;
+}
+
 slider-component.slider-component-full-width {
   --desktop-margin-left-first-item: 1.5rem;
 }
