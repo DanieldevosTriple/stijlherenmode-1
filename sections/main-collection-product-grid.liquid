@@ -169,6 +169,7 @@
                             style="--animation-order: {{ forloop.index }};"
                           {% endif %}
                         >
+                          {% assign product_title_with_color = product.title | append: ' - ' | append: color_option %}
                           {% render 'card-product',
                             card_product: product,
                             media_aspect_ratio: section.settings.image_ratio,
@@ -181,7 +182,7 @@
                             quick_add: section.settings.quick_add,
                             section_id: section.id,
                             featured_image: image_to_use,
-                            product_title: product.title | append: ' - ' | append: color_option
+                            product_title: product_title_with_color
                           %}
                           <h3 class="card__heading">
                             <a
