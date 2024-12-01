@@ -39,7 +39,7 @@
   }
   
   .featured-product__image {
-    width: 60%; /* Sets the image to 60% of its container width */
+    width: 100%; /* Sets the image to 60% of its container width */
     height: auto;
     object-fit: cover;
   }
