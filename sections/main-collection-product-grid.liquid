@@ -174,8 +174,10 @@
                           quick_add: section.settings.quick_add,
                           section_id: section.id
                         %}
+                        <p>{{ product.options | join: ', ' }}</p>
+                        <p>Shown colors: {{ shown_colors }}</p>
                       </li>
-                      {%- assign shown_colors = shown_colors | append: color_check -%} {# Voeg toe aan de lijst van getoonde kleuren #}
+                      {%- assign shown_colors = shown_colors | append: color_check -%}
                     {%- endunless -%}
                   {%- endfor -%}
                 {%- endif -%}
