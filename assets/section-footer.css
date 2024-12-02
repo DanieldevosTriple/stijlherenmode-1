@@ -5,6 +5,13 @@
   padding-bottom: 15rem;
 }
 
+.footer-block__heading__menu {
+  text-transform: uppercase;
+  color: white;
+  text-align: left;
+  font-weight: 300;
+}
+
 .footer:not(.color-scheme-1) {
   border-top: none;
 }
