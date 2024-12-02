@@ -8,8 +8,7 @@
         src="{{ section.settings.image | image_url }}" 
         alt="{{ section.settings.image_alt }}" 
         class="featured-banner__image featured-banner__image--desktop"
-        width="1024"
-        height="512">
+        style="width: 100%; height: auto;">
       
       <!-- Mobile Image -->
       {% if section.settings.mobile_image != blank %}
@@ -17,8 +16,7 @@
           src="{{ section.settings.mobile_image | image_url }}" 
           alt="{{ section.settings.image_alt }}" 
           class="featured-banner__image featured-banner__image--mobile"
-          width="768"
-          height="384">
+          style="width: 100%; height: auto;">
       {% endif %}
       
       {% if section.settings.logo != blank %}
@@ -26,8 +24,7 @@
           src="{{ section.settings.logo | image_url }}" 
           alt="Banner Logo" 
           class="featured-banner__logo"
-          width="150"
-          height="150">
+          style="width: 150px; height: auto;">
       {% endif %}
     </div>
   </a>
