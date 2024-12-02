@@ -1,7 +1,12 @@
   @media (max-width: 768px) {
     .no-padding-mobile {
-        padding-right: 0px !important;
-        padding-left: 0px !important;
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+    }
+
+    .text-container {
+      padding-left: 2rem;
+      padding-right: 2rem;
     }
   }
     
