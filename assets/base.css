@@ -120,6 +120,20 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --font-color: white;
+    --background-color: black;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --font-color: black;
+    --background-color: white;
+  }
+}
+
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
@@ -2874,7 +2888,7 @@ details[open] > .header__submenu {
 .header__menu-item {
   padding: 1.2rem;
   text-decoration: none;
-  color: rgba(var(--color-foreground), 0.75);
+  color: var(--font-color);
   text-transform: uppercase;
 }
 
