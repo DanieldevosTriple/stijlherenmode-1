@@ -114,15 +114,45 @@
   .no-right-padding {
     padding-right: 0px !important;
   }
-  
-  @media (max-width: 768px) {
-    .no-padding-mobile {
-      padding-right: 0px !important;
-      padding-left: 0px !important;
-    }
 
-    .text-container {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
+  /* Zorg ervoor dat de container full width wordt op mobiel */
+@media (max-width: 768px) {
+  .no-padding-mobile {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
   }
+
+  .text-container {
+    width: 100%;
+    padding: 0 15px; /* Voeg wat padding toe voor een mooie uitstraling */
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .collection-selector__title {
+    text-align: center; /* Centreer de titel voor een betere weergave */
+    font-size: 1.5rem; /* Optioneel: Pas de lettergrootte aan */
+  }
+
+  .collection-selector__list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center; /* Centreer de items */
+  }
+
+  .collection-selector__item {
+    margin-bottom: 10px;
+  }
+
+  .collection-selector__link {
+    display: block;
+    text-decoration: none;
+    font-size: 1rem; /* Pas de tekstgrootte aan indien nodig */
+    color: #000; /* Houd de tekstkleur consistent */
+  }
+
+  .collection-selector__link:hover {
+    color: #555; /* Voeg een hover effect toe voor een mooiere interactie */
+  }
+}
