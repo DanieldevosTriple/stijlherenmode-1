@@ -34,6 +34,7 @@
     font-size: 1.7rem;
     text-decoration: none;
     color: #000;
+    text-transform: uppercase;
   }
   
   .store-selector__item:hover .store-selector__title-wrapper::before,
@@ -55,7 +56,7 @@
   /* Description styling */
   .store-selector__description {
     color: #888;
-    font-size: 14px;
+    font-size: 1.5rem;
     line-height: 1.4;
     margin-top: 5px;
     display: none;
