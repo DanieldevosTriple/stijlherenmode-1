@@ -123,14 +123,14 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --font-color: white;
-    --background-color: black;
+    --menu-background-color: black;
   }
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     --font-color: black;
-    --background-color: white;
+    --menu-background-color: white;
   }
 }
 
