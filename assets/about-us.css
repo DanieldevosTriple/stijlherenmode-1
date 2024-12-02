@@ -24,3 +24,7 @@
     padding-top: 5rem;
     padding-bottom: 5rem;
 }
+
+.card-text {
+    font-size: 1.4rem;
+}
