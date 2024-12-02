@@ -91,12 +91,14 @@
     {%- endfor -%}
   
     {%- if section.settings.show_social -%}
+    <div class="footer__social col-12">
       <h2 class="footer-block__heading__menu custom-padding-payments">
         Volg ons
       </h2>
       <div class="footer-block footer-block--social">
         {%- render 'social-icons', class: 'footer__list-social' -%}
       </div>
+    </div>  
     {%- else -%}
       <p>Social icons zijn uitgeschakeld</p>
     {%- endif -%}
