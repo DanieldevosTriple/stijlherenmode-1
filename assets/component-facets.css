@@ -13,6 +13,9 @@
   overflow-y: auto;
 }
 
+.facets__selected,
+.facets__reset,
+.visually-hidden,
 .facet-checkbox__text-label {
   font-family:  TradeGothic LT CondEighteen, sans-serif;
   text-transform: uppercase;
