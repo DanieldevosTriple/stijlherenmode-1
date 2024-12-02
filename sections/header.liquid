@@ -413,12 +413,12 @@ window.addEventListener('resize', adjustHeadingFontSize);
         return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
     }
 
-    // Functie om tekstkleur aan te passen op basis van achtergrondkleur
-    function adjustColorsBasedOnBackground() {
+    // Functie om logo's aan te passen op basis van de achtergrondkleur
+    function adjustLogosBasedOnBackground() {
         const backgroundColor = getCSSVariableValue('--menu-background-color');
         const isLightBackground = isLightColor(backgroundColor);
 
-        // Logo aanpassen
+        // Stel de zichtbaarheid van logo's expliciet in
         if (isLightBackground) {
             logoBlack.style.display = 'block';
             logoWhite.style.display = 'none';
@@ -426,10 +426,6 @@ window.addEventListener('resize', adjustHeadingFontSize);
             logoBlack.style.display = 'none';
             logoWhite.style.display = 'block';
         }
-
-        // CSS-variabele voor tekstkleur instellen
-        const textColor = isLightBackground ? 'black' : 'white';
-        document.documentElement.style.setProperty('--menu-font-color', textColor);
     }
 
     // Helperfunctie om te bepalen of een kleur licht of donker is
@@ -454,11 +450,11 @@ window.addEventListener('resize', adjustHeadingFontSize);
 
             if (currentScrollPosition > lastScrollPosition) {
                 // Scrollen naar beneden
-                adjustColorsBasedOnBackground();
+                adjustLogosBasedOnBackground();
                 header.classList.add('hidden');
             } else {
                 // Scrollen naar boven
-                adjustColorsBasedOnBackground();
+                adjustLogosBasedOnBackground();
                 header.classList.remove('hidden');
             }
         }
@@ -468,14 +464,15 @@ window.addEventListener('resize', adjustHeadingFontSize);
 
     // Initialisatie
     function init() {
-        // Controleer op aanpassing van kleuren bij de start
+        // Controleer op aanpassing van logo's bij de start
         if (window.scrollY === 0) {
             header.setAttribute('data-theme-mode', 'transparent');
+            logoBlack.style.display = 'block';
+            logoWhite.style.display = 'none';
         } else {
             header.removeAttribute('data-theme-mode');
+            adjustLogosBasedOnBackground();
         }
-
-        adjustColorsBasedOnBackground();
 
         // Event listeners toevoegen
         window.addEventListener('scroll', handleScroll);
@@ -483,6 +480,7 @@ window.addEventListener('resize', adjustHeadingFontSize);
 
     init();
 });
+
   </script>  
 
 <script type="application/ld+json">
