@@ -153,7 +153,10 @@
         "grid_item_Ly8FJ6",
         "grid_item_hYDVTF"
       ],
-      "settings": {}
+      "settings": {
+        "section_title": "Over Stijl",
+        "columns_per_row": 3
+      }
     },
     "featured_banner_tBJDRR": {
       "type": "featured-banner",
