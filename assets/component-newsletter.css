@@ -23,8 +23,6 @@
   }
 }
 
-}
-
 .newsletter-form__field-wrapper {
   width: 100%;
 }
@@ -81,7 +79,7 @@
 
 .newsletter-form__field {
   position: relative;
-  width: 100%;
+  width: 80%;
   display: flex;
   border: 1px solid #fff;
 }
@@ -110,4 +108,5 @@
 .dislaimer {
   color: #ADADAD;
   padding-top: 1rem;
+  width: 80%;
 }
