@@ -224,6 +224,10 @@
   transition: text-decoration var(--duration-short) ease;
 }
 
+.facets__summary-label {
+  font-family: TradeGothic LT CondEighteen;
+}
+
 .facets__summary:hover .facets__summary-label {
   text-decoration: none;
   text-underline-offset: 0.3rem;
