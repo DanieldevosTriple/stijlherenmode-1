@@ -196,7 +196,6 @@
   color: rgba(var(--color-foreground), 0.75);
   font-size: 1.4rem;
   padding: 0 1.75rem 0 0;
-  margin-bottom: 1.5rem;
 }
 
 .facets__summary .svg-wrapper {
