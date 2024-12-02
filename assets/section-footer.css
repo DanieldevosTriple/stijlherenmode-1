@@ -229,6 +229,7 @@
 @media screen and (max-width: 749px) {
   .footer-block.footer-block--menu:only-child {
     text-align: left;
+    margin-bottom: 1.5rem;
   }
 }
 
@@ -240,6 +241,7 @@
 
   .footer-block--menu {
     width: 100%;
+    margin-bottom: 1.5rem;
   }
 
   .footer-block__heading {
