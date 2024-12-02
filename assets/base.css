@@ -106,7 +106,9 @@
   font-style: italic;
 }
 
-
+.body {
+  overflow: hidden;
+}
 
 :root {
   --alpha-button-background: 1;
