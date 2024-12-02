@@ -2892,18 +2892,6 @@ details[open] > .header__submenu {
   text-transform: uppercase;
 }
 
-@media (prefers-color-scheme: light) {
-  .header__menu-item {
-    color: black;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .header__menu-item {
-    color: white;
-  }
-}
-
 .header__menu-item:hover {
   color: rgb(var(--color-foreground));
   text-decoration: none;
