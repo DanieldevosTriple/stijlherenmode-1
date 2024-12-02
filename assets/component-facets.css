@@ -1,14 +1,8 @@
-.facets-wrapper {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  margin-bottom: 15px;
-}
-
 .facets-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px; /* Optioneel: ruimte tussen filters en sortering */
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: repeat(2, auto);
+  padding-top: 1rem;
 }
 
 .active-facets-mobile {
@@ -38,7 +32,11 @@
 }
 
 .facet-filters {
-  flex: 0 0 auto; /* Zorg ervoor dat de sortering vaste grootte heeft */
+  align-items: flex-start;
+  display: flex;
+  grid-column: 2;
+  grid-row: 1;
+  padding-left: 2.5rem;
 }
 
 @media screen and (min-width: 990px) {
@@ -163,20 +161,24 @@
   grid-column-start: span 2;
 }
 
-.facets-wrapper {
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    margin-bottom: 15px;
+.facets__form {
+  display: grid;
+  gap: 0 3.5rem;
+  grid-template-columns: 1fr max-content max-content;
+  margin-bottom: 0.5rem;
 }
 
 .facets__wrapper {
-  flex: 1;
+  align-items: center;
+  align-self: flex-start;
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .facets__heading {
   display: block;
-  text-transform: uppercase;
-  font-weight: 700;
   color: rgba(var(--color-foreground), 0.85);
   font-size: 1.4rem;
   margin: -1.5rem 2rem 0 0;
@@ -1099,7 +1101,7 @@ input.mobile-facets__checkbox {
 }
 
 .product-count__text {
-  font-size: 1.4rem !important;
+  font-size: 1.4rem;
   line-height: calc(1 + 0.5 / var(--font-body-scale));
   margin: 0;
 }

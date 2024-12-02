@@ -40,77 +40,114 @@
 <div class="container-desktop section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
 
-  <div class="collection-layout">
-    <!-- Facets Sidebar -->
-    <aside 
-      class="facets-wrapper" 
-      id="main-collection-filters"
-      data-id="{{ section.id }}">
-      {% render 'facets',
-        results: collection,
-        enable_filtering: section.settings.enable_filtering,
-        enable_sorting: section.settings.enable_sorting,
-        filter_type: section.settings.filter_type,
-        paginate: paginate
-      %}
-    </aside>
+    <div class="">
+      {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+      <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+      {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+        <aside
+          aria-labelledby="verticalTitle"
+          class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}"
+          id="main-collection-filters"
+          data-id="{{ section.id }}"
+        >
+          {% render 'facets',
+            results: collection,
+            enable_filtering: section.settings.enable_filtering,
+            enable_sorting: section.settings.enable_sorting,
+            filter_type: section.settings.filter_type,
+            paginate: paginate
+          %}
+        </aside>
+      {%- endif -%}
 
-    <!-- Product Grid -->
-    <div
-      class="product-grid-container scroll-trigger animate--slide-in"
-      id="ProductGridContainer"
-      {% if settings.animations_reveal_on_scroll %}
-        data-cascade
-      {% endif %}
-    >
-      {% if collection.products.size == 0 %}
-        <div class="collection collection--empty" id="product-grid" data-id="{{ section.id }}">
-          <div class="loading-overlay gradient"></div>
-          <div class="title-wrapper center">
-            <h2 class="title title--primary">
-              {{ 'sections.collection_template.empty' | t }}
-              <br>
-              {{
-                'sections.collection_template.use_fewer_filters_html'
-                | t: link: collection.url, class: 'underlined-link link'
-              }}
-            </h2>
+      <div
+        class="product-grid-container scroll-trigger animate--slide-in"
+        id="ProductGridContainer"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+        {% endif %}
+      >
+        {%- if collection.products.size == 0 -%}
+          <div class="collection collection--empty" id="product-grid" data-id="{{ section.id }}">
+            <div class="loading-overlay gradient"></div>
+            <div class="title-wrapper center">
+              <h2 class="title title--primary">
+                {{ 'sections.collection_template.empty' | t -}}
+                <br>
+                {{
+                  'sections.collection_template.use_fewer_filters_html'
+                  | t: link: collection.url, class: 'underlined-link link'
+                }}
+              </h2>
+            </div>
           </div>
-        </div>
-      {% else %}
-        <div class="product-grid">
-          <ul
-            id="product-grid"
-            data-id="{{ section.id }}"
-            class="product-grid row g-4">
-            {% for product in collection.products %}
-              <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in">
-                {% render 'card-product',
-                  card_product: product,
-                  media_aspect_ratio: section.settings.image_ratio,
-                  image_shape: section.settings.image_shape,
-                  show_secondary_image: section.settings.show_secondary_image,
-                  show_vendor: section.settings.show_vendor,
-                  show_rating: section.settings.show_rating,
-                  lazy_load: lazy_load,
-                  quick_add: section.settings.quick_add,
-                  section_id: section.id
-                %}
-              </li>
-            {% endfor %}
-          </ul>
-          {% if paginate.pages > 1 %}
-            {% render 'pagination', paginate: paginate, anchor: '' %}
-          {% endif %}
-        </div>
-      {% endif %}
+        {%- else -%}
+          <div class="">
+            <div class="loading-overlay gradient"></div>
+            <ul
+              id="product-grid"
+              data-id="{{ section.id }}"
+              class="product-grid row g-4">
+              {% assign skip_card_product_styles = false %}
+              
+              {%- for product in collection.products -%}
+                {%- if product.options contains 'Color' -%}
+                  {%- assign shown_colors = '' -%}
+                  {%- for variant in product.variants -%}
+                    {%- assign color_option = '' -%}
+                    {%- for option_index in (0..product.options.size) -%}
+                      {%- if product.options[option_index] == 'Color' -%}
+                        {%- assign color_option = variant.options[option_index] -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- if color_option != '' -%}
+                      {%- assign color_check = ',' | append: color_option | append: ',' -%}
+                      {%- unless shown_colors contains color_check -%}
+                        {% assign image_to_use = variant.featured_image | default: product.featured_image %}
+                        {% assign product_title_with_color = product.title | append: ' - ' | append: color_option %}
+            
+                        <li
+                          class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
+                          {% if settings.animations_reveal_on_scroll %}
+                            data-cascade
+                            style="--animation-order: {{ forloop.index }};"
+                          {% endif %}
+                        >
+                          {% render 'card-product',
+                            card_product: product,
+                            media_aspect_ratio: section.settings.image_ratio,
+                            image_shape: section.settings.image_shape,
+                            show_secondary_image: section.settings.show_secondary_image,
+                            show_vendor: section.settings.show_vendor,
+                            show_rating: section.settings.show_rating,
+                            lazy_load: lazy_load,
+                            skip_styles: skip_card_product_styles,
+                            quick_add: section.settings.quick_add,
+                            section_id: section.id,
+                            featured_image: image_to_use,
+                            product_title: product_title_with_color
+                          %}
+                        </li>
+                        {%- assign shown_colors = shown_colors | append: color_check -%}
+                      {%- endunless -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- assign skip_card_product_styles = true -%}
+              {%- endfor -%}
+            </ul>                                                   
+                         
+            {%- if paginate.pages > 1 -%}
+              {% render 'pagination', paginate: paginate, anchor: '' %}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
     </div>
-  </div>
-
+  {%- endpaginate -%}
   {% if section.settings.image_shape == 'arch' %}
     {{ 'mask-arch.svg' | inline_asset_content }}
-  {% endif %}
-  {%- endpaginate -%}
+  {%- endif -%}
 </div>
 
 {% schema %}
