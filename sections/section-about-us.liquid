@@ -26,9 +26,9 @@
             columnsContainer.classList.remove('row-cols-1', 'row-cols-md-2', 'row-cols-lg-3');
     
             // Voeg nieuwe klassen toe op basis van de tekstlengte
-            if (textLength > 500) {
+            if (textLength > 50) {
                 columnsContainer.classList.add('row-cols-1', 'row-cols-lg-3'); // 1 kolom op mobiel, 3 op groot scherm
-            } else if (textLength > 250) {
+            } else if (textLength > 25) {
                 columnsContainer.classList.add('row-cols-1', 'row-cols-md-2'); // 1 kolom op mobiel, 2 op medium scherm
             } else {
                 columnsContainer.classList.add('row-cols-1'); // Altijd 1 kolom
