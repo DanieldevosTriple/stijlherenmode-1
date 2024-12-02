@@ -50,6 +50,10 @@
     margin: 0;
   }
 
+  .collection-selector__title-wrapper:hover {
+    text-decoration: none;
+  }
+
   .text-container {
     display: flex;
     flex-direction: column;
