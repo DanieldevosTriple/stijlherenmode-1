@@ -1286,3 +1286,15 @@ input.mobile-facets__checkbox {
     padding: 0 1rem 1rem;
   }
 }
+
+@media screen and (max-width: 749px) {
+  .expand-icon {
+    width: 10px;
+  }
+
+  .mobile-facets__open {
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+  }
+
+}
