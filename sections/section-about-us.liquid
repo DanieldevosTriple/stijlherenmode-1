@@ -1,24 +1,30 @@
 {{ 'section-about-us.css' | asset_url | stylesheet_tag }}
 
-<section class="about-us container-desktop col-12 section-padding">
-    <div class="content-wrapper">
-        <h1>{{ section.settings.header }}</h1>
-        <p class="dynamic-copy">{{ section.settings.copy }}</p>
+<section class="about-us container-desktop py-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center">{{ section.settings.header }}</h1>
+        </div>
+        <div id="dynamic-columns" class="row">
+            <div class="col-12 col-md-6 col-lg-4">
+                <p class="dynamic-copy">{{ section.settings.copy }}</p>
+            </div>
+        </div>
     </div>
 </section>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const copyElement = document.querySelector('.dynamic-copy');
+    const copyContainer = document.getElementById('dynamic-columns');
     const textLength = copyElement.textContent.trim().length;
-    const wrapper = document.querySelector('.content-wrapper');
 
     if (textLength > 500) {
-        wrapper.classList.add('three-columns');
+        copyContainer.classList.add('row-cols-1', 'row-cols-lg-3');
     } else if (textLength > 250) {
-        wrapper.classList.add('two-columns');
+        copyContainer.classList.add('row-cols-1', 'row-cols-md-2');
     } else {
-        wrapper.classList.add('one-column');
+        copyContainer.classList.add('row-cols-1');
     }
 });
 </script>
@@ -31,13 +37,13 @@ document.addEventListener("DOMContentLoaded", function() {
       "type": "text",
       "id": "header",
       "label": "Header",
-      "default": "About Us"
+      "default": "Over Ons"
     },
     {
       "type": "textarea",
       "id": "copy",
       "label": "Copy",
-      "default": "This is the default about us text."
+      "default": "Welkom bij onze winkel. Wij staan voor kwaliteit en stijl."
     }
   ],
   "presets": [

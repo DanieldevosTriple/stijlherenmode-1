@@ -1,25 +1,8 @@
-.about-us .content-wrapper {
-    display: grid;
-    gap: 20px;
-}
-
-.about-us .content-wrapper.one-column {
-    grid-template-columns: 1fr;
-}
-
-.about-us .content-wrapper.two-columns {
-    grid-template-columns: 1fr 1fr;
-}
-
-.about-us .content-wrapper.three-columns {
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
 .about-us h1 {
-    grid-column: span 3;
-    text-align: center;
+    margin-bottom: 20px;
 }
 
-.about-us p {
-    margin: 0;
+.dynamic-copy {
+    text-align: justify;
+    margin-bottom: 15px;
 }
