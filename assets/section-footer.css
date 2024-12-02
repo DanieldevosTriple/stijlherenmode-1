@@ -234,6 +234,11 @@
   .footer-block.footer-block--menu:only-child {
     text-align: left;
   }
+
+  .custom-padding-payments {
+    padding-bottom: 0rem;
+  }
+
 }
 
 @media (max-width: 768px) {
