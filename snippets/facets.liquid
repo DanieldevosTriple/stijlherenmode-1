@@ -48,59 +48,6 @@
               class="facets__wrapper"
             {% endif %}
           >
-            {% comment %} Pills are right below the title for filter type vertical {% endcomment %}
-            {%- if filter_type == 'vertical' -%}
-              <div class="active-facets active-facets-desktop">
-                <div class="active-facets-vertical-filter">
-                  {%- unless results.filters == empty -%}
-                    <h2
-                      class="facets__heading facets__heading--vertical caption-large text-body"
-                      id="verticalTitle"
-                      tabindex="-1"
-                    >
-                      {{ 'products.facets.filter_by_label' | t }}
-                    </h2>
-                  {%- endunless -%}
-                  <facet-remove class="active-facets__button-wrapper">
-                    <a href="{{ results_url }}" class="active-facets__button-remove underlined-link">
-                      <span>{{ 'products.facets.clear_all' | t }}</span>
-                    </a>
-                  </facet-remove>
-                </div>
-                {%- for filter in results.filters -%}
-                  {%- for value in filter.active_values -%}
-                    <facet-remove>
-                      <a href="{{ value.url_to_remove }}" class="active-facets__button active-facets__button--light">
-                        <span class="active-facets__button-inner button button--tertiary">
-                          {{ filter.label | escape }}: {{ value.label | escape }}
-                          <span class="svg-wrapper">
-                            {{- 'icon-close-small.svg' | inline_asset_content -}}
-                          </span>
-                          <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
-                        </span>
-                      </a>
-                    </facet-remove>
-                  {%- endfor -%}
-                  {% if filter.type == 'price_range' %}
-                    {% assign min = filter.min_value.value %}
-                    {% assign max = filter.max_value.value %}
-                    {%- if min != null or max != null -%}
-                      <facet-remove>
-                        <a href="{{ filter.url_to_remove }}" class="active-facets__button active-facets__button--light">
-                          <span class="active-facets__button-inner button button--tertiary">
-                            {{ min | default: 0 | money }} - {{ max | default: filter.range_max | money }}
-                            <span class="svg-wrapper">
-                              {{- 'icon-close-small.svg' | inline_asset_content -}}
-                            </span>
-                            <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
-                          </span>
-                        </a>
-                      </facet-remove>
-                    {%- endif -%}
-                  {% endif %}
-                {%- endfor -%}
-              </div>
-            {%- endif -%}
 
             <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
             {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
