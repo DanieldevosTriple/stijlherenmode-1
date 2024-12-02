@@ -1040,6 +1040,7 @@ summary::-webkit-details-marker {
   position: absolute;
   top: 50%;
   left: 50%;
+  font-family:  TradeGothic LT CondEighteen, sans-serif;
 }
 
 .button-featured-product-custom {
@@ -1054,6 +1055,7 @@ summary::-webkit-details-marker {
   text-transform: uppercase;
   font-weight: 600;
   width: max-content;
+  font-family:  TradeGothic LT CondEighteen, sans-serif;
 }
 
 .padding-button {
