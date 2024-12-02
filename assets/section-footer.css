@@ -319,7 +319,7 @@
 }
 
 .footer__list-social.list-social:only-child {
-  justify-content: center;
+  justify-content: left;
 }
 
 .footer-block__newsletter {
