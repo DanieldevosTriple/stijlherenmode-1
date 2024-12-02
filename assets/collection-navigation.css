@@ -32,6 +32,15 @@
   .collection-selector__title-wrapper {
     position: relative;
     font-size: 1.5rem;
+    text-decoration: none;
+    color: black;
+  }
+
+  .collection-selector__link a {
+    position: relative;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: black;
   }
   
   .collection-selector__item:hover .collection-selector__title-wrapper::before,
