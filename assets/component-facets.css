@@ -1,6 +1,7 @@
 .facets-wrapper {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
+  margin-bottom: 15px;
 }
 
 .facets-container {
@@ -166,10 +167,10 @@
   grid-column-start: span 2;
 }
 
-.facets__form {
-  display: grid;
-  gap: 0 3.5rem;
-  grid-template-columns: 1fr max-content max-content;
+.facets-wrapper {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    margin-bottom: 15px;
 }
 
 .facets__wrapper {
@@ -179,6 +180,7 @@
   grid-row: 1;
   display: flex;
   flex-wrap: wrap;
+  height: 10px;
 }
 
 .facets__heading {
