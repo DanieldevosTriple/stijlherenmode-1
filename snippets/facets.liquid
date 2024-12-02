@@ -93,7 +93,7 @@
                             {{ 'products.facets.filter_and_operator_subtitle' | t }}
                           </span>
                         {%- endif -%}
-                        {{- 'icon-caret.svg' | inline_asset_content -}}
+                        {{- 'icon-expand.svg' | inline_asset_content -}}
                       </div>
                     </summary>
                     <div
@@ -219,22 +219,6 @@
                           {%- endfor -%}
                         </ul>
                       </fieldset>
-                      {%- if filter.values.size > show_more_number and filter_type == 'vertical' -%}
-                        <show-more-button>
-                          <button
-                            class="button-show-more link underlined-link"
-                            id="Show-More-{{ forloop.index }}-{{ section.id }}"
-                            type="button"
-                          >
-                            <span class="label-show-more label-text"
-                              ><span aria-hidden="true">+ </span>{{ 'products.facets.show_more' | t -}}
-                            </span>
-                            <span class="label-show-less label-text hidden"
-                              ><span aria-hidden="true">- </span>{{ 'products.facets.show_less' | t -}}
-                            </span>
-                          </button>
-                        </show-more-button>
-                      {%- endif %}
                     </div>
                   </details>
                 {% when 'price_range' %}
@@ -249,7 +233,7 @@
                     <summary class="facets__summary caption-large focus-offset">
                       <div>
                         <span>{{ filter.label | escape }}</span>
-                        {{- 'icon-caret.svg' | inline_asset_content -}}
+                        {{- 'icon-expand.svg' | inline_asset_content -}}
                       </div>
                     </summary>
                     <div
@@ -308,7 +292,7 @@
                     {%- endfor -%}
                   </select>
                   <span class="svg-wrapper">
-                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                    {{- 'icon-expand.svg' | inline_asset_content -}}
                   </span>
                 </div>
               </div>
@@ -624,7 +608,7 @@
                           {%- endfor -%}
                         </select>
                         <span class="svg-wrapper">
-                          {{- 'icon-caret.svg' | inline_asset_content -}}
+                          {{- 'icon-expand.svg' | inline_asset_content -}}
                         </span>
                       </div>
                     </div>
@@ -731,7 +715,7 @@
                 {%- endfor -%}
               </select>
               <span class="svg-wrapper">
-                {{- 'icon-caret.svg' | inline_asset_content -}}
+                {{- 'icon-expand.svg' | inline_asset_content -}}
               </span>
             </div>
           </div>
