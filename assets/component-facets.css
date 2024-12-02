@@ -224,6 +224,12 @@
   transition: text-decoration var(--duration-short) ease;
 }
 
+.facets__item {
+  display: flex;
+  align-items: center; /* Verticaal centreren */
+  gap: 8px; /* Ruimte tussen de elementen */
+}
+
 .facets__summary-label {
   font-family: TradeGothic LT CondEighteen;
 }
