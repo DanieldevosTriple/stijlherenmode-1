@@ -135,7 +135,7 @@
     width: 100%; /* Zorg ervoor dat de input ook de volledige breedte gebruikt */
   }
 
-  .button-text {
+  .newsletter-form__button:not(:focus-visible):not(.focused) {
     padding: 1.5rem;
   }
 }
