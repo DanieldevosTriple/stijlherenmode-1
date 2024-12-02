@@ -12,6 +12,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  font-family: TradeGothic LT CondEighteen, sans-serif;
+  text-transform: uppercase;
 }
 
 .pagination__list > li {
@@ -33,6 +35,8 @@
   width: 100%;
   padding: 0;
   text-decoration: none;
+  font-family: TradeGothic LT CondEighteen, sans-serif;
+  text-transform: uppercase;
 }
 
 a.pagination__item:hover::after {
