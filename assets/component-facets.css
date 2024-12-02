@@ -170,7 +170,6 @@
   display: grid;
   gap: 0 3.5rem;
   grid-template-columns: 1fr max-content max-content;
-  margin-bottom: 0.5rem;
 }
 
 .facets__wrapper {
@@ -1108,7 +1107,7 @@ input.mobile-facets__checkbox {
 }
 
 .product-count__text {
-  font-size: 1.0rem;
+  font-size: 1.4rem !important;
   line-height: calc(1 + 0.5 / var(--font-body-scale));
   margin: 0;
 }
