@@ -67,19 +67,17 @@
               </div>
             </div>
           </div>
-          {% if forloop.first and section.settings.button_text != blank %}
-            </div>
-            <!-- Sluit de row hier af om de knop erbuiten te plaatsen -->
-            <div class="text-center mt-3">
-              <a href="{{ section.settings.button_link }}" class="button-featured-product-custom about-us-button">
-                {{ section.settings.button_text }}
-              </a>
-            </div>
-            <div class="row">
-            <!-- Heropen de row na de knop -->
-          {% endif %}
         {% endfor %}
       </div>
+      <!-- Voeg de knop onder alle kolommen toe -->
+      {% if section.settings.button_text != blank %}
+        <div class="text-center mt-3">
+          <a href="{{ section.settings.button_link }}" class="button-featured-product-custom about-us-button">
+            {{ section.settings.button_text }}
+          </a>
+        </div>
+      {% endif %}
     </div>
   </section>
+  
   
