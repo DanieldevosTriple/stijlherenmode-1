@@ -227,7 +227,7 @@
 .facets__item {
   display: flex;
   align-items: center; /* Verticaal centreren */
-  gap: 8px; /* Ruimte tussen de elementen */
+  gap: 5rem; /* Ruimte tussen de elementen */
 }
 
 .facets__summary-label {

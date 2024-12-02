@@ -88,11 +88,6 @@
                             >
                           {%- endif -%}
                         </span>
-                        {%- if filter_type == 'vertical' and filter.operator == 'AND' -%}
-                          <span class="facets__and-helptext">
-                            {{ 'products.facets.filter_and_operator_subtitle' | t }}
-                          </span>
-                        {%- endif -%}
                         {{- 'icon-expand.svg' | inline_asset_content -}}
                       </div>
                     </summary>
@@ -232,7 +227,7 @@
                   >
                     <summary class="facets__summary caption-large focus-offset">
                       <div>
-                        <span>{{ filter.label | escape }}</span>
+                        <span class="facets__summary-label">{{ filter.label | escape }}</span>
                         {{- 'icon-expand.svg' | inline_asset_content -}}
                       </div>
                     </summary>
