@@ -234,9 +234,7 @@
       endif
     %}
 
-      {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
-      {%- endif -%}
           <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
             <div class="header__heading-logo-wrapper">
               {%- assign logo_black_alt = settings.logo_black.alt | default: shop.name | escape -%}
@@ -258,9 +256,7 @@
               />
             </div>
           </a>
-      {%- if request.page_type == 'index' -%}
         </h1>
-      {%- endif -%}
 
     <div class="header__icons">
 
