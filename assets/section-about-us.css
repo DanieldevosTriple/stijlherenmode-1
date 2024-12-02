@@ -6,3 +6,8 @@
     text-align: justify;
     margin-bottom: 15px;
 }
+
+.text-about h2 {
+    font-weight: 700;
+    text-align: left;
+}
