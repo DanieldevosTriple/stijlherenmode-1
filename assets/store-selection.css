@@ -101,7 +101,11 @@
     }
     
     .store-selector__list {
-      padding-bottom: 15rem;
+      padding-bottom: 5rem;
+    }
+
+    .store-selector {
+      padding-bottom: 0rem;
     }
 
   }
