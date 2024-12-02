@@ -37,7 +37,7 @@
   <!-- Content Section -->
 <div class="footer__content-top col-xs-12 col-md-6 col-lg-6">
   <!-- Column 1 -->
-  <div class="footer__column col-xs-12 col-md-6 col-lg-6">
+  <div class="footer__column border-mobile col-xs-12 col-md-6 col-lg-6">
     {%- for block in section.blocks -%}
       {%- if block.type == 'link_list' and forloop.first -%}
         <div class="footer-block footer-block--menu">
@@ -65,7 +65,7 @@
   </div>  
 
   <!-- Column 2 -->
-  <div class="footer__column col-xs-12 col-md-6 col-lg-6">
+  <div class="footer__column border-mobile col-xs-12 col-md-6 col-lg-6">
     {%- for block in section.blocks -%}
       {%- if block.type == 'link_list' and forloop.first -%}
         <div class="footer-block footer-block--menu">
@@ -92,7 +92,7 @@
     {%- endfor -%}
   
     {%- if section.settings.show_social -%}
-    <div class="footer-block footer-block__social">
+    <div class="footer-block border-mobile footer-block__social">
       <h2 class="footer-block__heading__menu custom-padding-payments">
         Volg ons
         <button class="footer__toggle" aria-expanded="false">+</button>
@@ -104,7 +104,7 @@
     {%- else -%}
       <p>Social icons zijn uitgeschakeld</p>
     {%- endif -%}
-    <div class="footer-block footer__payment">
+    <div class="footer-block border-mobile footer__payment">
       <h2 class="footer-block__heading__menu custom-padding-payments">
         Betaalmethodes
         <button class="footer__toggle" aria-expanded="false">+</button>
