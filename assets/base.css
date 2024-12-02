@@ -27,7 +27,7 @@
 
 /* Trade Gothic Condensed Eighteen */
 @font-face {
-  font-family: 'TradeGothicLT';
+  font-family: 'TradeGothic LT CondEighteen';
   src: url('{{ "TradeGothicLT-CondEighteen.woff2" | asset_url }}') format('woff2'),
        url('{{ "TradeGothicLT-CondEighteen.woff" | asset_url }}') format('woff');
   font-weight: 400;
@@ -36,7 +36,7 @@
 
 /* Trade Gothic Condensed Eighteen Oblique */
 @font-face {
-  font-family: 'TradeGothicLT';
+  font-family: 'TradeGothic LT CondEighteen';
   src: url('{{ "TradeGothicLT-CondEighteenObl.woff2" | asset_url }}') format('woff2'),
        url('{{ "TradeGothicLT-CondEighteenObl.woff" | asset_url }}') format('woff');
   font-weight: 400;
@@ -405,7 +405,7 @@ h5,
 .h3,
 .h4,
 .h5 {
-  font-family: 'TradeGothicLT', sans-serif;
+  font-family: 'TradeGothic LT CondEighteen', sans-serif;
   text-transform: uppercase;
   font-style: var(--font-heading-style);
   font-weight: var(--font-heading-weight);
