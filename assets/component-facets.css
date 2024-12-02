@@ -180,7 +180,6 @@
   grid-row: 1;
   display: flex;
   flex-wrap: wrap;
-  height: 10px;
 }
 
 .facets__heading {
