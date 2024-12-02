@@ -54,6 +54,10 @@
   }
   
   /* Description styling */
+  .store-selector {
+    padding-bottom: 15rem;
+  }
+
   .store-selector__description {
     color: #888;
     font-size: 1.5rem;
