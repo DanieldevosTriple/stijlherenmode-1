@@ -19,3 +19,11 @@
   display: flex;
   padding: 0.5rem;
 }
+
+@media screen and (max-width: 749px) {
+
+  .list-payment {
+    justify-content: unset;
+}
+
+}
