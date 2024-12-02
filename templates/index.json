@@ -161,6 +161,10 @@
       "settings": {
         "title": "Onze winkels"
       }
+    },
+    "section_about_us_DwCLzV": {
+      "type": "section-about-us",
+      "settings": {}
     }
   },
   "order": [
@@ -169,6 +173,7 @@
     "two_grid_navigation_cards_gLnhfz",
     "featured_product_custom_BpBaCC",
     "collection_navigation_jeAiJL",
+    "section_about_us_DwCLzV",
     "featured_banner_tBJDRR",
     "store_selection_ygz9BV"
   ]
