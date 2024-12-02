@@ -1289,7 +1289,7 @@ input.mobile-facets__checkbox {
 
 @media screen and (max-width: 749px) {
   .expand-icon {
-    width: 10px;
+    width: 10px !important;
   }
 
   .mobile-facets__open {
