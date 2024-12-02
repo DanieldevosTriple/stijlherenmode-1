@@ -60,16 +60,20 @@
 
     .button-featured-product-custom {
       display: block;
-      margin: 10px auto;
       max-width: 20rem;
     }
 
     .featured-product__title {
-      text-align: center;
+      text-align: left;
     }
 
     .featured-product__description {
-      text-align: center;
+      text-align: left;
+    }
+
+    .text-container {
+      padding-left: 2rem;
+      padding-right: 2rem;
     }
 
   }
