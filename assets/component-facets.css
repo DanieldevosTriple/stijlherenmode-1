@@ -13,6 +13,11 @@
   overflow-y: auto;
 }
 
+.facet-checkbox__text-label {
+  font-family:  TradeGothic LT CondEighteen, sans-serif;
+  text-transform: uppercase;
+}
+
 @media screen and (min-width: 750px) {
   .facets-container > * + * {
     margin-top: 0;
