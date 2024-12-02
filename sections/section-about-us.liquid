@@ -55,24 +55,31 @@
 {% endschema %}
 
 <section class="about-us-section">
-<div class="col-12 container-desktop my-4">
-  <h2 class="text-about mb-4">{{ section.settings.section_title }}</h2>
-  <div class="row">
-    {% for block in section.blocks %}
-      <div class="col-md-{{ 12 | divided_by: section.settings.columns_per_row }} mb-4 text-column-about">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">{{ block.settings.title }}</h5>
-            <p class="card-text">{{ block.settings.content }}</p>
-            {% if forloop.first and section.settings.button_text != blank %}
+    <div class="col-12 container-desktop my-4">
+      <h2 class="text-about mb-4">{{ section.settings.section_title }}</h2>
+      <div class="row">
+        {% for block in section.blocks %}
+          <div class="col-md-{{ 12 | divided_by: section.settings.columns_per_row }} mb-4 text-column-about">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">{{ block.settings.title }}</h5>
+                <p class="card-text">{{ block.settings.content }}</p>
+              </div>
+            </div>
+          </div>
+          {% if forloop.first and section.settings.button_text != blank %}
+            </div>
+            <!-- Sluit de row hier af om de knop erbuiten te plaatsen -->
+            <div class="text-center mt-3">
               <a href="{{ section.settings.button_link }}" class="button-featured-product-custom about-us-button">
                 {{ section.settings.button_text }}
               </a>
-            {% endif %}
-          </div>
-        </div>
+            </div>
+            <div class="row">
+            <!-- Heropen de row na de knop -->
+          {% endif %}
+        {% endfor %}
       </div>
-    {% endfor %}
-  </div>
-</div>
-</section>
+    </div>
+  </section>
+  
