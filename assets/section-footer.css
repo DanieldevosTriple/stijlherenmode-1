@@ -13,6 +13,12 @@
   font-size: 1.7rem !important;
 }
 
+.footer-block__social {
+  margin-bottom: 1.5rem;
+  padding-right: 0;
+  padding-left: 0;
+}
+
 .footer:not(.color-scheme-1) {
   border-top: none;
 }
