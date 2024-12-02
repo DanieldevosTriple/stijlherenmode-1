@@ -122,7 +122,7 @@
     flex-direction: column; /* Input en knop onder elkaar */
     gap: 5px; /* Verminder de ruimte tussen de elementen */
     position: relative;
-    width: 10  0%;
+    width: 100%;
     display: flex;
     border: 1px solid #fff;
   }
