@@ -95,7 +95,7 @@
         {%- render 'social-icons', class: 'footer__list-social' -%}
       </div>
     {%- endif -%}
-    <div class="footer__payment col-xs-12 col-md-6 col-lg-6">
+    <div class="footer__payment col-12">
       <ul class="list-payment" role="list">
         {%- for type in shop.enabled_payment_types -%}
           <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>

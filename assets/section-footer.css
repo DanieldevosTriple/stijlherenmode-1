@@ -415,6 +415,8 @@
 @media screen and (min-width: 750px) {
   .footer__payment {
     margin-bottom: 1.5rem;
+    padding-right: 0px;
+    padding-left: 0px;
   }
 }
 
