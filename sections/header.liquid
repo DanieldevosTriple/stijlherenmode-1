@@ -413,18 +413,29 @@ window.addEventListener('resize', adjustHeadingFontSize);
         return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
     }
 
-    // Functie om logo's aan te passen op basis van de achtergrondkleur
-    function adjustLogosBasedOnBackground() {
-        const backgroundColor = getCSSVariableValue('--menu-background-color');
-        const isLightBackground = isLightColor(backgroundColor);
+    // Functie om logo aan te passen op basis van scrollpositie
+    function adjustLogo() {
+        const currentScrollPosition = window.scrollY;
 
-        // Stel de zichtbaarheid van logo's expliciet in
-        if (isLightBackground) {
-            logoBlack.style.display = 'block';
+        if (currentScrollPosition === 0) {
+            // Helemaal bovenaan de pagina
+            header.setAttribute('data-theme-mode', 'transparent');
+            logoBlack.style.display = 'block'; // Verander indien nodig voor jouw design
             logoWhite.style.display = 'none';
         } else {
-            logoBlack.style.display = 'none';
-            logoWhite.style.display = 'block';
+            // Tijdens scrollen: gebruik de achtergrondkleur
+            header.removeAttribute('data-theme-mode');
+            const backgroundColor = getCSSVariableValue('--menu-background-color');
+            const isLightBackground = isLightColor(backgroundColor);
+
+            // Logo aanpassen op basis van achtergrondkleur
+            if (isLightBackground) {
+                logoBlack.style.display = 'block';
+                logoWhite.style.display = 'none';
+            } else {
+                logoBlack.style.display = 'none';
+                logoWhite.style.display = 'block';
+            }
         }
     }
 
@@ -437,42 +448,24 @@ window.addEventListener('resize', adjustHeadingFontSize);
 
     // Scrollgedrag afhandelen
     function handleScroll() {
+        adjustLogo();
+
         const currentScrollPosition = window.scrollY;
-
-        if (currentScrollPosition === 0) {
-            // Helemaal boven: header transparant maken
-            header.setAttribute('data-theme-mode', 'transparent');
-            logoBlack.style.display = 'block';
-            logoWhite.style.display = 'none';
+        if (currentScrollPosition > lastScrollPosition) {
+            // Scrollen naar beneden: verberg header (optioneel)
+            header.classList.add('hidden');
         } else {
-            // Niet bovenaan: header normaal maken
-            header.removeAttribute('data-theme-mode');
-
-            if (currentScrollPosition > lastScrollPosition) {
-                // Scrollen naar beneden
-                adjustLogosBasedOnBackground();
-                header.classList.add('hidden');
-            } else {
-                // Scrollen naar boven
-                adjustLogosBasedOnBackground();
-                header.classList.remove('hidden');
-            }
+            // Scrollen naar boven: toon header
+            header.classList.remove('hidden');
         }
 
-        lastScrollPosition = currentScrollPosition; // Laatste scrollpositie bijwerken
+        lastScrollPosition = currentScrollPosition;
     }
 
     // Initialisatie
     function init() {
-        // Controleer op aanpassing van logo's bij de start
-        if (window.scrollY === 0) {
-            header.setAttribute('data-theme-mode', 'transparent');
-            logoBlack.style.display = 'block';
-            logoWhite.style.display = 'none';
-        } else {
-            header.removeAttribute('data-theme-mode');
-            adjustLogosBasedOnBackground();
-        }
+        // Controleer de logo-instellingen bij starten
+        adjustLogo();
 
         // Event listeners toevoegen
         window.addEventListener('scroll', handleScroll);
@@ -480,7 +473,6 @@ window.addEventListener('resize', adjustHeadingFontSize);
 
     init();
 });
-
   </script>  
 
 <script type="application/ld+json">
