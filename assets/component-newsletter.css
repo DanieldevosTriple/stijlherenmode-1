@@ -134,4 +134,8 @@
   .newsletter-form__field-input {
     width: 100%; /* Zorg ervoor dat de input ook de volledige breedte gebruikt */
   }
+
+  .button-text {
+    padding: 1.5rem;
+  }
 }
