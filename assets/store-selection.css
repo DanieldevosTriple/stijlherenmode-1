@@ -1,9 +1,10 @@
-@media (max-width: 768px) {
-  .no-right-padding {
-    padding-right: 15px !important;
+  @media (max-width: 768px) {
+    .no-padding-mobile {
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+    }
   }
-}
-    
+   
   .store-selector {
     padding-top: 15rem;
     padding-top: 15rem;

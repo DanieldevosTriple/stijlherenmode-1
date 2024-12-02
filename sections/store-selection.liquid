@@ -22,7 +22,7 @@
     </div>
 
     <!-- Right: Image and Message -->
-    <div class="col-md-8 text-right no-right-padding">
+    <div class="col-md-8 text-right no-right-padding no-padding-mobile">
       <div class="store-selector__image-container">
         {% if section.blocks.size > 0 %}
         <img class="img-fluid store-selector__image" src="{{ section.blocks[0].settings.image | file_url }}" alt="Store Image">
