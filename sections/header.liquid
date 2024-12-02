@@ -129,15 +129,27 @@
     }
   }
 
+  @media (prefers-color-scheme: light) {
   /* Scroll-activated header */
-  .scrolled-past-header .header-wrapper--transparent {
-    background-color: white; /* Wordt wit bij scrollen */
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Optioneel: voeg een schaduw toe */
+    .scrolled-past-header .header-wrapper--transparent {
+      background-color: white; /* Wordt wit bij scrollen */
+    }
+
+    .scrolled-past-header .header-wrapper--transparent .header__heading-link,
+    .scrolled-past-header .header-wrapper--transparent .header__icon {
+      color: black; /* Zorg ervoor dat iconen en tekst zichtbaar blijven */
+    }
   }
 
-  .scrolled-past-header .header-wrapper--transparent .header__heading-link,
-  .scrolled-past-header .header-wrapper--transparent .header__icon {
-    color: black; /* Zorg ervoor dat iconen en tekst zichtbaar blijven */
+  @media (prefers-color-scheme: dark) {
+    .scrolled-past-header .header-wrapper--transparent {
+    background-color: black; /* Wordt wit bij scrollen */
+    }
+
+    .scrolled-past-header .header-wrapper--transparent .header__heading-link,
+    .scrolled-past-header .header-wrapper--transparent .header__icon {
+      color: white; /* Zorg ervoor dat iconen en tekst zichtbaar blijven */
+    }
   }
 
   /* Standard transparant header */
