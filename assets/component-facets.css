@@ -75,7 +75,7 @@
   flex-grow: 1;
   justify-content: flex-end;
   text-transform: uppercase;
-  font-family:  TradeGothic LT CondEighteen, sans-serif;;
+  font-family:  TradeGothic LT CondEighteen, sans-serif;
 }
 
 .facet-filters__field .select {
@@ -95,6 +95,8 @@
   min-width: auto;
   min-height: auto;
   transition: none;
+  font-family: TradeGothic LT CondEighteen, sans-serif;
+  text-transform: uppercase;
 }
 
 .select .icon-caret {
