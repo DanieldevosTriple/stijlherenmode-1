@@ -95,6 +95,16 @@ slider-component.slider-component-full-width {
   .slider.slider--mobile.contains-content-container .slider__slide {
     --focus-outline-padding: 0rem;
   }
+
+  ul {
+    display: block;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+
 }
 
 @media screen and (min-width: 750px) {
