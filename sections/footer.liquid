@@ -91,9 +91,12 @@
     {%- endfor -%}
   
     {%- if section.settings.show_social -%}
+      <p>Social icons worden weergegeven</p>
       <div class="footer-block footer-block--social">
         {%- render 'social-icons', class: 'footer__list-social' -%}
       </div>
+    {%- else -%}
+      <p>Social icons zijn uitgeschakeld</p>
     {%- endif -%}
     <div class="footer__payment col-12">
       <h2 class="footer-block__heading__menu custom-padding-payments">
