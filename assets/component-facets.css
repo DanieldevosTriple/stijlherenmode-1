@@ -230,6 +230,13 @@
   gap: 5rem; /* Ruimte tussen de elementen */
 }
 
+.svg-wrapper-sort {
+  width: 1rem;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+}
+
 .facets__summary-label {
   font-family: TradeGothic LT CondEighteen;
 }
