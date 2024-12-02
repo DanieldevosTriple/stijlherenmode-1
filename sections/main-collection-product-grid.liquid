@@ -63,9 +63,7 @@
       <div
         class="product-grid-container scroll-trigger animate--slide-in"
         id="ProductGridContainer"
-        {% if settings.animations_reveal_on_scroll %}
           data-cascade
-        {% endif %}
       >
         {%- if collection.products.size == 0 -%}
           <div class="collection collection--empty" id="product-grid" data-id="{{ section.id }}">
@@ -82,7 +80,7 @@
             </div>
           </div>
         {%- else -%}
-          <div class="">
+          <div class="collection">
             <div class="loading-overlay gradient"></div>
             <ul
               id="product-grid"
