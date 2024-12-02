@@ -441,7 +441,6 @@ ul {
 @media screen and (max-width: 1024px) {
 
   ul {
-    display: block;
     flex-wrap: wrap;
     gap: 1rem;
     padding: 0;
