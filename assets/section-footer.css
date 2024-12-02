@@ -205,6 +205,11 @@
 }
 
 @media (max-width: 768px) {
+  .h2, .h2 {
+    font-size: 2.8rem !important;
+    font-weight: 700 !important;
+  }
+
   .footer-block--menu {
     width: 100%;
   }
@@ -252,7 +257,7 @@
 .footer-block__heading {
   margin-bottom: 2rem;
   margin-top: 0;
-  font-size: calc(var(--font-heading-scale) * 1.6rem);
+  font-size: ;
 }
 
 @media screen and (min-width: 990px) {
