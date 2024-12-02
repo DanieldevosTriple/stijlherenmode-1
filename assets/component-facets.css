@@ -241,7 +241,8 @@
 }
 
 .facets__summary-label {
-  font-family: TradeGothic LT CondEighteen;
+  font-family: TradeGothic LT CondEighteen, sans-serif;
+  text-transform: uppercase;
 }
 
 .facets__summary:hover .facets__summary-label {
