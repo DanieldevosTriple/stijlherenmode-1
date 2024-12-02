@@ -28,7 +28,7 @@
   endif
 -%}
 
-<div class="facets-container scroll-trigger animate--fade-in">
+<div class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
   {%- if filter_type == 'horizontal' -%}
     <facet-filters-form class="facets small-hide">
       <form
@@ -42,7 +42,12 @@
 
         {% if enable_filtering %}
           {% comment %} Heading is the first tabbable element on filter type horizontal {% endcomment %}
-          <div id="FacetsWrapperDesktop" class="facets__wrapper">
+          <div
+            id="FacetsWrapperDesktop"
+            {% if filter_type == 'horizontal' %}
+              class="facets__wrapper"
+            {% endif %}
+          >
 
             <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
             {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
@@ -309,6 +314,9 @@
           {%- if enable_sorting -%}
             <div class="facet-filters sorting caption">
               <div class="facet-filters__field">
+                <h2 class="facet-filters__label caption-large text-body">
+                  <label for="SortBy">{{ 'products.facets.sort_by_label' | t }}</label>
+                </h2>
                 <div class="select">
                   {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
                   <select
@@ -746,6 +754,9 @@
       <form id="FacetSortDrawerForm" class="facets__form">
         <div class="facet-filters sorting caption small-hide">
           <div class="facet-filters__field">
+            <h2 class="facet-filters__label caption-large text-body">
+              <label for="SortBy">{{ 'products.facets.sort_by_label' | t }}</label>
+            </h2>
             <div class="select">
               {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
               <select
