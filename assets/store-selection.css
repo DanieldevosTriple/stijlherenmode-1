@@ -31,7 +31,9 @@
   /* Title with '--' decorations */
   .store-selector__title-wrapper {
     position: relative;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
+    text-decoration: none;
+    color: #000;
   }
   
   .store-selector__item:hover .store-selector__title-wrapper::before,
