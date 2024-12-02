@@ -134,6 +134,8 @@
 
   .footer__payment {
     order: 1;
+    padding-right: 0;
+    padding-left: 0;
   }
 
 }
