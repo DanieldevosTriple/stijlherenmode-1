@@ -28,7 +28,7 @@
   endif
 -%}
 
-<div class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+<div class="facets-container scroll-trigger animate--fade-in">
   {%- if filter_type == 'horizontal' -%}
     <facet-filters-form class="facets small-hide">
       <form
@@ -42,7 +42,6 @@
 
         {% if enable_filtering %}
           {% comment %} Heading is the first tabbable element on filter type horizontal {% endcomment %}
-        <div class="facets-container">
           <div id="FacetsWrapperDesktop" class="facets__wrapper">
 
             <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
@@ -257,7 +256,6 @@
               {% endcase %}
             {%- endfor -%}
           </div>
-        </div>
           {% comment %} Pills after filtes on filter type horizontal {% endcomment %}
           {%- if filter_type == 'horizontal' -%}
             <div class="active-facets active-facets-desktop">

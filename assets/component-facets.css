@@ -1,10 +1,3 @@
-.facets-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px; /* Optioneel: ruimte tussen filters en sortering */
-}
-
 .facets-wrapper {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
@@ -12,10 +5,10 @@
 }
 
 .facets-container {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  grid-template-rows: repeat(2, auto);
-  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px; /* Optioneel: ruimte tussen filters en sortering */
 }
 
 .active-facets-mobile {
@@ -45,11 +38,7 @@
 }
 
 .facet-filters {
-  align-items: flex-start;
-  display: flex;
-  grid-column: 2;
-  grid-row: 1;
-  padding-left: 2.5rem;
+  flex: 0 0 auto; /* Zorg ervoor dat de sortering vaste grootte heeft */
 }
 
 @media screen and (min-width: 990px) {
@@ -181,12 +170,7 @@
 }
 
 .facets__wrapper {
-  align-items: center;
-  align-self: flex-start;
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  flex-wrap: wrap;
+  flex: 1;
 }
 
 .facets__heading {
