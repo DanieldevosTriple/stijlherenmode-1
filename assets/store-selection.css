@@ -96,6 +96,6 @@
   }
   
   .no-right-padding {
-    padding-right: 0px;
+    padding-right: 0px !important;
   }
   

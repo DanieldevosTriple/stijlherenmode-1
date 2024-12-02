@@ -4,7 +4,7 @@
     <div class="row g-3">
 
       <!-- Left: Image and Message -->
-      <div class="col-md-7 text-right no-right-padding">
+      <div class="col-md-7 text-right no-right-padding no-padding-mobile">
         <div class="collection-selector__image-container">
           {% if section.blocks.size > 0 %}
           <img class="img-fluid collection-selector__image" src="{{ section.blocks[0].settings.image | file_url }}" alt="Collection Image">

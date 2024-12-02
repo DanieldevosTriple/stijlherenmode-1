@@ -1,4 +1,11 @@
-.collection-selector {
+  @media (max-width: 768px) {
+    .no-padding-mobile {
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+    }
+  }
+    
+  .collection-selector {
     padding-top: 15rem;
     padding-top: 15rem;
   }
