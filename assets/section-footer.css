@@ -154,6 +154,10 @@
   padding-left: 0px;
 }
 
+.custom-padding-payments {
+  padding-bottom: 2rem;
+}
+
 .footer__content-bottom:only-child {
   border-top: 0;
 }
