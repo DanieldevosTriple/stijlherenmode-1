@@ -165,7 +165,7 @@
   display: grid;
   gap: 0 3.5rem;
   grid-template-columns: 1fr max-content max-content;
-  margin-bottom: 0.5rem;
+  margin-bottom: 2rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid grey;
