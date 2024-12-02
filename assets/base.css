@@ -225,6 +225,10 @@
   max-width: var(--page-width);
 }
 
+.expand-icon {
+  width: 10px;
+}
+
 .col-12-full-width {
   width: 100%;
 }
