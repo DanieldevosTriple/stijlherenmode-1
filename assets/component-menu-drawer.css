@@ -98,8 +98,8 @@ details[open].menu-opening > .menu-drawer__submenu {
   margin-bottom: 0.2rem;
 }
 
-.menu-drawer__menu ul {
-  display: block;
+.menu-drawer__menu {
+  display: block !important;
 }
 
 .menu-drawer__menu-item {
