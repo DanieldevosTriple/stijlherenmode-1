@@ -125,10 +125,35 @@
     },
     "section_about_us_DwCLzV": {
       "type": "section-about-us",
-      "settings": {
-        "header": "Stijlvol. Tijdloos. Herenmode uit Alkmaar.",
-        "copy": "Welkom bij dé bestemming voor herenmode in Alkmaar, waar stijl en kwaliteit samenkomen. Ontdek een zorgvuldig samengestelde collectie kleding en accessoires die jouw unieke persoonlijkheid en smaak weerspiegelen.\n\nOf je nu op zoek bent naar een perfecte outfit voor een speciale gelegenheid, een zakelijk statement wilt maken, of gewoon je dagelijkse garderobe wilt upgraden – wij hebben alles in huis om jou er op je best uit te laten zien.\n\nOnze focus ligt op tijdloze stukken die passen bij iedere man, van casual en modern tot klassiek en elegant. Kom langs en ervaar persoonlijke service, deskundig advies en de beste herenmode van Alkmaar.\n\nWelkom bij dé bestemming voor herenmode in Alkmaar, waar stijl en kwaliteit samenkomen. Ontdek een zorgvuldig samengestelde collectie kleding en accessoires die jouw unieke persoonlijkheid en smaak weerspiegelen.\n\nOf je nu op zoek bent naar een perfecte outfit voor een speciale gelegenheid, een zakelijk statement wilt maken, of gewoon je dagelijkse garderobe wilt upgraden – wij hebben alles in huis om jou er op je best uit te laten zien.\n\nOnze focus ligt op tijdloze stukken die passen bij iedere man, van casual en modern tot klassiek en elegant. Kom langs en ervaar persoonlijke service, deskundig advies en de beste herenmode van Alkmaar.\n\nWelkom bij dé bestemming voor herenmode in Alkmaar, waar stijl en kwaliteit samenkomen. Ontdek een zorgvuldig samengestelde collectie kleding en accessoires die jouw unieke persoonlijkheid en smaak weerspiegelen.\n\nOf je nu op zoek bent naar een perfecte outfit voor een speciale gelegenheid, een zakelijk statement wilt maken, of gewoon je dagelijkse garderobe wilt upgraden – wij hebben alles in huis om jou er op je best uit te laten zien.\n\nOnze focus ligt op tijdloze stukken die passen bij iedere man, van casual en modern tot klassiek en elegant. Kom langs en ervaar persoonlijke service, deskundig advies en de beste herenmode van Alkmaar.\n\nWelkom bij dé bestemming voor herenmode in Alkmaar, waar stijl en kwaliteit samenkomen. Ontdek een zorgvuldig samengestelde collectie kleding en accessoires die jouw unieke persoonlijkheid en smaak weerspiegelen.\n\nOf je nu op zoek bent naar een perfecte outfit voor een speciale gelegenheid, een zakelijk statement wilt maken, of gewoon je dagelijkse garderobe wilt upgraden – wij hebben alles in huis om jou er op je best uit te laten zien.\n\nOnze focus ligt op tijdloze stukken die passen bij iedere man, van casual en modern tot klassiek en elegant. Kom langs en ervaar persoonlijke service, deskundig advies en de beste herenmode van Alkmaar."
-      }
+      "blocks": {
+        "grid_item_DmWDRH": {
+          "type": "grid_item",
+          "settings": {
+            "title": "",
+            "content": "Column 1"
+          }
+        },
+        "grid_item_Ly8FJ6": {
+          "type": "grid_item",
+          "settings": {
+            "title": "",
+            "content": "Column 1"
+          }
+        },
+        "grid_item_hYDVTF": {
+          "type": "grid_item",
+          "settings": {
+            "title": "",
+            "content": "Column 1"
+          }
+        }
+      },
+      "block_order": [
+        "grid_item_DmWDRH",
+        "grid_item_Ly8FJ6",
+        "grid_item_hYDVTF"
+      ],
+      "settings": {}
     },
     "featured_banner_tBJDRR": {
       "type": "featured-banner",
