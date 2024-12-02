@@ -3678,8 +3678,14 @@ details-disclosure > details {
   }
 }
 
-@media screen and (max-width: 749) {
+@media screen and (max-width: 749px) {
   .expand-icon {
     width: 10px;
   }
+
+  .mobile-facets__open {
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+  }
+
 }
