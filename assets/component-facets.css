@@ -75,6 +75,7 @@
   flex-grow: 1;
   justify-content: flex-end;
   text-transform: uppercase;
+  font-family:  TradeGothic LT CondEighteen, sans-serif;;
 }
 
 .facet-filters__field .select {
