@@ -1,19 +1,74 @@
 {{ 'section-about-us.css' | asset_url | stylesheet_tag }}
 
 <section class="about-us container-desktop col-12 section-padding">
-    <div class="col-4">
-     </div>
-    <div class="col-4">
-    </div>
-    <div class="col-4">
+    <div class="content-wrapper">
+        <h1>{{ section.settings.header }}</h1>
+        <p class="dynamic-copy">{{ section.settings.copy }}</p>
     </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const copyElement = document.querySelector('.dynamic-copy');
+    const textLength = copyElement.textContent.trim().length;
+    const wrapper = document.querySelector('.content-wrapper');
+
+    if (textLength > 500) {
+        wrapper.classList.add('three-columns');
+    } else if (textLength > 250) {
+        wrapper.classList.add('two-columns');
+    } else {
+        wrapper.classList.add('one-column');
+    }
+});
+</script>
+
+<style>
+.about-us .content-wrapper {
+    display: grid;
+    gap: 20px;
+}
+
+.about-us .content-wrapper.one-column {
+    grid-template-columns: 1fr;
+}
+
+.about-us .content-wrapper.two-columns {
+    grid-template-columns: 1fr 1fr;
+}
+
+.about-us .content-wrapper.three-columns {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.about-us h1 {
+    grid-column: span 3;
+    text-align: center;
+}
+
+.about-us p {
+    margin: 0;
+}
+</style>
 
 {% schema %}
 {
   "name": "About us",
-  "settings": [],
- "presets": [
+  "settings": [
+    {
+      "type": "text",
+      "id": "header",
+      "label": "Header",
+      "default": "About Us"
+    },
+    {
+      "type": "textarea",
+      "id": "copy",
+      "label": "Copy",
+      "default": "This is the default about us text."
+    }
+  ],
+  "presets": [
     {
       "name": "About us"
     }
