@@ -110,3 +110,18 @@
   padding-top: 1rem;
   width: 80%;
 }
+
+@media screen and (max-width: 749px) {
+  .dislaimer {
+    color: #ADADAD;
+    padding-top: 1rem;
+    width: 100%;
+  }
+
+  .newsletter-form__field {
+    position: relative;
+    width: 100%;
+    display: flex;
+    border: 1px solid #fff;
+  }
+}
