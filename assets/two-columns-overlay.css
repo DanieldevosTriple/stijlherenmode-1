@@ -42,11 +42,11 @@
   }
   
   .image-overlay-block__title {
-    font-size: 10.5em;
+    font-size: 14.5em;
     font-weight: 600;
     margin: 0;
-    line-height: 0.76;
-    color: white;
+    line-height: .76;
+    color: #fff;
   }
   
   .button {
