@@ -7,14 +7,25 @@
     {
       "type": "text",
       "id": "section_title",
-      "label": "Section Titel",
-      "default": "Onze dynamische grid"
+      "label": "Section Title",
+      "default": "Dynamic grid"
     },
     {
       "type": "number",
       "id": "columns_per_row",
-      "label": "Kolommen per rij",
+      "label": "Columns per row",
       "default": 3
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Read More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "URL"
     }
   ],
   "blocks": [
@@ -31,11 +42,6 @@
           "type": "textarea",
           "id": "content",
           "label": "Inhoud"
-        },
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Afbeelding"
         }
       ]
     }
@@ -57,6 +63,11 @@
           <div class="card-body">
             <h5 class="card-title">{{ block.settings.title }}</h5>
             <p class="card-text">{{ block.settings.content }}</p>
+            {% if forloop.first and section.settings.button_text != blank %}
+              <a href="{{ section.settings.button_link }}" class="button-featured-product-custom">
+                {{ section.settings.button_text }}
+              </a>
+            {% endif %}
           </div>
         </div>
       </div>
