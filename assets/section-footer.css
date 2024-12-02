@@ -19,6 +19,14 @@
   padding-left: 0;
 }
 
+@media screen and (max-width: 749px) {
+  
+  .footer-block__social {
+    margin-bottom: unset;
+  }
+
+}
+
 .footer:not(.color-scheme-1) {
   border-top: none;
 }
