@@ -61,6 +61,8 @@ a.pagination__item:hover::after {
   left: 50%;
   transform: translateX(-50%);
   background-color: currentColor;
+  font-family: TradeGothic LT CondEighteen, sans-serif;
+  text-transform: uppercase;
 }
 
 .pagination__item--next .icon {
