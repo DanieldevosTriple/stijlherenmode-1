@@ -122,14 +122,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --font-color: white;
+    --menu-font-color: white;
     --menu-background-color: black;
   }
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --font-color: black;
+    --menu-font-color: black;
     --menu-background-color: white;
   }
 }
@@ -2497,7 +2497,7 @@ input[type='checkbox'] {
 
 /* Header icons */
 .cart-color {
-  color: black;
+  color: var(--menu-font-color);
 }
 
 @media (min-width: 768px) {
@@ -2888,7 +2888,7 @@ details[open] > .header__submenu {
 .header__menu-item {
   padding: 1.2rem;
   text-decoration: none;
-  color: var(--font-color);
+  color: var(--menu-font-color);
   text-transform: uppercase;
 }
 
