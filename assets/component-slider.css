@@ -96,15 +96,6 @@ slider-component.slider-component-full-width {
     --focus-outline-padding: 0rem;
   }
 
-  ul {
-    display: block;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-  }
-
 }
 
 @media screen and (min-width: 750px) {
@@ -445,4 +436,17 @@ ul {
   padding: 0; /* Padding verwijderen */
   margin: 0; /* Marges verwijderen */
   list-style-type: none; /* Verwijder bullet points */
+}
+
+@media screen and (max-width: 1024px) {
+
+  ul {
+    display: block;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+
 }
