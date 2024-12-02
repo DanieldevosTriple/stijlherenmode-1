@@ -28,3 +28,29 @@
 .card-text {
     font-size: 1.4rem;
 }
+
+.about-us-section .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+.about-us-section .row > div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .about-us-section .button-featured-product-custom {
+    margin-top: auto; /* Zorgt ervoor dat de knop onderaan komt */
+  }
+  
+  @media (max-width: 768px) {
+    .about-us-section .row {
+      flex-direction: column;
+    }
+  
+    .about-us-section .button-featured-product-custom {
+      align-self: center; /* Centreert de knop op mobiel */
+      margin-top: 1rem;
+    }
+  }
+  
