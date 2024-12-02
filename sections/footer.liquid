@@ -35,7 +35,7 @@
   {%- endif -%}
 
   <!-- Content Section -->
-<div class="footer__content-top col-xs-12 col-md-3 col-lg-3">
+<div class="footer__content-top col-xs-12 col-md-6 col-lg-6">
   <!-- Column 1 -->
   <div class="footer__column col-xs-12 col-md-6 col-lg-6">
     {%- for block in section.blocks -%}
@@ -95,6 +95,13 @@
         {%- render 'social-icons', class: 'footer__list-social' -%}
       </div>
     {%- endif -%}
+    <div class="footer__payment col-xs-12 col-md-6 col-lg-6">
+      <ul class="list-payment" role="list">
+        {%- for type in shop.enabled_payment_types -%}
+          <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
+        {%- endfor -%}
+      </ul>
+    </div>
   </div>
 </div>
 </div>
@@ -103,13 +110,6 @@
 <div class="footer__content-bottom col-12">
   <div class="footer__copyright col-xs-12 col-md-6 col-lg-6">
     <small class="copyright-text">&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</small>
-  </div>
-  <div class="footer__payment col-xs-12 col-md-6 col-lg-6">
-    <ul class="list-payment" role="list">
-      {%- for type in shop.enabled_payment_types -%}
-        <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
-      {%- endfor -%}
-    </ul>
   </div>
 </div>
 </footer>
