@@ -1,12 +1,13 @@
 {{ 'section-about-us.css' | asset_url | stylesheet_tag }}
 
-<section class="about-us container-desktop py-5">
+<section class="about-us container py-5">
     <div class="row">
         <div class="col-12">
-            <h2 class="text-center">{{ section.settings.header }}</h2>
+            <h1 class="text-center">{{ section.settings.header }}</h1>
         </div>
         <div id="dynamic-columns" class="row">
-            <div class="col-12 col-md-6 col-lg-4">
+            <!-- De inhoud (copy) komt hier -->
+            <div class="col">
                 <p class="dynamic-copy">{{ section.settings.copy }}</p>
             </div>
         </div>
@@ -16,15 +17,16 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const copyElement = document.querySelector('.dynamic-copy');
-    const copyContainer = document.getElementById('dynamic-columns');
     const textLength = copyElement.textContent.trim().length;
+    const columnsContainer = document.getElementById('dynamic-columns');
 
+    // Voeg de juiste Bootstrap-klassen toe op basis van de lengte van de tekst
     if (textLength > 500) {
-        copyContainer.classList.add('row-cols-1', 'row-cols-lg-3');
+        columnsContainer.classList.add('row-cols-1', 'row-cols-lg-3'); // 1 kolom op mobiel, 3 op groot scherm
     } else if (textLength > 250) {
-        copyContainer.classList.add('row-cols-1', 'row-cols-md-2');
+        columnsContainer.classList.add('row-cols-1', 'row-cols-md-2'); // 1 kolom op mobiel, 2 op medium scherm
     } else {
-        copyContainer.classList.add('row-cols-1');
+        columnsContainer.classList.add('row-cols-1'); // Altijd 1 kolom
     }
 });
 </script>
