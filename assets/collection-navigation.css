@@ -16,6 +16,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    font-size: 1.5rem;
   }
   
   .collection-selector__item {
@@ -72,6 +73,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center; /* Centreert de tekst verticaal */
+    padding-left: 10rem;
+    padding-right: 10rem;
   }
   
   /* Description styling */
