@@ -221,6 +221,15 @@
     cursor: pointer;
   }
 
+  .footer-block__heading__menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 2rem !important;
+    font-weight: 500 !important;
+  }
+
   .footer__menu {
     width: 100%;
     padding: 10px;
