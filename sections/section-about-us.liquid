@@ -1,63 +1,65 @@
 {{ 'section-about-us.css' | asset_url | stylesheet_tag }}
 
-<section class="about-us container py-5">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="text-center">{{ section.settings.header }}</h1>
-        </div>
-        <div id="dynamic-columns" class="row">
-            <!-- De inhoud (copy) komt hier -->
-            <div class="col">
-                <p class="dynamic-copy">{{ section.settings.copy }}</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Haal het element met de copy op
-        const copyElement = document.querySelector('.dynamic-copy');
-        const textLength = copyElement?.textContent.trim().length || 0; // Controleer of het element bestaat
-        const columnsContainer = document.getElementById('dynamic-columns');
-    
-        if (columnsContainer) {
-            // Verwijder eerst alle bestaande kolomklassen om conflicten te voorkomen
-            columnsContainer.classList.remove('row-cols-1', 'row-cols-md-2', 'row-cols-lg-3');
-    
-            // Voeg nieuwe klassen toe op basis van de tekstlengte
-            if (textLength > 50) {
-                columnsContainer.classList.add('row-cols-1', 'row-cols-lg-3'); // 1 kolom op mobiel, 3 op groot scherm
-            } else if (textLength > 25) {
-                columnsContainer.classList.add('row-cols-1', 'row-cols-md-2'); // 1 kolom op mobiel, 2 op medium scherm
-            } else {
-                columnsContainer.classList.add('row-cols-1'); // Altijd 1 kolom
-            }
-        }
-    });
-    </script>
-
 {% schema %}
 {
-  "name": "About us",
+  "name": "About Us Grid",
   "settings": [
     {
       "type": "text",
-      "id": "header",
-      "label": "Header",
-      "default": "Over Ons"
+      "id": "section_title",
+      "label": "Section Titel",
+      "default": "Onze dynamische grid"
     },
     {
-      "type": "textarea",
-      "id": "copy",
-      "label": "Copy",
-      "default": "Welkom bij onze winkel. Wij staan voor kwaliteit en stijl."
+      "type": "number",
+      "id": "columns_per_row",
+      "label": "Kolommen per rij",
+      "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "grid_item",
+      "name": "Grid Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titel"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Inhoud"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Afbeelding"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "About us"
+      "name": "About Us"
     }
   ]
 }
 {% endschema %}
+
+<div class="container my-4">
+  <h2 class="text-center mb-4">{{ section.settings.section_title }}</h2>
+  <div class="row">
+    {% for block in section.blocks %}
+      <div class="col-md-{{ 12 | divided_by: section.settings.columns_per_row }} mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ block.settings.title }}</h5>
+            <p class="card-text">{{ block.settings.content }}</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
