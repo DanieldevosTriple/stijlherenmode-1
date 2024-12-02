@@ -119,9 +119,19 @@
   }
 
   .newsletter-form__field {
+    flex-direction: column; /* Input en knop onder elkaar */
+    gap: 5px; /* Verminder de ruimte tussen de elementen */
     position: relative;
     width: 10  0%;
     display: flex;
     border: 1px solid #fff;
+  }
+
+  .newsletter-form__button {
+    width: 100%; /* Laat de knop de volledige breedte gebruiken */
+  }
+
+  .newsletter-form__field-input {
+    width: 100%; /* Zorg ervoor dat de input ook de volledige breedte gebruikt */
   }
 }
