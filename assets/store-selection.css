@@ -1,4 +1,10 @@
-.store-selector {
+@media (max-width: 768px) {
+  .no-right-padding {
+    padding-right: 15px !important;
+  }
+}
+    
+  .store-selector {
     padding-top: 15rem;
     padding-top: 15rem;
   }
