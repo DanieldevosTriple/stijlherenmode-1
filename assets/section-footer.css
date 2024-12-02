@@ -9,7 +9,8 @@
   text-transform: uppercase;
   color: white;
   text-align: left;
-  font-weight: 300;
+  font-weight: 200;
+  font-size: 1.7rem !important;
 }
 
 .footer:not(.color-scheme-1) {
@@ -33,6 +34,14 @@
   color: white;
   text-align: left;
   font-weight: 300;
+}
+
+.footer-block__heading-newsletter {
+  text-transform: uppercase;
+  color: white;
+  text-align: left;
+  font-weight: 600;
+  
 }
 
 .footer__menu .link {
