@@ -45,7 +45,7 @@ slider-component.slider-component-full-width {
   font-weight: 700;
   box-sizing: border-box;
   display: table;
-  color: var(--slider-font-color, #fff); /* Standaard tekstkleur */
+  color: var(--slider-font-color, #fff) !important; /* Standaard tekstkleur */
 }
 
 .slider__slide {
