@@ -2499,7 +2499,7 @@ input[type='checkbox'] {
   text-align: center;
   background-image: var(--logo-black);
   width: calc(var(--logo-width) / 1.2);
-  height: calc(var(--logo-width) / 2.4);
+  height: calc(var(--logo-width) / 2.7);
   background-size: contain; /* Zorg dat het logo binnen de container past */
   background-repeat: no-repeat; /* Voorkom herhaling van het logo */
   background-position: center; /* Centreer het logo */
