@@ -2,6 +2,6 @@
     background-image: var(--logo-white) !important;
   }
 
-.scrolled-past-header .header__heading .header--middle-center a.header__heading-link {
+  .scrolled-past-header.header--middle-center a.header__heading-link {
   background-image: var(--logo-black) !important;
 }
