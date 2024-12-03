@@ -230,37 +230,6 @@
   });
 </script>
 
-<script>
-  // Selecteer alle elementen met de klasse .elixon-fits-in
-  const selector = ".elixon-fits-in";
-  var watchList = Array.from(document.querySelectorAll(selector))
-      .map((el) => el.parentNode);
-  
-  // Functie die de schaal instelt op basis van de breedte van de ouder
-  const resize = function (watchEl) {
-      watchEl.querySelectorAll(':scope > ' + selector)
-          .forEach(function(el) {
-              let scale = el.parentNode.clientWidth / el.clientWidth;
-  
-              el.style.setProperty("--efiScale", scale);
-              el.style.setProperty("--efiHeightDiff", el.clientHeight * (scale - 1) + "px");
-          });
-  };
-  
-  // ResizeObserver om wijzigingen in de grootte van de ouder te observeren
-  const observer = new ResizeObserver(function (entries) {
-      for (let entry of entries) {
-          resize(entry.target);
-      }
-  });
-  
-  // Observeer elke ouder om schaalveranderingen te detecteren
-  watchList.forEach(function(el) {
-      resize(el);
-      observer.observe(el);
-  });
-  </script>  
-
 {% schema %}
 {
   "name": "t:sections.slideshow.name",
