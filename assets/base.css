@@ -118,6 +118,8 @@
   --focused-base-outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
   --focused-base-outline-offset: 0.3rem;
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+  --logo-black: url('{{ settings.logo_black | image_url: width: settings.logo_width }}');
+  --logo-white: url('{{ settings.logo_white | image_url: width: settings.logo_width }}');
 }
 
 @media (prefers-color-scheme: dark) {
