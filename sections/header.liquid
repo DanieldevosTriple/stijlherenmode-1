@@ -18,6 +18,11 @@
   --logo-white: url('{{ settings.logo_white | image_url: width: settings.logo_width }}');
   }
 
+  .header__heading-logo-wrapper {
+    background-image: var(--logo-url);
+    width: 150px;
+  }
+
   /* Adjust for larger screens (desktop) */
   @media screen and (max-width: 768px) {
     .svg-mobile {
@@ -247,23 +252,6 @@
         <h1 class="header__heading">
           <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
             <div class="header__heading-logo-wrapper">
-              {%- assign logo_black_alt = settings.logo_black.alt | default: shop.name | escape -%}
-              {%- assign logo_white_alt = settings.logo_white.alt | default: shop.name | escape -%}
-
-              <img 
-                src="{{ settings.logo_black | image_url: width: settings.logo_width }}" 
-                alt="{{ logo_black_alt }}" 
-                class="header__heading-logo logo-black motion-reduce" 
-                width="{{ settings.logo_width }}" 
-                style="display: none;"
-              />
-              <img 
-                src="{{ settings.logo_white | image_url: width: settings.logo_width }}" 
-                alt="{{ logo_white_alt }}" 
-                class="header__heading-logo logo-white motion-reduce" 
-                width="{{ settings.logo_width }}" 
-                style="display: none;"
-              />
             </div>
           </a>
         </h1>
