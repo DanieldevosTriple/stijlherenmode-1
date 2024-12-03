@@ -452,7 +452,7 @@ h5,
   .h3,
   .h4,
   .h5 {
-    color: white;
+    color: white !important;
   }
 }
 
@@ -468,7 +468,7 @@ h5,
   .h3,
   .h4,
   .h5 {
-    color: black;
+    color: black !important;
   }
 }
 
