@@ -391,20 +391,20 @@
         if (this.stickyType === 'on-scroll-up') {
           if (scrollTop > this.currentScrollTop && scrollTop > 100) {
             this.header.classList.add('hidden');
-            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black');
-            menuItems.forEach(item => item.style.color = 'black');
+            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black !important');
+            menuItems.forEach(item => item.style.color = 'black !important');
           } else if (scrollTop < this.currentScrollTop) {
             this.header.classList.remove('hidden');
             this.header.classList.add('scrolled-past-header');
             linkElement.style.backgroundImage = 'var(--logo-black) !important';
-            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black');
-            menuItems.forEach(item => item.style.color = 'black');
+            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black !important');
+            menuItems.forEach(item => item.style.color = 'black !important');
           }
         } else if (this.stickyType === 'always') {
           this.header.classList.add('scrolled-past-header');
           linkElement.style.backgroundImage = 'var(--logo-black) !important';
-          cartIcons.forEach(cartIcon => cartIcon.style.color = 'black');
-          menuItems.forEach(item => item.style.color = 'black');
+          cartIcons.forEach(cartIcon => cartIcon.style.color = 'black !important');
+          menuItems.forEach(item => item.style.color = 'black !important');
         }
 
         if (scrollTop === 0) {
