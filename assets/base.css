@@ -2562,6 +2562,10 @@ input[type='checkbox'] {
   color: var(--menu-font-color);
 }
 
+.cart-color.index-page {
+  color: white;
+}
+
 @media (min-width: 768px) {
 .header__icons {
   display: grid;
