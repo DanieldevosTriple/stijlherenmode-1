@@ -124,7 +124,9 @@
   :root {
     --menu-font-color: white;
     --menu-background-color: black;
-    --slider-font-color: black;;
+    --slider-font-color: black;
+    --title-font-color: white;
+    --general-background-color: #202020;
   }
 }
 
@@ -132,7 +134,9 @@
   :root {
     --menu-font-color: black;
     --menu-background-color: white;
-    --slider-font-color: white;;
+    --slider-font-color: white;
+    --title-font-color: black;
+    --general-background-color: white;
   }
 }
 
@@ -3030,8 +3034,7 @@ details-disclosure > details {
 }
 
 .gradient {
-  background: rgb(var(--color-background));
-  background: var(--gradient-background);
+  background: var(--general-background-color);
   background-attachment: fixed;
 }
 
