@@ -199,6 +199,38 @@
 {%- endif -%}
 
 <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.slideshow__slide');
+    const logoWrapper = document.querySelector('.header__heading-logo-wrapper');
+    
+    function updateLogo() {
+      slides.forEach(slide => {
+        if (slide.classList.contains('active')) {
+          const color = slide.dataset.color;
+          if (color === 'dark') {
+            logoWrapper.style.backgroundImage = 'var(--logo-white)';
+          } else {
+            logoWrapper.style.backgroundImage = 'var(--logo-black)';
+          }
+        }
+      });
+    }
+  
+    // Set 'active' class on visible slide
+    const slider = document.querySelector('.slideshow');
+    slider.addEventListener('slider-change', () => {
+      slides.forEach(slide => slide.classList.remove('active'));
+      const activeSlide = slider.querySelector('.slider__slide--active');
+      activeSlide.classList.add('active');
+      updateLogo();
+    });
+  
+    // Initialize for the first slide
+    updateLogo();
+  });
+</script>
+
+<script>
   // Selecteer alle elementen met de klasse .elixon-fits-in
   const selector = ".elixon-fits-in";
   var watchList = Array.from(document.querySelectorAll(selector))
@@ -249,18 +281,15 @@
       "id": "change_slides_speed",
       "min": 3,
       "max": 9,
-      "step": 2,
+      "step": 1,
       "unit": "s",
       "label": "t:sections.slideshow.settings.change_slides_speed.label",
       "default": 5
     },
     {
-      "type": "header",
-      "content": "t:sections.all.animation.content"
-    },
-    {
       "type": "select",
       "id": "image_behavior",
+      "label": "t:sections.all.animation.image_behavior.label",
       "options": [
         {
           "value": "none",
@@ -271,26 +300,19 @@
           "label": "t:sections.all.animation.image_behavior.options__2.label"
         }
       ],
-      "default": "none",
-      "label": "t:sections.all.animation.image_behavior.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.slideshow.settings.accessibility.content"
+      "default": "none"
     },
     {
       "type": "text",
       "id": "accessibility_info",
       "label": "t:sections.slideshow.settings.accessibility.label",
-      "info": "t:sections.slideshow.settings.accessibility.info",
-      "default": "t:sections.slideshow.settings.accessibility.default"
+      "default": "Slideshow accessibility description"
     }
   ],
   "blocks": [
     {
       "type": "slide",
       "name": "t:sections.slideshow.blocks.slide.name",
-      "limit": 5,
       "settings": [
         {
           "type": "image_picker",
@@ -300,28 +322,34 @@
         {
           "type": "inline_richtext",
           "id": "heading",
-          "default": "Slide heading",
-          "label": "Heading"
+          "label": "t:sections.slideshow.blocks.slide.settings.heading.label",
+          "default": "Slide heading"
         },
         {
           "type": "range",
           "id": "image_overlay_opacity",
+          "label": "t:sections.slideshow.blocks.slide.settings.image_overlay_opacity.label",
           "min": 0,
           "max": 100,
           "step": 10,
           "unit": "%",
-          "label": "t:sections.slideshow.blocks.slide.settings.image_overlay_opacity.label",
           "default": 0
         },
         {
-          "type": "color_scheme",
-          "id": "color_scheme",
-          "label": "t:sections.all.colors.label",
-          "default": "scheme-1"
-        },
-        {
-          "type": "header",
-          "content": "t:sections.slideshow.settings.mobile.content"
+          "type": "select",
+          "id": "text_color",
+          "label": "Text color (light or dark)",
+          "options": [
+            {
+              "value": "light",
+              "label": "Light"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ],
+          "default": "light"
         }
       ]
     }
