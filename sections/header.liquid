@@ -339,96 +339,81 @@
 <script>
   class StickyHeader extends HTMLElement {
     connectedCallback() {
-      // Haal het header-element op en lees attributen voor instellingen
       this.header = document.querySelector('.section-header');
-      this.stickyType = this.getAttribute('data-sticky-type'); // Type sticky gedrag ('on-scroll-up' of 'always')
-      this.themeMode = this.getAttribute('data-theme-mode'); // Achtergrondkleurmodus ('transparent' of 'solid')
-      this.currentScrollTop = 0; // Huidige scrollpositie opslaan
+      this.stickyType = this.getAttribute('data-sticky-type');
+      this.themeMode = this.getAttribute('data-theme-mode');
+      this.currentScrollTop = 0;
 
-      // Stel de initiële header-stijl in
-      this.setHeaderHeight(); // Zet de headerhoogte als CSS-variable
-      this.updateHeaderTheme(); // Pas de header-thema aan op basis van scrollpositie
+      this.setHeaderHeight();
+      this.updateHeaderTheme();
 
-      // Voeg eventlisteners toe voor scroll- en resize-events
-      window.addEventListener('resize', this.setHeaderHeight.bind(this)); // Update hoogte bij venstergrootte-aanpassingen
-      window.addEventListener('scroll', this.onScroll.bind(this), false); // Verwerk gedrag bij scrollen
+      window.addEventListener('resize', this.setHeaderHeight.bind(this));
+      window.addEventListener('scroll', this.onScroll.bind(this), false);
     }
 
     setHeaderHeight() {
-      // Zet de CSS-variable `--header-height` op de hoogte van de header
       document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`);
     }
 
     updateHeaderTheme() {
-      // Pas het thema van de header aan op basis van de scrollpositie
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-      if (scrollTop === 0) { // Als de gebruiker bovenaan de pagina is
+      if (scrollTop === 0) {
         if (this.themeMode === 'transparent') {
-          this.header.classList.add('transparent'); // Maak de header transparant
-          this.header.classList.remove('scrolled-past-header'); // Verwijder sticky-class
+          this.header.classList.add('transparent');
+          this.header.classList.remove('scrolled-past-header');
         } else {
-          this.header.classList.remove('transparent'); // Zorg voor een solid achtergrondkleur
+          this.header.classList.remove('transparent');
         }
       }
     }
 
     onScroll() {
-      // Behandel gedrag tijdens scrollen
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const linkElement = document.querySelector('.header--middle-center a.header__heading-link'); // Logo-link
-      const menuItem = document.querySelector('.header__menu-item'); // Menu-item
-      const cartIcon = document.querySelector('.cart-color'); // Winkelwagenpictogram
+      const linkElement = document.querySelector('.header--middle-center a.header__heading-link');
+      const menuItems = document.querySelectorAll('.header__menu-item'); // Selecteer alle menu-items
+      const cartIcon = document.querySelector('.cart-color');
 
-      if (!linkElement) return; // Stop als het logo niet gevonden is
+      if (!linkElement) return;
 
-      // Controleer of het scherm groot is (breedte >= 990px)
       const isLargeScreen = window.matchMedia('(min-width: 990px)').matches;
 
       if (isLargeScreen) {
-        // Sticky gedrag afhankelijk van `stickyType`
         if (this.stickyType === 'on-scroll-up') {
-          if (scrollTop > this.currentScrollTop && scrollTop > 100) { 
-            // Naar beneden scrollen: verberg de header
+          if (scrollTop > this.currentScrollTop && scrollTop > 100) {
             this.header.classList.add('hidden');
-            if (cartIcon) cartIcon.style.color = 'black !important'; // Grijze kleur
-            if (menuItem) menuItem.style.color = 'var(--color-gray)';
+            if (cartIcon) cartIcon.style.color = 'black !important';
+            menuItems.forEach(item => item.style.color = 'var(--color-gray)'); // Pas kleur aan voor alle menu-items
           } else if (scrollTop < this.currentScrollTop) {
-            // Naar boven scrollen: toon de header en voeg sticky-class toe
             this.header.classList.remove('hidden');
             this.header.classList.add('scrolled-past-header');
-            linkElement.style.backgroundImage = 'var(--logo-black) !important'; // Logo naar zwart
+            linkElement.style.backgroundImage = 'var(--logo-black) !important';
             if (cartIcon) cartIcon.style.color = 'black !important';
-            if (menuItem) menuItem.style.color = 'black !important';
+            menuItems.forEach(item => item.style.color = 'black !important'); // Kleur zwart maken bij omhoog scrollen
           }
         } else if (this.stickyType === 'always') {
-          // Altijd sticky gedrag
           this.header.classList.add('scrolled-past-header');
-          linkElement.style.backgroundImage = 'var(--logo-black) !important'; // Logo naar zwart
+          linkElement.style.backgroundImage = 'var(--logo-black) !important';
           if (cartIcon) cartIcon.style.color = 'black !important';
-          if (menuItem) menuItem.style.color = 'black !important';
+          menuItems.forEach(item => item.style.color = 'black !important');
         }
 
-        // Reset styling bij het bereiken van de top van de pagina
         if (scrollTop === 0) {
           this.updateHeaderTheme();
-          linkElement.style.backgroundImage = 'var(--logo-white)'; // Logo terug naar wit
+          linkElement.style.backgroundImage = 'var(--logo-white)';
           if (cartIcon) cartIcon.style.color = 'var(--menu-font-color)';
-          if (menuItem) menuItem.style.color = 'var(--menu-font-color)';
+          menuItems.forEach(item => item.style.color = 'var(--menu-font-color)'); // Reset naar originele kleuren
         }
       } else {
-        // Reset stijl op kleine schermen
         linkElement.style.backgroundImage = 'var(--logo-black) !important';
         if (cartIcon) cartIcon.style.color = 'black !important';
-        if (menuItem) menuItem.style.color = 'black !important';
+        menuItems.forEach(item => item.style.color = 'black !important');
       }
 
-      // Update huidige scrollpositie
       this.currentScrollTop = scrollTop;
     }
   }
 
-  // Definieer het custom element
   customElements.define('sticky-header', StickyHeader);
 </script>
 
