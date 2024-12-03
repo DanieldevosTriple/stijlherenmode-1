@@ -12,6 +12,12 @@
 {%- endif -%}
 
 {%- style -%}
+
+  :root {
+  --logo-black: url('{{ settings.logo_black | image_url: width: settings.logo_width }}');
+  --logo-white: url('{{ settings.logo_white | image_url: width: settings.logo_width }}');
+  }
+
   /* Adjust for larger screens (desktop) */
   @media screen and (max-width: 768px) {
     .svg-mobile {
