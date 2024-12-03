@@ -372,7 +372,7 @@
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const linkElement = document.querySelector('.header--middle-center a.header__heading-link');
       const menuItems = document.querySelectorAll('.header__menu-item');
-      const cartIcon = document.querySelector('.cart-color');
+      const cartIcons = document.querySelectorAll('.cart-color'); // Selecteer ALLE cart-icons
 
       if (!linkElement) return;
 
@@ -382,31 +382,31 @@
         if (this.stickyType === 'on-scroll-up') {
           if (scrollTop > this.currentScrollTop && scrollTop > 100) {
             this.header.classList.add('hidden');
-            if (cartIcon) cartIcon.style.color = 'var(--color-gray)'; // Update kleur cart-icon
+            cartIcons.forEach(cartIcon => cartIcon.style.color = 'var(--color-gray)'); // Pas kleur aan voor alle cart-icons
             menuItems.forEach(item => item.style.color = 'var(--color-gray)');
           } else if (scrollTop < this.currentScrollTop) {
             this.header.classList.remove('hidden');
             this.header.classList.add('scrolled-past-header');
             linkElement.style.backgroundImage = 'var(--logo-black) !important';
-            if (cartIcon) cartIcon.style.color = 'black'; // Zwart maken
+            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black'); // Zwart maken
             menuItems.forEach(item => item.style.color = 'black');
           }
         } else if (this.stickyType === 'always') {
           this.header.classList.add('scrolled-past-header');
           linkElement.style.backgroundImage = 'var(--logo-black) !important';
-          if (cartIcon) cartIcon.style.color = 'black'; // Update kleur naar zwart
+          cartIcons.forEach(cartIcon => cartIcon.style.color = 'black'); // Zwart maken
           menuItems.forEach(item => item.style.color = 'black');
         }
 
         if (scrollTop === 0) {
           this.updateHeaderTheme();
           linkElement.style.backgroundImage = 'var(--logo-white)';
-          if (cartIcon) cartIcon.style.color = 'var(--menu-font-color)'; // Reset kleur
+          cartIcons.forEach(cartIcon => cartIcon.style.color = 'var(--menu-font-color)'); // Reset kleur
           menuItems.forEach(item => item.style.color = 'var(--menu-font-color)');
         }
       } else {
         linkElement.style.backgroundImage = 'var(--logo-black) !important';
-        if (cartIcon) cartIcon.style.color = 'black'; // Update kleur voor kleine schermen
+        cartIcons.forEach(cartIcon => cartIcon.style.color = 'black'); // Update kleur voor kleine schermen
         menuItems.forEach(item => item.style.color = 'black');
       }
 
