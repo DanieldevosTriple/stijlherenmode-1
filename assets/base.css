@@ -2428,7 +2428,7 @@ input[type='checkbox'] {
 
   .header--middle-center a.header__heading-link {
     text-align: center;
-    background-image: var(--logo-white);
+    background-image: var(--logo-black);
     width: var(--logo-width);
     height: var(--logo-width);
     background-size: contain; /* Zorg dat het logo binnen de container past */

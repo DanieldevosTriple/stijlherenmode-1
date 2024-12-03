@@ -258,6 +258,10 @@
       }
     {% endstyle %}
 
+    {% if template.name == 'index' %}
+      <link rel="stylesheet" href="{{ 'header-index.css' | asset_url }}">
+    {% endif %}    
+
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'bootstrap-grid.css' | asset_url | stylesheet_tag }}
     {{ 'bootstrap-reboot.css' | asset_url | stylesheet_tag }}
