@@ -391,8 +391,8 @@
         if (this.stickyType === 'on-scroll-up') {
           if (scrollTop > this.currentScrollTop && scrollTop > 100) {
             this.header.classList.add('hidden');
-            cartIcons.forEach(cartIcon => cartIcon.style.color = 'var(--color-gray)');
-            menuItems.forEach(item => item.style.color = 'var(--color-gray)');
+            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black');
+            menuItems.forEach(item => item.style.color = 'black');
           } else if (scrollTop < this.currentScrollTop) {
             this.header.classList.remove('hidden');
             this.header.classList.add('scrolled-past-header');

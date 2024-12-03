@@ -6,3 +6,10 @@
   background-image: var(--logo-black) !important;
 }
 
+.header__menu-item {
+  color: white !important;
+}
+
+.cart-color {
+  color: white !important;
+}

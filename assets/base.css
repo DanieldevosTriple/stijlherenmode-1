@@ -132,7 +132,7 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    --menu-font-color: white;
+    --menu-font-color: black;
     --menu-background-color: white;
     --slider-font-color: white;
     --title-font-color: black;
