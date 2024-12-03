@@ -379,11 +379,16 @@
       const isLargeScreen = window.matchMedia('(min-width: 990px)').matches;
       const isMobileScreen = window.matchMedia('(max-width: 749px)').matches;
 
-      // Schakel logo-logica uit op mobiel
+      const isIndexPage = window.location.pathname === '/' || window.location.pathname === '/index.html';
+
+      const menuFontColor = isIndexPage ? 'white' : 'var(--menu-font-color)';
+
+      // Update menu items and cart icons for index or other pages
+      cartIcons.forEach(cartIcon => (cartIcon.style.color = menuFontColor));
+      menuItems.forEach(item => (item.style.color = menuFontColor));
+
       if (isMobileScreen) {
-        cartIcons.forEach(cartIcon => cartIcon.style.color = 'black'); // Standaard zwart maken
-        menuItems.forEach(item => item.style.color = 'black');
-        linkElement.style.backgroundImage = ''; // Verwijder aangepaste logo-logica
+        linkElement.style.backgroundImage = ''; // Clear custom logo logic for mobile
         return;
       }
 
@@ -391,27 +396,19 @@
         if (this.stickyType === 'on-scroll-up') {
           if (scrollTop > this.currentScrollTop && scrollTop > 100) {
             this.header.classList.add('hidden');
-            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black !important');
-            menuItems.forEach(item => item.style.color = 'black !important');
           } else if (scrollTop < this.currentScrollTop) {
             this.header.classList.remove('hidden');
             this.header.classList.add('scrolled-past-header');
-            linkElement.style.backgroundImage = 'var(--logo-black) !important';
-            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black !important');
-            menuItems.forEach(item => item.style.color = 'black !important');
+            linkElement.style.backgroundImage = 'var(--logo-black)';
           }
         } else if (this.stickyType === 'always') {
           this.header.classList.add('scrolled-past-header');
-          linkElement.style.backgroundImage = 'var(--logo-black) !important';
-          cartIcons.forEach(cartIcon => cartIcon.style.color = 'black !important');
-          menuItems.forEach(item => item.style.color = 'black !important');
+          linkElement.style.backgroundImage = 'var(--logo-black)';
         }
 
         if (scrollTop === 0) {
           this.updateHeaderTheme();
-          linkElement.style.backgroundImage = 'var(--logo-white)';
-          cartIcons.forEach(cartIcon => cartIcon.style.color = 'var(--menu-font-color)');
-          menuItems.forEach(item => item.style.color = 'var(--menu-font-color)');
+          linkElement.style.backgroundImage = isIndexPage ? 'var(--logo-white)' : 'var(--logo-black)';
         }
       }
 
