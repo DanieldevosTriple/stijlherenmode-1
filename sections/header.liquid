@@ -409,10 +409,21 @@
 
         if (scrollTop === 0) {
           this.updateHeaderTheme();
+        
+          const isIndexPage = window.location.pathname === '/' || window.location.pathname === '/index.html';
+        
           linkElement.style.backgroundImage = 'var(--logo-white)';
-          cartIcons.forEach(cartIcon => cartIcon.style.color = 'var(--menu-font-color)');
-          menuItems.forEach(item => item.style.color = 'var(--menu-font-color)');
-        }
+        
+          if (isIndexPage) {
+            // Kleur voor indexpagina
+            cartIcons.forEach(cartIcon => cartIcon.style.color = 'white');
+            menuItems.forEach(item => item.style.color = 'white');
+          } else {
+            // Kleur voor andere pagina's
+            cartIcons.forEach(cartIcon => cartIcon.style.color = 'var(--menu-font-color)');
+            menuItems.forEach(item => item.style.color = 'var(--menu-font-color)');
+          }
+        }        
       }
 
       this.currentScrollTop = scrollTop;
