@@ -1,9 +1,3 @@
 .header--middle-center a.header__heading-link {
-    text-align: center;
-    background-image: var(--logo-white);
-    width: var(--logo-width);
-    height: var(--logo-width);
-    background-size: contain; /* Zorg dat het logo binnen de container past */
-    background-repeat: no-repeat; /* Voorkom herhaling van het logo */
-    background-position: center; /* Centreer het logo */
+    background-image: var(--logo-white) !important;
   }
