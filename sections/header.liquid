@@ -372,42 +372,47 @@
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const linkElement = document.querySelector('.header--middle-center a.header__heading-link');
       const menuItems = document.querySelectorAll('.header__menu-item');
-      const cartIcons = document.querySelectorAll('.cart-color'); // Selecteer ALLE cart-icons
+      const cartIcons = document.querySelectorAll('.cart-color');
 
       if (!linkElement) return;
 
       const isLargeScreen = window.matchMedia('(min-width: 990px)').matches;
+      const isMobileScreen = window.matchMedia('(max-width: 749px)').matches;
+
+      // Schakel logo-logica uit op mobiel
+      if (isMobileScreen) {
+        cartIcons.forEach(cartIcon => cartIcon.style.color = 'black'); // Standaard zwart maken
+        menuItems.forEach(item => item.style.color = 'black');
+        linkElement.style.backgroundImage = ''; // Verwijder aangepaste logo-logica
+        return;
+      }
 
       if (isLargeScreen) {
         if (this.stickyType === 'on-scroll-up') {
           if (scrollTop > this.currentScrollTop && scrollTop > 100) {
             this.header.classList.add('hidden');
-            cartIcons.forEach(cartIcon => cartIcon.style.color = 'var(--color-gray)'); // Pas kleur aan voor alle cart-icons
+            cartIcons.forEach(cartIcon => cartIcon.style.color = 'var(--color-gray)');
             menuItems.forEach(item => item.style.color = 'var(--color-gray)');
           } else if (scrollTop < this.currentScrollTop) {
             this.header.classList.remove('hidden');
             this.header.classList.add('scrolled-past-header');
             linkElement.style.backgroundImage = 'var(--logo-black) !important';
-            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black'); // Zwart maken
+            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black');
             menuItems.forEach(item => item.style.color = 'black');
           }
         } else if (this.stickyType === 'always') {
           this.header.classList.add('scrolled-past-header');
           linkElement.style.backgroundImage = 'var(--logo-black) !important';
-          cartIcons.forEach(cartIcon => cartIcon.style.color = 'black'); // Zwart maken
+          cartIcons.forEach(cartIcon => cartIcon.style.color = 'black');
           menuItems.forEach(item => item.style.color = 'black');
         }
 
         if (scrollTop === 0) {
           this.updateHeaderTheme();
           linkElement.style.backgroundImage = 'var(--logo-white)';
-          cartIcons.forEach(cartIcon => cartIcon.style.color = 'var(--menu-font-color)'); // Reset kleur
+          cartIcons.forEach(cartIcon => cartIcon.style.color = 'var(--menu-font-color)');
           menuItems.forEach(item => item.style.color = 'var(--menu-font-color)');
         }
-      } else {
-        linkElement.style.backgroundImage = 'var(--logo-black) !important';
-        cartIcons.forEach(cartIcon => cartIcon.style.color = 'black'); // Update kleur voor kleine schermen
-        menuItems.forEach(item => item.style.color = 'black');
       }
 
       this.currentScrollTop = scrollTop;
