@@ -2496,6 +2496,11 @@ input[type='checkbox'] {
   width: 100%;
   display: inline-block;
   transition: width 0.3s cubic-bezier(0.52, 0, 0.61, 0.99);
+}
+
+@media screen and (max-width: 989px) {
+
+.header__heading-logo-wrapper {
   text-align: center;
   background-image: var(--logo-black);
   width: calc(var(--logo-width) / 1.2);
@@ -2503,6 +2508,8 @@ input[type='checkbox'] {
   background-size: contain; /* Zorg dat het logo binnen de container past */
   background-repeat: no-repeat; /* Voorkom herhaling van het logo */
   background-position: center; /* Centreer het logo */
+}
+
 }
 
 @media screen and (max-width: 989px) {
