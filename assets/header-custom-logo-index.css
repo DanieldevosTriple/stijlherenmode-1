@@ -5,10 +5,3 @@
   .scrolled-past-header.header--middle-center a.header__heading-link {
   background-image: var(--logo-black) !important;
 }
-
-.header__menu-item {
-  padding: 1.2rem;
-  text-decoration: none;
-  color: white;
-  text-transform: uppercase;
-}
