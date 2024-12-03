@@ -198,27 +198,42 @@
   <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-  <script>
-    function adjustHeadingScale() {
-      const bannerHeading = document.querySelector('.elixon-fits-in');
-      if (!bannerHeading) return;
-  
-      const parentWidth = bannerHeading.parentElement.clientWidth;
-      const contentWidth = bannerHeading.scrollWidth;
-  
+<script>
+  function adjustHeadingScale() {
+    const bannerHeading = document.querySelector('.elixon-fits-in');
+    if (!bannerHeading) return;
+
+    // Breedte van de oudercontainer
+    const parentWidth = bannerHeading.parentElement.clientWidth;
+    // Werkelijke breedte van de inhoud
+    const contentWidth = bannerHeading.scrollWidth;
+
+    // Debugging: log de waarden om te controleren
+    console.log('Parent Width:', parentWidth, 'Content Width:', contentWidth);
+
+    // Controleer of waarden geldig zijn
+    if (parentWidth > 0 && contentWidth > 0) {
       // Bereken schaalfactor
       const scaleFactor = contentWidth > parentWidth ? parentWidth / contentWidth : 1;
-  
+      
+      // Debugging: log de schaalfactor
+      console.log('Scale Factor:', scaleFactor);
+
       // Pas schaal aan via CSS variabele
       bannerHeading.style.setProperty('--efiScale', scaleFactor);
+    } else {
+      // Standaard schaal instellen
+      bannerHeading.style.setProperty('--efiScale', 1);
     }
-  
-    // Initiale aanpassing
-    window.addEventListener('DOMContentLoaded', adjustHeadingScale);
-  
-    // Aanpassing bij het herschalen van het venster
-    window.addEventListener('resize', adjustHeadingScale);
-  </script>
+  }
+
+  // Initiale aanpassing
+  window.addEventListener('DOMContentLoaded', adjustHeadingScale);
+
+  // Aanpassing bij het herschalen van het venster
+  window.addEventListener('resize', adjustHeadingScale);
+
+</script>
 
 <script>
   function adjustHeadingFontSize() {
