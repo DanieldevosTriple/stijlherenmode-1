@@ -6,14 +6,9 @@
   background-image: var(--logo-black) !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --menu-font-color: white;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --menu-font-color: white;
-  }
+.header__menu-item {
+  padding: 1.2rem;
+  text-decoration: none;
+  color: white;
+  text-transform: uppercase;
 }
