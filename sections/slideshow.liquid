@@ -198,37 +198,27 @@
   <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const slides = document.querySelectorAll('.slideshow__slide');
-    const logoWrapper = document.querySelector('.header__heading-logo-wrapper');
-    
-    function updateLogo() {
-      slides.forEach(slide => {
-        if (slide.classList.contains('active')) {
-          const color = slide.dataset.color;
-          if (color === 'dark') {
-            logoWrapper.style.backgroundImage = 'var(--logo-white)';
-          } else {
-            logoWrapper.style.backgroundImage = 'var(--logo-black)';
-          }
-        }
-      });
+  <script>
+    function adjustHeadingScale() {
+      const bannerHeading = document.querySelector('.elixon-fits-in');
+      if (!bannerHeading) return;
+  
+      const parentWidth = bannerHeading.parentElement.clientWidth;
+      const contentWidth = bannerHeading.scrollWidth;
+  
+      // Bereken schaalfactor
+      const scaleFactor = contentWidth > parentWidth ? parentWidth / contentWidth : 1;
+  
+      // Pas schaal aan via CSS variabele
+      bannerHeading.style.setProperty('--efiScale', scaleFactor);
     }
   
-    // Set 'active' class on visible slide
-    const slider = document.querySelector('.slideshow');
-    slider.addEventListener('slider-change', () => {
-      slides.forEach(slide => slide.classList.remove('active'));
-      const activeSlide = slider.querySelector('.slider__slide--active');
-      activeSlide.classList.add('active');
-      updateLogo();
-    });
+    // Initiale aanpassing
+    window.addEventListener('DOMContentLoaded', adjustHeadingScale);
   
-    // Initialize for the first slide
-    updateLogo();
-  });
-</script>
+    // Aanpassing bij het herschalen van het venster
+    window.addEventListener('resize', adjustHeadingScale);
+  </script>
 
 <script>
   function adjustHeadingFontSize() {
