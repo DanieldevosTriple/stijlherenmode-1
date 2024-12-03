@@ -396,7 +396,7 @@
           } else if (scrollTop < this.currentScrollTop) {
             this.header.classList.remove('hidden');
             this.header.classList.add('scrolled-past-header');
-            linkElement.style.backgroundImage = 'var(--logo-black)';
+            linkElement.style.backgroundImage = 'var(--logo-black) !important';
             cartIcons.forEach(cartIcon => cartIcon.style.color = 'black');
             menuItems.forEach(item => item.style.color = 'black');
           }
