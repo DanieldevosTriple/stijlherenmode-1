@@ -5,3 +5,15 @@
   .scrolled-past-header.header--middle-center a.header__heading-link {
   background-image: var(--logo-black) !important;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --menu-font-color: white;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --menu-font-color: white;
+  }
+}
