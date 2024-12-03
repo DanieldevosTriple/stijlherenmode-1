@@ -2428,6 +2428,12 @@ input[type='checkbox'] {
 
   .header--middle-center a.header__heading-link {
     text-align: center;
+    background-image: var(--logo-black);
+    width: 150px;
+    height: 88px;
+    background-size: contain; /* Zorg dat het logo binnen de container past */
+    background-repeat: no-repeat; /* Voorkom herhaling van het logo */
+    background-position: center; /* Centreer het logo */
   }
 
   .header--top-center {
