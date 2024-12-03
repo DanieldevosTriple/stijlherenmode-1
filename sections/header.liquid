@@ -343,12 +343,13 @@
       this.stickyType = this.getAttribute('data-sticky-type');
       this.themeMode = this.getAttribute('data-theme-mode');
       this.currentScrollTop = 0;
+      this.scrollTimeout = null;
 
       this.setHeaderHeight();
       this.updateHeaderTheme();
 
       window.addEventListener('resize', this.setHeaderHeight.bind(this));
-      window.addEventListener('scroll', this.onScroll.bind(this), false);
+      window.addEventListener('scroll', this.throttle(this.handleScroll.bind(this), 100), false);
     }
 
     setHeaderHeight() {
@@ -368,7 +369,7 @@
       }
     }
 
-    onScroll() {
+    handleScroll() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const linkElement = document.querySelector('.header--middle-center a.header__heading-link');
       const menuItems = document.querySelectorAll('.header__menu-item');
@@ -379,59 +380,93 @@
       const isLargeScreen = window.matchMedia('(min-width: 990px)').matches;
       const isMobileScreen = window.matchMedia('(max-width: 749px)').matches;
 
-      // Schakel logo-logica uit op mobiel
+      // Mobiel scherm: standaard zwarte kleur, geen aangepaste logica
       if (isMobileScreen) {
-        cartIcons.forEach(cartIcon => cartIcon.style.color = 'black'); // Standaard zwart maken
-        menuItems.forEach(item => item.style.color = 'black');
-        linkElement.style.backgroundImage = ''; // Verwijder aangepaste logo-logica
+        this.resetMobileStyles(cartIcons, menuItems, linkElement);
         return;
       }
 
+      // Grote schermen: logica voor scrolltype
       if (isLargeScreen) {
-        if (this.stickyType === 'on-scroll-up') {
-          if (scrollTop > this.currentScrollTop && scrollTop > 100) {
-            this.header.classList.add('hidden');
-            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black');
-            menuItems.forEach(item => item.style.color = 'black');
-          } else if (scrollTop < this.currentScrollTop) {
-            this.header.classList.remove('hidden');
-            this.header.classList.add('scrolled-past-header');
-            linkElement.style.backgroundImage = 'var(--logo-black) !important';
-            cartIcons.forEach(cartIcon => cartIcon.style.color = 'black');
-            menuItems.forEach(item => item.style.color = 'black');
+        if (scrollTop > this.currentScrollTop && scrollTop > 100) {
+          // Scroll naar beneden
+          if (this.stickyType === 'on-scroll-up') {
+            this.hideHeader(cartIcons, menuItems);
           }
-        } else if (this.stickyType === 'always') {
-          this.header.classList.add('scrolled-past-header');
-          linkElement.style.backgroundImage = 'var(--logo-black)';
-          cartIcons.forEach(cartIcon => cartIcon.style.color = 'black');
-          menuItems.forEach(item => item.style.color = 'black');
+        } else if (scrollTop < this.currentScrollTop) {
+          // Scroll naar boven
+          this.showHeader(cartIcons, menuItems, linkElement);
         }
 
         if (scrollTop === 0) {
           this.updateHeaderTheme();
-      
-          const isIndexPage = window.location.pathname === '/' || window.location.pathname === '/index.html';
-      
-          if (isIndexPage) {
-              // Stel logo-kleur in voor indexpagina
-              linkElement.style.backgroundImage = 'var(--logo-white)';
-              cartIcons.forEach(cartIcon => cartIcon.style.color = 'white');
-              menuItems.forEach(item => item.style.color = 'white');
-          } else {
-              // Stel logo-kleur in voor andere pagina's
-              linkElement.style.backgroundImage = 'var(--logo-black)'; // Voeg een standaard logo toe voor andere pagina's
-              cartIcons.forEach(cartIcon => cartIcon.style.color = 'var(--menu-font-color)');
-              menuItems.forEach(item => item.style.color = 'var(--menu-font-color)');
-          }
-        }       
+          this.setHeaderThemeForPage(linkElement, cartIcons, menuItems);
+        }
       }
 
       this.currentScrollTop = scrollTop;
+    }
+
+    resetMobileStyles(cartIcons, menuItems, linkElement) {
+      cartIcons.forEach(cartIcon => (cartIcon.style.color = 'black'));
+      menuItems.forEach(item => (item.style.color = 'black'));
+      linkElement.style.backgroundImage = '';
+    }
+
+    hideHeader(cartIcons, menuItems) {
+      this.header.classList.add('hidden');
+      cartIcons.forEach(cartIcon => (cartIcon.style.color = 'black'));
+      menuItems.forEach(item => (item.style.color = 'black'));
+    }
+
+    showHeader(cartIcons, menuItems, linkElement) {
+      this.header.classList.remove('hidden');
+      this.header.classList.add('scrolled-past-header');
+      linkElement.style.backgroundImage = 'var(--logo-black)';
+      cartIcons.forEach(cartIcon => (cartIcon.style.color = 'black'));
+      menuItems.forEach(item => (item.style.color = 'black'));
+    }
+
+    setHeaderThemeForPage(linkElement, cartIcons, menuItems) {
+      const isIndexPage = window.location.pathname === '/' || window.location.pathname === '/index.html';
+
+      if (isIndexPage) {
+        linkElement.style.backgroundImage = 'var(--logo-white)';
+        cartIcons.forEach(cartIcon => (cartIcon.style.color = 'white'));
+        menuItems.forEach(item => (item.style.color = 'white'));
+      } else {
+        linkElement.style.backgroundImage = 'var(--logo-black)';
+        cartIcons.forEach(cartIcon => (cartIcon.style.color = 'var(--menu-font-color)'));
+        menuItems.forEach(item => (item.style.color = 'var(--menu-font-color)'));
+      }
+    }
+
+    // Throttle functie om het scroll-event te beperken
+    throttle(func, limit) {
+      let lastFunc;
+      let lastRan;
+      return function () {
+        const context = this;
+        const args = arguments;
+        if (!lastRan) {
+          func.apply(context, args);
+          lastRan = Date.now();
+        } else {
+          clearTimeout(lastFunc);
+          lastFunc = setTimeout(function () {
+            if (Date.now() - lastRan >= limit) {
+              func.apply(context, args);
+              lastRan = Date.now();
+            }
+          }, limit - (Date.now() - lastRan));
+        }
+      };
     }
   }
 
   customElements.define('sticky-header', StickyHeader);
 </script>
+
 
 <script type="application/ld+json">
   {
