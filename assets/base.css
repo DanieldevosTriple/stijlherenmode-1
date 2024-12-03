@@ -124,6 +124,7 @@
   :root {
     --menu-font-color: white;
     --menu-background-color: black;
+    --slider-font-color: black;;
   }
 }
 
@@ -131,6 +132,7 @@
   :root {
     --menu-font-color: black;
     --menu-background-color: white;
+    --slider-font-color: white;;
   }
 }
 
