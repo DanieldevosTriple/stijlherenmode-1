@@ -199,8 +199,11 @@
   data-sticky-type="{{ section.settings.sticky_header_type }}"
   data-theme-mode="{{ section.settings.header_theme_mode }}"
   class="header-wrapper color-{{ section.settings.color_scheme }} gradient container-desktop
-  {% if section.settings.header_theme_mode != 'transparent' and section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}
-  {% if section.settings.header_theme_mode == 'transparent' and request.page_type == 'index' %} header-wrapper--transparent{% endif %}">
+  {% if section.settings.header_theme_mode == 'transparent' and request.page_type == 'index' %}
+  header-wrapper--transparent
+  {% else %}
+    header-wrapper--border-bottom
+  {% endif %}
    <!-- Current Page Type: {{ request.page_type }} -->
   {%- liquid
     assign social_links = false
