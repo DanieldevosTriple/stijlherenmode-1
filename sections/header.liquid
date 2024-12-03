@@ -343,7 +343,7 @@
 
     onScroll() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+
       // Sticky behavior logic
       if (this.stickyType === 'on-scroll-up') {
         if (scrollTop > this.currentScrollTop && scrollTop > 100) {
@@ -355,16 +355,15 @@
       } else if (this.stickyType === 'always') {
         this.header.classList.add('scrolled-past-header');
       }
-    
+
       // Reset to theme logic when at the top
       if (scrollTop === 0) {
         this.updateHeaderTheme();
-        this.header.style.backgroundImage = "var(--logo-white)"; // Stel logo in op wit
       } else {
-        this.header.style.backgroundImage = "var(--logo-black)"; // Stel logo in op zwart
+        this.header.classList.remove('transparent');
         this.header.classList.add('scrolled-past-header');
       }
-    
+
       this.currentScrollTop = scrollTop;
     }
   }
