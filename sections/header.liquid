@@ -263,7 +263,7 @@
     <div class="header__icon__cart"> 
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset header__cart" id="cart-icon">
         <span class="desktop-cart-text">
-          <span class="cart-text cart-color {{ template }}-page">
+          <span class="cart-text cart-color">
             {{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
           </span>
         </span>
