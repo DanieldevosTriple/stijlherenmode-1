@@ -372,44 +372,42 @@
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const linkElement = document.querySelector('.header--middle-center a.header__heading-link');
       const menuItems = document.querySelectorAll('.header__menu-item');
-      const cartIcons = document.querySelectorAll('.cart-color');
+      const cartIcon = document.querySelector('.cart-color');
 
       if (!linkElement) return;
 
       const isLargeScreen = window.matchMedia('(min-width: 990px)').matches;
-      const isMobileScreen = window.matchMedia('(max-width: 749px)').matches;
-
-      const isIndexPage = window.location.pathname === '/' || window.location.pathname === '/index.html';
-
-      const menuFontColor = isIndexPage ? 'white' : 'var(--menu-font-color)';
-
-      // Update menu items and cart icons for index or other pages
-      cartIcons.forEach(cartIcon => (cartIcon.style.color = menuFontColor));
-      menuItems.forEach(item => (item.style.color = menuFontColor));
-
-      if (isMobileScreen) {
-        linkElement.style.backgroundImage = ''; // Clear custom logo logic for mobile
-        return;
-      }
 
       if (isLargeScreen) {
         if (this.stickyType === 'on-scroll-up') {
           if (scrollTop > this.currentScrollTop && scrollTop > 100) {
             this.header.classList.add('hidden');
+            if (cartIcon) cartIcon.style.color = 'var(--color-gray)'; // Update kleur cart-icon
+            menuItems.forEach(item => item.style.color = 'var(--color-gray)');
           } else if (scrollTop < this.currentScrollTop) {
             this.header.classList.remove('hidden');
             this.header.classList.add('scrolled-past-header');
-            linkElement.style.backgroundImage = 'var(--logo-black)';
+            linkElement.style.backgroundImage = 'var(--logo-black) !important';
+            if (cartIcon) cartIcon.style.color = 'black'; // Zwart maken
+            menuItems.forEach(item => item.style.color = 'black');
           }
         } else if (this.stickyType === 'always') {
           this.header.classList.add('scrolled-past-header');
-          linkElement.style.backgroundImage = 'var(--logo-black)';
+          linkElement.style.backgroundImage = 'var(--logo-black) !important';
+          if (cartIcon) cartIcon.style.color = 'black'; // Update kleur naar zwart
+          menuItems.forEach(item => item.style.color = 'black');
         }
 
         if (scrollTop === 0) {
           this.updateHeaderTheme();
-          linkElement.style.backgroundImage = isIndexPage ? 'var(--logo-white)' : 'var(--logo-black)';
+          linkElement.style.backgroundImage = 'var(--logo-white)';
+          if (cartIcon) cartIcon.style.color = 'var(--menu-font-color)'; // Reset kleur
+          menuItems.forEach(item => item.style.color = 'var(--menu-font-color)');
         }
+      } else {
+        linkElement.style.backgroundImage = 'var(--logo-black) !important';
+        if (cartIcon) cartIcon.style.color = 'black'; // Update kleur voor kleine schermen
+        menuItems.forEach(item => item.style.color = 'black');
       }
 
       this.currentScrollTop = scrollTop;
