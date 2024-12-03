@@ -5,11 +5,3 @@
   .scrolled-past-header.header--middle-center a.header__heading-link {
   background-image: var(--logo-black) !important;
 }
-
-.header__menu-item {
-  color: white;
-}
-
-.cart-color {
-  color: white;
-}
