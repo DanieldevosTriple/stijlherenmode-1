@@ -390,11 +390,11 @@
           } else if (scrollTop < this.currentScrollTop) {
             this.header.classList.remove('hidden');
             this.header.classList.add('scrolled-past-header');
-            linkElement.style.backgroundImage = 'var(--logo-black)'; // Voeg achtergrond toe
+            linkElement.style.backgroundImage = 'var(--logo-black) !important'; // Voeg achtergrond toe
           }
         } else if (this.stickyType === 'always') {
           this.header.classList.add('scrolled-past-header');
-          linkElement.style.backgroundImage = 'var(--logo-black)'; // Voeg achtergrond toe
+          linkElement.style.backgroundImage = 'var(--logo-black) !important'; // Voeg achtergrond toe
         }
     
         // Reset bij top van de pagina
