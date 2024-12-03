@@ -366,12 +366,6 @@
         if (this.themeMode === 'transparent') {
           this.header.classList.add('transparent');
           this.header.classList.remove('scrolled-past-header');
-        } else if (this.themeMode === 'system') {
-          // Use system preference for dark or light mode
-          const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          this.header.style.backgroundColor = darkMode ? '#000000' : '#ffffff';
-          this.header.style.color = darkMode ? '#ffffff' : '#000000';
-          this.header.classList.remove('transparent', 'scrolled-past-header');
         } else {
           // Default to solid background color
           this.header.classList.remove('transparent');
@@ -381,7 +375,7 @@
 
     onScroll() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
+    
       // Sticky behavior logic
       if (this.stickyType === 'on-scroll-up') {
         if (scrollTop > this.currentScrollTop && scrollTop > 100) {
@@ -393,17 +387,18 @@
       } else if (this.stickyType === 'always') {
         this.header.classList.add('scrolled-past-header');
       }
-
+    
       // Reset to theme logic when at the top
       if (scrollTop === 0) {
         this.updateHeaderTheme();
+        this.header.style.backgroundImage = "var(--logo-white)"; // Stel logo in op wit
       } else {
-        this.header.classList.remove('transparent');
+        this.header.style.backgroundImage = "var(--logo-black)"; // Stel logo in op zwart
         this.header.classList.add('scrolled-past-header');
       }
-
+    
       this.currentScrollTop = scrollTop;
-    }
+    }    
   }
 
   customElements.define('sticky-header', StickyHeader);
