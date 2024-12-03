@@ -339,90 +339,96 @@
 <script>
   class StickyHeader extends HTMLElement {
     connectedCallback() {
-      // Get header element and settings
+      // Haal het header-element op en lees attributen voor instellingen
       this.header = document.querySelector('.section-header');
-      this.stickyType = this.getAttribute('data-sticky-type');
-      this.themeMode = this.getAttribute('data-theme-mode'); // Background color mode
-      this.currentScrollTop = 0;
+      this.stickyType = this.getAttribute('data-sticky-type'); // Type sticky gedrag ('on-scroll-up' of 'always')
+      this.themeMode = this.getAttribute('data-theme-mode'); // Achtergrondkleurmodus ('transparent' of 'solid')
+      this.currentScrollTop = 0; // Huidige scrollpositie opslaan
 
-      // Initial setup for header styles
-      this.setHeaderHeight();
-      this.updateHeaderTheme();
-      
-      // Event listeners for scroll and resize
-      window.addEventListener('resize', this.setHeaderHeight.bind(this));
-      window.addEventListener('scroll', this.onScroll.bind(this), false);
+      // Stel de initiële header-stijl in
+      this.setHeaderHeight(); // Zet de headerhoogte als CSS-variable
+      this.updateHeaderTheme(); // Pas de header-thema aan op basis van scrollpositie
+
+      // Voeg eventlisteners toe voor scroll- en resize-events
+      window.addEventListener('resize', this.setHeaderHeight.bind(this)); // Update hoogte bij venstergrootte-aanpassingen
+      window.addEventListener('scroll', this.onScroll.bind(this), false); // Verwerk gedrag bij scrollen
     }
 
     setHeaderHeight() {
-      // Set CSS variable for header height
+      // Zet de CSS-variable `--header-height` op de hoogte van de header
       document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`);
     }
 
     updateHeaderTheme() {
-      // Update header theme based on scroll position and theme mode
+      // Pas het thema van de header aan op basis van de scrollpositie
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      if (scrollTop === 0) {
+
+      if (scrollTop === 0) { // Als de gebruiker bovenaan de pagina is
         if (this.themeMode === 'transparent') {
-          this.header.classList.add('transparent');
-          this.header.classList.remove('scrolled-past-header');
+          this.header.classList.add('transparent'); // Maak de header transparant
+          this.header.classList.remove('scrolled-past-header'); // Verwijder sticky-class
         } else {
-          // Default to solid background color
-          this.header.classList.remove('transparent');
+          this.header.classList.remove('transparent'); // Zorg voor een solid achtergrondkleur
         }
       }
     }
 
     onScroll() {
+      // Behandel gedrag tijdens scrollen
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const linkElement = document.querySelector('.header--middle-center a.header__heading-link');
-      const nonDrawerHeader = document.querySelector('.header--middle-center:not(.drawer-menu)');
-      const cartIcon = document.querySelector('.cart-color');
-    
-      if (!linkElement) return; // Stop als het element niet bestaat
-    
-      // Controleer schermgrootte
+      const linkElement = document.querySelector('.header--middle-center a.header__heading-link'); // Logo-link
+      const menuItem = document.querySelector('.header__menu-item'); // Menu-item
+      const cartIcon = document.querySelector('.cart-color'); // Winkelwagenpictogram
+
+      if (!linkElement) return; // Stop als het logo niet gevonden is
+
+      // Controleer of het scherm groot is (breedte >= 990px)
       const isLargeScreen = window.matchMedia('(min-width: 990px)').matches;
-    
+
       if (isLargeScreen) {
-        // Sticky behavior logic
+        // Sticky gedrag afhankelijk van `stickyType`
         if (this.stickyType === 'on-scroll-up') {
-          if (scrollTop > this.currentScrollTop && scrollTop > 100) {
+          if (scrollTop > this.currentScrollTop && scrollTop > 100) { 
+            // Naar beneden scrollen: verberg de header
             this.header.classList.add('hidden');
-            if (cartIcon) cartIcon.style.color = 'var(--color-gray)';
-            if (nonDrawerHeader) nonDrawerHeader.style.color = 'var(--color-gray)';
+            if (cartIcon) cartIcon.style.color = 'black !important'; // Grijze kleur
+            if (menuItem) menuItem.style.color = 'var(--color-gray)';
           } else if (scrollTop < this.currentScrollTop) {
+            // Naar boven scrollen: toon de header en voeg sticky-class toe
             this.header.classList.remove('hidden');
             this.header.classList.add('scrolled-past-header');
-            linkElement.style.backgroundImage = 'var(--logo-black) !important'; // Voeg achtergrond toe
-            if (cartIcon) cartIcon.style.color = 'var(--color-black)';
-            if (nonDrawerHeader) nonDrawerHeader.style.color = 'var(--color-black)';
+            linkElement.style.backgroundImage = 'var(--logo-black) !important'; // Logo naar zwart
+            if (cartIcon) cartIcon.style.color = 'black !important';
+            if (menuItem) menuItem.style.color = 'black !important';
           }
         } else if (this.stickyType === 'always') {
+          // Altijd sticky gedrag
           this.header.classList.add('scrolled-past-header');
-          linkElement.style.backgroundImage = 'var(--logo-black) !important'; // Voeg achtergrond toe
-          if (cartIcon) cartIcon.style.color = 'var(--color-black)';
-          if (nonDrawerHeader) nonDrawerHeader.style.color = 'var(--color-black)';
+          linkElement.style.backgroundImage = 'var(--logo-black) !important'; // Logo naar zwart
+          if (cartIcon) cartIcon.style.color = 'black !important';
+          if (menuItem) menuItem.style.color = 'black !important';
         }
-    
-        // Reset bij top van de pagina
+
+        // Reset styling bij het bereiken van de top van de pagina
         if (scrollTop === 0) {
           this.updateHeaderTheme();
-          linkElement.style.backgroundImage = 'var(--logo-white)'; // Reset naar wit logo
-          if (cartIcon) cartIcon.style.color = 'var(--cart-color)';
-          if (nonDrawerHeader) nonDrawerHeader.style.color = 'var(--drawer-menu-color)';
+          linkElement.style.backgroundImage = 'var(--logo-white)'; // Logo terug naar wit
+          if (cartIcon) cartIcon.style.color = 'var(--menu-font-color)';
+          if (menuItem) menuItem.style.color = 'var(--menu-font-color)';
         }
       } else {
-        // Verwijder achtergrond en reset kleur op kleine schermen
-        linkElement.style.backgroundImage = '';
-        if (cartIcon) cartIcon.style.color = 'var(--color-primary)';
-        if (nonDrawerHeader) nonDrawerHeader.style.color = 'var(--drawer-menu-color)';
+        // Reset stijl op kleine schermen
+        linkElement.style.backgroundImage = 'var(--logo-black) !important';
+        if (cartIcon) cartIcon.style.color = 'black !important';
+        if (menuItem) menuItem.style.color = 'black !important';
       }
-    
+
+      // Update huidige scrollpositie
       this.currentScrollTop = scrollTop;
-    }          
+    }
   }
 
+  // Definieer het custom element
   customElements.define('sticky-header', StickyHeader);
 </script>
 
