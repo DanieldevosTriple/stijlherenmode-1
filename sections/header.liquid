@@ -375,30 +375,40 @@
 
     onScroll() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const linkElement = document.querySelector('.header--middle-center a.header__heading-link');
     
-      // Sticky behavior logic
-      if (this.stickyType === 'on-scroll-up') {
-        if (scrollTop > this.currentScrollTop && scrollTop > 100) {
-          this.header.classList.add('hidden');
-        } else if (scrollTop < this.currentScrollTop) {
-          this.header.classList.remove('hidden');
+      if (!linkElement) return; // Stop als het element niet bestaat
+    
+      // Controleer schermgrootte
+      const isLargeScreen = window.matchMedia('(min-width: 990px)').matches;
+    
+      if (isLargeScreen) {
+        // Sticky behavior logic
+        if (this.stickyType === 'on-scroll-up') {
+          if (scrollTop > this.currentScrollTop && scrollTop > 100) {
+            this.header.classList.add('hidden');
+          } else if (scrollTop < this.currentScrollTop) {
+            this.header.classList.remove('hidden');
+            this.header.classList.add('scrolled-past-header');
+            linkElement.style.backgroundImage = 'var(--logo-black)'; // Voeg achtergrond toe
+          }
+        } else if (this.stickyType === 'always') {
           this.header.classList.add('scrolled-past-header');
+          linkElement.style.backgroundImage = 'var(--logo-black)'; // Voeg achtergrond toe
         }
-      } else if (this.stickyType === 'always') {
-        this.header.classList.add('scrolled-past-header');
-      }
     
-      // Reset to theme logic when at the top
-      if (scrollTop === 0) {
-        this.updateHeaderTheme();
-        this.header.style.backgroundImage = "var(--logo-white)"; // Stel logo in op wit
+        // Reset bij top van de pagina
+        if (scrollTop === 0) {
+          this.updateHeaderTheme();
+          linkElement.style.backgroundImage = 'var(--logo-white)'; // Reset naar wit logo
+        }
       } else {
-        this.header.style.backgroundImage = "var(--logo-black)"; // Stel logo in op zwart
-        this.header.classList.add('scrolled-past-header');
+        // Verwijder achtergrond op kleine schermen
+        linkElement.style.backgroundImage = '';
       }
     
       this.currentScrollTop = scrollTop;
-    }    
+    }       
   }
 
   customElements.define('sticky-header', StickyHeader);
