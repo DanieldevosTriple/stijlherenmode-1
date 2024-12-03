@@ -376,6 +376,8 @@
     onScroll() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const linkElement = document.querySelector('.header--middle-center a.header__heading-link');
+      const nonDrawerHeader = document.querySelector('.header--middle-center:not(.drawer-menu)');
+      const cartIcon = document.querySelector('.cart-color');
     
       if (!linkElement) return; // Stop als het element niet bestaat
     
@@ -387,28 +389,38 @@
         if (this.stickyType === 'on-scroll-up') {
           if (scrollTop > this.currentScrollTop && scrollTop > 100) {
             this.header.classList.add('hidden');
+            if (cartIcon) cartIcon.style.color = 'var(--color-gray)';
+            if (nonDrawerHeader) nonDrawerHeader.style.color = 'var(--color-gray)';
           } else if (scrollTop < this.currentScrollTop) {
             this.header.classList.remove('hidden');
             this.header.classList.add('scrolled-past-header');
             linkElement.style.backgroundImage = 'var(--logo-black) !important'; // Voeg achtergrond toe
+            if (cartIcon) cartIcon.style.color = 'var(--color-black)';
+            if (nonDrawerHeader) nonDrawerHeader.style.color = 'var(--color-black)';
           }
         } else if (this.stickyType === 'always') {
           this.header.classList.add('scrolled-past-header');
           linkElement.style.backgroundImage = 'var(--logo-black) !important'; // Voeg achtergrond toe
+          if (cartIcon) cartIcon.style.color = 'var(--color-black)';
+          if (nonDrawerHeader) nonDrawerHeader.style.color = 'var(--color-black)';
         }
     
         // Reset bij top van de pagina
         if (scrollTop === 0) {
           this.updateHeaderTheme();
           linkElement.style.backgroundImage = 'var(--logo-white)'; // Reset naar wit logo
+          if (cartIcon) cartIcon.style.color = 'var(--cart-color)';
+          if (nonDrawerHeader) nonDrawerHeader.style.color = 'var(--drawer-menu-color)';
         }
       } else {
-        // Verwijder achtergrond op kleine schermen
+        // Verwijder achtergrond en reset kleur op kleine schermen
         linkElement.style.backgroundImage = '';
+        if (cartIcon) cartIcon.style.color = 'var(--color-primary)';
+        if (nonDrawerHeader) nonDrawerHeader.style.color = 'var(--drawer-menu-color)';
       }
     
       this.currentScrollTop = scrollTop;
-    }       
+    }          
   }
 
   customElements.define('sticky-header', StickyHeader);
