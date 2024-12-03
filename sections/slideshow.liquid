@@ -208,18 +208,17 @@
     // Werkelijke breedte van de inhoud
     const contentWidth = bannerHeading.scrollWidth;
 
-    // Debugging: log de waarden om te controleren
+    // Debugging: log de waarden
     console.log('Parent Width:', parentWidth, 'Content Width:', contentWidth);
 
-    // Controleer of waarden geldig zijn
-    if (parentWidth > 0 && contentWidth > 0) {
-      // Bereken schaalfactor
-      const scaleFactor = contentWidth > parentWidth ? parentWidth / contentWidth : 1;
-      
-      // Debugging: log de schaalfactor
+    // Controleer of breedtes geldig zijn en bereken de juiste schaalfactor
+    if (contentWidth > 0 && parentWidth > 0) {
+      const scaleFactor = parentWidth / contentWidth;
+
+      // Debugging: log de berekende schaalfactor
       console.log('Scale Factor:', scaleFactor);
 
-      // Pas schaal aan via CSS variabele
+      // Pas de schaal aan via de CSS-variabele
       bannerHeading.style.setProperty('--efiScale', scaleFactor);
     } else {
       // Standaard schaal instellen
@@ -232,8 +231,8 @@
 
   // Aanpassing bij het herschalen van het venster
   window.addEventListener('resize', adjustHeadingScale);
-
 </script>
+
 
 <script>
   function adjustHeadingFontSize() {
