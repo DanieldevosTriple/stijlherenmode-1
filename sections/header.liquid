@@ -299,14 +299,6 @@
 {%- endif -%}
 
 <script>
-  if (window.location.pathname === '/homepage') {
-    document.documentElement.style.setProperty('--menu-font-color', 'white');
-  } else {
-    document.documentElement.style.setProperty('--menu-font-color', 'black');
-  }
-</script>
-
-<script>
   const selector = ".elixon-fits-in";
   var watchList = Array.from(document.querySelectorAll(selector))
       .map((el) => el.parentNode);
