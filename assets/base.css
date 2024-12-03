@@ -122,6 +122,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --menu-font-color: white;
     --menu-background-color: black;
     --slider-font-color: black;
     --title-font-color: white;
@@ -131,11 +132,16 @@
 
 @media (prefers-color-scheme: light) {
   :root {
+    --menu-font-color: black;
     --menu-background-color: white;
     --slider-font-color: white;
     --title-font-color: black;
     --general-background-color: white;
   }
+}
+
+body.index-page :root {
+  --menu-font-color: white; /* specifieke kleur voor index-page */
 }
 
 .product-card-wrapper .card,
