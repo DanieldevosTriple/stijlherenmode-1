@@ -155,32 +155,12 @@
       </button>
     </div>
   </slider-component>
-  {%- if first_3d_model -%}
-    <button
-      class="button button--full-width product__xr-button"
-      type="button"
-      aria-label="{{ 'products.product.xr_button_label' | t }}"
-      data-shopify-xr
-      data-shopify-model3d-id="{{ first_3d_model.id }}"
-      data-shopify-title="{{ product.title | escape }}"
-      data-shopify-xr-hidden
-    >
-      <span class="svg-wrapper">
-        {{- 'icon-3d-model.svg' | inline_asset_content -}}
-      </span>
-      {{ 'products.product.xr_button' | t }}
-    </button>
-  {%- endif -%}
+
   {%- liquid
     assign is_not_limited_to_single_item = false
     if limit == null or limit > 1
       assign is_not_limited_to_single_item = true
     endif
-  -%}
-  {%- if is_not_limited_to_single_item
-    and media_count > 1
-    and section.settings.gallery_layout contains 'thumbnail'
-    or section.settings.mobile_thumbnails == 'show'
   -%}
     <slider-component
       id="GalleryThumbnails-{{ section.id }}"
@@ -329,5 +309,4 @@
         </span>
       </button>
     </slider-component>
-  {%- endif -%}
 </media-gallery>
