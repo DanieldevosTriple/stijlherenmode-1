@@ -34,7 +34,6 @@
   <!-- Thumbnails -->
   <div class="row media-thumbnails grid grid--gap">
     {% for media in product.media %}
-      {% unless media.id == product.selected_or_first_available_variant.featured_media.id %}
         <div 
           class="product__media-item media-thumbnail col-3" 
           data-variant-color="{% if media.alt contains 'color|' %}{{ media.alt | split: '|' | last }}{% else %}all{% endif %}"
@@ -45,7 +44,6 @@
             class="media-thumbnail__image"
           />
         </div>
-      {% endunless %}
     {% endfor %}
   </div>
 </media-gallery>
