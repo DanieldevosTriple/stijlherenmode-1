@@ -145,6 +145,7 @@
                             featured_image: image_to_use,
                             product_title: product_title_with_color
                           %}
+                          <p>Debug even min: {{ product.variants.id }}</p>
                         </li>
                         {%- assign shown_colors = shown_colors | append: color_check -%}
                       {%- endunless -%}
@@ -153,7 +154,7 @@
                 {%- endif -%}
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}                           
-            </ul>                                                   
+            </ul>     
                          
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
