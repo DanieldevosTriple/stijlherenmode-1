@@ -24,7 +24,7 @@
   {% if product.selected_or_first_available_variant.featured_media != null %}
     <div 
       class="product__media-item featured-media col-12" 
-      data-variant-color="{% if product.selected_or_first_available_variant.featured_media.alt contains 'color|' %}{{ product.selected_or_first_available_variant.featured_media.alt | split: '|' | last }}{% else %}all{% endif %}"
+      data-variant-color="{{ variants_id }}"
     >
       <img
         id="featured-image"
