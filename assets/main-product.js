@@ -1,61 +1,48 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Selecteer de titel en het JSON-script dat de variantinformatie bevat
     const productTitle = document.querySelector('.product__title h1');
-  
-    // Debugging: Controleer of het product object en de titel bestaan
-    console.log('Product object:', window.product);
-  
-    if (!window.product) {
-      console.error('window.product is not defined. Ensure it is injected using Liquid.');
-      return;
-    }
+    const variantJsonElement = document.querySelector('script[data-selected-variant]');
   
     if (!productTitle) {
-      console.error('Product title element is not found on the page.');
+      console.error('Product title element is missing.');
       return;
     }
   
-    if (!window.product.variants || !Array.isArray(window.product.variants)) {
-      console.error('window.product.variants is not defined or not an array.');
+    if (!variantJsonElement) {
+      console.error('Variant JSON script element is missing.');
       return;
     }
   
-    // Functie om de titel bij te werken
-    const updateTitle = (variant) => {
-      if (variant && variant.option1) {
-        const baseTitle = productTitle.closest('.product__title').getAttribute('data-title');
-        productTitle.textContent = `${baseTitle} - ${variant.option1}`;
-        console.log(`Title updated to: ${baseTitle} - ${variant.option1}`);
-      } else {
-        console.warn('Variant is undefined or does not have a valid option1.');
-      }
+    // Parse de JSON-variantinformatie
+    let selectedVariant = JSON.parse(variantJsonElement.textContent);
+  
+    const updateTitle = (color) => {
+      const baseTitle = productTitle.closest('.product__title').getAttribute('data-title');
+      productTitle.textContent = `${baseTitle} - ${color}`;
+      console.log(`Updated title to: ${baseTitle} - ${color}`);
     };
   
-    // Luister naar swatch-selecties
-    const swatchSelectors = document.querySelectorAll('input[type="radio"][name^="option"], select[name^="option"]');
-    if (swatchSelectors.length === 0) {
-      console.warn('No swatch or dropdown selectors found. Ensure your inputs are correctly named.');
+    // Update de titel met de initiële geselecteerde variant
+    if (selectedVariant && selectedVariant.option1) {
+      updateTitle(selectedVariant.option1);
+    } else {
+      console.warn('No initial variant found in JSON.');
     }
   
-    swatchSelectors.forEach(selector => {
-      selector.addEventListener('change', function () {
-        console.log(`Swatch or dropdown changed. Value: ${this.value}`);
-        const selectedVariantId = parseInt(this.value, 10);
-        const selectedVariant = window.product.variants.find(variant => variant.id === selectedVariantId);
-        if (selectedVariant) {
-          console.log('Selected variant:', selectedVariant);
-          updateTitle(selectedVariant);
-        } else {
-          console.warn('No variant found for the selected value:', this.value);
-        }
+    // Luister naar wijzigingen in de kleur swatches
+    const colorInputs = document.querySelectorAll('input[type="radio"][name^="Color"]');
+  
+    if (colorInputs.length === 0) {
+      console.warn('No color swatch inputs found.');
+      return;
+    }
+  
+    colorInputs.forEach(input => {
+      input.addEventListener('change', function () {
+        const selectedColor = this.value;
+        console.log(`Color swatch changed to: ${selectedColor}`);
+        updateTitle(selectedColor);
       });
     });
-  
-    // Trigger standaard variant bij het laden van de pagina
-    if (window.product.selected_or_first_available_variant) {
-      console.log('Initial variant:', window.product.selected_or_first_available_variant);
-      updateTitle(window.product.selected_or_first_available_variant);
-    } else {
-      console.warn('No initial variant found on page load.');
-    }
   });
   
