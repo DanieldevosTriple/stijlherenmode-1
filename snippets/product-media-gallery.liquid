@@ -156,12 +156,6 @@
     </div>
   </slider-component>
 
-  {%- liquid
-    assign is_not_limited_to_single_item = false
-    if limit == null or limit > 1
-      assign is_not_limited_to_single_item = true
-    endif
-  -%}
     <slider-component
       id="GalleryThumbnails-{{ section.id }}"
       class="thumbnail-slider slider-mobile-gutter quick-add-hidden{% unless section.settings.gallery_layout contains 'thumbnail' %} medium-hide large-up-hide{% endunless %}{% if section.settings.mobile_thumbnails != 'show' %} small-hide{% endif %}{% if media_count <= 3 %} thumbnail-slider--no-slide{% endif %}"
