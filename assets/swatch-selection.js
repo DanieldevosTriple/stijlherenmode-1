@@ -15,7 +15,7 @@ document.querySelectorAll('input[type="radio"][name="options"]').forEach(functio
   
       // Update de media-thumbnails
       document.querySelectorAll('.product__media-item').forEach(function(thumbnail) {
-        if (thumbnail.dataset.variantColor === variantColor || variantColor === 'all') {
+        if (thumbnail.dataset.variantColor === variantColor) {
           thumbnail.querySelector('img').src = variantImage;
           thumbnail.querySelector('img').alt = variantAlt;
         }
