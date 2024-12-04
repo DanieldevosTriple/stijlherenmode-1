@@ -1,27 +1,31 @@
 document.addEventListener('DOMContentLoaded', function () {
     const colorRadios = document.querySelectorAll('input[type="radio"][name^="Color"]'); // Color swatches
-    const mediaGalleryContainer = document.querySelector('.product__media-gallery'); // Featured image container
+    const mediaWrapperContainer = document.querySelector('.product__media-wrapper'); // Container for media gallery
 
     const updateMediaGallery = (selectedColor) => {
-      console.log('Selected Color:', selectedColor);  // Log the selected color
+        console.log('Selected Color:', selectedColor);  // Log the selected color
 
-      // AJAX request to fetch new product media gallery
-      const params = new URLSearchParams();
-      params.append('color', selectedColor);
+        // AJAX request to fetch the new product media gallery with the selected color
+        const params = new URLSearchParams();
+        params.append('color', selectedColor);  // Send selected color
 
-      fetch('/path/to/your/ajax/handler', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: params
-      })
-      .then(response => response.text())
-      .then(data => {
-        mediaGalleryContainer.innerHTML = data;  // Update the media gallery container with new content
-        console.log('Product media gallery updated');
-      })
-      .catch(error => console.error('Error fetching media gallery:', error));
+        fetch(window.location.href, {  // Send AJAX request to current page
+            method: 'GET', 
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: params
+        })
+        .then(response => response.text())
+        .then(data => {
+            // Extract the updated media gallery content from the response
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(data, 'text/html');
+            const updatedGallery = doc.querySelector('.product__media-wrapper').innerHTML;
+            mediaWrapperContainer.innerHTML = updatedGallery;  // Replace the old gallery with the new one
+            console.log('Product media gallery updated');
+        })
+        .catch(error => console.error('Error fetching media gallery:', error));
     };
 
     // Event listener for swatches
@@ -37,3 +41,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
