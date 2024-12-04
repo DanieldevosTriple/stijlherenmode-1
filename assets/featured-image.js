@@ -1,4 +1,3 @@
-<script>
   function updateFeaturedImage(imageSrc, imageAlt) {
     // Vind de hoofdafbeelding
     const featuredImage = document.getElementById('featured-image');
@@ -9,4 +8,3 @@
       featuredImage.alt = imageAlt;
     }
   }
-</script>
