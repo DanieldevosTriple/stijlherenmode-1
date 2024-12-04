@@ -142,11 +142,15 @@ variant-selects {
   border: none;
   border-radius: 0px;
   display: inline-block;
-  padding: 1rem;
   align-items: center;
   transition: border var(--duration-short) ease;
   cursor: pointer;
   position: relative;
+}
+
+.variant-image {
+  width: 60px;
+  height: 60px;
 }
 
 .variant-text.text-class:before {
