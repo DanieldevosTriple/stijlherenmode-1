@@ -16,15 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     };
   
-    // Event listener voor dropdown
-    if (variantSelector) {
-      variantSelector.addEventListener('change', function () {
-        const selectedVariant = JSON.parse(variantSelector.selectedOptions[0].dataset.variant);
-        const selectedColor = selectedVariant.option1; // Neem aan dat de kleur de eerste optie is
-        updateMediaGallery(selectedColor);
-      });
-    }
-  
     // Event listener voor swatches
     if (colorRadios.length) {
       colorRadios.forEach((radio) => {
