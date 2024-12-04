@@ -47,7 +47,9 @@
   {% endcomment %}
   <script src="{{ 'custom-media-gallery.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'featured-image.js' | asset_url }}" defer="defer"></script>
-
+  <script>
+    window.product = {{ product | json }};
+  </script>s
   
   {% if section.settings.image_zoom == 'hover' %}
     <script id="EnableZoomOnHover-main" src="{{ 'magnify.js' | asset_url }}" defer="defer"></script>
