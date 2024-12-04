@@ -110,6 +110,12 @@
   overflow: hidden;
 }
 
+@media (prefers-color-scheme: dark) {
+  .body {
+    color: white !important;
+  }
+}
+
 :root {
   --alpha-button-background: 1;
   --alpha-button-border: 1;
