@@ -1512,3 +1512,14 @@ a.product__text {
     border: none;
   }
 }
+
+.media-thumbnail {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.media-thumbnail:hover,
+.media-thumbnail.active {
+  opacity: 1;
+  border: 2px solid #000;
+}
