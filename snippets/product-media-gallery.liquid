@@ -11,7 +11,7 @@
   {% render 'product-media-gallery' %}
 {% endcomment %}
 
-{% assign sorted_media = product.media | sort: 'position' %}
+{% assign sorted_media = product.media | sort: 'id' %}
 
 <media-gallery
   id="MediaGallery-{{ section.id }}"
