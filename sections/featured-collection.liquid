@@ -82,6 +82,7 @@
                     style="--animation-order: {{ forloop.index }};"
                   {% endif %}
                 >
+                  <a href="{{ variant_url }}">
                   {% render 'card-product',
                     card_product: product,
                     media_aspect_ratio: section.settings.image_ratio,
@@ -96,6 +97,7 @@
                     featured_image: image_to_use,
                     product_title: product_title_with_color
                   %}
+                </a>
                 </li>
                 {%- assign shown_colors = shown_colors | append: color_option | append: ',' -%}
               {%- endunless -%}
