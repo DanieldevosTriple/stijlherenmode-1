@@ -19,6 +19,12 @@ product-info {
   padding-left: 0;
 }
 
+.featured-media img{
+  vertical-align: middle;
+  border-style: none;
+  width: 100%;
+}
+
 @media screen and (min-width: 750px) {
   .product__column-sticky {
     display: block;
