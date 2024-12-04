@@ -23,7 +23,6 @@
 >
   <!-- Featured Image -->
   {% if product.selected_or_first_available_variant.featured_media != null %}
-    {% if media.alt | downcase == selected_color | downcase %}
     <div 
       class="product__media-item featured-media col-12" 
       data-variant-color="{% if product.selected_or_first_available_variant.featured_media.alt contains 'color|' %}{{ product.selected_or_first_available_variant.featured_media.alt | split: '|' | last }}{% else %}all{% endif %}"
@@ -36,7 +35,6 @@
       />
     </div>
     {% endif %}
-  {% endif %}
 
   <!-- Thumbnails -->
   <div class="row media-thumbnails grid grid--gap">
