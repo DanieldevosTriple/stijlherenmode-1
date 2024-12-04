@@ -35,13 +35,21 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    // Debug: Controleer de geladen productmedia
+    console.log("Laad productmedia:", {{ product.media | json }});
+    
     var productMedia = {{ product.media | json }};
     var featuredImageContainer = document.getElementById('featured-media-container');
     var mediaThumbnailsContainer = document.getElementById('media-thumbnails');
 
     if (productMedia.length > 0) {
+      // Debug: Controleer of er media is gevonden
+      console.log("Aantal media items gevonden:", productMedia.length);
+
       // Set featured image
       var featuredMedia = productMedia[0]; // Neem de eerste media als featured
+      console.log("Featured Media:", featuredMedia);
+      
       var featuredImage = document.createElement('img');
       featuredImage.id = 'featured-image-' + featuredMedia.id;
       featuredImage.src = featuredMedia.preview_image | image_url: width: 1024;
@@ -51,6 +59,9 @@
 
       // Generate thumbnails
       productMedia.forEach(function (media) {
+        // Debug: Controleer elk thumbnail-item
+        console.log("Thumbnail Media:", media);
+
         var thumbnailDiv = document.createElement('div');
         thumbnailDiv.classList.add('product__media-item', 'media-thumbnail', 'col-3');
         thumbnailDiv.setAttribute('data-variant-color', media.alt.includes('color|') ? media.alt.split('|').pop() : 'all');
@@ -67,15 +78,22 @@
         thumbnailDiv.appendChild(thumbnailImage);
         mediaThumbnailsContainer.appendChild(thumbnailDiv);
       });
+    } else {
+      // Debug: Als er geen media zijn
+      console.log("Geen productmedia gevonden.");
     }
   });
 
   function updateFeaturedImage(imageUrl, altText) {
+    // Debug: Controleer of de updateFeaturedImage wordt aangeroepen
+    console.log("Update featured image naar:", imageUrl, "met alt tekst:", altText);
+    
     var featuredImage = document.getElementById('featured-image');
     featuredImage.src = imageUrl;
     featuredImage.alt = altText;
   }
 </script>
+
 
 
 
