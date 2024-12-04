@@ -106,13 +106,14 @@
                     {{- block.settings.text -}}
                   </p>
                 {%- when 'title' -%}
-                  <h2 class="product__title {{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
-                    {%- unless placeholder -%}
-                      {{ product.title | escape }}
-                    {%- else -%}
-                      {{ 'onboarding.product_title' | t }}
-                    {%- endunless -%}
-                  </h2>
+                  <h2 class="product__title {{ block.settings.heading_size }}" {{ block.shopify_attributes }}
+                      data-title="{{ product.title | escape }}"
+                      data-color="{{ product.selected_or_first_available_variant.option1 | escape }}">
+                    {{ product.title | escape }} 
+                    {%- if product.selected_or_first_available_variant.option1 -%}
+                      - {{ product.selected_or_first_available_variant.option1 | escape }}
+                    {%- endif -%}
+                  </h2>                
                 {%- when 'price' -%}
                   <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                     {%- render 'price',
