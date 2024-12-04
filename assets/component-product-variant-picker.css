@@ -140,8 +140,6 @@ variant-selects {
 /* Custom styles for Image display type */
 .variant-image.image-class {
   border: none;
-  background-color: rgb(var(--color-background));
-  color: rgba(var(--color-foreground));
   border-radius: 0px;
   display: inline-block;
   margin: 1rem;
