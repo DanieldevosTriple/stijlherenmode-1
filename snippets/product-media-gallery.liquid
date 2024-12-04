@@ -21,79 +21,38 @@
   class="product__media-gallery"
 >
   <!-- Featured Image -->
-  <div id="featured-media-container" class="product__media-item featured-media col-12">
+{% if product.selected_or_first_available_variant.featured_media != null %}
+  <div 
+    class="product__media-item featured-media col-12" 
+    data-variant-color="{{ product.selected_or_first_available_variant.id }}"  
+  >
     <img
-      id="featured-image"
+      id="featured-image-{{ product.selected_or_first_available_variant.id }}" 
+      src="{{ product.selected_or_first_available_variant.featured_media.preview_image | image_url: width: 1024 }}"
+      alt="{{ product.selected_or_first_available_variant.featured_media.alt }}"
       class="featured-media__image"
-      src=""
-      alt=""
     />
   </div>
+{% endif %}
 
   <!-- Thumbnails -->
-  <div id="media-thumbnails" class="row media-thumbnails grid grid--gap">
-    <!-- Thumbnails worden dynamisch geladen via JavaScript -->
+  <div class="row media-thumbnails grid grid--gap">
+    {% for media in reversed_media %}
+        <div 
+          class="product__media-item media-thumbnail col-3" 
+          data-variant-color="{% if media.alt contains 'color|' %}{{ media.alt | split: '|' | last }}{% else %}all{% endif %}"
+          data-media-id="{{ media.id }}"
+        >
+          <img
+            src="{{ media.preview_image | image_url: width: 416 }}"
+            alt="{{ media.alt }}"
+            class="media-thumbnail__image"
+            onclick="updateFeaturedImage('{{ media.preview_image | image_url: width: 1024 }}', '{{ media.alt }}')"
+          />
+        </div>
+    {% endfor %}
   </div>
 </media-gallery>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Maak een globaal product object dat alle productgegevens bevat
-    window.productJSON.media = {{ product.media | json }};
-
-    // Log de productinformatie naar de console voor debugging
-    console.log("Product JSON:", window.productJSON);
-
-    // Haal de productmedia uit het globale object
-    var productMedia = window.productJSON.media;
-
-    var featuredImageContainer = document.getElementById('featured-media-container');
-    var mediaThumbnailsContainer = document.getElementById('media-thumbnails');
-
-    // Controleer of er media beschikbaar is
-    if (productMedia && productMedia.length > 0) {
-      var featuredMedia = productMedia[0]; // Neem de eerste media als featured
-      var featuredImage = document.createElement('img');
-      featuredImage.id = 'featured-image-' + featuredMedia.id;
-      featuredImage.src = featuredMedia.preview_image.src; // Gebruik de juiste URL voor de afbeelding
-      featuredImage.alt = featuredMedia.alt;
-      featuredImage.classList.add('featured-media__image');
-      featuredImageContainer.appendChild(featuredImage);
-
-      // Genereer thumbnails
-      productMedia.forEach(function (media) {
-        var thumbnailDiv = document.createElement('div');
-        thumbnailDiv.classList.add('product__media-item', 'media-thumbnail', 'col-3');
-        thumbnailDiv.setAttribute('data-variant-color', media.alt.includes('color|') ? media.alt.split('|').pop() : 'all');
-        thumbnailDiv.setAttribute('data-media-id', media.id);
-
-        var thumbnailImage = document.createElement('img');
-        thumbnailImage.src = media.preview_image.src; // Gebruik de juiste URL voor de thumbnail
-        thumbnailImage.alt = media.alt;
-        thumbnailImage.classList.add('media-thumbnail__image');
-        thumbnailImage.addEventListener('click', function () {
-          updateFeaturedImage(media.preview_image.src, media.alt); // Update het featured image bij klik
-        });
-
-        thumbnailDiv.appendChild(thumbnailImage);
-        mediaThumbnailsContainer.appendChild(thumbnailDiv);
-      });
-    } else {
-      console.log("Geen productmedia gevonden.");
-    }
-  });
-
-  // Functie om de featured image te updaten bij het klikken op een thumbnail
-  function updateFeaturedImage(imageUrl, altText) {
-    var featuredImage = document.getElementById('featured-image');
-    featuredImage.src = imageUrl;
-    featuredImage.alt = altText;
-  }
-</script>
-
-
-
-
 
 
 
