@@ -50,13 +50,13 @@
 
   @media (prefers-color-scheme: light) {
     .image-overlay-block__title {
-      color: white;
+      color: white !important;
     }
   }
   
   @media (prefers-color-scheme: black) {
     .image-overlay-block__title {
-      color: black;
+      color: black !important;
     }
   }
 
