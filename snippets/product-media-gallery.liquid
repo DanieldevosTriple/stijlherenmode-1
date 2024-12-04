@@ -11,6 +11,8 @@
   {% render 'product-media-gallery' %}
 {% endcomment %}
 
+{% assign sorted_media = product.media | sort: 'position' %}
+
 <media-gallery
   id="MediaGallery-{{ section.id }}"
   role="region"
@@ -33,7 +35,7 @@
 
   <!-- Thumbnails -->
   <div class="row media-thumbnails grid grid--gap">
-    {% for media in product.media %}
+    {% for media in sorted_media %}
         <div 
           class="product__media-item media-thumbnail col-3" 
           data-variant-color="{% if media.alt contains 'color|' %}{{ media.alt | split: '|' | last }}{% else %}all{% endif %}"
