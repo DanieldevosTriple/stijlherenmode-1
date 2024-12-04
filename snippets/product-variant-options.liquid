@@ -5,14 +5,13 @@
   - product: {Object} product object.
   - option: {Object} current product_option object.
   - block: {Object} block object.
-  - picker_type: {String} type of picker to dispay
-
+  - picker_type: {String} type of picker to display
 
   Usage:
   {% render 'product-variant-options',
     product: product,
     option: option,
-    block: block
+    block: block,
     picker_type: picker_type
   %}
 {% endcomment %}
@@ -22,18 +21,17 @@
 
 {%- for value in option.values -%}
   {%- liquid
+    assign matching_variant = product.variants | where: 'option1', value | first
     assign image_url = null
 
-    # Zoek de variant op basis van de huidige waarde
-    assign matching_variant = product.variants | where: 'option1', value | first
-
-    # Controleer of de variant een featured image heeft
+    # Controleer of er een afbeelding is gekoppeld aan de variant
     if matching_variant and matching_variant.featured_image
       assign image_url = matching_variant.featured_image | image_url: width: 100
     endif
 
+    # Bepaal of de optie disabled moet zijn
     assign option_disabled = true
-    if value.available
+    if matching_variant and matching_variant.available
       assign option_disabled = false
     endif
   -%}
@@ -47,8 +45,8 @@
   {%- endcapture -%}
 
   {%- capture input_dataset -%}
-    data-product-url="{{ value.product_url }}"
-    data-option-value-id="{{ value.id }}"
+    data-product-url="{{ matching_variant | default: '' | product_url }}"
+    data-option-value="{{ value }}"
   {%- endcapture -%}
 
   {%- capture label_unavailable -%}
@@ -63,11 +61,11 @@
     name="{{ input_name | escape }}"
     value="{{ value | escape }}"
     form="{{ product_form_id }}"
-    {% if value.selected %}
+    {% if product.selected_or_first_available_variant.option1 == value %}
       checked
     {% endif %}
     {% if option_disabled %}
-      class="disabled"
+      disabled
     {% endif %}
     {{ input_dataset }}
   >
@@ -80,6 +78,7 @@
     {{ label_unavailable }}
   </label>
 {%- endfor -%}
+
 
 
 
