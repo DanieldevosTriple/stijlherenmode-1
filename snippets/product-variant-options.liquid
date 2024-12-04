@@ -73,22 +73,9 @@
   >
   <label for="{{ input_id }}">
     {%- if image_url -%}
-      <img src="{{ image_url }}" alt="{{ value | escape }}" class="variant-image image-class     
-      {% if value.selected %}
-      checked
-      {% endif %}
-      {% if option_disabled %}
-      disabled
-      {% endif %}" />
+      <img src="{{ image_url }}" alt="{{ value | escape }}" class="variant-image image-class {% if value.selected %}checked{% endif %}{% if option_disabled %}disabled{% endif %}" />
     {%- else -%}
-      <span class="variant-text text-class
-            {% if value.selected %}
-              checked
-            {% endif %}
-            {% if option_disabled %}
-              disabled
-            {% endif %}
-        ">{{ value }}</span>
+      <span class="variant-text text-class {% if value.selected %}checked{% endif %}{% if option_disabled %}disabled{% endif %}">{{ value }}</span>
     {%- endif %}
     {{ label_unavailable }}
   </label>
