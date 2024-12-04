@@ -21,19 +21,19 @@
   class="product__media-gallery"
 >
   <!-- Featured Image -->
-  {% if product.selected_or_first_available_variant.featured_media != null %}
-    <div 
-      class="product__media-item featured-media col-12" 
-      data-variant-color="{{ variant.id }}"
-    >
-      <img
-        id="featured-image"
-        src="{{ product.selected_or_first_available_variant.featured_media.preview_image | image_url: width: 1024 }}"
-        alt="{{ product.selected_or_first_available_variant.featured_media.alt }}"
-        class="featured-media__image"
-      />
-    </div>
-  {% endif %}
+{% if product.selected_or_first_available_variant.featured_media != null %}
+  <div 
+    class="product__media-item featured-media col-12" 
+    data-variant-color="{{ product.selected_or_first_available_variant.id }}"  
+  >
+    <img
+      id="featured-image-{{ product.selected_or_first_available_variant.id }}" 
+      src="{{ product.selected_or_first_available_variant.featured_media.preview_image | image_url: width: 1024 }}"
+      alt="{{ product.selected_or_first_available_variant.featured_media.alt }}"
+      class="featured-media__image"
+    />
+  </div>
+{% endif %}
 
   <!-- Thumbnails -->
   <div class="row media-thumbnails grid grid--gap">
