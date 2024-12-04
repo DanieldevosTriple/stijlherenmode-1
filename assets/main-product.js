@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const productTitle = document.querySelector('.product__title h1');
   
-    if (productTitle && window.product) {
+    if (productTitle && window.product && window.product.variants) {
       // Functie om de titel bij te werken
       const updateTitle = (variant) => {
         if (variant && variant.option1) {
@@ -23,12 +23,15 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   
       // Trigger standaard variant bij het laden van de pagina
-      const initialVariant = window.product.variants.find(variant => variant.id === window.product.selected_or_first_available_variant.id);
+      const initialVariant = window.product.selected_or_first_available_variant;
       if (initialVariant) {
         updateTitle(initialVariant);
+      } else {
+        console.warn('No initial variant found.');
       }
     } else {
       console.error('Product object or product title element is missing.');
     }
   });
+  
   
