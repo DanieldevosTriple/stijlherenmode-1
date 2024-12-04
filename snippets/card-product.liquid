@@ -88,9 +88,6 @@
           </div>       
         <div class="card__content">
           <div class="card__information">
-            <p>color:{{ color_option  }}</p>
-            <p>id:{{ variant_id  }}</p>
-            <p>id:{{ variant.id  }}</p>
             <h3
               class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"
               {% if card_product.featured_media or settings.card_style == 'card' %}
@@ -98,7 +95,7 @@
               {% endif %}
             >
               <a
-                href="{{ card_product.url }}?variant={{ variant.id  }}"
+                href="{{ card_product.url }}?variant={{ variant_id  }}"
                 id="CardLink-{{ section_id }}-{{ card_product.id }}"
                 class="full-unstyled-link"
                 aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }} Badge-{{ section_id }}-{{ card_product.id }}"
@@ -139,7 +136,7 @@
             {% endif %}
           >
             <a
-              href="{{ card_product.url }}?variant={{ variant.id  }}"
+              href="{{ card_product.url }}?variant={{ variant_id  }}"
               id="CardLink-{{ section_id }}-{{ card_product.id }}"
               class="full-unstyled-link"
               aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }} Badge-{{ section_id }}-{{ card_product.id }}"
