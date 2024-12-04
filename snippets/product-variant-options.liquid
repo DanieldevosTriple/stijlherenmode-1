@@ -83,36 +83,7 @@
     {%- endif %}
     {{ label_unavailable }}
   </label>
-
-<!-- JavaScript to update the featured image -->
-<script>
-  // Function to update the featured image dynamically
-  function updateFeaturedImage(imageUrl, altText) {
-    const featuredImage = document.getElementById('featured-image-{{ product.selected_or_first_available_variant.id }}');
-    if (featuredImage) {
-      featuredImage.src = imageUrl;
-      featuredImage.alt = altText;
-    }
-  }
-
-  // Event listener for radio button change
-  document.addEventListener('DOMContentLoaded', function() {
-    // Select all radio buttons for variant options
-    const variantRadios = document.querySelectorAll('input[type="radio"][name="{{ input_name | escape }}"]');
-    
-    variantRadios.forEach((radio) => {
-      radio.addEventListener('change', function() {
-        // When a radio button is selected, get the corresponding variant image and alt text
-        const imageUrl = this.getAttribute('data-variant-image');
-        const altText = this.getAttribute('data-variant-alt');
-        
-        // Update the featured image based on the selected variant
-        updateFeaturedImage(imageUrl, altText);
-      });
-    });
-  });
-</script>
-
+{%- endfor -%}
 
 
 
