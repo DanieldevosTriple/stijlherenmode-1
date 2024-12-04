@@ -146,7 +146,7 @@
                             section_id: section.id,
                             featured_image: image_to_use,
                             product_title: product_title_with_color,
-                            href: product.url | append: '?variant=' | append: variant.id  <!-- Dit voegt de variant ID toe aan de href -->
+                            href: product.url | append: '?variant=' | append: variant.id
                           %}
                         </li>
                         {%- assign shown_colors = shown_colors | append: color_check -%}
