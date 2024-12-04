@@ -2285,7 +2285,7 @@ input[type='checkbox'] {
   margin: 0;
   letter-spacing: 0.1rem;
   min-height: 3.8rem;
-  margin-bottom: 0px;
+  margin-bottom: 0px !important;
 }
 
 .announcement-bar-slider--fade-in-next .announcement-bar__message,
