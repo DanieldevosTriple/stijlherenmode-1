@@ -41,6 +41,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (radio.checked) {
                     const selectedColor = radio.value;
                     console.log('Swatch change detected:', selectedColor); // Log when a swatch is selected
+
+                    // Update de URL met de variant queryparameter (zonder pagina te herladen)
+                    const variantId = radio.dataset.variantId; // Zorg ervoor dat je variant ID in je radio-button hebt zitten
+                    const newUrl = `${window.location.pathname}?variant=${variantId}`;
+                    window.history.pushState({ path: newUrl }, '', newUrl); // Update de URL zonder pagina herladen
+
                     updateMediaGallery(selectedColor);
                 }
             });
@@ -57,6 +63,18 @@ document.addEventListener('DOMContentLoaded', function () {
             updateMediaGallery('all');
         }
     }
+
+    // Event listener voor URL-verandering
+    window.addEventListener('popstate', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const variantId = urlParams.get('variant');
+        if (variantId) {
+            console.log('URL updated with variant:', variantId);
+            // Haal de geselecteerde kleur op basis van de variant en werk de galerij bij
+            const selectedColor = document.querySelector(`input[type="radio"][data-variant-id="${variantId}"]`);
+            if (selectedColor) {
+                updateMediaGallery(selectedColor.value);
+            }
+        }
+    });
 });
-
-
