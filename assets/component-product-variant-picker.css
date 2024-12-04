@@ -57,7 +57,7 @@ variant-selects {
 }
 
 /* Custom styles for Pill display type */
-.product-form__input--pill.text-class input[type='radio'] + label {
+.variant-text.text-class span {
   border: none;
   background-color: rgb(var(--color-background));
   color: rgba(var(--color-foreground));
