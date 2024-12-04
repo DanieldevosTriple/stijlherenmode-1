@@ -1,51 +1,38 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Selecteer de titel en het JSON-script dat de variantinformatie bevat
     const productTitle = document.querySelector('.product__title h1');
-    const variantJsonElement = document.querySelector('script[data-selected-variant]');
+    const variantSelector = document.querySelector('[name="id"]');
+    const colorRadios = document.querySelectorAll('input[type="radio"][name^="Color"]');
   
-    if (!productTitle) {
-      console.error('Product title element is missing.');
-      return;
-    }
-  
-    if (!variantJsonElement) {
-      console.error('Variant JSON script element is missing.');
-      return;
-    }
-  
-    // Functie om de titel bij te werken
     const updateTitle = (color) => {
       const baseTitle = productTitle.closest('.product__title').getAttribute('data-title');
       productTitle.textContent = `${baseTitle} - ${color}`;
       console.log(`Updated title to: ${baseTitle} - ${color}`);
     };
   
-    // Functie om de geselecteerde kleur op te halen
-    const getSelectedColor = () => {
-      const selectedInput = document.querySelector('input[type="radio"][name^="Color"]:checked');
-      return selectedInput ? selectedInput.value : null;
-    };
-  
-    // Initialiseer de titel met de geselecteerde variant
-    const initialColor = getSelectedColor();
-    if (initialColor) {
-      updateTitle(initialColor);
-    } else {
-      console.warn('No initial color found.');
+    // Dropdown logic
+    if (variantSelector) {
+      variantSelector.addEventListener('change', function () {
+        const selectedVariant = JSON.parse(variantSelector.selectedOptions[0].dataset.variant);
+        const selectedColor = selectedVariant.option1; // Kleur is de eerste optie
+        updateTitle(selectedColor);
+      });
     }
   
-    // Luister naar wijzigingen in de kleur swatches met event delegation
-    const colorFieldset = document.querySelector('fieldset[name^="Color"]') || document;
-    colorFieldset.addEventListener('change', function (event) {
-      const target = event.target;
-      if (target && target.type === 'radio' && target.name.startsWith('Color')) {
-        const newColor = getSelectedColor();
-        if (newColor) {
-          updateTitle(newColor);
-        } else {
-          console.warn('No color selected.');
-        }
+    // Swatch logic
+    if (colorRadios.length) {
+      colorRadios.forEach((radio) => {
+        radio.addEventListener('change', function () {
+          if (radio.checked) {
+            updateTitle(radio.value);
+          }
+        });
+      });
+  
+      // Initialiseer de titel bij laden van de pagina
+      const initialRadio = document.querySelector('input[type="radio"][name^="Color"]:checked');
+      if (initialRadio) {
+        updateTitle(initialRadio.value);
       }
-    });
+    }
   });
   

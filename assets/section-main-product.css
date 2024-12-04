@@ -31,6 +31,15 @@ product-info {
   width: 100%;
 }
 
+.product__media-item {
+  display: none;
+}
+
+.product__media-item[data-variant-color="all"] {
+  display: block;
+}
+
+
 @media screen and (min-width: 750px) {
   .product__column-sticky {
     display: block;
