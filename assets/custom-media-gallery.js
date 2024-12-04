@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const variantSelector = document.querySelector('[name="id"]'); // Variant dropdown
-    const colorRadios = document.querySelectorAll('input[type="radio"][name^="Color"]'); // Color swatches
+    const colorImages = document.querySelectorAll('img.variant-image'); // Color images with checked class
     const mediaItems = document.querySelectorAll('.product__media-item'); // All media items
     const featuredImage = document.querySelector('.featured-media'); // Featured image container
   
@@ -22,24 +22,28 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     };
-  
-    // Event listener voor swatches
-    if (colorRadios.length) {
-      colorRadios.forEach((radio) => {
-        radio.addEventListener('change', function () {
-          if (radio.checked) {
-            const selectedColor = radio.value;
-            console.log('Radio change detected:', selectedColor); // Log when a radio button is selected
+
+    // Event listener voor afbeelding met de 'checked' class
+    if (colorImages.length) {
+      colorImages.forEach((img) => {
+        img.addEventListener('click', function () {
+          if (img.classList.contains('checked')) {
+            const selectedColor = img.alt; // Use alt text or another property as the selected color
+            console.log('Image clicked, selected color:', selectedColor); // Log selected color
             updateMediaGallery(selectedColor);
           }
         });
       });
-  
-      // Initialiseer de galerij bij laden van de pagina
-      const initialRadio = document.querySelector('input[type="radio"][name^="Color"]:checked');
-      if (initialRadio) {
-        console.log('Initial selected color:', initialRadio.value); // Log initial selected color
-        updateMediaGallery(initialRadio.value);
+
+      // Initialiseer de galerij bij laden van de pagina op basis van de 'checked' class
+      const initialImage = document.querySelector('img.variant-image.checked');
+      if (initialImage) {
+        console.log('Initial selected color based on checked class:', initialImage.alt); // Log initial selected color
+        updateMediaGallery(initialImage.alt);
+      } else {
+        // Als er geen geselecteerde afbeelding is, stel dan een standaardkleur in (bijvoorbeeld 'all')
+        console.log('No initial checked image, setting default color "all"');
+        updateMediaGallery('all');
       }
     }
   });
