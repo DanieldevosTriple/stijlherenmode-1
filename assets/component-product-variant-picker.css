@@ -75,7 +75,7 @@ variant-selects {
 }
 
 @media (prefers-color-scheme: dark) {
-  ..variant-text.text-class {
+  .variant-text.text-class {
     color: white;
   }
 }
@@ -137,8 +137,83 @@ variant-selects {
   box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0 0.5rem rgba(var(--color-foreground), 0.55);
 }
 
+/* Custom styles for Image display type */
+.variant-image.image-class {
+  border: none;
+  background-color: rgb(var(--color-background));
+  color: rgba(var(--color-foreground));
+  border-radius: 0px;
+  display: inline-block;
+  margin: 0.7rem 0.5rem 0.2rem 0;
+  padding: 1rem 2rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.1rem;
+  line-height: 1;
+  text-align: center;
+  transition: border var(--duration-short) ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.variant-text.text-class:before {
+  content: '';
+  position: absolute;
+  top: calc(var(--variant-pills-border-width) * -1);
+  right: calc(var(--variant-pills-border-width) * -1);
+  bottom: calc(var(--variant-pills-border-width) * -1);
+  left: calc(var(--variant-pills-border-width) * -1);
+  z-index: -1;
+  border-radius: var(--variant-pills-radius);
+  box-shadow: var(--variant-pills-shadow-horizontal-offset) var(--variant-pills-shadow-vertical-offset)
+    var(--variant-pills-shadow-blur-radius) rgba(var(--color-shadow), var(--variant-pills-shadow-opacity));
+}
+
+.variant-image.image-class:hover {
+  border-color: rgb(var(--color-foreground));
+}
+
+.variant-image.image-class.checked {
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+@media (prefers-color-scheme: dark) {
+  .variant-image.image-class.checked {
+    background-color: white;
+    color: black;
+  }
+}
+
+@media screen and (forced-colors: active) {
+  .variant-image.image-class.checked {
+    text-decoration: none;
+  }
+
+  .variant-image.image-class:focus-visible {
+    outline: transparent solid 1px;
+    outline-offset: 2px;
+  }
+}
+
+.variant-image.image-class input[type='radio'].checked + label::selection {
+  background-color: rgba(var(--color-background), 0.3);
+}
+
+.variant-image.image-class input[type='radio'].disabled + label {
+  border-color: rgba(var(--color-foreground), 0.1);
+  color: rgba(var(--color-foreground), 0.6);
+  text-decoration: line-through;
+}
+
+.variant-image.image-class input[type='radio'].disabled:checked + label {
+  color: rgba(var(--color-background), 0.6);
+}
+.variant-image.image-class input[type='radio']:focus-visible + label {
+  box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0 0.5rem rgba(var(--color-foreground), 0.55);
+}
+
 /* Fallback */
-.variant-text.text-class input[type='radio'].focused + label {
+.variant-image.image-class input[type='radio'].focused + label {
   box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0 0.5rem rgba(var(--color-foreground), 0.55);
 }
 
