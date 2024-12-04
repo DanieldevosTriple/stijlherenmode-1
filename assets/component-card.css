@@ -142,13 +142,13 @@
 
 @media (prefers-color-scheme: light) {
   .card__information {
-    background: transparent !important;
+    background: var(--background-color-light-mode) !important;
   }
 }
 
 @media (prefers-color-scheme: dark) {
   .card__information {
-    background: transparent !important;
+    background: var(--background-color-dark-mode) !important;
   }
 }
 

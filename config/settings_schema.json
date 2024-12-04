@@ -156,6 +156,18 @@
         "default": 8,
         "unit": "px",
         "label": "t:settings_schema.layout.settings.spacing_grid_vertical.label"
+      },
+      {
+        "type": "color",
+        "id": "background_color_light",
+        "label": "Background Color (Light mode)",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "background_color_dark",
+        "label": "Background Color (Dark mode)",
+        "default": "#000000"
       }
     ]
   },
