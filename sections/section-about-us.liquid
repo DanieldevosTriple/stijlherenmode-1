@@ -59,8 +59,8 @@
       <h2 class="text-about mb-4">{{ section.settings.section_title }}</h2>
       <div class="row">
         {% for block in section.blocks %}
-          <div class="col-md-{{ 12 | divided_by: section.settings.columns_per_row }} mb-4 text-column-about no-background">
-            <div class="card h-100">
+          <div class="col-md-{{ 12 | divided_by: section.settings.columns_per_row }} mb-4 text-column-about">
+            <div class="card h-100 no-background">
               <div class="card-body">
                 <h5 class="card-title">{{ block.settings.title }}</h5>
                 <p class="card-text">{{ block.settings.content }}</p>
