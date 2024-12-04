@@ -1082,6 +1082,13 @@ summary::-webkit-details-marker {
   font-family: 'TradeGothic LT CondEighteen', sans-serif;
 }
 
+@media (prefers-color-scheme: dark) {
+  .button-view-all {
+    border: 2px solid white;
+    color: white;
+  }
+}
+
 .button-two-blocks {
   background-color: transparent;
   border: 2px solid white;
@@ -1100,6 +1107,13 @@ summary::-webkit-details-marker {
   font-family:  TradeGothic LT CondEighteen, sans-serif;
 }
 
+@media (prefers-color-scheme: dark) {
+  .button-two-blocks {
+    border: 2px solid white;
+    color: white;
+  }
+}
+
 .button-featured-product-custom {
   background-color: transparent;
   border: 2px solid black;
@@ -1113,6 +1127,13 @@ summary::-webkit-details-marker {
   font-weight: 600;
   width: max-content;
   font-family:  TradeGothic LT CondEighteen, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  .button-featured-product-custom {
+    border: 2px solid white;
+    color: white;
+  }
 }
 
 .padding-button {
