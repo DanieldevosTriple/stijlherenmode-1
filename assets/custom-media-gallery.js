@@ -1,21 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
     const variantSelector = document.querySelector('[name="id"]'); // Variant dropdown
     const colorRadios = document.querySelectorAll('input[type="radio"][name^="Color"]'); // Color swatches
-    const mediaItems = document.querySelectorAll('.product__media-item'); // Media gallery items
+    const mediaItems = document.querySelectorAll('.product__media-item'); // All media items
+    const featuredImage = document.querySelector('.featured-media'); // Featured image container
   
     const updateMediaGallery = (selectedColor) => {
       console.log('Selected Color:', selectedColor);  // Log the selected color
       mediaItems.forEach((item) => {
         const mediaColor = item.dataset.variantColor;
         console.log('Item Color:', mediaColor); // Log the media color for each item
-  
-        // Toon alleen afbeeldingen die overeenkomen met de geselecteerde kleur of 'all'
-        if (mediaColor === selectedColor || selectedColor === 'all') {
-          console.log('Showing item for color:', mediaColor); // Log when showing an item
-          item.style.display = 'block';
-        } else {
-          console.log('Hiding item for color:', mediaColor); // Log when hiding an item
-          item.style.display = 'none';
+
+        // Alleen thumbnails aanpassen, de featured image blijft altijd zichtbaar
+        if (item.classList.contains('media-thumbnail')) {
+          if (mediaColor === selectedColor || selectedColor === 'all') {
+            console.log('Showing thumbnail for color:', mediaColor); // Log when showing an item
+            item.style.display = 'block';
+          } else {
+            console.log('Hiding thumbnail for color:', mediaColor); // Log when hiding an item
+            item.style.display = 'none';
+          }
         }
       });
     };
@@ -40,3 +43,4 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   });
+
