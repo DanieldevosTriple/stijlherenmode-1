@@ -42,9 +42,6 @@
     <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
-  <script>
-    window.product = {{ product | json }};
-  </script>
   {% comment %}
   Embed custom media gallery JavaScript for variant-specific image handling
   {% endcomment %}
