@@ -41,8 +41,8 @@
       assign ratio = 1
     endif
   -%}
-  
-  {%- assign variant_url = product.url | append: '?variant=' | append: variant.id -%}
+
+{%- assign variant_url = product.url | append: '?variant=' | append: variant.id -%}
 
   <div class="card-wrapper product-card-wrapper underline-links-hover">
     <div

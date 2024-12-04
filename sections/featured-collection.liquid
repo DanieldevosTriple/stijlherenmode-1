@@ -74,9 +74,9 @@
               {%- unless shown_colors contains color_check -%}
                 {% assign image_to_use = variant.featured_image | default: product.featured_image %}
                 {% assign product_title_with_color = product.title | append: ' - ' | append: color_option %}
-
+                
                 {%- assign variant_url = product.url | append: '?variant=' | append: variant.id -%}
-
+      
                 <li
                   id="Slide-{{ section.id }}-{{ forloop.index }}"
                   class="col-12 col-sm-6 col-lg-4 slider-item no-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
@@ -86,21 +86,21 @@
                   {% endif %}
                 >
                   <a href="{{ variant_url }}">
-                  {% render 'card-product',
-                    card_product: product,
-                    media_aspect_ratio: section.settings.image_ratio,
-                    image_shape: section.settings.image_shape,
-                    show_secondary_image: section.settings.show_secondary_image,
-                    show_vendor: section.settings.show_vendor,
-                    show_rating: section.settings.show_rating,
-                    lazy_load: lazy_load,
-                    skip_styles: skip_card_product_styles,
-                    quick_add: section.settings.quick_add,
-                    section_id: section.id,
-                    featured_image: image_to_use,
-                    product_title: product_title_with_color
-                  %}
-                </a>
+                    {% render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: lazy_load,
+                      skip_styles: skip_card_product_styles,
+                      quick_add: section.settings.quick_add,
+                      section_id: section.id,
+                      featured_image: image_to_use,
+                      product_title: product_title_with_color
+                    %}
+                  </a>
                 </li>
                 {%- assign shown_colors = shown_colors | append: color_option | append: ',' -%}
               {%- endunless -%}
@@ -109,6 +109,7 @@
         {%- endif -%}
         {%- assign skip_card_product_styles = true -%}
       {%- endfor -%}
+      
     </ul>       
     </slider-component>
 
