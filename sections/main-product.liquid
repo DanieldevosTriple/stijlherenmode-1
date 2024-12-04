@@ -48,6 +48,11 @@
   <script>
     window.product = {{ product | json }};
   </script>
+  {% comment %}
+  Embed custom media gallery JavaScript for variant-specific image handling
+  {% endcomment %}
+  <script src="{{ 'custom-media-gallery.js' | asset_url }}" defer></script>
+
   
   {% if section.settings.image_zoom == 'hover' %}
     <script id="EnableZoomOnHover-main" src="{{ 'magnify.js' | asset_url }}" defer="defer"></script>
