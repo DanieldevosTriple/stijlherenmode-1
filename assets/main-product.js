@@ -41,17 +41,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const variantColor = item.getAttribute('data-variant-color');
         return variantColor === color || variantColor === 'all';
       });
-  
+      
       if (newFeaturedItem) {
         const newFeaturedImg = newFeaturedItem.querySelector('img');
         if (newFeaturedImg) {
           featuredImage.src = newFeaturedImg.src;
           featuredImage.alt = newFeaturedImg.alt;
-          console.log(`Updated featured image for color: ${color}`);
         }
       } else {
         console.warn('No matching featured image found for the selected color.');
       }
+      
   
       // Update thumbnails visibility
       mediaItems.forEach((item) => {
