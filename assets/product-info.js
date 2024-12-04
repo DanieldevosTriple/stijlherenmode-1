@@ -241,75 +241,79 @@ if (!customElements.get('product-info')) {
 
       updateMedia(html, variantFeaturedMediaId) {
         if (!variantFeaturedMediaId) return;
-
-        const mediaGallerySource = this.querySelector('media-gallery ul');
-        const mediaGalleryDestination = html.querySelector(`media-gallery ul`);
-
+      
+        // Zoek de bron- en bestemmingsmedia-galerijen
+        const mediaGallerySource = this.querySelector('media-gallery');
+        const mediaGalleryDestination = html.querySelector('media-gallery');
+      
         const refreshSourceData = () => {
+          // Zoomen bij hover indien ingesteld
           if (this.hasAttribute('data-zoom-on-hover')) enableZoomOnHover(2);
-          const mediaGallerySourceItems = Array.from(mediaGallerySource.querySelectorAll('li[data-media-id]'));
+      
+          // Verzamelen van de media-items
+          const mediaGallerySourceItems = Array.from(mediaGallerySource.querySelectorAll('.product__media-item[data-media-id]'));
           const sourceSet = new Set(mediaGallerySourceItems.map((item) => item.dataset.mediaId));
           const sourceMap = new Map(
             mediaGallerySourceItems.map((item, index) => [item.dataset.mediaId, { item, index }])
           );
           return [mediaGallerySourceItems, sourceSet, sourceMap];
         };
-
+      
         if (mediaGallerySource && mediaGalleryDestination) {
           let [mediaGallerySourceItems, sourceSet, sourceMap] = refreshSourceData();
           const mediaGalleryDestinationItems = Array.from(
-            mediaGalleryDestination.querySelectorAll('li[data-media-id]')
+            mediaGalleryDestination.querySelectorAll('.product__media-item[data-media-id]')
           );
           const destinationSet = new Set(mediaGalleryDestinationItems.map(({ dataset }) => dataset.mediaId));
           let shouldRefresh = false;
-
-          // add items from new data not present in DOM
+      
+          // Voeg items uit de nieuwe gegevens toe die nog niet in de DOM aanwezig zijn
           for (let i = mediaGalleryDestinationItems.length - 1; i >= 0; i--) {
             if (!sourceSet.has(mediaGalleryDestinationItems[i].dataset.mediaId)) {
               mediaGallerySource.prepend(mediaGalleryDestinationItems[i]);
               shouldRefresh = true;
             }
           }
-
-          // remove items from DOM not present in new data
+      
+          // Verwijder items uit de DOM die niet aanwezig zijn in de nieuwe gegevens
           for (let i = 0; i < mediaGallerySourceItems.length; i++) {
             if (!destinationSet.has(mediaGallerySourceItems[i].dataset.mediaId)) {
               mediaGallerySourceItems[i].remove();
               shouldRefresh = true;
             }
           }
-
-          // refresh
+      
+          // Vernieuw de gegevens
           if (shouldRefresh) [mediaGallerySourceItems, sourceSet, sourceMap] = refreshSourceData();
-
-          // if media galleries don't match, sort to match new data order
+      
+          // Sorteer de galerijitems om de volgorde van de nieuwe gegevens te matchen
           mediaGalleryDestinationItems.forEach((destinationItem, destinationIndex) => {
             const sourceData = sourceMap.get(destinationItem.dataset.mediaId);
-
+      
             if (sourceData && sourceData.index !== destinationIndex) {
               mediaGallerySource.insertBefore(
                 sourceData.item,
-                mediaGallerySource.querySelector(`li:nth-of-type(${destinationIndex + 1})`)
+                mediaGallerySource.querySelector(`.product__media-item:nth-of-type(${destinationIndex + 1})`)
               );
-
-              // refresh source now that it has been modified
+      
+              // Vernieuw de bron na wijziging
               [mediaGallerySourceItems, sourceSet, sourceMap] = refreshSourceData();
             }
           });
         }
-
-        // set featured media as active in the media gallery
-        this.querySelector(`media-gallery`)?.setActiveMedia?.(
-          `${this.dataset.section}-${variantFeaturedMediaId}`,
-          true
-        );
-
-        // update media modal
+      
+        // Zet de uitgelichte media als actief
+        const featuredMedia = this.querySelector(`.product__media-item.featured-media`);
+        if (featuredMedia) {
+          featuredMedia.classList.add('active'); // Zorg ervoor dat de actieve media correct wordt gemarkeerd
+        }
+      
+        // Update de modalcontent van de media
         const modalContent = this.productModal?.querySelector(`.product-media-modal__content`);
         const newModalContent = html.querySelector(`product-modal .product-media-modal__content`);
         if (modalContent && newModalContent) modalContent.innerHTML = newModalContent.innerHTML;
       }
-
+      
       setQuantityBoundries() {
         const data = {
           cartQuantity: this.quantityInput.dataset.cartQuantity ? parseInt(this.quantityInput.dataset.cartQuantity) : 0,
