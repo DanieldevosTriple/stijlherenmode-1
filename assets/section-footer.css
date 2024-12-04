@@ -7,7 +7,7 @@
 
 .footer-block__heading__menu {
   text-transform: uppercase;
-  color: white;
+  color: white !important;
   text-align: left;
   font-weight: 200;
   font-size: 1.7rem !important;
