@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Selecteer de titel en het JSON-script dat de variantinformatie bevat
+    // Selecteer de titel, het JSON-script dat de variantinformatie bevat en de media gallery
     const productTitle = document.querySelector('.product__title h1');
     const variantJsonElement = document.querySelector('script[data-selected-variant]');
     const mediaGallery = document.querySelector('.product__media-gallery');
@@ -29,7 +29,31 @@ document.addEventListener('DOMContentLoaded', function () {
     // Functie om de media gallery bij te werken
     const updateMediaGallery = (color) => {
       const mediaItems = mediaGallery.querySelectorAll('.product__media-item');
+      const featuredImage = mediaGallery.querySelector('.featured-media img');
   
+      if (!featuredImage) {
+        console.warn('No featured image found in the media gallery.');
+        return;
+      }
+  
+      // Update featured image
+      const newFeaturedItem = [...mediaItems].find((item) => {
+        const variantColor = item.getAttribute('data-variant-color');
+        return variantColor === color || variantColor === 'all';
+      });
+  
+      if (newFeaturedItem) {
+        const newFeaturedImg = newFeaturedItem.querySelector('img');
+        if (newFeaturedImg) {
+          featuredImage.src = newFeaturedImg.src;
+          featuredImage.alt = newFeaturedImg.alt;
+          console.log(`Updated featured image for color: ${color}`);
+        }
+      } else {
+        console.warn('No matching featured image found for the selected color.');
+      }
+  
+      // Update thumbnails visibility
       mediaItems.forEach((item) => {
         const variantColor = item.getAttribute('data-variant-color');
   
@@ -40,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
   
-      console.log(`Updated media gallery for color: ${color}`);
+      console.log(`Updated media gallery thumbnails for color: ${color}`);
     };
   
     // Functie om de geselecteerde kleur op te halen
