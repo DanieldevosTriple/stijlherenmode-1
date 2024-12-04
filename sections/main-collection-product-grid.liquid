@@ -24,27 +24,24 @@
 {%- endif -%}
 
 <script>
-  window.products = [
-    {% for product in collections.all.products %}
-      {
-        "product": {
-          "id": {{ product.id }},
-          "title": "{{ product.title }}",
-          "variants": [
-            {% for variant in product.variants %}
-              {
-                "id": {{ variant.id }},
-                "color": "{{ variant.option1 }}"
-              }
-              {% unless forloop.last %},{% endunless %}
-            {% endfor %}
-          ]
-        }
-      }
-      {% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ];
+  window.products = {};
+  {% for product in collections.all.products %}
+    window.products[{{ product.id }}] = {
+      "id": {{ product.id }},
+      "title": "{{ product.title }}",
+      "variants": [
+        {% for variant in product.variants %}
+          {
+            "id": {{ variant.id }},
+            "color": "{{ variant.option1 }}"
+          }
+          {% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    };
+  {% endfor %}
 </script>
+
 
 {%- style -%}
   .section-{{ section.id }}-padding {
