@@ -169,14 +169,12 @@ variant-selects {
 }
 
 .variant-image.image-class.checked {
-  background-color: rgb(var(--color-foreground));
-  color: rgb(var(--color-background));
+  border: 1px solid black;
 }
 
 @media (prefers-color-scheme: dark) {
   .variant-image.image-class.checked {
-    background-color: white;
-    color: black;
+    border: 1px solid white;
   }
 }
 
