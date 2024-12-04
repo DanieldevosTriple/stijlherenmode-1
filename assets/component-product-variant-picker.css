@@ -103,7 +103,7 @@ variant-selects {
 }
 
 @media (prefers-color-scheme: dark) {
-  .product-form__input--pill input[type='radio']:checked + label {
+  .product-form__input--pill.text-class input[type='radio']:checked + label {
     background-color: white;
     color: black;
   }
