@@ -11,9 +11,10 @@
   {% render 'product-media-gallery' %}
 {% endcomment %}
 
+{% assign selected_color = product.selected_or_first_available_variant.option1 | downcase %} <!-- Geselecteerde kleur (option1) -->
+
 {% assign sorted_media = product.media | sort: 'id' %}
 {% assign reversed_media = sorted_media | reverse %}
-{% assign selected_color = product.selected_or_first_available_variant.option1 %}
 
 <media-gallery
   id="MediaGallery-{{ section.id }}"
@@ -25,7 +26,7 @@
   {% if product.selected_or_first_available_variant.featured_media != null %}
     <div 
       class="product__media-item featured-media col-12" 
-      data-variant-color="{% if product.selected_or_first_available_variant.featured_media.alt contains 'color|' %}{{ product.selected_or_first_available_variant.featured_media.alt | split: '|' | last }}{% else %}all{% endif %}"
+      data-variant-color="{% if product.selected_or_first_available_variant.featured_media.alt contains 'color|' %}{{ product.selected_or_first_available_variant.featured_media.alt | split: '|' | last | downcase }}{% else %}all{% endif %}"
     >
       <img
         id="featured-image"
@@ -34,14 +35,16 @@
         class="featured-media__image"
       />
     </div>
-    {% endif %}
+  {% endif %}
 
   <!-- Thumbnails -->
   <div class="row media-thumbnails grid grid--gap">
     {% for media in reversed_media %}
+      {% assign media_color = media.alt | downcase %}
+      {% if media_color == selected_color or media_color == 'all' %}
         <div 
           class="product__media-item media-thumbnail col-3" 
-          data-variant-color="{% if media.alt contains 'color|' %}{{ media.alt | split: '|' | last }}{% else %}all{% endif %}"
+          data-variant-color="{% if media.alt contains 'color|' %}{{ media.alt | split: '|' | last | downcase }}{% else %}all{% endif %}"
           data-media-id="{{ media.id }}"
         >
           <img
@@ -51,6 +54,7 @@
             onclick="updateFeaturedImage('{{ media.preview_image | image_url: width: 1024 }}', '{{ media.alt }}')"
           />
         </div>
+      {% endif %}
     {% endfor %}
   </div>
 </media-gallery>
