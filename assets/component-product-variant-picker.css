@@ -144,11 +144,10 @@ variant-selects {
   color: rgba(var(--color-foreground));
   border-radius: 0px;
   display: inline-block;
-  margin: 0.7rem 0.5rem 0.2rem 0;
-  font-size: 1.4rem;
+  margin: 1rem;
   letter-spacing: 0.1rem;
   line-height: 1;
-  text-align: center;
+  align-items: center;
   transition: border var(--duration-short) ease;
   cursor: pointer;
   position: relative;
