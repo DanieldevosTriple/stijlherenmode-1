@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const mediaColor = item.dataset.variantColor;
   
         // Toon alleen afbeeldingen die overeenkomen met de geselecteerde kleur of 'all'
-        if (mediaColor === selectedColor || mediaColor === 'all') {
+        if (mediaColor === selectedColor) {
           item.style.display = 'block';
         } else {
           item.style.display = 'none';
