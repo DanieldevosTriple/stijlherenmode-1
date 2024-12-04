@@ -142,9 +142,7 @@ variant-selects {
   border: none;
   border-radius: 0px;
   display: inline-block;
-  margin: 1rem;
-  letter-spacing: 0.1rem;
-  line-height: 1;
+  padding: 1rem;
   align-items: center;
   transition: border var(--duration-short) ease;
   cursor: pointer;
