@@ -1,35 +1,34 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Selecteer het producttitel-element
-    const productTitle = document.querySelector('.product__title');
+    const productTitle = document.querySelector('.product__title h1');
   
-    // Controleer of het titel-element bestaat
-    if (productTitle) {
-      // Luister naar het variantChange-event
-      document.addEventListener('variantChange', function (event) {
-        const variant = event.detail.variant; // Haal de geselecteerde variant op
-  
-        // Werk de titel bij als een variant is geselecteerd
+    if (productTitle && window.product) {
+      // Functie om de titel bij te werken
+      const updateTitle = (variant) => {
         if (variant && variant.option1) {
-          const baseTitle = productTitle.getAttribute('data-title'); // Basis titel uit data-attribuut
+          const baseTitle = productTitle.closest('.product__title').getAttribute('data-title');
           productTitle.textContent = `${baseTitle} - ${variant.option1}`;
         }
-      });
+      };
   
-      // Extra: Observeer standaard Shopify-variantselectie (als variantChange niet standaard is)
-      document.querySelectorAll('select[name="options[]"], input[type="radio"]').forEach(option => {
-        option.addEventListener('change', function () {
-          const selectedVariantId = parseInt(this.value); // ID van geselecteerde variant
+      // Luister naar swatch-selecties
+      const swatchSelectors = document.querySelectorAll('input[type="radio"][name^="option"], select[name^="option"]');
+      swatchSelectors.forEach(selector => {
+        selector.addEventListener('change', function () {
+          const selectedVariantId = parseInt(this.value);
           const selectedVariant = window.product.variants.find(variant => variant.id === selectedVariantId);
-  
-          // Trigger variantChange als een nieuwe variant wordt geselecteerd
           if (selectedVariant) {
-            const event = new CustomEvent('variantChange', {
-              detail: { variant: selectedVariant },
-            });
-            document.dispatchEvent(event);
+            updateTitle(selectedVariant);
           }
         });
       });
+  
+      // Trigger standaard variant bij het laden van de pagina
+      const initialVariant = window.product.variants.find(variant => variant.id === window.product.selected_or_first_available_variant.id);
+      if (initialVariant) {
+        updateTitle(initialVariant);
+      }
+    } else {
+      console.error('Product object or product title element is missing.');
     }
   });
   
