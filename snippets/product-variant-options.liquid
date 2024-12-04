@@ -5,13 +5,14 @@
   - product: {Object} product object.
   - option: {Object} current product_option object.
   - block: {Object} block object.
-  - picker_type: {String} type of picker to display
+  - picker_type: {String} type of picker to dispay
+
 
   Usage:
   {% render 'product-variant-options',
     product: product,
     option: option,
-    block: block,
+    block: block
     picker_type: picker_type
   %}
 {% endcomment %}
@@ -21,17 +22,18 @@
 
 {%- for value in option.values -%}
   {%- liquid
-    assign matching_variant = product.variants | where: 'option1', value | first
     assign image_url = null
 
-    # Controleer of er een afbeelding is gekoppeld aan de variant
+    # Zoek de variant op basis van de huidige waarde
+    assign matching_variant = product.variants | where: 'option1', value | first
+
+    # Controleer of de variant een featured image heeft
     if matching_variant and matching_variant.featured_image
       assign image_url = matching_variant.featured_image | image_url: width: 100
     endif
 
-    # Bepaal of de optie disabled moet zijn
     assign option_disabled = true
-    if matching_variant and matching_variant.available
+    if value.available
       assign option_disabled = false
     endif
   -%}
@@ -45,8 +47,8 @@
   {%- endcapture -%}
 
   {%- capture input_dataset -%}
-    data-product-url="{{ matching_variant | default: '' | product_url }}"
-    data-option-value="{{ value }}"
+    data-product-url="{{ value.product_url }}"
+    data-option-value-id="{{ value.id }}"
   {%- endcapture -%}
 
   {%- capture label_unavailable -%}
@@ -61,11 +63,11 @@
     name="{{ input_name | escape }}"
     value="{{ value | escape }}"
     form="{{ product_form_id }}"
-    {% if product.selected_or_first_available_variant.option1 == value %}
+    {% if value.selected %}
       checked
     {% endif %}
     {% if option_disabled %}
-      disabled
+      class="disabled"
     {% endif %}
     {{ input_dataset }}
   >
@@ -78,7 +80,6 @@
     {{ label_unavailable }}
   </label>
 {%- endfor -%}
-
 
 
 
