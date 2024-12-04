@@ -39,7 +39,6 @@
   <!-- Thumbnails -->
   <div class="row media-thumbnails grid grid--gap">
     {% for media in reversed_media %}
-      {% if media.alt | downcase == selected_color | downcase %}
         <div 
           class="product__media-item media-thumbnail col-3" 
           data-variant-color="{% if media.alt contains 'color|' %}{{ media.alt | split: '|' | last }}{% else %}all{% endif %}"
@@ -52,7 +51,6 @@
             onclick="updateFeaturedImage('{{ media.preview_image | image_url: width: 1024 }}', '{{ media.alt }}')"
           />
         </div>
-      {% endif %}
     {% endfor %}
   </div>
 </media-gallery>
