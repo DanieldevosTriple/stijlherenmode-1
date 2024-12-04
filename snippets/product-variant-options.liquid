@@ -73,9 +73,9 @@
   >
   <label for="{{ input_id }}">
     {%- if image_url -%}
-      <img src="{{ image_url }}" alt="{{ value | escape }}" class="variant-image" />
+      <img src="{{ image_url }}" alt="{{ value | escape }}" class="variant-image image-class" />
     {%- else -%}
-      {{ value -}}
+      <span class="variant-text text-class">{{ value }}</span>
     {%- endif %}
     {{ label_unavailable }}
   </label>
