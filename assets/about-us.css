@@ -28,3 +28,7 @@
 .card-text {
     font-size: 1.4rem;
 }
+
+.no-background {
+    background: none !important;
+}
