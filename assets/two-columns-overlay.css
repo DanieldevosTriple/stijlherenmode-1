@@ -54,7 +54,7 @@
     }
   }
   
-  @media (prefers-color-scheme: black) {
+  @media (prefers-color-scheme: dark) {
     .image-overlay-block__title {
       color: black !important;
     }
