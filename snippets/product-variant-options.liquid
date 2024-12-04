@@ -70,7 +70,7 @@
       class="disabled"
     {% endif %}
     data-variant-id="{{ value | escape }}"
-    data-variant-image="{{ value.featured_media.preview_image | image_url: width: 1024 }}"
+    data-variant-image="{% if value.featured_media != null %}{{ value.featured_media.preview_image | image_url: width: 1024 }}{% else %}{{ 'default-image.jpg' | asset_url }}{% endif %}"
     data-variant-alt="{{ value.featured_media.alt }}"
     data-variant-color="{{ value | escape }}"
     {{ input_dataset }}
