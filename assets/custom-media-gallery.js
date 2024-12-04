@@ -44,3 +44,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  document.addEventListener('DOMContentLoaded', function () {
+    const colorRadios = document.querySelectorAll('input[type="radio"][name^="Color"]'); // Color swatches
+  
+    // Event listener voor swatches
+    if (colorRadios.length) {
+        colorRadios.forEach((radio) => {
+            radio.addEventListener('change', function () {
+                if (radio.checked) {
+                    console.log('Radio change detected:', radio.value); // Log wanneer een radio button wordt geselecteerd
+                    location.reload(); // De pagina herladen
+                }
+            });
+        });
+    }
+});
+
