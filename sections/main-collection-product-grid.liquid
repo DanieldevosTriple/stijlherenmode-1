@@ -112,7 +112,7 @@
                 {%- if product.options contains 'Color' -%}
                   {%- assign shown_colors = '' -%}
                   {%- for variant in product.variants -%}
-                    <p>Debug even min: {{ variant.id }}</p>
+                    {%- assign variant.id = variant.id -%}  
                     {%- assign color_option = '' -%}
                     {%- for option_index in (0..product.options.size) -%}
                       {%- if product.options[option_index] == 'Color' -%}
@@ -124,13 +124,12 @@
                       {%- unless shown_colors contains color_check -%}
                         {% assign image_to_use = variant.featured_image | default: product.featured_image %}
                         {% assign product_title_with_color = product.title | append: ' - ' | append: color_option %}
-              
-                        <li
-                          class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
-                          {% if settings.animations_reveal_on_scroll %}
-                            data-cascade
-                            style="--animation-order: {{ forloop.index }};"
-                          {% endif %}
+                
+                        <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
+                            {% if settings.animations_reveal_on_scroll %}
+                              data-cascade
+                              style="--animation-order: {{ forloop.index }};"
+                            {% endif %}
                         >
                           {% render 'card-product',
                             card_product: product,
@@ -144,7 +143,8 @@
                             quick_add: section.settings.quick_add,
                             section_id: section.id,
                             featured_image: image_to_use,
-                            product_title: product_title_with_color
+                            product_title: product_title_with_color,
+                            variant_id: variant.id  
                           %}
                         </li>
                         {%- assign shown_colors = shown_colors | append: color_check -%}
@@ -153,7 +153,7 @@
                   {%- endfor -%}
                 {%- endif -%}
                 {%- assign skip_card_product_styles = true -%}
-              {%- endfor -%}                           
+              {%- endfor -%}                                        
             </ul>     
                          
             {%- if paginate.pages > 1 -%}
