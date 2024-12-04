@@ -13,6 +13,7 @@ if (!customElements.get('product-info')) {
 
       constructor() {
         super();
+
         this.quantityInput = this.querySelector('.quantity__input');
       }
 
@@ -26,9 +27,6 @@ if (!customElements.get('product-info')) {
 
         this.initQuantityHandlers();
         this.dispatchEvent(new CustomEvent('product-info:loaded', { bubbles: true }));
-
-        // Voeg de media update functionaliteit toe zodra het productinfo element geladen is
-        this.initializeMediaGallery();
       }
 
       addPreProcessCallback(callback) {
@@ -59,24 +57,6 @@ if (!customElements.get('product-info')) {
         this.postProcessHtmlCallbacks.push((newNode) => {
           window?.Shopify?.PaymentButton?.init();
           window?.ProductModel?.loadShopifyXR();
-        });
-      }
-
-      initializeMediaGallery() {
-        // Voeg een event listener toe voor het updaten van de featured image bij klik op een thumbnail
-        const thumbnails = this.querySelectorAll('.media-thumbnail__image');
-        thumbnails.forEach((thumbnail) => {
-          thumbnail.addEventListener('click', (event) => {
-            const newImageSrc = event.target.src.replace('width=416', 'width=1024'); // Verander de grootte naar 1024px voor de grote afbeelding
-            const altText = event.target.alt;
-
-            // Update de featured image
-            const featuredImage = this.querySelector('.featured-media__image');
-            if (featuredImage) {
-              featuredImage.src = newImageSrc;
-              featuredImage.alt = altText;
-            }
-          });
         });
       }
 
