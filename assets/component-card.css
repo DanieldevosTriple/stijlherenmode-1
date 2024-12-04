@@ -140,6 +140,18 @@
   padding: 1.3rem 1rem;
 }
 
+@media (prefers-color-scheme: light) {
+  .card__information {
+    background: transparent !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .card__information {
+    background: transparent !important;
+  }
+}
+
 .card:not(.ratio) > .card__content {
   grid-template-rows: max-content minmax(0, 1fr) max-content auto;
 }
