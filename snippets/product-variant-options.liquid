@@ -23,14 +23,18 @@
 {%- for value in option.values -%}
   {%- liquid
     assign swatch_focal_point = null
+    assign debug_message = null
     if value.swatch.image
       assign image_url = value.swatch.image | image_url: width: 50
       assign swatch_value = 'url(' | append: image_url | append: ')'
       assign swatch_focal_point = value.swatch.image.presentation.focal_point
+      assign debug_message = 'Swatch image URL: ' | append: image_url
     elsif value.swatch.color
       assign swatch_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+      assign debug_message = 'Swatch color: ' | append: value.swatch.color.rgb
     else
       assign swatch_value = null
+      assign debug_message = 'No swatch image or color available for this value.'
     endif
 
     assign option_disabled = true
@@ -58,29 +62,32 @@
     </span>
   {%- endcapture -%}
 
-    <input
-      type="radio"
-      id="{{ input_id }}"
-      name="{{ input_name | escape }}"
-      value="{{ value | escape }}"
-      form="{{ product_form_id }}"
-      {% if value.selected %}
-        checked
-      {% endif %}
-      {% if option_disabled %}
-        class="disabled"
-      {% endif %}
-      {{ input_dataset }}
-    >
-      <label for="{{ input_id }}">
-        {%- if swatch_value and swatch_value contains 'url(' -%}
-          <div class="swatch-image" style="background-image: {{ swatch_value }};"></div>
-        {%- elsif swatch_value and swatch_value contains 'rgb(' -%}
-          <div class="swatch-color" style="background-color: {{ swatch_value }};"></div>
-        {%- else -%}
-          {{ value -}}
-        {%- endif -%}
-        {{ label_unavailable }}
-      </label>
-
+  <input
+    type="radio"
+    id="{{ input_id }}"
+    name="{{ input_name | escape }}"
+    value="{{ value | escape }}"
+    form="{{ product_form_id }}"
+    {% if value.selected %}
+      checked
+    {% endif %}
+    {% if option_disabled %}
+      class="disabled"
+    {% endif %}
+    {{ input_dataset }}
+  >
+  <label for="{{ input_id }}">
+    {%- if swatch_value and swatch_value contains 'url(' -%}
+      <div class="swatch-image" style="background-image: {{ swatch_value }};"></div>
+    {%- elsif swatch_value and swatch_value contains 'rgb(' -%}
+      <div class="swatch-color" style="background-color: {{ swatch_value }};"></div>
+    {%- else -%}
+      {{ value -}}
+    {%- endif -%}
+    {{ label_unavailable }}
+    <div class="debug-info">
+      {{ debug_message }}
+    </div>
+  </label>
 {%- endfor -%}
+
