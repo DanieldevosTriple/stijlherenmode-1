@@ -119,6 +119,9 @@
         {%- endif -%}        
         <div class="card__content">
           <div class="card__information">
+            <p>color:{{ color_option  }}</p>
+            <p>id:{{ variant_id  }}</p>
+            <p>id:{{ variant.id  }}</p>
             <h3
               class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"
               {% if card_product.featured_media or settings.card_style == 'card' %}
