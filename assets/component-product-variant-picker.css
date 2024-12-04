@@ -75,12 +75,12 @@ variant-selects {
 }
 
 @media (prefers-color-scheme: dark) {
-  .product-form__input--pill.text-class input[type='radio'] + label {
+  ..variant-text.text-class {
     color: white;
   }
 }
 
-.product-form__input--pill.text-class input[type='radio'] + label:before {
+.variant-text.text-class:before {
   content: '';
   position: absolute;
   top: calc(var(--variant-pills-border-width) * -1);
@@ -93,28 +93,28 @@ variant-selects {
     var(--variant-pills-shadow-blur-radius) rgba(var(--color-shadow), var(--variant-pills-shadow-opacity));
 }
 
-.product-form__input--pill.text-class input[type='radio'] + label:hover {
+..variant-text.text-class:hover {
   border-color: rgb(var(--color-foreground));
 }
 
-.product-form__input--pill.text-class input[type='radio']:checked + label {
+..variant-text.text-class:checked {
   background-color: rgb(var(--color-foreground));
   color: rgb(var(--color-background));
 }
 
 @media (prefers-color-scheme: dark) {
-  .product-form__input--pill.text-class input[type='radio']:checked + label {
+  ..variant-text.text-class:checked {
     background-color: white;
     color: black;
   }
 }
 
 @media screen and (forced-colors: active) {
-  .product-form__input--pill.text-class input[type='radio']:checked + label {
+  .variant-text.text-class:checked {
     text-decoration: none;
   }
 
-  .product-form__input--pill.text-class input[type='radio']:focus-visible + label {
+  .variant-text.text-class:focus-visible {
     outline: transparent solid 1px;
     outline-offset: 2px;
   }
