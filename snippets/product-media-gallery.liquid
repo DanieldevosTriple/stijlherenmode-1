@@ -11,9 +11,6 @@
   {% render 'product-media-gallery' %}
 {% endcomment %}
 
-{% assign sorted_media = product.media | sort: 'id' %}
-{% assign reversed_media = sorted_media | reverse %}
-
 <media-gallery
   id="MediaGallery-{{ section.id }}"
   role="region"
@@ -21,38 +18,65 @@
   class="product__media-gallery"
 >
   <!-- Featured Image -->
-{% if product.selected_or_first_available_variant.featured_media != null %}
-  <div 
-    class="product__media-item featured-media col-12" 
-    data-variant-color="{{ product.selected_or_first_available_variant.id }}"  
-  >
+  <div id="featured-media-container" class="product__media-item featured-media col-12">
     <img
-      id="featured-image-{{ product.selected_or_first_available_variant.id }}" 
-      src="{{ product.selected_or_first_available_variant.featured_media.preview_image | image_url: width: 1024 }}"
-      alt="{{ product.selected_or_first_available_variant.featured_media.alt }}"
+      id="featured-image"
       class="featured-media__image"
+      src=""
+      alt=""
     />
   </div>
-{% endif %}
 
   <!-- Thumbnails -->
-  <div class="row media-thumbnails grid grid--gap">
-    {% for media in reversed_media %}
-        <div 
-          class="product__media-item media-thumbnail col-3" 
-          data-variant-color="{% if media.alt contains 'color|' %}{{ media.alt | split: '|' | last }}{% else %}all{% endif %}"
-          data-media-id="{{ media.id }}"
-        >
-          <img
-            src="{{ media.preview_image | image_url: width: 416 }}"
-            alt="{{ media.alt }}"
-            class="media-thumbnail__image"
-            onclick="updateFeaturedImage('{{ media.preview_image | image_url: width: 1024 }}', '{{ media.alt }}')"
-          />
-        </div>
-    {% endfor %}
+  <div id="media-thumbnails" class="row media-thumbnails grid grid--gap">
+    <!-- Thumbnails worden dynamisch geladen via JavaScript -->
   </div>
 </media-gallery>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var productMedia = {{ product.media | json }};
+    var featuredImageContainer = document.getElementById('featured-media-container');
+    var mediaThumbnailsContainer = document.getElementById('media-thumbnails');
+
+    if (productMedia.length > 0) {
+      // Set featured image
+      var featuredMedia = productMedia[0]; // Neem de eerste media als featured
+      var featuredImage = document.createElement('img');
+      featuredImage.id = 'featured-image-' + featuredMedia.id;
+      featuredImage.src = featuredMedia.preview_image | image_url: width: 1024;
+      featuredImage.alt = featuredMedia.alt;
+      featuredImage.classList.add('featured-media__image');
+      featuredImageContainer.appendChild(featuredImage);
+
+      // Generate thumbnails
+      productMedia.forEach(function (media) {
+        var thumbnailDiv = document.createElement('div');
+        thumbnailDiv.classList.add('product__media-item', 'media-thumbnail', 'col-3');
+        thumbnailDiv.setAttribute('data-variant-color', media.alt.includes('color|') ? media.alt.split('|').pop() : 'all');
+        thumbnailDiv.setAttribute('data-media-id', media.id);
+
+        var thumbnailImage = document.createElement('img');
+        thumbnailImage.src = media.preview_image | image_url: width: 416;
+        thumbnailImage.alt = media.alt;
+        thumbnailImage.classList.add('media-thumbnail__image');
+        thumbnailImage.addEventListener('click', function() {
+          updateFeaturedImage(media.preview_image | image_url: width: 1024, media.alt);
+        });
+
+        thumbnailDiv.appendChild(thumbnailImage);
+        mediaThumbnailsContainer.appendChild(thumbnailDiv);
+      });
+    }
+  });
+
+  function updateFeaturedImage(imageUrl, altText) {
+    var featuredImage = document.getElementById('featured-image');
+    featuredImage.src = imageUrl;
+    featuredImage.alt = altText;
+  }
+</script>
+
 
 
 
