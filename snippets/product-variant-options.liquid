@@ -72,8 +72,15 @@
       {% endif %}
       {{ input_dataset }}
     >
-    <label for="{{ input_id }}">
-      {{ value -}}
-      {{ label_unavailable }}
-    </label>
+      <label for="{{ input_id }}">
+        {%- if swatch_value and swatch_value contains 'url(' -%}
+          <div class="swatch-image" style="background-image: {{ swatch_value }};"></div>
+        {%- elsif swatch_value and swatch_value contains 'rgb(' -%}
+          <div class="swatch-color" style="background-color: {{ swatch_value }};"></div>
+        {%- else -%}
+          {{ value -}}
+        {%- endif -%}
+        {{ label_unavailable }}
+      </label>
+      
 {%- endfor -%}
