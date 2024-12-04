@@ -3785,3 +3785,8 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+.variant-image {
+  width: 15px;
+  height: 15px;
+}
