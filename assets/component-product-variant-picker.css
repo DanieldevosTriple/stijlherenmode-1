@@ -93,11 +93,11 @@ variant-selects {
     var(--variant-pills-shadow-blur-radius) rgba(var(--color-shadow), var(--variant-pills-shadow-opacity));
 }
 
-..variant-text.text-class:hover {
+.variant-text.text-class:hover {
   border-color: rgb(var(--color-foreground));
 }
 
-..variant-text.text-class:checked {
+.variant-text.text-class:checked {
   background-color: rgb(var(--color-foreground));
   color: rgb(var(--color-background));
 }
