@@ -69,6 +69,10 @@
     {% if option_disabled %}
       class="disabled"
     {% endif %}
+    data-variant-id="{{ value | escape }}"
+    data-variant-image="{{ value.featured_media.preview_image | image_url: width: 1024 }}"
+    data-variant-alt="{{ value.featured_media.alt }}"
+    data-variant-color="{{ value | escape }}"
     {{ input_dataset }}
   >
   <label for="{{ input_id }}">
