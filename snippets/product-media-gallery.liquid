@@ -21,7 +21,7 @@
   class="product__media-gallery"
 >
   <!-- Featured Image -->
-{% if product.selected_or_first_available_variant.featured_media != null %}
+  {% if product.selected_or_first_available_variant.featured_media != null %}
   <div 
     class="product__media-item featured-media col-12" 
     data-variant-color="{{ product.selected_or_first_available_variant.id }}"  
@@ -33,26 +33,60 @@
       class="featured-media__image"
     />
   </div>
-{% endif %}
+  {% endif %}
 
   <!-- Thumbnails -->
   <div class="row media-thumbnails grid grid--gap">
     {% for media in reversed_media %}
-        <div 
-          class="product__media-item media-thumbnail col-3" 
-          data-variant-color="{% if media.alt contains 'color|' %}{{ media.alt | split: '|' | last }}{% else %}all{% endif %}"
-          data-media-id="{{ media.id }}"
-        >
-          <img
-            src="{{ media.preview_image | image_url: width: 416 }}"
-            alt="{{ media.alt }}"
-            class="media-thumbnail__image"
-            onclick="updateFeaturedImage('{{ media.preview_image | image_url: width: 1024 }}', '{{ media.alt }}')"
-          />
-        </div>
+      <div 
+        class="product__media-item media-thumbnail col-3" 
+        data-variant-color="{% if media.alt contains 'color|' %}{{ media.alt | split: '|' | last }}{% else %}all{% endif %}"
+        data-media-id="{{ media.id }}"
+      >
+        <img
+          src="{{ media.preview_image | image_url: width: 416 }}"
+          alt="{{ media.alt }}"
+          class="media-thumbnail__image"
+          onclick="updateFeaturedImage('{{ media.preview_image | image_url: width: 1024 }}', '{{ media.alt }}')"
+        />
+      </div>
     {% endfor %}
   </div>
 </media-gallery>
+
+<!-- Add this JavaScript at the bottom of your page -->
+<script>
+  // Function to update the featured image dynamically
+  function updateFeaturedImage(imageUrl, altText) {
+    const featuredImage = document.getElementById('featured-image-{{ product.selected_or_first_available_variant.id }}');
+    if (featuredImage) {
+      featuredImage.src = imageUrl;
+      featuredImage.alt = altText;
+    }
+  }
+
+  // Event listener to handle variant changes and update the gallery dynamically
+  document.addEventListener('DOMContentLoaded', function () {
+    const mediaGallery = document.getElementById('MediaGallery-{{ section.id }}');
+    
+    // Observe the changes in the product variant and update the gallery when needed
+    document.querySelectorAll('.product-variants select').forEach((variantSelect) => {
+      variantSelect.addEventListener('change', function() {
+        const variantId = this.value; // Get the selected variant ID
+        updateGalleryForVariant(variantId);
+      });
+    });
+
+    function updateGalleryForVariant(variantId) {
+      const variantMedia = {{ product.media | json }}.find(media => media.variant_ids.includes(variantId));
+      if (variantMedia) {
+        // Update the featured image based on the variant's media
+        updateFeaturedImage(variantMedia.preview_image | image_url: width: 1024, variantMedia.alt);
+      }
+    }
+  });
+</script>
+
 
 
 
