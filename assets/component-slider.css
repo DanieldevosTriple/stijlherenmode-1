@@ -281,6 +281,10 @@ slider-component.slider-component-full-width {
   .slider-counter__link--active.slider-counter__link--dots .dot {
     background-color: white;
   }
+
+  .slider-counter__link--dots .dot {
+    border: 0.1rem solid white;
+  }
 }
 
 @media screen and (forced-colors: active) {
