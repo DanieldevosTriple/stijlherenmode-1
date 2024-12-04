@@ -103,7 +103,7 @@ variant-selects {
 }
 
 @media (prefers-color-scheme: dark) {
-  ..variant-text.text-class:checked {
+  .variant-text.text-class:checked {
     background-color: white;
     color: black;
   }
