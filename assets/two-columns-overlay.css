@@ -46,9 +46,20 @@
     font-weight: 600;
     margin: 0;
     line-height: .76;
-    color: #fff;
+  }
+
+  @media (prefers-color-scheme: light) {
+    .image-overlay-block__title {
+      color: white;
+    }
   }
   
+  @media (prefers-color-scheme: black) {
+    .image-overlay-block__title {
+      color: black;
+    }
+  }
+
   .button {
     border: 1px solid white;
     position: absolute;
