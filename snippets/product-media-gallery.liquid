@@ -29,7 +29,7 @@
     >
       <img
         id="featured-image"
-        src="{{ featured_media.preview_image.src | image_url: '1024x1024' }}"
+        src="{{ featured_media.preview_image.src | prepend: 'https:' }}" <!-- Voeg https toe voor de volledige URL -->
         alt="{{ featured_media.alt }}"
         class="featured-media__image"
       />
@@ -46,10 +46,10 @@
           data-media-id="{{ variant.featured_media.id }}"
         >
           <img
-            src="{{ thumbnail_image.src | image_url: '416x416' }}"
+            src="{{ thumbnail_image.src | prepend: 'https:' }}" <!-- Voeg https toe voor de volledige URL -->
             alt="{{ variant.featured_media.alt }}"
             class="media-thumbnail__image"
-            onclick="updateFeaturedImage('{{ thumbnail_image.src | image_url: '1024x1024' }}', '{{ variant.featured_media.alt }}')"
+            onclick="updateFeaturedImage('{{ thumbnail_image.src | prepend: 'https:' }}', '{{ variant.featured_media.alt }}')"
           />
         </div>
     {% endfor %}
@@ -63,6 +63,7 @@
     document.getElementById("featured-image").alt = imageAlt;
   }
 </script>
+
 
 
 
