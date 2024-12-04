@@ -493,6 +493,12 @@
   color: rgb(var(--color-foreground));
 }
 
+@media (prefers-color-scheme: dark) {
+  .card-information > .price {
+    color: white;
+  }
+}
+
 .card--horizontal .card-information > .price {
   color: rgba(var(--color-foreground), 0.75);
 }
