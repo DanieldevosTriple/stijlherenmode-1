@@ -87,6 +87,13 @@
   }
 </script>
 
+<script>
+  console.log("Product media:", {{ product.media | json }});
+</script>
+
+<script>
+  window.productMedia = {{ product.media | jsonify }};
+</script>
 
 
 
