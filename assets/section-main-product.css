@@ -35,10 +35,6 @@ product-info {
   display: none;
 }
 
-.product__media-item[data-variant-color="all"] {
-  display: none;
-}
-
 @media screen and (min-width: 750px) {
   .product__column-sticky {
     display: block;
