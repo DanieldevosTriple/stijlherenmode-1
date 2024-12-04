@@ -38,9 +38,11 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Shopify Liquid - Zorg ervoor dat product.media correct naar JavaScript wordt geconverteerd
+    // Zorg ervoor dat product.media wordt verwerkt met Liquid en naar JavaScript wordt doorgestuurd
     var productMedia = {{ product.media | json }};
-    console.log("Productmedia gegevens:", productMedia); // Debug output
+    
+    // Debug: Log productMedia om te controleren of het correct is gedefinieerd
+    console.log("Product media:", productMedia);
 
     var featuredImageContainer = document.getElementById('featured-media-container');
     var mediaThumbnailsContainer = document.getElementById('media-thumbnails');
@@ -49,11 +51,12 @@
       var featuredMedia = productMedia[0]; // Neem de eerste media als featured
       var featuredImage = document.createElement('img');
       featuredImage.id = 'featured-image-' + featuredMedia.id;
-      featuredImage.src = featuredMedia.preview_image;
+      featuredImage.src = featuredMedia.preview_image.src; // Gebruik de juiste URL
       featuredImage.alt = featuredMedia.alt;
       featuredImage.classList.add('featured-media__image');
       featuredImageContainer.appendChild(featuredImage);
 
+      // Genereer thumbnails
       productMedia.forEach(function (media) {
         var thumbnailDiv = document.createElement('div');
         thumbnailDiv.classList.add('product__media-item', 'media-thumbnail', 'col-3');
@@ -61,11 +64,11 @@
         thumbnailDiv.setAttribute('data-media-id', media.id);
 
         var thumbnailImage = document.createElement('img');
-        thumbnailImage.src = media.preview_image;
+        thumbnailImage.src = media.preview_image.src; // Gebruik de juiste URL voor de thumbnail
         thumbnailImage.alt = media.alt;
         thumbnailImage.classList.add('media-thumbnail__image');
         thumbnailImage.addEventListener('click', function () {
-          updateFeaturedImage(media.preview_image, media.alt);
+          updateFeaturedImage(media.preview_image.src, media.alt); // Update het featured image bij klik
         });
 
         thumbnailDiv.appendChild(thumbnailImage);
@@ -82,6 +85,7 @@
     featuredImage.alt = altText;
   }
 </script>
+
 
 
 
