@@ -60,6 +60,29 @@
     font-size: 14px;
     color: #000;
   }
+
+  @media (prefers-color-scheme: dark) {
+    .collection-selector__title-wrapper {
+      color: white;
+    }
+
+    .collection-selector__link a  {
+      color: white;
+    }
+
+    a:hover {
+      color: white;
+      text-decoration: none;
+    }
+
+    .collection-selector__item:hover .collection-selector__title-wrapper::before,
+    .collection-selector__item:hover .collection-selector__title-wrapper::after,
+    .collection-selector__item.active .collection-selector__title-wrapper::before,
+    .collection-selector__item.active .collection-selector__title-wrapper::after {
+      color: white;
+    }
+
+  }
   
   .collection-selector__title-wrapper::before,
   .collection-selector__title-wrapper::after {
