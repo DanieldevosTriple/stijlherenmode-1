@@ -22,7 +22,6 @@
 
 {%- for value in option.values -%}
   {%- liquid
-    assign debug_message = null
     assign image_url = null
 
     # Zoek de variant op basis van de huidige waarde
@@ -31,9 +30,6 @@
     # Controleer of de variant een featured image heeft
     if matching_variant and matching_variant.featured_image
       assign image_url = matching_variant.featured_image | image_url: width: 100
-      assign debug_message = 'Variant featured image URL: ' | append: image_url
-    else
-      assign debug_message = 'No featured image available for this variant.'
     endif
 
     assign option_disabled = true
@@ -80,12 +76,10 @@
       <img src="{{ image_url }}" alt="{{ value | escape }}" class="variant-image" />
     {%- else -%}
       {{ value -}}
-    {%- endif -%}
+    {%- endif %}
     {{ label_unavailable }}
-    <div class="debug-info">
-      {{ debug_message }}
-    </div>
   </label>
 {%- endfor -%}
+
 
 
