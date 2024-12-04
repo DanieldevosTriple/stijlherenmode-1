@@ -45,7 +45,10 @@
     <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
-
+  <script>
+    window.product = {{ product | json }};
+  </script>
+  
   {% if section.settings.image_zoom == 'hover' %}
     <script id="EnableZoomOnHover-main" src="{{ 'magnify.js' | asset_url }}" defer="defer"></script>
   {% endif %}
@@ -97,14 +100,24 @@
                   {{- block.settings.text -}}
                 </p>
               {%- when 'title' -%}
-                <div class="product__title" {{ block.shopify_attributes }} data-title="{{ product.title }}" data-default-title="{{ product.title }}">
-                  <h1>{{ product.title | escape }}</h1>
-                  <a href="{{ product.url }}" class="product__title">
-                    <h2 class="h1">
-                      {{ product.title | escape }}
-                    </h2>
-                  </a>
-                </div>
+                <div class="product__title" {{ block.shopify_attributes }} 
+                  data-title="{{ product.title }}" 
+                  data-default-title="{{ product.title }}">
+               <h1>
+                 {{ product.title | escape }}
+                 {%- if product.selected_or_first_available_variant.option1 -%}
+                   - {{ product.selected_or_first_available_variant.option1 | escape }}
+                 {%- endif -%}
+               </h1>
+               <a href="{{ product.url }}" class="product__title">
+                 <h2 class="h1">
+                   {{ product.title | escape }}
+                   {%- if product.selected_or_first_available_variant.option1 -%}
+                     - {{ product.selected_or_first_available_variant.option1 | escape }}
+                   {%- endif -%}
+                 </h2>
+               </a>
+             </div>             
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                   {%- render 'price',
