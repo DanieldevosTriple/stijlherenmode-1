@@ -57,7 +57,7 @@ variant-selects {
 }
 
 /* Custom styles for Pill display type */
-.variant-text.text-class span {
+.variant-text.text-class {
   border: none;
   background-color: rgb(var(--color-background));
   color: rgba(var(--color-foreground));
