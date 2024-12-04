@@ -1,18 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Selecteer de titel en het JSON-script dat de variantinformatie bevat
     const productTitle = document.querySelector('.product__title h1');
-    const variantJsonElement = document.querySelector('script[data-selected-variant]');
     const variantSelector = document.querySelector('[name="id"]'); // Variant dropdown
     const colorRadios = document.querySelectorAll('input[type="radio"][name^="Color"]');
     const mediaItems = document.querySelectorAll('.product__media-item'); // Media gallery items
   
     if (!productTitle) {
       console.error('Product title element is missing.');
-      return;
-    }
-  
-    if (!variantJsonElement) {
-      console.error('Variant JSON script element is missing.');
       return;
     }
   
@@ -30,9 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
   
         // Toon alleen afbeeldingen die overeenkomen met de geselecteerde kleur of 'all'
         if (mediaColor === selectedColor || mediaColor === 'all') {
-          item.style.display = 'block';
+          item.style.display = 'block'; // Zichtbaar maken
         } else {
-          item.style.display = 'none';
+          item.style.display = 'none'; // Verbergen
         }
       });
     };

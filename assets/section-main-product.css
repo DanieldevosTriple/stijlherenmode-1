@@ -39,7 +39,6 @@ product-info {
   display: block;
 }
 
-
 @media screen and (min-width: 750px) {
   .product__column-sticky {
     display: block;
