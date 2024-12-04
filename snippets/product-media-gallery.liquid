@@ -21,16 +21,15 @@
   class="product__media-gallery"
 >
   <!-- Featured Image -->
-  {% assign featured_media = product.selected_or_first_available_variant.featured_media %}
-  {% if featured_media != null %}
+  {% if product.selected_or_first_available_variant.featured_media != null %}
     <div 
       class="product__media-item featured-media col-12" 
-      data-variant-color="{% if featured_media.alt contains 'color|' %}{{ featured_media.alt | split: '|' | last }}{% else %}all{% endif %}"
+      data-variant-color="{% if product.selected_or_first_available_variant.featured_media.alt contains 'color|' %}{{ product.selected_or_first_available_variant.featured_media.alt | split: '|' | last }}{% else %}all{% endif %}"
     >
       <img
         id="featured-image"
-        src="{{ shop.url }}{{ featured_media.preview_image.src | prepend: '/' }}" 
-        alt="{{ featured_media.alt }}"
+        src="{{ product.selected_or_first_available_variant.featured_media.preview_image | image_url: width: 1024 }}"
+        alt="{{ product.selected_or_first_available_variant.featured_media.alt }}"
         class="featured-media__image"
       />
     </div>
@@ -38,35 +37,22 @@
 
   <!-- Thumbnails -->
   <div class="row media-thumbnails grid grid--gap">
-    {% for variant in product.variants %}
-        {% assign thumbnail_image = variant.featured_media.preview_image %}
+    {% for media in reversed_media %}
         <div 
           class="product__media-item media-thumbnail col-3" 
-          data-variant-color="{% if variant.featured_media.alt contains 'color|' %}{{ variant.featured_media.alt | split: '|' | last }}{% else %}all{% endif %}"
-          data-media-id="{{ variant.featured_media.id }}"
+          data-variant-color="{% if media.alt contains 'color|' %}{{ media.alt | split: '|' | last }}{% else %}all{% endif %}"
+          data-media-id="{{ media.id }}"
         >
           <img
-            src="{{ shop.url }}{{ thumbnail_image.src | prepend: '/' }}" 
-            alt="{{ variant.featured_media.alt }}"
+            src="{{ media.preview_image | image_url: width: 416 }}"
+            alt="{{ media.alt }}"
             class="media-thumbnail__image"
-            onclick="updateFeaturedImage('{{ thumbnail_image.src | image_url: '1024x1024' }}', '{{ variant.featured_media.alt }}')"
+            onclick="updateFeaturedImage('{{ media.preview_image | image_url: width: 1024 }}', '{{ media.alt }}')"
           />
         </div>
     {% endfor %}
   </div>
 </media-gallery>
-
-<script>
-  // Functie om de afbeelding bij te werken
-  function updateFeaturedImage(imageUrl, imageAlt) {
-    document.getElementById("featured-image").src = imageUrl;
-    document.getElementById("featured-image").alt = imageAlt;
-  }
-</script>
-
-
-
-
 
 
 
