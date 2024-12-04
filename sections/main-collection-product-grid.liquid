@@ -33,7 +33,8 @@
         {% for variant in product.variants %}
           {
             "id": {{ variant.id }},
-            "color": "{{ variant.option1 }}"
+            "color": "{{ variant.option1 }}",
+            "image": "{{ variant.image | img_url: 'medium' }}"
           }
           {% unless forloop.last %},{% endunless %}
         {% endfor %}
@@ -41,7 +42,6 @@
     };
   {% endfor %}
 </script>
-
 
 {%- style -%}
   .section-{{ section.id }}-padding {
