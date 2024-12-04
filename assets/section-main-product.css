@@ -1521,5 +1521,5 @@ a.product__text {
 .media-thumbnail:hover,
 .media-thumbnail.active {
   opacity: 1;
-  border: 2px solid #000;
+  border: 1px solid #000;
 }
