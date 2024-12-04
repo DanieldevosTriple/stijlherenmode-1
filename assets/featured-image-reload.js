@@ -5,40 +5,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const updateMediaGallery = (selectedColor) => {
         console.log('Selected Color:', selectedColor);  // Log the selected color
 
-        // AJAX request to fetch the new product media gallery with the selected color
-        const params = new URLSearchParams();
-        params.append('color', selectedColor);  // Send selected color
+        // Bouw de URL met de query parameters
+        const url = new URL(window.location.href);  // Gebruik de huidige URL
+        url.searchParams.set('color', selectedColor);  // Voeg de geselecteerde kleur toe aan de query string
 
-        fetch(window.location.href, {  // Send AJAX request to current page
-            method: 'GET', 
+        fetch(url, {  // Stuur het GET-verzoek naar de URL met de parameters
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: params
+            }
         })
         .then(response => response.text())
         .then(data => {
-            // Extract the updated media gallery content from the response
+            // Gebruik DOMParser om de nieuwe HTML te extraheren
             const parser = new DOMParser();
             const doc = parser.parseFromString(data, 'text/html');
             const updatedGallery = doc.querySelector('.product__media-wrapper').innerHTML;
-            mediaWrapperContainer.innerHTML = updatedGallery;  // Replace the old gallery with the new one
+            mediaWrapperContainer.innerHTML = updatedGallery;  // Vervang de oude galerij met de nieuwe inhoud
             console.log('Product media gallery updated');
         })
         .catch(error => console.error('Error fetching media gallery:', error));
     };
 
-    // Event listener for swatches
+    // Event listener voor swatches
     if (colorRadios.length) {
         colorRadios.forEach((radio) => {
             radio.addEventListener('change', function () {
                 if (radio.checked) {
                     const selectedColor = radio.value;
-                    console.log('Radio change detected:', selectedColor); // Log when a radio button is selected
-                    updateMediaGallery(selectedColor); // Dynamically update the gallery
+                    console.log('Radio change detected:', selectedColor); // Log wanneer een radio button wordt geselecteerd
+                    updateMediaGallery(selectedColor); // Dynamisch de galerij bijwerken
                 }
             });
         });
     }
 });
-
