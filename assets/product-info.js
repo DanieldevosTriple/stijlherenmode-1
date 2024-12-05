@@ -151,12 +151,32 @@ if (!customElements.get('product-info')) {
       }
 
       getSelectedVariant(productInfoNode) {
+        // Haal de geselecteerde variant op uit de data-attribute
         const selectedVariant = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
         if (selectedVariant) {
+          // Parseer de JSON-string naar een object
           const parsedVariant = JSON.parse(selectedVariant);
           console.log('[getSelectedVariant] Parsed Variant:', parsedVariant); // Controleer alle attributen
-          return parsedVariant;
+      
+          // Sla `option1` en `featured_media.src` apart op
+          const option1 = parsedVariant.option1;
+          const featuredMediaSrc = parsedVariant.featured_media?.preview_image?.src || null;
+      
+          console.log('[getSelectedVariant] Option1:', option1);
+          console.log('[getSelectedVariant] Featured Media Src:', featuredMediaSrc);
+      
+          // Eventueel: voeg deze eigenschappen toe aan een aangepaste structuur
+          const result = {
+            ...parsedVariant,
+            option1, // Kleur of andere eerste optie
+            featuredMediaSrc, // Link naar de afbeelding
+          };
+      
+          console.log('[getSelectedVariant] Modified Result:', result);
+          return result; // Retourneer de variant inclusief de extra opgeslagen attributen
         }
+      
+        console.warn('[getSelectedVariant] No selected variant found');
         return null;
       }
       
