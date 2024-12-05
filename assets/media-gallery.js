@@ -1,6 +1,10 @@
 // Selecteer alle radio buttons, de afbeelding, en de thumbnails
+const radioButtons = document.querySelectorAll('input[type="radio"][name^="Color"]');
 const image = document.querySelector('.featured-media__image');
 const thumbnails = document.querySelectorAll('.media-thumbnail');
+
+// Log het aantal gevonden radio buttons
+console.log(`Aantal radio buttons gevonden: ${radioButtons.length}`);
 
 // Functie om afbeelding en thumbnails te updaten
 const updateImageAndThumbnails = () => {
