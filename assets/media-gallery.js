@@ -15,6 +15,12 @@ radioButtons.forEach(radio => {
     // Haal de afbeelding-URL op uit het data-attribuut
     const imageUrl = radio.getAttribute('data-variant-image');
 
+    // Controleer of de URL begint met //
+    if (imageUrl && imageUrl.startsWith('//')) {
+      imageUrl = `http:${imageUrl}`;
+      console.log(`Protocol toegevoegd aan afbeelding-URL: ${imageUrl}`);
+    }
+        
     // Log de opgehaalde afbeelding-URL
     console.log(`Afbeeldings-URL opgehaald: ${imageUrl}`);
     
