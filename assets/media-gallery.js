@@ -21,7 +21,7 @@ radioButtons.forEach(radio => {
     // Loop door alle thumbnails en toon/verberg op basis van data-variant-color
     thumbnails.forEach(thumbnail => {
       const variantColor = thumbnail.getAttribute('data-variant-color');
-      if (variantColor === radio.value || variantColor === 'all') {
+      if (variantColor.includes(radio.value) || variantColor === 'all') {
         // Toon de thumbnail
         thumbnail.style.display = 'block';
         console.log(`Toon thumbnail met data-variant-color: ${variantColor}`);
