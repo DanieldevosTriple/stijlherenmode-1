@@ -116,6 +116,8 @@ if (!customElements.get('product-info')) {
               this.postProcessHtmlCallbacks
             );
           } else {
+            document.querySelector('head title').innerHTML = html.querySelector('head title').innerHTML;
+
             HTMLUpdateUtility.viewTransition(
               this,
               html.querySelector('product-info'),
