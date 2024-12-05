@@ -165,14 +165,6 @@ if (!customElements.get('product-info')) {
           console.log('[getSelectedVariant] Option1:', option1);
           console.log('[getSelectedVariant] Featured Media Src:', featuredMediaSrc);
       
-          // Eventueel: voeg deze eigenschappen toe aan een aangepaste structuur
-          const result = {
-            ...parsedVariant,
-            option1, // Kleur of andere eerste optie
-            featuredMediaSrc, // Link naar de afbeelding
-          };
-      
-          console.log('[getSelectedVariant] Modified Result:', result);
           return result; // Retourneer de variant inclusief de extra opgeslagen attributen
         }
       
