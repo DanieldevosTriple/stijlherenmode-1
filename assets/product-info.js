@@ -69,25 +69,46 @@ if (!customElements.get('product-info')) {
       }
 
       handleOptionValueChange({ data: { event, target, selectedOptionValues } }) {
-        // Behandel wijzigingen in de gekozen opties van het product
+        // Controleer of de wijziging binnen deze component plaatsvindt
         if (!this.contains(event.target)) return;
-
+      
+        // Reset de staat van het productformulier
         this.resetProductFormState();
-
+      
+        // Bepaal de URL en of het product moet worden gewisseld
         const productUrl = target.dataset.productUrl || this.pendingRequestUrl || this.dataset.url;
         this.pendingRequestUrl = productUrl;
         const shouldSwapProduct = this.dataset.url !== productUrl;
         const shouldFetchFullPage = this.dataset.updateUrl === 'true' && shouldSwapProduct;
-
+      
+        // Render de nieuwe productinformatie
         this.renderProductInfo({
           requestUrl: this.buildRequestUrlWithParams(productUrl, selectedOptionValues, shouldFetchFullPage),
           targetId: target.id,
-          callback: shouldSwapProduct
-            ? this.handleSwapProduct(productUrl, shouldFetchFullPage)
-            : this.handleUpdateProductInfo(productUrl),
+          callback: (html) => {
+            // Werk de titel van de pagina bij
+            const selectedVariant = this.getSelectedVariant(html);
+            if (selectedVariant) {
+              const productTitle = selectedVariant.name || document.querySelector('h1.product__title').innerText;
+              const productColor = selectedVariant.options.find(option => option.name.toLowerCase() === 'color') || '';
+              document.title = `${productTitle} - ${productColor}`;
+            }
+      
+            // Verwerk productwissel of update productinformatie
+            if (shouldSwapProduct) {
+              this.handleSwapProduct(productUrl, shouldFetchFullPage)(html);
+            } else {
+              this.handleUpdateProductInfo(productUrl)(html);
+            }
+      
+            // Update de mediagalerij
+            if (selectedVariant?.featured_media?.id) {
+              this.updateMedia(html, selectedVariant.featured_media.id);
+            }
+          },
         });
       }
-
+      
       resetProductFormState() {
         // Reset de status van het formulier
         const productForm = this.productForm;
@@ -95,24 +116,32 @@ if (!customElements.get('product-info')) {
         productForm?.handleErrorMessage();
       }
 
-      handleSwapProduct(productUrl) {
+      handleSwapProduct(productUrl, updateFullPage) {
         // Verwerk het wisselen van producten
         return (html) => {
           this.productModal?.remove();
-      
-          const selector = "product-info[id^='MainProduct']"; // Altijd het volledige product-info blok kiezen
+
+          const selector = updateFullPage ? "product-info[id^='MainProduct']" : 'product-info';
           const variant = this.getSelectedVariant(html.querySelector(selector));
           this.updateURL(productUrl, variant?.id);
-      
-          // Altijd de volledige pagina bijwerken
-          document.querySelector('head title').innerHTML = html.querySelector('head title').innerHTML;
-      
-          HTMLUpdateUtility.viewTransition(
-            document.querySelector('main'),
-            html.querySelector('main'),
-            this.preProcessHtmlCallbacks,
-            this.postProcessHtmlCallbacks
-          );
+
+          if (updateFullPage) {
+            document.querySelector('head title').innerHTML = html.querySelector('head title').innerHTML;
+
+            HTMLUpdateUtility.viewTransition(
+              document.querySelector('main'),
+              html.querySelector('main'),
+              this.preProcessHtmlCallbacks,
+              this.postProcessHtmlCallbacks
+            );
+          } else {
+            HTMLUpdateUtility.viewTransition(
+              this,
+              html.querySelector('product-info'),
+              this.preProcessHtmlCallbacks,
+              this.postProcessHtmlCallbacks
+            );
+          }
         };
       }
 
@@ -251,77 +280,42 @@ if (!customElements.get('product-info')) {
       updateMedia(html, variantFeaturedMediaId) {
         if (!variantFeaturedMediaId) return;
       
-        // Zoek de bron- en bestemmingsmedia-galerijen
-        const mediaGallerySource = this.querySelector('media-gallery');
-        const mediaGalleryDestination = html.querySelector('media-gallery');
-      
-        const refreshSourceData = () => {
-          // Zoomen bij hover indien ingesteld
-          if (this.hasAttribute('data-zoom-on-hover')) enableZoomOnHover(2);
-      
-          // Verzamelen van de media-items
-          const mediaGallerySourceItems = Array.from(mediaGallerySource.querySelectorAll('.product__media-item[data-media-id]'));
-          const sourceSet = new Set(mediaGallerySourceItems.map((item) => item.dataset.mediaId));
-          const sourceMap = new Map(
-            mediaGallerySourceItems.map((item, index) => [item.dataset.mediaId, { item, index }])
-          );
-          return [mediaGallerySourceItems, sourceSet, sourceMap];
-        };
-      
-        if (mediaGallerySource && mediaGalleryDestination) {
-          let [mediaGallerySourceItems, sourceSet, sourceMap] = refreshSourceData();
-          const mediaGalleryDestinationItems = Array.from(
-            mediaGalleryDestination.querySelectorAll('.product__media-item[data-media-id]')
-          );
-          const destinationSet = new Set(mediaGalleryDestinationItems.map(({ dataset }) => dataset.mediaId));
-          let shouldRefresh = false;
-      
-          // Voeg items uit de nieuwe gegevens toe die nog niet in de DOM aanwezig zijn
-          for (let i = mediaGalleryDestinationItems.length - 1; i >= 0; i--) {
-            if (!sourceSet.has(mediaGalleryDestinationItems[i].dataset.mediaId)) {
-              mediaGallerySource.prepend(mediaGalleryDestinationItems[i]);
-              shouldRefresh = true;
-            }
-          }
-      
-          // Verwijder items uit de DOM die niet aanwezig zijn in de nieuwe gegevens
-          for (let i = 0; i < mediaGallerySourceItems.length; i++) {
-            if (!destinationSet.has(mediaGallerySourceItems[i].dataset.mediaId)) {
-              mediaGallerySourceItems[i].remove();
-              shouldRefresh = true;
-            }
-          }
-      
-          // Vernieuw de gegevens
-          if (shouldRefresh) [mediaGallerySourceItems, sourceSet, sourceMap] = refreshSourceData();
-      
-          // Sorteer de galerijitems om de volgorde van de nieuwe gegevens te matchen
-          mediaGalleryDestinationItems.forEach((destinationItem, destinationIndex) => {
-            const sourceData = sourceMap.get(destinationItem.dataset.mediaId);
-      
-            if (sourceData && sourceData.index !== destinationIndex) {
-              mediaGallerySource.insertBefore(
-                sourceData.item,
-                mediaGallerySource.querySelector(`.product__media-item:nth-of-type(${destinationIndex + 1})`)
-              );
-      
-              // Vernieuw de bron na wijziging
-              [mediaGallerySourceItems, sourceSet, sourceMap] = refreshSourceData();
-            }
-          });
+        // Vervang de uitgelichte afbeelding
+        const featuredMedia = this.querySelector('.featured-media');
+        const newFeaturedMedia = html.querySelector(`.featured-media[data-variant-color="${variantFeaturedMediaId}"]`);
+        if (featuredMedia && newFeaturedMedia) {
+          featuredMedia.innerHTML = newFeaturedMedia.innerHTML;
+          featuredMedia.classList.add('active'); // Markeer als actieve media
         }
       
-        // Zet de uitgelichte media als actief
-        const featuredMedia = this.querySelector(`.product__media-item.featured-media`);
-        if (featuredMedia) {
-          featuredMedia.classList.add('active'); // Zorg ervoor dat de actieve media correct wordt gemarkeerd
-        }
+        // Update thumbnails
+        const mediaThumbnails = this.querySelectorAll('.media-thumbnail');
+        const newMediaThumbnails = html.querySelectorAll('.media-thumbnail');
+        const variantColor = newFeaturedMedia?.dataset.variantColor || 'all';
+      
+        mediaThumbnails.forEach((thumbnail) => {
+          const thumbnailColor = thumbnail.dataset.variantColor || 'all';
+          thumbnail.style.display = thumbnailColor === 'all' || thumbnailColor === variantColor ? 'block' : 'none';
+        });
+      
+        // Verwijder oude thumbnails en voeg nieuwe toe als nodig
+        newMediaThumbnails.forEach((newThumbnail) => {
+          const existingThumbnail = Array.from(mediaThumbnails).find(
+            (thumbnail) => thumbnail.dataset.mediaId === newThumbnail.dataset.mediaId
+          );
+      
+          if (!existingThumbnail) {
+            this.querySelector('.media-thumbnails').appendChild(newThumbnail.cloneNode(true));
+          }
+        });
       
         // Update de modalcontent van de media
         const modalContent = this.productModal?.querySelector(`.product-media-modal__content`);
         const newModalContent = html.querySelector(`product-modal .product-media-modal__content`);
-        if (modalContent && newModalContent) modalContent.innerHTML = newModalContent.innerHTML;
-      }
+        if (modalContent && newModalContent) {
+          modalContent.innerHTML = newModalContent.innerHTML;
+        }
+      }      
       
       setQuantityBoundries() {
         const data = {
