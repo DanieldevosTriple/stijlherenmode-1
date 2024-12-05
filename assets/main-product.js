@@ -21,10 +21,27 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   // Functie om de geselecteerde kleur op te halen
-  const getSelectedColor = () => {
-    const selectedInput = document.querySelector('input[type="radio"][name^="Color"]:checked');
+  const getSelectedColor = (productContainer) => {
+    const selectedInput = productContainer.querySelector('input[type="radio"][name^="Color"]:checked');
     return selectedInput ? selectedInput.value : null;
   };
+  
+  document.querySelectorAll('.product-container').forEach((productContainer) => {
+    const initialColor = getSelectedColor(productContainer);
+    if (initialColor) {
+      updateTitle(initialColor);
+    }
+  
+    const colorFieldset = productContainer.querySelector('fieldset[name^="Color"]');
+    if (colorFieldset) {
+      colorFieldset.addEventListener('change', function () {
+        const newColor = getSelectedColor(productContainer);
+        if (newColor) {
+          updateTitle(newColor);
+        }
+      });
+    }
+  });
 
   // Initialiseer de titel met de geselecteerde variant
   const initialColor = getSelectedColor();
