@@ -276,22 +276,37 @@ if (!customElements.get('product-info')) {
       }
 
       updateMedia(html, variantFeaturedMediaId) {
-        if (!variantFeaturedMediaId) return;
+        if (!variantFeaturedMediaId) {
+          console.log("Geen variantFeaturedMediaId opgegeven, functie stopt.");
+          return;
+        }
       
         const mediaGallerySource = this.querySelector('media-gallery');
         const mediaGalleryDestination = html.querySelector('media-gallery');
       
-        if (!mediaGallerySource || !mediaGalleryDestination) return;
+        if (!mediaGallerySource || !mediaGalleryDestination) {
+          console.log("Media-galerijen niet gevonden:", {
+            mediaGallerySource,
+            mediaGalleryDestination
+          });
+          return;
+        }
+      
+        console.log("Start updateMedia met variantFeaturedMediaId:", variantFeaturedMediaId);
       
         const variantColor = this.querySelector(`.product__media-item[data-variant-color="${variantFeaturedMediaId}"]`);
-        
+        console.log("Variantkleur-item gevonden:", variantColor);
+      
         // Filter items op basis van data-variant-color
         const filterMediaByVariant = () => {
           const mediaItems = Array.from(mediaGallerySource.querySelectorAll('.product__media-item'));
+          console.log("Filter media-items op variant:", mediaItems);
+      
           mediaItems.forEach(item => {
             const color = item.getAttribute('data-variant-color');
             if (color && color !== 'all' && color !== variantFeaturedMediaId) {
-              item.remove(); // Verwijder niet-toepasbare items
+              console.log("Verwijder item met color:", color, item);
+              item.remove();
             }
           });
         };
@@ -299,8 +314,11 @@ if (!customElements.get('product-info')) {
         // Voeg nieuwe items toe vanuit de bestemming naar de bron
         const addNewMediaItems = () => {
           const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item'));
+          console.log("Controleer ontbrekende items in de bron:", destinationItems);
+      
           destinationItems.forEach(destinationItem => {
             if (!mediaGallerySource.querySelector(`[data-media-id="${destinationItem.dataset.mediaId}"]`)) {
+              console.log("Voeg nieuw item toe:", destinationItem);
               mediaGallerySource.appendChild(destinationItem.cloneNode(true));
             }
           });
@@ -309,23 +327,30 @@ if (!customElements.get('product-info')) {
         // Sorteer items in de juiste volgorde
         const sortMediaItems = () => {
           const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item'));
-          const sourceItems = Array.from(mediaGallerySource.querySelectorAll('.product__media-item'));
-          
+          console.log("Sorteer items volgens bestemming:", destinationItems);
+      
           destinationItems.forEach((destinationItem, index) => {
             const sourceItem = mediaGallerySource.querySelector(`[data-media-id="${destinationItem.dataset.mediaId}"]`);
             if (sourceItem) {
+              console.log(`Verplaats item naar index ${index}:`, sourceItem);
               mediaGallerySource.insertBefore(sourceItem, mediaGallerySource.children[index]);
             }
           });
         };
       
+        console.log("Start filtering...");
         filterMediaByVariant();
+      
+        console.log("Toevoegen van nieuwe items...");
         addNewMediaItems();
+      
+        console.log("Sorteren van items...");
         sortMediaItems();
       
         // Activeer uitgelichte media
         const featuredMedia = this.querySelector('.product__media-item.featured-media');
         if (featuredMedia) {
+          console.log("Markeer uitgelichte media als actief:", featuredMedia);
           featuredMedia.classList.add('active');
         }
       
@@ -333,8 +358,11 @@ if (!customElements.get('product-info')) {
         const modalContent = this.querySelector('.product-media-modal__content');
         const newModalContent = html.querySelector('product-modal .product-media-modal__content');
         if (modalContent && newModalContent) {
+          console.log("Bijwerken van modal-content...");
           modalContent.innerHTML = newModalContent.innerHTML;
         }
+      
+        console.log("updateMedia voltooid.");
       };
       
       setQuantityBoundries() {
