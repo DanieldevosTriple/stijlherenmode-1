@@ -152,32 +152,9 @@ if (!customElements.get('product-info')) {
 
       getSelectedVariant(productInfoNode) {
         const selectedVariant = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
-        if (selectedVariant) {
-          const parsedVariant = JSON.parse(selectedVariant);
-          console.log('[getSelectedVariant] Parsed Variant:', parsedVariant); // Controleer alle attributen
-          return parsedVariant;
-        }
-        return null;
+        return !!selectedVariant ? JSON.parse(selectedVariant) : null;
       }
 
-      getSelectedVariant(variantName) {
-        // Haal de geselecteerde variant op uit de data-attribute
-        const selectedVariant = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
-        if (selectedVariant) {
-          // Parseer de JSON-string naar een object
-          const parsedVariant = JSON.parse(selectedVariant);
-      
-          // Retourneer alleen de benodigde attributen of het hele object
-          return {
-            option1: parsedVariant.option1, // Bijvoorbeeld de kleur
-            featuredMediaSrc: parsedVariant.featured_media?.preview_image?.src || null, // Afbeelding
-          };
-        }
-      
-        console.warn('[getSelectedVariant] No selected variant found');
-        return null;
-      }
-      
       buildRequestUrlWithParams(url, optionValues, shouldFetchFullPage = false) {
         const params = [];
 
@@ -257,36 +234,13 @@ if (!customElements.get('product-info')) {
         });
       }
 
-      /**
-       * Update de URL van de pagina en het share-element.
-       * 
-       * @param {string} url - De basis-URL van het product.
-       * @param {string | null} variantId - De ID van de geselecteerde variant (optioneel).
-       */
       updateURL(url, variantId) {
-        // Bouw de nieuwe URL op basis van de product-URL en variant-ID
-        const newUrl = `${window.shopUrl}${url}${variantId ? `?variant=${variantId}` : ''}`;
-        
-        console.log('[updateURL] New URL:', newUrl); // Log de nieuwe URL
+        this.querySelector('share-button')?.updateUrl(
+          `${window.shopUrl}${url}${variantId ? `?variant=${variantId}` : ''}`
+        );
 
-        // Update de share-button URL als deze bestaat
-        const shareButton = this.querySelector('share-button');
-        if (shareButton) {
-          console.log('[updateURL] Updating share-button URL');
-          shareButton.updateUrl(newUrl);
-        } else {
-          console.warn('[updateURL] Share-button element not found');
-        }
-
-        // Controleer of de URL niet moet worden geüpdatet in de browsergeschiedenis
-        if (this.dataset.updateUrl === 'false') {
-          console.log('[updateURL] URL update in browser history disabled');
-          return;
-        }
-
-        // Vervang de huidige browsergeschiedenis met de nieuwe URL
-        console.log('[updateURL] Updating browser history to:', newUrl);
-        window.history.replaceState({}, '', newUrl);
+        if (this.dataset.updateUrl === 'false') return;
+        window.history.replaceState({}, '', `${url}${variantId ? `?variant=${variantId}` : ''}`);
       }
 
       setUnavailable() {
