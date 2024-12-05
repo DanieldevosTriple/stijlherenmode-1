@@ -1,15 +1,3 @@
-  // Declareer selectedInput buiten de functie
-  let selectedInput = null;
-
-  // Functie om de geselecteerde kleur op te halen
-  const getSelectedColor = () => {
-    selectedInput = document.querySelector('input[type="radio"][name^="Color"]:checked');
-    return selectedInput ? selectedInput.value : null;
-  };
-
-  // Exporteren van selectedInput en getSelectedColor
-  export { selectedInput, getSelectedColor };
-
 document.addEventListener('DOMContentLoaded', function () {
   // Selecteer de titel en het JSON-script dat de variantinformatie bevat
   const productTitle = document.querySelector('.product__title h1');
@@ -30,6 +18,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const baseTitle = productTitle.closest('.product__title').getAttribute('data-title');
     productTitle.textContent = `${baseTitle} - ${color}`;
     console.log(`Updated title to: ${baseTitle} - ${color}`);
+  };
+
+  // Functie om de geselecteerde kleur op te halen
+  const getSelectedColor = () => {
+    const selectedInput = document.querySelector('input[type="radio"][name^="Color"]:checked');
+    export default selectedInput;
+    return selectedInput ? selectedInput.value : null;
   };
 
   // Initialiseer de titel met de geselecteerde variant
