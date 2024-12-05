@@ -20,24 +20,10 @@ if (!customElements.get('product-info')) {
         console.log('[ProductInfo] Quantity Input:', this.quantityInput);
       }
 
-      connectedCallback() {
-        this.initializeProductSwapUtility();
-
-        this.onVariantChangeUnsubscriber = subscribe(
-          PUB_SUB_EVENTS.optionValueSelectionChange,
-          this.handleOptionValueChange.bind(this)
-        );
-
-        this.initQuantityHandlers();
-        this.dispatchEvent(new CustomEvent('product-info:loaded', { bubbles: true }));
-      }
-
       /**
        * Update de producttitel met de optie 1 die overeenkomt met de variant-ID in de URL.
-       * 
-       * @param {HTMLElement} productInfoNode - Het DOM-element dat de productinformatie bevat.
        */
-      function updateProductTitleWithVariant(productInfoNode) {
+      updateProductTitleWithVariant() {
         // Haal de huidige URL-variant-ID op uit de queryparameters
         const urlParams = new URLSearchParams(window.location.search);
         const variantIdFromUrl = urlParams.get('variant');
@@ -50,7 +36,7 @@ if (!customElements.get('product-info')) {
         }
 
         // Zoek de geselecteerde variant op basis van de JSON in het DOM
-        const selectedVariantJson = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
+        const selectedVariantJson = this.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
 
         if (!selectedVariantJson) {
           console.warn('[updateProductTitleWithVariant] No selected variant JSON found');
@@ -89,6 +75,17 @@ if (!customElements.get('product-info')) {
         console.log('[updateProductTitleWithVariant] Updated Product Title:', productTitleElement.textContent);
       }
 
+      connectedCallback() {
+        this.initializeProductSwapUtility();
+
+        this.onVariantChangeUnsubscriber = subscribe(
+          PUB_SUB_EVENTS.optionValueSelectionChange,
+          this.handleOptionValueChange.bind(this)
+        );
+
+        this.initQuantityHandlers();
+        this.dispatchEvent(new CustomEvent('product-info:loaded', { bubbles: true }));
+      }
 
       addPreProcessCallback(callback) {
         this.preProcessHtmlCallbacks.push(callback);
