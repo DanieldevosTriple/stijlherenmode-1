@@ -95,24 +95,24 @@ if (!customElements.get('product-info')) {
         productForm?.handleErrorMessage();
       }
 
-      handleSwapProduct(productUrl, updateFullPage) {
+      handleSwapProduct(productUrl) {
         // Verwerk het wisselen van producten
         return (html) => {
           this.productModal?.remove();
-
-          const selector = updateFullPage ? "product-info[id^='MainProduct']" : 'product-info';
+      
+          const selector = "product-info[id^='MainProduct']"; // Altijd het volledige product-info blok kiezen
           const variant = this.getSelectedVariant(html.querySelector(selector));
           this.updateURL(productUrl, variant?.id);
-
+      
+          // Altijd de volledige pagina bijwerken
           document.querySelector('head title').innerHTML = html.querySelector('head title').innerHTML;
-
-            HTMLUpdateUtility.viewTransition(
-              document.querySelector('main'),
-              html.querySelector('main'),
-              this.preProcessHtmlCallbacks,
-              this.postProcessHtmlCallbacks
-            );
-          }
+      
+          HTMLUpdateUtility.viewTransition(
+            document.querySelector('main'),
+            html.querySelector('main'),
+            this.preProcessHtmlCallbacks,
+            this.postProcessHtmlCallbacks
+          );
         };
       }
 
