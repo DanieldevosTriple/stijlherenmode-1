@@ -294,10 +294,7 @@ if (!customElements.get('product-info')) {
       
         console.log("Start updateMedia met variantFeaturedMediaId:", variantFeaturedMediaId);
       
-        const variantColor = this.querySelector(`.product__media-item[data-variant-color="${variantFeaturedMediaId}"]`);
-        console.log("Variantkleur-item gevonden:", variantColor);
-      
-        // Filter items op basis van data-variant-color
+        // Filter items op basis van variant
         const filterMediaByVariant = () => {
           const mediaItems = Array.from(mediaGallerySource.querySelectorAll('.product__media-item'));
           console.log("Filter media-items op variant:", mediaItems);
@@ -305,7 +302,7 @@ if (!customElements.get('product-info')) {
           mediaItems.forEach(item => {
             const color = item.getAttribute('data-variant-color');
             if (color && color !== 'all' && color !== variantFeaturedMediaId) {
-              console.log("Verwijder item met color:", color, item);
+              console.log("Verwijder item met kleur:", color, item);
               item.remove();
             }
           });
@@ -324,19 +321,25 @@ if (!customElements.get('product-info')) {
           });
         };
       
-        // Sorteer items in omgekeerde volgorde
+        // Sorteer items in de juiste volgorde, waarbij featured bovenaan komt
         const sortMediaItems = () => {
-          // Haal alle items van de bestemming op en keer de volgorde om
-          const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item')).reverse();
-          console.log("Sorteer items in omgekeerde volgorde volgens bestemming:", destinationItems);
-
+          const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item'));
+          console.log("Sorteer items volgens bestemming:", destinationItems);
+      
           destinationItems.forEach((destinationItem, index) => {
             const sourceItem = mediaGallerySource.querySelector(`[data-media-id="${destinationItem.dataset.mediaId}"]`);
             if (sourceItem) {
-              console.log(`Verplaats item naar omgekeerde index ${index}:`, sourceItem);
+              console.log(`Verplaats item naar index ${index}:`, sourceItem);
               mediaGallerySource.insertBefore(sourceItem, mediaGallerySource.children[index]);
             }
           });
+      
+          // Forceer de featured-media bovenaan
+          const featuredMedia = mediaGallerySource.querySelector('.product__media-item.featured-media');
+          if (featuredMedia) {
+            console.log("Plaats featured-media bovenaan:", featuredMedia);
+            mediaGallerySource.insertBefore(featuredMedia, mediaGallerySource.firstChild);
+          }
         };
       
         console.log("Start filtering...");
@@ -364,7 +367,7 @@ if (!customElements.get('product-info')) {
         }
       
         console.log("updateMedia voltooid.");
-      };
+      }
       
       setQuantityBoundries() {
         const data = {
