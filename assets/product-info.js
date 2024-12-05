@@ -88,15 +88,24 @@ if (!customElements.get('product-info')) {
        * Behandel wijzigingen in de geselecteerde productopties.
        */
       handleOptionValueChange({ data: { event, target, selectedOptionValues } }) {
-        if (!this.contains(event.target)) return;
+        console.log('[ProductInfo] Option value change detected:', selectedOptionValues);
 
-        this.resetProductFormState(); // Reset de productformulierstatus
+        if (!this.contains(event.target)) {
+          console.warn('[ProductInfo] Event target not part of this component');
+          return;
+        }
+
+        this.resetProductFormState(); // Reset de formulierstatus
 
         const productUrl = target.dataset.productUrl || this.pendingRequestUrl || this.dataset.url;
         this.pendingRequestUrl = productUrl;
 
         const shouldSwapProduct = this.dataset.url !== productUrl;
         const shouldFetchFullPage = this.dataset.updateUrl === 'true' && shouldSwapProduct;
+
+        console.log('[ProductInfo] Product URL:', productUrl);
+        console.log('[ProductInfo] Should Swap Product:', shouldSwapProduct);
+        console.log('[ProductInfo] Should Fetch Full Page:', shouldFetchFullPage);
 
         this.renderProductInfo({
           requestUrl: this.buildRequestUrlWithParams(productUrl, selectedOptionValues, shouldFetchFullPage),
