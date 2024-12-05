@@ -68,48 +68,17 @@ if (!customElements.get('product-info')) {
         });
       }
 
-      updateTitle(selectedOption) {
-        // Zoek het producttitel-element
-        const productTitle = this.querySelector('.product__title');
-        if (!productTitle) return;
-      
-        // Haal de originele titel op uit het data-attribuut
-        const baseTitle = productTitle.getAttribute('data-title');
-        if (!baseTitle) return;
-      
-        // Werk de inhoud van de titel bij
-        const titleElement = productTitle.querySelector('h1');
-        if (titleElement) {
-          titleElement.textContent = `${baseTitle} - ${selectedOption}`;
-          console.log(`Updated title to: ${baseTitle} - ${selectedOption}`);
-        }
-      }
-      
-
       handleOptionValueChange({ data: { event, target, selectedOptionValues } }) {
+        // Behandel wijzigingen in de gekozen opties van het product
         if (!this.contains(event.target)) return;
-      
+
         this.resetProductFormState();
-      
+
         const productUrl = target.dataset.productUrl || this.pendingRequestUrl || this.dataset.url;
         this.pendingRequestUrl = productUrl;
         const shouldSwapProduct = this.dataset.url !== productUrl;
         const shouldFetchFullPage = this.dataset.updateUrl === 'true' && shouldSwapProduct;
-      
-        // Debug: Werk de titel bij met de geselecteerde optie (bijvoorbeeld kleur)
-        console.log('Selected Option Values:', selectedOptionValues); // Controleer wat er in selectedOptionValues zit
 
-        const selectedOption = selectedOptionValues?.[0]; // Neem de eerste optie
-        console.log('Selected Option:', selectedOption); // Controleer welke optie geselecteerd is
-
-        if (selectedOption) {
-          console.log(`Updating title with option: ${selectedOption}`); // Bevestig dat we de titel gaan bijwerken
-          this.updateTitle(selectedOption);
-        } else {
-          console.log('No valid option selected. Title update skipped.');
-        }
-
-      
         this.renderProductInfo({
           requestUrl: this.buildRequestUrlWithParams(productUrl, selectedOptionValues, shouldFetchFullPage),
           targetId: target.id,
@@ -117,7 +86,7 @@ if (!customElements.get('product-info')) {
             ? this.handleSwapProduct(productUrl, shouldFetchFullPage)
             : this.handleUpdateProductInfo(productUrl),
         });
-      }      
+      }
 
       resetProductFormState() {
         // Reset de status van het formulier
@@ -127,32 +96,43 @@ if (!customElements.get('product-info')) {
       }
 
       handleSwapProduct(productUrl, updateFullPage) {
-        // Verwerk het wisselen van producten
         return (html) => {
           this.productModal?.remove();
-
-          const selector = updateFullPage ? "product-info[id^='MainProduct']" : 'product-info';
+      
+          const selector = updateFullPage ? "product-info[id^='MainProduct']" : "product-info";
           const variant = this.getSelectedVariant(html.querySelector(selector));
           this.updateURL(productUrl, variant?.id);
-
+      
+          if (variant?.id) {
+            // Update de titel met de variant-ID
+            this.updatePageTitleWithVariantId(variant.id);
+          }
+      
           if (updateFullPage) {
-            document.querySelector('head title').innerHTML = html.querySelector('head title').innerHTML;
-
+            document.querySelector("head title").innerHTML = html.querySelector("head title").innerHTML;
+      
             HTMLUpdateUtility.viewTransition(
-              document.querySelector('main'),
-              html.querySelector('main'),
+              document.querySelector("main"),
+              html.querySelector("main"),
               this.preProcessHtmlCallbacks,
               this.postProcessHtmlCallbacks
             );
           } else {
             HTMLUpdateUtility.viewTransition(
               this,
-              html.querySelector('product-info'),
+              html.querySelector("product-info"),
               this.preProcessHtmlCallbacks,
               this.postProcessHtmlCallbacks
             );
           }
         };
+      }
+      
+      // Helper methode om de titel bij te werken
+      updatePageTitleWithVariantId(variantId) {
+        const originalTitle = document.querySelector("title").dataset.originalTitle || document.title;
+        document.querySelector("title").dataset.originalTitle = originalTitle; // Bewaar originele titel
+        document.title = `${originalTitle} - ${variantId}`;
       }
 
       renderProductInfo({ requestUrl, targetId, callback }) {
