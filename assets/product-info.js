@@ -152,9 +152,14 @@ if (!customElements.get('product-info')) {
 
       getSelectedVariant(productInfoNode) {
         const selectedVariant = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
-        return !!selectedVariant ? JSON.parse(selectedVariant) : null;
+        if (selectedVariant) {
+          const parsedVariant = JSON.parse(selectedVariant);
+          console.log('[getSelectedVariant] Parsed Variant:', parsedVariant); // Controleer alle attributen
+          return parsedVariant;
+        }
+        return null;
       }
-
+      
       buildRequestUrlWithParams(url, optionValues, shouldFetchFullPage = false) {
         const params = [];
 
