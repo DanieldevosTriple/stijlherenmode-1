@@ -324,15 +324,16 @@ if (!customElements.get('product-info')) {
           });
         };
       
-        // Sorteer items in de juiste volgorde
+        // Sorteer items in omgekeerde volgorde
         const sortMediaItems = () => {
-          const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item'));
-          console.log("Sorteer items volgens bestemming:", destinationItems);
-      
+          // Haal alle items van de bestemming op en keer de volgorde om
+          const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item')).reverse();
+          console.log("Sorteer items in omgekeerde volgorde volgens bestemming:", destinationItems);
+
           destinationItems.forEach((destinationItem, index) => {
             const sourceItem = mediaGallerySource.querySelector(`[data-media-id="${destinationItem.dataset.mediaId}"]`);
             if (sourceItem) {
-              console.log(`Verplaats item naar index ${index}:`, sourceItem);
+              console.log(`Verplaats item naar omgekeerde index ${index}:`, sourceItem);
               mediaGallerySource.insertBefore(sourceItem, mediaGallerySource.children[index]);
             }
           });
