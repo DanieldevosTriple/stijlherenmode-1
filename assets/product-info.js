@@ -139,6 +139,7 @@ if (!customElements.get('product-info')) {
 
       getSelectedVariant(productInfoNode) {
         const selectedVariant = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
+        console.log('Selected Variant (raw):', selectedVariant); // Log the raw selected variant
         return !!selectedVariant ? JSON.parse(selectedVariant) : null;
       }
 
