@@ -234,13 +234,36 @@ if (!customElements.get('product-info')) {
         });
       }
 
+      /**
+       * Update de URL van de pagina en het share-element.
+       * 
+       * @param {string} url - De basis-URL van het product.
+       * @param {string | null} variantId - De ID van de geselecteerde variant (optioneel).
+       */
       updateURL(url, variantId) {
-        this.querySelector('share-button')?.updateUrl(
-          `${window.shopUrl}${url}${variantId ? `?variant=${variantId}` : ''}`
-        );
+        // Bouw de nieuwe URL op basis van de product-URL en variant-ID
+        const newUrl = `${window.shopUrl}${url}${variantId ? `?variant=${variantId}` : ''}`;
+        
+        console.log('[updateURL] New URL:', newUrl); // Log de nieuwe URL
 
-        if (this.dataset.updateUrl === 'false') return;
-        window.history.replaceState({}, '', `${url}${variantId ? `?variant=${variantId}` : ''}`);
+        // Update de share-button URL als deze bestaat
+        const shareButton = this.querySelector('share-button');
+        if (shareButton) {
+          console.log('[updateURL] Updating share-button URL');
+          shareButton.updateUrl(newUrl);
+        } else {
+          console.warn('[updateURL] Share-button element not found');
+        }
+
+        // Controleer of de URL niet moet worden geüpdatet in de browsergeschiedenis
+        if (this.dataset.updateUrl === 'false') {
+          console.log('[updateURL] URL update in browser history disabled');
+          return;
+        }
+
+        // Vervang de huidige browsergeschiedenis met de nieuwe URL
+        console.log('[updateURL] Updating browser history to:', newUrl);
+        window.history.replaceState({}, '', newUrl);
       }
 
       setUnavailable() {
