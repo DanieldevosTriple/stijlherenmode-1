@@ -32,6 +32,64 @@ if (!customElements.get('product-info')) {
         this.dispatchEvent(new CustomEvent('product-info:loaded', { bubbles: true }));
       }
 
+      /**
+       * Update de producttitel met de optie 1 die overeenkomt met de variant-ID in de URL.
+       * 
+       * @param {HTMLElement} productInfoNode - Het DOM-element dat de productinformatie bevat.
+       */
+      function updateProductTitleWithVariant(productInfoNode) {
+        // Haal de huidige URL-variant-ID op uit de queryparameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const variantIdFromUrl = urlParams.get('variant');
+
+        console.log('[updateProductTitleWithVariant] Variant ID from URL:', variantIdFromUrl);
+
+        if (!variantIdFromUrl) {
+          console.warn('[updateProductTitleWithVariant] No variant ID found in the URL');
+          return;
+        }
+
+        // Zoek de geselecteerde variant op basis van de JSON in het DOM
+        const selectedVariantJson = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
+
+        if (!selectedVariantJson) {
+          console.warn('[updateProductTitleWithVariant] No selected variant JSON found');
+          return;
+        }
+
+        // Parseer de JSON-string naar een object
+        const parsedVariant = JSON.parse(selectedVariantJson);
+        console.log('[updateProductTitleWithVariant] Parsed Variant Data:', parsedVariant);
+
+        // Controleer of de variant-ID overeenkomt met de ID in de URL
+        if (parsedVariant.id.toString() !== variantIdFromUrl) {
+          console.warn('[updateProductTitleWithVariant] Variant ID does not match URL ID');
+          return;
+        }
+
+        // Haal `option1` (bijvoorbeeld kleur) op
+        const option1 = parsedVariant.option1;
+
+        if (!option1) {
+          console.warn('[updateProductTitleWithVariant] No option1 found for the selected variant');
+          return;
+        }
+
+        // Update de producttitel in de DOM
+        const productTitleElement = document.querySelector('.product__title h1');
+        const defaultTitle = productTitleElement?.dataset.defaultTitle || '';
+
+        if (!productTitleElement) {
+          console.warn('[updateProductTitleWithVariant] Product title element not found');
+          return;
+        }
+
+        // Update de titel en voeg `option1` toe
+        productTitleElement.textContent = `${defaultTitle} - ${option1}`;
+        console.log('[updateProductTitleWithVariant] Updated Product Title:', productTitleElement.textContent);
+      }
+
+
       addPreProcessCallback(callback) {
         this.preProcessHtmlCallbacks.push(callback);
       }
@@ -129,16 +187,19 @@ if (!customElements.get('product-info')) {
       renderProductInfo({ requestUrl, targetId, callback }) {
         this.abortController?.abort();
         this.abortController = new AbortController();
-
+      
         fetch(requestUrl, { signal: this.abortController.signal })
           .then((response) => response.text())
           .then((responseText) => {
             this.pendingRequestUrl = null;
             const html = new DOMParser().parseFromString(responseText, 'text/html');
             callback(html);
+      
+            // Update de producttitel na een succesvolle update
+            updateProductTitleWithVariant(this);
           })
           .then(() => {
-            // set focus to last clicked option value
+            // Focus terugzetten op de laatste geklikte optie
             document.querySelector(`#${targetId}`)?.focus();
           })
           .catch((error) => {
@@ -148,7 +209,7 @@ if (!customElements.get('product-info')) {
               console.error(error);
             }
           });
-      }
+      }      
 
       getSelectedVariant(productInfoNode) {
         // Haal de geselecteerde variant op uit de data-attribute
