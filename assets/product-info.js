@@ -156,41 +156,24 @@ if (!customElements.get('product-info')) {
         if (selectedVariant) {
           // Parse the JSON string into an object
           const parsedVariant = JSON.parse(selectedVariant);
-          console.log('[getSelectedVariant] Parsed Variant:', parsedVariant); // Controleer alle attributen
-          // Return only the necessary attributes
+          
+          // Haal de gewenste attributen op
+          const option1 = parsedVariant.option1; // Bijvoorbeeld, de kleur
+          const featuredMediaSrc = parsedVariant.featured_media?.preview_image?.src || null; // Afbeelding
+          
+          // Specifieke console logs voor option1 en featuredMediaSrc
+          console.log('[getSelectedVariant] Option 1:', option1);
+          console.log('[getSelectedVariant] Featured Media Src:', featuredMediaSrc);
+      
+          // Return alleen de benodigde attributen
           return {
-            option1: parsedVariant.option1, // For example, the color
-            featuredMediaSrc: parsedVariant.featured_media?.preview_image?.src || null, // Image
+            option1,
+            featuredMediaSrc,
           };
         }
       
         console.warn('[getSelectedVariant] No selected variant found');
         return null;
-      }
-
-      updateProductTitle(productInfoNode) {
-        // Get the selected variant
-        const selectedVariant = getSelectedVariant(productInfoNode);
-      
-        // Check if a variant is selected
-        if (selectedVariant) {
-          const option1 = selectedVariant.option1; // Retrieve the color or first option
-          const productTitleNode = productInfoNode.querySelector('.product__title h1'); // Select the product title element
-      
-          if (productTitleNode) {
-            // Fetch the default title from the data attribute
-            const defaultTitle = productTitleNode.parentElement.getAttribute('data-default-title');
-      
-            // Update the title with "Product Title - Option1"
-            productTitleNode.textContent = option1
-              ? `${defaultTitle} - ${option1}`
-              : defaultTitle;
-          } else {
-            console.warn('[updateProductTitle] Product title element not found');
-          }
-        } else {
-          console.warn('[updateProductTitle] No variant data to update the title');
-        }
       }
       
       buildRequestUrlWithParams(url, optionValues, shouldFetchFullPage = false) {
