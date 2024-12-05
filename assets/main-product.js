@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
     return selectedInput ? selectedInput.value : null;
   };
 
+  // Exporteren, indien nodig
+  export { getSelectedColor };
+
   // Initialiseer de titel met de geselecteerde variant
   const initialColor = getSelectedColor();
   if (initialColor) {
