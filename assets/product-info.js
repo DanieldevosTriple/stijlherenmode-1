@@ -11,10 +11,13 @@ if (!customElements.get('product-info')) {
       preProcessHtmlCallbacks = [];
       postProcessHtmlCallbacks = [];
 
+      // Constructor: initialisatie van de class
       constructor() {
         super();
-
+        console.log('[ProductInfo] Constructor called');
+        // Zoek het hoeveelheid-invoerveld in de DOM
         this.quantityInput = this.querySelector('.quantity__input');
+        console.log('[ProductInfo] Quantity Input:', this.quantityInput);
       }
 
       connectedCallback() {
