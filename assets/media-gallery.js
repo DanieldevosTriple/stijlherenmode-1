@@ -14,6 +14,9 @@ radioButtons.forEach(radio => {
 
     // Haal de afbeelding-URL op uit het data-attribuut
     const imageUrl = radio.getAttribute('data-variant-image');
+
+    // Log de opgehaalde afbeelding-URL
+    console.log(`Afbeeldings-URL opgehaald: ${imageUrl}`);
     
     if (imageUrl) {
       // Update de src van de afbeelding
