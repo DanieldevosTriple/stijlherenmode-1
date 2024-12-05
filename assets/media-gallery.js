@@ -11,12 +11,19 @@ radioButtons.forEach(radio => {
   radio.addEventListener('change', () => {
     // Log de waarde van de geselecteerde radio button
     console.log(`Geselecteerde waarde: ${radio.value}`);
-    
-    // Update de src van de afbeelding
-    image.src = radio.value;
 
-    // Log de nieuwe afbeelding die is ingesteld
-    console.log(`Afbeeldingsbron aangepast naar: ${image.src}`);
+    // Haal de afbeelding-URL op uit het data-attribuut
+    const imageUrl = radio.getAttribute('data-variant-image');
+    
+    if (imageUrl) {
+      // Update de src van de afbeelding
+      image.src = imageUrl;
+
+      // Log de nieuwe afbeelding-URL
+      console.log(`Afbeeldingsbron aangepast naar: ${imageUrl}`);
+    } else {
+      console.error('Geen afbeelding gevonden voor de geselecteerde variant.');
+    }
     
     // Loop door alle thumbnails en toon/verberg op basis van data-variant-color
     thumbnails.forEach(thumbnail => {
