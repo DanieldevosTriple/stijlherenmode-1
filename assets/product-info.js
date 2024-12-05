@@ -335,7 +335,7 @@ if (!customElements.get('product-info')) {
 
           mediaItems.forEach((item) => {
             const isFeatured = item.dataset.mediaId === variantFeaturedMediaId;
-            const isFeaturedId = item.dataset.mediaId?.toLowerCase().includes('featured');
+            const isFeaturedId = item.dataset.mediaId?.toLowerCase().includes('featured-image');
             const color = item.getAttribute('data-variant-color');
 
             // Alleen filteren als het geen featured-media is en de ID niet "featured" bevat
