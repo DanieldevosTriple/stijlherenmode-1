@@ -278,77 +278,64 @@ if (!customElements.get('product-info')) {
       updateMedia(html, variantFeaturedMediaId) {
         if (!variantFeaturedMediaId) return;
       
-        // Zoek de bron- en bestemmingsmedia-galerijen
         const mediaGallerySource = this.querySelector('media-gallery');
         const mediaGalleryDestination = html.querySelector('media-gallery');
       
-        const refreshSourceData = () => {
-          // Zoomen bij hover indien ingesteld
-          if (this.hasAttribute('data-zoom-on-hover')) enableZoomOnHover(2);
+        if (!mediaGallerySource || !mediaGalleryDestination) return;
       
-          // Verzamelen van de media-items
-          const mediaGallerySourceItems = Array.from(mediaGallerySource.querySelectorAll('.product__media-item[data-media-id]'));
-          const sourceSet = new Set(mediaGallerySourceItems.map((item) => item.dataset.mediaId));
-          const sourceMap = new Map(
-            mediaGallerySourceItems.map((item, index) => [item.dataset.mediaId, { item, index }])
-          );
-          return [mediaGallerySourceItems, sourceSet, sourceMap];
-        };
-      
-        if (mediaGallerySource && mediaGalleryDestination) {
-          let [mediaGallerySourceItems, sourceSet, sourceMap] = refreshSourceData();
-          const mediaGalleryDestinationItems = Array.from(
-            mediaGalleryDestination.querySelectorAll('.product__media-item[data-media-id]')
-          );
-          const destinationSet = new Set(mediaGalleryDestinationItems.map(({ dataset }) => dataset.mediaId));
-          let shouldRefresh = false;
-      
-          // Voeg items uit de nieuwe gegevens toe die nog niet in de DOM aanwezig zijn
-          for (let i = mediaGalleryDestinationItems.length - 1; i >= 0; i--) {
-            if (!sourceSet.has(mediaGalleryDestinationItems[i].dataset.mediaId)) {
-              mediaGallerySource.prepend(mediaGalleryDestinationItems[i]);
-              shouldRefresh = true;
-            }
-          }
-      
-          // Verwijder items uit de DOM die niet aanwezig zijn in de nieuwe gegevens
-          for (let i = 0; i < mediaGallerySourceItems.length; i++) {
-            if (!destinationSet.has(mediaGallerySourceItems[i].dataset.mediaId)) {
-              mediaGallerySourceItems[i].remove();
-              shouldRefresh = true;
-            }
-          }
-      
-          // Vernieuw de gegevens
-          if (shouldRefresh) [mediaGallerySourceItems, sourceSet, sourceMap] = refreshSourceData();
-      
-          // Sorteer de galerijitems om de volgorde van de nieuwe gegevens te matchen
-          mediaGalleryDestinationItems.forEach((destinationItem, destinationIndex) => {
-            const sourceData = sourceMap.get(destinationItem.dataset.mediaId);
-      
-            if (sourceData && sourceData.index !== destinationIndex) {
-              mediaGallerySource.insertBefore(
-                sourceData.item,
-                mediaGallerySource.querySelector(`.product__media-item:nth-of-type(${destinationIndex + 1})`)
-              );
-      
-              // Vernieuw de bron na wijziging
-              [mediaGallerySourceItems, sourceSet, sourceMap] = refreshSourceData();
+        const variantColor = this.querySelector(`.product__media-item[data-variant-color="${variantFeaturedMediaId}"]`);
+        
+        // Filter items op basis van data-variant-color
+        const filterMediaByVariant = () => {
+          const mediaItems = Array.from(mediaGallerySource.querySelectorAll('.product__media-item'));
+          mediaItems.forEach(item => {
+            const color = item.getAttribute('data-variant-color');
+            if (color && color !== 'all' && color !== variantFeaturedMediaId) {
+              item.remove(); // Verwijder niet-toepasbare items
             }
           });
-        }
+        };
       
-        // Zet de uitgelichte media als actief
-        const featuredMedia = this.querySelector(`.product__media-item.featured-media`);
+        // Voeg nieuwe items toe vanuit de bestemming naar de bron
+        const addNewMediaItems = () => {
+          const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item'));
+          destinationItems.forEach(destinationItem => {
+            if (!mediaGallerySource.querySelector(`[data-media-id="${destinationItem.dataset.mediaId}"]`)) {
+              mediaGallerySource.appendChild(destinationItem.cloneNode(true));
+            }
+          });
+        };
+      
+        // Sorteer items in de juiste volgorde
+        const sortMediaItems = () => {
+          const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item'));
+          const sourceItems = Array.from(mediaGallerySource.querySelectorAll('.product__media-item'));
+          
+          destinationItems.forEach((destinationItem, index) => {
+            const sourceItem = mediaGallerySource.querySelector(`[data-media-id="${destinationItem.dataset.mediaId}"]`);
+            if (sourceItem) {
+              mediaGallerySource.insertBefore(sourceItem, mediaGallerySource.children[index]);
+            }
+          });
+        };
+      
+        filterMediaByVariant();
+        addNewMediaItems();
+        sortMediaItems();
+      
+        // Activeer uitgelichte media
+        const featuredMedia = this.querySelector('.product__media-item.featured-media');
         if (featuredMedia) {
-          featuredMedia.classList.add('active'); // Zorg ervoor dat de actieve media correct wordt gemarkeerd
+          featuredMedia.classList.add('active');
         }
       
-        // Update de modalcontent van de media
-        const modalContent = this.productModal?.querySelector(`.product-media-modal__content`);
-        const newModalContent = html.querySelector(`product-modal .product-media-modal__content`);
-        if (modalContent && newModalContent) modalContent.innerHTML = newModalContent.innerHTML;
-      }
+        // Update modal-content indien aanwezig
+        const modalContent = this.querySelector('.product-media-modal__content');
+        const newModalContent = html.querySelector('product-modal .product-media-modal__content');
+        if (modalContent && newModalContent) {
+          modalContent.innerHTML = newModalContent.innerHTML;
+        }
+      };
       
       setQuantityBoundries() {
         const data = {
