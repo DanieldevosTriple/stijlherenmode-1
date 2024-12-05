@@ -151,24 +151,26 @@ if (!customElements.get('product-info')) {
       }
 
       getSelectedVariant(productInfoNode) {
-        // Fetch the selected variant from the data attribute
         const selectedVariant = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
         if (selectedVariant) {
-          // Parse the JSON string into an object
           const parsedVariant = JSON.parse(selectedVariant);
-          
-          // Haal de gewenste attributen op
-          const option1 = parsedVariant.option1; // Bijvoorbeeld, de kleur
-          const featuredMediaSrc = parsedVariant.featured_media?.preview_image?.src || null; // Afbeelding
-          
-          // Specifieke console logs voor option1 en featuredMediaSrc
-          console.log('[getSelectedVariant] Option 1:', option1);
-          console.log('[getSelectedVariant] Featured Media Src:', featuredMediaSrc);
+          console.log('[getSelectedVariant] Parsed Variant:', parsedVariant); // Controleer alle attributen
+          return parsedVariant;
+        }
+        return null;
+      }
+
+      getSelectedVariant(variantName) {
+        // Haal de geselecteerde variant op uit de data-attribute
+        const selectedVariant = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
+        if (selectedVariant) {
+          // Parseer de JSON-string naar een object
+          const parsedVariant = JSON.parse(selectedVariant);
       
-          // Return alleen de benodigde attributen
+          // Retourneer alleen de benodigde attributen of het hele object
           return {
-            option1,
-            featuredMediaSrc,
+            option1: parsedVariant.option1, // Bijvoorbeeld de kleur
+            featuredMediaSrc: parsedVariant.featured_media?.preview_image?.src || null, // Afbeelding
           };
         }
       
