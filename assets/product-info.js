@@ -151,25 +151,46 @@ if (!customElements.get('product-info')) {
       }
 
       getSelectedVariant(productInfoNode) {
-        // Haal de geselecteerde variant op uit de data-attribute
+        // Fetch the selected variant from the data attribute
         const selectedVariant = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
         if (selectedVariant) {
-          // Parseer de JSON-string naar een object
+          // Parse the JSON string into an object
           const parsedVariant = JSON.parse(selectedVariant);
           console.log('[getSelectedVariant] Parsed Variant:', parsedVariant); // Controleer alle attributen
-      
-          // Sla `option1` en `featured_media.src` apart op
-          const option1 = parsedVariant.option1;
-          const featuredMediaSrc = parsedVariant.featured_media?.preview_image?.src || null;
-      
-          console.log('[getSelectedVariant] Option1:', option1);
-          console.log('[getSelectedVariant] Featured Media Src:', featuredMediaSrc);
-      
-          return result; // Retourneer de variant inclusief de extra opgeslagen attributen
+          // Return only the necessary attributes
+          return {
+            option1: parsedVariant.option1, // For example, the color
+            featuredMediaSrc: parsedVariant.featured_media?.preview_image?.src || null, // Image
+          };
         }
       
         console.warn('[getSelectedVariant] No selected variant found');
         return null;
+      }
+
+      updateProductTitle(productInfoNode) {
+        // Get the selected variant
+        const selectedVariant = getSelectedVariant(productInfoNode);
+      
+        // Check if a variant is selected
+        if (selectedVariant) {
+          const option1 = selectedVariant.option1; // Retrieve the color or first option
+          const productTitleNode = productInfoNode.querySelector('.product__title h1'); // Select the product title element
+      
+          if (productTitleNode) {
+            // Fetch the default title from the data attribute
+            const defaultTitle = productTitleNode.parentElement.getAttribute('data-default-title');
+      
+            // Update the title with "Product Title - Option1"
+            productTitleNode.textContent = option1
+              ? `${defaultTitle} - ${option1}`
+              : defaultTitle;
+          } else {
+            console.warn('[updateProductTitle] Product title element not found');
+          }
+        } else {
+          console.warn('[updateProductTitle] No variant data to update the title');
+        }
       }
       
       buildRequestUrlWithParams(url, optionValues, shouldFetchFullPage = false) {
