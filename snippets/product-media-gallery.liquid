@@ -39,7 +39,7 @@
   <div class="row media-thumbnails grid grid--gap">
     {% for media in reversed_media %}
       <div 
-        class="product__media-item media-thumbnail col-3" 
+        class="product__media-item media-thumbnail col-4" 
         data-variant-color="{% if media.alt contains 'color|' %}{{ media.alt | split: '|' | last }}{% else %}all{% endif %}"
         data-media-id="{{ media.id }}"
       >
