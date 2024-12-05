@@ -607,6 +607,20 @@ a.product__text {
   overflow: auto;
 }
 
+.product-media-modal__content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.product__media-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+.product__media-item {
+  display: block;
+}
+
 .product-media-modal__content > *:not(.active),
 .product__media-list .deferred-media {
   display: none;
