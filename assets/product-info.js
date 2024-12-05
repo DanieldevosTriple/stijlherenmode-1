@@ -104,19 +104,11 @@ if (!customElements.get('product-info')) {
           const variant = this.getSelectedVariant(html.querySelector(selector));
           this.updateURL(productUrl, variant?.id);
 
-          if (updateFullPage) {
-            document.querySelector('head title').innerHTML = html.querySelector('head title').innerHTML;
+          document.querySelector('head title').innerHTML = html.querySelector('head title').innerHTML;
 
             HTMLUpdateUtility.viewTransition(
               document.querySelector('main'),
               html.querySelector('main'),
-              this.preProcessHtmlCallbacks,
-              this.postProcessHtmlCallbacks
-            );
-          } else {
-            HTMLUpdateUtility.viewTransition(
-              this,
-              html.querySelector('product-info'),
               this.preProcessHtmlCallbacks,
               this.postProcessHtmlCallbacks
             );
