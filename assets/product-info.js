@@ -308,19 +308,6 @@ if (!customElements.get('product-info')) {
           });
         };
       
-        // Voeg nieuwe items toe vanuit de bestemming naar de bron
-        const addNewMediaItems = () => {
-          const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item'));
-          console.log("Controleer ontbrekende items in de bron:", destinationItems);
-      
-          destinationItems.forEach(destinationItem => {
-            if (!mediaGallerySource.querySelector(`[data-media-id="${destinationItem.dataset.mediaId}"]`)) {
-              console.log("Voeg nieuw item toe:", destinationItem);
-              mediaGallerySource.appendChild(destinationItem.cloneNode(true));
-            }
-          });
-        };
-        
         const updateMediaItems = () => {
           const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item'));
           console.log("Verwerk items vanuit bestemming:", destinationItems);
@@ -350,11 +337,21 @@ if (!customElements.get('product-info')) {
             }
           });
         };
+      
+          // Forceer de featured-media bovenaan
+          const featuredMedia = mediaGallerySource.querySelector('.product__media-item.featured-media');
+          if (featuredMedia) {
+            console.log("Plaats featured-media bovenaan:", featuredMedia);
+            mediaGallerySource.insertBefore(featuredMedia, mediaGallerySource.firstChild);
+          }
+        };
+      
         console.log("Start filtering...");
         filterMediaByVariant();
       
-        console.log("Sorteren van items...");
+        console.log("Toevoegen van nieuwe items...");
         updateMediaItems();
+      
       
         // Activeer uitgelichte media
         const featuredMedia = this.querySelector('.product__media-item.featured-media');
