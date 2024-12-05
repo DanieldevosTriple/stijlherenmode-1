@@ -307,13 +307,22 @@ if (!customElements.get('product-info')) {
           });
         };
       
-        // Markeer en verplaats de featured-media
+        // Markeer en verplaats de featured-media naar de bovenkant
         const setFeaturedMedia = () => {
           const featuredMedia = mediaGallerySource.querySelector(`[data-media-id="${variantFeaturedMediaId}"]`);
           if (featuredMedia) {
             console.log("Markeer en plaats featured-media bovenaan:", featuredMedia);
-            featuredMedia.classList.add('featured-media', 'active');
+            
+            // Verwijder de huidige featured-media indien nodig
+            if (featuredMedia.parentNode) {
+              featuredMedia.parentNode.removeChild(featuredMedia);
+            }
+      
+            // Voeg de featured-media opnieuw toe aan de bovenkant
             mediaGallerySource.insertBefore(featuredMedia, mediaGallerySource.firstChild);
+      
+            // Voeg de juiste CSS-classes toe
+            featuredMedia.classList.add('featured-media', 'active');
           } else {
             console.warn("Featured media niet gevonden:", variantFeaturedMediaId);
           }
