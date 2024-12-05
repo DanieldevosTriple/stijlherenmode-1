@@ -96,12 +96,19 @@ if (!customElements.get('product-info')) {
         const shouldSwapProduct = this.dataset.url !== productUrl;
         const shouldFetchFullPage = this.dataset.updateUrl === 'true' && shouldSwapProduct;
       
-        // Werk de titel bij met de geselecteerde optie (bijvoorbeeld kleur)
-        const selectedOption = selectedOptionValues?.[0]; // Pas dit aan op basis van je variantoptie-index
+        // Debug: Werk de titel bij met de geselecteerde optie (bijvoorbeeld kleur)
+        console.log('Selected Option Values:', selectedOptionValues); // Controleer wat er in selectedOptionValues zit
+
+        const selectedOption = selectedOptionValues?.[0]; // Neem de eerste optie
+        console.log('Selected Option:', selectedOption); // Controleer welke optie geselecteerd is
+
         if (selectedOption) {
+          console.log(`Updating title with option: ${selectedOption}`); // Bevestig dat we de titel gaan bijwerken
           this.updateTitle(selectedOption);
+        } else {
+          console.log('No valid option selected. Title update skipped.');
         }
-      
+
         this.renderProductInfo({
           requestUrl: this.buildRequestUrlWithParams(productUrl, selectedOptionValues, shouldFetchFullPage),
           targetId: target.id,
@@ -109,8 +116,7 @@ if (!customElements.get('product-info')) {
             ? this.handleSwapProduct(productUrl, shouldFetchFullPage)
             : this.handleUpdateProductInfo(productUrl),
         });
-      }
-      
+      }      
 
       resetProductFormState() {
         // Reset de status van het formulier
