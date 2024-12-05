@@ -1,5 +1,4 @@
 // Selecteer alle radio buttons, de afbeelding, en de thumbnails
-const radioButtons = document.querySelectorAll('input[type="radio"][name^="Color"]');
 const image = document.querySelector('.featured-media__image');
 const thumbnails = document.querySelectorAll('.media-thumbnail');
 
