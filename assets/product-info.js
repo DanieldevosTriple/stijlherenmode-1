@@ -101,8 +101,8 @@ if (!customElements.get('product-info')) {
         const selectedVariant = this.getSelectedVariant(productInfoNode);
       
         if (selectedVariant?.title) {
-          console.log('Using Variant Title for update:', selectedVariant.title);
-          this.updateTitle(selectedVariant.title); // Update de titel met de variantnaam
+          console.log('Using Variant Title for update:', selectedVariant.option1);
+          this.updateTitle(selectedVariant.option1); // Update de titel met de variantnaam
         } else {
           console.log('No variant title found. Skipping title update.');
         }
