@@ -285,21 +285,34 @@ if (!customElements.get('product-info')) {
         const mediaGalleryDestination = html.querySelector('media-gallery');
       
         if (!mediaGallerySource || !mediaGalleryDestination) {
-          console.log("Media-galerijen niet gevonden:", {
+          console.error("Media-galerijen niet gevonden:", {
             mediaGallerySource,
-            mediaGalleryDestination
+            mediaGalleryDestination,
           });
           return;
         }
       
         console.log("Start updateMedia met variantFeaturedMediaId:", variantFeaturedMediaId);
       
+        // Voeg nieuwe items toe vanuit de bestemming naar de bron
+        const fetchAndAddNewMediaItems = () => {
+          const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item'));
+          console.log("Controleer ontbrekende items in de bron:", destinationItems);
+      
+          destinationItems.forEach((destinationItem) => {
+            if (!mediaGallerySource.querySelector(`[data-media-id="${destinationItem.dataset.mediaId}"]`)) {
+              console.log("Voeg nieuw item toe:", destinationItem);
+              mediaGallerySource.appendChild(destinationItem.cloneNode(true));
+            }
+          });
+        };
+      
         // Filter items op basis van variant
         const filterMediaByVariant = () => {
           const mediaItems = Array.from(mediaGallerySource.querySelectorAll('.product__media-item'));
           console.log("Filter media-items op variant:", mediaItems);
       
-          mediaItems.forEach(item => {
+          mediaItems.forEach((item) => {
             const color = item.getAttribute('data-variant-color');
             if (color && color !== 'all' && color !== variantFeaturedMediaId) {
               console.log("Verwijder item met kleur:", color, item);
@@ -308,35 +321,18 @@ if (!customElements.get('product-info')) {
           });
         };
       
-        const updateMediaItems = () => {
+        // Sorteer items in de juiste volgorde, waarbij featured bovenaan komt
+        const sortMediaItems = () => {
           const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item'));
-          console.log("Verwerk items vanuit bestemming:", destinationItems);
-        
-          destinationItems.forEach(destinationItem => {
-            const mediaId = destinationItem.dataset.mediaId;
-            const color = destinationItem.getAttribute('data-variant-color');
-        
-            // Controleer of het item al bestaat in de bron
-            const existingItem = mediaGallerySource.querySelector(`[data-media-id="${mediaId}"]`);
-        
-            // Voeg nieuw item toe als het nog niet bestaat
-            if (!existingItem) {
-              console.log("Voeg nieuw item toe:", destinationItem);
-              mediaGallerySource.appendChild(destinationItem.cloneNode(true));
-            }
-        
-            // Filter het item op basis van variant-kleur
-            if (color && color !== 'all' && color !== variantFeaturedMediaId) {
-              console.log("Verwijder item vanwege kleurfilter:", color, destinationItem);
-              if (existingItem) {
-                existingItem.remove(); // Verwijder bestaand item
-              } else {
-                const newItem = mediaGallerySource.querySelector(`[data-media-id="${mediaId}"]`);
-                newItem?.remove(); // Verwijder net toegevoegd item
-              }
+          console.log("Sorteer items volgens bestemming:", destinationItems);
+      
+          destinationItems.forEach((destinationItem, index) => {
+            const sourceItem = mediaGallerySource.querySelector(`[data-media-id="${destinationItem.dataset.mediaId}"]`);
+            if (sourceItem) {
+              console.log(`Verplaats item naar index ${index}:`, sourceItem);
+              mediaGallerySource.insertBefore(sourceItem, mediaGallerySource.children[index]);
             }
           });
-        };
       
           // Forceer de featured-media bovenaan
           const featuredMedia = mediaGallerySource.querySelector('.product__media-item.featured-media');
@@ -346,12 +342,14 @@ if (!customElements.get('product-info')) {
           }
         };
       
+        console.log("Toevoegen van nieuwe items...");
+        fetchAndAddNewMediaItems();
+      
         console.log("Start filtering...");
         filterMediaByVariant();
       
-        console.log("Toevoegen van nieuwe items...");
-        updateMediaItems();
-      
+        console.log("Sorteren van items...");
+        sortMediaItems();
       
         // Activeer uitgelichte media
         const featuredMedia = this.querySelector('.product__media-item.featured-media');
