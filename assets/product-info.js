@@ -124,13 +124,6 @@ if (!customElements.get('product-info')) {
               this.preProcessHtmlCallbacks,
               this.postProcessHtmlCallbacks
             );
-
-            // Explicitly update the product__title section
-            const currentTitle = document.querySelector('.product__title');
-            const newTitle = html.querySelector('.product__title');
-            if (currentTitle && newTitle) {
-              currentTitle.innerHTML = newTitle.innerHTML;
-            }
           }
         };
       }
