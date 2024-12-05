@@ -20,14 +20,17 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(`Updated title to: ${baseTitle} - ${color}`);
   };
 
+  // Declareer selectedInput buiten de functie
+  let selectedInput = null;
+
   // Functie om de geselecteerde kleur op te halen
   const getSelectedColor = () => {
-    const selectedInput = document.querySelector('input[type="radio"][name^="Color"]:checked');
+    selectedInput = document.querySelector('input[type="radio"][name^="Color"]:checked');
     return selectedInput ? selectedInput.value : null;
   };
 
-  // Exporteren, indien nodig
-  export { getSelectedColor };
+  // Exporteren van selectedInput en getSelectedColor
+  export { selectedInput, getSelectedColor };
 
   // Initialiseer de titel met de geselecteerde variant
   const initialColor = getSelectedColor();
