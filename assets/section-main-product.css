@@ -1486,3 +1486,7 @@ a.product__text {
   opacity: 1;
   border: 1px solid #000;
 }
+
+.active {
+  flex: 1;
+}
