@@ -100,11 +100,11 @@ if (!customElements.get('product-info')) {
         const productInfoNode = this; // Het huidige product-info-element
         const selectedVariant = this.getSelectedVariant(productInfoNode);
       
-        if (selectedVariant?.title) {
-          console.log('Using Variant Title for update:', selectedVariant.option1);
-          this.updateTitle(selectedVariant.option1); // Update de titel met de variantnaam
+        if (selectedVariant?.option1) {
+          console.log('Using Variant Option1 for update:', selectedVariant.option1);
+          this.updateTitle(selectedVariant.option1); // Update de titel met option1 (kleur)
         } else {
-          console.log('No variant title found. Skipping title update.');
+          console.log('No valid option1 found. Skipping title update.');
         }
       
         this.renderProductInfo({
@@ -115,7 +115,7 @@ if (!customElements.get('product-info')) {
             : this.handleUpdateProductInfo(productUrl),
         });
       }
-          
+         
 
       resetProductFormState() {
         // Reset de status van het formulier
@@ -181,9 +181,12 @@ if (!customElements.get('product-info')) {
       getSelectedVariant(productInfoNode) {
         // Haal de geselecteerde variant op uit een gegeven HTML-node
         const selectedVariant = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
-        console.log('Selected Variant (raw):', selectedVariant); // Log the raw selected variant
+        console.log('Selected Variant (raw):', selectedVariant); // Log de ruwe geselecteerde variant
+      
+        // Parse de JSON als deze bestaat
         return !!selectedVariant ? JSON.parse(selectedVariant) : null;
       }
+      
 
       buildRequestUrlWithParams(url, optionValues, shouldFetchFullPage = false) {
         // Bouw de URL voor het opvragen van nieuwe gegevens
