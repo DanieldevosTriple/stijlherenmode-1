@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Functie om de geselecteerde kleur op te halen
   const getSelectedColor = () => {
     const selectedInput = document.querySelector('input[type="radio"][name^="Color"]:checked');
-    export default selectedInput;
     return selectedInput ? selectedInput.value : null;
   };
 
