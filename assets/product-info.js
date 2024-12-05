@@ -69,45 +69,45 @@ if (!customElements.get('product-info')) {
       }
 
       handleOptionValueChange({ data: { event, target, selectedOptionValues } }) {
-        // Controleer of de wijziging binnen deze component plaatsvindt
         if (!this.contains(event.target)) return;
       
-        // Reset de staat van het productformulier
         this.resetProductFormState();
       
-        // Bepaal de URL en of het product moet worden gewisseld
         const productUrl = target.dataset.productUrl || this.pendingRequestUrl || this.dataset.url;
         this.pendingRequestUrl = productUrl;
         const shouldSwapProduct = this.dataset.url !== productUrl;
         const shouldFetchFullPage = this.dataset.updateUrl === 'true' && shouldSwapProduct;
       
-        // Render de nieuwe productinformatie
         this.renderProductInfo({
           requestUrl: this.buildRequestUrlWithParams(productUrl, selectedOptionValues, shouldFetchFullPage),
           targetId: target.id,
           callback: (html) => {
-            // Werk de titel van de pagina bij
             const selectedVariant = this.getSelectedVariant(html);
+      
+            // Update de titel alleen als een geldige variant is geselecteerd
             if (selectedVariant) {
               const productTitle = selectedVariant.name || document.querySelector('h1.product__title').innerText;
-              const productColor = selectedVariant.options.find(option => option.name.toLowerCase() === 'color') || '';
+      
+              // Controleer of opties bestaan en of de naam geldig is
+              const productColor = selectedVariant.options?.find(option =>
+                option.name?.toLowerCase() === 'color'
+              )?.value || '';
+      
               document.title = `${productTitle} - ${productColor}`;
             }
       
-            // Verwerk productwissel of update productinformatie
             if (shouldSwapProduct) {
               this.handleSwapProduct(productUrl, shouldFetchFullPage)(html);
             } else {
               this.handleUpdateProductInfo(productUrl)(html);
             }
       
-            // Update de mediagalerij
             if (selectedVariant?.featured_media?.id) {
               this.updateMedia(html, selectedVariant.featured_media.id);
             }
           },
         });
-      }
+      }      
       
       resetProductFormState() {
         // Reset de status van het formulier
