@@ -68,29 +68,40 @@ if (!customElements.get('product-info')) {
         });
       }
 
-        updateTitle(color) {
-          // Werk de titel van het product bij op basis van de geselecteerde kleur
-          const productTitle = this.querySelector('.product__title');
-          if (!productTitle) return;
+      updateTitle(selectedOption) {
+        // Zoek het producttitel-element
+        const productTitle = this.querySelector('.product__title');
+        if (!productTitle) return;
       
-          const baseTitle = productTitle.getAttribute('data-title');
-          if (!baseTitle) return;
+        // Haal de originele titel op uit het data-attribuut
+        const baseTitle = productTitle.getAttribute('data-title');
+        if (!baseTitle) return;
       
-          productTitle.textContent = `${baseTitle} - ${color}`;
-          console.log(`Updated title to: ${baseTitle} - ${color}`);
+        // Werk de inhoud van de titel bij
+        const titleElement = productTitle.querySelector('h1');
+        if (titleElement) {
+          titleElement.textContent = `${baseTitle} - ${selectedOption}`;
+          console.log(`Updated title to: ${baseTitle} - ${selectedOption}`);
         }
+      }
+      
 
       handleOptionValueChange({ data: { event, target, selectedOptionValues } }) {
-        // Behandel wijzigingen in de gekozen opties van het product
         if (!this.contains(event.target)) return;
-
+      
         this.resetProductFormState();
-
+      
         const productUrl = target.dataset.productUrl || this.pendingRequestUrl || this.dataset.url;
         this.pendingRequestUrl = productUrl;
         const shouldSwapProduct = this.dataset.url !== productUrl;
         const shouldFetchFullPage = this.dataset.updateUrl === 'true' && shouldSwapProduct;
-
+      
+        // Werk de titel bij met de geselecteerde optie (bijvoorbeeld kleur)
+        const selectedOption = selectedOptionValues?.[0]; // Pas dit aan op basis van je variantoptie-index
+        if (selectedOption) {
+          this.updateTitle(selectedOption);
+        }
+      
         this.renderProductInfo({
           requestUrl: this.buildRequestUrlWithParams(productUrl, selectedOptionValues, shouldFetchFullPage),
           targetId: target.id,
@@ -99,6 +110,7 @@ if (!customElements.get('product-info')) {
             : this.handleUpdateProductInfo(productUrl),
         });
       }
+      
 
       resetProductFormState() {
         // Reset de status van het formulier
