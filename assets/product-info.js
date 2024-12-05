@@ -96,43 +96,32 @@ if (!customElements.get('product-info')) {
       }
 
       handleSwapProduct(productUrl, updateFullPage) {
+        // Verwerk het wisselen van producten
         return (html) => {
           this.productModal?.remove();
-      
-          const selector = updateFullPage ? "product-info[id^='MainProduct']" : "product-info";
+
+          const selector = updateFullPage ? "product-info[id^='MainProduct']" : 'product-info';
           const variant = this.getSelectedVariant(html.querySelector(selector));
           this.updateURL(productUrl, variant?.id);
-      
-          if (variant?.id) {
-            // Update de titel met de variant-ID
-            this.updatePageTitleWithVariantId(variant.id);
-          }
-      
+
           if (updateFullPage) {
-            document.querySelector("head title").innerHTML = html.querySelector("head title").innerHTML;
-      
+            document.querySelector('head title').innerHTML = html.querySelector('head title').innerHTML;
+
             HTMLUpdateUtility.viewTransition(
-              document.querySelector("main"),
-              html.querySelector("main"),
+              document.querySelector('main'),
+              html.querySelector('main'),
               this.preProcessHtmlCallbacks,
               this.postProcessHtmlCallbacks
             );
           } else {
             HTMLUpdateUtility.viewTransition(
               this,
-              html.querySelector("product-info"),
+              html.querySelector('product-info'),
               this.preProcessHtmlCallbacks,
               this.postProcessHtmlCallbacks
             );
           }
         };
-      }
-      
-      // Helper methode om de titel bij te werken
-      updatePageTitleWithVariantId(variantId) {
-        const originalTitle = document.querySelector("title").dataset.originalTitle || document.title;
-        document.querySelector("title").dataset.originalTitle = originalTitle; // Bewaar originele titel
-        document.title = `${originalTitle} - ${variantId}`;
       }
 
       renderProductInfo({ requestUrl, targetId, callback }) {
