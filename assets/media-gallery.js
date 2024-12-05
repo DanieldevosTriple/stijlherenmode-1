@@ -25,7 +25,7 @@ const updateImageAndThumbnails = () => {
     imageUrl = `http:${imageUrl}`;
     console.log(`Protocol toegevoegd aan afbeelding-URL: ${imageUrl}`);
   }
-  
+      
   // Log de opgehaalde afbeelding-URL
   console.log(`Afbeeldings-URL opgehaald: ${imageUrl}`);
   
