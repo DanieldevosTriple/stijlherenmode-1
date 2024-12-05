@@ -2,13 +2,14 @@
 const radioButtons = document.querySelectorAll('input[type="radio"][name^="Color"]');
 const image = document.querySelector('.featured-media__image');
 const thumbnails = document.querySelectorAll('.media-thumbnail');
+import { selectedInput } from './main-product.js';
 
 // Log het aantal gevonden radio buttons
 console.log(`Aantal radio buttons gevonden: ${radioButtons.length}`);
 
 // Functie om afbeelding en thumbnails te updaten
 const updateImageAndThumbnails = () => {
-  const selectedRadio = document.querySelector('input[type="radio"][name^="Color"]:checked');
+  const selectedRadio = selectedInput;
   if (!selectedRadio) {
     console.error('Geen radio button geselecteerd.');
     return;
