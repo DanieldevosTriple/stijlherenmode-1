@@ -14,43 +14,51 @@ if (!customElements.get('product-info')) {
       constructor() {
         super();
 
+         // Initialiseer de hoeveelheid invoerveld
         this.quantityInput = this.querySelector('.quantity__input');
       }
 
       connectedCallback() {
+        // Functie die wordt uitgevoerd wanneer het element aan de DOM wordt toegevoegd
         this.initializeProductSwapUtility();
 
         this.onVariantChangeUnsubscriber = subscribe(
           PUB_SUB_EVENTS.optionValueSelectionChange,
           this.handleOptionValueChange.bind(this)
         );
-
+        // Initialiseer hoeveelheid gerelateerde handlers
         this.initQuantityHandlers();
+        // Laat andere componenten weten dat dit component is geladen
         this.dispatchEvent(new CustomEvent('product-info:loaded', { bubbles: true }));
       }
 
       addPreProcessCallback(callback) {
+        // Voeg een callback toe die moet worden uitgevoerd vóór HTML-verwerking
         this.preProcessHtmlCallbacks.push(callback);
       }
 
       initQuantityHandlers() {
+        // Configureer de invoer voor hoeveelheden
         if (!this.quantityInput) return;
 
         this.quantityForm = this.querySelector('.product-form__quantity');
         if (!this.quantityForm) return;
 
         this.setQuantityBoundries();
+        // Abonneer op updates in de winkelwagen (indien nodig)
         if (!this.dataset.originalSection) {
           this.cartUpdateUnsubscriber = subscribe(PUB_SUB_EVENTS.cartUpdate, this.fetchQuantityRules.bind(this));
         }
       }
 
       disconnectedCallback() {
+        // Functie die wordt uitgevoerd wanneer het element uit de DOM wordt verwijderd
         this.onVariantChangeUnsubscriber();
         this.cartUpdateUnsubscriber?.();
       }
 
       initializeProductSwapUtility() {
+        // Configureer functionaliteit voor productwissel
         this.preProcessHtmlCallbacks.push((html) =>
           html.querySelectorAll('.scroll-trigger').forEach((element) => element.classList.add('scroll-trigger--cancel'))
         );
@@ -60,7 +68,20 @@ if (!customElements.get('product-info')) {
         });
       }
 
+        updateTitle(color) {
+          // Werk de titel van het product bij op basis van de geselecteerde kleur
+          const productTitle = this.querySelector('.product__title');
+          if (!productTitle) return;
+      
+          const baseTitle = productTitle.getAttribute('data-title');
+          if (!baseTitle) return;
+      
+          productTitle.textContent = `${baseTitle} - ${color}`;
+          console.log(`Updated title to: ${baseTitle} - ${color}`);
+        }
+
       handleOptionValueChange({ data: { event, target, selectedOptionValues } }) {
+        // Behandel wijzigingen in de gekozen opties van het product
         if (!this.contains(event.target)) return;
 
         this.resetProductFormState();
@@ -80,12 +101,14 @@ if (!customElements.get('product-info')) {
       }
 
       resetProductFormState() {
+        // Reset de status van het formulier
         const productForm = this.productForm;
         productForm?.toggleSubmitButton(true);
         productForm?.handleErrorMessage();
       }
 
       handleSwapProduct(productUrl, updateFullPage) {
+        // Verwerk het wisselen van producten
         return (html) => {
           this.productModal?.remove();
 
@@ -114,6 +137,7 @@ if (!customElements.get('product-info')) {
       }
 
       renderProductInfo({ requestUrl, targetId, callback }) {
+        // Render productinformatie door HTML op te halen
         this.abortController?.abort();
         this.abortController = new AbortController();
 
@@ -138,12 +162,14 @@ if (!customElements.get('product-info')) {
       }
 
       getSelectedVariant(productInfoNode) {
+        // Haal de geselecteerde variant op uit een gegeven HTML-node
         const selectedVariant = productInfoNode.querySelector('variant-selects [data-selected-variant]')?.innerHTML;
         console.log('Selected Variant (raw):', selectedVariant); // Log the raw selected variant
         return !!selectedVariant ? JSON.parse(selectedVariant) : null;
       }
 
       buildRequestUrlWithParams(url, optionValues, shouldFetchFullPage = false) {
+        // Bouw de URL voor het opvragen van nieuwe gegevens
         const params = [];
 
         !shouldFetchFullPage && params.push(`section_id=${this.sectionId}`);
@@ -156,6 +182,7 @@ if (!customElements.get('product-info')) {
       }
 
       updateOptionValues(html) {
+        // Werk de optievelden bij met nieuwe gegevens
         const variantSelects = html.querySelector('variant-selects');
         if (variantSelects) {
           HTMLUpdateUtility.viewTransition(this.variantSelectors, variantSelects, this.preProcessHtmlCallbacks);
@@ -163,6 +190,7 @@ if (!customElements.get('product-info')) {
       }
 
       handleUpdateProductInfo(productUrl) {
+        // Werk productinformatie bij zonder productwissel
         return (html) => {
           const variant = this.getSelectedVariant(html);
 
@@ -341,6 +369,7 @@ if (!customElements.get('product-info')) {
       }
 
       fetchQuantityRules() {
+        // Haal bijgewerkte regels voor hoeveelheden op
         const currentVariantId = this.productForm?.variantIdInput?.value;
         if (!currentVariantId) return;
 
@@ -356,6 +385,7 @@ if (!customElements.get('product-info')) {
       }
 
       updateQuantityRules(sectionId, html) {
+        // Werk hoeveelheidregels en labels bij
         if (!this.quantityInput) return;
         this.setQuantityBoundries();
 
@@ -382,22 +412,27 @@ if (!customElements.get('product-info')) {
       }
 
       get productForm() {
+        // Haal het productformulier op
         return this.querySelector(`product-form`);
       }
 
       get productModal() {
+        // Haal de productmodal op
         return document.querySelector(`#ProductModal-${this.dataset.section}`);
       }
 
       get pickupAvailability() {
+        // Haal de ophaalbeschikbaarheid op
         return this.querySelector(`pickup-availability`);
       }
 
       get variantSelectors() {
+        // Haal de selector voor varianten op
         return this.querySelector('variant-selects');
       }
 
       get relatedProducts() {
+        // Haal gerelateerde producten op
         const relatedProductsSectionId = SectionId.getIdForSection(
           SectionId.parseId(this.sectionId),
           'related-products'
@@ -406,6 +441,7 @@ if (!customElements.get('product-info')) {
       }
 
       get quickOrderList() {
+        // Haal de lijst voor snel bestellen op
         const quickOrderListSectionId = SectionId.getIdForSection(
           SectionId.parseId(this.sectionId),
           'quick_order_list'
@@ -414,6 +450,7 @@ if (!customElements.get('product-info')) {
       }
 
       get sectionId() {
+        // Bepaal het sectie-ID
         return this.dataset.originalSection || this.dataset.section;
       }
     }
