@@ -328,24 +328,6 @@ if (!customElements.get('product-info')) {
           }
         };
       
-        // Filter items op basis van variant, exclusief de featured-media en items waarvan de ID "featured" bevat
-        const filterMediaByVariant = () => {
-          const mediaItems = Array.from(mediaGallerySource.querySelectorAll('.product__media-item'));
-          console.log("Filter media-items op variant (exclusief featured en ID 'featured'):", mediaItems);
-
-          mediaItems.forEach((item) => {
-            const isFeatured = item.dataset.mediaId === variantFeaturedMediaId;
-            const isFeaturedId = item.dataset.mediaId?.toLowerCase().includes('featured-image');
-            const color = item.getAttribute('data-variant-color');
-
-            // Alleen filteren als het geen featured-media is en de ID niet "featured" bevat
-            if (!isFeatured && !isFeaturedId && color && color !== 'all' && color !== variantFeaturedMediaId) {
-              console.log("Verwijder item met kleur:", color, item);
-              item.remove();
-            }
-          });
-        };
-      
         // Sorteer items in de juiste volgorde
         const sortMediaItems = () => {
           const destinationItems = Array.from(mediaGalleryDestination.querySelectorAll('.product__media-item'));
@@ -365,9 +347,6 @@ if (!customElements.get('product-info')) {
       
         console.log("Instellen van featured-media...");
         setFeaturedMedia();
-      
-        console.log("Start filtering...");
-        filterMediaByVariant();
       
         console.log("Sorteren van items...");
         sortMediaItems();
