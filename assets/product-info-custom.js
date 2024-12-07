@@ -3,30 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const productData = JSON.parse(document.getElementById('product-data').textContent);
       console.log("Product Data:", productData);
   
-      const updateProductVendor = () => {
-        const vendorElement = document.querySelector('.product-vendor');
-        vendorElement.textContent = `Brand: ${productData.vendor}`;
-      };
-  
-      const updateProductPrice = () => {
-        const priceElement = document.querySelector('.product-price');
-        const formattedPrice = (productData.price / 100).toFixed(2);
-        priceElement.textContent = `Price: €${formattedPrice}`;
-      };
-  
-      const updateProductDescription = () => {
-        const descriptionElement = document.querySelector('.product-description');
-        descriptionElement.innerHTML = productData.description;
-      };
-  
-      updateProductVendor();
-      updateProductPrice();
-      updateProductDescription();
-      
-    try {
-      const productData = JSON.parse(document.getElementById('product-data').textContent);
-      console.log("Product Data:", productData);
-  
       const mediaGallery = document.querySelector('.media-gallery');
       const variantInput = document.getElementById('selected-variant-id');
       const optionsContainer = document.querySelector('.options-container'); // Container voor dynamische opties
@@ -113,6 +89,25 @@ document.addEventListener('DOMContentLoaded', () => {
           console.log(`Updated URL with variant ID: ${variantId}`);
         }
       };
+
+      // Update de product brand
+      const updateProductVendor = () => {
+        const vendorElement = document.querySelector('.product-vendor');
+        vendorElement.textContent = `Brand: ${productData.vendor}`;
+      };
+  
+      // Update de product price
+      const updateProductPrice = () => {
+        const priceElement = document.querySelector('.product-price');
+        const formattedPrice = (productData.price / 100).toFixed(2);
+        priceElement.textContent = `Price: €${formattedPrice}`;
+      };
+  
+      // Update de product description
+      const updateProductDescription = () => {
+        const descriptionElement = document.querySelector('.product-description');
+        descriptionElement.innerHTML = productData.description;
+      };
   
       // Handle selectie en update
       const handleSelectionChange = () => {
@@ -135,6 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
           updateGallery(null);
         }
       };
+
+      updateProductVendor();
+      updateProductPrice();
+      updateProductDescription();
   
       // Dynamisch opties genereren
       productData.options.forEach((optionName, index) => {
