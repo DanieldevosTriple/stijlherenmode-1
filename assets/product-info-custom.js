@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const mediaGallery = document.querySelector('.media-gallery');
       const variantInput = document.getElementById('selected-variant-id');
       const optionsContainer = document.querySelector('.options-container'); // Container voor dynamische opties
+      const secondaryGallery = document.querySelector('.secondary-gallery'); // Container voor secundaire afbeeldingen
   
       let selectedOptions = {}; // Huidige selectie van opties
   
@@ -13,13 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const updateGallery = (variantId) => {
         console.log(`Updating gallery for variant ID: ${variantId}`);
         mediaGallery.innerHTML = ''; // Clear de gallery
-        const secondaryGallery = document.querySelector('.secondary-gallery');
         secondaryGallery.innerHTML = ''; // Clear de secondary gallery
   
         const selectedVariant = productData.variants.find(variant => variant.id === variantId);
         console.log("Selected Variant in updateGallery:", selectedVariant);
   
+        // Voeg de featured image toe
         if (selectedVariant && selectedVariant.featured_image) {
+          console.log("Using variant-specific featured image:", selectedVariant.featured_image.src);
           const imgElement = document.createElement('img');
           imgElement.src = selectedVariant.featured_image.src;
           imgElement.alt = `Featured image for variant ID: ${variantId}`;
@@ -32,6 +34,34 @@ document.addEventListener('DOMContentLoaded', () => {
           fallbackImage.alt = "Fallback featured image";
           fallbackImage.classList.add('img-fluid', 'w-100', 'mb-3');
           mediaGallery.appendChild(fallbackImage);
+        }
+  
+        // Voeg secundaire afbeeldingen toe
+        if (selectedVariant) {
+          const relevantOptions = Object.values(selectedOptions).filter(option => option.length > 3);
+          console.log(`Filtering secondary images for options: ${relevantOptions}`);
+  
+          // Filter afbeeldingen waarvan de alt-tekst een relevante optie bevat
+          const secondaryImages = productData.media.filter(media =>
+            media.alt && relevantOptions.some(option => media.alt.toLowerCase().includes(option.toLowerCase()))
+          );
+  
+          console.log("Filtered Secondary Images:", secondaryImages);
+  
+          secondaryImages.forEach(image => {
+            const colDiv = document.createElement('div');
+            colDiv.classList.add('col-6'); // Voeg Bootstrap kolom styling toe
+  
+            const imgElement = document.createElement('img');
+            imgElement.src = image.src;
+            imgElement.alt = image.alt || "Secondary image";
+            imgElement.classList.add('img-fluid', 'rounded'); // Styling voor responsiviteit en afronding
+  
+            colDiv.appendChild(imgElement);
+            secondaryGallery.appendChild(colDiv);
+          });
+        } else {
+          console.warn("No secondary images found for the selected variant.");
         }
       };
   
