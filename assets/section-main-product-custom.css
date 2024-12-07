@@ -55,7 +55,7 @@
     }
 
     .product-gallery {
-        margin-top: 20px;
+        margin-top: 0px;
     }
     
     .secondary-gallery {
@@ -213,15 +213,25 @@
 }
 
 .back-arrow {
-    display: inline-block;
-    font-size: 24px; /* Pas de grootte van de pijl aan */
-    color: black; /* Maak de pijl wit */
-    text-decoration: none; /* Verwijder de standaard onderstreping van links */
-    padding: 10px 15px; /* Voeg wat padding toe rond de pijl */
-    border-radius: 5px; /* Geef afgeronde hoeken */
-  }
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
   
-  .back-arrow:hover {
-    opacity: 0.8; /* Maak de pijl iets transparant bij hover */
-  }
+.arrow-body {
+    display: block;
+    width: 40px; /* Lengte van de steel */
+    height: 2px; /* Dikte van de steel */
+    background-color: black; /* Kleur van de pijl */
+    margin-right: 5px; /* Ruimte tussen steel en kop */
+}
+  
+.arrow-head {
+    display: block;
+    width: 10px; /* Breedte van de pijlkop */
+    height: 10px; /* Hoogte van de pijlkop */
+    border-top: 2px solid black; /* Schuine lijnen voor de pijlkop */
+    border-left: 2px solid black;
+    transform: rotate(-45deg); /* Draai om de pijl te vormen */
+}
   
