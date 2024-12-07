@@ -15,7 +15,6 @@
 }
 
 .navbar-nav .nav-link {
-    font-size: 1rem;
     text-transform: uppercase;
     font-family: TradeGothic LT CondEighteen;
     color: var(--font-color-light-mode);
@@ -24,6 +23,20 @@
 
 @media (prefers-color-scheme: dark) {
     .navbar-nav .nav-link {
+        color: var(--font-color-dark-mode);
+    }
+}
+
+.text-second-menu {
+    text-align: right !important;
+    text-transform: uppercase;
+    font-family: TradeGothic LT CondEighteen;
+    color: var(--font-color-light-mode);
+    font-size: 1.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .text-second-menu {
         color: var(--font-color-dark-mode);
     }
 }
