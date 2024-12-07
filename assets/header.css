@@ -22,10 +22,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-.nav-link a {
-    font-size: 1rem;
-    text-transform: uppercase;
-    font-family: TradeGothic LT CondEighteen;
-    color: var(--font-color-dark-mode);
-}
+    .nav-link a {
+        color: var(--font-color-dark-mode);
+    }
 }
