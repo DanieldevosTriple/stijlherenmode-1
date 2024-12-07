@@ -102,24 +102,40 @@ document.addEventListener('DOMContentLoaded', () => {
       };
   
       // Dynamisch opties genereren
-      console.log("Product Options:", productData.options);
       productData.options.forEach((optionName, index) => {
         console.log(`Processing Option: ${optionName}`);
         const uniqueValues = [...new Set(productData.variants.map(variant => variant[`option${index + 1}`]))];
         console.log(`Unique Values for ${optionName}:`, uniqueValues);
-  
+      
         const optionContainer = document.createElement('div');
         optionContainer.classList.add('option-group');
         optionContainer.innerHTML = `<strong>${optionName}</strong>`;
-  
+      
         uniqueValues.forEach(value => {
           console.log(`Creating button for value: ${value}`);
           const button = document.createElement('button');
           button.classList.add('option-swatch');
           button.dataset.option = optionName;
           button.dataset.value = value;
-          button.textContent = value;
-  
+      
+          // Voor Color opties: toon een afbeelding als deze beschikbaar is
+          if (optionName.toLowerCase() === 'color') {
+            const variantWithImage = productData.variants.find(variant => variant[`option${index + 1}`] === value && variant.featured_image);
+            if (variantWithImage && variantWithImage.featured_image) {
+              console.log(`Using image swatch for color: ${value}`);
+              const imgElement = document.createElement('img');
+              imgElement.src = variantWithImage.featured_image.src;
+              imgElement.alt = value;
+              imgElement.classList.add('img-fluid', 'swatch-image'); // Styling voor de afbeelding
+              button.appendChild(imgElement);
+            } else {
+              console.warn(`No featured image found for color: ${value}`);
+              button.textContent = value; // Fallback naar tekst als er geen afbeelding is
+            }
+          } else {
+            button.textContent = value; // Voor andere opties, gebruik tekst
+          }
+      
           button.addEventListener('click', () => {
             console.log(`Swatch clicked: ${optionName} = ${value}`);
             selectedOptions[optionName] = value;
@@ -127,12 +143,12 @@ document.addEventListener('DOMContentLoaded', () => {
             button.classList.add('active');
             handleSelectionChange();
           });
-  
+      
           optionContainer.appendChild(button);
         });
-  
+      
         optionsContainer.appendChild(optionContainer);
-      });
+      });      
   
       // Initialiseer standaardwaarden
       productData.options.forEach((optionName, index) => {
