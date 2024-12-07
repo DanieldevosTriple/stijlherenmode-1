@@ -2,12 +2,12 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Drie kolommen met gelijke breedte */
     gap: minmax(20px, 1fr); /* Dynamische gap die groter wordt bij minder ruimte */
-    align-items: start; /* Zorg ervoor dat content bovenin blijft aligneren */
+    align-items: stretch; /* Zorg ervoor dat content bovenin blijft aligneren */
     justify-content: space-between; /* Verdeelt de ruimte gelijkmatig */
     width: 100%; /* Neemt de volledige breedte van de parent div */
     height: 100%; /* Optioneel: als de hoogte ook 100% moet zijn */
     box-sizing: border-box; /* Zorgt ervoor dat padding niet buiten de container uitsteekt */
-}
+} 
 
 .col-menu {
     padding: 20px 0px;
@@ -15,7 +15,14 @@
     justify-content: center; /* Horizontaal centreren */
     align-items: center; /* Verticaal centreren */
     display: flex;
+    flex: 1; /* Laat kolommen groeien als dat nodig is */
+    text-align: center; /* Optioneel, om tekst te centreren */
 }
+
+.col-menu img {
+    max-height: 100%; /* Zorg ervoor dat logo's niet uitrekken */
+    object-fit: contain; /* Houd proporties van afbeeldingen */
+  }
 
 .navbar-nav .nav-link {
     text-transform: uppercase;
