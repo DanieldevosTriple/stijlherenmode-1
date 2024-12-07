@@ -91,28 +91,31 @@
             }
           };
       
-          // Create color swatches
-          Object.keys(
-            productData.variants.reduce((acc, variant) => {
-              acc[variant.option1] = true;
-              return acc;
-            }, {})
-          ).forEach(color => {
+            // Verzamel unieke kleuren uit de varianten
+            const uniqueColors = [...new Set(productData.variants.map(variant => variant.option1).filter(Boolean))];
+
+            console.log("Available Colors in Variants:", productData.variants.map(variant => variant.option1));
+            console.log("Unique Colors for Swatches:", uniqueColors);
+
+            // Genereer swatches voor elke unieke kleur
+            uniqueColors.forEach(color => {
+            console.log(`Generating color swatch for: ${color}`);
+            
             const swatch = document.createElement('button');
             swatch.classList.add('color-swatch');
             swatch.dataset.color = color;
             swatch.textContent = color;
             swatch.style.backgroundColor = color.toLowerCase();
-      
+
             swatch.addEventListener('click', () => {
-              activeColor = color;
-              updateActiveSwatch(colorSwatchContainer, swatch);
-              handleSelectionChange(activeColor, activeSize);
+                activeColor = color;
+                updateActiveSwatch(colorSwatchContainer, swatch);
+                handleSelectionChange(activeColor, activeSize);
             });
-      
+
             colorSwatchContainer.appendChild(swatch);
-          });
-      
+            });
+ 
           // Create size swatches
           const uniqueSizes = [...new Set(productData.variants.map(variant => variant.option2))];
           uniqueSizes.forEach(size => {
