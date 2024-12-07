@@ -34,6 +34,13 @@
 
 {% javascript %}
   document.addEventListener('DOMContentLoaded', () => {
+    const debug = true; // Zet op 'true' om debugberichten in de console te zien
+    const log = (message, data) => {
+      if (debug) {
+        console.log(`[DEBUG] ${message}`, data || '');
+      }
+    };
+
     const productRecommendationsSection = document.querySelector('.product-recommendations');
 
     // Controleer of het element bestaat voordat we verdergaan
@@ -42,10 +49,15 @@
       return;
     }
 
-    const handleIntersection = (entries, observer) => {
-      if (!entries[0].isIntersecting) return;
+    log('Productaanbevelingen sectie gevonden.', productRecommendationsSection);
 
-      // Stop met observeren zodra het element in beeld is
+    const handleIntersection = (entries, observer) => {
+      if (!entries[0].isIntersecting) {
+        log('Sectie is nog niet zichtbaar in het viewport.');
+        return;
+      }
+
+      log('Sectie is zichtbaar in het viewport. Start met laden van aanbevelingen.');
       observer.unobserve(productRecommendationsSection);
 
       const url = productRecommendationsSection.dataset.url;
@@ -55,20 +67,27 @@
         return;
       }
 
+      log('URL gevonden voor aanbevelingen.', url);
+
       fetch(url)
         .then(response => {
+          log('Respons ontvangen van fetch.', response);
+
           if (!response.ok) {
             throw new Error(`Fetch error: ${response.statusText}`);
           }
           return response.text();
         })
         .then(text => {
+          log('HTML-respons succesvol opgehaald.', text);
+
           const html = document.createElement('div');
           html.innerHTML = text;
 
           const recommendations = html.querySelector('.product-recommendations');
 
           if (recommendations && recommendations.innerHTML.trim().length) {
+            log('Aanbevelingen gevonden en toegevoegd aan de sectie.');
             productRecommendationsSection.innerHTML = recommendations.innerHTML;
           } else {
             console.warn('Geen aanbevelingen gevonden in de respons.');
@@ -85,6 +104,7 @@
     });
 
     observer.observe(productRecommendationsSection);
+    log('IntersectionObserver ingesteld en observing gestart.', observer);
   });
 {% endjavascript %}
 
