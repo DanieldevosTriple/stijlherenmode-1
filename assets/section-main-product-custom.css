@@ -156,12 +156,12 @@
     max-width: 600px;
     margin: 20px auto;
     background: transparent;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black; /* Bottom border for the last item */
+    border-top: 1px solid  lightgrey;
+    border-bottom: 1px solid  lightgrey; /* Bottom border for the last item */
 }
 
 .accordion-item {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid lightgrey;
 }
 
 .accordion-item:last-child {
@@ -211,3 +211,18 @@
 .accordion-header.active::after {
     content: '-';
 }
+
+.back-arrow {
+    display: inline-block;
+    font-size: 24px; /* Pas de grootte van de pijl aan */
+    color: white; /* Maak de pijl wit */
+    text-decoration: none; /* Verwijder de standaard onderstreping van links */
+    background-color: #000; /* Zwarte achtergrond */
+    padding: 10px 15px; /* Voeg wat padding toe rond de pijl */
+    border-radius: 5px; /* Geef afgeronde hoeken */
+  }
+  
+  .back-arrow:hover {
+    opacity: 0.8; /* Maak de pijl iets transparant bij hover */
+  }
+  
