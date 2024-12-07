@@ -95,17 +95,23 @@
             }
           };
       
-          // Functie om de gallery te updaten met de afbeelding van de variant
           const updateGallery = (variantId) => {
             console.log(`Updating gallery for variant ID: ${variantId}`);
             mediaGallery.innerHTML = ''; // Clear de gallery
           
-            const selectedVariant = productData.variants.find(variant => variant.id === variantId);
+            // Zorg ervoor dat variantId een Number is
+            const numericVariantId = typeof variantId === 'string' ? parseInt(variantId, 10) : variantId;
+            console.log(`Searching for numericVariantId: ${numericVariantId}`);
+          
+            // Vind de geselecteerde variant
+            const selectedVariant = productData.variants.find(variant => variant.id === numericVariantId);
+            console.log("Selected Variant:", selectedVariant);
+          
             if (selectedVariant && selectedVariant.featured_image) {
               console.log("Using variant-specific featured image:", selectedVariant.featured_image.src);
               const imgElement = document.createElement('img');
               imgElement.src = selectedVariant.featured_image.src;
-              imgElement.alt = `Featured image for variant ID: ${variantId}`;
+              imgElement.alt = `Featured image for variant ID: ${numericVariantId}`;
               mediaGallery.appendChild(imgElement);
             } else {
               console.warn("No specific variant featured image found. Using default images.");
@@ -113,11 +119,11 @@
               fallbackImages.forEach(image => {
                 const imgElement = document.createElement('img');
                 imgElement.src = image;
-                imgElement.alt = `Fallback image for variant ID: ${variantId}`;
+                imgElement.alt = `Fallback image for variant ID: ${numericVariantId}`;
                 mediaGallery.appendChild(imgElement);
               });
             }
-          };          
+          };                    
             
           // Functie om de actieve swatch te markeren
           const updateActiveSwatch = (container, activeSwatch) => {
