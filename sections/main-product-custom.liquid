@@ -1,67 +1,88 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Haal de productgegevens op
-        const productData = JSON.parse(document.getElementById('product-data').textContent);
+        try {
+          // Haal het product-object op
+          const productData = JSON.parse(document.getElementById('product-data').textContent);
+          console.log("Product Data:", productData);
       
-        // Selecteer belangrijke elementen
-        const swatchContainer = document.querySelector('.color-swatches');
-        const mediaGallery = document.querySelector('.media-gallery');
-        const variantInput = document.getElementById('selected-variant-id');
-        const buyButton = document.querySelector('.buy-button');
+          // Selecteer belangrijke elementen
+          const swatchContainer = document.querySelector('.color-swatches');
+          const mediaGallery = document.querySelector('.media-gallery');
+          const variantInput = document.getElementById('selected-variant-id');
       
-        // Groepeer varianten op kleur
-        const colorVariants = productData.variants.reduce((acc, variant) => {
-          if (!acc[variant.option1]) {
-            acc[variant.option1] = variant;
+          // Groepeer varianten op kleur
+          const colorVariants = productData.variants.reduce((acc, variant) => {
+            if (!acc[variant.option1]) {
+              acc[variant.option1] = variant;
+            }
+            return acc;
+          }, {});
+      
+          console.log("Color Variants:", colorVariants);
+      
+          // Dynamisch swatches genereren
+          Object.keys(colorVariants).forEach(color => {
+            console.log(`Generating swatch for color: ${color}`);
+            
+            // Maak een nieuwe swatch knop
+            const swatch = document.createElement('button');
+            swatch.classList.add('color-swatch');
+            swatch.dataset.variantId = colorVariants[color].id;
+            swatch.textContent = color;
+            swatch.style.backgroundColor = color.toLowerCase();
+      
+            // Klik-event voor swatch
+            swatch.addEventListener('click', () => {
+              console.log(`Swatch clicked: ${color}`);
+              updateGallery(colorVariants[color].id);
+              updateBuyButton(colorVariants[color].id);
+            });
+      
+            // Voeg de swatch toe aan de container
+            swatchContainer.appendChild(swatch);
+          });
+      
+          // Functie om de gallery te updaten
+          const updateGallery = (variantId) => {
+            console.log(`Updating gallery for variant ID: ${variantId}`);
+            const variantImages = productData.media.filter(media => media.variant_ids.includes(variantId));
+            console.log("Variant Images:", variantImages);
+      
+            mediaGallery.innerHTML = ''; // Clear de gallery
+      
+            if (variantImages.length === 0) {
+              console.warn(`No images found for variant ID: ${variantId}`);
+              mediaGallery.innerHTML = '<p>No images available for this variant.</p>';
+              return;
+            }
+      
+            // Voeg afbeeldingen toe aan de gallery
+            variantImages.forEach(image => {
+              console.log("Adding image to gallery:", image.src);
+              const imgElement = document.createElement('img');
+              imgElement.src = image.src;
+              imgElement.alt = `Image for variant ${variantId}`;
+              mediaGallery.appendChild(imgElement);
+            });
+          };
+      
+          // Functie om de variant-ID in het formulier bij te werken
+          const updateBuyButton = (variantId) => {
+            console.log(`Updating buy button with variant ID: ${variantId}`);
+            variantInput.value = variantId;
+          };
+      
+          // Initialiseer met de eerste kleurvariant
+          const firstColor = Object.keys(colorVariants)[0];
+          if (firstColor) {
+            console.log(`Initializing with first color: ${firstColor}`);
+            updateGallery(colorVariants[firstColor].id);
+            updateBuyButton(colorVariants[firstColor].id);
           }
-          return acc;
-        }, {});
-      
-        // Dynamisch swatches genereren
-        Object.keys(colorVariants).forEach(color => {
-          // Maak een nieuwe swatch knop
-          const swatch = document.createElement('button');
-          swatch.classList.add('color-swatch');
-          swatch.dataset.variantId = colorVariants[color].id;
-          swatch.textContent = color;
-          swatch.style.backgroundColor = color.toLowerCase();
-      
-          // Klik-event voor swatch
-          swatch.addEventListener('click', () => {
-            updateGallery(colorVariants[color].id);
-            updateBuyButton(colorVariants[color].id);
-          });
-      
-          // Voeg de swatch toe aan de container
-          swatchContainer.appendChild(swatch);
-        });
-      
-        // Functie om de gallery bij te werken
-        const updateGallery = (variantId) => {
-          const variantImages = productData.media.filter(media => media.variant_ids.includes(variantId));
-          mediaGallery.innerHTML = ''; // Clear de gallery
-      
-          // Voeg afbeeldingen toe aan de gallery
-          variantImages.forEach(image => {
-            const imgElement = document.createElement('img');
-            imgElement.src = image.src;
-            imgElement.alt = `Image for variant ${variantId}`;
-            mediaGallery.appendChild(imgElement);
-          });
-        };
-      
-        // Functie om de variant-ID in het formulier bij te werken
-        const updateBuyButton = (variantId) => {
-          variantInput.value = variantId;
-        };
-      
-        // Initialiseer met de eerste kleurvariant
-        const firstColor = Object.keys(colorVariants)[0];
-        if (firstColor) {
-          updateGallery(colorVariants[firstColor].id);
-          updateBuyButton(colorVariants[firstColor].id);
+        } catch (error) {
+          console.error("Error initializing product media gallery:", error);
         }
-      });      
+      });           
 </script>
 
 <style>
