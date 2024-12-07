@@ -140,9 +140,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const uniqueValues = [...new Set(productData.variants.map(variant => variant[`option${index + 1}`]))];
         console.log(`Unique Values for ${optionName}:`, uniqueValues);
       
+        // Maak een container voor de optie
         const optionContainer = document.createElement('div');
         optionContainer.classList.add('option-group');
-        optionContainer.innerHTML = `<strong>${optionName}</strong>`;
+      
+        // Voeg de titel toe aan een aparte div
+        const optionTitle = document.createElement('div');
+        optionTitle.classList.add('option-title');
+        optionTitle.innerHTML = `<strong>${optionName}</strong>`;
+        optionContainer.appendChild(optionTitle);
+      
+        // Voeg een container toe voor de knoppen
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('button-container');
       
         uniqueValues.forEach(value => {
           console.log(`Creating button for value: ${value}`);
@@ -172,17 +182,20 @@ document.addEventListener('DOMContentLoaded', () => {
           button.addEventListener('click', () => {
             console.log(`Swatch clicked: ${optionName} = ${value}`);
             selectedOptions[optionName] = value;
-            optionContainer.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+            buttonContainer.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
             button.classList.add('active');
             handleSelectionChange();
           });
       
-          optionContainer.appendChild(button);
+          buttonContainer.appendChild(button);
         });
       
-        optionsContainer.appendChild(optionContainer);
-      });
+        // Voeg de buttonContainer toe aan de optiecontainer
+        optionContainer.appendChild(buttonContainer);
       
+        // Voeg de optiecontainer toe aan de opties
+        optionsContainer.appendChild(optionContainer);
+      });      
   
       // Initialiseer standaardwaarden
       productData.options.forEach((optionName, index) => {
