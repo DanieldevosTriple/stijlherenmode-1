@@ -1,9 +1,6 @@
     .product-border {
     border-bottom: 1px solid lightgrey;
-    }
-
-    .product-border-gallery {
-        border-bottom: 1px solid lightgrey;
+    padding-bottom: 10rem;
     }
 
     .product-details-section {
