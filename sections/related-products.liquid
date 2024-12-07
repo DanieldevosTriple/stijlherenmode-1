@@ -25,9 +25,9 @@
   </div>
 </div>
 
-<ul class="row list-unstyled overflow-auto flex-nowrap showreel-related">
+<ul class="row list-unstyled overflow-auto flex-nowrap showreel-related scroll-enabled">
       {%- for product in recommendations.products -%}
-        <li class="col-6 col-md-4 col-lg-4 product scroll-enabled">
+        <li class="col-6 col-md-4 col-lg-4 product">
           <a href="{{ product.url }}">
             <img
               class="col-12 related-card card--standard card--media"
