@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
         const optionContainer = document.createElement('div');
         optionContainer.classList.add('option-group');
-        optionContainer.innerHTML = `<strong>${optionName}</strong>`;
+        optionContainer.innerHTML = `<div class="option-title>${optionName}</div>`;
       
         uniqueValues.forEach(value => {
           console.log(`Creating button for value: ${value}`);
