@@ -216,14 +216,13 @@
     display: inline-flex;
     align-items: center;
     text-decoration: none;
-}
+  }
   
 .arrow-body {
     display: block;
     width: 40px; /* Lengte van de steel */
     height: 2px; /* Dikte van de steel */
     background-color: black; /* Kleur van de pijl */
-    margin-right: 5px; /* Ruimte tussen steel en kop */
 }
   
 .arrow-head {
@@ -233,5 +232,7 @@
     border-top: 2px solid black; /* Schuine lijnen voor de pijlkop */
     border-left: 2px solid black;
     transform: rotate(-45deg); /* Draai om de pijl te vormen */
+    margin-left: -2px; /* Zorg ervoor dat de kop aansluit op de steel */
 }
+  
   
