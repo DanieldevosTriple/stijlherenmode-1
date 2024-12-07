@@ -8,12 +8,14 @@
 
 <script>
     document.querySelectorAll('.accordion-header').forEach(header => {
+        console.log('Accordion header gevonden:', header);
         header.addEventListener('click', () => {
+            console.log('Accordion header geklikt:', header);
             const content = header.nextElementSibling;
             header.classList.toggle('active');
             content.classList.toggle('active');
         });
-    });    
+    });      
 </script>
 
 <!-- Sections/product-details.liquid -->
