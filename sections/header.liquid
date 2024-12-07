@@ -6,10 +6,10 @@
 <link rel="stylesheet" href="{{ 'header.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {%- style -%}
-  :root {
-    --logo-light: url('{{ settings.logo_light | file_url }}');
-    --logo-dark: url('{{ settings.logo_dark | file_url }}');
-  }
+:root {
+    --logo-light: url('{{ settings.logo_light | file_url | prepend: "https:" }}');
+    --logo-dark: url('{{ settings.logo_dark | file_url | prepend: "https:" }}');
+}
 {%- endstyle -%}
 
 
