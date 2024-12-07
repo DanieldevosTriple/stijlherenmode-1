@@ -12,14 +12,16 @@
           let activeColor = null;
           let activeSize = null;
       
-          // Update gallery with variant-specific images
           const updateGallery = (variantId) => {
             console.log(`Updating gallery for variant ID: ${variantId}`);
-            mediaGallery.innerHTML = ''; // Clear gallery
-      
+            mediaGallery.innerHTML = ''; // Clear de gallery
+            const secondaryGallery = document.querySelector('.secondary-gallery');
+            secondaryGallery.innerHTML = ''; // Clear de secondary gallery
+          
+            // Vind de geselecteerde variant
             const selectedVariant = productData.variants.find(variant => variant.id === variantId);
             console.log("Selected Variant:", selectedVariant);
-      
+          
             if (selectedVariant && selectedVariant.featured_image) {
               console.log("Using variant-specific featured image:", selectedVariant.featured_image.src);
               const imgElement = document.createElement('img');
@@ -36,7 +38,29 @@
                 mediaGallery.appendChild(imgElement);
               });
             }
-          };
+          
+            // Voeg secundaire afbeeldingen toe
+            if (selectedVariant) {
+              const color = selectedVariant.option1.toLowerCase(); // Neem de kleur uit de variant
+              const secondaryImages = productData.media.filter(media =>
+                media.alt && media.alt.toLowerCase().includes(color)
+              );
+          
+              console.log(`Secondary images for color ${color}:`, secondaryImages);
+          
+              secondaryImages.forEach(image => {
+                const colDiv = document.createElement('div');
+                colDiv.classList.add('col-6'); // Voeg col-6 styling toe
+          
+                const imgElement = document.createElement('img');
+                imgElement.src = image.src;
+                imgElement.alt = image.alt || "Secondary image";
+          
+                colDiv.appendChild(imgElement);
+                secondaryGallery.appendChild(colDiv);
+              });
+            }
+          };          
       
           // Update buy button with variant ID
           const updateBuyButton = (variantId) => {
@@ -172,6 +196,23 @@
         max-width: 100%;
         margin-bottom: 10px;
       }
+
+      .product-gallery {
+        margin-top: 20px;
+      }
+      
+      .secondary-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      
+      .secondary-gallery .col-6 img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+      }      
       
       .buy-button {
         padding: 10px 20px;
@@ -194,9 +235,9 @@
 </style>
 
   <div class="row">
-    <!-- Dynamische media gallery -->
-    <div class="media-gallery col-6">
-            <!-- Afbeeldingen worden dynamisch toegevoegd -->
+    <div class="product-gallery">
+        <div class="media-gallery"></div>
+        <div class="secondary-gallery row"></div>
     </div>
 
     <div class="product-section col-6">
