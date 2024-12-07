@@ -133,6 +133,12 @@
     height: auto;
     cursor: pointer;
 }
+
+@media (prefers-color-scheme: dark) {
+.icon-hamburger {
+    color: white;
+}
+}
   
   /* Mobile Menu */
 #mobile-menu {
