@@ -154,8 +154,8 @@
       
 @media screen and (max-width: 749px) {
     
-    .product-section {
-
+    .product-border-gallery {
+        border: none;
     }
 }
 
