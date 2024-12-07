@@ -31,3 +31,10 @@
 .product__content {
     padding-top: 3rem;
 }
+
+.product__vendor:hover,
+.product__price:hover,
+.card__heading:hover {
+    text-decoration: none;
+    color:black;
+}
