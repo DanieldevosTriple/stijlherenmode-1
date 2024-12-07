@@ -137,6 +137,12 @@
   }
 
   @media (prefers-color-scheme: light) {
+
+    .header-wrapper--transparent {
+      background-color: var(--background-color-light-mode); /* Always solid background for mobile */
+      position: relative;
+    }
+
   /* Scroll-activated header */
     .scrolled-past-header .header-wrapper--transparent {
       background-color: var(--background-color-light-mode);
@@ -147,6 +153,12 @@
     .scrolled-past-header .header-wrapper--transparent {
     background-color: var(--background-color-dark-mode); /* Wordt wit bij scrollen */
     }
+
+    .header-wrapper--transparent {
+      background-color: var(--background-color-dark-mode); /* Always solid background for mobile */
+      position: relative;
+    }
+
   }
 
   /* Standard transparant header */
