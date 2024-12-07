@@ -75,6 +75,16 @@
     }
 }
 
+.cart-link {
+    color: var(--font-color-light-mode);
+}
+
+@media (prefers-color-scheme: dark) {
+    .cart-link {
+        color: var(--font-color-dark-mode);
+    }
+}
+
 .svg-mobile {
     display: none;
 }
