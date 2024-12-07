@@ -10,10 +10,10 @@
 </style>
 
 <div
-  class="product-recommendations"
+  class="product-recommendations slider-desktop slider--mobile container-desktop"
   data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.recommendations_limit }}&intent=related"
 >
-  <div class="slider-desktop slider--mobile container-desktop">
+  <div class="container-desktop product-recommendations">
   {%- if recommendations.performed? and recommendations.products_count > 0 -%}
     <div class="row title-related">
       <div class="col-12">
@@ -25,18 +25,9 @@
   </div>
 </div>
 
-<ul id="Slider-{{ section.id }}"
-  data-id="{{ section.id }}"
-  class="slider-desktop slider--mobile container-desktop"
-  role="list"
-  aria-label="{{ 'general.slider.name' | t }}>
+<ul class="row list-unstyled overflow-auto flex-nowrap">
       {%- for product in recommendations.products -%}
-        <li id="Slide-{{ section.id }}-{{ forloop.index }}"
-          class="col-12 col-sm-6 col-lg-4 slider-item no-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-          {% if settings.animations_reveal_on_scroll %}
-            data-cascade
-            style="--animation-order: {{ forloop.index }};"
-          {% endif %}>
+        <li class="col-6 col-md-4 col-lg-4 product">
           <a href="{{ product.url }}">
             <img
               class="col-12 related-card card--standard card--media"
