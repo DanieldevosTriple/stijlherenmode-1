@@ -1309,4 +1309,7 @@ input.mobile-facets__checkbox {
     color: white;
   }
 
+    .mobile-facets__open {
+    color: white;
   }
+}
