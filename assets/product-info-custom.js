@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Update Product Vendor
       const updateProductVendor = () => {
         const vendorElement = document.querySelector('.product-vendor');
-        vendorElement.textContent = `Brand: ${productData.vendor}`;
+        vendorElement.textContent = `${productData.vendor}`;
       };
 
       // Update Product Price
