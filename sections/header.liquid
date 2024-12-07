@@ -87,7 +87,7 @@
                 <!-- Insert cart icon SVG or image -->
                 {{- 'icon-cart.svg' | inline_asset_content -}}
                 {% if cart.item_count > 0 %}
-                  <span class="badge badge-pill badge-primary position-absolute" style="top: -5px; right: -10px;">
+                  <span class="badge badge-pill badge-primary position-absolute" style="top: 0px; right: -10px;">
                     {{ cart.item_count }}
                   </span>
                 {% endif %}
