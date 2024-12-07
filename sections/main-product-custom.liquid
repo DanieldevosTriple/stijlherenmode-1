@@ -212,9 +212,10 @@
       }
       
       .secondary-gallery .col-6 img {
-        width: 100%;
-        height: auto;
-        border-radius: 5px;
+        max-width: 100%;
+        height: auto; /* Houdt de aspectratio */
+        max-height: 300px; /* Beperk de hoogte indien nodig */
+        object-fit: cover; /* Zorg dat de afbeelding mooi geschaald wordt */
       }      
       
       .buy-button {
@@ -240,7 +241,7 @@
   <div class="row">
     <div class="product-gallery col-6">
         <div class="media-gallery col-12"></div>
-        <div class="secondary-gallery col-6"></div>
+        <div class="col-sm-6 col-md-4 secondary-gallery"></div>
     </div>
 
     <div class="product-section col-6">
