@@ -46,8 +46,8 @@
         <nav class="navbar navbar-expand-lg">
           <!-- Hamburger Button -->
           <button class="navbar-toggler" type="button" id="hamburger-menu-toggle">
-            <img src="{{ 'icon-hamburger.svg' | asset_url }}" alt="Hamburger Menu" class="icon-hamburger">
-          </button>
+            {% render 'icon-hamburger', color: '#FF5733' %}
+          </button>          
           
           <!-- Menu Items -->
           {% if section.settings.menu != blank %}
