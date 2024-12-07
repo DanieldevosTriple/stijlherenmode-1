@@ -1,0 +1,15 @@
+.new-header {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Drie kolommen met gelijke breedte */
+    gap: minmax(20px, 1fr); /* Dynamische gap die groter wordt bij minder ruimte */
+    align-items: start; /* Zorg ervoor dat content bovenin blijft aligneren */
+    justify-content: space-between; /* Verdeelt de ruimte gelijkmatig */
+}
+
+.col-menu {
+    background-color: #f4f4f4;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
