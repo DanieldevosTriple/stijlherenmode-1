@@ -1,5 +1,9 @@
 {{ 'section-main-product-custom.css' | asset_url | stylesheet_tag }}
 
+<!-- JSON Data -->
+<script type="application/json" id="product-data">
+    {{ product | json }}
+</script>
 <script src="{{ 'product-info-custom.js' | asset_url }}" defer="defer"></script>
 
     <div class="container">
@@ -15,30 +19,24 @@
 
             <div class="col-6">
                 <div class="product-section col-6">
-                <!-- Dynamische titel -->
-                <p class="product-vendor"></p>
-                <h1 class="product-title"></h1>
-                <p class="product-price"></p>
+                    <p class="product-vendor"></p>
+                    <h1 class="product-title"></h1>
+                    <p class="product-price"></p>
             
-                <div class="options-container">
                 <!-- Dynamische optieknoppen worden hier gegenereerd -->
-                </div>
+                <div class="options-container"></div>
 
                 <div class="product-description"></div>
             
                 <!-- Aankoopknop -->
-                <form method="post" action="/cart/add">
-                <input type="hidden" name="id" id="selected-variant-id" />
-                <button type="submit" class="buy-button">{{ section.settings.buy_button_text }}</button>
-                </form>
+                    <form method="post" action="/cart/add">
+                    <input type="hidden" name="id" id="selected-variant-id" />
+                    <button type="submit" class="buy-button">{{ section.settings.buy_button_text }}</button>
+                    </form>
+                </div>
             </div>
         </div>    
     </div>
-
-  <!-- JSON Data -->
-  <script type="application/json" id="product-data">
-    {{ product | json }}
-  </script>
   
   <!-- Schema voor de Shopify Theme Editor -->
 {% schema %}
@@ -54,8 +52,7 @@
   ],
   "presets": [
     {
-      "name": "Product Media Gallery",
-      "category": "Product"
+      "name": "Product Media Gallery"
     }
   ]
 }
