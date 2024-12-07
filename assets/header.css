@@ -23,6 +23,10 @@
     justify-content: left;
 }
 
+.col-align-right {
+    justify-content: right;
+}
+
 .col-menu img {
     max-height: 100%; /* Zorg ervoor dat logo's niet uitrekken */
     object-fit: contain; /* Houd proporties van afbeeldingen */
