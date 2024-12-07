@@ -52,7 +52,7 @@
           <!-- Menu Items -->
           {% if section.settings.menu != blank %}
             {% assign menu = linklists[section.settings.menu] %}
-            <ul class="navbar-nav d-none" id="mobile-menu">
+            <ul class="navbar-nav d-none" id="desktop-menu">
               {% for link in menu.links %}
                 <li class="nav-item">
                   <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
