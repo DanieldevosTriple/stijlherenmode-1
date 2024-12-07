@@ -147,10 +147,17 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "main_product_custom_9F9PJb": {
+      "type": "main-product-custom",
+      "settings": {
+        "buy_button_text": "Add to Cart"
+      }
     }
   },
   "order": [
     "main",
-    "related-products"
+    "related-products",
+    "main_product_custom_9F9PJb"
   ]
 }
