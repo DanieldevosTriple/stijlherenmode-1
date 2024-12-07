@@ -173,5 +173,12 @@
     .icon-cart {
         display: inline-block;
     }
+
+    .badge {
+        z-index: 10; /* Zorg ervoor dat de badge zichtbaar is */
+    }
+    .icon-cart {
+        z-index: 5; /* Zorg ervoor dat het icoon niet verborgen wordt */
+    }
   }
   
