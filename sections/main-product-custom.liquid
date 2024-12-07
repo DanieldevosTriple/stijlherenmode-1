@@ -52,8 +52,8 @@
                     {% for block in section.blocks %}
                         <div class="accordion-item">
                             <div class="accordion-header">
-                                {{ block.settings.title }}
-                                <img src="{{ 'icon-expand.svg' | asset_url }}" alt="Expand Icon" class="accordion-icon">
+                                <span>{{ block.settings.title }}</span>
+                                {{- 'icon-expand.svg' | inline_asset_content -}}
                             </div>
                             <div class="accordion-content">
                                 <p>{{ block.settings.description }}</p>
