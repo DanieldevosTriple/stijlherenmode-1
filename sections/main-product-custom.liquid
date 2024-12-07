@@ -1,134 +1,33 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         try {
-          // Haal het product-object op
           const productData = JSON.parse(document.getElementById('product-data').textContent);
           console.log("Product Data:", productData);
       
-          // Selecteer belangrijke elementen
           const colorSwatchContainer = document.querySelector('.color-swatches');
           const sizeSwatchContainer = document.querySelector('.size-swatches');
           const mediaGallery = document.querySelector('.media-gallery');
           const variantInput = document.getElementById('selected-variant-id');
       
-          // Groepeer varianten op kleur en maat
-          const colorVariants = productData.variants.reduce((acc, variant) => {
-            if (!acc[variant.option1]) {
-              acc[variant.option1] = [];
-            }
-            acc[variant.option1].push(variant);
-            return acc;
-          }, {});
-      
-          console.log("Color Variants:", colorVariants);
-      
           let activeColor = null;
           let activeSize = null;
       
-          // Dynamisch kleur-swatches genereren
-          Object.keys(colorVariants).forEach(color => {
-            console.log(`Generating color swatch for: ${color}`);
-            
-            const swatch = document.createElement('button');
-            swatch.classList.add('color-swatch');
-            swatch.dataset.color = color;
-            swatch.textContent = color;
-            swatch.style.backgroundColor = color.toLowerCase();
+          // Update gallery with variant-specific images
+          const updateGallery = (variantId) => {
+            console.log(`Updating gallery for variant ID: ${variantId}`);
+            mediaGallery.innerHTML = ''; // Clear gallery
       
-            swatch.addEventListener('click', () => {
-              console.log(`Color swatch clicked: ${color}`);
-              activeColor = color; // Update actieve kleur
-              updateActiveSwatch(colorSwatchContainer, swatch); // Markeer actief
-              updateSizeSwatches(colorVariants[color], activeSize); // Houd actieve maat als die bestaat
-              updateGallery(color, activeSize); // Update gallery met variant-afbeelding
-            });
-      
-            colorSwatchContainer.appendChild(swatch);
-          });
-      
-          // Dynamisch maat-swatches genereren
-          const updateSizeSwatches = (variants, keepActiveSize = null) => {
-            console.log(`Updating size swatches for variants:`, variants);
-      
-            sizeSwatchContainer.innerHTML = ''; // Reset de maat-swatches
-      
-            const uniqueSizes = [...new Set(variants.map(variant => variant.option2))];
-      
-            uniqueSizes.forEach(size => {
-              console.log(`Generating size swatch for: ${size}`);
-              
-              const sizeSwatch = document.createElement('button');
-              sizeSwatch.classList.add('size-swatch');
-              sizeSwatch.dataset.size = size;
-              sizeSwatch.textContent = size;
-      
-              sizeSwatch.addEventListener('click', () => {
-                console.log(`Size swatch clicked: ${size}`);
-                activeSize = size; // Update actieve maat
-                updateActiveSwatch(sizeSwatchContainer, sizeSwatch); // Markeer actief
-                updateGallery(activeColor, size); // Update gallery met variant-afbeelding
-                const selectedVariant = variants.find(variant => variant.option2 === size);
-                if (selectedVariant) {
-                  updateBuyButton(selectedVariant.id);
-                  updateURLWithVariant(selectedVariant.id);
-                }
-              });
-      
-              sizeSwatchContainer.appendChild(sizeSwatch);
-      
-              // Houd actieve maat als die bestaat
-              if (keepActiveSize && size === keepActiveSize) {
-                updateActiveSwatch(sizeSwatchContainer, sizeSwatch);
-              }
-            });
-      
-            // Selecteer standaard de eerste maat als geen actieve maat
-            if (!keepActiveSize && uniqueSizes.length > 0) {
-              const firstSize = uniqueSizes[0];
-              console.log(`Selecting default size: ${firstSize}`);
-              const defaultVariant = variants.find(variant => variant.option2 === firstSize);
-              if (defaultVariant) {
-                updateBuyButton(defaultVariant.id);
-                updateURLWithVariant(defaultVariant.id);
-                updateActiveSwatch(sizeSwatchContainer, sizeSwatchContainer.querySelector(`[data-size="${firstSize}"]`));
-              }
-            }
-          };
-      
-            const updateGallery = (variantId) => {
-            console.log("Raw variantId:", variantId);
-          
-            // Zorg ervoor dat variantId een geldig nummer is
-            const numericVariantId = typeof variantId === 'string' ? parseInt(variantId, 10) : variantId;
-            console.log("Parsed numericVariantId:", numericVariantId);
-          
-            if (isNaN(numericVariantId)) {
-              console.warn("Invalid variantId. Loading default images.");
-              mediaGallery.innerHTML = ''; // Clear de gallery
-              const fallbackImages = [productData.featured_image, ...productData.images.slice(0, 2)];
-              fallbackImages.forEach(image => {
-                const imgElement = document.createElement('img');
-                imgElement.src = image;
-                imgElement.alt = "Default image";
-                mediaGallery.appendChild(imgElement);
-              });
-              return;
-            }
-          
-            // Vind de geselecteerde variant
-            const selectedVariant = productData.variants.find(variant => variant.id === numericVariantId);
+            const selectedVariant = productData.variants.find(variant => variant.id === variantId);
             console.log("Selected Variant:", selectedVariant);
-          
+      
             if (selectedVariant && selectedVariant.featured_image) {
               console.log("Using variant-specific featured image:", selectedVariant.featured_image.src);
-              mediaGallery.innerHTML = ''; // Clear de gallery
               const imgElement = document.createElement('img');
               imgElement.src = selectedVariant.featured_image.src;
-              imgElement.alt = `Featured image for variant ID: ${numericVariantId}`;
+              imgElement.alt = `Featured image for variant ID: ${variantId}`;
               mediaGallery.appendChild(imgElement);
             } else {
               console.warn("No specific variant featured image found. Using default images.");
-              mediaGallery.innerHTML = ''; // Clear de gallery
               const fallbackImages = [productData.featured_image, ...productData.images.slice(0, 2)];
               fallbackImages.forEach(image => {
                 const imgElement = document.createElement('img');
@@ -137,43 +36,112 @@
                 mediaGallery.appendChild(imgElement);
               });
             }
-          };                             
-            
-          // Functie om de actieve swatch te markeren
-          const updateActiveSwatch = (container, activeSwatch) => {
-            container.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
-            activeSwatch.classList.add('active');
           };
       
-          // Functie om de variant-ID in het formulier bij te werken
+          // Update buy button with variant ID
           const updateBuyButton = (variantId) => {
             console.log(`Updating buy button with variant ID: ${variantId}`);
             variantInput.value = variantId;
           };
       
-          // Functie om de URL bij te werken
-          const updateURLWithVariant = (variantId) => {
-            const url = new URL(window.location.href);
-            url.searchParams.set('variant', variantId);
-            window.history.replaceState({}, '', url.toString());
-            console.log(`URL updated with variant ID: ${variantId}`);
+          // Update active swatch
+          const updateActiveSwatch = (container, activeSwatch) => {
+            container.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+            activeSwatch.classList.add('active');
           };
       
-          // Initialiseer met de eerste kleurvariant
-          const firstColor = Object.keys(colorVariants)[0];
-          if (firstColor) {
-            console.log(`Initializing with first color: ${firstColor}`);
-            const firstColorSwatch = colorSwatchContainer.querySelector(`[data-color="${firstColor}"]`);
-            if (firstColorSwatch) {
-              updateActiveSwatch(colorSwatchContainer, firstColorSwatch);
+          // Handle selection of color and size
+          const handleSelectionChange = (color, size) => {
+            console.log(`Color: ${color}, Size: ${size}`);
+            const selectedVariant = productData.variants.find(
+              variant => variant.option1 === color && variant.option2 === size
+            );
+      
+            if (selectedVariant) {
+              console.log("Selected Variant ID:", selectedVariant.id);
+              updateGallery(selectedVariant.id);
+              updateBuyButton(selectedVariant.id);
+            } else {
+              console.warn("No matching variant found. Loading default images.");
+              updateGallery(null);
             }
-            updateSizeSwatches(colorVariants[firstColor]);
-            updateGallery(firstColor, null);
-          }
+          };
+      
+          // Create color swatches
+          Object.keys(
+            productData.variants.reduce((acc, variant) => {
+              acc[variant.option1] = true;
+              return acc;
+            }, {})
+          ).forEach(color => {
+            const swatch = document.createElement('button');
+            swatch.classList.add('color-swatch');
+            swatch.dataset.color = color;
+            swatch.textContent = color;
+            swatch.style.backgroundColor = color.toLowerCase();
+      
+            swatch.addEventListener('click', () => {
+              activeColor = color;
+              updateActiveSwatch(colorSwatchContainer, swatch);
+              handleSelectionChange(activeColor, activeSize);
+            });
+      
+            colorSwatchContainer.appendChild(swatch);
+          });
+      
+          // Create size swatches
+          const uniqueSizes = [...new Set(productData.variants.map(variant => variant.option2))];
+          uniqueSizes.forEach(size => {
+            const swatch = document.createElement('button');
+            swatch.classList.add('size-swatch');
+            swatch.dataset.size = size;
+            swatch.textContent = size;
+      
+            swatch.addEventListener('click', () => {
+              activeSize = size;
+              updateActiveSwatch(sizeSwatchContainer, swatch);
+              handleSelectionChange(activeColor, activeSize);
+            });
+      
+            sizeSwatchContainer.appendChild(swatch);
+          });
+      
+          // Load variant from URL
+          const validateVariantFromURL = () => {
+            const urlParams = new URL(window.location.href).searchParams;
+            const variantId = parseInt(urlParams.get('variant'), 10);
+            if (!isNaN(variantId)) {
+              console.log("Loading variant ID from URL:", variantId);
+              const selectedVariant = productData.variants.find(variant => variant.id === variantId);
+              if (selectedVariant) {
+                activeColor = selectedVariant.option1;
+                activeSize = selectedVariant.option2;
+      
+                updateGallery(selectedVariant.id);
+                updateBuyButton(selectedVariant.id);
+      
+                // Mark swatches as active
+                const activeColorSwatch = colorSwatchContainer.querySelector(`[data-color="${activeColor}"]`);
+                if (activeColorSwatch) updateActiveSwatch(colorSwatchContainer, activeColorSwatch);
+      
+                const activeSizeSwatch = sizeSwatchContainer.querySelector(`[data-size="${activeSize}"]`);
+                if (activeSizeSwatch) updateActiveSwatch(sizeSwatchContainer, activeSizeSwatch);
+              }
+            } else {
+              console.warn("No valid variant ID in URL. Using default values.");
+              activeColor = productData.variants[0].option1;
+              activeSize = productData.variants[0].option2;
+      
+              handleSelectionChange(activeColor, activeSize);
+            }
+          };
+      
+          // Initialize
+          validateVariantFromURL();
         } catch (error) {
           console.error("Error initializing product media gallery:", error);
         }
-      });                                                   
+      });                                                        
 </script>
 
 <style>
