@@ -18,10 +18,26 @@
             "title": "Example #1",
             "description": "Accordion description goes here."
           }
+        },
+        "accordion_item_WA4MwQ": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "Example #2",
+            "description": "Accordion description goes here."
+          }
+        },
+        "accordion_item_czU8p9": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "Example #3",
+            "description": "Accordion description goes here."
+          }
         }
       },
       "block_order": [
-        "accordion_item_78DXDU"
+        "accordion_item_78DXDU",
+        "accordion_item_WA4MwQ",
+        "accordion_item_czU8p9"
       ],
       "settings": {
         "buy_button_text": "Voeg toe aan winkelwagen"
