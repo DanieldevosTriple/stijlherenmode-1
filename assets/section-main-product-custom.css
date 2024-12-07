@@ -90,6 +90,22 @@
     .option-swatch.has-img.active {
         border: 1px solid black;
     }
+
+    .option-swatch:not(.has-image) {
+        background-color: transparent;
+        color: white;
+        padding: 10px;
+        font-size: 14px;
+        display: inline-block;
+        margin: 5px;
+        border: none;
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        cursor: pointer;
+        transition: all .3s ease;
+    }
       
     .option-swatch:not(.has-image).active {
         background-color: black;
@@ -103,7 +119,6 @@
         width: 40px;
         height: 40px;
         text-align: center;
-        line-height: 40px;
         cursor: pointer;
         transition: all .3s ease;
     }
