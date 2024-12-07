@@ -39,6 +39,9 @@
       role="list"
       aria-label="{{ 'general.slider.name' | t }}"
     >
+
+      {% assign skip_card_product_styles = false %}
+
       {%- assign shown_colors = ',' -%}
       {%- if recommendations.performed and recommendations.products_count > 0 -%}
         {%- assign products_to_show = recommendations.products -%}
@@ -71,6 +74,7 @@
             %}
           </a>
         </li>
+        {%- assign shown_colors = shown_colors | append: color_option | append: ',' -%}
       {%- endfor -%}
     </ul>    
     </slider-component>
