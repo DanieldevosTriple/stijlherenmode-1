@@ -180,9 +180,15 @@
 
 .accordion-content {
     display: none;
-    padding: 15px;
-    background-color: #fff;
-    border-top: 1px solid #ccc;
+    transition: max-height 0.3s ease; /* Optioneel voor animatie */
+    overflow: hidden; /* Zorg ervoor dat inhoud niet buiten de container komt */
+}
+.accordion-header.active + .accordion-content {
+    display: block;
+}
+
+.accordion-content.active {
+    display: block;
 }
 
 .accordion-header.active {

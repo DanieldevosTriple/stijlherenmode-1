@@ -11,9 +11,9 @@
         header.addEventListener('click', () => {
             const content = header.nextElementSibling;
             header.classList.toggle('active');
-            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            content.classList.toggle('active');
         });
-    });
+    });    
 </script>
 
 <!-- Sections/product-details.liquid -->
