@@ -2560,6 +2560,10 @@ input[type='checkbox'] {
     background-color: white;
     color: black;
   }
+
+  .field__input:focus {
+    box-shadow: unset;
+  }
 }
 
 @media screen and (max-width: 989px) {
