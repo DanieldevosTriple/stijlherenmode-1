@@ -82,7 +82,9 @@
 
     .option-swatch.has-image {
         background-color: transparent;
-        padding: 5px;
+        width: 4rem;
+        height: 4rem;
+        border: 0px;
     }
 
     .option-swatch.has-img.active {
