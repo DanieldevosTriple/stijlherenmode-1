@@ -130,53 +130,5 @@
 
 /* Hamburger Menu */
 
-/* Mobiel menu standaard verbergen */
-.mobile-menu {
-    display: none;
-    flex-direction: column;
-    background-color: #fff; /* Optioneel: achtergrondkleur */
-    position: absolute;
-    top: 50px; /* Pas aan afhankelijk van je navbar */
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    border-top: 1px solid #ccc; /* Optioneel: styling */
-    padding: 10px;
-  }
-  
-  /* Mobiel menu tonen wanneer actief */
-  .mobile-menu.active {
-    display: flex;
-  }
-  
-  /* Desktop menu standaard tonen */
-  .desktop-menu {
-    display: flex;
-    flex-direction: row;
-  }
-  
-  /* Responsiviteit */
-  @media (max-width: 991px) {
-    .desktop-menu {
-      display: none;
-    }
-  
-    .mobile-menu {
-      display: none; /* Blijft verborgen tenzij actief */
-    }
-  
-    .navbar-toggler {
-      display: block; /* Hamburger zichtbaar op mobiel */
-    }
-  }
-  
-  @media (min-width: 992px) {
-    .mobile-menu {
-      display: none !important;
-    }
-  
-    .navbar-toggler {
-      display: none; /* Verberg hamburger op desktop */
-    }
-  }
+
   
