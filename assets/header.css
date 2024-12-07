@@ -6,6 +6,12 @@
     padding: 20px; /* Ruimte binnen de header */
 }
 
+@media only screen and (max-width: 749px) {
+    .index-page {
+        position: unset;
+    }
+}
+
 .new-header {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Drie kolommen met gelijke breedte */
