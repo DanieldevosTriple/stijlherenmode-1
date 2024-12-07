@@ -169,6 +169,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-transform: uppercase;
+    font-family: 'TradeGothic LT CondEighteen';
 }
 
 .accordion-header:hover {
