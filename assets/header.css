@@ -12,6 +12,9 @@
 .col-menu {
     padding: 20px 0px;
     text-align: center;
+    justify-content: center; /* Horizontaal centreren */
+    align-items: center; /* Verticaal centreren */
+    display: flex;
 }
 
 .navbar-nav .nav-link {
