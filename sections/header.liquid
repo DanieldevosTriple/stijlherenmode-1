@@ -12,6 +12,16 @@
 }
 {%- endstyle -%}
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const hamburgerToggle = document.getElementById("hamburger-menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+    
+      hamburgerToggle.addEventListener("click", function () {
+        mobileMenu.classList.toggle("show");
+      });
+    });      
+</script>
 
 <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'slider-title.js' | asset_url }}" defer="defer"></script>
