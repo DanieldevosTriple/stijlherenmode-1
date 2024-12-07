@@ -27,7 +27,7 @@
 
 <ul class="row list-unstyled overflow-auto flex-nowrap showreel-related">
       {%- for product in recommendations.products -%}
-        <li class="col-6 col-md-4 col-lg-3 product">
+        <li class="col-6 col-md-4 col-lg-4 product">
           <a href="{{ product.url }}">
             <img
               class="product__img"
@@ -46,79 +46,56 @@
 </div>
 
 {% javascript %}
-  document.addEventListener('DOMContentLoaded', () => {
-    const debug = true; // Zet op 'true' om debugberichten in de console te zien
-    const log = (message, data) => {
-      if (debug) {
-        console.log(`[DEBUG] ${message}`, data || '');
-      }
-    };
+document.addEventListener('DOMContentLoaded', () => {
+  const productRecommendationsSection = document.querySelector('.product-recommendations');
 
-    const productRecommendationsSection = document.querySelector('.product-recommendations');
+  // Controleer of het element bestaat voordat we verdergaan
+  if (!productRecommendationsSection) {
+    return;
+  }
 
-    // Controleer of het element bestaat voordat we verdergaan
-    if (!productRecommendationsSection) {
-      console.warn('Geen productaanbevelingen sectie gevonden.');
+  const handleIntersection = (entries, observer) => {
+    if (!entries[0].isIntersecting) {
       return;
     }
 
-    log('Productaanbevelingen sectie gevonden.', productRecommendationsSection);
+    observer.unobserve(productRecommendationsSection);
 
-    const handleIntersection = (entries, observer) => {
-      if (!entries[0].isIntersecting) {
-        log('Sectie is nog niet zichtbaar in het viewport.');
-        return;
-      }
+    const url = productRecommendationsSection.dataset.url;
 
-      log('Sectie is zichtbaar in het viewport. Start met laden van aanbevelingen.');
-      observer.unobserve(productRecommendationsSection);
+    if (!url) {
+      return;
+    }
 
-      const url = productRecommendationsSection.dataset.url;
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Fetch error: ${response.statusText}`);
+        }
+        return response.text();
+      })
+      .then(text => {
+        const html = document.createElement('div');
+        html.innerHTML = text;
 
-      if (!url) {
-        console.error('Geen URL gevonden in dataset.');
-        return;
-      }
+        const recommendations = html.querySelector('.product-recommendations');
 
-      log('URL gevonden voor aanbevelingen.', url);
+        if (recommendations && recommendations.innerHTML.trim().length) {
+          productRecommendationsSection.innerHTML = recommendations.innerHTML;
+        }
+      })
+      .catch(() => {
+        // Fout bij het ophalen van aanbevelingen, geen actie vereist
+      });
+  };
 
-      fetch(url)
-        .then(response => {
-          log('Respons ontvangen van fetch.', response);
-
-          if (!response.ok) {
-            throw new Error(`Fetch error: ${response.statusText}`);
-          }
-          return response.text();
-        })
-        .then(text => {
-          log('HTML-respons succesvol opgehaald.', text);
-
-          const html = document.createElement('div');
-          html.innerHTML = text;
-
-          const recommendations = html.querySelector('.product-recommendations');
-
-          if (recommendations && recommendations.innerHTML.trim().length) {
-            log('Aanbevelingen gevonden en toegevoegd aan de sectie.');
-            productRecommendationsSection.innerHTML = recommendations.innerHTML;
-          } else {
-            console.warn('Geen aanbevelingen gevonden in de respons.');
-          }
-        })
-        .catch(error => {
-          console.error('Fout bij het ophalen van aanbevelingen:', error);
-        });
-    };
-
-    // Stel de IntersectionObserver in
-    const observer = new IntersectionObserver(handleIntersection, {
-      rootMargin: '0px 0px 500px 0px'
-    });
-
-    observer.observe(productRecommendationsSection);
-    log('IntersectionObserver ingesteld en observing gestart.', observer);
+  // Stel de IntersectionObserver in
+  const observer = new IntersectionObserver(handleIntersection, {
+    rootMargin: '0px 0px 500px 0px'
   });
+
+  observer.observe(productRecommendationsSection);
+});
 {% endjavascript %}
 
 {% schema %}
