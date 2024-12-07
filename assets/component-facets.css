@@ -1298,3 +1298,15 @@ input.mobile-facets__checkbox {
   }
 
 }
+
+@media (prefers-color-scheme: dark) { 
+  .facets__item {
+    color: white;
+  }
+
+  .facet-filters__field .select {
+    width: auto;
+    color: white;
+  }
+
+  }
