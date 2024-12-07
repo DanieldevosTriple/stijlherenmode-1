@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
           updateBuyButton(selectedVariant.id);
           updateProductTitle();
           updateURLWithVariant(selectedVariant.id); // URL bijwerken met variant-ID
+          updateProductVendor();
         } else {
           console.warn("No matching variant found. Loading default images.");
           updateGallery(null);
