@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
       const mediaGallery = document.querySelector('.media-gallery');
       const variantInput = document.getElementById('selected-variant-id');
-      const optionsContainer = document.querySelector('.options-container'); // Container voor dynamische opties
-      const secondaryGallery = document.querySelector('.secondary-gallery'); // Container voor secundaire afbeeldingen
+      const optionsContainer = document.querySelector('.options-container');
+      const secondaryGallery = document.querySelector('.secondary-gallery');
   
-      let selectedOptions = {}; // Huidige selectie van opties
+      let selectedOptions = {};; // Huidige selectie van opties
   
       // Update de gallery met de geselecteerde variant
       const updateGallery = (variantId) => {
