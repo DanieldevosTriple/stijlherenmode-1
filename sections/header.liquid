@@ -7,8 +7,8 @@
 
 {%- style -%}
 :root {
-    --logo-light: url('{{ settings.logo_white | file_url | prepend: "https:" | replace: "files/files/", "files/" }}');
-    --logo-dark: url('{{ settings.logo_black | file_url | prepend: "https:" | replace: "files/files/", "files/" }}');
+    --logo-light: url('{{ settings.logo_black | file_url | prepend: "https:" | replace: "files/files/", "files/" }}');
+    --logo-dark: url('{{ settings.logo_white | file_url | prepend: "https:" | replace: "files/files/", "files/" }}');
 }
 {%- endstyle -%}
 
