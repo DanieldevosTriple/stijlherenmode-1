@@ -46,28 +46,4 @@
     font-size: 1.8rem;
 }
 
-.scroll-enabled {
-    display: flex;
-    overflow-x: scroll; /* Zorgt voor horizontaal scrollen */
-    scroll-behavior: smooth; /* Soepele scrollervaring */
-    gap: 16px; /* Optioneel: ruimte tussen items */
-  }
-  
-  .scroll-enabled::-webkit-scrollbar {
-    display: none; /* Verbergt de scrollbar voor Webkit-browsers */
-  }
-  
-  .scroll-enabled {
-    -ms-overflow-style: none; /* Verbergt de scrollbar in IE en Edge */
-    scrollbar-width: none; /* Verbergt de scrollbar in Firefox */
-  }
-  
-  .scroll-enabled .product {
-    flex: 0 0 auto; /* Voorkomt dat items worden gewrapped */
-    width: calc(100% / 3); /* Pas de breedte van items naar wens aan */
-  }
-  
-  .scroll-enabled .related-card {
-    width: 100%; /* Zorgt ervoor dat de afbeelding het hele product vult */
-  }
   
