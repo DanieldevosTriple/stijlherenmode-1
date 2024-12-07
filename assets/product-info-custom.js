@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
         // Voeg een container toe voor de knoppen
         const buttonContainer = document.createElement('div');
-        buttonContainer.classList.add('button-container row row-cols-2 row-cols-md-4 g-3');
+        buttonContainer.classList.add('button-container');
       
         uniqueValues.forEach(value => {
           console.log(`Creating button for value: ${value}`);
