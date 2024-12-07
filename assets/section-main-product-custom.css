@@ -83,7 +83,7 @@
         transition: all .3s ease;
     }
 
-    .option-swatch.has-img.active {
+    .option-swatch.has-image.active {
         border: 1px solid black;
     }
 
