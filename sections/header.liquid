@@ -27,222 +27,84 @@
 <sticky-header
   data-sticky-type="{{ section.settings.sticky_header_type }}"
   data-theme-mode="{{ section.settings.header_theme_mode }}"
-  class="header-wrapper color-{{ section.settings.color_scheme }} gradient container-desktop
-  {% if template == 'index' and section.settings.header_theme_mode == 'transparent' %}
-    header-wrapper--transparent
-  {% elsif section.settings.show_line_separator %}
-  {% endif %}">
-   <!-- Current Page Type: {{ request.page_type }} -->
-  {%- liquid
-    assign social_links = false
-    assign localization_forms = false
-
-    if settings.social_twitter_link != blank or settings.social_facebook_link != blank or settings.social_pinterest_link != blank or settings.social_instagram_link != blank or settings.social_youtube_link != blank or settings.social_vimeo_link != blank or settings.social_tiktok_link != blank or settings.social_tumblr_link != blank or settings.social_snapchat_link != blank
-      assign social_links = true
-    endif
-
-    if localization.available_countries.size > 1 and section.settings.enable_country_selector or section.settings.enable_language_selector and localization.available_languages.size > 1
-      assign localization_forms = true
-    endif
-  -%}
-  <header class="header header--middle-center {% if section.settings.menu != blank %} header--has-menu{% endif %}{% if social_links %} header--has-social{% endif %}">
-  {%- liquid
-        if section.settings.menu != blank
-          render 'header-drawer'
-        endif
-
-        if section.settings.logo_position == 'top-center' or section.settings.menu == blank
-          render 'header-search', input_id: 'Search-In-Modal-1'
-        endif
-      -%}
-
-
-  {%- liquid
-      if section.settings.menu != blank
-        if section.settings.menu_type_desktop == 'dropdown'
-          render 'header-dropdown-menu'
-        elsif section.settings.menu_type_desktop != 'drawer'
-          render 'header-mega-menu'
-        endif
-      endif
-    %}
-
-        <h1 class="header__heading">
-          <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
-            <div class="header__heading-logo-wrapper">
-            </div>
-          </a>
-        </h1>
-
-    <div class="header__icons">
-
-      <!-- Search -->
-      <div class="header__icon__search">
-        {% render 'header-search', input_id: 'Search-In-Modal' %}
-      </div>
-
-    <!-- Cart -->
-    <div class="header__icon__cart"> 
-      <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset header__cart" id="cart-icon">
-        <span class="desktop-cart-text">
-          <span class="cart-text cart-color {{ template }}-page">
-            {{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
-          </span>
-        </span>
-        <span class="mobile-cart-icon">
-          <span class="svg-wrapper">
-            {% if cart == empty %}
-              {{ 'icon-cart-empty.svg' | inline_asset_content }}
-            {% else %}
-              {{ 'icon-cart.svg' | inline_asset_content }}
+  class="header-wrapper gradient container-desktop">
+  <header class="header">
+    <div class="container">
+      <div class="row align-items-center justify-content-between">
+        <!-- Left: Dynamic Menu -->
+        <div class="col-auto">
+          <nav class="navbar navbar-expand-lg">
+            {% if section.settings.menu != blank %}
+              {% assign menu = linklists[section.settings.menu] %}
+              <ul class="navbar-nav">
+                {% for link in menu.links %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
             {% endif %}
-          </span>
-          <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
-
-          {% if cart != empty %}
-            <div class="cart-count-bubble">
-              {% if cart.item_count < 100 %}
-                <span aria-hidden="true">{{ cart.item_count }}</span>
-              {% endif %}
-              <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+          </nav>
+        </div>
+  
+        <!-- Center: Logo -->
+        <div class="col text-center">
+          <a href="{{ routes.root_url }}">
+            {% if settings.logo %}
+              <img src="{{ settings.logo | img_url: '200x' }}" alt="{{ settings.logo.alt | escape }}">
+            {% else %}
+              {{ shop.name }}
+            {% endif %}
+          </a>
+        </div>
+  
+        <!-- Right: Search and Cart -->
+        <div class="col-auto text-right">
+          <!-- Search -->
+          <div class="search d-inline-block">
+            <!-- On Desktop -->
+            <div class="d-none d-lg-block">
+              {% render 'header-search', input_id: 'Search-In-Modal' %}
             </div>
-          {% endif %}
-        </span>
-      </a>
+            <!-- On Mobile -->
+            <div class="d-lg-none">
+              <a href="#" class="search-icon">
+                <!-- Insert search icon SVG or image -->
+                <span class="icon-search"></span>
+              </a>
+            </div>
+          </div>
+  
+          <!-- Cart -->
+          <div class="cart d-inline-block ml-3">
+            <!-- On Desktop -->
+            <div class="d-none d-lg-block">
+              <a href="{{ routes.cart_url }}" class="cart-link">
+                {{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
+              </a>
+            </div>
+            <!-- On Mobile -->
+            <div class="d-lg-none">
+              <a href="{{ routes.cart_url }}" class="cart-icon position-relative">
+                <!-- Insert cart icon SVG or image -->
+                <span class="icon-cart"></span>
+                {% if cart.item_count > 0 %}
+                  <span class="badge badge-pill badge-primary position-absolute" style="top: -5px; right: -10px;">
+                    {{ cart.item_count }}
+                  </span>
+                {% endif %}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    </div>
-
   </header>
-</{% if section.settings.sticky_header_type != 'none' %}sticky-header{% else %}div{% endif %}>
+</sticky-header>
 
 {%- if settings.cart_type == "notification" -%}
   {%- render 'cart-notification', color_scheme: section.settings.color_scheme, desktop_menu_type: section.settings.menu_type_desktop -%}
 {%- endif -%}
-
-
-
-<script>
-  console.log('StickyHeader script is geladen');
-  console.log('JavaScript werkt!');
-  const header = document.querySelector('.section-header');
-  console.log('Gevonden header-element:', header);
-  class StickyHeader extends HTMLElement {
-    connectedCallback() {
-      console.debug('StickyHeader connected'); // Debugging
-      this.header = document.querySelector('.section-header');
-      this.stickyType = this.getAttribute('data-sticky-type');
-      this.themeMode = this.getAttribute('data-theme-mode');
-      this.currentScrollTop = 0;
-
-      this.setHeaderHeight();
-      this.updateHeaderTheme();
-
-      window.addEventListener('resize', this.setHeaderHeight.bind(this));
-      window.addEventListener('scroll', this.onScroll.bind(this), false);
-    }
-
-    setHeaderHeight() {
-      console.debug('Setting header height:', this.header.offsetHeight); // Debugging
-      document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`);
-    }
-
-    updateHeaderTheme() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      console.debug('Updating header theme:', { scrollTop, themeMode: this.themeMode }); // Debugging
-
-      if (scrollTop === 0) {
-        if (this.themeMode === 'transparent') {
-          console.debug('Header is transparent'); // Debugging
-          this.header.classList.add('transparent');
-          this.header.classList.remove('scrolled-past-header');
-        } else {
-          console.debug('Header is not transparent'); // Debugging
-          this.header.classList.remove('transparent');
-        }
-      }
-    }
-
-    getDeviceThemeMode() {
-      const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      console.debug('Device theme mode detected:', isDarkMode ? 'dark' : 'light'); // Debugging
-      return isDarkMode ? 'dark' : 'light';
-    }
-
-    onScroll() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const linkElement = document.querySelector('.header--middle-center a.header__heading-link');
-      const menuItems = document.querySelectorAll('.header__menu-item');
-      const cartIcons = document.querySelectorAll('.cart-color');
-
-      console.debug('Scroll event detected:', { scrollTop }); // Debugging
-      if (!linkElement) {
-        console.warn('Link element not found'); // Debugging
-        return;
-      }
-
-      const isLargeScreen = window.matchMedia('(min-width: 990px)').matches;
-      const isMobileScreen = window.matchMedia('(max-width: 749px)').matches;
-      const isIndexPage = window.location.pathname === '/' || window.location.pathname === '/index.html';
-      const deviceThemeMode = this.getDeviceThemeMode();
-
-      console.debug('Screen details:', { isLargeScreen, isMobileScreen, isIndexPage }); // Debugging
-
-      // Mobiele logica
-      if (isMobileScreen) {
-        if (!isIndexPage) {
-          console.debug('Mobile: Not index page, setting logo color'); // Debugging
-          linkElement.style.backgroundImage = deviceThemeMode === 'dark' ? 'var(--logo-white)' : 'var(--logo-black)';
-          cartIcons.forEach(cartIcon => cartIcon.style.color = deviceThemeMode === 'dark' ? 'white' : 'black');
-          menuItems.forEach(item => item.style.color = deviceThemeMode === 'dark' ? 'white' : 'black');
-        } else {
-          console.debug('Mobile: Index page, setting logo to white'); // Debugging
-          linkElement.style.backgroundImage = 'var(--logo-white)';
-          cartIcons.forEach(cartIcon => cartIcon.style.color = 'white');
-          menuItems.forEach(item => item.style.color = 'white');
-        }
-        return;
-      }
-
-      // Desktop logica
-      if (isLargeScreen) {
-        if (this.stickyType === 'on-scroll-up') {
-          if (scrollTop > this.currentScrollTop && scrollTop > 100) {
-            console.debug('Desktop: Scrolling down, hiding header'); // Debugging
-            this.header.classList.add('hidden');
-          } else if (scrollTop < this.currentScrollTop) {
-            console.debug('Desktop: Scrolling up, showing header'); // Debugging
-            this.header.classList.remove('hidden');
-            this.header.classList.add('scrolled-past-header');
-          }
-        } else if (this.stickyType === 'always') {
-          console.debug('Desktop: Sticky type always, setting scrolled-past-header'); // Debugging
-          this.header.classList.add('scrolled-past-header');
-        }
-
-        if (scrollTop === 0) {
-          console.debug('Desktop: Scroll at top, updating theme'); // Debugging
-          this.updateHeaderTheme();
-          if (!isIndexPage) {
-            console.debug('Desktop: Not index page, setting logo color'); // Debugging
-            linkElement.style.backgroundImage = deviceThemeMode === 'dark' ? 'var(--logo-white)' : 'var(--logo-black)';
-            cartIcons.forEach(cartIcon => cartIcon.style.color = deviceThemeMode === 'dark' ? 'white' : 'var(--menu-font-color)');
-            menuItems.forEach(item => item.style.color = deviceThemeMode === 'dark' ? 'white' : 'var(--menu-font-color)');
-          } else {
-            console.debug('Desktop: Index page, setting logo to white'); // Debugging
-            linkElement.style.backgroundImage = 'var(--logo-white)';
-            cartIcons.forEach(cartIcon => cartIcon.style.color = 'white');
-            menuItems.forEach(item => item.style.color = 'white');
-          }
-        }
-      }
-
-      this.currentScrollTop = scrollTop;
-    }
-  }
-
-  customElements.define('sticky-header', StickyHeader);
-</script>
 
 <script type="application/ld+json">
   {
