@@ -7,20 +7,23 @@
   {{ 'quick-add.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
   
-  {% assign products_to_show = recommendations.products %}
-
-  {% if not recommendations.performed or recommendations.products_count == 0 %}
-    {% assign products_to_show = collections['best-selling'].products %}
-  {% endif %}
+  {%- if recommendations.performed -%}
+    {%- if recommendations.products_count > 0 -%}
+      {%- assign products_to_show = recommendations.products -%}
+    {%- else -%}
+      {%- assign products_to_show = collections['best-selling'].products -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- assign products_to_show = collections['best-selling'].products -%}
+  {%- endif -%}
   
-  {% if products_to_show.size == 0 %}
-    {% assign products_to_show = collections['new-arrivals'].products %}
-  {% endif %}
+  {%- if products_to_show.size == 0 -%}
+    {%- assign products_to_show = collections['new-arrivals'].products -%}
+  {%- endif -%}
   
-  {% if products_to_show.size == 0 %}
-    {% assign products_to_show = collections['default-collection'].products %}
-  {% endif %}  
-  
+  {%- if products_to_show.size == 0 -%}
+    {%- assign products_to_show = collections['default-collection'].products -%}
+  {%- endif -%}
 
   <div
     class="color-{{ section.settings.color_scheme }} isolate gradient section-padding-bottom"
@@ -47,18 +50,18 @@
           role="list"
           aria-label="{{ 'general.slider.name' | t }}"
         >
-          {%- assign products_to_show = recommendations.products %}
+          {%- assign products_to_show = recommendations.products -%}
   
           {%- if not recommendations.performed or recommendations.products_count == 0 -%}
-            {%- assign products_to_show = collections['best-selling'].products %}
+            {%- assign products_to_show = collections['best-selling'].products -%}
           {%- endif -%}
   
           {%- if products_to_show.size == 0 -%}
-            {%- assign products_to_show = collections['new-arrivals'].products %}
+            {%- assign products_to_show = collections['new-arrivals'].products -%}
           {%- endif -%}
   
           {%- if products_to_show.size == 0 -%}
-            {%- assign products_to_show = collections['default-collection'].products %}
+            {%- assign products_to_show = collections['default-collection'].products -%}
           {%- endif -%}
   
           {%- for product in products_to_show limit: section.settings.products_to_show -%}
@@ -90,7 +93,7 @@
         </ul>
       </slider-component>
     </div>
-  </div>  
+  </div>   
 
 {% schema %}
 {
