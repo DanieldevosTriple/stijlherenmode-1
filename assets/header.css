@@ -18,7 +18,7 @@
     font-size: 1rem;
     text-transform: uppercase;
     font-family: TradeGothic LT CondEighteen;
-    color: var(---font-color-light-mode);
+    color: var(--font-color-light-mode);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,6 +26,6 @@
     font-size: 1rem;
     text-transform: uppercase;
     font-family: TradeGothic LT CondEighteen;
-    color: var(---font-color-dark-mode);
+    color: var(--font-color-dark-mode);
 }
 }
