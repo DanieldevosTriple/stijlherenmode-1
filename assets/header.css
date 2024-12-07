@@ -9,6 +9,16 @@
     box-sizing: border-box; /* Zorgt ervoor dat padding niet buiten de container uitsteekt */
 } 
 
+.logo {
+    background-image: var(--logo-light); /* Standaard light logo */
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .logo {
+      background-image: var(--logo-dark); /* Dark mode logo */
+    }
+}
+
 .col-menu {
     padding: 20px 0px;
     text-align: center;

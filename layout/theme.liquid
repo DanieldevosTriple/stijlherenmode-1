@@ -230,6 +230,9 @@
         --font-color-light-mode: {{ settings.font_color_light }};
         --font-color-dark-mode: {{ settings.font_color_dark }};
 
+        --logo-light: url('{{ settings.logo_light | file_url }}');
+        --logo-dark: url('{{ settings.logo_dark | file_url }}');
+
       }
 
       *,
