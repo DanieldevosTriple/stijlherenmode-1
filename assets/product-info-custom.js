@@ -95,6 +95,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const vendorElement = document.querySelector('.product-vendor');
         vendorElement.textContent = `Brand: ${productData.vendor}`;
       };
+
+      // Update Product Price
+      const updateProductPrice = () => {
+        const priceElement = document.querySelector('.product-price');
+        const formattedPrice = (productData.price / 100).toFixed(2);
+        priceElement.textContent = `Price: €${formattedPrice}`;
+      };
+  
+      // Update Product Description
+      const updateProductDescription = () => {
+        const descriptionElement = document.querySelector('.product-description');
+        descriptionElement.innerHTML = productData.description;
+      };
   
       // Handle selectie en update
       const handleSelectionChange = () => {
@@ -113,6 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
           updateProductTitle();
           updateURLWithVariant(selectedVariant.id); // URL bijwerken met variant-ID
           updateProductVendor();
+          updateProductPrice();
+          updateProductDescription();
         } else {
           console.warn("No matching variant found. Loading default images.");
           updateGallery(null);
