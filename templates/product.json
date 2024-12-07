@@ -42,9 +42,18 @@
       "settings": {
         "buy_button_text": "Voeg toe aan winkelwagen"
       }
+    },
+    "related_products_eXUzFK": {
+      "type": "related-products",
+      "settings": {
+        "title": "You may also like",
+        "color_scheme": "",
+        "enable_fallback": true
+      }
     }
   },
   "order": [
-    "main_product_custom_9F9PJb"
+    "main_product_custom_9F9PJb",
+    "related_products_eXUzFK"
   ]
 }
