@@ -45,3 +45,8 @@
     font-weight: 700;
     font-size: 1.8rem;
 }
+
+.scroll-enabled {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
