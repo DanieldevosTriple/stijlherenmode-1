@@ -12,16 +12,6 @@
 }
 {%- endstyle -%}
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-      const hamburgerToggle = document.getElementById("hamburger-menu-toggle");
-      const mobileMenu = document.getElementById("mobile-menu");
-    
-      hamburgerToggle.addEventListener("click", function () {
-        mobileMenu.classList.toggle("show");
-      });
-    });      
-</script>
 
 <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'slider-title.js' | asset_url }}" defer="defer"></script>
@@ -39,73 +29,71 @@
   data-sticky-type="{{ section.settings.sticky_header_type }}"
   data-theme-mode="{{ section.settings.header_theme_mode }}"
   class="header-wrapper gradient {{ template }}-page">
-  <header class="col-12 container-desktop">
-    <div class="new-header">
-      <!-- Left: Dynamic Menu -->
-      <div class="col-menu col-align-left menu-items first-menu">
-        <nav class="navbar navbar-expand-lg">
-          <!-- Hamburger Button -->
-          <button class="navbar-toggler" type="button" id="hamburger-menu-toggle">
-            {{- 'icon-hamburger.svg' | inline_asset_content -}}
-          </button>          
-          
-          <!-- Menu Items -->
-          {% if section.settings.menu != blank %}
-            {% assign menu = linklists[section.settings.menu] %}
-            <ul class="navbar-nav d-none" id="desktop-menu">
-              {% for link in menu.links %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
-                </li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </nav>
-      </div>
-
-      <!-- Center: Logo -->
-      <div class="col-menu text-center">
-        <a href="{{ routes.root_url }}">
-          <div class="logo"></div>
-        </a>
-      </div>
-
-      <!-- Right: Search and Cart -->
-      <div class="col-menu col-align-right text-second-menu">
-        <!-- Search -->
-        <div class="search d-inline-block">
-          <div class="d-none d-lg-block">
-            {{ 'general.Search' | t }}
+  <header class="col-12 container-desktop ">
+      <div class="new-header">
+        <!-- Left: Dynamic Menu -->
+        <div class="col-menu col-align-left menu-items first-menu">
+          <nav class="navbar navbar-expand-lg">
+            {% if section.settings.menu != blank %}
+              {% assign menu = linklists[section.settings.menu] %}
+              <ul class="navbar-nav">
+                {% for link in menu.links %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </nav>
+        </div>
+  
+        <!-- Center: Logo -->
+        <div class="col-menu text-center">
+          <a href="{{ routes.root_url }}">
+              <div class="logo"></div>
+          </a>
+        </div>
+  
+        <!-- Right: Search and Cart -->
+        <div class="col-menu col-align-right text-second-menu">
+          <!-- Search -->
+          <div class="search d-inline-block">
+            <!-- On Desktop -->
+            <div class="d-none d-lg-block">
+              {{ 'general.Search' | t }}
+            </div>
+            <!-- On Mobile -->
+            <div class="d-lg-none">
+              <a href="#" class="search-icon">
+                <!-- Insert search icon SVG or image -->
+                <span class="icon-search"></span>
+              </a>
+            </div>
           </div>
-          <div class="d-lg-none">
-            <a href="#" class="search-icon">
-              <span class="icon-search"></span>
-            </a>
+  
+          <!-- Cart -->
+          <div class="cart d-inline-block ml-3">
+            <!-- On Desktop -->
+            <div class="d-none d-lg-block">
+              <a href="{{ routes.cart_url }}" class="cart-link">
+                {{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
+              </a>
+            </div>
+            <!-- On Mobile -->
+            <div class="d-lg-none">
+              <a href="{{ routes.cart_url }}" class="cart-icon position-relative">
+                <!-- Insert cart icon SVG or image -->
+                <span class="icon-cart"></span>
+                {% if cart.item_count > 0 %}
+                  <span class="badge badge-pill badge-primary position-absolute" style="top: -5px; right: -10px;">
+                    {{ cart.item_count }}
+                  </span>
+                {% endif %}
+              </a>
+            </div>
           </div>
         </div>
-
-        <!-- Cart -->
-        <div class="cart d-inline-block ml-3">
-          <div class="d-none d-lg-block">
-            <a href="{{ routes.cart_url }}" class="cart-link">
-              {{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
-            </a>
-          </div>
-          <div class="d-lg-none">
-            <a href="{{ routes.cart_url }}" class="cart-icon position-relative">
-              <span class="icon-cart">
-                {{- 'icon-cart.svg' | inline_asset_content -}}
-              </span>
-              {% if cart.item_count > 0 %}
-                <span class="badge badge-pill badge-primary position-absolute" style="top: -5px; right: -10px;">
-                  {{ cart.item_count }}
-                </span>
-              {% endif %}
-            </a>
-          </div>
-        </div>
       </div>
-    </div>
   </header>
 </sticky-header>
 
