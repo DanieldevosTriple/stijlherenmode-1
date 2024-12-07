@@ -33,10 +33,28 @@
       <div class="new-header">
         <!-- Left: Dynamic Menu -->
         <div class="col-menu col-align-left menu-items first-menu">
-          <nav class="navbar navbar-expand-lg">
+          <nav class="navbar">
             {% if section.settings.menu != blank %}
               {% assign menu = linklists[section.settings.menu] %}
-              <ul class="navbar-nav">
+              
+              <!-- Toggler for Mobile -->
+              <button class="navbar-toggler" type="button" onclick="toggleMobileMenu()">
+                {{- 'icon-hamburger.svg' | inline_asset_content -}}
+              </button>
+              
+              <!-- Mobile Menu -->
+              <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                  {% for link in menu.links %}
+                    <li>
+                      <a href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              
+              <!-- Desktop Menu -->
+              <ul class="navbar-nav d-none d-lg-flex">
                 {% for link in menu.links %}
                   <li class="nav-item">
                     <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
