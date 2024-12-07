@@ -9,11 +9,8 @@
  */
 {
   "sections": {
-    "main_product_custom_kQpngG": {
-      "type": "main-product-custom",
-      "settings": {
-        "buy_button_text": "Add to Cart"
-      }
+    "main": {
+      "type": "main-product-custom"
     }
   },
   "order": [
