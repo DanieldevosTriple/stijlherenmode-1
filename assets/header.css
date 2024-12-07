@@ -136,8 +136,20 @@
   
 .icon-cart {
     width: 25px;
+    color: black;
 }
 
 .icon-search {
     width: 25px;
+    color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+    .icon-cart {
+        color: white;
+    }
+    
+    .icon-search {
+        color: white;
+    }
 }
