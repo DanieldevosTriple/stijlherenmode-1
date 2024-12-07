@@ -33,33 +33,59 @@
 </div>
 
 {% javascript %}
-  const handleIntersection = (entries, observer) => {
-    if (!entries[0].isIntersecting) return;
+  document.addEventListener('DOMContentLoaded', () => {
+    const productRecommendationsSection = document.querySelector('.product-recommendations');
 
-    observer.unobserve(productRecommendationsSection);
+    // Controleer of het element bestaat voordat we verdergaan
+    if (!productRecommendationsSection) {
+      console.warn('Geen productaanbevelingen sectie gevonden.');
+      return;
+    }
 
-    const url = productRecommendationsSection.dataset.url;
+    const handleIntersection = (entries, observer) => {
+      if (!entries[0].isIntersecting) return;
 
-    fetch(url)
-      .then(response => response.text())
-      .then(text => {
-        const html = document.createElement('div');
-        html.innerHTML = text;
-        const recommendations = html.querySelector('.product-recommendations');
+      // Stop met observeren zodra het element in beeld is
+      observer.unobserve(productRecommendationsSection);
 
-        if (recommendations && recommendations.innerHTML.trim().length) {
-          productRecommendationsSection.innerHTML = recommendations.innerHTML;
-        }
-      })
-      .catch(e => {
-        console.error(e);
-      });
-  };
+      const url = productRecommendationsSection.dataset.url;
 
-  const productRecommendationsSection = document.querySelector('.product-recommendations');
-  const observer = new IntersectionObserver(handleIntersection, {rootMargin: '0px 0px 200px 0px'});
+      if (!url) {
+        console.error('Geen URL gevonden in dataset.');
+        return;
+      }
 
-  observer.observe(productRecommendationsSection);
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Fetch error: ${response.statusText}`);
+          }
+          return response.text();
+        })
+        .then(text => {
+          const html = document.createElement('div');
+          html.innerHTML = text;
+
+          const recommendations = html.querySelector('.product-recommendations');
+
+          if (recommendations && recommendations.innerHTML.trim().length) {
+            productRecommendationsSection.innerHTML = recommendations.innerHTML;
+          } else {
+            console.warn('Geen aanbevelingen gevonden in de respons.');
+          }
+        })
+        .catch(error => {
+          console.error('Fout bij het ophalen van aanbevelingen:', error);
+        });
+    };
+
+    // Stel de IntersectionObserver in
+    const observer = new IntersectionObserver(handleIntersection, {
+      rootMargin: '0px 0px 200px 0px'
+    });
+
+    observer.observe(productRecommendationsSection);
+  });
 {% endjavascript %}
 
 {% schema %}
