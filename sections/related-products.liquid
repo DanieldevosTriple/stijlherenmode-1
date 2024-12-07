@@ -31,30 +31,6 @@
           </h2>
         {%- endif -%}
       </div>
-      <div class="carousel-buttons">
-        <button
-          type="button"
-          class="slider-button-featured-products slider-button--prev"
-          name="previous"
-          aria-label="{{ 'general.slider.previous_slide' | t }}"
-          aria-controls="Slider-{{ section.id }}"
-        >
-          <span class="svg-wrapper-arrow">
-            {{- 'icon-caret.svg' | inline_asset_content -}}
-          </span>
-        </button>
-        <button
-          type="button"
-          class="slider-button-featured-products slider-button--next"
-          name="next"
-          aria-label="{{ 'general.slider.next_slide' | t }}"
-          aria-controls="Slider-{{ section.id }}"
-        >
-          <span class="svg-wrapper-arrow">
-            {{- 'icon-caret.svg' | inline_asset_content -}}
-          </span>
-        </button>
-      </div>
     </div>
     <ul
       id="Slider-{{ section.id }}"
