@@ -59,7 +59,7 @@
           <div class="search d-inline-block">
             <!-- On Desktop -->
             <div class="d-none d-lg-block">
-              {{ 'search' | t }}
+              {{ 'general.Search' | t }}
             </div>
             <!-- On Mobile -->
             <div class="d-lg-none">
@@ -75,7 +75,7 @@
             <!-- On Desktop -->
             <div class="d-none d-lg-block">
               <a href="{{ routes.cart_url }}" class="cart-link">
-                {{ 'general.Search' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
+                {{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
               </a>
             </div>
             <!-- On Mobile -->
