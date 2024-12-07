@@ -26,3 +26,7 @@
     text-transform: uppercase;
     font-family: TradeGothic LT CondEighteen;
 }
+
+.product__content {
+    padding-top: 3rem;
+}

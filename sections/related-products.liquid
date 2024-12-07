@@ -34,7 +34,7 @@
               src="{{ product.featured_image | image_url: width: 300, height: 300 }}"
               alt="{{ product.featured_image.alt }}"
             />
-            <div class="product-content">
+            <div class="product__content">
             <p class="product__vendor">{{ product.vendor }}</p>
             <h3 class="card__heading h5">{{ product.title }}</h3>
             <p class="product__price">{{ product.price | money}}</p>
