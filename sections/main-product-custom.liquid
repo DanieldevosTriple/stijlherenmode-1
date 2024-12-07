@@ -6,41 +6,78 @@
           console.log("Product Data:", productData);
       
           // Selecteer belangrijke elementen
-          const swatchContainer = document.querySelector('.color-swatches');
+          const colorSwatchContainer = document.querySelector('.color-swatches');
+          const sizeSwatchContainer = document.querySelector('.size-swatches');
           const mediaGallery = document.querySelector('.media-gallery');
           const variantInput = document.getElementById('selected-variant-id');
       
-          // Groepeer varianten op kleur
+          // Groepeer varianten op kleur en maat
           const colorVariants = productData.variants.reduce((acc, variant) => {
             if (!acc[variant.option1]) {
-              acc[variant.option1] = variant;
+              acc[variant.option1] = [];
             }
+            acc[variant.option1].push(variant);
             return acc;
           }, {});
       
           console.log("Color Variants:", colorVariants);
       
-          // Dynamisch swatches genereren
+          // Dynamisch kleur-swatches genereren
           Object.keys(colorVariants).forEach(color => {
-            console.log(`Generating swatch for color: ${color}`);
+            console.log(`Generating color swatch for: ${color}`);
             
-            // Maak een nieuwe swatch knop
             const swatch = document.createElement('button');
             swatch.classList.add('color-swatch');
-            swatch.dataset.variantId = colorVariants[color].id;
+            swatch.dataset.color = color;
             swatch.textContent = color;
             swatch.style.backgroundColor = color.toLowerCase();
       
-            // Klik-event voor swatch
             swatch.addEventListener('click', () => {
-              console.log(`Swatch clicked: ${color}`);
+              console.log(`Color swatch clicked: ${color}`);
+              updateSizeSwatches(colorVariants[color]);
               updateGallery(color);
-              updateBuyButton(colorVariants[color].id);
             });
       
-            // Voeg de swatch toe aan de container
-            swatchContainer.appendChild(swatch);
+            colorSwatchContainer.appendChild(swatch);
           });
+      
+          // Dynamisch maat-swatches genereren
+          const updateSizeSwatches = (variants) => {
+            console.log(`Updating size swatches for variants:`, variants);
+      
+            sizeSwatchContainer.innerHTML = ''; // Reset de maat-swatches
+      
+            const uniqueSizes = [...new Set(variants.map(variant => variant.option2))];
+      
+            uniqueSizes.forEach(size => {
+              console.log(`Generating size swatch for: ${size}`);
+              
+              const sizeSwatch = document.createElement('button');
+              sizeSwatch.classList.add('size-swatch');
+              sizeSwatch.dataset.size = size;
+              sizeSwatch.textContent = size;
+      
+              sizeSwatch.addEventListener('click', () => {
+                console.log(`Size swatch clicked: ${size}`);
+                const selectedVariant = variants.find(variant => variant.option2 === size);
+                if (selectedVariant) {
+                  updateBuyButton(selectedVariant.id);
+                }
+              });
+      
+              sizeSwatchContainer.appendChild(sizeSwatch);
+            });
+      
+            // Selecteer standaard de eerste maat
+            if (uniqueSizes.length > 0) {
+              const firstSize = uniqueSizes[0];
+              console.log(`Selecting default size: ${firstSize}`);
+              const defaultVariant = variants.find(variant => variant.option2 === firstSize);
+              if (defaultVariant) {
+                updateBuyButton(defaultVariant.id);
+              }
+            }
+          };
       
           // Functie om de gallery te updaten
           const updateGallery = (color) => {
@@ -81,12 +118,12 @@
           if (firstColor) {
             console.log(`Initializing with first color: ${firstColor}`);
             updateGallery(firstColor);
-            updateBuyButton(colorVariants[firstColor].id);
+            updateSizeSwatches(colorVariants[firstColor]);
           }
         } catch (error) {
           console.error("Error initializing product media gallery:", error);
         }
-      });               
+      });                   
 </script>
 
 <style>
@@ -132,32 +169,44 @@
       }
 </style>
 
-<div class="row">
-<!-- Dynamische media gallery -->
-<div class="media-gallery col-6">
-        <!-- Afbeeldingen worden dynamisch toegevoegd -->
-</div>
+  <div class="row">
+    <!-- Dynamische media gallery -->
+    <div class="media-gallery col-6">
+            <!-- Afbeeldingen worden dynamisch toegevoegd -->
+    </div>
 
-<div class="product-section col-6">
+    <div class="product-section col-6">
     <!-- Dynamische titel -->
     <h1 class="product-title">{{ product.title }}</h1>
-    
+  
     <!-- Dynamische kleur selectie -->
     <div class="color-swatches">
-      <!-- Swatches worden dynamisch toegevoegd -->
+      <!-- Kleur-swatches worden dynamisch toegevoegd -->
+    </div>
+  
+    <!-- Dynamische maat selectie -->
+    <div class="size-swatches">
+      <!-- Maat-swatches worden dynamisch toegevoegd -->
+    </div>
+  
+    <!-- Dynamische media gallery -->
+    <div class="media-gallery">
+      <!-- Afbeeldingen worden dynamisch toegevoegd -->
     </div>
   
     <!-- Aankoopknop -->
     <form method="post" action="/cart/add">
       <input type="hidden" name="id" id="selected-variant-id" />
-      <button type="submit" class="buy-button">Add to Cart</button>
+      <button type="submit" class="buy-button">{{ section.settings.buy_button_text }}</button>
     </form>
   </div>
 </div> 
+
   <!-- JSON Data -->
   <script type="application/json" id="product-data">
     {{ product | json }}
   </script>
+  
   
   <!-- Schema voor de Shopify Theme Editor -->
 {% schema %}
