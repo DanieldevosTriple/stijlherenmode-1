@@ -50,4 +50,17 @@
     margin-bottom: 10rem;
 }
 
+@media (max-width: 768px) {
+    .row {
+      flex-wrap: wrap; /* Zorg dat items onder elkaar komen */
+    }
+    .product {
+      flex: 0 0 100%; /* Laat elk item 100% van de breedte gebruiken */
+      max-width: 100%; /* Beperkt de maximale breedte tot 100% */
+    }
+    .product img {
+      width: 100%; /* Zorg dat de afbeelding ook volledig schermvullend is */
+      height: auto; /* Behoud de aspect ratio */
+    }
+  }
   
