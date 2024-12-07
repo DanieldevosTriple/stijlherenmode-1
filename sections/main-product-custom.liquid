@@ -137,21 +137,44 @@
             console.log(`URL updated with variant ID: ${variantId}`);
           };
       
-          // Initialiseer met de eerste kleurvariant
-          const firstColor = Object.keys(colorVariants)[0];
-          if (firstColor) {
-            console.log(`Initializing with first color: ${firstColor}`);
-            const firstColorSwatch = colorSwatchContainer.querySelector(`.color-swatch[data-color="${firstColor}"]`);
-            if (firstColorSwatch) {
-              updateActiveSwatch(colorSwatchContainer, firstColorSwatch);
+          // Functie om variant-ID te valideren bij paginalading
+          const validateVariantFromURL = () => {
+            const url = new URL(window.location.href);
+            const variantId = url.searchParams.get('variant');
+            console.log(`Validating variant ID from URL: ${variantId}`);
+      
+            if (variantId) {
+              const selectedVariant = productData.variants.find(variant => variant.id.toString() === variantId);
+              if (selectedVariant) {
+                console.log("Valid variant ID found:", selectedVariant);
+                updateGallery(selectedVariant.option1);
+                updateSizeSwatches(colorVariants[selectedVariant.option1]);
+                updateActiveSwatch(colorSwatchContainer, colorSwatchContainer.querySelector(`[data-color="${selectedVariant.option1}"]`));
+                updateActiveSwatch(sizeSwatchContainer, sizeSwatchContainer.querySelector(`[data-size="${selectedVariant.option2}"]`));
+                updateBuyButton(selectedVariant.id);
+              } else {
+                console.warn("Invalid variant ID. Removing from URL.");
+                url.searchParams.delete('variant');
+                window.history.replaceState({}, '', url.toString());
+              }
+            } else {
+              console.log("No variant ID in URL. Loading default images.");
+              loadDefaultImages();
             }
-            updateGallery(firstColor);
-            updateSizeSwatches(colorVariants[firstColor]);
-          }
+          };
+      
+          // Functie om standaardafbeeldingen te laden
+          const loadDefaultImages = () => {
+            console.log("Loading default images.");
+            updateGallery(productData.featured_image);
+          };
+      
+          // Initialisatie
+          validateVariantFromURL();
         } catch (error) {
           console.error("Error initializing product media gallery:", error);
         }
-      });                              
+      });                                    
 </script>
 
 <style>
