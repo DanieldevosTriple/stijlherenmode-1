@@ -168,6 +168,18 @@
         "id": "background_color_dark",
         "label": "Background Color (Dark mode)",
         "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "font_color_light",
+        "label": "Background Color (Light mode)",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "font_color_dark",
+        "label": "Background Color (Dark mode)",
+        "default": "#FFF"
       }
     ]
   },
