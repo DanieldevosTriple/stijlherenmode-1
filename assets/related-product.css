@@ -7,7 +7,7 @@
 }
 
 .product__price {
-    font-size: 1.3rem;
+    font-size: 1.6rem;
     color: grey;
     text-decoration: none;
 }
@@ -17,4 +17,11 @@
     flex-direction: column;
     height: unset;
     border: none;
+}
+
+.product__vendor {
+    text-decoration: none;
+    color: grey;
+    text-transform: uppercase;
+    font-family: TradeGothic LT CondEighteen;
 }
