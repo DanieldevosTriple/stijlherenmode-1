@@ -79,6 +79,16 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(`Updating product title: ${baseTitle} - ${selectedValues}`);
         productTitleElement.textContent = `${baseTitle} - ${selectedValues}`;
       };
+
+      // Update de URL dynamisch
+      const updateURLWithVariant = (variantId) => {
+        if (variantId) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('variant', variantId);
+          window.history.replaceState({}, '', url.toString());
+          console.log(`Updated URL with variant ID: ${variantId}`);
+        }
+      };
   
       // Handle selectie en update
       const handleSelectionChange = () => {
@@ -95,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
           updateGallery(selectedVariant.id);
           updateBuyButton(selectedVariant.id);
           updateProductTitle();
+          updateURLWithVariant(selectedVariant.id); // URL bijwerken met variant-ID
         } else {
           console.warn("No matching variant found. Loading default images.");
           updateGallery(null);
