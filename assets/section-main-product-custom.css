@@ -144,4 +144,9 @@
         transition: all .3s ease;
     }
       
-      
+@media screen and (max-width: 749px) {
+    
+    .product-section {
+        
+    }
+}
