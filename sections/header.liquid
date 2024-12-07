@@ -338,6 +338,10 @@
 
 <script>
   console.log('StickyHeader script is geladen');
+  console.log('JavaScript werkt!');
+  const header = document.querySelector('.section-header');
+  console.log('Gevonden header-element:', header);
+  
   class StickyHeader extends HTMLElement {
     connectedCallback() {
       console.debug('StickyHeader connected'); // Debugging
