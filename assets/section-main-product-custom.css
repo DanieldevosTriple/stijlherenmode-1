@@ -2,6 +2,10 @@
     border-bottom: 1px solid lightgrey;
     }
 
+    .product-border-gallery {
+        border-bottom: 1px solid lightgrey;
+    }
+    
     .product-details-section {
     padding-top: 10rem;
     padding-bottom: 10rem;
