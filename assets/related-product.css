@@ -32,9 +32,16 @@
     padding-top: 3rem;
 }
 
-.product__vendor:hover,
-.product__price:hover,
-.card__heading:hover {
+.product__vendor:hover a,
+.product__price:hover a,
+.card__heading:hover a {
     text-decoration: none;
-    color:black;
+    color: #000;
+}
+
+.card__heading__related {
+    margin-top: 2rem;
+    margin-bottom: 0;
+    font-weight: 700;
+    font-size: 1.8rem;
 }
