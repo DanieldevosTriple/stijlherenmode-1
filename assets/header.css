@@ -102,3 +102,13 @@
 .first-menu {
     gap: 3rem;
 }
+
+.list-collections-page {
+    color: var(--font-color-light-mode)
+}
+
+@media (prefers-color-scheme: dark) {
+    .list-collections-page {
+        color: var(--font-color-dark-mode)
+    }
+}
