@@ -128,24 +128,14 @@
     }
 }
 
-/* Hamburger Button */
-.navbar-toggler {
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .icon-hamburger {
+.icon-hamburger {
     width: 30px;
-    height: 3px;
-    background-color: black;
-    display: block;
-    margin: 5px 0;
-  }
+    height: auto;
+    cursor: pointer;
+}
   
   /* Mobile Menu */
-  #mobile-menu {
+#mobile-menu {
     display: none;
     flex-direction: column;
     background: #fff;
@@ -157,15 +147,19 @@
     border-top: 1px solid #ddd;
   }
   
-  #mobile-menu.show {
+#mobile-menu.show {
     display: flex;
-  }
+}
   
   /* Mobile View */
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
     .navbar-toggler {
       display: block;
+      background: none;
+      border: none;
+      padding: 0;
     }
+  
     .navbar-nav {
       display: none;
     }
