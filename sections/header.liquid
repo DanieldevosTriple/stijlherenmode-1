@@ -68,7 +68,7 @@
             <div class="d-lg-none">
               <a href="#" class="search-icon">
                 <!-- Insert search icon SVG or image -->
-                <span class="icon-search"></span>
+                {{- 'icon-search.svg' | inline_asset_content -}}
               </a>
             </div>
           </div>
@@ -85,7 +85,7 @@
             <div class="d-lg-none">
               <a href="{{ routes.cart_url }}" class="cart-icon position-relative">
                 <!-- Insert cart icon SVG or image -->
-                <span class="icon-cart"></span>
+                {{- 'icon-cart.svg' | inline_asset_content -}}
                 {% if cart.item_count > 0 %}
                   <span class="badge badge-pill badge-primary position-absolute" style="top: -5px; right: -10px;">
                     {{ cart.item_count }}
