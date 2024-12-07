@@ -9,10 +9,16 @@
         font-size: 1.3rem;
     }
 
-    .product-price {
+    .product-vendor {
         text-transform: uppercase;
         font-family: 'TradeGothic LT CondEighteen';
         font-size: 1.3rem;
+    }
+
+    .product-price {
+        text-transform: uppercase;
+        font-family: 'TradeGothic LT CondEighteen';
+        font-size: 1.8rem;
     }
     
     .color-swatches {
