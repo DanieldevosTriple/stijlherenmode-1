@@ -34,6 +34,7 @@
       
             swatch.addEventListener('click', () => {
               console.log(`Color swatch clicked: ${color}`);
+              updateActiveSwatch(colorSwatchContainer, swatch); // Markeer actief
               updateSizeSwatches(colorVariants[color]);
               updateGallery(color);
             });
@@ -59,6 +60,7 @@
       
               sizeSwatch.addEventListener('click', () => {
                 console.log(`Size swatch clicked: ${size}`);
+                updateActiveSwatch(sizeSwatchContainer, sizeSwatch); // Markeer actief
                 const selectedVariant = variants.find(variant => variant.option2 === size);
                 if (selectedVariant) {
                   updateBuyButton(selectedVariant.id);
@@ -75,8 +77,20 @@
               const defaultVariant = variants.find(variant => variant.option2 === firstSize);
               if (defaultVariant) {
                 updateBuyButton(defaultVariant.id);
+      
+                // Markeer de eerste maat als actief
+                const firstSizeSwatch = sizeSwatchContainer.querySelector(`.size-swatch[data-size="${firstSize}"]`);
+                if (firstSizeSwatch) {
+                  updateActiveSwatch(sizeSwatchContainer, firstSizeSwatch);
+                }
               }
             }
+          };
+      
+          // Functie om de actieve swatch te markeren
+          const updateActiveSwatch = (container, activeSwatch) => {
+            container.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+            activeSwatch.classList.add('active');
           };
       
           // Functie om de gallery te updaten
@@ -117,13 +131,17 @@
           const firstColor = Object.keys(colorVariants)[0];
           if (firstColor) {
             console.log(`Initializing with first color: ${firstColor}`);
+            const firstColorSwatch = colorSwatchContainer.querySelector(`.color-swatch[data-color="${firstColor}"]`);
+            if (firstColorSwatch) {
+              updateActiveSwatch(colorSwatchContainer, firstColorSwatch);
+            }
             updateGallery(firstColor);
             updateSizeSwatches(colorVariants[firstColor]);
           }
         } catch (error) {
           console.error("Error initializing product media gallery:", error);
         }
-      });                   
+      });                        
 </script>
 
 <style>
@@ -167,6 +185,12 @@
       .buy-button:hover {
         background-color: #333;
       }
+
+      .color-swatch.active, .size-swatch.active {
+        border: 2px solid #000;
+        background-color: #eee;
+      }
+      
 </style>
 
   <div class="row">
