@@ -109,7 +109,7 @@
       
     .option-swatch:not(.has-image).active {
         background-color: black;
-        color: white;
+        color: black;
         padding: 10px;
         font-size: 14px;
         display: inline-block;
