@@ -204,17 +204,18 @@
         margin-top: 20px;
       }
       
-      .media-gallery img {
-        border-radius: 5px;
-      }
-      
       .secondary-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
         margin-top: 10px;
       }
       
-      .secondary-gallery img {
+      .secondary-gallery .col-6 img {
+        width: 100%;
+        height: auto;
         border-radius: 5px;
-      }         
+      }      
       
       .buy-button {
         padding: 10px 20px;
@@ -236,36 +237,38 @@
       
 </style>
 
-<div class="row">
-    <!-- Product Gallery -->
+  <div class="row">
     <div class="product-gallery col-6">
-      <!-- Featured Image -->
-      <div class="media-gallery mb-3">
-        <!-- Featured image wordt dynamisch toegevoegd -->
-      </div>
-  
-      <!-- Secondary Gallery -->
-      <div class="secondary-gallery row g-2">
-        <!-- Secundaire afbeeldingen worden dynamisch toegevoegd -->
-      </div>
+        <div class="media-gallery col-12"></div>
+        <div class="secondary-gallery col-6"></div>
     </div>
-  
-    <!-- Product Section -->
+
     <div class="product-section col-6">
-      <h1 class="product-title">{{ product.title }}</h1>
-      <div class="color-swatches">
-        <!-- Dynamische kleur-swatches -->
-      </div>
-      <div class="size-swatches">
-        <!-- Dynamische maat-swatches -->
-      </div>
-      <form method="post" action="/cart/add">
-        <input type="hidden" name="id" id="selected-variant-id" />
-        <button type="submit" class="buy-button">{{ section.settings.buy_button_text }}</button>
-      </form>
-    </div>
-  </div>
+    <!-- Dynamische titel -->
+    <h1 class="product-title">{{ product.title }}</h1>
   
+    <!-- Dynamische kleur selectie -->
+    <div class="color-swatches">
+      <!-- Kleur-swatches worden dynamisch toegevoegd -->
+    </div>
+  
+    <!-- Dynamische maat selectie -->
+    <div class="size-swatches">
+      <!-- Maat-swatches worden dynamisch toegevoegd -->
+    </div>
+  
+    <!-- Dynamische media gallery -->
+    <div class="media-gallery">
+      <!-- Afbeeldingen worden dynamisch toegevoegd -->
+    </div>
+  
+    <!-- Aankoopknop -->
+    <form method="post" action="/cart/add">
+      <input type="hidden" name="id" id="selected-variant-id" />
+      <button type="submit" class="buy-button">{{ section.settings.buy_button_text }}</button>
+    </form>
+  </div>
+</div> 
 
   <!-- JSON Data -->
   <script type="application/json" id="product-data">
