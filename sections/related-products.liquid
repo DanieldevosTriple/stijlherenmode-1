@@ -9,16 +9,24 @@
 </style>
 
 <div
-  class="product-recommendations"
-  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=4&intent=related"
+  class="color-{{ section.settings.color_scheme }} isolate gradient section-padding-bottom"
 >
-  {%- if recommendations.performed? and recommendations.products_count > 0 -%}
-    {% if recommendations.intent == 'related' %}
-      <h2>You may also like</h2>
-    {% elsif recommendations.intent == 'complementary' %}
-      <h2>Pair it with</h2>
-    {% endif %}
+  <div
+    class="product-recommendations"
+    data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=4&intent=related"
+  >
 
+    <slider-component class="col-12 slider-collection{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <div class="col-12 collection__header container-desktop">
+      <div class="collection__title title-wrapper--no-top-margin{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %} collection__title--desktop-slider">
+        {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+          {% if recommendations.intent == 'related' %}
+            <h2>Aanbevolen voor jou</h2>
+          {% elsif recommendations.intent == 'complementary' %}
+            <h2>Combineer met</h2>
+          {% endif %}
+      </div>
+    </div>
     <ul>
       {%- for product in recommendations.products -%}
         <li class="product">
@@ -34,8 +42,19 @@
           </a>
         </li>
       {%- endfor -%}
-    </ul>
-  {%- endif -%}
+    </ul>   
+    </slider-component>
+
+      <div class="col-12 container-desktop padding-button collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        <a
+          href="{{ section.settings.collection.url }}"
+          class="button-view-all"
+          aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: section.settings.collection.title | escape }}"
+        >
+          {{ 'sections.featured_collection.view_all' | t }}
+        </a>
+      </div>
+  </div>
 </div>
 
 {% javascript %}
