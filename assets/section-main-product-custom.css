@@ -156,18 +156,16 @@
     max-width: 600px;
     margin: 20px auto;
     background: transparent;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black; /* Bottom border for the last item */
 }
 
 .accordion-item {
-    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 .accordion-item:last-child {
-    border-bottom: 1px solid black; /* Bottom border for the last item */
-  }
-
-.accordion-item + .accordion-item {
-    border-top: none; /* Verwijdert dubbele borders tussen items */
+    border-bottom: none; /* Verwijdert de extra border van het laatste item */
 }
 
 .accordion-header {
