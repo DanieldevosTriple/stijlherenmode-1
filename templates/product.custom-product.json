@@ -114,6 +114,7 @@
         "collapsible-row-3",
         "share"
       ],
+      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "",
@@ -132,6 +133,7 @@
     },
     "related-products": {
       "type": "related-products",
+      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
@@ -147,10 +149,17 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "main_product_custom_kQpngG": {
+      "type": "main-product-custom",
+      "settings": {
+        "buy_button_text": "Add to Cart"
+      }
     }
   },
   "order": [
     "main",
-    "related-products"
+    "related-products",
+    "main_product_custom_kQpngG"
   ]
 }
