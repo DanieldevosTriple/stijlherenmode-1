@@ -1,4 +1,4 @@
-.header {
+.new-header {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Drie kolommen met gelijke breedte */
     gap: minmax(20px, 1fr); /* Dynamische gap die groter wordt bij minder ruimte */
