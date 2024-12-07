@@ -13,7 +13,7 @@
     display: block !important;
     background-image: var(--logo-light); /* Standaard light logo */
     width: 150px;
-    height: 50px;
+    height: 40px;
     background-repeat: no-repeat;
 
   }
