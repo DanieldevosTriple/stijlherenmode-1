@@ -1,0 +1,135 @@
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Haal de productgegevens op
+        const productData = JSON.parse(document.getElementById('product-data').textContent);
+      
+        // Selecteer belangrijke elementen
+        const swatchContainer = document.querySelector('.color-swatches');
+        const mediaGallery = document.querySelector('.media-gallery');
+        const variantInput = document.getElementById('selected-variant-id');
+        const buyButton = document.querySelector('.buy-button');
+      
+        // Groepeer varianten op kleur
+        const colorVariants = productData.variants.reduce((acc, variant) => {
+          if (!acc[variant.option1]) {
+            acc[variant.option1] = variant;
+          }
+          return acc;
+        }, {});
+      
+        // Dynamisch swatches genereren
+        Object.keys(colorVariants).forEach(color => {
+          // Maak een nieuwe swatch knop
+          const swatch = document.createElement('button');
+          swatch.classList.add('color-swatch');
+          swatch.dataset.variantId = colorVariants[color].id;
+          swatch.textContent = color;
+          swatch.style.backgroundColor = color.toLowerCase();
+      
+          // Klik-event voor swatch
+          swatch.addEventListener('click', () => {
+            updateGallery(colorVariants[color].id);
+            updateBuyButton(colorVariants[color].id);
+          });
+      
+          // Voeg de swatch toe aan de container
+          swatchContainer.appendChild(swatch);
+        });
+      
+        // Functie om de gallery bij te werken
+        const updateGallery = (variantId) => {
+          const variantImages = productData.media.filter(media => media.variant_ids.includes(variantId));
+          mediaGallery.innerHTML = ''; // Clear de gallery
+      
+          // Voeg afbeeldingen toe aan de gallery
+          variantImages.forEach(image => {
+            const imgElement = document.createElement('img');
+            imgElement.src = image.src;
+            imgElement.alt = `Image for variant ${variantId}`;
+            mediaGallery.appendChild(imgElement);
+          });
+        };
+      
+        // Functie om de variant-ID in het formulier bij te werken
+        const updateBuyButton = (variantId) => {
+          variantInput.value = variantId;
+        };
+      
+        // Initialiseer met de eerste kleurvariant
+        const firstColor = Object.keys(colorVariants)[0];
+        if (firstColor) {
+          updateGallery(colorVariants[firstColor].id);
+          updateBuyButton(colorVariants[firstColor].id);
+        }
+      });      
+</script>
+
+<style>
+    .product-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      
+      .color-swatches {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      
+      .color-swatch {
+        width: 40px;
+        height: 40px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      
+      .color-swatch:hover {
+        border-color: #000;
+      }
+      
+      .media-gallery img {
+        max-width: 100%;
+        margin-bottom: 10px;
+      }
+      
+      .buy-button {
+        padding: 10px 20px;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      
+      .buy-button:hover {
+        background-color: #333;
+      }
+</style>
+
+<div class="product-section">
+    <!-- Dynamische titel -->
+    <h1 class="product-title">{{ product.title }}</h1>
+    
+    <!-- Dynamische kleur selectie -->
+    <div class="color-swatches">
+      <!-- Swatches worden dynamisch toegevoegd -->
+    </div>
+  
+    <!-- Dynamische media gallery -->
+    <div class="media-gallery">
+      <!-- Afbeeldingen worden dynamisch toegevoegd -->
+    </div>
+  
+    <!-- Aankoopknop -->
+    <form method="post" action="/cart/add">
+      <input type="hidden" name="id" id="selected-variant-id" />
+      <button type="submit" class="buy-button">Add to Cart</button>
+    </form>
+  </div>
+  
+  <!-- JSON Data -->
+  <script type="application/json" id="product-data">
+    {{ product | json }}
+  </script>
+  
