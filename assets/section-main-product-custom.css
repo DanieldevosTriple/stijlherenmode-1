@@ -6,6 +6,13 @@
     .option-title {
         text-transform: uppercase;
         font-family: 'TradeGothic LT CondEighteen';
+        font-size: 1.3rem;
+    }
+
+    .product-price {
+        text-transform: uppercase;
+        font-family: 'TradeGothic LT CondEighteen';
+        font-size: 1.3rem;
     }
     
     .color-swatches {

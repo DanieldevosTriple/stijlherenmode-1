@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const updateProductPrice = () => {
         const priceElement = document.querySelector('.product-price');
         const formattedPrice = (productData.price / 100).toFixed(2);
-        priceElement.textContent = `Price: €${formattedPrice}`;
+        priceElement.textContent = `€${formattedPrice}`;
       };
   
       // Update Product Description
