@@ -12,16 +12,21 @@
   class="product-recommendations"
   data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.recommendations_limit }}&intent=related"
 >
+  <div class="container-desktop product-recommendations">
   {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+    <div class="row">
+      <div class="col-12">
     {% if recommendations.intent == 'related' %}
       <h2>{{ section.settings.related_title }}</h2>
     {% elsif recommendations.intent == 'complementary' %}
       <h2>{{ section.settings.complementary_title }}</h2>
     {% endif %}
+  </div>
+</div>
 
-    <ul>
+<ul class="row list-unstyled overflow-auto flex-nowrap">
       {%- for product in recommendations.products -%}
-        <li class="product">
+        <li class="col-6 col-md-4 col-lg-3 product">
           <a href="{{ product.url }}">
             <img
               class="product__img"
