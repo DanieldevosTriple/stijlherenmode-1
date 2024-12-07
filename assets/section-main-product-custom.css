@@ -255,6 +255,10 @@
         border-left: 2px solid white;
     }
 
+    .arrow-body {
+        background-color: white;
+    }
+
     .product-price {
         color: white;
     }
@@ -279,5 +283,18 @@
 
     .product-vendor {
         color: white;
+    }
+
+    .option-swatch:not(.has-image) {
+        color: white;
+    }
+
+    .option-swatch.has-image {
+        background-color: white;
+    }
+
+    .buy-button {
+        background-color: white;
+        color: black;
     }
 }
