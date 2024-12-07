@@ -2538,6 +2538,14 @@ input[type='checkbox'] {
 
 }
 
+@media (prefers-color-scheme: dark) and (max-width: 989px) {
+
+  .header__heading-logo-wrapper {
+    background-image: var(--logo-white);
+  }
+  
+}
+
 @media screen and (max-width: 989px) {
   .header__heading,
   .header__heading-link {
