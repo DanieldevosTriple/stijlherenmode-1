@@ -215,9 +215,8 @@
 .back-arrow {
     display: inline-block;
     font-size: 24px; /* Pas de grootte van de pijl aan */
-    color: white; /* Maak de pijl wit */
+    color: black; /* Maak de pijl wit */
     text-decoration: none; /* Verwijder de standaard onderstreping van links */
-    background-color: #000; /* Zwarte achtergrond */
     padding: 10px 15px; /* Voeg wat padding toe rond de pijl */
     border-radius: 5px; /* Geef afgeronde hoeken */
   }
