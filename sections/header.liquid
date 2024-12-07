@@ -337,81 +337,75 @@
 </script>
 
 <script>
-  console.log('StickyHeader script is geladen');
-  console.log('JavaScript werkt!');
-  const header = document.querySelector('.section-header');
-  console.log('Gevonden header-element:', header);
-  
-  class StickyHeader extends HTMLElement {
-    connectedCallback() {
-      console.debug('StickyHeader connected'); // Debugging
-      this.header = document.querySelector('.section-header');
-      this.stickyType = this.getAttribute('data-sticky-type');
-      this.themeMode = this.getAttribute('data-theme-mode');
-      this.currentScrollTop = 0;
+  document.addEventListener('DOMContentLoaded', () => {
+    console.debug('StickyHeader script geladen');
 
-      this.setHeaderHeight();
-      this.updateHeaderTheme();
-
-      window.addEventListener('resize', this.setHeaderHeight.bind(this));
-      window.addEventListener('scroll', this.onScroll.bind(this), false);
+    const header = document.querySelector('.section-header');
+    if (!header) {
+      console.warn('Header-element niet gevonden!');
+      return;
     }
 
-    setHeaderHeight() {
-      console.debug('Setting header height:', this.header.offsetHeight); // Debugging
-      document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`);
-    }
+    const stickyType = header.getAttribute('data-sticky-type') || 'always';
+    const themeMode = header.getAttribute('data-theme-mode') || 'light';
+    let currentScrollTop = 0;
 
-    updateHeaderTheme() {
+    const setHeaderHeight = () => {
+      console.debug('Instellen header height:', header.offsetHeight);
+      document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
+    };
+
+    const updateHeaderTheme = () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      console.debug('Updating header theme:', { scrollTop, themeMode: this.themeMode }); // Debugging
+      console.debug('Updating header theme:', { scrollTop, themeMode });
 
       if (scrollTop === 0) {
-        if (this.themeMode === 'transparent') {
-          console.debug('Header is transparent'); // Debugging
-          this.header.classList.add('transparent');
-          this.header.classList.remove('scrolled-past-header');
+        if (themeMode === 'transparent') {
+          console.debug('Header is transparent');
+          header.classList.add('transparent');
+          header.classList.remove('scrolled-past-header');
         } else {
-          console.debug('Header is not transparent'); // Debugging
-          this.header.classList.remove('transparent');
+          console.debug('Header is not transparent');
+          header.classList.remove('transparent');
         }
       }
-    }
+    };
 
-    getDeviceThemeMode() {
+    const getDeviceThemeMode = () => {
       const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      console.debug('Device theme mode detected:', isDarkMode ? 'dark' : 'light'); // Debugging
+      console.debug('Device theme mode detected:', isDarkMode ? 'dark' : 'light');
       return isDarkMode ? 'dark' : 'light';
-    }
+    };
 
-    onScroll() {
+    const onScroll = () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const linkElement = document.querySelector('.header--middle-center a.header__heading-link');
       const menuItems = document.querySelectorAll('.header__menu-item');
       const cartIcons = document.querySelectorAll('.cart-color');
 
-      console.debug('Scroll event detected:', { scrollTop }); // Debugging
+      console.debug('Scroll event detected:', { scrollTop });
+
       if (!linkElement) {
-        console.warn('Link element not found'); // Debugging
+        console.warn('Link element not found');
         return;
       }
 
       const isLargeScreen = window.matchMedia('(min-width: 990px)').matches;
       const isMobileScreen = window.matchMedia('(max-width: 749px)').matches;
       const isIndexPage = window.location.pathname === '/' || window.location.pathname === '/index.html';
-      const deviceThemeMode = this.getDeviceThemeMode();
+      const deviceThemeMode = getDeviceThemeMode();
 
-      console.debug('Screen details:', { isLargeScreen, isMobileScreen, isIndexPage }); // Debugging
+      console.debug('Screen details:', { isLargeScreen, isMobileScreen, isIndexPage });
 
       // Mobiele logica
       if (isMobileScreen) {
         if (!isIndexPage) {
-          console.debug('Mobile: Not index page, setting logo color'); // Debugging
+          console.debug('Mobile: Not index page, setting logo color');
           linkElement.style.backgroundImage = deviceThemeMode === 'dark' ? 'var(--logo-white)' : 'var(--logo-black)';
           cartIcons.forEach(cartIcon => cartIcon.style.color = deviceThemeMode === 'dark' ? 'white' : 'black');
           menuItems.forEach(item => item.style.color = deviceThemeMode === 'dark' ? 'white' : 'black');
         } else {
-          console.debug('Mobile: Index page, setting logo to white'); // Debugging
+          console.debug('Mobile: Index page, setting logo to white');
           linkElement.style.backgroundImage = 'var(--logo-white)';
           cartIcons.forEach(cartIcon => cartIcon.style.color = 'white');
           menuItems.forEach(item => item.style.color = 'white');
@@ -421,30 +415,30 @@
 
       // Desktop logica
       if (isLargeScreen) {
-        if (this.stickyType === 'on-scroll-up') {
-          if (scrollTop > this.currentScrollTop && scrollTop > 100) {
-            console.debug('Desktop: Scrolling down, hiding header'); // Debugging
-            this.header.classList.add('hidden');
-          } else if (scrollTop < this.currentScrollTop) {
-            console.debug('Desktop: Scrolling up, showing header'); // Debugging
-            this.header.classList.remove('hidden');
-            this.header.classList.add('scrolled-past-header');
+        if (stickyType === 'on-scroll-up') {
+          if (scrollTop > currentScrollTop && scrollTop > 100) {
+            console.debug('Desktop: Scrolling down, hiding header');
+            header.classList.add('hidden');
+          } else if (scrollTop < currentScrollTop) {
+            console.debug('Desktop: Scrolling up, showing header');
+            header.classList.remove('hidden');
+            header.classList.add('scrolled-past-header');
           }
-        } else if (this.stickyType === 'always') {
-          console.debug('Desktop: Sticky type always, setting scrolled-past-header'); // Debugging
-          this.header.classList.add('scrolled-past-header');
+        } else if (stickyType === 'always') {
+          console.debug('Desktop: Sticky type always, setting scrolled-past-header');
+          header.classList.add('scrolled-past-header');
         }
 
         if (scrollTop === 0) {
-          console.debug('Desktop: Scroll at top, updating theme'); // Debugging
-          this.updateHeaderTheme();
+          console.debug('Desktop: Scroll at top, updating theme');
+          updateHeaderTheme();
           if (!isIndexPage) {
-            console.debug('Desktop: Not index page, setting logo color'); // Debugging
+            console.debug('Desktop: Not index page, setting logo color');
             linkElement.style.backgroundImage = deviceThemeMode === 'dark' ? 'var(--logo-white)' : 'var(--logo-black)';
             cartIcons.forEach(cartIcon => cartIcon.style.color = deviceThemeMode === 'dark' ? 'white' : 'var(--menu-font-color)');
             menuItems.forEach(item => item.style.color = deviceThemeMode === 'dark' ? 'white' : 'var(--menu-font-color)');
           } else {
-            console.debug('Desktop: Index page, setting logo to white'); // Debugging
+            console.debug('Desktop: Index page, setting logo to white');
             linkElement.style.backgroundImage = 'var(--logo-white)';
             cartIcons.forEach(cartIcon => cartIcon.style.color = 'white');
             menuItems.forEach(item => item.style.color = 'white');
@@ -452,11 +446,17 @@
         }
       }
 
-      this.currentScrollTop = scrollTop;
-    }
-  }
+      currentScrollTop = scrollTop;
+    };
 
-  customElements.define('sticky-header', StickyHeader);
+    // Event Listeners
+    window.addEventListener('resize', setHeaderHeight);
+    window.addEventListener('scroll', onScroll);
+
+    // Initial Setup
+    setHeaderHeight();
+    updateHeaderTheme();
+  });
 </script>
 
 <script type="application/ld+json">
