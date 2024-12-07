@@ -1,9 +1,10 @@
 .index-page {
-    position: relative;
+    position: relative; /* Header blijft in de normale flow */
     width: 100%;
-    background-color: transparent;
-    color: white;
-    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparante achtergrond */
+    color: white; /* Tekstkleur */
+    padding: 20px; /* Ruimte binnen de header */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optionele schaduw */
 }
 
 .new-header {
