@@ -11,6 +11,18 @@
   "sections": {
     "main_product_custom_9F9PJb": {
       "type": "main-product-custom",
+      "blocks": {
+        "accordion_item_78DXDU": {
+          "type": "accordion_item",
+          "settings": {
+            "title": "Example #1",
+            "description": "Accordion description goes here."
+          }
+        }
+      },
+      "block_order": [
+        "accordion_item_78DXDU"
+      ],
       "settings": {
         "buy_button_text": "Voeg toe aan winkelwagen"
       }
