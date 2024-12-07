@@ -20,6 +20,17 @@
     });       
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const hamburgerToggle = document.getElementById("hamburger-menu-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+      
+        hamburgerToggle.addEventListener("click", function () {
+          mobileMenu.classList.toggle("show");
+        });
+      });      
+</script>
+
 <!-- Sections/product-details.liquid -->
 <section id="product-details" class="product-details-section">
     <div class="container-desktop">

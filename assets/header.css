@@ -127,3 +127,47 @@
         color: var(--font-color-dark-mode)
     }
 }
+
+/* Hamburger Button */
+.navbar-toggler {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .icon-hamburger {
+    width: 30px;
+    height: 3px;
+    background-color: black;
+    display: block;
+    margin: 5px 0;
+  }
+  
+  /* Mobile Menu */
+  #mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: #fff;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+  }
+  
+  #mobile-menu.show {
+    display: flex;
+  }
+  
+  /* Mobile View */
+  @media (max-width: 768px) {
+    .navbar-toggler {
+      display: block;
+    }
+    .navbar-nav {
+      display: none;
+    }
+  }
+  
