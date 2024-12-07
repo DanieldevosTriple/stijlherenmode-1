@@ -1,3 +1,11 @@
+.index-page {
+    position: fixed;
+    width: 100%;
+    background-color: transparent;
+    color: white;
+    z-index: 1000;
+}
+
 .new-header {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Drie kolommen met gelijke breedte */
