@@ -34,7 +34,7 @@
             // Klik-event voor swatch
             swatch.addEventListener('click', () => {
               console.log(`Swatch clicked: ${color}`);
-              updateGallery(colorVariants[color].id);
+              updateGallery(color);
               updateBuyButton(colorVariants[color].id);
             });
       
@@ -43,25 +43,29 @@
           });
       
           // Functie om de gallery te updaten
-          const updateGallery = (variantId) => {
-            console.log(`Updating gallery for variant ID: ${variantId}`);
-            const variantImages = productData.media.filter(media => media.variant_ids.includes(variantId));
-            console.log("Variant Images:", variantImages);
-      
+          const updateGallery = (color) => {
+            console.log(`Updating gallery for color: ${color}`);
             mediaGallery.innerHTML = ''; // Clear de gallery
       
-            if (variantImages.length === 0) {
-              console.warn(`No images found for variant ID: ${variantId}`);
-              mediaGallery.innerHTML = '<p>No images available for this variant.</p>';
-              return;
+            // Voeg de featured image toe
+            const featuredImage = productData.featured_image;
+            if (featuredImage) {
+              console.log("Adding featured image to gallery:", featuredImage);
+              const imgElement = document.createElement('img');
+              imgElement.src = featuredImage;
+              imgElement.alt = `Featured image for color ${color}`;
+              mediaGallery.appendChild(imgElement);
+            } else {
+              console.warn("No featured image found.");
             }
       
-            // Voeg afbeeldingen toe aan de gallery
-            variantImages.forEach(image => {
-              console.log("Adding image to gallery:", image.src);
+            // Voeg de eerste twee afbeeldingen uit de images-array toe
+            const additionalImages = productData.images.slice(0, 2);
+            additionalImages.forEach(image => {
+              console.log("Adding image to gallery:", image);
               const imgElement = document.createElement('img');
-              imgElement.src = image.src;
-              imgElement.alt = `Image for variant ${variantId}`;
+              imgElement.src = image;
+              imgElement.alt = `Image for color ${color}`;
               mediaGallery.appendChild(imgElement);
             });
           };
@@ -76,13 +80,13 @@
           const firstColor = Object.keys(colorVariants)[0];
           if (firstColor) {
             console.log(`Initializing with first color: ${firstColor}`);
-            updateGallery(colorVariants[firstColor].id);
+            updateGallery(firstColor);
             updateBuyButton(colorVariants[firstColor].id);
           }
         } catch (error) {
           console.error("Error initializing product media gallery:", error);
         }
-      });           
+      });               
 </script>
 
 <style>
