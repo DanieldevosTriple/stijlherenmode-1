@@ -147,6 +147,52 @@
 @media screen and (max-width: 749px) {
     
     .product-section {
-        
+
     }
+}
+
+.accordion {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+}
+
+.accordion-item {
+    border-bottom: 1px solid #ccc;
+}
+
+.accordion-header {
+    background-color: #f9f9f9;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.accordion-header:hover {
+    background-color: #eee;
+}
+
+.accordion-content {
+    display: none;
+    padding: 15px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+.accordion-header.active {
+    font-weight: bold;
+}
+
+.accordion-header::after {
+    content: '+';
+    font-size: 18px;
+    margin-left: auto;
+    transition: transform 0.3s;
+}
+
+.accordion-header.active::after {
+    content: '-';
 }
