@@ -14,24 +14,18 @@
             </div>    
 
             <div class="col-6">
-                <div class="product-section col-6">
-                <!-- Dynamische titel -->
-                <h1 class="product-title">{{ product.title }}</h1>
-            
-                <div class="options-container">
-                <!-- Dynamische optieknoppen worden hier gegenereerd -->
-                </div>
-            
-                <!-- Dynamische media gallery -->
-                <div class="media-gallery">
-                <!-- Afbeeldingen worden dynamisch toegevoegd -->
-                </div>
+                <div class="product-info">
+                    <h1 class="product-title"></h1>
+                    <p class="product-vendor"></p>
+                    <p class="product-price"></p>
+                    <div class="product-description"></div>
             
                 <!-- Aankoopknop -->
                 <form method="post" action="/cart/add">
                 <input type="hidden" name="id" id="selected-variant-id" />
                 <button type="submit" class="buy-button">{{ section.settings.buy_button_text }}</button>
                 </form>
+                </div>
             </div>
         </div>    
     </div>
