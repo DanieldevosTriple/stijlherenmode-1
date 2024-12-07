@@ -72,3 +72,26 @@ input::-webkit-search-decoration {
 .template-search__results {
   position: relative;
 }
+
+@media (prefers-color-scheme: dark) { 
+.search__input.field__input {
+  padding-right: 9.8rem;
+  background-color: #202020;
+}
+
+.field {
+  border: 1px solid white;
+}
+
+.field__label, .customer .field label {
+  color: white;
+}
+
+.search__button .icon {
+  color: white;
+}
+
+.modal__close-button .icon {
+  color: white;
+}
+}
