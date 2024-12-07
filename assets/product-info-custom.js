@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
       const mediaGallery = document.querySelector('.media-gallery');
       const variantInput = document.getElementById('selected-variant-id');
-      const optionsContainer = document.querySelector('.options-container');
-      const secondaryGallery = document.querySelector('.secondary-gallery');
+      const optionsContainer = document.querySelector('.options-container'); // Container voor dynamische opties
+      const secondaryGallery = document.querySelector('.secondary-gallery'); // Container voor secundaire afbeeldingen
   
-      let selectedOptions = {};; // Huidige selectie van opties
+      let selectedOptions = {}; // Huidige selectie van opties
   
       // Update de gallery met de geselecteerde variant
       const updateGallery = (variantId) => {
@@ -79,35 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(`Updating product title: ${baseTitle} - ${selectedValues}`);
         productTitleElement.textContent = `${baseTitle} - ${selectedValues}`;
       };
-
-      // Update de URL dynamisch
-      const updateURLWithVariant = (variantId) => {
-        if (variantId) {
-          const url = new URL(window.location.href);
-          url.searchParams.set('variant', variantId);
-          window.history.replaceState({}, '', url.toString());
-          console.log(`Updated URL with variant ID: ${variantId}`);
-        }
-      };
-
-      // Update de product brand
-      const updateProductVendor = () => {
-        const vendorElement = document.querySelector('.product-vendor');
-        vendorElement.textContent = `Brand: ${productData.vendor}`;
-      };
-  
-      // Update de product price
-      const updateProductPrice = () => {
-        const priceElement = document.querySelector('.product-price');
-        const formattedPrice = (productData.price / 100).toFixed(2);
-        priceElement.textContent = `Price: €${formattedPrice}`;
-      };
-  
-      // Update de product description
-      const updateProductDescription = () => {
-        const descriptionElement = document.querySelector('.product-description');
-        descriptionElement.innerHTML = productData.description;
-      };
   
       // Handle selectie en update
       const handleSelectionChange = () => {
@@ -124,16 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
           updateGallery(selectedVariant.id);
           updateBuyButton(selectedVariant.id);
           updateProductTitle();
-          updateURLWithVariant(selectedVariant.id); // URL bijwerken met variant-ID
         } else {
           console.warn("No matching variant found. Loading default images.");
           updateGallery(null);
         }
       };
-
-      updateProductVendor();
-      updateProductPrice();
-      updateProductDescription();
   
       // Dynamisch opties genereren
       productData.options.forEach((optionName, index) => {
@@ -182,7 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       
         optionsContainer.appendChild(optionContainer);
-      });      
+      });
+      
   
       // Initialiseer standaardwaarden
       productData.options.forEach((optionName, index) => {
