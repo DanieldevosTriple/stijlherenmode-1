@@ -133,3 +133,23 @@
     {{ product | json }}
   </script>
   
+  <!-- Schema voor de Shopify Theme Editor -->
+{% schema %}
+{
+  "name": "Product Media Gallery",
+  "settings": [
+    {
+      "type": "text",
+      "id": "buy_button_text",
+      "label": "Buy Button Text",
+      "default": "Add to Cart"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Media Gallery",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
