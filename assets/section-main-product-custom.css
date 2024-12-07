@@ -159,8 +159,15 @@
 }
 
 .accordion-item {
-    border-bottom: 1px solid black;
     border-top: 1px solid black;
+}
+
+.accordion-item:last-child {
+    border-bottom: 1px solid black; /* Bottom border for the last item */
+  }
+
+.accordion-item + .accordion-item {
+    border-top: none; /* Verwijdert dubbele borders tussen items */
 }
 
 .accordion-header {
