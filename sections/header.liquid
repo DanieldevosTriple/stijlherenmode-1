@@ -85,21 +85,25 @@
         </div>
 
         <!-- Cart -->
-        <div class="cart">
-          <a href="{{ routes.cart_url }}" class="cart-link position-relative">
-            <span class="icon-cart">
-              {{- 'icon-cart.svg' | inline_asset_content -}}
-            </span>
-            <span class="cart-text d-none d-lg-inline">
+        <div class="cart d-inline-block ml-3">
+          <div class="d-none d-lg-block">
+            <a href="{{ routes.cart_url }}" class="cart-link">
               {{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
-            </span>
-            {% if cart.item_count > 0 %}
-              <span class="badge position-absolute">
-                {{ cart.item_count }}
+            </a>
+          </div>
+          <div class="d-lg-none">
+            <a href="{{ routes.cart_url }}" class="cart-icon position-relative">
+              <span class="icon-cart">
+                {{- 'icon-cart.svg' | inline_asset_content -}}
               </span>
-            {% endif %}
-          </a>
-        </div>        
+              {% if cart.item_count > 0 %}
+                <span class="badge badge-pill badge-primary position-absolute" style="top: -5px; right: -10px;">
+                  {{ cart.item_count }}
+                </span>
+              {% endif %}
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </header>
