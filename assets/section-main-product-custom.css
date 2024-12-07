@@ -2,6 +2,10 @@
         font-size: 24px;
         margin-bottom: 10px;
     }
+
+    .option-title {
+        text-transform: uppercase;
+    }
     
     .color-swatches {
         display: flex;
