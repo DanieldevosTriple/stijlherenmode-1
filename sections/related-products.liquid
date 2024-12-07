@@ -10,10 +10,10 @@
 </style>
 
 <div
-  class="slider-desktop slider--mobile container-desktop"
+  class="product-recommendations"
   data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.recommendations_limit }}&intent=related"
 >
-  <div class="container-desktop product-recommendations">
+  <div class="slider-desktop slider--mobile container-desktop">
   {%- if recommendations.performed? and recommendations.products_count > 0 -%}
     <div class="row title-related">
       <div class="col-12">
