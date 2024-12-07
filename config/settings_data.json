@@ -9,6 +9,8 @@
  */
 {
   "current": {
+    "logo_white": "shopify://shop_images/logo_06621b6d-d757-423c-9182-b844ddd6225c.svg",
+    "logo_black": "shopify://shop_images/logo-black_9fc0fe0d-ff3f-4db5-bc6c-5e47a69939c6.svg",
     "page_width": 1600,
     "spacing_sections": 0,
     "spacing_grid_horizontal": 8,
