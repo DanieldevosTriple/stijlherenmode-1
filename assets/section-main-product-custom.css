@@ -249,4 +249,35 @@
     margin-left: -2px; /* Zorg ervoor dat de kop aansluit op de steel */
 }
   
-  
+@media (prefers-color-scheme: dark) { 
+    .arrow-head {
+        border-top: 2px solid white;
+        border-left: 2px solid white;
+    }
+
+    .product-price {
+        color: white;
+    }
+
+    .option-swatch {
+        background-color: transparent;
+        color: white;
+    }
+
+    .option-swatch:not(.has-image).active {
+        background-color: white;
+        color: black;
+    }
+
+    .product-description {
+        color: white;
+    }
+
+    .accordion-header {
+        color: white
+    }
+
+    .product-vendor {
+        color: white;
+    }
+}
