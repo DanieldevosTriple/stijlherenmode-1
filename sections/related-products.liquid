@@ -1,6 +1,7 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'related-product.css' | asset_url | stylesheet_tag }}
 
 <style>
   .product-recommendations {
@@ -14,7 +15,7 @@
 >
   <div class="container-desktop product-recommendations">
   {%- if recommendations.performed? and recommendations.products_count > 0 -%}
-    <div class="row">
+    <div class="row title-related">
       <div class="col-12">
     {% if recommendations.intent == 'related' %}
       <h2>{{ section.settings.related_title }}</h2>
