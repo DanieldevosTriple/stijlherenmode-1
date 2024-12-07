@@ -39,9 +39,9 @@
               console.log(`Color swatch clicked: ${color}`);
               activeColor = color; // Update actieve kleur
               updateActiveSwatch(colorSwatchContainer, swatch); // Markeer actief
-              updateGallery(color);
+              updateGallery(color, activeSize); // Update de gallery
               updateSizeSwatches(colorVariants[color], activeSize); // Houd actieve maat als die bestaat
-              updateFeaturedImage(color, activeSize);
+              updateFeaturedImage(color, activeSize); // Update de featured image
             });
       
             colorSwatchContainer.appendChild(swatch);
@@ -97,34 +97,26 @@
           };
       
           // Functie om de gallery te updaten
-          const updateGallery = (color) => {
-            console.log(`Updating gallery for color: ${color}`);
+          const updateGallery = (color, size) => {
+            console.log(`Updating gallery for color: ${color} and size: ${size}`);
             mediaGallery.innerHTML = ''; // Clear de gallery
       
-            // Voeg de afbeeldingen toe
-            const featuredImage = productData.featured_image;
-            const additionalImages = productData.images.slice(0, 2);
-            const images = [featuredImage, ...additionalImages];
-      
-            images.forEach(image => {
-              console.log("Adding image to gallery:", image);
-              const imgElement = document.createElement('img');
-              imgElement.src = image;
-              imgElement.alt = `Image for color ${color}`;
-              mediaGallery.appendChild(imgElement);
-            });
-          };
-      
-          // Functie om de featured image bij te werken
-          const updateFeaturedImage = (color, size) => {
             const selectedVariant = productData.variants.find(variant => variant.option1 === color && variant.option2 === size);
-            if (selectedVariant) {
-              console.log("Updating featured image with variant image:", selectedVariant.featured_image);
-              mediaGallery.innerHTML = ''; // Clear de gallery
+            if (selectedVariant && selectedVariant.featured_image) {
+              console.log("Using variant-specific featured image:", selectedVariant.featured_image);
               const imgElement = document.createElement('img');
-              imgElement.src = selectedVariant.featured_image || productData.featured_image;
+              imgElement.src = selectedVariant.featured_image;
               imgElement.alt = `Featured image for ${color} - ${size}`;
               mediaGallery.appendChild(imgElement);
+            } else {
+              console.warn("No specific variant featured image found. Using default images.");
+              const fallbackImages = [productData.featured_image, ...productData.images.slice(0, 2)];
+              fallbackImages.forEach(image => {
+                const imgElement = document.createElement('img');
+                imgElement.src = image;
+                imgElement.alt = `Fallback image for ${color}`;
+                mediaGallery.appendChild(imgElement);
+              });
             }
           };
       
@@ -148,7 +140,7 @@
             console.log(`URL updated with variant ID: ${variantId}`);
           };
       
-          // Validatie bij paginalading
+          // Functie om variant-ID te valideren bij paginalading
           const validateVariantFromURL = () => {
             const url = new URL(window.location.href);
             const variantId = url.searchParams.get('variant');
@@ -162,8 +154,8 @@
                 activeSize = selectedVariant.option2;
                 updateActiveSwatch(colorSwatchContainer, colorSwatchContainer.querySelector(`[data-color="${activeColor}"]`));
                 updateActiveSwatch(sizeSwatchContainer, sizeSwatchContainer.querySelector(`[data-size="${activeSize}"]`));
-                updateFeaturedImage(activeColor, activeSize);
-                updateGallery(activeColor);
+                updateGallery(activeColor, activeSize);
+                updateBuyButton(selectedVariant.id);
               } else {
                 console.warn("Invalid variant ID. Removing from URL.");
                 url.searchParams.delete('variant');
@@ -172,7 +164,7 @@
             } else {
               console.log("No variant ID in URL. Setting default.");
               activeColor = Object.keys(colorVariants)[0];
-              updateGallery(activeColor);
+              updateGallery(activeColor, null);
               updateSizeSwatches(colorVariants[activeColor]);
             }
           };
@@ -182,7 +174,7 @@
         } catch (error) {
           console.error("Error initializing product media gallery:", error);
         }
-      });                                          
+      });                                               
 </script>
 
 <style>
