@@ -64,6 +64,7 @@
                 const selectedVariant = variants.find(variant => variant.option2 === size);
                 if (selectedVariant) {
                   updateBuyButton(selectedVariant.id);
+                  updateURLWithVariant(selectedVariant.id);
                 }
               });
       
@@ -77,6 +78,7 @@
               const defaultVariant = variants.find(variant => variant.option2 === firstSize);
               if (defaultVariant) {
                 updateBuyButton(defaultVariant.id);
+                updateURLWithVariant(defaultVariant.id);
       
                 // Markeer de eerste maat als actief
                 const firstSizeSwatch = sizeSwatchContainer.querySelector(`.size-swatch[data-size="${firstSize}"]`);
@@ -127,6 +129,14 @@
             variantInput.value = variantId;
           };
       
+          // Functie om de URL bij te werken
+          const updateURLWithVariant = (variantId) => {
+            const url = new URL(window.location.href);
+            url.searchParams.set('variant', variantId);
+            window.history.replaceState({}, '', url.toString());
+            console.log(`URL updated with variant ID: ${variantId}`);
+          };
+      
           // Initialiseer met de eerste kleurvariant
           const firstColor = Object.keys(colorVariants)[0];
           if (firstColor) {
@@ -141,7 +151,7 @@
         } catch (error) {
           console.error("Error initializing product media gallery:", error);
         }
-      });                        
+      });                              
 </script>
 
 <style>
