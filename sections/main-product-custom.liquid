@@ -7,15 +7,17 @@
 <script src="{{ 'product-info-custom.js' | asset_url }}" defer="defer"></script>
 
 <script>
-    document.querySelectorAll('.accordion-header').forEach(header => {
-        console.log('Accordion header gevonden:', header);
-        header.addEventListener('click', () => {
-            console.log('Accordion header geklikt:', header);
-            const content = header.nextElementSibling;
-            header.classList.toggle('active');
-            content.classList.toggle('active');
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            console.log('Accordion header gevonden:', header);
+            header.addEventListener('click', () => {
+                console.log('Accordion header geklikt:', header);
+                const content = header.nextElementSibling;
+                header.classList.toggle('active');
+                content.classList.toggle('active');
+            });
         });
-    });      
+    });       
 </script>
 
 <!-- Sections/product-details.liquid -->
