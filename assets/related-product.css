@@ -9,3 +9,10 @@
 .product__price {
     font-size: 2rem;
 }
+
+.related-card {
+    display: flex;
+    flex-direction: column;
+    height: unset;
+    border: none;
+}
