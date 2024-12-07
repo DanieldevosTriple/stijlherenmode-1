@@ -14,7 +14,7 @@
     text-align: center;
 }
 
-.menu-items {
+.nav-link a {
     font-size: 1rem;
     text-transform: uppercase;
     font-family: TradeGothic LT CondEighteen;
@@ -22,7 +22,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-.menu-items {
+.nav-link a {
     font-size: 1rem;
     text-transform: uppercase;
     font-family: TradeGothic LT CondEighteen;
