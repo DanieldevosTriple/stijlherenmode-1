@@ -2543,7 +2543,23 @@ input[type='checkbox'] {
   .header__heading-logo-wrapper {
     background-image: var(--logo-white);
   }
-  
+
+  .header__icon--menu {
+    color: white;
+  }
+
+  .header__search {
+    color: white;
+  }
+
+  .header__icon--cart, .header__icon--search {
+    color: white;
+  }
+
+  .cart-count-bubble {
+    background-color: white;
+    color: black;
+  }
 }
 
 @media screen and (max-width: 989px) {
