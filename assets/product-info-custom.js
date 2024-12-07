@@ -171,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
               imgElement.alt = value;
               imgElement.classList.add('img-fluid', 'swatch-image'); // Styling voor de afbeelding
               button.appendChild(imgElement);
+              button.classList.add('has-image'); // Voeg een extra klasse toe voor knoppen met afbeeldingen
             } else {
               console.warn(`No featured image found for color: ${value}`);
               button.textContent = value; // Fallback naar tekst als er geen afbeelding is

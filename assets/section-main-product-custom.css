@@ -93,4 +93,20 @@
         background-color: black;
         color: white;
     }
+
+    .option-swatch.has-image {
+        background-color: transparent;
+        padding: 5px;
+    }
+
+    .option-swatch.has-img.active {
+        border: 1px solid black;
+    }
+      
+    .option-swatch:not(.has-image) {
+        background-color: transparent;
+        padding: 10px;
+        font-size: 14px;
+    }
+      
       
