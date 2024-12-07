@@ -1,7 +1,10 @@
-   .product-details-section {
+    .container-desktop {
+    border-bottom: 1px solid lightgrey;
+    }
+    
+    .product-details-section {
     padding-top: 10rem;
     padding-bottom: 10rem;
-    border-bottom: 1px solid lightgrey;
    }
 
    .buy-button-section {
