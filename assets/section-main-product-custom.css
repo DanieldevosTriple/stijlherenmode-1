@@ -171,10 +171,12 @@
     align-items: center;
     text-transform: uppercase;
     font-family: 'TradeGothic LT CondEighteen';
+    font-weight: 600;
+    font-family: larger;
 }
 
 .accordion-header:hover {
-    background-color: #eee;
+    color: red;
 }
 
 .accordion-content {
