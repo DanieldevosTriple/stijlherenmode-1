@@ -168,3 +168,32 @@
         color: white;
     }    
 }
+
+/* Mobile menu */
+.mobile-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none; /* Verborgen standaard */
+    background-color: #fff; /* Pas aan naar wens */
+    position: absolute;
+    top: 100%; /* Onder de hamburgerknop */
+    left: 0;
+    width: 100%; /* Volledige breedte */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mobile-menu.show {
+    display: block; /* Toont het menu */
+  }
+  
+  .mobile-menu .nav-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eaeaea;
+  }
+  
+  .mobile-menu .nav-link {
+    text-decoration: none;
+    color: #333; /* Aanpasbare kleur */
+  }
+  
