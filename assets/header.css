@@ -219,6 +219,7 @@
     margin: 15px 0;
     font-size: 2rem;
     font-family: TradeGothic LT CondEighteen;
+    text-transform: uppercase;
   }
   
   .mobile-menu .nav-link {
