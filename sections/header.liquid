@@ -12,7 +12,10 @@
 }
 {%- endstyle -%}
 
-
+<script>
+  var emptyCartIconUrl = "{{ 'icon-cart-empty.svg' | asset_url }}";
+  var fullCartIconUrl = "{{ 'icon-cart.svg' | asset_url }}";
+</script>
 <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'slider-title.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer="defer"></script>

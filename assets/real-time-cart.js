@@ -6,10 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const cartIcon = document.querySelector('.cart-icon img');
   
         if (cartItemCount === 0) {
-          cartIcon.src = '{{ "icon-cart-empty.svg" | asset_url }}'; // Pas het pad aan
+          cartIcon.src = emptyCartIconUrl; // Pas het pad aan
           cartIcon.alt = 'Empty Cart';
         } else {
-          cartIcon.src = '{{ "icon-cart.svg" | asset_url }}'; // Pas het pad aan
+          cartIcon.src = fullCartIconUrl; // Pas het pad aan
           cartIcon.alt = 'Cart with Items';
         }
       })
