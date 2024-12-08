@@ -3,7 +3,6 @@
         width: 100%;
         background-color: transparent; /* Semi-transparante achtergrond */
         color: white; /* Tekstkleur */
-        padding: 0.5rem 0px; /* Ruimte binnen de header */
     }
 
     @media only screen and (max-width: 749px) {
