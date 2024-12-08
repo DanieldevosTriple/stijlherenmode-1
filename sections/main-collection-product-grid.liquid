@@ -43,51 +43,6 @@
   {% endfor %}
 </script>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    console.log("DOM Content Loaded");
-  
-    function applyFilters() {
-      console.log("Applying filters...");
-  
-      // Haal de filterparameter uit de URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const colorFilter = urlParams.get("filter.v.option.color");
-      console.log("Color filter from URL:", colorFilter);
-  
-      // Selecteer de product grid
-      const productGrid = document.querySelector("ul#product-grid");
-      if (productGrid) {
-        console.log("Product grid gevonden:", productGrid);
-  
-        if (colorFilter) {
-          // Zet de kleuren als een comma-separated string in het color-filter attribuut
-          const selectedColors = colorFilter.split(",").map(color => color.trim().toLowerCase()).join(",");
-          console.log("Geselecteerde kleuren string:", selectedColors);
-  
-          productGrid.setAttribute("color-filter", selectedColors);
-          console.log("Attribuut color-filter ingesteld:", productGrid.getAttribute("color-filter"));
-        } else {
-          // Verwijder het attribuut als er geen filter is
-          productGrid.removeAttribute("color-filter");
-          console.log("Attribuut color-filter verwijderd");
-        }
-      } else {
-        console.warn("Product grid niet gevonden!");
-      }
-    }
-  
-    // Roep de functie aan bij het laden van de pagina
-    applyFilters();
-  
-    // Luister naar wijzigingen in de URL
-    window.addEventListener("popstate", function () {
-      console.log("URL gewijzigd, filters opnieuw toepassen");
-      applyFilters();
-    });
-  });  
-</script>
-
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -155,7 +110,6 @@
             <ul
               id="product-grid"
               data-id="{{ section.id }}"
-              color-filter=""
               class="product-grid row g-4">
               {% assign skip_card_product_styles = false %}
               
