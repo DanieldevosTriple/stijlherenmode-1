@@ -58,8 +58,8 @@
 {%- endstyle -%}
 
 {%- assign filtered_color = '' -%}
-{%- if request.querystring contains 'filter.v.option.Color=' -%}
-  {%- assign filtered_color = request.querystring | split: 'filter.v.option.Color=' | last | split: '&' | first -%}
+{%- if request.querystring contains 'filter.v.option.color=' -%}
+  {%- assign filtered_color = request.querystring | split: 'filter.v.option.color=' | last | split: '&' | first -%}
 {%- endif -%}
 
 <!-- Debug Output -->
