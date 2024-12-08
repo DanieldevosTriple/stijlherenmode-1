@@ -18,7 +18,6 @@
 </script>
 <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'slider-title.js' | asset_url }}" defer="defer"></script>
-<script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'real-time-cart.js' | asset_url }}" defer="defer"></script>
 
 <script>
@@ -51,7 +50,7 @@
 </script>
 
 {% if section.settings.sticky %}
-    <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer></script>
 {% else %}
   <script>
     console.log('Sticky instelling is niet actief.');
@@ -59,7 +58,7 @@
 {% endif %}
 
 {% if template.name == 'index' %}
-  <script src="{{ 'transparent-header.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'transparent-header.js' | asset_url }}" defer></script>
 {% endif %}
 
 {%- liquid
