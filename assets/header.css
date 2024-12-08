@@ -177,7 +177,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--background-color-light-mode--); /* Donkere overlay */
+    background-color: var(--background-color-light-mode); /* Donkere overlay */
     z-index: 9999; /* Zorg dat het menu bovenop alles staat */
     display: none; /* Verborgen standaard */
     justify-content: center;
@@ -187,7 +187,7 @@
 
   @media (prefers-color-scheme: dark) {
   .mobile-menu-overlay {
-    background-color: var(--background-color-dark-mode--); /* Donkere overlay */
+    background-color: var(--background-color-dark-mode); /* Donkere overlay */
   }
 }
 
