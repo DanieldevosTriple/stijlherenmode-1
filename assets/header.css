@@ -228,10 +228,16 @@
     top: 20px;
     right: 20px;
     font-size: 2rem;
-    color: #fff;
+    color: black;
     background: none;
     border: none;
     cursor: pointer;
+  }
+  @media (prefers-color-scheme: dark) {
+    /* Sluitknop */
+    .close-menu {
+        color: #fff;
+      }
   }
   
   .mobile-menu-overlay {
