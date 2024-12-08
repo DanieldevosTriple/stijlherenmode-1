@@ -91,13 +91,9 @@
             </div>
             <!-- On Mobile -->
             <div class="d-lg-none">
-              <a href="{{ routes.cart_url }}" class="cart-icon">
-                {% if cart.items_count > 0 %}
-                  {{ 'icon-cart.svg' | inline_asset_content }}
-                {% else %}
-                  {{ 'icon-cart-empty.svg' | inline_asset_content }}
-                {% endif %}
-              </a>
+              <div class="cart-icon">
+                <img id="cart-icon-image" src="{{ 'icon-cart-empty.svg' | asset_url }}" alt="Empty Cart">
+              </div>
             </div>
           </li>
         </ul>
