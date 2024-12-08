@@ -177,14 +177,20 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9); /* Donkere overlay */
+    background-color: var(--background-color-light-mode--); /* Donkere overlay */
     z-index: 9999; /* Zorg dat het menu bovenop alles staat */
     display: none; /* Verborgen standaard */
     justify-content: center;
     align-items: center;
     flex-direction: column;
   }
-  
+
+  @media (prefers-color-scheme: dark) {
+  .mobile-menu-overlay {
+    background-color: var(--background-color-dark-mode--); /* Donkere overlay */
+  }
+}
+
   /* Toon de overlay */
   .mobile-menu-overlay.show {
     display: flex;
@@ -203,11 +209,14 @@
   }
   
   .mobile-menu .nav-link {
-    text-decoration: none;
-    font-size: 1.5rem; /* Grotere tekst */
-    color: #fff; /* Witte tekst */
-    transition: color 0.3s ease;
+    color: black; /* Witte tekst */
   }
+
+  @media (prefers-color-scheme: dark) {
+  .mobile-menu .nav-link {
+    color: #fff; /* Witte tekst */
+  }
+}
   
   .mobile-menu .nav-link:hover {
     color: #f4c842; /* Highlight kleur */
