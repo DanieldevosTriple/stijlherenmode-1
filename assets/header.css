@@ -12,6 +12,13 @@
     }
 }
 
+.sticky {
+    position: -webkit-sticky; /* Voor Safari */
+    position: sticky;
+    top: 0; /* Plakt aan de bovenkant van het scherm */
+    z-index: 1000; /* Zorgt ervoor dat het boven andere elementen blijft */
+  }
+
 .new-header {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Drie kolommen met gelijke breedte */
