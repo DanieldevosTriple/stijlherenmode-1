@@ -50,7 +50,7 @@
   });   
 </script>
 
-{% if settings.sticky %}
+{% if section.settings.sticky %}
   <script>
     document.addEventListener('DOMContentLoaded', function () {
         console.log('Script geladen: sticky instelling is actief.');
@@ -84,7 +84,7 @@
 -%}
 
 <sticky-header
-  data-sticky-type="{{ section.settings.sticky_header_type }}"
+  data-sticky-enabled="{{ section.settings.sticky }}"
   data-theme-mode="{{ section.settings.header_theme_mode }}"
   class="header-wrapper gradient {{ template }}-page">
 
