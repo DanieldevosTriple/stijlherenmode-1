@@ -159,61 +159,52 @@
               class="product-grid row g-4">
               {% assign skip_card_product_styles = false %}
               
-              {%- assign url_params = request.query -%}
-              {%- assign color_filter_param = color_filter | downcase -%}
-{%- assign color_filters = color_filter_param | split: ',' -%}
-
-{%- for product in collection.products -%}
-  {%- if product.options contains 'Color' -%}
-    {%- assign shown_colors = '' -%}
-    {%- for variant in product.variants -%}
-      {%- assign variant.id = variant.id -%}
-      {%- assign color_option = '' -%}
-
-      {%- for option_index in (0..product.options.size) -%}
-        {%- if product.options[option_index] == 'Color' -%}
-          {%- assign color_option = variant.options[option_index] | downcase -%}
-        {%- endif -%}
-      {%- endfor -%}
-
-      {%- if color_option != '' -%}
-        {%- assign color_check = ',' | append: color_option | append: ',' -%}
-
-        {%- unless shown_colors contains color_check -%}
-          {%- if color_filters == blank or color_filters contains color_option -%}
-            {% assign image_to_use = variant.featured_image | default: product.featured_image %}
-            {% assign product_title_with_color = product.title | append: ' - ' | append: color_option %}
-            
-            <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
-                {% if settings.animations_reveal_on_scroll %}
-                  data-cascade
-                  style="--animation-order: {{ forloop.index }};"
-                {% endif %}
-            >
-              {% render 'card-product',
-                card_product: product,
-                media_aspect_ratio: section.settings.image_ratio,
-                image_shape: section.settings.image_shape,
-                show_secondary_image: section.settings.show_secondary_image,
-                show_vendor: section.settings.show_vendor,
-                show_rating: section.settings.show_rating,
-                lazy_load: lazy_load,
-                skip_styles: skip_card_product_styles,
-                quick_add: section.settings.quick_add,
-                section_id: section.id,
-                featured_image: image_to_use,
-                product_title: product_title_with_color,
-                variant_id: variant.id  
-              %}
-            </li>
-            {%- assign shown_colors = shown_colors | append: color_check -%}
-          {%- endif -%}
-        {%- endunless -%}
-      {%- endif -%}
-    {%- endfor -%}
-  {%- endif -%}
-  {%- assign skip_card_product_styles = true -%}
-{%- endfor -%}                       
+              {%- for product in collection.products -%}
+                {%- if product.options contains 'Color' -%}
+                  {%- assign shown_colors = '' -%}
+                  {%- for variant in product.variants -%}
+                    {%- assign color_option = '' -%}
+                    {%- for option_index in (0..product.options.size) -%}
+                      {%- if product.options[option_index] == 'Color' -%}
+                        {%- assign color_option = variant.options[option_index] -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- if color_option != '' -%}
+                      {%- assign color_check = ',' | append: color_option | append: ',' -%}
+                      {%- unless shown_colors contains color_check -%}
+                        {% assign image_to_use = variant.featured_image | default: product.featured_image %}
+                        {% assign product_title_with_color = product.title | append: ' - ' | append: color_option %}
+                        <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
+                            data-color="{{ color_option }}"
+                            data-product-id="{{ product.id }}"
+                            {% if settings.animations_reveal_on_scroll %}
+                              data-cascade
+                              style="--animation-order: {{ forloop.index }};"
+                            {% endif %}
+                        >
+                          {% render 'card-product',
+                            card_product: product,
+                            media_aspect_ratio: section.settings.image_ratio,
+                            image_shape: section.settings.image_shape,
+                            show_secondary_image: section.settings.show_secondary_image,
+                            show_vendor: section.settings.show_vendor,
+                            show_rating: section.settings.show_rating,
+                            lazy_load: lazy_load,
+                            skip_styles: skip_card_product_styles,
+                            quick_add: section.settings.quick_add,
+                            section_id: section.id,
+                            featured_image: image_to_use,
+                            product_title: product_title_with_color,
+                            variant_id: variant.id  
+                          %}
+                        </li>
+                        {%- assign shown_colors = shown_colors | append: color_check -%}
+                      {%- endunless -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- assign skip_card_product_styles = true -%}
+              {%- endfor -%}                                                     
             </ul>     
                          
             {%- if paginate.pages > 1 -%}
