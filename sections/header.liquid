@@ -83,10 +83,17 @@
             </div>
             <!-- On Mobile -->
             <div class="d-lg-none">
+              {% if cart.items_count == 0 %}
+              <a href="{{ routes.cart_url }}" class="cart-icon position-relative">
+                <!-- Insert cart icon SVG or image -->
+                {{- 'icon-cart-empty.svg' | inline_asset_content -}}
+              </a>
+            {% else %}
               <a href="{{ routes.cart_url }}" class="cart-icon position-relative">
                 <!-- Insert cart icon SVG or image -->
                 {{- 'icon-cart.svg' | inline_asset_content -}}
               </a>
+            {% endif %}
             </div>
           </li>
         </ul>
