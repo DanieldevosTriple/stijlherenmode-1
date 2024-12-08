@@ -57,10 +57,6 @@
   </script>
 {% endif %}
 
-{% if template.name == 'index' %}
-  <script src="{{ 'transparent-header.js' | asset_url }}" defer></script>
-{% endif %}
-
 {%- liquid
   for block in section.blocks
     if block.type == '@app'
