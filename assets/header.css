@@ -21,6 +21,7 @@
     width: 100%; /* Neemt de volledige breedte van de parent div */
     height: 100%; /* Optioneel: als de hoogte ook 100% moet zijn */
     box-sizing: border-box; /* Zorgt ervoor dat padding niet buiten de container uitsteekt */
+    padding: 0px 1rem;
 } 
 
 .logo {
