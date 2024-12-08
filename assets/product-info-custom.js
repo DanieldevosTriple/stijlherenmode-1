@@ -1,226 +1,122 @@
 document.addEventListener('DOMContentLoaded', () => {
-    try {
+  try {
       const productData = JSON.parse(document.getElementById('product-data').textContent);
       console.log("Product Data:", productData);
-  
+
       const mediaGallery = document.querySelector('.media-gallery');
       const variantInput = document.getElementById('selected-variant-id');
-      const optionsContainer = document.querySelector('.options-container'); // Container voor dynamische opties
-      const secondaryGallery = document.querySelector('.secondary-gallery'); // Container voor secundaire afbeeldingen
-  
-      let selectedOptions = {}; // Huidige selectie van opties
-  
+      const optionsContainer = document.querySelector('.options-container');
+      const secondaryGallery = document.querySelector('.secondary-gallery');
+
+      let selectedOptions = {};
+
+      // Functie om variant ID uit de URL te halen
+      const getVariantFromURL = () => {
+          const url = new URL(window.location.href);
+          return url.searchParams.get('variant');
+      };
+
       // Update de gallery met de geselecteerde variant
       const updateGallery = (variantId) => {
-        console.log(`Updating gallery for variant ID: ${variantId}`);
-        mediaGallery.innerHTML = ''; // Clear de gallery
-        secondaryGallery.innerHTML = ''; // Clear de secondary gallery
-  
-        const selectedVariant = productData.variants.find(variant => variant.id === variantId);
-        console.log("Selected Variant in updateGallery:", selectedVariant);
-  
-        // Voeg de featured image toe
-        if (selectedVariant && selectedVariant.featured_image) {
-          console.log("Using variant-specific featured image:", selectedVariant.featured_image.src);
-          const imgElement = document.createElement('img');
-          imgElement.src = selectedVariant.featured_image.src;
-          imgElement.alt = `Featured image for variant ID: ${variantId}`;
-          imgElement.classList.add('img-fluid', 'w-100', 'mb-3'); // Bootstrap styling
-          mediaGallery.appendChild(imgElement);
-        } else {
-          console.warn("No specific variant featured image found. Using fallback image.");
-          const fallbackImage = document.createElement('img');
-          fallbackImage.src = productData.featured_image;
-          fallbackImage.alt = "Fallback featured image";
-          fallbackImage.classList.add('img-fluid', 'w-100', 'mb-3');
-          mediaGallery.appendChild(fallbackImage);
-        }
-  
-        // Voeg secundaire afbeeldingen toe
-        if (selectedVariant) {
-          const relevantOptions = Object.values(selectedOptions).filter(option => option.length > 3);
-          console.log(`Filtering secondary images for options: ${relevantOptions}`);
-  
-          // Filter afbeeldingen waarvan de alt-tekst een relevante optie bevat
-          const secondaryImages = productData.media.filter(media =>
-            media.alt && relevantOptions.some(option => media.alt.toLowerCase().includes(option.toLowerCase()))
-          );
-  
-          console.log("Filtered Secondary Images:", secondaryImages);
-  
-          secondaryImages.forEach(image => {
-            const colDiv = document.createElement('div');
-            colDiv.classList.add('col-6'); // Voeg Bootstrap kolom styling toe
-  
-            const imgElement = document.createElement('img');
-            imgElement.src = image.src;
-            imgElement.alt = image.alt || "Secondary image";
-            imgElement.classList.add('img-fluid', 'rounded'); // Styling voor responsiviteit en afronding
-  
-            colDiv.appendChild(imgElement);
-            secondaryGallery.appendChild(colDiv);
-          });
-        } else {
-          console.warn("No secondary images found for the selected variant.");
-        }
-      };
-  
-      // Update de koopknop met de variant-ID
-      const updateBuyButton = (variantId) => {
-        console.log(`Updating buy button with variant ID: ${variantId}`);
-        variantInput.value = variantId;
-      };
-  
-      // Update de producttitel dynamisch
-      const updateProductTitle = () => {
-        const productTitleElement = document.querySelector('.product-title');
-        const baseTitle = productData.title;
-        const selectedValues = Object.values(selectedOptions).join(' - ');
-        console.log(`Updating product title: ${baseTitle} - ${selectedValues}`);
-        productTitleElement.textContent = `${baseTitle} - ${selectedValues}`;
-      };
+          mediaGallery.innerHTML = '';
+          secondaryGallery.innerHTML = '';
 
-      // Update URL Dynamisch
-      const updateURLWithVariant = (variantId) => {
-        if (variantId) {
-          const url = new URL(window.location.href);
-      
-          // Controleer of de huidige URL de juiste variantparameter bevat
-          if (url.searchParams.get('variant') !== variantId.toString()) {
-            url.searchParams.set('variant', variantId);
-            window.history.replaceState({}, '', url.toString());
-            console.log(`Updated URL with variant ID: ${variantId}`);
-          } else {
-            console.log(`URL already contains the correct variant ID: ${variantId}`);
-          }
-        }
-      };      
+          const selectedVariant = productData.variants.find(variant => variant.id === variantId);
 
-      // Update Product Vendor
-      const updateProductVendor = () => {
-        const vendorElement = document.querySelector('.product-vendor');
-        vendorElement.textContent = `${productData.vendor}`;
-      };
-
-      // Update Product Price
-      const updateProductPrice = () => {
-        const priceElement = document.querySelector('.product-price');
-        const formattedPrice = (productData.price / 100).toFixed(2);
-        priceElement.textContent = `€${formattedPrice}`;
-      };
-  
-      // Update Product Description
-      const updateProductDescription = () => {
-        const descriptionElement = document.querySelector('.product-description');
-        descriptionElement.innerHTML = productData.description;
-      };
-  
-      // Handle selectie en update
-      const handleSelectionChange = () => {
-        console.log("Selected Options:", selectedOptions);
-        const selectedVariant = productData.variants.find(variant => {
-          return Object.keys(selectedOptions).every(optionName => {
-            const optionIndex = productData.options.indexOf(optionName);
-            return variant[`option${optionIndex + 1}`] === selectedOptions[optionName];
-          });
-        });
-  
-        if (selectedVariant) {
-          console.log("Matching Variant Found:", selectedVariant);
-          updateGallery(selectedVariant.id);
-          updateBuyButton(selectedVariant.id);
-          updateProductTitle();
-          updateURLWithVariant(selectedVariant.id); // URL bijwerken met variant-ID
-          updateProductVendor();
-          updateProductPrice();
-          updateProductDescription();
-        } else {
-          console.warn("No matching variant found. Loading default images.");
-          updateGallery(null);
-        }
-      };
-  
-      // Dynamisch opties genereren
-      productData.options.forEach((optionName, index) => {
-        console.log(`Processing Option: ${optionName}`);
-        const uniqueValues = [...new Set(productData.variants.map(variant => variant[`option${index + 1}`]))];
-        console.log(`Unique Values for ${optionName}:`, uniqueValues);
-      
-        // Maak een container voor de optie
-        const optionContainer = document.createElement('div');
-        optionContainer.classList.add('option-group');
-      
-        // Voeg de titel toe aan een aparte div
-        const optionTitle = document.createElement('div');
-        optionTitle.classList.add('option-title');
-        optionTitle.innerHTML = `<strong>${optionName}</strong>`;
-        optionContainer.appendChild(optionTitle);
-      
-        // Voeg een container toe voor de knoppen
-        const buttonContainer = document.createElement('div');
-        buttonContainer.classList.add('button-container');
-      
-        uniqueValues.forEach(value => {
-          console.log(`Creating button for value: ${value}`);
-          const button = document.createElement('button');
-          button.classList.add('option-swatch');
-          button.dataset.option = optionName;
-          button.dataset.value = value;
-      
-          // Voor Color opties: toon een afbeelding als deze beschikbaar is
-          if (optionName.toLowerCase() === 'color') {
-            const variantWithImage = productData.variants.find(variant => variant[`option${index + 1}`] === value && variant.featured_image);
-            if (variantWithImage && variantWithImage.featured_image) {
-              console.log(`Using image swatch for color: ${value}`);
+          if (selectedVariant && selectedVariant.featured_image) {
               const imgElement = document.createElement('img');
-              imgElement.src = variantWithImage.featured_image.src;
-              imgElement.alt = value;
-              imgElement.classList.add('img-fluid', 'swatch-image'); // Styling voor de afbeelding
-              button.appendChild(imgElement);
-              button.classList.add('has-image'); // Voeg een extra klasse toe voor knoppen met afbeeldingen
-            } else {
-              console.warn(`No featured image found for color: ${value}`);
-              button.textContent = value; // Fallback naar tekst als er geen afbeelding is
-            }
+              imgElement.src = selectedVariant.featured_image.src;
+              imgElement.alt = `Featured image for variant ID: ${variantId}`;
+              imgElement.classList.add('img-fluid', 'w-100', 'mb-3');
+              mediaGallery.appendChild(imgElement);
           } else {
-            button.textContent = value; // Voor andere opties, gebruik tekst
+              const fallbackImage = document.createElement('img');
+              fallbackImage.src = productData.featured_image;
+              fallbackImage.alt = "Fallback featured image";
+              fallbackImage.classList.add('img-fluid', 'w-100', 'mb-3');
+              mediaGallery.appendChild(fallbackImage);
           }
-      
-          button.addEventListener('click', () => {
-            console.log(`Swatch clicked: ${optionName} = ${value}`);
-            selectedOptions[optionName] = value;
-            buttonContainer.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
-            button.classList.add('active');
-            handleSelectionChange();
-          });
-      
-          buttonContainer.appendChild(button);
-        });
-      
-        // Voeg de buttonContainer toe aan de optiecontainer
-        optionContainer.appendChild(buttonContainer);
-      
-        // Voeg de optiecontainer toe aan de opties
-        optionsContainer.appendChild(optionContainer);
-      });      
-  
-      // Initialiseer standaardwaarden
+
+          if (selectedVariant) {
+              const relevantOptions = Object.values(selectedOptions).filter(option => option.length > 3);
+              const secondaryImages = productData.media.filter(media =>
+                  media.alt && relevantOptions.some(option => media.alt.toLowerCase().includes(option.toLowerCase()))
+              );
+
+              secondaryImages.forEach(image => {
+                  const colDiv = document.createElement('div');
+                  colDiv.classList.add('col-6');
+                  const imgElement = document.createElement('img');
+                  imgElement.src = image.src;
+                  imgElement.alt = image.alt || "Secondary image";
+                  imgElement.classList.add('img-fluid', 'rounded');
+                  colDiv.appendChild(imgElement);
+                  secondaryGallery.appendChild(colDiv);
+              });
+          }
+      };
+
+      const updateBuyButton = (variantId) => {
+          variantInput.value = variantId;
+      };
+
+      const updateProductTitle = () => {
+          const productTitleElement = document.querySelector('.product-title');
+          const baseTitle = productData.title;
+          const selectedValues = Object.values(selectedOptions).join(' - ');
+          productTitleElement.textContent = `${baseTitle} - ${selectedValues}`;
+      };
+
+      const updateURLWithVariant = (variantId) => {
+          if (variantId) {
+              const url = new URL(window.location.href);
+              if (url.searchParams.get('variant') !== variantId.toString()) {
+                  url.searchParams.set('variant', variantId);
+                  window.history.replaceState({}, '', url.toString());
+              }
+          }
+      };
+
+      const handleSelectionChange = () => {
+          const selectedVariant = productData.variants.find(variant =>
+              Object.keys(selectedOptions).every(optionName => {
+                  const optionIndex = productData.options.indexOf(optionName);
+                  return variant[`option${optionIndex + 1}`] === selectedOptions[optionName];
+              })
+          );
+
+          if (selectedVariant) {
+              updateGallery(selectedVariant.id);
+              updateBuyButton(selectedVariant.id);
+              updateProductTitle();
+              updateURLWithVariant(selectedVariant.id);
+          } else {
+              updateGallery(null);
+          }
+      };
+
+      // Stel standaardwaarden in of gebruik variant uit URL
+      const variantIdFromURL = getVariantFromURL();
+      let initialVariant = productData.variants[0];
+
+      if (variantIdFromURL) {
+          const variantFromURL = productData.variants.find(variant => variant.id.toString() === variantIdFromURL);
+          if (variantFromURL) {
+              initialVariant = variantFromURL;
+          }
+      }
+
       productData.options.forEach((optionName, index) => {
-        const defaultValue = productData.variants[0][`option${index + 1}`];
-        console.log(`Default Value for ${optionName}: ${defaultValue}`);
-        selectedOptions[optionName] = defaultValue;
-  
-        const defaultButton = optionsContainer.querySelector(`[data-option="${optionName}"][data-value="${defaultValue}"]`);
-        if (defaultButton) {
-          console.log(`Setting default active button: ${defaultValue}`);
-          defaultButton.classList.add('active');
-        }
+          const value = initialVariant[`option${index + 1}`];
+          selectedOptions[optionName] = value;
+          const button = optionsContainer.querySelector(`[data-option="${optionName}"][data-value="${value}"]`);
+          if (button) {
+              button.classList.add('active');
+          }
       });
-  
-      console.log("Initial Selected Options:", selectedOptions);
+
       handleSelectionChange();
-    } catch (error) {
+  } catch (error) {
       console.error("Error initializing product media gallery:", error);
-    }
-  });
-  
+  }
+});
