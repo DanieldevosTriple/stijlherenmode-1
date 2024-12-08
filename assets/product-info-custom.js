@@ -84,11 +84,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const updateURLWithVariant = (variantId) => {
         if (variantId) {
           const url = new URL(window.location.href);
-          url.searchParams.set('variant', variantId);
-          window.history.replaceState({}, '', url.toString());
-          console.log(`Updated URL with variant ID: ${variantId}`);
+      
+          // Controleer of de huidige URL de juiste variantparameter bevat
+          if (url.searchParams.get('variant') !== variantId.toString()) {
+            url.searchParams.set('variant', variantId);
+            window.history.replaceState({}, '', url.toString());
+            console.log(`Updated URL with variant ID: ${variantId}`);
+          } else {
+            console.log(`URL already contains the correct variant ID: ${variantId}`);
+          }
         }
-      };
+      };      
 
       // Update Product Vendor
       const updateProductVendor = () => {
