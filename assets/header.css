@@ -145,6 +145,11 @@
     color: black;
 }
 
+.icon-cart-empty {
+    width: 25px;
+    color: black;
+}
+
 @media (prefers-color-scheme: dark) {
     .icon-hamburger {
         width: 25px;
@@ -158,4 +163,8 @@
     .icon-search {
         color: white;
     }
+
+    .icon-cart-empty {
+        color: white;
+    }    
 }
