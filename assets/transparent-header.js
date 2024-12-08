@@ -1,6 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.debug('DOM fully loaded and parsed.');
 
+    // Functie om informatie van de afbeeldingen uit te lezen
+    function getImageDetails() {
+        const fullPageImages = document.querySelectorAll('.full-page-image img');
+
+        if (fullPageImages.length === 0) {
+            console.warn('No <img> tags found inside .full-page-image.');
+            return;
+        }
+
+        fullPageImages.forEach((img, index) => {
+            const src = img.getAttribute('src');
+            const srcset = img.getAttribute('srcset');
+            const sizes = img.getAttribute('sizes');
+            const width = img.width;
+            const height = img.height;
+
+            console.info(`Image ${index + 1}:`);
+            console.info(`  - src: ${src}`);
+            console.info(`  - srcset: ${srcset}`);
+            console.info(`  - sizes: ${sizes}`);
+            console.info(`  - dimensions: ${width}x${height}`);
+        });
+    }
+
     // Utility function to check if an image is dark
     function isImageDark(image) {
         console.debug('Checking if image is dark:', image);
@@ -32,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to handle class toggling
     function updateClasses() {
         console.debug('Running updateClasses...');
-        const fullPageImages = document.querySelectorAll('.full-page-image');
+        const fullPageImages = document.querySelectorAll('.full-page-image img');
         const firstMenu = document.querySelector('.first-menu .nav-item');
         const logo = document.querySelector('.logo');
         const textSecondMenu = document.querySelector('.text-second-menu');
@@ -42,12 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        fullPageImages.forEach((image, index) => {
-            console.debug(`Checking image ${index + 1}...`, image);
-            const isActive = image.getAttribute('aria-hidden') === "true";
+        fullPageImages.forEach((img, index) => {
+            console.debug(`Checking image ${index + 1}...`, img);
+            const parent = img.closest('.full-page-image');
+            const isActive = parent.getAttribute('aria-hidden') === "true";
             console.debug(`Image active: ${isActive}`);
 
-            if (isActive && isImageDark(image)) {
+            if (isActive && isImageDark(img)) {
                 console.info('Image is dark and active. Adding classes...');
                 firstMenu.classList.add('dark-mode');
                 logo.classList.add('dark-mode');
@@ -74,9 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const images = document.querySelectorAll('.full-page-image');
     if (images.length === 0) {
-        console.warn('No images with class "full-page-image" found.');
+        console.warn('No .full-page-image elements found.');
     } else {
-        console.info(`Found ${images.length} images. Setting up MutationObserver...`);
+        console.info(`Found ${images.length} .full-page-image elements. Setting up MutationObserver...`);
         images.forEach(image => {
             observer.observe(image, { attributes: true, attributeFilter: ['aria-hidden'] });
         });
@@ -84,5 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial call
     console.debug('Initial call to updateClasses...');
-    updateClasses();
+    getImageDetails(); // Haal details van de afbeeldingen op
+    updateClasses();   // Pas de klassen aan op basis van de condities
 });
