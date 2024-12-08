@@ -299,4 +299,9 @@
     height: 100%; /* Fixeer de hoogte */
   }
   
+  /* Dynamic Transparent Menu */
+  .nav-item.dark-mode {
+    color: white
+  }
+
   

@@ -58,6 +58,17 @@
   </script>
 {% endif %}
 
+{% if template.name == 'index' %}
+  <script>
+    if (window.innerWidth > 1024) {
+      var script = document.createElement('script');
+      script.src = '{{ "transparent-header.js" | asset_url }}';
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  </script>
+{% endif %}
+
 {%- liquid
   for block in section.blocks
     if block.type == '@app'
