@@ -1,40 +1,40 @@
-.index-page {
-    position: absolute; /* Header blijft in de normale flow */
-    width: 100%;
-    background-color: transparent; /* Semi-transparante achtergrond */
-    color: white; /* Tekstkleur */
-    padding: 0.5rem 0px; /* Ruimte binnen de header */
-}
-
-@media only screen and (max-width: 749px) {
     .index-page {
-        position: unset;
+        position: absolute; /* Header blijft in de normale flow */
+        width: 100%;
+        background-color: transparent; /* Semi-transparante achtergrond */
+        color: white; /* Tekstkleur */
+        padding: 0.5rem 0px; /* Ruimte binnen de header */
     }
-}
 
-.sticky {
+    @media only screen and (max-width: 749px) {
+        .index-page {
+            position: unset;
+        }
+    }
+
+    .sticky {
     position: -webkit-sticky; /* Voor Safari */
     position: sticky;
     top: 0; /* Plakt aan de bovenkant van het scherm */
     z-index: 1000; /* Zorgt ervoor dat het boven andere elementen blijft */
     background-color: var(--background-color-light-mode);
-  }
+    }
 
-  .sticky.scroll-up {
+     .sticky.scroll-up {
     background-color: blue !important;
     }
 
-    .sticky.scroll-up.index-page {
+    .index-page.scroll-up {
         background-color: blue !important;
     }
 
-@media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {
     .sticky {
         background-color: var(--background-color-dark-mode);
       }
     }
 
-.new-header {
+    .new-header {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Drie kolommen met gelijke breedte */
     gap: minmax(20px, 1fr); /* Dynamische gap die groter wordt bij minder ruimte */
@@ -44,9 +44,9 @@
     height: 100%; /* Optioneel: als de hoogte ook 100% moet zijn */
     box-sizing: border-box; /* Zorgt ervoor dat padding niet buiten de container uitsteekt */
     padding: 0.5rem 0rem;
-} 
+    } 
 
-.logo {
+    .logo {
     display: block !important;
     background-image: var(--logo-light); /* Standaard light logo */
     width: 150px;
@@ -54,15 +54,15 @@
     background-repeat: no-repeat;
     background-position: center; /* Centers the image */
     background-size: contain; /* Ensures the image covers the element */
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    .logo {
-        background-image: var(--logo-dark);
     }
-}
+    
+    @media (prefers-color-scheme: dark) {
+        .logo {
+            background-image: var(--logo-dark);
+        }
+    }
 
-.col-menu {
+    .col-menu {
     text-align: center;
     justify-content: center; /* Horizontaal centreren */
     align-items: center; /* Verticaal centreren */

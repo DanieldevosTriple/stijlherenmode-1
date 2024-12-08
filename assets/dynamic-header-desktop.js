@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('Script geladen: sticky instelling is actief.');
 
     const sectionHeader = document.querySelector('.section-header');
+    const sectionIndexPage = document.querySelector('.index-page');
 
     if (sectionHeader) {
         console.log('Element met klasse "section-header" gevonden.');
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Gebruiker scrollt omhoog
                 sectionHeader.classList.remove('hidden');
                 sectionHeader.classList.add('scroll-up');
+                sectionIndexPage.classList.add('scroll-up');
                 console.log('Scrollt omhoog: "scroll-up" toegevoegd, "hidden" verwijderd.');
             }
 
