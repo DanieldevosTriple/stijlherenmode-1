@@ -91,17 +91,13 @@
             </div>
             <!-- On Mobile -->
             <div class="d-lg-none">
-              {% if cart.items_count == 0 %}
-              <a href="{{ routes.cart_url }}" class="cart-icon icon-cart-empty">
-                <!-- Insert cart icon SVG or image -->
-                {{- 'icon-cart-empty.svg' | inline_asset_content -}} ({{ cart.items_count }})
+              <a href="{{ routes.cart_url }}" class="cart-icon">
+                {% if cart.items_count > 0 %}
+                  {{ 'icon-cart.svg' | inline_asset_content }}
+                {% else %}
+                  {{ 'icon-cart-empty.svg' | inline_asset_content }}
+                {% endif %}
               </a>
-            {% else %}
-              <a href="{{ routes.cart_url }}" class="cart-icon icon-cart">
-                <!-- Insert cart icon SVG or image -->
-                {{- 'icon-cart.svg' | inline_asset_content -}} ({{ cart.items_count }})
-              </a>
-            {% endif %}
             </div>
           </li>
         </ul>
