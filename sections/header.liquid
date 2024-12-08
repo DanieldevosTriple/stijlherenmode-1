@@ -12,10 +12,7 @@
 }
 {%- endstyle -%}
 
-<script>
-  var emptyCartIconUrl = "https:{{ 'icon-cart-empty.svg' | asset_url }}";
-  var fullCartIconUrl = "https:{{ 'icon-cart.svg' | asset_url }}";
-</script>
+
 <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'slider-title.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer="defer"></script>
@@ -90,6 +87,8 @@
               <div class="cart-icon">
                 <img id="cart-icon-image" src="{{ 'icon-cart-empty.svg' | asset_url }}" alt="Empty Cart">
               </div>
+
+            <div{{ 'icon-cart-empty.svg' | asset_url }}>
             </div>
           </li>
         </ul>
