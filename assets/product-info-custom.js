@@ -95,6 +95,57 @@ document.addEventListener('DOMContentLoaded', () => {
           }
       };
 
+      // Dynamisch opties genereren
+      productData.options.forEach((optionName, index) => {
+          const uniqueValues = [...new Set(productData.variants.map(variant => variant[`option${index + 1}`]))];
+
+          const optionContainer = document.createElement('div');
+          optionContainer.classList.add('option-group');
+
+          const optionTitle = document.createElement('div');
+          optionTitle.classList.add('option-title');
+          optionTitle.innerHTML = `<strong>${optionName}</strong>`;
+          optionContainer.appendChild(optionTitle);
+
+          const buttonContainer = document.createElement('div');
+          buttonContainer.classList.add('button-container');
+
+          uniqueValues.forEach(value => {
+              const button = document.createElement('button');
+              button.classList.add('option-swatch');
+              button.dataset.option = optionName;
+              button.dataset.value = value;
+
+              if (optionName.toLowerCase() === 'color') {
+                  const variantWithImage = productData.variants.find(variant => variant[`option${index + 1}`] === value && variant.featured_image);
+                  if (variantWithImage && variantWithImage.featured_image) {
+                      const imgElement = document.createElement('img');
+                      imgElement.src = variantWithImage.featured_image.src;
+                      imgElement.alt = value;
+                      imgElement.classList.add('img-fluid', 'swatch-image');
+                      button.appendChild(imgElement);
+                      button.classList.add('has-image');
+                  } else {
+                      button.textContent = value;
+                  }
+              } else {
+                  button.textContent = value;
+              }
+
+              button.addEventListener('click', () => {
+                  selectedOptions[optionName] = value;
+                  buttonContainer.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+                  button.classList.add('active');
+                  handleSelectionChange();
+              });
+
+              buttonContainer.appendChild(button);
+          });
+
+          optionContainer.appendChild(buttonContainer);
+          optionsContainer.appendChild(optionContainer);
+      });
+
       // Stel standaardwaarden in of gebruik variant uit URL
       const variantIdFromURL = getVariantFromURL();
       let initialVariant = productData.variants[0];
