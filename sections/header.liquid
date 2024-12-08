@@ -26,24 +26,28 @@
     const hamburgerMenu = document.querySelector('.hamburger-menu');
     const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
     const closeMenuButton = document.querySelector('.close-menu');
+    const body = document.body; // Selecteer de body
   
     // Toon het menu-overlay bij klikken op de hamburger
     hamburgerMenu.addEventListener('click', function () {
       mobileMenuOverlay.classList.add('show');
+      body.classList.add('no-scroll'); // Voorkom scrollen
     });
   
     // Verberg het menu-overlay bij klikken op de sluitknop
     closeMenuButton.addEventListener('click', function () {
       mobileMenuOverlay.classList.remove('show');
+      body.classList.remove('no-scroll'); // Schakel scrollen weer in
     });
   
     // Sluit het menu als er buiten de menu-items wordt geklikt
     mobileMenuOverlay.addEventListener('click', function (e) {
       if (e.target === mobileMenuOverlay) {
         mobileMenuOverlay.classList.remove('show');
+        body.classList.remove('no-scroll'); // Schakel scrollen weer in
       }
     });
-  });  
+  });   
 </script>
 
 {%- liquid
