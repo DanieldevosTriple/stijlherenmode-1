@@ -125,7 +125,7 @@
                     {%- endfor -%}
               
                     {%- if color_option != '' -%}
-                      {%- if filtered_color == '' or filtered_color == color_option -%}
+                      {%- if filtered_color == color_option or filtered_color == '' -%}
                         {%- assign color_check = ',' | append: color_option | append: ',' -%}
                         {%- unless shown_colors contains color_check -%}
                           {% assign image_to_use = variant.featured_image | default: product.featured_image %}
@@ -157,9 +157,13 @@
                         {%- endunless -%}
                       {%- endif -%}
                     {%- endif -%}
+              
+                    {%- if filtered_color != '' and filtered_color != color_option -%}
+                      {%- break -%}
+                    {%- endif -%}
                   {%- endfor -%}
                 {%- endif -%}
-              {%- endfor -%}                                                                  
+              {%- endfor -%}                                                                               
             </ul>     
                          
             {%- if paginate.pages > 1 -%}
