@@ -105,7 +105,6 @@
             <ul
               id="product-grid"
               data-id="{{ section.id }}"
-              data-color-options="{{ product.variants | map: 'option1' | join: ',' | escape }}"
               class="product-grid row g-4">
               {% assign skip_card_product_styles = false %}
               
@@ -129,6 +128,7 @@
                         <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
                             {% if settings.animations_reveal_on_scroll %}
                               data-cascade
+                              data-color="{{ variant.option1 | escape }}"
                               style="--animation-order: {{ forloop.index }};"
                             {% endif %}
                         >
