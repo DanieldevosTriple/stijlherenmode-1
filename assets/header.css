@@ -170,30 +170,68 @@
 }
 
 /* Mobile menu */
-.mobile-menu {
+/* Verborgen menu-overlay standaard */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Donkere overlay */
+    z-index: 9999; /* Zorg dat het menu bovenop alles staat */
+    display: none; /* Verborgen standaard */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  /* Toon de overlay */
+  .mobile-menu-overlay.show {
+    display: flex;
+  }
+  
+  /* Menu-items stijl */
+  .mobile-menu {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: none; /* Verborgen standaard */
-    background-color: #fff; /* Pas aan naar wens */
-    position: absolute;
-    top: 100%; /* Onder de hamburgerknop */
-    left: 0;
-    width: 100%; /* Volledige breedte */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .mobile-menu.show {
-    display: block; /* Toont het menu */
+    text-align: center;
   }
   
   .mobile-menu .nav-item {
-    padding: 10px 15px;
-    border-bottom: 1px solid #eaeaea;
+    margin: 15px 0;
   }
   
   .mobile-menu .nav-link {
     text-decoration: none;
-    color: #333; /* Aanpasbare kleur */
+    font-size: 1.5rem; /* Grotere tekst */
+    color: #fff; /* Witte tekst */
+    transition: color 0.3s ease;
   }
+  
+  .mobile-menu .nav-link:hover {
+    color: #f4c842; /* Highlight kleur */
+  }
+  
+  /* Sluitknop */
+  .close-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .mobile-menu-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .mobile-menu-overlay.show {
+    opacity: 1;
+  }
+  
   
