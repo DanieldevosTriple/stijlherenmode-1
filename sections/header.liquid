@@ -50,6 +50,23 @@
   });   
 </script>
 
+{% if settings.sticky %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Zoek naar het element met de klasse 'section-header'
+      const sectionHeader = document.querySelector('.section-header');
+      
+      if (sectionHeader) {
+          // Voeg de klasse 'sticky' toe
+          sectionHeader.classList.add('sticky');
+          console.log('Klasse "sticky" toegevoegd aan section-header.');
+      } else {
+          console.warn('Element met klasse "section-header" niet gevonden.');
+      }
+  });
+  </script>
+{% endif %}
+
 {%- liquid
   for block in section.blocks
     if block.type == '@app'
@@ -61,7 +78,7 @@
 <sticky-header
   data-sticky-type="{{ section.settings.sticky_header_type }}"
   data-theme-mode="{{ section.settings.header_theme_mode }}"
-  class="header-wrapper gradient {{ template }}-page sticky">
+  class="header-wrapper gradient {{ template }}-page">
 
   <header class="col-12 container-desktop ">
       <div class="new-header">
@@ -212,6 +229,11 @@
       "id": "menu",
       "label": "Select Menu",
       "info": "Choose a menu to display in the header."
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Enable Sticky Header"
     }
   ]
 }
