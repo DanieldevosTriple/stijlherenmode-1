@@ -21,6 +21,19 @@
 <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'real-time-cart.js' | asset_url }}" defer="defer"></script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const mobileMenu = document.querySelector('.mobile-menu');
+  
+    if (hamburgerMenu && mobileMenu) {
+      hamburgerMenu.addEventListener('click', function () {
+        mobileMenu.classList.toggle('show');
+      });
+    }
+  });
+</script>
+
 {%- liquid
   for block in section.blocks
     if block.type == '@app'
