@@ -17,7 +17,14 @@
     position: sticky;
     top: 0; /* Plakt aan de bovenkant van het scherm */
     z-index: 1000; /* Zorgt ervoor dat het boven andere elementen blijft */
+    background-color: var(--background-color-light-mode);
   }
+
+@media (prefers-color-scheme: dark) {
+    .sticky {
+        background-color: var(--background-color-dark-mode);
+      }
+    }
 
 .new-header {
     display: grid;
