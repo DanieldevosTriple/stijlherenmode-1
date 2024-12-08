@@ -62,6 +62,9 @@
   {%- assign filtered_color = request.querystring | split: 'filter.v.option.Color=' | last | split: '&' | first -%}
 {%- endif -%}
 
+<!-- Debug Output -->
+<p>Filtered Color: {{ filtered_color }}</p>
+
 <div class="col-12 container-desktop section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
 
