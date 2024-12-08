@@ -105,6 +105,7 @@
             <ul
               id="product-grid"
               data-id="{{ section.id }}"
+              data-color-options="{{ product.variants | map: 'option1' | join: ',' | escape }}"
               class="product-grid row g-4">
               {% assign skip_card_product_styles = false %}
               
