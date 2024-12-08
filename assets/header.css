@@ -169,6 +169,14 @@
     }    
 }
 
+.hamburger-menu {
+    all: unset;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Mobile menu */
 /* Verborgen menu-overlay standaard */
 .mobile-menu-overlay {
