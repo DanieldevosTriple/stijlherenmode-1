@@ -43,6 +43,32 @@
   {% endfor %}
 </script>
 
+<script>
+// Functie om queryparameters op te halen
+function getQueryParameterValues(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const values = [];
+  for (const [key, value] of urlParams.entries()) {
+    if (key.toLowerCase() === param.toLowerCase()) {
+      values.push(value);
+    }
+  }
+  return values;
+}
+
+// Haal de kleurfilters op (ongeacht hoofdletters/kleine letters)
+const filteredColors = getQueryParameterValues('filter.v.option.color');
+
+// Debug-output
+console.log('Filtered Colors:', filteredColors);
+
+// Voeg de gefilterde kleuren toe aan een data-attribuut in je HTML
+document.body.setAttribute('data-filtered-colors', filteredColors.join(','));
+
+// Zet een data-attribuut voor kleurfilters
+document.body.setAttribute('data-filtered-colors', {{ filtered_colors | json }});
+</script>
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -57,16 +83,7 @@
   }
 {%- endstyle -%}
 
-{%- assign filtered_color = '' -%}
-
-{%- if request.querystring contains 'filter.v.option.color=' -%}
-  {%- assign filtered_color = request.querystring | split: 'filter.v.option.color=' | last | split: '&' | first -%}
-{%- elsif request.querystring contains 'filter.v.option.Color=' -%}
-  {%- assign filtered_color = request.querystring | split: 'filter.v.option.Color=' | last | split: '&' | first -%}
-{%- endif -%}
-
-<!-- Debug Output -->
-<p>Filtered Color: {{ filtered_color }}</p>
+{%- assign filtered_colors = document.body.getAttribute('data-filtered-colors') | split: ',' -%}
 
 <div class="col-12 container-desktop section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
@@ -131,7 +148,7 @@
                     {%- endfor -%}
               
                     {%- if color_option != '' -%}
-                      {%- if filtered_color == color_option or filtered_color == '' -%}
+                      {%- if filtered_colors == color_option or filtered_colors == '' -%}
                         {%- assign color_check = ',' | append: color_option | append: ',' -%}
                         {%- unless shown_colors contains color_check -%}
                           {% assign image_to_use = variant.featured_image | default: product.featured_image %}
