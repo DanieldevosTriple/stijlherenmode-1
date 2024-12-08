@@ -788,9 +788,12 @@ a.active-facets__button.focused .active-facets__button-inner {
   display: flex;
 }
 
-.mobile-facets__wrapper {
+.mobile-facets__wrapper { 
   margin-left: 0;
   display: flex;
+  justify-content: center;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 .mobile-facets__wrapper .disclosure-has-popup[open] > summary::before {
@@ -1255,6 +1258,12 @@ input.mobile-facets__checkbox {
     flex-flow: row wrap;
     align-items: center;
     column-gap: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .facets-container-drawer {
+      display: unset;
+    }
   }
 
   .facets-container-drawer .mobile-facets__wrapper {
