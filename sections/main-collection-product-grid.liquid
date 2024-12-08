@@ -134,38 +134,58 @@
         {%- else -%}
           <div class="collection">
             <div class="loading-overlay gradient"></div>
-              <ul
-                data-id="{{ section.id }}"
-                data-active-filter="{{ request.query['filter.v.option.color'] | default: '' | downcase }}"
-                class="product-grid row g-4">
-                {% assign skip_card_product_styles = false %}
-                
-                {%- assign selected_colors = request.query['filter.v.option.color'] | split: ',' | map: 'downcase' -%}
-                
-                {%- for product in collection.products -%}
-                  {%- if product.options contains 'Color' -%}
-                    {%- assign shown_colors = '' -%}
-                    {%- for variant in product.variants -%}
-                      {%- assign color_option = '' -%}
-                      {%- for option_index in (0..product.options.size) -%}
-                        {%- if product.options[option_index] == 'Color' -%}
-                          {%- assign color_option = variant.options[option_index] | downcase -%}
+            <ul
+              data-id="{{ section.id }}"
+              data-active-filter="{{ request.query['filter.v.option.color'] | default: '' | downcase }}"
+              class="product-grid row g-4">
+              {% assign skip_card_product_styles = false %}
+              
+              {%- assign selected_colors = request.query['filter.v.option.color'] | split: ',' | map: 'downcase' -%}
+              
+              {# Debugging: Toon geselecteerde kleuren #}
+              <!-- Selected Colors: {{ selected_colors | join: ', ' }} -->
+            
+              {%- for product in collection.products -%}
+                {%- if product.options contains 'Color' -%}
+                  {%- assign shown_colors = '' -%}
+                  {%- for variant in product.variants -%}
+                    {%- assign color_option = '' -%}
+                    {%- for option_index in (0..product.options.size) -%}
+                      {%- if product.options[option_index] == 'Color' -%}
+                        {%- assign color_option = variant.options[option_index] | downcase -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+            
+                    {# Debugging: Toon color_option #}
+                    <!-- Variant Color: {{ color_option }} -->
+            
+                    {# Controle of de kleur geselecteerd is #}
+                    {%- assign is_color_selected = false -%}
+                    {%- if selected_colors != empty -%}
+                      {%- for selected_color in selected_colors -%}
+                        {%- if selected_color == color_option -%}
+                          {%- assign is_color_selected = true -%}
                         {%- endif -%}
                       {%- endfor -%}
+                    {%- else -%}
+                      {%- assign is_color_selected = true -%} {# Toon alles als er geen filter is #}
+                    {%- endif -%}
+            
+                    {# Debugging: Toon selectie-status #}
+                    <!-- Is Color Selected: {{ is_color_selected }} -->
+            
+                    {%- if color_option != '' and is_color_selected -%}
+                      {%- assign color_check = ',' | append: color_option | append: ',' -%}
+                      {%- unless shown_colors contains color_check -%}
+                        {% assign image_to_use = variant.featured_image | default: product.featured_image %}
+                        {% assign product_title_with_color = product.title | append: ' - ' | append: color_option %}
                 
-                      {%- assign is_color_selected = false -%}
-                      {%- if selected_colors != empty -%}
-                        {%- for selected_color in selected_colors -%}
-                          {%- if selected_color == color_option -%}
-                            {%- assign is_color_selected = true -%}
-                          {%- endif -%}
-                        {%- endfor -%}
-                      {%- else -%}
-                        {%- assign is_color_selected = true -%}
-                      {%- endif -%}
-                
-                      {%- if color_option != '' and is_color_selected -%}
-                        <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in">
+                        <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
+                            {% if settings.animations_reveal_on_scroll %}
+                              data-cascade
+                              style="--animation-order: {{ forloop.index }};"
+                            {% endif %}
+                        >
                           {% render 'card-product',
                             card_product: product,
                             media_aspect_ratio: section.settings.image_ratio,
@@ -183,11 +203,13 @@
                           %}
                         </li>
                         {%- assign shown_colors = shown_colors | append: color_check -%}
-                      {%- endif -%}
-                    {%- endfor -%}
-                  {%- endif -%}
-                {%- endfor -%}                                                                                                              
-            </ul>     
+                      {%- endunless -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- assign skip_card_product_styles = true -%}
+              {%- endfor -%}                                        
+            </ul>                
                          
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
