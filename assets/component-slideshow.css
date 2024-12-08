@@ -167,6 +167,10 @@ slideshow-component .slideshow.banner {
 }
 
 @media screen and (max-width: 749px) {
+  slideshow-component .slideshow.banner {
+    height: 60vh;
+  }
+
   .slideshow__controls--border-radius-mobile {
     border-bottom-right-radius: var(--text-boxes-radius);
     border-bottom-left-radius: var(--text-boxes-radius);
