@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const variantInput = document.getElementById('selected-variant-id');
       const optionsContainer = document.querySelector('.options-container');
       const secondaryGallery = document.querySelector('.secondary-gallery');
+      const descriptionElement = document.querySelector('.product-description');
 
       let selectedOptions = {};
 
@@ -77,7 +78,17 @@ document.addEventListener('DOMContentLoaded', () => {
           }
       };
 
+      const updateProductDescription = (variantId) => {
+          const selectedVariant = productData.variants.find(variant => variant.id === variantId);
+          if (selectedVariant && selectedVariant.description) {
+              descriptionElement.innerHTML = selectedVariant.description;
+          } else {
+              descriptionElement.innerHTML = productData.description; // Gebruik algemene productbeschrijving
+          }
+      };
+
       const handleSelectionChange = () => {
+          console.log("Selected Options:", selectedOptions);
           const selectedVariant = productData.variants.find(variant =>
               Object.keys(selectedOptions).every(optionName => {
                   const optionIndex = productData.options.indexOf(optionName);
@@ -86,12 +97,16 @@ document.addEventListener('DOMContentLoaded', () => {
           );
 
           if (selectedVariant) {
+              console.log("Matching Variant Found:", selectedVariant);
               updateGallery(selectedVariant.id);
               updateBuyButton(selectedVariant.id);
               updateProductTitle();
               updateURLWithVariant(selectedVariant.id);
+              updateProductDescription(selectedVariant.id);
           } else {
+              console.warn("No matching variant found. Loading default images.");
               updateGallery(null);
+              updateProductDescription(null);
           }
       };
 
@@ -166,7 +181,12 @@ document.addEventListener('DOMContentLoaded', () => {
           }
       });
 
-      handleSelectionChange();
+      // Update alle elementen bij initialisatie
+      updateGallery(initialVariant.id);
+      updateBuyButton(initialVariant.id);
+      updateProductTitle();
+      updateProductDescription(initialVariant.id);
+
   } catch (error) {
       console.error("Error initializing product media gallery:", error);
   }
