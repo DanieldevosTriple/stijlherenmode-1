@@ -1,5 +1,7 @@
 // Utility function to check if an image is dark
 function isImageDark(image) {
+    console.debug('Checking if image is dark:', image);
+
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     canvas.width = image.width;
@@ -19,23 +21,36 @@ function isImageDark(image) {
         if (brightness < 100) darkPixelCount++; // Threshold for "dark"
     }
 
-    return darkPixelCount / totalPixels > 0.5; // More than 50% dark pixels
+    const darkRatio = darkPixelCount / totalPixels;
+    console.debug(`Dark pixel ratio: ${darkRatio}`);
+    return darkRatio > 0.5; // More than 50% dark pixels
 }
 
 // Function to handle class toggling
 function updateClasses() {
+    console.debug('Running updateClasses...');
     const fullPageImages = document.querySelectorAll('.full-page-image');
     const firstMenu = document.querySelector('.first-menu .nav-item');
     const logo = document.querySelector('.logo');
     const textSecondMenu = document.querySelector('.text-second-menu');
 
-    fullPageImages.forEach(image => {
+    if (!firstMenu || !logo || !textSecondMenu) {
+        console.error('One or more elements (firstMenu, logo, textSecondMenu) are missing!');
+        return;
+    }
+
+    fullPageImages.forEach((image, index) => {
+        console.debug(`Checking image ${index + 1}...`, image);
         const isActive = image.getAttribute('aria-hidden') === "true";
+        console.debug(`Image active: ${isActive}`);
+
         if (isActive && isImageDark(image)) {
+            console.info('Image is dark and active. Adding classes...');
             firstMenu.classList.add('dark-mode');
             logo.classList.add('dark-mode');
             textSecondMenu.classList.add('dark-mode');
         } else {
+            console.info('Image is not dark or not active. Removing classes...');
             firstMenu.classList.remove('dark-mode');
             logo.classList.remove('dark-mode');
             textSecondMenu.classList.remove('dark-mode');
@@ -44,15 +59,26 @@ function updateClasses() {
 }
 
 // Event listeners for scroll and slide changes
-document.addEventListener('scroll', updateClasses);
-
-const observer = new MutationObserver(() => {
+document.addEventListener('scroll', () => {
+    console.debug('Scroll event detected');
     updateClasses();
 });
 
-document.querySelectorAll('.full-page-image').forEach(image => {
-    observer.observe(image, { attributes: true, attributeFilter: ['aria-hidden'] });
+const observer = new MutationObserver(() => {
+    console.debug('Mutation detected');
+    updateClasses();
 });
 
+const images = document.querySelectorAll('.full-page-image');
+if (images.length === 0) {
+    console.warn('No images with class "full-page-image" found.');
+} else {
+    console.info(`Found ${images.length} images. Setting up MutationObserver...`);
+    images.forEach(image => {
+        observer.observe(image, { attributes: true, attributeFilter: ['aria-hidden'] });
+    });
+}
+
 // Initial call
+console.debug('Initial call to updateClasses...');
 updateClasses();
