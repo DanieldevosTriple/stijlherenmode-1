@@ -87,10 +87,12 @@
             </div>
             <!-- On Mobile -->
             <div class="d-lg-none">
-              <div class="cart-icon" style="width: 25px; color: black;">
-                <img id="cart-icon-icon" src="{{ 'icon-cart-empty.svg' | asset_url }}" alt="Empty Cart">
-              </div>
-            </div>
+              <a href="/cart" class="cart-link">
+                <div class="cart-icon" style="width: 25px; color: black;">
+                  <img id="cart-icon-icon" src="{{ 'icon-cart-empty.svg' | asset_url }}" alt="Empty Cart">
+                </div>
+              </a>
+            </div>            
           </li>
         </ul>
         </div>
