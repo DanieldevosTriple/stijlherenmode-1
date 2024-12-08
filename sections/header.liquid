@@ -59,14 +59,7 @@
 {% endif %}
 
 {% if template.name == 'index' %}
-  <script>
-    if (window.innerWidth > 1024) {
-      var script = document.createElement('script');
-      script.src = '{{ "transparent-header.js" | asset_url }}';
-      script.defer = true;
-      document.head.appendChild(script);
-    }
-  </script>
+  <script src="{{ 'transparent-header.js' | asset_url }}" defer="defer"></script>
 {% endif %}
 
 {%- liquid
