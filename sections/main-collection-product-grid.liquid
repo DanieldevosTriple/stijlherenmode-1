@@ -43,69 +43,6 @@
   {% endfor %}
 </script>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-  function getFiltersFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      const filters = {};
-
-      // Voeg hier alle filtertypes toe die je wilt ondersteunen
-      params.forEach((value, key) => {
-          if (key.startsWith('filter.v.option.')) {
-              const filterType = key.replace('filter.v.option.', ''); // Haal het filtertype op (bijv. color)
-              filters[filterType] = value;
-          }
-      });
-
-      return filters;
-  }
-
-  function filterProducts() {
-      const filters = getFiltersFromURL();
-      const productElements = document.querySelectorAll('li[data-color][data-size][data-brand]'); // Pas aan naar jouw specifieke data-attributes
-
-      productElements.forEach(product => {
-          let isVisible = true;
-
-          // Controleer elk actief filter
-          for (const [filterType, filterValue] of Object.entries(filters)) {
-              const productValue = product.getAttribute(`data-${filterType}`);
-
-              if (!productValue || productValue !== filterValue) {
-                  isVisible = false;
-                  break;
-              }
-          }
-
-          // Toon of verberg het product
-          product.style.display = isVisible ? "block" : "none";
-      });
-
-      // Optioneel: Toon een melding als geen producten voldoen aan de filters
-      const visibleProducts = Array.from(productElements).filter(product => product.style.display === "block");
-      const noResultsMessage = document.querySelector('.no-results');
-      if (noResultsMessage) {
-          noResultsMessage.style.display = visibleProducts.length === 0 ? "block" : "none";
-      }
-  }
-
-  // Filter producten bij het laden van de pagina
-  filterProducts();
-
-  // Luister naar wijzigingen in de URL
-  window.addEventListener("popstate", () => {
-      filterProducts();
-  });
-
-  // Optioneel: observeer wijzigingen in de URL of DOM
-  const urlObserver = new MutationObserver(() => {
-      filterProducts();
-  });
-
-  urlObserver.observe(document.body, { childList: true, subtree: true });
-});
-</script>
-
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
