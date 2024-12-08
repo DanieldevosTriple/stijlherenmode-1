@@ -49,9 +49,22 @@
               </ul>
             {% endif %}
           </nav>
-          <nav class="col-menu col-align-left menu-items first-menu d-lg-none">{{- 'icon-hamburger.svg' | inline_asset_content -}}
-            </nav>
-        </div>
+          <nav class="col-menu col-align-left menu-items first-menu d-lg-none">
+            <button class="hamburger-menu">
+              {{- 'icon-hamburger.svg' | inline_asset_content -}}
+            </button>
+            {% if section.settings.menu != blank %}
+              {% assign menu = linklists[section.settings.menu] %}
+              <ul class="mobile-menu d-none">
+                {% for link in menu.links %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </nav>
+        </div>        
   
         <!-- Center: Logo -->
         <div class="col-menu text-center">
