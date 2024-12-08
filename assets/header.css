@@ -21,17 +21,25 @@
     }
 
      .sticky.scroll-up {
-    background-color: blue !important;
+    background-color: var(--background-color-light-mode) !important;
     }
 
     .index-page.scroll-up {
-        background-color: blue !important;
+        background-color: var(--background-color-light-mode) !important;
     }
 
     @media (prefers-color-scheme: dark) {
     .sticky {
         background-color: var(--background-color-dark-mode);
-      }
+    }
+
+    .sticky.scroll-up {
+        background-color: var(--background-color-dark-mode) !important;
+    }
+    
+    .index-page.scroll-up {
+        background-color: var(--background-color-dark-mode) !important;
+    }
     }
 
     .new-header {
