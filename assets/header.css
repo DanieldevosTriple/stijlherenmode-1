@@ -134,15 +134,10 @@
     width: 25px;
     color: black;
 }
-  
-.icon-cart {
-    width: 25px;
-    color: black;
-}
 
-#icon-cart-cart {
-    width: 25px;
-    color: black;
+.icon-cart {
+    width: 25px !important;
+    color: black !important;
 }
 
 .icon-search {
