@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Wanneer de gebruiker bovenaan is
             if (currentScrollY === 0) {
                 sectionHeader.classList.remove('hidden', 'scroll-up');
+                sectionIndexPage.classList.remove('hidden', 'scroll-up');
                 console.log('Bovenaan de pagina: alleen "sticky" aanwezig.');
             }
 
