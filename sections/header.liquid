@@ -25,13 +25,19 @@
   document.addEventListener('DOMContentLoaded', function () {
     const hamburgerMenu = document.querySelector('.hamburger-menu');
     const mobileMenu = document.querySelector('.mobile-menu');
+    
+    console.log("Hamburger Menu:", hamburgerMenu);
+    console.log("Mobile Menu:", mobileMenu);
   
     if (hamburgerMenu && mobileMenu) {
       hamburgerMenu.addEventListener('click', function () {
+        console.log("Hamburger-menu geklikt");
         mobileMenu.classList.toggle('show');
       });
+    } else {
+      console.error("Elementen niet gevonden!");
     }
-  });
+  });  
 </script>
 
 {%- liquid
