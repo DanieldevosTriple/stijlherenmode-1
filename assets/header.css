@@ -217,6 +217,8 @@
   
   .mobile-menu .nav-item {
     margin: 15px 0;
+    font-size: 2rem;
+    font-family: TradeGothic LT CondEighteen;
   }
   
   .mobile-menu .nav-link {
