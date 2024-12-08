@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const darkRatio = darkPixelCount / totalPixels;
         console.debug(`Dark pixel ratio: ${darkRatio}`);
-        return darkRatio > 0.5; // More than 50% dark pixels
+        return darkRatio > 0.3; // More than 50% dark pixels
     }
 
     // Function to handle class toggling
