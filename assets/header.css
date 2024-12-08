@@ -20,6 +20,10 @@
     background-color: var(--background-color-light-mode);
   }
 
+.sticky .scroll-up {
+    background-color: blue !important;
+}
+
 @media (prefers-color-scheme: dark) {
     .sticky {
         background-color: var(--background-color-dark-mode);
