@@ -117,19 +117,7 @@
         <div class="col-menu col-align-right text-second-menu">
           <ul>
           <!-- Search -->
-          <li class="search d-inline-block">
-            <!-- On Desktop -->
-            <div class="d-none d-lg-block">
-              {{ 'general.Search' | t }}
-            </div>
-            <!-- On Mobile -->
-            <div class="d-lg-none">
-              <a href="#" class="search-icon">
-                <!-- Insert search icon SVG or image -->
-                {{- 'icon-search.svg' | inline_asset_content -}}
-              </a>
-            </div>
-          </li>
+          {% render 'header-search', input_id: 'Search-In-Modal' %}
           <!-- Cart -->
           <li class="cart d-inline-block ml-3">
             <!-- On Desktop -->

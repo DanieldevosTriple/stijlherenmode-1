@@ -15,20 +15,19 @@
       aria-haspopup="dialog"
       aria-label="{{ 'general.search.search' | t }}"
     >
-      <span class="svg-sizer">
-        <!-- SVG for Mobile -->
-        <span class="svg-wrapper svg-mobile">
-          {{- 'icon-search.svg' | inline_asset_content -}}
-        </span>
-        <!-- Text for Desktop -->
-        <span class="header__icon-text text-desktop cart-color {{ template }}-page">
-          {{ 'general.search.search' | t }}
-        </span>
-        <!-- Close Icon -->
-        <span class="svg-wrapper header__icon-close">
-          {{- 'icon-close.svg' | inline_asset_content -}}
-        </span>
-      </span>
+      <li class="search d-inline-block">
+        <!-- On Desktop -->
+        <div class="d-none d-lg-block">
+          {{ 'general.Search' | t }}
+        </div>
+        <!-- On Mobile -->
+        <div class="d-lg-none">
+          <a href="#" class="search-icon">
+            <!-- Insert search icon SVG or image -->
+            {{- 'icon-search.svg' | inline_asset_content -}}
+          </a>
+        </div>
+      </li>
     </summary>
 
     <div
