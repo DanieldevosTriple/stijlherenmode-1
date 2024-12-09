@@ -70,22 +70,13 @@
           id="main-collection-filters"
           data-id="{{ section.id }}"
         >
-          {% assign variant_results = '' %}
-          {% for product in collection.products %}
-            {% for variant in product.variants %}
-              {% capture variant_data %}
-                {{ variant.id }}
-              {% endcapture %}
-              {% assign variant_results = variant_results | append: variant_data | append: ',' %}
-            {% endfor %}
-          {% endfor %}
           {% render 'facets',
-            results: variant_results,
+            results: collection,
             enable_filtering: section.settings.enable_filtering,
             enable_sorting: section.settings.enable_sorting,
             filter_type: section.settings.filter_type,
             paginate: paginate
-          %}          
+          %}
         </aside>
       {%- endif -%}
 
@@ -141,9 +132,7 @@
 
                  {% unless colorlist contains color %}
                     <!-- VARIANT LOOP -->
-                      <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
-                        data-filter-color="{{ variant.options | first }}"
-                        data-filter-size="{{ variant.options | last }}">
+                      <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in">
                         {% render 'card-product-variant',
                           card_product: product,
                           variant: variant,
@@ -164,7 +153,7 @@
               {% endfor %}
               {% else %}
               <!-- PRODUCT LOOP -->
-                <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in">
+                <li class="class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"">
                 {% render 'card-product',
                   card_product: product,
                   media_aspect_ratio: section.settings.image_ratio,
