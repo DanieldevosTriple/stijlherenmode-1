@@ -141,7 +141,7 @@
               class="full-unstyled-link"
               aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }} Badge-{{ section_id }}-{{ card_product.id }}"
             >
-              {{ product_title | default: card_product.title | escape }}
+              {{ product_title | default: card_product.title | escape }} - {{ variant.options | first }}
             </a>
           </h3>                 
           <div class="card-information">
