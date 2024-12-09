@@ -63,6 +63,7 @@
     <div class="">
       {{ 'component-facets.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
         <aside
           aria-labelledby="verticalTitle"
@@ -70,8 +71,23 @@
           id="main-collection-filters"
           data-id="{{ section.id }}"
         >
+          {% assign variant_results = '' %}
+          {% for product in collection.products %}
+            {% for variant in product.variants %}
+              {% capture variant_data %}
+                {
+                  "id": "{{ variant.id }}",
+                  "title": "{{ variant.title }}",
+                  "color": "{{ variant.options | first }}",
+                  "size": "{{ variant.options | last }}"
+                }
+              {% endcapture %}
+              {% assign variant_results = variant_results | append: variant_data | append: ',' %}
+            {% endfor %}
+          {% endfor %}
+          {% assign variant_results = '[' | append: variant_results | append: ']' %}
           {% render 'facets',
-            results: collection,
+            results: variant_results,
             enable_filtering: section.settings.enable_filtering,
             enable_sorting: section.settings.enable_sorting,
             filter_type: section.settings.filter_type,
@@ -83,7 +99,7 @@
       <div
         class="product-grid-container scroll-trigger animate--slide-in"
         id="ProductGridContainer"
-          data-cascade
+        data-cascade
       >
         {%- if collection.products.size == 0 -%}
           <div class="collection collection--empty" id="product-grid" data-id="{{ section.id }}">
@@ -106,68 +122,47 @@
               id="product-grid"
               data-id="{{ section.id }}"
               class="product-grid row g-4">
-              {% assign skip_card_product_styles = false %}
-              
-              {%- for product in collection.products -%}
-              {% assign lazy_load = false %}
-              {%- if forloop.index > 2 -%}
-                {%- assign lazy_load = true -%}
-              {%- endif -%}
-            {% assign color_active = false %}
-            {% for option in product.options %}
-              {% if option == 'Color' %}
-                 {% assign color_active = true %}
-              {% endif %}
-            {% endfor %}
-            {% if product.variants.size > 1 and color_active == true %}
-            {% for option in product.options %}
-               {% if option == 'Color' %}
-               {% assign index = forloop.index0 %}
-               {% assign colorlist = '' %}
-               {% assign color = '' %}
-               {% for variant in product.variants %}
-               {% capture color %}
-               {{ variant.options[index] }}
-               {% endcapture %}
-
-                 {% unless colorlist contains color %}
-                    <!-- VARIANT LOOP -->
-                      <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in">
+              {% for product in collection.products %}
+                {% assign lazy_load = forloop.index > 2 %}
+                {% assign color_active = product.options contains 'Color' %}
+                
+                {% if product.variants.size > 1 and color_active %}
+                  {% assign color_list = '' %}
+                  {% assign index = forloop.index0 %}
+                  {% for variant in product.variants %}
+                    {% assign color = variant.options[index] %}
+                    {% unless color_list contains color %}
+                      <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
+                        data-filter-color="{{ variant.options | first }}"
+                        data-filter-size="{{ variant.options | last }}">
                         {% render 'card-product-variant',
                           card_product: product,
                           variant: variant,
                           media_aspect_ratio: section.settings.image_ratio,
                           show_secondary_image: section.settings.show_secondary_image,
                           show_vendor: section.settings.show_vendor,
-                          show_rating: section.settings.show_rating, variant
+                          show_rating: section.settings.show_rating,
                           lazy_load: lazy_load
                         %}
                       </li>
-                    {% capture tempList %}
-                  {{colorlist | append: color | append: " " }}
-                  {% endcapture %}
-                  {% assign colorlist = tempList %}
-                  {% endunless %}
+                      {% assign color_list = color_list | append: color | append: ',' %}
+                    {% endunless %}
                   {% endfor %}
+                {% else %}
+                  <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in">
+                    {% render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: lazy_load
+                    %}
+                  </li>
                 {% endif %}
               {% endfor %}
-              {% else %}
-              <!-- PRODUCT LOOP -->
-                <li class="class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"">
-                {% render 'card-product',
-                  card_product: product,
-                  media_aspect_ratio: section.settings.image_ratio,
-                  show_secondary_image: section.settings.show_secondary_image,
-                  show_vendor: section.settings.show_vendor,
-                  show_rating: section.settings.show_rating,
-                  lazy_load: lazy_load
-                %}
-              </li>
-              {% endif %}
-            {%- endfor -%}
+            </ul>
 
-          </ul>    
-                         
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
@@ -176,9 +171,6 @@
       </div>
     </div>
   {%- endpaginate -%}
-  {% if section.settings.image_shape == 'arch' %}
-    {{ 'mask-arch.svg' | inline_asset_content }}
-  {%- endif -%}
 </div>
 
 {% schema %}
