@@ -135,7 +135,9 @@
                       <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" data-product-id="{{ product.id }}"
                         data-variant-id="{{ variant.id }}"
                         data-color="{{ color_option | escape }}"
-                        data-price="{{ variant.price | money_without_currency }}">
+                        data-price="{{ variant.price | money_without_currency }}"
+                        data-filter-color="{{ variant.options | first }}"
+                        data-filter-size="{{ variant.options | last }}">
                         {% render 'card-product-variant',
                           card_product: product,
                           variant: variant,
@@ -160,7 +162,9 @@
                   data-product-id="{{ product.id }}"
                   data-variant-id="{{ variant.id }}"
                   data-color="{{ color_option | escape }}"
-                  data-price="{{ variant.price | money_without_currency }}">
+                  data-price="{{ variant.price | money_without_currency }}"
+                  data-filter-color="{{ variant.options | first }}"
+                  data-filter-size="{{ variant.options | last }}">
                 {% render 'card-product',
                   card_product: product,
                   media_aspect_ratio: section.settings.image_ratio,
