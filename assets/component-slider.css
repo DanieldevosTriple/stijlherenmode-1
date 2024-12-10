@@ -421,8 +421,20 @@ slider-component.slider-component-full-width {
   color: rgb(var(--color-foreground));
 }
 
+@media (prefers-color-scheme: dark) {
+  .slider-button-featured-products:hover {
+    color: white;
+  }
+}
+
 .slider-button:not([disabled]):hover {
   color: rgb(var(--color-foreground));
+}
+
+@media (prefers-color-scheme: dark) {
+  .slider-button:not([disabled]):hover {
+    color: white;
+  }
 }
 
 .slider-button-featured-products .icon {
