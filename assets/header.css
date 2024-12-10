@@ -76,6 +76,38 @@
     background-position: center; /* Centers the image */
     background-size: contain; /* Ensures the image covers the element */
     }
+
+    .sticky.scroll-up.logo {
+        display: block !important;
+        background-image: var(--logo-light); /* Standaard light logo */
+        width: 150px;
+        height: 40px;
+        background-repeat: no-repeat;
+        background-position: center; /* Centers the image */
+        background-size: contain; /* Ensures the image covers the element */
+    }
+
+    .index-page .logo {
+        display: block !important;
+        background-image: var(--logo-dark); /* Standaard light logo */
+        width: 150px;
+        height: 40px;
+        background-repeat: no-repeat;
+        background-position: center; /* Centers the image */
+        background-size: contain; /* Ensures the image covers the element */
+        }
+
+    .index-page .logo .transparent {
+        display: block !important;
+        background-image: var(--logo-dark); /* Standaard light logo */
+        width: 150px;
+        height: 40px;
+        background-repeat: no-repeat;
+        background-position: center; /* Centers the image */
+        background-size: contain; /* Ensures the image covers the element */
+        }   
+        
+    
     
     @media (prefers-color-scheme: dark) {
         .logo {
