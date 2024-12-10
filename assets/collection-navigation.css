@@ -131,9 +131,10 @@
   }
 
   @media (max-width: 1200px) {
-  .collection-selector__image {
-    width: 100%;
-    object-fit: fill;
+    .collection-selector__image {
+      width: 100%;
+      height: 60%;
+      object-fit: fill;
   }
 }
 
