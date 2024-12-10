@@ -604,6 +604,12 @@
   padding: 2rem;
 }
 
+@media (prefers-color-scheme: dark) {
+.facets__price {
+  background-color: var(--background-color-dark-mode);
+}
+}
+
 .facets__price .field + .field-currency {
   margin-left: 2rem;
 }
