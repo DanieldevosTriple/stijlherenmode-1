@@ -325,6 +325,12 @@
   z-index: 1;
 }
 
+@media (prefers-color-scheme: dark) {
+  .facets__header {
+    border-bottom: 1px solid lightgrey;
+    background-color: rgb(var(--background-color-dark-mode));
+  }
+
 .facets__header facet-remove {
   align-self: center;
 }
