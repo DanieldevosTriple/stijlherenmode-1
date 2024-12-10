@@ -90,26 +90,28 @@ class FacetFiltersForm extends HTMLElement {
       element.classList.add('scroll-trigger--cancel');
     });
   
-    // Filtering toepassen
+    // Pas de nieuwe filtering toe
     FacetFiltersForm.filterProductGridByColor();
-  }  
+  }   
 
-  static getFilterColorFromURL() {
+  static getFilterColorsFromURL() {
     const params = new URLSearchParams(window.location.search);
-    return params.get('filter.v.option.color');
-  }
+    const colors = params.getAll('filter.v.option.color'); // Retourneert alle waarden als een array
+    return colors.map((color) => decodeURIComponent(color)); // Decodeer waarden zoals "Army+Green" naar "Army Green"
+  }  
   
   static filterProductGridByColor() {
-    const filterColor = FacetFiltersForm.getFilterColorFromURL();
-    if (!filterColor) return;
+    const filterColors = FacetFiltersForm.getFilterColorsFromURL();
+    if (filterColors.length === 0) return; // Geen kleurfilters toegepast
   
     const productItems = document.querySelectorAll('#ProductGridContainer li[data-filter-color]');
   
     productItems.forEach((item) => {
       const itemColor = item.getAttribute('data-filter-color');
-      item.style.display = itemColor === filterColor ? '' : 'none';
+      // Controleer of de kleur van het item in de lijst van filterkleuren zit
+      item.style.display = filterColors.includes(itemColor) ? '' : 'none';
     });
-  }
+  }  
   
   static renderProductCount(html) {
     const count = new DOMParser().parseFromString(html, 'text/html').getElementById('ProductCount').innerHTML;
