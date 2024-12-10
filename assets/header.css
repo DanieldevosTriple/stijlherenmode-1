@@ -27,12 +27,12 @@
     background-color: var(--background-color-light-mode) !important;
     }
 
-    .index-page.scroll-up .navbar-nav .nav-link  {
+    .index-page .scroll-up .navbar-nav .nav-link  {
         color: black
     }
 
     @media (prefers-color-scheme: dark) {
-    .index-page.scroll-up .navbar-nav .nav-link  {
+    .index-page .scroll-up .navbar-nav .nav-link  {
         color: white
     }
     }
@@ -77,7 +77,7 @@
     background-size: contain; /* Ensures the image covers the element */
     }
 
-    .sticky.scroll-up.logo {
+    .sticky .scroll-up .logo {
         display: block !important;
         background-image: var(--logo-light); /* Standaard light logo */
         width: 150px;
