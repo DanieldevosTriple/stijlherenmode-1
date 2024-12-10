@@ -132,7 +132,6 @@
                 <div class="cart-icon">
                   {% if cart.item_count > 0 %}
                     {{ 'icon-cart.svg' | inline_asset_content }}
-                    <span class="cart-bubble">{{ cart.item_count }}</span>
                   {% else %}
                     {{ 'icon-cart-empty.svg' | inline_asset_content }}
                   {% endif %}
