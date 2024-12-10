@@ -76,12 +76,12 @@
             </h2>
           {%- else -%}
             <h2 class="footer-block__heading__menu">
-              {{ linklists[section.settings.menu_1].title }}
+              {{ linklists[section.settings.menu_2].title }}
               <button class="footer__toggle" aria-expanded="false">+</button>
             </h2>
           {%- endif -%}
           <ul class="footer__menu" hidden>
-            {%- for link in linklists[section.settings.menu_1].links -%}
+            {%- for link in linklists[section.settings.menu_2].links -%}
               <li>
                 <a href="{{ link.url }}" class="link">{{ link.title }}</a>
               </li>
