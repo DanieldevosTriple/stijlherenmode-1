@@ -332,26 +332,17 @@ FacetFiltersForm.setListeners();
 function removeDuplicateParams(paramName) {
   const currentUrl = window.location.href;
 
-  if ((currentUrl.match(new RegExp(`${paramName}=`, 'g')) || []).length > 1) {
-    const [baseUrl, queryParams] = currentUrl.split('?');
-    const params = new URLSearchParams(queryParams);
+  // Controleer of er een dubbele `?variant` met dezelfde waarde bestaat
+  const variantPattern = /(\?variant=\d+)(?=.*\1)/g; // Regex om dubbele variant met dezelfde waarde te vinden
 
-    let seenParam = false;
-    params.forEach((value, key) => {
-      if (key === paramName) {
-        if (seenParam) {
-          params.delete(key);
-        } else {
-          seenParam = true;
-        }
-      }
-    });
+  if (variantPattern.test(currentUrl)) {
+    // Vervang duplicaten door slechts één exemplaar
+    const newUrl = currentUrl.replace(variantPattern, '$1');
 
-    const newUrl = `${baseUrl}?${params.toString()}`;
+    // Update de URL zonder herladen
     window.history.replaceState({}, '', newUrl);
   }
 }
-
 
 class PriceRange extends HTMLElement {
   constructor() {
