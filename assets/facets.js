@@ -96,6 +96,9 @@ class FacetFiltersForm extends HTMLElement {
   
     // Pas de nieuwe filtering toe
     FacetFiltersForm.filterProductGridByColor();
+
+    // Verwijder dubbele parameters
+    removeDuplicateParams('variant'); // Controleer en corrigeer 'variant'
   }  
 
   static getFilterColorsFromURL() {
@@ -264,7 +267,10 @@ class FacetFiltersForm extends HTMLElement {
 
   static updateURLHash(searchParams) {
     history.pushState({ searchParams }, '', `${window.location.pathname}${searchParams && '?'.concat(searchParams)}`);
-  }
+    
+    // Verwijder dubbele parameters
+    removeDuplicateParams('variant');
+    }
 
   static getSections() {
     return [
@@ -322,6 +328,30 @@ FacetFiltersForm.searchParamsInitial = window.location.search.slice(1);
 FacetFiltersForm.searchParamsPrev = window.location.search.slice(1);
 customElements.define('facet-filters-form', FacetFiltersForm);
 FacetFiltersForm.setListeners();
+
+function removeDuplicateParams(paramName) {
+  const currentUrl = window.location.href;
+
+  if ((currentUrl.match(new RegExp(`${paramName}=`, 'g')) || []).length > 1) {
+    const [baseUrl, queryParams] = currentUrl.split('?');
+    const params = new URLSearchParams(queryParams);
+
+    let seenParam = false;
+    params.forEach((value, key) => {
+      if (key === paramName) {
+        if (seenParam) {
+          params.delete(key);
+        } else {
+          seenParam = true;
+        }
+      }
+    });
+
+    const newUrl = `${baseUrl}?${params.toString()}`;
+    window.history.replaceState({}, '', newUrl);
+  }
+}
+
 
 class PriceRange extends HTMLElement {
   constructor() {
