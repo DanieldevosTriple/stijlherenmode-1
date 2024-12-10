@@ -111,12 +111,12 @@
         color: white
      }
 
-     .index-page .scroll-up li.search {
+     .index-page.scroll-up li.search {
         color: black
      }
 
      @media (prefers-color-scheme: dark) {
-        .index-page .scroll-up li.search {
+        .index-page.scroll-up li.search {
             color: white
          }
      }
