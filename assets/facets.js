@@ -14,6 +14,10 @@ class FacetFiltersForm extends HTMLElement {
     if (facetWrapper) facetWrapper.addEventListener('keyup', onKeyUpEscape);
   }
 
+  connectedCallback() {
+    FacetFiltersForm.filterProductGridByColor();
+  }
+
   static setListeners() {
     const onHistoryChange = (event) => {
       const searchParams = event.state ? event.state.searchParams : FacetFiltersForm.searchParamsInitial;
@@ -92,26 +96,25 @@ class FacetFiltersForm extends HTMLElement {
   
     // Pas de nieuwe filtering toe
     FacetFiltersForm.filterProductGridByColor();
-  }   
+  }  
 
   static getFilterColorsFromURL() {
     const params = new URLSearchParams(window.location.search);
-    const colors = params.getAll('filter.v.option.color'); // Retourneert alle waarden als een array
-    return colors.map((color) => decodeURIComponent(color)); // Decodeer waarden zoals "Army+Green" naar "Army Green"
-  }  
+    const colors = params.getAll('filter.v.option.color'); // Alle waarden als array
+    return colors.map((color) => decodeURIComponent(color)); // Decodeer speciale tekens
+  }
   
   static filterProductGridByColor() {
     const filterColors = FacetFiltersForm.getFilterColorsFromURL();
-    if (filterColors.length === 0) return; // Geen kleurfilters toegepast
+    if (filterColors.length === 0) return; // Geen actieve filters
   
     const productItems = document.querySelectorAll('#ProductGridContainer li[data-filter-color]');
   
     productItems.forEach((item) => {
       const itemColor = item.getAttribute('data-filter-color');
-      // Controleer of de kleur van het item in de lijst van filterkleuren zit
       item.style.display = filterColors.includes(itemColor) ? '' : 'none';
     });
-  }  
+  }
   
   static renderProductCount(html) {
     const count = new DOMParser().parseFromString(html, 'text/html').getElementById('ProductCount').innerHTML;
