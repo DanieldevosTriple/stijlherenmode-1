@@ -115,11 +115,11 @@
   
         <!-- Right: Search and Cart -->
         <div class="col-menu col-align-right text-second-menu">
-          <ul class="search-cart">
+          <ul>
           <!-- Search -->
           {% render 'header-search', input_id: 'Search-In-Modal' %}
           <!-- Cart -->
-          <li class="cart d-inline-block">
+          <li class="cart d-inline-block ml-3">
             <!-- On Desktop -->
             <div class="d-none d-lg-block">
               <a href="{{ routes.cart_url }}" class="cart-link">
@@ -130,12 +130,12 @@
             <div class="d-lg-none">
               <a href="/cart" class="cart-link">
                 <div class="cart-icon">
-                  {% if cart.item_count > 0 %}
-                    {{ 'icon-cart.svg' | inline_asset_content }}
-                  {% else %}
+                  {% if cart.item_count == 0 %}
                     {{ 'icon-cart-empty.svg' | inline_asset_content }}
+                  {% else %}
+                    {{ 'icon-cart.svg' | inline_asset_content }}
                   {% endif %}
-                </div>                              
+                </div>                
               </a>
             </div>            
           </li>
