@@ -96,10 +96,10 @@ class FacetFiltersForm extends HTMLElement {
   
     // Pas de nieuwe filtering toe
     FacetFiltersForm.filterProductGridByColor();
-
-    // Verwijder dubbele parameters
-    removeDuplicateParams('variant'); // Controleer en corrigeer 'variant'
-  }  
+  
+    // Verwijder dubbele variant parameters met dezelfde waarde
+    removeDuplicateVariantParam();
+  }   
 
   static getFilterColorsFromURL() {
     const params = new URLSearchParams(window.location.search);
@@ -269,7 +269,7 @@ class FacetFiltersForm extends HTMLElement {
     history.pushState({ searchParams }, '', `${window.location.pathname}${searchParams && '?'.concat(searchParams)}`);
     
     // Verwijder dubbele parameters
-    removeDuplicateParams('variant');
+    removeDuplicateVariantParam();
     }
 
   static getSections() {
@@ -329,7 +329,7 @@ FacetFiltersForm.searchParamsPrev = window.location.search.slice(1);
 customElements.define('facet-filters-form', FacetFiltersForm);
 FacetFiltersForm.setListeners();
 
-function removeDuplicateParams(paramName) {
+function removeDuplicateVariantParam() {
   const currentUrl = window.location.href;
 
   // Controleer of er een dubbele `?variant` met dezelfde waarde bestaat
