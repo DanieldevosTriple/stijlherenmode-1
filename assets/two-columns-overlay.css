@@ -45,7 +45,7 @@
     font-size: 14.5em;
     font-weight: 600;
     margin: 0;
-    line-height: .76;
+    line-height: 0.7;
   }
 
   @media (prefers-color-scheme: light) {
@@ -56,7 +56,7 @@
   
   @media (prefers-color-scheme: dark) {
     .image-overlay-block__title {
-      color: black !important;
+      color: #202020 !important;
     }
   }
 

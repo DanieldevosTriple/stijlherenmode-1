@@ -32,7 +32,7 @@
 
   @media (prefers-color-scheme: dark) {
     .featured-product__description {
-      color: white
+      color: lightgrey;
     }
   }
   

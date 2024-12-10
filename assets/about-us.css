@@ -35,6 +35,6 @@
 
 @media (prefers-color-scheme: dark) {
 .card-text {
-    color: white;
+    color: lightgrey;
 }
 }

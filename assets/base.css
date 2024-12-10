@@ -1076,7 +1076,7 @@ summary::-webkit-details-marker {
   background-color: transparent;
   border: 2px solid white;
   color: white;
-  padding: 5px 25px;
+  padding: 10px 90px;
   transform: translate(-50%, -50%);
   text-align: center;
   text-decoration: none;
@@ -1101,7 +1101,7 @@ summary::-webkit-details-marker {
   background-color: transparent;
   border: 2px solid black;
   color: black;
-  padding: 5px 25px;
+  padding: 10px 50px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
