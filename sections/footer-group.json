@@ -30,8 +30,8 @@
       "settings": {
         "newsletter_enable": true,
         "newsletter_heading": "Subscribe to our emails",
-        "menu_1": "menu-new",
-        "menu_2": "legal",
+        "menu_1": "legal",
+        "menu_2": "menu-new",
         "show_social": true
       }
     }
