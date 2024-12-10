@@ -293,21 +293,6 @@
     color: black;
 }
 
-.cart-bubble {
-    position: absolute;
-    top: 25px;
-    right: 9px;
-    background-color: red;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 2px;
-    border-radius: 103%;
-    text-align: center;
-    min-width: 16px;
-    line-height: 12px;
-}
-
 @media (prefers-color-scheme: dark) {
     .icon-hamburger {
         width: 25px;
@@ -437,47 +422,3 @@
     color: white
   }
 
-.search-cart {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.search-cart li {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px; /* Standaard grootte voor icon */
-    height: 20px; /* Zorgt voor vierkant formaat */
-  }
-
-  .search-cart li .cart-icon,
-.search-cart li .search-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px; /* Pictogram grootte */
-  height: 24px;
-}
-
-.search-cart li .cart-bubble {
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(50%, -50%);
-  background-color: red;
-  color: white;
-  font-size: 10px;
-  font-weight: bold;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  pointer-events: none; /* Voorkomt interactie met de bubble */
-}
