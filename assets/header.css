@@ -274,22 +274,22 @@
 /* Hamburger Menu */
 
 .icon-hamburger {
-    width: 25px;
+    width: 20px;
     color: black;
 }
 
 .icon-cart {
-    width: 25px !important;
+    width: 20px !important;
     color: black !important;
 }
 
 .icon-search {
-    width: 25px;
+    width: 20px;
     color: black;
 }
 
 .icon-cart-empty {
-    width: 25px;
+    width: 20px;
     color: black;
 }
 
