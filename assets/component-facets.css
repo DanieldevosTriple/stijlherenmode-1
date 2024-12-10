@@ -236,6 +236,15 @@
   border: 0;
 }
 
+@media (prefers-color-scheme: dark) {
+  .facets__disclosure fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: var(--background-color-dark-mode);
+  }
+}  
+
 .facets__disclosure[open] .facets__summary,
 .facets__summary:hover {
   color: rgb(var(--color-foreground));
