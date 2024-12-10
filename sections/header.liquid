@@ -50,12 +50,12 @@
 </script>
 
 <style>
-  .icon {
+  .cart-icon {
     width: 25px;
     color: black;
   }
 
-  .dark-mode .icon {
+  .dark-mode .cart-icon {
     color: white;
   }
 </style>
@@ -140,10 +140,8 @@
             <!-- On Mobile -->
             <div class="d-lg-none">
               <a href="/cart" class="cart-link">
-                <div class="dark-mode">
-                <div class="cart-icon" style="width: 25px; color: black;">
+                <div class="cart-icon">
                   <img id="cart-icon-icon" src="{{ 'icon-cart-empty.svg' | asset_url }}" alt="Empty Cart">
-                </div>
                 </div>
               </a>
             </div>            
