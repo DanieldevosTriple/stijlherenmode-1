@@ -80,30 +80,38 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   static renderProductGridContainer(html) {
-    const productGridContainer = document.getElementById('ProductGridContainer');
-    const parsedHTML = new DOMParser().parseFromString(html, 'text/html');
-    const newProductGrid = parsedHTML.getElementById('ProductGridContainer');
-  
-    // Replace the HTML in the grid container
-    productGridContainer.innerHTML = newProductGrid.innerHTML;
-  
-    // Filter products based on the selected color facet
-    const selectedColor = FacetFiltersForm.getSelectedColorFacet();
-    if (selectedColor) {
-      productGridContainer.querySelectorAll('.product-item').forEach((product) => {
-        const productColor = product.dataset.filterColor;
-        if (productColor !== selectedColor) {
-          product.style.display = 'none'; // Hide products that don't match
-        }
-      });
-    }
-  
-    // Handle scroll triggers if necessary
-    productGridContainer.querySelectorAll('.scroll-trigger').forEach((element) => {
-      element.classList.add('scroll-trigger--cancel');
-    });
-  }  
+    document.getElementById('ProductGridContainer').innerHTML = new DOMParser()
+      .parseFromString(html, 'text/html')
+      .getElementById('ProductGridContainer').innerHTML;
 
+    document
+      .getElementById('ProductGridContainer')
+      .querySelectorAll('.scroll-trigger')
+      .forEach((element) => {
+        element.classList.add('scroll-trigger--cancel');
+      });
+
+    // Voeg de filtering toe
+    filterProductGridByColor();
+  }
+
+  function getFilterColorFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('filter.v.option.color');
+  }
+  
+  function filterProductGridByColor() {
+    const filterColor = getFilterColorFromURL();
+    if (!filterColor) return;
+  
+    const productItems = document.querySelectorAll('#ProductGridContainer li[data-filter-color]');
+    
+    productItems.forEach((item) => {
+      const itemColor = item.getAttribute('data-filter-color');
+      item.style.display = itemColor === filterColor ? '' : 'none';
+    });
+  }
+  
   static renderProductCount(html) {
     const count = new DOMParser().parseFromString(html, 'text/html').getElementById('ProductCount').innerHTML;
     const container = document.getElementById('ProductCount');
@@ -187,12 +195,6 @@ class FacetFiltersForm extends HTMLElement {
       }
     }
   }
-
-  static getSelectedColorFacet() {
-    const activeFacet = document.querySelector('.facet-color .active input');
-    return activeFacet ? activeFacet.value : null;
-  }
-  
 
   static renderActiveFacets(html) {
     const activeFacetElementSelectors = ['.active-facets-mobile', '.active-facets-desktop'];
