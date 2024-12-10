@@ -49,30 +49,6 @@
   });   
 </script>
 
-<style>
-  .cart-icon {
-    width: 25px;
-    color: black;
-  }
-
-  @media (prefers-color-scheme: dark) {
-  .dark-mode .cart-icon {
-    color: white;
-  }
-
-  .cart-icon img {
-    width: 25px;
-    color: black; /* Dit werkt niet op afbeeldingen */
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .cart-icon img {
-      color: white; /* Dit werkt niet op afbeeldingen */
-    }
-
-}
-</style>
-
 {% if section.settings.sticky %}
     <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer></script>
 {% else %}
@@ -154,7 +130,7 @@
             <div class="d-lg-none">
               <a href="/cart" class="cart-link">
                 <div class="cart-icon">
-                  <img id="cart-icon-icon" src="{{ 'icon-cart-empty.svg' | asset_url }}" alt="Empty Cart">
+                  {{- 'icon-cart-empty.svg' | inline_asset_content -}}
                 </div>
               </a>
             </div>            
