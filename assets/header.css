@@ -207,6 +207,20 @@
     }
 }
 
+.index-page .cart-link {
+    color: white
+}
+
+.index-page.scroll-up .cart-link {
+    color: var(--font-color-light-mode);
+}
+
+@media (prefers-color-scheme: dark) {
+    .index-page.scroll-up .cart-link {
+        color: var(--font-color-dark-mode);
+    }
+}
+
 .svg-mobile {
     display: none;
 }
