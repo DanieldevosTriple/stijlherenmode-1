@@ -49,6 +49,17 @@
   });   
 </script>
 
+<style>
+  .icon {
+    width: 25px;
+    color: black;
+  }
+
+  .dark-mode .icon {
+    color: white;
+  }
+</style>
+
 {% if section.settings.sticky %}
     <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer></script>
 {% else %}
@@ -129,8 +140,10 @@
             <!-- On Mobile -->
             <div class="d-lg-none">
               <a href="/cart" class="cart-link">
+                <div class="dark-mode">
                 <div class="cart-icon" style="width: 25px; color: black;">
                   <img id="cart-icon-icon" src="{{ 'icon-cart-empty.svg' | asset_url }}" alt="Empty Cart">
+                </div>
                 </div>
               </a>
             </div>            
