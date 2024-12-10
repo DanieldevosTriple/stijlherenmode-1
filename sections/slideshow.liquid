@@ -17,9 +17,6 @@
         aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
         aria-controls="Slider-{{ section.id }}"
       >
-        <span class="svg-wrapper">
-          {{- 'icon-caret.svg' | inline_asset_content -}}
-        </span>
       </button>
       <div class="slider-counter slider-counter--dots">
           <div class="slideshow__control-wrapper">
@@ -41,9 +38,6 @@
         aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
         aria-controls="Slider-{{ section.id }}"
       >
-        <span class="svg-wrapper">
-          {{- 'icon-caret.svg' | inline_asset_content -}}
-        </span>
       </button>
 
       {%- if section.settings.auto_rotate -%}
@@ -82,7 +76,7 @@
       id="Slide-{{ section.id }}-{{ forloop.index }}"
       {{ block.shopify_attributes }}
       role="group"
-      data-color="{{ block.settings.text_color }}"
+      data-theme="{{ block.settings.image_theme }}"
       aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
       aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
       tabindex="-1"
@@ -147,9 +141,6 @@
         aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
         aria-controls="Slider-{{ section.id }}"
       >
-        <span class="svg-wrapper">
-          {{- 'icon-caret.svg' | inline_asset_content -}}
-        </span>
       </button>
       <div class="slider-counter slider-counter--dots">
           <div class="slideshow__control-wrapper">
@@ -171,9 +162,6 @@
         aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
         aria-controls="Slider-{{ section.id }}"
       >
-        <span class="svg-wrapper">
-          {{- 'icon-caret.svg' | inline_asset_content -}}
-        </span>
       </button>
 
       {%- if section.settings.auto_rotate -%}
