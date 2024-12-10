@@ -294,18 +294,18 @@
 }
 
 .cart-bubble {
-  position: absolute;
-  top: -5px; /* Pas aan afhankelijk van het design */
-  right: -5px; /* Pas aan afhankelijk van het design */
-  background-color: #ff0000;
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 50%;
-  text-align: center;
-  min-width: 20px; /* Voor consistentie bij grotere aantallen */
-  line-height: 20px;
+    position: absolute;
+    top: 25px;
+    right: 9px;
+    background-color: red;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 2px;
+    border-radius: 103%;
+    text-align: center;
+    min-width: 16px;
+    line-height: 12px;
 }
 
 @media (prefers-color-scheme: dark) {
