@@ -27,12 +27,12 @@
     background-color: var(--background-color-light-mode) !important;
     }
 
-    .index-page .navbar-nav .nav-link  {
+    .index-page.scroll-up .navbar-nav .nav-link  {
         color: black
     }
 
     @media (prefers-color-scheme: dark) {
-    .index-page .navbar-nav .nav-link  {
+    .index-page.scroll-up .navbar-nav .nav-link  {
         color: white
     }
     }
