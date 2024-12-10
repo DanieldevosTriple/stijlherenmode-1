@@ -410,6 +410,13 @@ slider-component.slider-component-full-width {
   cursor: not-allowed;
 }
 
+@media (prefers-color-scheme: dark) {
+.slider-button-featured-products[disabled] .icon {
+  color: rgba(#fff, 0.3);
+  cursor: not-allowed;
+}
+}
+
 .slider-button[disabled] .icon {
   color: rgba(var(--color-foreground), 0.3);
   cursor: not-allowed;
@@ -458,14 +465,4 @@ ul {
     list-style-type: none;
   }
 
-}
-
-.icon-caret {
-  color: black;
-}
-
-@media (prefers-color-scheme: dark) {
-  .icon-caret {
-    color: black;
-  }
 }
