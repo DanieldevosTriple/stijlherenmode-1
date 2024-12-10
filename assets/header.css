@@ -11,6 +11,10 @@
         }
     }
 
+    .index-page.nav-link {
+        color: white
+    }
+
     .sticky {
     position: -webkit-sticky; /* Voor Safari */
     position: sticky;
