@@ -82,7 +82,7 @@
       id="Slide-{{ section.id }}-{{ forloop.index }}"
       {{ block.shopify_attributes }}
       role="group"
-      data-color="{{ block.settings.text_color }}"
+      data-theme="{{ block.settings.image_theme }}"
       aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
       aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
       tabindex="-1"
@@ -313,7 +313,7 @@
           "type": "image_picker",
           "id": "image",
           "label": "t:sections.slideshow.blocks.slide.settings.image.label"
-        },
+        },       
         {
           "type": "inline_richtext",
           "id": "heading",
@@ -332,8 +332,8 @@
         },
         {
           "type": "select",
-          "id": "text_color",
-          "label": "Text color (light or dark)",
+          "id": "image_theme",
+          "label": "Image Theme",
           "options": [
             {
               "value": "light",
