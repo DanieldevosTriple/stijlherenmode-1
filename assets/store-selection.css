@@ -10,7 +10,7 @@
   
   .store-selector__title {
     margin-bottom: 15px;
-    font-weight: 700;
+    font-weight: 500;
   }
   
   .store-selector__list {
@@ -98,7 +98,14 @@
   .store-selector__item.active .store-selector__description {
     display: block;
   }
-  
+
+  @media (prefers-color-scheme: dark) {
+  .store-selector__item:hover .store-selector__description,
+  .store-selector__item.active .store-selector__description {
+    color: #d3d3d3;
+  }
+}
+
   .store-selector__content {
     text-align: center;
   }
