@@ -377,6 +377,20 @@ slider-component.slider-component-full-width {
   justify-content: center;
 }
 
+@media (prefers-color-scheme: dark) {
+  .slider-button {
+    color: white;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 .slider-button-featured-products {
   color: rgba(var(--color-foreground), 0.75);
   background: transparent;
@@ -412,7 +426,7 @@ slider-component.slider-component-full-width {
 
 @media (prefers-color-scheme: dark) {
 .slider-button-featured-products[disabled] .icon {
-  color: rgba(#fff, 0.3);
+  color: #ffffff5e;
   cursor: not-allowed;
 }
 }
