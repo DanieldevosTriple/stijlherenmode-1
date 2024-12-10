@@ -59,6 +59,17 @@
   .dark-mode .cart-icon {
     color: white;
   }
+
+  .cart-icon img {
+    width: 25px;
+    color: black; /* Dit werkt niet op afbeeldingen */
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .cart-icon img {
+      color: white; /* Dit werkt niet op afbeeldingen */
+    }
+
 }
 </style>
 
