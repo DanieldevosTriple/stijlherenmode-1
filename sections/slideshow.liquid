@@ -39,6 +39,21 @@
         aria-controls="Slider-{{ section.id }}"
       >
       </button>
+
+      {%- if section.settings.auto_rotate -%}
+        <button
+          type="button"
+          class="slideshow__autoplay slider-button{% if section.settings.auto_rotate == false %} slideshow__autoplay--paused{% endif %}"
+          aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}"
+        >
+          <span class="svg-wrapper">
+            {{- 'icon-pause.svg' | inline_asset_content -}}
+          </span>
+          <span class="svg-wrapper">
+            {{- 'icon-play.svg' | inline_asset_content -}}
+          </span>
+        </button>
+      {%- endif -%}
     </div>
   {%- endif -%}
 
@@ -119,6 +134,14 @@
 
   {%- if section.blocks.size > 1 and section.settings.auto_rotate == false -%}
     <div class="slideshow__controls slider-buttons{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
+      <button
+        type="button"
+        class="slider-button slider-button--prev"
+        name="previous"
+        aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
+        aria-controls="Slider-{{ section.id }}"
+      >
+      </button>
       <div class="slider-counter slider-counter--dots">
           <div class="slideshow__control-wrapper">
             {%- for block in section.blocks -%}
@@ -132,6 +155,14 @@
             {%- endfor -%}
           </div>
       </div>
+      <button
+        type="button"
+        class="slider-button slider-button--next"
+        name="next"
+        aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
+        aria-controls="Slider-{{ section.id }}"
+      >
+      </button>
 
       {%- if section.settings.auto_rotate -%}
         <button
