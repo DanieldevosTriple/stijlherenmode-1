@@ -105,7 +105,35 @@
         background-repeat: no-repeat;
         background-position: center; /* Centers the image */
         background-size: contain; /* Ensures the image covers the element */
-     }    
+     }  
+     
+     .index-page .search .transparent {
+        color: white
+     }
+
+     .index-page.scroll-up .search .transparent {
+        color: black
+     }
+
+     @media (prefers-color-scheme: dark) {
+        .index-page.scroll-up .search .transparent {
+            color: white
+         }
+     }
+
+     .index-page .cart .transparent {
+        color: white
+     }
+
+     .index-page.scroll-up .cart .transparent {
+        color: black
+     }
+
+     @media (prefers-color-scheme: dark) {
+        .index-page.scroll-up .cart .transparent {
+            color: white
+         }
+     }
     
     @media (prefers-color-scheme: dark) {
         .logo {
