@@ -49,9 +49,17 @@
   transform: scale(1.05); /* Subtiel zoom-effect bij hover */
 }
 
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   .featured-banner {
+    height: auto !important; /* Laat de hoogte automatisch aanpassen */
     aspect-ratio: 16 / 9; /* Verhoudingen voor mobiel */
+  }
+
+  @media (min-width: 577px) and (max-width: 749px) {
+    .featured-banner {
+      height: auto !important; /* Laat de hoogte automatisch aanpassen */
+      aspect-ratio: 16 / 9; /* Verhoudingen voor mobiel */
+    }
   }
 
   .featured-banner__image--desktop {
