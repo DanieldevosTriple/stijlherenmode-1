@@ -80,32 +80,31 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   static renderProductGridContainer(html) {
-    document.getElementById('ProductGridContainer').innerHTML = new DOMParser()
+    const container = document.getElementById('ProductGridContainer');
+    container.innerHTML = new DOMParser()
       .parseFromString(html, 'text/html')
       .getElementById('ProductGridContainer').innerHTML;
+  
+    // Scroll-trigger annuleren
+    container.querySelectorAll('.scroll-trigger').forEach((element) => {
+      element.classList.add('scroll-trigger--cancel');
+    });
+  
+    // Filtering toepassen
+    FacetFiltersForm.filterProductGridByColor();
+  }  
 
-    document
-      .getElementById('ProductGridContainer')
-      .querySelectorAll('.scroll-trigger')
-      .forEach((element) => {
-        element.classList.add('scroll-trigger--cancel');
-      });
-
-    // Voeg de filtering toe
-    filterProductGridByColor();
-  }
-
-  function getFilterColorFromURL() {
+  static getFilterColorFromURL() {
     const params = new URLSearchParams(window.location.search);
     return params.get('filter.v.option.color');
   }
   
-  function filterProductGridByColor() {
-    const filterColor = getFilterColorFromURL();
+  static filterProductGridByColor() {
+    const filterColor = FacetFiltersForm.getFilterColorFromURL();
     if (!filterColor) return;
   
     const productItems = document.querySelectorAll('#ProductGridContainer li[data-filter-color]');
-    
+  
     productItems.forEach((item) => {
       const itemColor = item.getAttribute('data-filter-color');
       item.style.display = itemColor === filterColor ? '' : 'none';
