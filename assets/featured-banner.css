@@ -51,7 +51,6 @@
 
 @media (max-width: 768px) {
   .featured-banner {
-    height: auto !important; /* Laat de hoogte automatisch aanpassen */
     aspect-ratio: 16 / 9; /* Verhoudingen voor mobiel */
   }
 
