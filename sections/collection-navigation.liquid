@@ -22,7 +22,7 @@
             {% if collection %}
             {% assign collection_obj = collections[collection] %}
             <li class="collection-selector__item {% if forloop.first %}active{% endif %}" 
-                data-image="{{ collection_obj.image | img_url: '600x600' }}">
+                data-image="{{ collection_obj.image | img_url: 'master' }}">
               <a href="{{ collection_obj.url }}" class="collection-selector__link">
                 <span class="collection-selector__title-wrapper">
                   {{ collection_obj.title }}
