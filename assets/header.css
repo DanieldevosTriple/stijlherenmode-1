@@ -438,12 +438,46 @@
   }
 
 .search-cart {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.search-cart li {
     position: relative;
-    flex-wrap: inherit;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scroll-padding-left: 1.5rem;
-    -webkit-overflow-scrolling: touch;
-    overflow-y: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; /* Standaard grootte voor icon */
+    height: 20px; /* Zorgt voor vierkant formaat */
+  }
+
+  .search-cart li .cart-icon,
+.search-cart li .search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; /* Pictogram grootte */
+  height: 24px;
+}
+
+.search-cart li .cart-bubble {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none; /* Voorkomt interactie met de bubble */
 }
