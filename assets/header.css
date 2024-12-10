@@ -293,6 +293,18 @@
     color: black;
 }
 
+.search-cart {
+        position: relative;
+        flex-wrap: inherit;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scroll-padding-left: 1.5rem;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 0rem;
+        overflow-y: hidden;
+}
+
 @media (prefers-color-scheme: dark) {
     .icon-hamburger {
         width: 25px;
