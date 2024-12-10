@@ -130,6 +130,14 @@
     object-fit: fill;
   }
 
+  @media (max-width: 1200px) {
+  .collection-selector__image {
+    width: 700px;
+    height: 900px;
+    object-fit: fill;
+  }
+}
+
   .text-right {
     text-align: right !important;
   }
