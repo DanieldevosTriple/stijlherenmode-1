@@ -498,11 +498,15 @@ ul {
 @media screen and (max-width: 1024px) {
 
   ul {
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
+    position: relative;
+    flex-wrap: inherit;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scroll-padding-left: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+    overflow-y: hidden;
   }
 
 }
