@@ -21,6 +21,17 @@
   text-transform: uppercase;
 }
 
+@media (prefers-color-scheme: dark) {
+.facets__selected,
+.facets__reset,
+.visually-hidden,
+.facet-checkbox__text-label {
+  font-family:  TradeGothic LT CondEighteen, sans-serif;
+  text-transform: uppercase;
+  color: white;
+}
+}
+
 @media screen and (min-width: 750px) {
   .facets-container > * + * {
     margin-top: 0;
@@ -329,6 +340,7 @@
   .facets__header {
     border-bottom: 1px solid lightgrey;
     background-color: var(--background-color-dark-mode);
+    color: white;
   }
 
 .facets__header facet-remove {
