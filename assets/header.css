@@ -107,16 +107,16 @@
         background-size: contain; /* Ensures the image covers the element */
      }  
      
-     .index-page .search .transparent {
+     .index-page li.search {
         color: white
      }
 
-     .index-page.scroll-up .search .transparent {
+     .index-page .scroll-up li.search {
         color: black
      }
 
      @media (prefers-color-scheme: dark) {
-        .index-page.scroll-up .search .transparent {
+        .index-page .scroll-up li.search {
             color: white
          }
      }
