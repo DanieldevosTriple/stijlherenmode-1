@@ -459,3 +459,13 @@ ul {
   }
 
 }
+
+.icon-caret {
+  color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  .icon-caret {
+    color: black;
+  }
+}
