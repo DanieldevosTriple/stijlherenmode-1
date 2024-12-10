@@ -120,32 +120,42 @@
         background-size: contain; /* Ensures the image covers the element */
      } 
     }
+
+    li.search {
+        color: black;
+     }
+
+     @media (prefers-color-scheme: dark) {
+        li.search {
+            color: white;
+         }
+        }
      
      .index-page li.search {
-        color: white
+        color: white;
      }
 
      .index-page.scroll-up li.search {
-        color: black
+        color: black;
      }
 
      @media (prefers-color-scheme: dark) {
         .index-page.scroll-up li.search {
-            color: white
+            color: white;
          }
      }
 
      .index-page .cart .transparent {
-        color: white
+        color: white;
      }
 
      .index-page.scroll-up .cart .transparent {
-        color: black
+        color: black;
      }
 
      @media (prefers-color-scheme: dark) {
         .index-page.scroll-up .cart .transparent {
-            color: white
+            color: white;
          }
      }
     
