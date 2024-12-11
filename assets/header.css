@@ -379,7 +379,7 @@
     border-bottom: 1px solid lightgrey;
   }
 
-  .mobile-menu .nav-link:not(:last-child) {
+  .mobile-menu .nav-link:last-child {
     border-bottom: none;
   }
 
