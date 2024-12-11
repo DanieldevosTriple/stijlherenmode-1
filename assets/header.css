@@ -377,6 +377,7 @@
     font-family: TradeGothic LT CondEighteen;
     text-transform: uppercase;
     border-bottom: 1px solid lightgrey;
+    text-align: left;
   }
 
   .mobile-menu .nav-item:last-child {
@@ -384,6 +385,7 @@
     font-size: 2rem;
     font-family: TradeGothic LT CondEighteen;
     text-transform: uppercase;
+    text-align: left;
   }
 
   .mobile-menu .nav-link {
