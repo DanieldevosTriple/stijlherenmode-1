@@ -374,13 +374,9 @@
     text-transform: uppercase;
   }
 
-  .mobile-menu .nav-link {
+  .mobile-menu .nav-link:not(:last-child) {
     color: black; /* Witte tekst */
     border-bottom: 1px solid lightgrey;
-  }
-
-  .mobile-menu .nav-link:last-child {
-    border-bottom: none;
   }
 
   @media (prefers-color-scheme: dark) {
