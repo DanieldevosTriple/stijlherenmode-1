@@ -12,15 +12,6 @@
     "slideshow_adRpPg": {
       "type": "slideshow",
       "blocks": {
-        "slide_k6GqJV": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/image_1.png",
-            "heading": "Parka Season",
-            "image_overlay_opacity": 0,
-            "image_theme": "dark"
-          }
-        },
         "slide_fBRMXA": {
           "type": "slide",
           "settings": {
@@ -29,11 +20,20 @@
             "image_overlay_opacity": 0,
             "image_theme": "light"
           }
+        },
+        "slide_k6GqJV": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/image_1.png",
+            "heading": "Parka Season",
+            "image_overlay_opacity": 0,
+            "image_theme": "dark"
+          }
         }
       },
       "block_order": [
-        "slide_k6GqJV",
-        "slide_fBRMXA"
+        "slide_fBRMXA",
+        "slide_k6GqJV"
       ],
       "settings": {
         "auto_rotate": false,
