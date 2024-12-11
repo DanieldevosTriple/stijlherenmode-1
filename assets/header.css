@@ -295,6 +295,7 @@
 
 .search-cart {
         margin-bottom: 0rem;
+        display: flex;
 }
 
 @media (prefers-color-scheme: dark) {
