@@ -461,6 +461,6 @@
     }   
 }
 
-.mobile-menu.nav-link.active {
+.nav-link.active {
     color: red !important;
 }
