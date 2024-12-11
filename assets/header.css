@@ -465,3 +465,7 @@
 .nav-link.active {
     color: red !important;
 }
+
+.cart-link:hover {
+    text-decoration: none;
+}
