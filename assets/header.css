@@ -351,6 +351,7 @@
 
   /* Toon de overlay */
   .mobile-menu-overlay.show {
+    padding-top: 10px;
     position: static;
     display: block;
   }
