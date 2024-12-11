@@ -39,6 +39,23 @@
   text-transform: uppercase;
 }
 
+a:hover {
+  color: white;
+  background-color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pagination__item {
+    color: white;
+
+  }
+
+  a:hover {
+    color: black;
+    background-color: white;
+  }
+}
+
 a.pagination__item:hover::after {
   height: 0.1rem;
 }
