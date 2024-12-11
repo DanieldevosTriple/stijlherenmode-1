@@ -85,7 +85,7 @@
               {% assign menu = linklists[section.settings.menu] %}
               <ul class="navbar-nav">
                 {% for link in menu.links %}
-                  <li class="nav-item">
+                  <li class="nav-item {%if link.active %} active {% endif %}">
                     <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
                   </li>
                 {% endfor %}
@@ -141,7 +141,7 @@
         <div class="mobile-menu-overlay">
           <ul class="mobile-menu">
             {% for link in menu.links %}
-              <li class="nav-item">
+              <li class="nav-item {%if link.active %} active {% endif %}">
                 <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
               </li>
             {% endfor %}
