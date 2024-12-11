@@ -1632,11 +1632,6 @@ details[open] > .share-button__fallback {
   background-color: rgb(var(--background-color-dark-mode));
   color: rgb(var( --font-color-dark-mode));
 }
-
-.select__select {
-  background-color: rgb(var(--background-color-dark-mode));
-  color: rgb(var( --font-color-dark-mode));
-}
 }
 
 .field:before,
@@ -1682,6 +1677,13 @@ details[open] > .share-button__fallback {
   font-weight: var(--font-body-weight);
   font-size: 1.2rem;
   color: rgba(var(--color-foreground), 0.75);
+}
+
+@media (prefers-color-scheme: dark) {
+  .select__select {
+    background-color: rgb(var(--background-color-dark-mode));
+    color: rgb(var( --font-color-dark-mode));
+  }
 }
 
 .field:hover.field:after,
