@@ -1632,6 +1632,11 @@ details[open] > .share-button__fallback {
   background-color: rgb(var(--background-color-dark-mode));
   color: rgb(var( --font-color-dark-mode));
 }
+
+.select__select {
+  background-color: rgb(var(--background-color-dark-mode));
+  color: rgb(var( --font-color-dark-mode));
+}
 }
 
 .field:before,
