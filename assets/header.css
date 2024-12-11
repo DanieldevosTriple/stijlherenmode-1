@@ -386,24 +386,6 @@
     color: #f4c842; /* Highlight kleur */
   }
   
-  /* Sluitknop */
-  .close-menu {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 2rem;
-    color: black;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  @media (prefers-color-scheme: dark) {
-    /* Sluitknop */
-    .close-menu {
-        color: #fff;
-      }
-  }
-  
   .mobile-menu-overlay {
     opacity: 0;
     transition: opacity 0.3s ease;
