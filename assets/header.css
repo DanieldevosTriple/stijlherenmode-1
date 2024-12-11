@@ -430,7 +430,12 @@
 
 @media (prefers-color-scheme: dark) {
     .close-menu.show {
+        border: none;
         display: block;
-        color: black;
+        color: #000;
+        width: 25px;
+        height: 25px;
+        outline: none;
+        background: none;
     }   
 }
