@@ -48,9 +48,10 @@
 
 @media screen and (min-width: 750px) {
   .collection-hero__title + .collection-hero__description {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
+    color: lightgrey;
   }
 
   .collection-hero__description {
