@@ -367,7 +367,7 @@
     border-bottom: 1px solid lightgrey;
   }
 
-  lu.mobile-menu {
+  ul.mobile-menu {
     gap: unset;
   }
   
