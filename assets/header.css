@@ -125,6 +125,10 @@
         color: black;
      }
 
+     li.search:hover {
+        color: red;
+     }
+
      @media (prefers-color-scheme: dark) {
         li.search {
             color: white;
