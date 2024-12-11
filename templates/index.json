@@ -24,6 +24,7 @@
         "slide_fBRMXA": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/Header_-_12.png",
             "heading": "Slide heading",
             "image_overlay_opacity": 0,
             "image_theme": "light"
