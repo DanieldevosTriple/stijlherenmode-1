@@ -1607,8 +1607,8 @@ details[open] > .share-button__fallback {
 .customer select {
   -webkit-appearance: none;
   appearance: none;
-  background-color: rgb(var(--color-background));
-  color: rgb(var(--color-foreground));
+  background-color: rgb(var(--background-color-light-mode));
+  color: rgb(var( --font-color-light-mode));
   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
   font-style: var(--font-body-style);
   font-weight: var(--font-body-weight);
@@ -1622,6 +1622,16 @@ details[open] > .share-button__fallback {
   min-width: calc(7rem + (var(--inputs-border-width) * 2));
   position: relative;
   border: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+.field__input,
+.select__select,
+.customer .field input,
+.customer select {
+  background-color: rgb(var(--background-color-dark-mode));
+  color: rgb(var( --font-color-dark-mode));
+}
 }
 
 .field:before,
