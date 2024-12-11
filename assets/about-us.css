@@ -12,6 +12,16 @@
     text-align: left;
 }
 
+@media (max-width: 991px) {
+.text-about {
+    font-size: 2rem !important;
+}
+
+.h2 {
+    font-size: 2rem;
+}
+}
+
 .text-column-about {
     padding: 0px;
 }

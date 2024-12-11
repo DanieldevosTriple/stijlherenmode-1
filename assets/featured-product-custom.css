@@ -92,3 +92,10 @@
     }
     
   }
+
+  @media (max-width: 991px) {
+    .featured-product__title {
+      font-size: 1.5rem;
+    }
+
+  }

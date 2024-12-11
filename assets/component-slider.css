@@ -510,3 +510,18 @@ ul {
   }
 
 }
+
+@media (max-width: 991px) {
+  .carouseltitle {
+    font-size: 2rem !important;
+  }
+
+  .card__heading {
+    font-size: 1.5rem;
+  }
+
+  .price .price-item {
+    font-size: 1.3rem;
+  }
+
+}

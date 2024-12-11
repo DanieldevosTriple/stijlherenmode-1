@@ -147,7 +147,7 @@
   }
 
   /* Zorg ervoor dat de container full width wordt op mobiel */
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .no-padding-mobile {
     padding-right: 0px !important;
     padding-left: 0px !important;
@@ -161,8 +161,8 @@
   }
 
   .collection-selector__title {
-    text-align: center; /* Centreer de titel voor een betere weergave */
-    font-size: 1.5rem; /* Optioneel: Pas de lettergrootte aan */
+    text-align: left; /* Centreer de titel voor een betere weergave */
+    font-size: 1.2rem; /* Optioneel: Pas de lettergrootte aan */
   }
 
   .collection-selector__list {
