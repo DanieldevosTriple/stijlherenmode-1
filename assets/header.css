@@ -367,16 +367,15 @@
     border-bottom: 1px solid lightgrey;
   }
   
-  .mobile-menu .nav-item {
+  .mobile-menu .nav-item:not(:last-child) {
     margin: 5px 0;
     font-size: 2rem;
     font-family: TradeGothic LT CondEighteen;
     text-transform: uppercase;
   }
 
-  .mobile-menu .nav-link:not(:last-child) {
+  .mobile-menu .nav-link {
     color: black; /* Witte tekst */
-    border-bottom: 1px solid lightgrey;
   }
 
   @media (prefers-color-scheme: dark) {
