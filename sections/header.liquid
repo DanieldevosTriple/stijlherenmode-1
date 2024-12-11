@@ -32,6 +32,11 @@
       mobileMenuOverlay.classList.add('show');
       body.classList.add('no-scroll'); // Voorkom scrollen
     });
+
+    // Toon het menu-overlay bij klikken op de hamburger
+    hamburgerMenu.addEventListener('click', function () {
+      closeMenuButton.classList.add('show');
+    });
   
     // Verberg het menu-overlay bij klikken op de sluitknop
     closeMenuButton.addEventListener('click', function () {
