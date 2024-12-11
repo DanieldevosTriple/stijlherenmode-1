@@ -419,3 +419,10 @@
     }
     }
 
+.close-menu {
+    display: none;
+}
+
+.close-menu.show {
+    display: block;
+}   
