@@ -90,19 +90,6 @@
             <button class="hamburger-menu">
               {{- 'icon-hamburger.svg' | inline_asset_content -}}
             </button>
-            {% if section.settings.menu != blank %}
-              {% assign menu = linklists[section.settings.menu] %}
-              <div class="mobile-menu-overlay">
-                <ul class="mobile-menu">
-                  {% for link in menu.links %}
-                    <li class="nav-item">
-                      <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
-                    </li>
-                  {% endfor %}
-                </ul>
-                <button class="close-menu">X</button>
-              </div>
-            {% endif %}
           </nav>
         </div>        
   
@@ -140,6 +127,19 @@
         </div>
         </div>
       </div>
+      {% if section.settings.menu != blank %}
+        {% assign menu = linklists[section.settings.menu] %}
+        <div class="mobile- -overlay">
+          <ul class="mobile-menu">
+            {% for link in menu.links %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+          <button class="close-menu">X</button>
+        </div>
+      {% endif %}
   </header>
 </sticky-header>
 
