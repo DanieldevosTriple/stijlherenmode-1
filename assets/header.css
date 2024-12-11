@@ -351,7 +351,7 @@
 
   /* Toon de overlay */
   .mobile-menu-overlay.show {
-    padding-top: 10px;
+    padding-top: 5rem;
     position: static;
     display: block;
     height: 100vh;
@@ -365,6 +365,10 @@
     flex-direction: column;
     border-top: 1px solid lightgrey;
     border-bottom: 1px solid lightgrey;
+  }
+
+  lu.mobile-menu {
+    gap: unset;
   }
   
   .mobile-menu .nav-item:not(:last-child) {
