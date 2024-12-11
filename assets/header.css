@@ -354,16 +354,17 @@
     padding-top: 10px;
     position: static;
     display: block;
+    height: 100vh;
   }
   
   /* Menu-items stijl */
   .mobile-menu {
     list-style: none;
-    padding: 2rem 0rem 40rem 0rem;
     margin: 0;
     text-align: center;
     flex-direction: column;
-    height: 100vh;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
   }
   
   .mobile-menu .nav-item {
@@ -371,8 +372,13 @@
     font-size: 2rem;
     font-family: TradeGothic LT CondEighteen;
     text-transform: uppercase;
+    border-bottom: 1px solid lightgrey;
   }
   
+  .mobile-menu .nav-item:not(:last-child) {
+    border-bottom: none;
+  }
+
   .mobile-menu .nav-link {
     color: black; /* Witte tekst */
   }
