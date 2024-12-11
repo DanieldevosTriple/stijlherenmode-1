@@ -359,14 +359,15 @@
   /* Menu-items stijl */
   .mobile-menu {
     list-style: none;
-    padding: 0;
+    padding: 2rem 0rem 40rem 0rem;
     margin: 0;
     text-align: center;
     flex-direction: column;
+    height: 100vh;
   }
   
   .mobile-menu .nav-item {
-    margin: 15px 0;
+    margin: 5px 0;
     font-size: 2rem;
     font-family: TradeGothic LT CondEighteen;
     text-transform: uppercase;
