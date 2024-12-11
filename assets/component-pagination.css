@@ -65,6 +65,10 @@ a.pagination__item:hover::after {
   text-transform: uppercase;
 }
 
+.pagination__item--current {
+  font-size: 1.4rem;
+}
+
 .pagination__item--next .icon {
   margin-left: -0.2rem;
   transform: rotate(90deg);
