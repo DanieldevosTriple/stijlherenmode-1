@@ -83,20 +83,6 @@
     >
       <div class="slideshow__media banner__media media{% if block.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}">
         {%- if block.settings.image -%}
-          {%- liquid
-            assign height = block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round
-            if section.settings.image_behavior == 'ambient'
-              assign sizes = '120vw'
-              assign widths = '450, 660, 900, 1320, 1800, 2136, 2400, 3600, 7680'
-            else
-              assign sizes = '100vw'
-              assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
-            endif
-            assign fetch_priority = 'auto'
-            if section.index == 1
-              assign fetch_priority = 'high'
-            endif
-          -%}
           <div class="full-page-image">
             {%- if forloop.first %}
               {{
