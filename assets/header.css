@@ -351,7 +351,8 @@
 
   /* Toon de overlay */
   .mobile-menu-overlay.show {
-    display: flex;
+    position: static;
+    display: block;
   }
   
   /* Menu-items stijl */
