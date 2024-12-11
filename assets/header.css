@@ -368,7 +368,7 @@
   }
 
   ul.mobile-menu {
-    gap: unset;
+    gap: unset !important;
   }
   
   .mobile-menu .nav-item:not(:last-child) {
