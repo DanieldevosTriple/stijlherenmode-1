@@ -31,6 +31,7 @@
     hamburgerMenu.addEventListener('click', function () {
       mobileMenuOverlay.classList.add('show');
       closeMenuButton.classList.add('show');
+      hamburgerMenu.classList.add('hidden'); // Verberg de hamburger-icon
       body.classList.add('no-scroll'); // Voorkom scrollen
     });
   
@@ -38,6 +39,7 @@
     closeMenuButton.addEventListener('click', function () {
       mobileMenuOverlay.classList.remove('show');
       closeMenuButton.classList.remove('show');
+      hamburgerMenu.classList.remove('hidden'); // Toon de hamburger-icon
       body.classList.remove('no-scroll'); // Schakel scrollen weer in
     });
   
@@ -46,10 +48,11 @@
       if (e.target === mobileMenuOverlay) {
         mobileMenuOverlay.classList.remove('show');
         closeMenuButton.classList.remove('show');
+        hamburgerMenu.classList.remove('hidden'); // Toon de hamburger-icon
         body.classList.remove('no-scroll'); // Schakel scrollen weer in
       }
     });
-  });    
+  });   
 </script>
 
 {% if section.settings.sticky %}
