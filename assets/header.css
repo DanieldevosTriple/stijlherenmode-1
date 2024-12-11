@@ -196,7 +196,6 @@
     font-family: TradeGothic LT CondEighteen;
     color: var(--font-color-light-mode);
     font-size: 1.5rem;
-    font-weight: 700;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -391,6 +390,7 @@
 
   .mobile-menu .nav-link {
     color: black; /* Witte tekst */
+    font-weight: 700;
   }
 
   @media (prefers-color-scheme: dark) {
