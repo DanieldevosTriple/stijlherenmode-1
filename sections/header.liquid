@@ -26,23 +26,17 @@
     const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
     const closeMenuButton = document.querySelector('.close-menu');
     const body = document.body; // Selecteer de body
-    
-    // SVG-content
-    const hamburgerIcon = `{{ 'icon-hamburger.svg' | inline_asset_content }}`;
-    const closeIcon = `{{ 'icon-close.svg' | inline_asset_content }}`;
   
     // Toon het menu-overlay bij klikken op de hamburger
     hamburgerMenu.addEventListener('click', function () {
       mobileMenuOverlay.classList.add('show');
       body.classList.add('no-scroll'); // Voorkom scrollen
-      hamburgerMenu.innerHTML = closeIcon; // Verander naar "X"-icoon
     });
   
     // Verberg het menu-overlay bij klikken op de sluitknop
     closeMenuButton.addEventListener('click', function () {
       mobileMenuOverlay.classList.remove('show');
       body.classList.remove('no-scroll'); // Schakel scrollen weer in
-      hamburgerMenu.innerHTML = hamburgerIcon; // Verander naar hamburger-icoon
     });
   
     // Sluit het menu als er buiten de menu-items wordt geklikt
@@ -50,7 +44,6 @@
       if (e.target === mobileMenuOverlay) {
         mobileMenuOverlay.classList.remove('show');
         body.classList.remove('no-scroll'); // Schakel scrollen weer in
-        hamburgerMenu.innerHTML = hamburgerIcon; // Verander naar hamburger-icoon
       }
     });
   });   
