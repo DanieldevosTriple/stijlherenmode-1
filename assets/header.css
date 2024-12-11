@@ -427,3 +427,10 @@
     display: block;
     color: black;
 }   
+
+@media (prefers-color-scheme: dark) {
+    .close-menu.show {
+        display: block;
+        color: black;
+    }   
+}
