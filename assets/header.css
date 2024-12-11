@@ -460,3 +460,7 @@
         background: none;
     }   
 }
+
+.mobile-menu.nav-link.active {
+    color: red !important;
+}
