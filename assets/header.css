@@ -372,7 +372,7 @@
   }
   
   .mobile-menu .nav-item:not(:last-child) {
-    margin: 5px 0;
+    padding: 10px 0;
     font-size: 2rem;
     font-family: TradeGothic LT CondEighteen;
     text-transform: uppercase;
@@ -380,7 +380,7 @@
   }
 
   .mobile-menu .nav-item:last-child {
-    margin: 5px 0;
+    padding: 10px 0;
     font-size: 2rem;
     font-family: TradeGothic LT CondEighteen;
     text-transform: uppercase;
