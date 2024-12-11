@@ -129,13 +129,11 @@
             <!-- On Mobile -->
             <div class="d-lg-none">
               <a href="/cart" class="cart-link">
-                  <div class="cart-icon">
                     {% if cart.item_count == 0 %}
                       {{ 'icon-cart-empty.svg' | inline_asset_content }}
                     {% else %}
                       {{ 'icon-cart.svg' | inline_asset_content }}
                     {% endif %}
-                  </div>
               </a>
             </div>            
           </div>
