@@ -618,9 +618,24 @@
   align-items: center;
 }
 
+@media (prefers-color-scheme: dark) {
+  .facets__price .field {
+    align-items: center;
+    color: white;
+  }
+}
+
 .facets__price .field-currency {
   align-self: center;
   margin-right: 0.6rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .facets__price .field-currency {
+    align-self: center;
+    margin-right: 0.6rem;
+    
+  }
 }
 
 .facets__price .field__label {
