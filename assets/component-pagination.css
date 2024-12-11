@@ -50,14 +50,14 @@ a.pagination__item:hover::after {
 .pagination__item--current {
   font-size: 1.4rem !important;
   background-color: black;
-  color: white;
+  color: white !important;
 }
 
 @media (prefers-color-scheme: dark) {
   .pagination__item--current {
     font-size: 1.4rem !important;
     background-color: white;
-    color: black;
+    color: black !important;
   }
 }
 
