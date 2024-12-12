@@ -2,3 +2,9 @@
     gap: 0px;
 }
 
+@media screen and (max-width: 991px) {
+.product-grid {
+    gap: 0px;
+    padding-top: 5rem;
+}
+}
