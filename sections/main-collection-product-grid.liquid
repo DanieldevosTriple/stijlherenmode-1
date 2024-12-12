@@ -147,6 +147,10 @@
                           lazy_load: lazy_load
                         %}
                       </li>
+
+                      {% unless product.variants.size >= 1 and color_active == true %}
+                        <p>Niet weergegeven: {{ product.title }}</p>
+                      {% endunless %}
                     {% capture tempList %}
                   {{colorlist | append: color | append: " " }}
                   {% endcapture %}
