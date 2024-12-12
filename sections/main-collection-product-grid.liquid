@@ -43,12 +43,6 @@
   {% endfor %}
 </script>
 
-<script>
-  document.querySelectorAll('.scroll-trigger').forEach((el) => {
-    console.log('Product:', el.dataset.productTitle, 'ID:', el.dataset.productId);
-  });
-  </script>
-
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -125,7 +119,7 @@
                  {% assign color_active = true %}
               {% endif %}
             {% endfor %}
-            {% if product.variants.size > 1 and color_active == true %}
+            {% if product.variants.size >= 1 and color_active == true %}
             {% for option in product.options %}
                {% if option == 'Color' %}
                {% assign index = forloop.index0 %}
