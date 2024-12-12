@@ -109,30 +109,32 @@
               {% assign skip_card_product_styles = false %}
               
               {%- for product in collection.products -%}
-              {% assign lazy_load = false %}
-              {%- if forloop.index > 2 -%}
-                {%- assign lazy_load = true -%}
-              {%- endif -%}
-            {% assign color_active = false %}
-            {% for option in product.options %}
-              {% if option == 'Color' %}
-                 {% assign color_active = true %}
-              {% endif %}
-            {% endfor %}
-            {% if product.variants.size >= 1 and color_active == true %}
-            {% for option in product.options %}
-               {% if option == 'Color' %}
-               {% assign index = forloop.index0 %}
-               {% assign colorlist = '' %}
-               {% assign color = '' %}
-               {% for variant in product.variants %}
-               {% capture color %}
-               {{ variant.options[index] }}
-               {% endcapture %}
-
-                 {% unless colorlist contains color %}
-                    <!-- VARIANT LOOP -->
-                      <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" data-product-id="{{ product.id }}"
+                {% assign lazy_load = false %}
+                {%- if forloop.index > 2 -%}
+                  {%- assign lazy_load = true %}
+                {%- endif -%}
+                
+                {% assign color_active = false %}
+                {% assign has_variants = product.variants.size > 0 %}
+                
+                {%- for option in product.options -%}
+                  {% if option == 'Color' %}
+                    {% assign color_active = true %}
+                  {% endif %}
+                {%- endfor -%}
+                
+                {% if has_variants and color_active %}
+                  <!-- Product met color varianten -->
+                  {% assign index = forloop.index0 %}
+                  {% assign colorlist = '' %}
+                  {% for variant in product.variants %}
+                    {% capture color %}
+                      {{ variant.options[index] }}
+                    {% endcapture %}
+                    
+                    {% unless colorlist contains color %}
+                      <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" 
+                        data-product-id="{{ product.id }}"
                         data-variant-id="{{ variant.id }}"
                         data-price="{{ variant.price | money_without_currency }}"
                         data-filter-color="{{ variant.options | first }}"
@@ -143,41 +145,30 @@
                           media_aspect_ratio: section.settings.image_ratio,
                           show_secondary_image: section.settings.show_secondary_image,
                           show_vendor: section.settings.show_vendor,
-                          show_rating: section.settings.show_rating, variant
+                          show_rating: section.settings.show_rating,
                           lazy_load: lazy_load
                         %}
                       </li>
-
-                      {% unless product.variants.size >= 1 and color_active == true %}
-                        <p>Niet weergegeven: {{ product.title }}</p>
-                      {% endunless %}
-                    {% capture tempList %}
-                  {{colorlist | append: color | append: " " }}
-                  {% endcapture %}
-                  {% assign colorlist = tempList %}
-                  {% endunless %}
+                      {% capture colorlist %}
+                        {{ colorlist | append: color | append: " " }}
+                      {% endcapture %}
+                    {% endunless %}
                   {% endfor %}
+                {% else %}
+                  <!-- Product zonder color varianten of varianten -->
+                  <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" 
+                    data-product-id="{{ product.id }}">
+                    {% render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: lazy_load
+                    %}
+                  </li>
                 {% endif %}
-              {% endfor %}
-              {% else %}
-              <!-- PRODUCT LOOP -->
-                <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" 
-                  data-product-id="{{ product.id }}"
-                  data-variant-id="{{ variant.id }}"
-                  data-price="{{ variant.price | money_without_currency }}"
-                  data-filter-color="{{ variant.options | first }}"
-                  data-filter-size="{{ variant.options | last }}">
-                {% render 'card-product',
-                  card_product: product,
-                  media_aspect_ratio: section.settings.image_ratio,
-                  show_secondary_image: section.settings.show_secondary_image,
-                  show_vendor: section.settings.show_vendor,
-                  show_rating: section.settings.show_rating,
-                  lazy_load: lazy_load
-                %}
-              </li>
-              {% endif %}
-            {%- endfor -%}
+              {%- endfor -%}              
 
           </ul>    
                          
