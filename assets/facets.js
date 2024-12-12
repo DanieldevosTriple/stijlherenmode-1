@@ -15,11 +15,8 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   connectedCallback() {
-    // Controleer of de parameter 'filter.v.option.color' in de URL staat
-    if (new URLSearchParams(window.location.search).has('filter.v.option.color')) {
-      FacetFiltersForm.filterProductGridByColor();
-    }
-  }  
+    FacetFiltersForm.filterProductGridByColor();
+  }
 
   static setListeners() {
     const onHistoryChange = (event) => {
@@ -111,19 +108,11 @@ class FacetFiltersForm extends HTMLElement {
   }
   
   static filterProductGridByColor() {
-    const params = new URLSearchParams(window.location.search);
-  
-    // Controleer of de parameter 'filter.v.option.color' aanwezig is in de URL
-    if (!params.has('filter.v.option.color')) {
-      return; // Voer de functie niet uit als de parameter ontbreekt
-    }
-  
-    // Haal de kleuren op en decodeer ze
     const filterColors = FacetFiltersForm.getFilterColorsFromURL();
     if (filterColors.length === 0) return; // Geen actieve filters
   
-    // Filter de producten op basis van kleur
     const productItems = document.querySelectorAll('#ProductGridContainer li[data-filter-color]');
+  
     productItems.forEach((item) => {
       const itemColor = item.getAttribute('data-filter-color');
       item.style.display = filterColors.includes(itemColor) ? '' : 'none';

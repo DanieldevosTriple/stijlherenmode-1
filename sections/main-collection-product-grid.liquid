@@ -135,7 +135,7 @@
                       <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" data-product-id="{{ product.id }}"
                         data-variant-id="{{ variant.id }}"
                         data-price="{{ variant.price | money_without_currency }}"
-                        data-filter-color="{{ variant.options | first }}"
+                        data-filter-color="{{ variant.options | first | default: 'No color' }}"
                         data-filter-size="{{ variant.options | last }}">
                         {% render 'card-product-variant',
                           card_product: product,
