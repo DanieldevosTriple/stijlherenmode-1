@@ -438,6 +438,7 @@
                                 <span class="facet-checkbox__text" aria-hidden="true">
                                   <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> ({{- value.count -}})
                                 </span>
+                                {%- comment -%}
                                 <span class="visually-hidden">
                                   {{- value.label | escape }} (
                                   {%- if value.count == '1' -%}
@@ -447,6 +448,7 @@
                                   {%- endif -%}
                                   )
                                 </span>
+                                {%- endcomment -%}
                               {%- endcapture -%}
 
                               <li class="mobile-facets__item list-menu__item">
