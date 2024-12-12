@@ -145,6 +145,7 @@
                               <span class="facet-checkbox__text" aria-hidden="true">
                                 <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> ({{- value.count -}})
                               </span>
+                              {%- comment -%}
                               <span class="visually-hidden">
                                 {{- value.label | escape }} (
                                 {%- if value.count == 1 -%}
@@ -154,6 +155,7 @@
                                 {%- endif -%}
                                 )
                               </span>
+                              {%- endcomment -%}
                             {%- endcapture -%}
 
                             <li class="list-menu__item facets__item{% if forloop.index > show_more_number and filter_type == 'vertical' %} show-more-item hidden{% endif %}">
