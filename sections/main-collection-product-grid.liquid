@@ -43,6 +43,12 @@
   {% endfor %}
 </script>
 
+<script>
+  document.querySelectorAll('.scroll-trigger').forEach((el) => {
+    console.log('Product:', el.dataset.productTitle, 'ID:', el.dataset.productId);
+  });
+  </script>
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
