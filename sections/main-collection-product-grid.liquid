@@ -137,7 +137,7 @@
                         data-price="{{ variant.price | money_without_currency }}"
                         data-filter-color="{{ variant.options | first | default: 'No color' }}"
                         data-filter-size="{{ variant.options | last }}">
-                        {% render 'card-product',
+                        {% render 'card-product-variant',
                           card_product: product,
                           variant: variant,
                           media_aspect_ratio: section.settings.image_ratio,
