@@ -3414,3 +3414,8 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+a:hover {
+  color: red;
+  text-decoration: none;
+}
