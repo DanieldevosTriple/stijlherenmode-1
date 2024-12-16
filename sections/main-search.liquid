@@ -229,7 +229,7 @@
         <div class="product-grid-container" id="ProductGridContainer">
           {%- if search.results.size == 0 and search.filters != empty -%}
             <div
-              class="template-search__results collection collection--empty{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+              class="col-12 template-search__results collection collection--empty"
               id="product-grid"
               data-id="{{ section.id }}"
             >
@@ -264,7 +264,7 @@
                   {%- endif -%}
 
                   <li
-                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    class="col-sm-6 col-md-4 col-lg-4"
                     {% if settings.animations_reveal_on_scroll %}
                       data-cascade
                     {% endif %}
