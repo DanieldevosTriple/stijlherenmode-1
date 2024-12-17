@@ -638,6 +638,10 @@
   }
 }
 
+.facets__summary-label:hover {
+  color: red;
+}
+
 .facets__price .field__label {
   left: 1.5rem;
 }
