@@ -68,6 +68,22 @@ document.addEventListener('DOMContentLoaded', () => {
           productTitleElement.textContent = `${baseTitle} - ${selectedValues}`;
       };
 
+      const updatePrice = (variantId) => {
+        const priceElement = document.querySelector('.product-price');
+        const selectedVariant = productData.variants.find(variant => variant.id === variantId);
+    
+        if (selectedVariant && selectedVariant.price) {
+            // Format price as currency
+            const formattedPrice = (selectedVariant.price / 100).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            });
+            priceElement.textContent = formattedPrice;
+        } else {
+            priceElement.textContent = "Price not available";
+        }
+    };    
+
       const updateURLWithVariant = (variantId) => {
           if (variantId) {
               const url = new URL(window.location.href);
@@ -103,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
               updateProductTitle();
               updateURLWithVariant(selectedVariant.id);
               updateProductDescription(selectedVariant.id);
+              updatePrice(selectedVariant.id);
           } else {
               console.warn("No matching variant found. Loading default images.");
               updateGallery(null);
@@ -186,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
       updateBuyButton(initialVariant.id);
       updateProductTitle();
       updateProductDescription(initialVariant.id);
+      updatePrice(initialVariant.id);
 
   } catch (error) {
       console.error("Error initializing product media gallery:", error);
