@@ -195,6 +195,7 @@
     text-transform: uppercase;
     font-weight: 600;
     font-family: TradeGothic LT CondEighteen;
+    font-size: 1.5rem;
 }
 
 .accordion-header:hover {
