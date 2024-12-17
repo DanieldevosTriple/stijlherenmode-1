@@ -28,17 +28,19 @@
 
     {% render 'meta-tags' %}
 
+    <!-- jQuery eerst -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'bootstrap.bundle.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'bootstrap.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'bootstrap.bundle.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'bootstrap.min.js' | asset_url }}" defer="defer"></script>
+
+    <!-- Bootstrap: gebruik alleen één bestand (met Popper.js inbegrepen) -->
+    <script src="{{ 'bootstrap.bundle.min.js' | asset_url }}"></script>
+
+    <!-- Custom scripts -->
+    <script src="{{ 'constants.js' | asset_url }}" defer></script>
+    <script src="{{ 'pubsub.js' | asset_url }}" defer></script>
+    <script src="{{ 'global.js' | asset_url }}" defer></script>
+    <script src="{{ 'details-disclosure.js' | asset_url }}" defer></script>
+    <script src="{{ 'details-modal.js' | asset_url }}" defer></script>
+    <script src="{{ 'search-form.js' | asset_url }}" defer></script>
 
     <script>
       if (typeof jQuery == 'undefined') {
