@@ -118,10 +118,6 @@
   text-transform: uppercase;
 }
 
-.facet-filters__field .select__select:hover {
-  color: red;
-}
-
 .select .icon-caret {
   width: 10px;
 }
@@ -157,6 +153,7 @@
   box-shadow: none;
   filter: none;
   transition: none;
+  color: red;
 }
 
 .mobile-facets__sort .select__select:focus-visible {
