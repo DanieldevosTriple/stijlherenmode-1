@@ -273,7 +273,6 @@
                       {%- when 'product' -%}
                         {%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
                         {% assign color_active = false %}
-                        {% assign has_variants = product.variants.size > 0 %}
                         
                         {%- for option in product.options -%}
                           {% if option == 'Color' %}
@@ -281,7 +280,7 @@
                           {% endif %}
                         {%- endfor -%}
 
-                        {% if has_variants and color_active %}
+                        {% if color_active %}
                           <!-- Product met color varianten -->
                           {% assign index = forloop.index0 %}
                           {% assign colorlist = '' %}
