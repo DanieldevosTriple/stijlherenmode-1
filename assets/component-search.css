@@ -90,6 +90,7 @@ input::-webkit-search-decoration {
 
 .field {
   border: 1px solid #323232;
+  background-color: #323232;
 }
 }
 
