@@ -262,13 +262,13 @@
 
 .klarna {
     display: flex; /* Flexbox inschakelen */
-    align-items: center; /* Verticaal centreren */
+    align-items: baseline; /* Verticaal centreren */
   }
   
 .klarna p {
     margin: 0; /* Verwijder standaard marge van p-element */
     display: flex;
-    align-items: center;
+    align-items: baseline;
   }
   
   
