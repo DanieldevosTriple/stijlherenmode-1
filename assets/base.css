@@ -314,7 +314,7 @@ h5,
 .h3,
 .h4,
 .h5 {
-  font-family: 'TradeGothicLT-Bold' !important;
+  font-family: 'TradeGothicLT' !important;
   text-transform: uppercase;
   font-style: var(--font-heading-style);
   font-weight: var(--font-heading-weight);

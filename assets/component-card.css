@@ -318,7 +318,7 @@
   margin-bottom: 0;
   font-weight: 700;
   font-size: 1.5rem;
-  font-family: TradeGothicLT-Bold !important;
+  font-family: 'TradeGothicLT' !important;
 }
 
 .card__heading:last-child {
