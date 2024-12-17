@@ -256,6 +256,7 @@
                 class="row product-grid g-4"
                 role="list"
               >
+
                 {%- assign skip_card_product_styles = false -%}
                 {%- for item in search.results -%}
                   {% assign lazy_load = false %}
@@ -264,7 +265,7 @@
                   {%- endif -%}
 
                   <li
-                    class="col-sm-6 col-md-4 col-lg-3"
+                    class="col-sm-6 col-md-4 col-lg-4"
                     {% if settings.animations_reveal_on_scroll %}
                       data-cascade
                     {% endif %}
@@ -272,50 +273,16 @@
                     {%- case item.object_type -%}
                       {%- when 'product' -%}
                         {%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
-                        {% assign color_active = false %}
-                        
-                        {%- for option in product.options -%}
-                          {% if option == 'Color' %}
-                            {% assign color_active = true %}
-                          {% endif %}
-                        {%- endfor -%}
-
-                        {% if color_active %}
-                          <!-- Product met color varianten -->
-                          {% assign index = forloop.index0 %}
-                          {% assign colorlist = '' %}
-                          {% for variant in product.variants %}
-                            {% capture color %}
-                              {{ variant.options[index] }}
-                            {% endcapture %}
-                            
-                            {% unless colorlist contains color %}
-                          {% render 'card-product-variant',
-                            card_product: product,
-                            variant: variant,
-                            media_aspect_ratio: section.settings.image_ratio,
-                            show_secondary_image: section.settings.show_secondary_image,
-                            show_vendor: section.settings.show_vendor,
-                            show_rating: section.settings.show_rating,
-                            lazy_load: lazy_load
-                          %}
-                          {% capture colorlist %}
-                            {{ colorlist | append: color | append: " " }}
-                          {% endcapture %}
-                        {% endunless %}
-                      {% endfor %}
-                        {% else %}
-                          {% render 'card-product',
-                            card_product: item,
-                            media_aspect_ratio: section.settings.image_ratio,
-                            image_shape: section.settings.image_shape,
-                            show_secondary_image: section.settings.show_secondary_image,
-                            show_vendor: section.settings.show_vendor,
-                            show_rating: section.settings.show_rating,
-                            lazy_load: lazy_load,
-                            skip_styles: skip_card_product_styles
-                          %}
-                        {% endif %}
+                        {% render 'card-product',
+                          card_product: item,
+                          media_aspect_ratio: section.settings.image_ratio,
+                          image_shape: section.settings.image_shape,
+                          show_secondary_image: section.settings.show_secondary_image,
+                          show_vendor: section.settings.show_vendor,
+                          show_rating: section.settings.show_rating,
+                          lazy_load: lazy_load,
+                          skip_styles: skip_card_product_styles
+                        %}
                         {%- assign skip_card_product_styles = true -%}
                       {%- when 'article' -%}
                         {% render 'article-card',
