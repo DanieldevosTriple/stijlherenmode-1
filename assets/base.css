@@ -46,9 +46,9 @@
 
 /* Trade Gothic Bold Extended */
 @font-face {
-  font-family: 'TradeGothicLT-BoldExtended';
-  src: url('/cdn/shop/t/19/assets/TradeGothicLT-BoldExtended.woff2') format('woff2'),
-       url('/cdn/shop/t/19/assets/TradeGothicLT-BoldExtended.woff') format('woff');
+  font-family: 'TradeGothicLT-Bold-Condensed';
+  src: url('/cdn/shop/t/19/assets/TradeGothicLT-BoldCondTwenty.woff2') format('woff2'),
+       url('/cdn/shop/t/19/assets/TradeGothicLT-BoldCondTwenty.woff') format('woff');
   font-weight: 800;
   font-style: normal;
   font-stretch: condensed;
