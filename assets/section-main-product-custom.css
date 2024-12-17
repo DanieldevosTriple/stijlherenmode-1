@@ -98,6 +98,7 @@
         width: 100%;
         font-family: TradeGothic LT CondEighteen;
         font-weight: 700;
+        text-transform: uppercase;
     }
     
     .buy-button:hover {
