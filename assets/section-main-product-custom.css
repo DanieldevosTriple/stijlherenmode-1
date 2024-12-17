@@ -256,8 +256,8 @@
 }
 
 .klarna-logo {
-    max-width: 100px;
-    
+    width: 100px;
+    height: 50px;
 }
   
 @media (prefers-color-scheme: dark) { 
