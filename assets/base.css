@@ -3339,10 +3339,17 @@ a:hover {
   text-decoration: none;
 }
 
+/* Rood hover-effect voor card__heading */
+.card__heading a:hover {
+  color: red;
+  transition: color 0.3s ease;
+}
+
+/* Rood hover-effect voor price-item */
 .price-item:hover {
   color: red;
-  text-decoration: none;
-} 
+  transition: color 0.3s ease;
+}
 
 .nav-item {
   font-family: 'TradeGothicLT';
