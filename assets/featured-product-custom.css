@@ -19,12 +19,6 @@
     justify-content: center; /* Vertically centers the elements within the content */
   }
   
-  .featured-product__title {
-    font-size: 2rem;
-    font-weight: 500;
-    margin-bottom: 0px;
-  }
-  
   .featured-product__description {
     font-size: 1.4rem;
     margin: 35px 0px;
