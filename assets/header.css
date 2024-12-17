@@ -233,6 +233,7 @@
 
 .cart-link {
     color: var(--font-color-light-mode);
+    font-size: 1.2rem;
 }
 
 @media (prefers-color-scheme: dark) {
