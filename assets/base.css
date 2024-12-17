@@ -3335,8 +3335,8 @@ details-disclosure > details {
 }
 
 a:hover {
-  color: red !important;
-  text-decoration: none !important;
+  color: red;
+  text-decoration: none;
 }
 
 .nav-item {
