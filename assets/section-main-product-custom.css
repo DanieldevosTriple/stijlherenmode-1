@@ -27,8 +27,9 @@
    }
    
    .product-title {
-        font-size: 24px;
+        font-size: 20px;
         margin-bottom: 10px;
+        font-weight: 700;
     }
 
     .option-title {
@@ -47,6 +48,7 @@
         text-transform: uppercase;
         font-family: 'TradeGothic LT CondEighteen';
         font-size: 1.8rem;
+        font-weight: 700;
     }
     
     .color-swatches {
