@@ -42,17 +42,18 @@
 a:hover {
   color: red;
   text-decoration: none;
+  background-color: none;
 }
 
 @media (prefers-color-scheme: dark) {
   .pagination__item {
     color: white;
-
   }
 
   a:hover {
     color: red;
     text-decoration: none;
+    background-color: none;
   }
 }
 
