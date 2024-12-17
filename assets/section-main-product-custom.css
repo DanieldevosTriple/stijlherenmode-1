@@ -259,6 +259,10 @@
     width: 80px;
     height: 30px;
 }
+
+.klarna {
+    justify-content: center;
+}
   
 @media (prefers-color-scheme: dark) { 
     .arrow-head {
