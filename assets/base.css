@@ -421,7 +421,7 @@ h1,
 h2,
 .h2 {
   font-size: 2rem !important;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 @media only screen and (min-width: 750px) {
