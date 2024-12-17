@@ -110,6 +110,10 @@ input::-webkit-search-decoration {
   }
 
   .predictive-search {
-    background-color: #323232;
+    background-color: #202020;
+  }
+
+  .icon-arrow {
+    color: white;
   }
 }
