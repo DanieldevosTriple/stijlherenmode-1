@@ -108,4 +108,8 @@ input::-webkit-search-decoration {
     border: 1px solid #323232;
     background-color: #323232;
   }
+
+  .predictive-search {
+    background-color: #323232;
+  }
 }
