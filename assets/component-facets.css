@@ -152,7 +152,6 @@
   box-shadow: none;
   filter: none;
   transition: none;
-  color: red;
 }
 
 .mobile-facets__sort .select__select:focus-visible {
