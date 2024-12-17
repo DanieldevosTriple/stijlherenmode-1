@@ -3340,6 +3340,6 @@ a:hover {
 }
 
 .nav-item {
-  font-family: 'TradeGothicLT';
+  font-family: TradeGothicLT !important;
   font-weight: 400;
 }
