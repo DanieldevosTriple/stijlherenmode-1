@@ -32,6 +32,7 @@
        url('/cdn/shop/t/19/assets/TradeGothicLT-CondEighteen.woff') format('woff');
   font-weight: 400;
   font-style: normal;
+  font-stretch: condensed;
 }
 
 /* Trade Gothic Condensed Eighteen Oblique */
@@ -41,6 +42,7 @@
        url('/cdn/shop/t/19/assets/TradeGothicLT-CondEighteenObl.woff') format('woff');
   font-weight: 400;
   font-style: italic;
+  font-stretch: condensed;
 }
 
 /* Trade Gothic Bold */
@@ -95,6 +97,7 @@
        url('/cdn/shop/t/19/assets/TradeGothicLT-BoldCondTwenty.woff') format('woff');
   font-weight: 700;
   font-style: normal;
+  font-stretch: condensed;
 }
 
 /* Trade Gothic Bold Condensed Twenty Oblique */
@@ -104,6 +107,7 @@
        url('/cdn/shop/t/19/assets/TradeGothicLT-BoldCondTwentyObl.woff') format('woff');
   font-weight: 700;
   font-style: italic;
+  font-stretch: condensed;
 }
 
 .body {
