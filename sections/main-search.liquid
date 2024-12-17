@@ -253,73 +253,71 @@
             >
               <div class="loading-overlay gradient"></div>
               <ul
-                id="product-grid"
-                data-id="{{ section.id }}"
-                class="product-grid row g-4">
-                {%- for product in collection.products -%}
+                class="row product-grid g-4"
+                role="list"
+              >
+                {%- assign skip_card_product_styles = false -%}
+                {%- for item in search.results -%}
                   {% assign lazy_load = false %}
                   {%- if forloop.index > 2 -%}
-                    {%- assign lazy_load = true %}
+                    {%- assign lazy_load = true -%}
                   {%- endif -%}
-                
-                  {% assign color_active = false %}
-                  {% assign has_variants = false %}
-                  {%- if product.variants.size > 0 -%}
-                    {% assign has_variants = true %}
-                  {%- endif -%}
-                
-                  {%- for option in product.options -%}
-                    {% if option == 'Color' %}
-                      {% assign color_active = true %}
+
+                  <li
+                    class="col-sm-6 col-md-4 col-lg-4"
+                    {% if settings.animations_reveal_on_scroll %}
+                      data-cascade
                     {% endif %}
-                  {%- endfor -%}
-                  
-                  {% if has_variants and color_active %}
-                    <!-- Product met color varianten -->
-                    {% assign index = forloop.index0 %}
-                    {% assign colorlist = '' %}
-                    {% for variant in product.variants %}
-                      {% capture color %}
-                        {{ variant.options[index] }}
-                      {% endcapture %}
-                      
-                      {% unless colorlist contains color %}
-                        <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" 
-                          data-product-id="{{ product.id }}"
-                          data-variant-id="{{ variant.id }}"
-                          data-price="{{ variant.price | money_without_currency }}"
-                          data-filter-color="{{ variant.options | first }}"
-                          data-filter-size="{{ variant.options | last }}">
-                          {% render 'card-product-variant',
-                            card_product: product,
-                            variant: variant,
-                            media_aspect_ratio: section.settings.image_ratio,
-                            show_secondary_image: section.settings.show_secondary_image,
-                            show_vendor: section.settings.show_vendor,
-                            show_rating: section.settings.show_rating,
-                            lazy_load: lazy_load
-                          %}
-                        </li>
-                        {% capture colorlist %}
-                          {{ colorlist | append: color | append: " " }}
-                        {% endcapture %}
-                      {% endunless %}
-                    {% endfor %}
-                  {% else %}
-                    <!-- Product zonder color varianten of varianten -->
-                    <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" 
-                      data-product-id="{{ product.id }}">
-                      {% render 'card-product',
-                        card_product: product,
-                        media_aspect_ratio: section.settings.image_ratio,
-                        show_secondary_image: section.settings.show_secondary_image,
-                        show_vendor: section.settings.show_vendor,
-                        show_rating: section.settings.show_rating,
-                        lazy_load: lazy_load
-                      %}
-                    </li>
-                  {% endif %}
-                {%- endfor -%} 
+                  >
+                    {%- case item.object_type -%}
+                      {%- when 'product' -%}
+                        {%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
+                        {% render 'card-product',
+                          card_product: item,
+                          media_aspect_ratio: section.settings.image_ratio,
+                          image_shape: section.settings.image_shape,
+                          show_secondary_image: section.settings.show_secondary_image,
+                          show_vendor: section.settings.show_vendor,
+                          show_rating: section.settings.show_rating,
+                          lazy_load: lazy_load,
+                          skip_styles: skip_card_product_styles
+                        %}
+                        {%- assign skip_card_product_styles = true -%}
+                      {%- when 'article' -%}
+                        {% render 'article-card',
+                          article: item,
+                          show_image: true,
+                          show_date: section.settings.article_show_date,
+                          show_author: section.settings.article_show_author,
+                          show_badge: true,
+                          media_aspect_ratio: 1,
+                          lazy_load: lazy_load
+                        %}
+                      {%- when 'page' -%}
+                        <div class="article-card-wrapper card-wrapper underline-links-hover">
+                          <div
+                            class="card card--card card--text ratio color-{{ settings.blog_card_color_scheme }}"
+                            style="--ratio-percent: 100%;"
+                          >
+                            <div class="card__content">
+                              <div class="card__information">
+                                <h3 class="card__heading">
+                                  <a href="{{ item.url }}" class="full-unstyled-link">
+                                    {{ item.title | truncate: 50 | escape }}
+                                  </a>
+                                </h3>
+                              </div>
+                              <div class="card__badge {{ settings.badge_position }}">
+                                <span class="badge color-{{ settings.color_schemes | first }}">
+                                  {{- 'templates.search.page' | t -}}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    {%- endcase -%}
+                  </li>
+                {%- endfor -%}
               </ul>
               {%- if paginate.pages > 1 -%}
                 {% render 'pagination', paginate: paginate %}
