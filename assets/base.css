@@ -4,6 +4,7 @@
   src: url('/cdn/shop/t/19/assets/TradeGothicLT-Light.woff2') format('woff2'),
        url('/cdn/shop/t/19/assets/TradeGothicLT-Light.woff') format('woff');
   font-style: normal;
+  font-weight: 800;
 }
 
 .body {
