@@ -22,7 +22,8 @@
   display: inline-block;
   margin: 0 1rem 0 0;
   font-weight: 300;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  font-family: TradeGothicLT Bold;
 }
 
 .price__regular .price-item--regular {
