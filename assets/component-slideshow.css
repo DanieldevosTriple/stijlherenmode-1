@@ -260,3 +260,68 @@ slideshow-component:not(.page-width) .slider-buttons {
   opacity: 0;
   transform: scale(0.8);
 }
+
+/* Slider Sale Effect */
+
+.text-repeat-effect {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.text-repeat-effect h2 {
+  position: relative;
+  z-index: 2; /* Zorgt ervoor dat de middelste tekst bovenop staat */
+  font-size: 3rem; /* Pas de grootte aan naar wens */
+  margin: 0;
+}
+
+/* Horizontale en verticale herhalingen */
+.text-repeat-effect::before,
+.text-repeat-effect::after {
+  content: attr(data-text); /* Herhaalt de tekst */
+  position: absolute;
+  white-space: nowrap;
+  font-size: 3rem;
+  color: transparent;
+  -webkit-text-stroke: 1px black; /* Border rond transparante tekst */
+  opacity: 0.1; /* Transparantie van de tekst */
+}
+
+.text-repeat-effect::before {
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  transform: translateY(-50%);
+  animation: scroll-horizontal 10s linear infinite; /* Horizontale herhaling */
+}
+
+.text-repeat-effect::after {
+  bottom: 0;
+  top: 0;
+  margin: auto;
+  left: 50%;
+  transform: translateX(-50%) rotate(-90deg);
+  animation: scroll-vertical 15s linear infinite; /* Verticale herhaling */
+}
+
+/* Animatie voor horizontale herhaling */
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Animatie voor verticale herhaling */
+@keyframes scroll-vertical {
+  0% {
+    transform: translateY(0) rotate(-90deg);
+  }
+  100% {
+    transform: translateY(-100%) rotate(-90deg);
+  }
+}

@@ -109,14 +109,14 @@
           </div>
         {%- endif -%}
       </div>
-      <div class="slide-show-content">
+      <div class="slide-show-content text-repeat-effect" data-text="{{ block.settings.heading }}">
         <h2 class="elixon-fits-in">
           {{ block.settings.heading }}
         </h2>
-      </div>
+      </div>      
     </div>
   {%- endfor -%}
-</div>
+</div>  
 
   {%- if section.blocks.size > 1 and section.settings.auto_rotate == false -%}
     <div class="slideshow__controls slider-buttons{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
@@ -319,9 +319,15 @@
             }
           ],
           "default": "light"
+        },
+        {
+          "type": "text",
+          "id": "repeated_text",
+          "label": "Herhaalde Tekst",
+          "default": "Herhaal mij"
         }
       ]
-    }
+    }    
   ],
   "presets": [
     {
