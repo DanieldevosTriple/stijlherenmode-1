@@ -245,10 +245,6 @@
 
 }
 
-.col-12 {
-  max-width: var(--page-width);
-}
-
 .expand-icon {
   width: 10px;
 }
