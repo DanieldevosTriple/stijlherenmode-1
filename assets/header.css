@@ -284,6 +284,21 @@
     }
 }
 
+/* Zorg dat de hele kaart als hover target werkt */
+.card__information:hover {
+    cursor: pointer; /* Optioneel: verander de cursor naar een pointer */
+  }
+  
+  /* Kleur de titel rood bij hover */
+  .card__information:hover .card__heading {
+    color: red;
+  }
+  
+  /* Kleur de prijs rood bij hover */
+  .card__information:hover .price-item {
+    color: red;
+  }
+
 /* Hamburger Menu */
 
 .icon-hamburger {
