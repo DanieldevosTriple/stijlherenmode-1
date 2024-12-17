@@ -12,7 +12,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  font-family: TradeGothic LT CondEighteen, sans-serif;
+  font-family: TradeGothicLT, sans-serif;
   text-transform: uppercase;
 }
 
@@ -35,7 +35,7 @@
   width: 100%;
   padding: 0;
   text-decoration: none;
-  font-family: TradeGothic LT CondEighteen, sans-serif;
+  font-family: TradeGothicLT, sans-serif;
   text-transform: uppercase;
 }
 

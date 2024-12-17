@@ -197,7 +197,7 @@
 
 .navbar-nav .nav-link {
     text-transform: uppercase;
-    font-family: TradeGothic LT CondEighteen;
+    font-family: TradeGothicLT;
     color: var(--font-color-light-mode);
     font-size: 1.5rem;
 }
@@ -215,7 +215,7 @@
 .text-second-menu {
     text-align: right !important;
     text-transform: uppercase;
-    font-family: TradeGothic LT CondEighteen;
+    font-family: TradeGothicLT;
     color: var(--font-color-light-mode);
     font-size: 1.5rem;
 }
@@ -382,7 +382,7 @@
   .mobile-menu .nav-item:not(:last-child) {
     padding: 10px 0;
     font-size: 2rem;
-    font-family: TradeGothic LT CondEighteen;
+    font-family: TradeGothicLT;
     text-transform: uppercase;
     border-bottom: 1px solid lightgrey;
     text-align: left;
@@ -391,7 +391,7 @@
   .mobile-menu .nav-item:last-child {
     padding: 10px 0;
     font-size: 2rem;
-    font-family: TradeGothic LT CondEighteen;
+    font-family: TradeGothicLT;
     text-transform: uppercase;
     text-align: left;
   }

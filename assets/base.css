@@ -985,7 +985,7 @@ summary::-webkit-details-marker {
   font-size: 15px;
   text-transform: uppercase;
   font-weight: 600;
-  font-family: 'TradeGothic LT CondEighteen', sans-serif;
+  font-family: 'TradeGothicLT', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1010,7 +1010,7 @@ summary::-webkit-details-marker {
   position: absolute;
   top: 50%;
   left: 50%;
-  font-family:  TradeGothic LT CondEighteen, sans-serif;
+  font-family:  TradeGothicLT, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1032,7 +1032,7 @@ summary::-webkit-details-marker {
   text-transform: uppercase;
   font-weight: 600;
   width: max-content;
-  font-family:  TradeGothic LT CondEighteen, sans-serif;
+  font-family:  TradeGothicLT, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -3340,6 +3340,6 @@ a:hover {
 }
 
 .nav-item {
-  font-family: TradeGothicLT !important;
+  font-family: 'TradeGothicLT';
   font-weight: 400;
 }
