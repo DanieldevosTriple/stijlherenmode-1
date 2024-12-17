@@ -3340,7 +3340,7 @@ a:hover {
 }
 
 /* Rood hover-effect voor card__heading */
-.card__heading a:hover {
+.card__information a:hover {
   color: red;
   transition: color 0.3s ease;
 }
