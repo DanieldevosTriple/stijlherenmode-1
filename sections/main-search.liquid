@@ -261,10 +261,13 @@
                   {%- if forloop.index > 2 -%}
                     {%- assign lazy_load = true %}
                   {%- endif -%}
-                  
+                
                   {% assign color_active = false %}
-                  {% assign has_variants = product.variants.size > 0 %}
-                  
+                  {% assign has_variants = false %}
+                  {%- if product.variants.size > 0 -%}
+                    {% assign has_variants = true %}
+                  {%- endif -%}
+                
                   {%- for option in product.options -%}
                     {% if option == 'Color' %}
                       {% assign color_active = true %}
