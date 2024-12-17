@@ -96,6 +96,8 @@
         cursor: pointer;
         font-size: 16px;
         width: 100%;
+        font-family: TradeGothic LT CondEighteen;
+        font-weight: 700;
     }
     
     .buy-button:hover {
