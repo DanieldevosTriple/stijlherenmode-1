@@ -113,8 +113,9 @@
   min-width: auto;
   min-height: auto;
   transition: none;
-  font-family: TradeGothicLT, sans-serif;
+  font-family: 'TradeGothicLT';
   text-transform: uppercase;
+  padding-right: 50px;
 }
 
 .select .icon-caret {
