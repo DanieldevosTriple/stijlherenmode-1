@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Format price as currency
             const formattedPrice = (selectedVariant.price / 100).toLocaleString('en-US', {
                 style: 'currency',
-                currency: 'USD'
+                currency: 'EUR'
             });
             priceElement.textContent = formattedPrice;
         } else {
