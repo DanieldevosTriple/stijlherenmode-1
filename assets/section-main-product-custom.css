@@ -304,3 +304,10 @@
         color: black;
     }
 }
+
+@media screen (min-width: 991px) {
+    .option-swatch.has-image {
+        height: 60px;
+        width: 10px;
+    }
+}
