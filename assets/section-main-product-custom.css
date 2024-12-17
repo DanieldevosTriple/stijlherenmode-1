@@ -254,6 +254,10 @@
     transform: rotate(-45deg); /* Draai om de pijl te vormen */
     margin-left: -2px; /* Zorg ervoor dat de kop aansluit op de steel */
 }
+
+.klarna-logo {
+    max-width: 100px;
+}
   
 @media (prefers-color-scheme: dark) { 
     .arrow-head {
