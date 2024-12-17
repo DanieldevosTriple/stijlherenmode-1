@@ -28,14 +28,6 @@
 
     {% render 'meta-tags' %}
 
-    <script>
-      if (typeof jQuery == 'undefined') {
-          console.error('jQuery is not loaded!');
-      } else {
-          console.log('jQuery is loaded:', jQuery.fn.jquery);
-      }
-   </script>
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
@@ -47,6 +39,14 @@
     <script src="{{ 'bootstrap.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'bootstrap.bundle.min.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'bootstrap.min.js' | asset_url }}" defer="defer"></script>
+
+    <script>
+      if (typeof jQuery == 'undefined') {
+          console.error('jQuery is not loaded!');
+      } else {
+          console.log('jQuery is loaded:', jQuery.fn.jquery);
+      }
+   </script>
     
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
