@@ -849,6 +849,13 @@ a.active-facets__button.focused .active-facets__button-inner {
   border-bottom: 1px solid black;
 }
 
+@media (prefers-color-scheme: dark) {
+  .mobile-facets__wrapper { 
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+  }
+}
+
 .mobile-facets__wrapper .disclosure-has-popup[open] > summary::before {
   height: 100vh;
   z-index: 3;
