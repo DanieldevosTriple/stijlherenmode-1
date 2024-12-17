@@ -114,6 +114,6 @@ input::-webkit-search-decoration {
   }
 
   .icon-arrow {
-    color: white;
+    color: white !important;
   }
 }
