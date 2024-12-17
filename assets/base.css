@@ -3346,7 +3346,7 @@ a:hover {
 }
 
 /* Rood effect voor price-item bij hover over .card__information */
-.card__information:hover .price-item {
+.card__information:hover .price .price-item {
   color: red;
   transition: color 0.3s ease;
 }
