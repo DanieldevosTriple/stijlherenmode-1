@@ -44,11 +44,6 @@
     text-decoration: none;
     color: black;
   }
-
-  a:hover {
-    color: black;
-    text-decoration: none;
-  }
   
   .collection-selector__item:hover .collection-selector__title-wrapper::before,
   .collection-selector__item:hover .collection-selector__title-wrapper::after,
@@ -67,11 +62,6 @@
 
     .collection-selector__link a  {
       color: white;
-    }
-
-    a:hover {
-      color: white;
-      text-decoration: none;
     }
 
     .collection-selector__item:hover .collection-selector__title-wrapper::before,
