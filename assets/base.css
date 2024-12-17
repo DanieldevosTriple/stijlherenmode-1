@@ -47,7 +47,7 @@
 
 /* Trade Gothic Bold */
 @font-face {
-  font-family: 'TradeGothicLT';
+  font-family: 'TradeGothicLT Bold';
   src: url('/cdn/shop/t/19/assets/TradeGothicLT-Bold.woff2') format('woff2'),
        url('/cdn/shop/t/19/assets/TradeGothicLT-Bold.woff') format('woff');
   font-weight: 700;
