@@ -26,14 +26,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Gebruiker scrollt omhoog
                 sectionHeader.classList.remove('hidden');
                 sectionHeader.classList.add('scroll-up');
-                sectionIndexPage.classList.add('scroll-up');
+                // Controleer of sectionIndexPage bestaat voordat je het gebruikt
+                if (sectionIndexPage) {
+                    sectionIndexPage.classList.add('scroll-up');
+                }
                 console.log('Scrollt omhoog: "scroll-up" toegevoegd, "hidden" verwijderd.');
             }
 
             // Wanneer de gebruiker bovenaan is
             if (currentScrollY === 0) {
                 sectionHeader.classList.remove('hidden', 'scroll-up');
-                sectionIndexPage.classList.remove('hidden', 'scroll-up');
+                if (sectionIndexPage) {
+                    sectionIndexPage.classList.remove('hidden', 'scroll-up');
+                }
                 console.log('Bovenaan de pagina: alleen "sticky" aanwezig.');
             }
 
