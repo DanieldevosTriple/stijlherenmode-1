@@ -46,6 +46,7 @@ slider-component.slider-component-full-width {
   box-sizing: border-box;
   display: table;
   color: #fff !important; /* Standaard tekstkleur */
+  font-family: 'TradeGothicLT Bold';
 }
 
 .slider__slide {
