@@ -46,7 +46,7 @@
     font-weight: 600;
     margin: 0;
     line-height: 0.7;
-    font-family: TradeGothicLT Bold Condensed !important;
+    font-family:'TradeGothicLT-BoldExtended' !important;
   }
 
   @media (prefers-color-scheme: light) {
