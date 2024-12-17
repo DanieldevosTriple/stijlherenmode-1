@@ -37,7 +37,7 @@
 
 /* Trade Gothic Condensed Eighteen Oblique */
 @font-face {
-  font-family: 'TradeGothic LT CondEighteen';
+  font-family: 'TradeGothicLT Condensed Italic';
   src: url('/cdn/shop/t/19/assets/TradeGothicLT-CondEighteenObl.woff2') format('woff2'),
        url('/cdn/shop/t/19/assets/TradeGothicLT-CondEighteenObl.woff') format('woff');
   font-weight: 400;
@@ -418,7 +418,7 @@ h5,
 .h3,
 .h4,
 .h5 {
-  font-family: 'TradeGothic LT CondEighteen', sans-serif !important;
+  font-family: 'TradeGothicLT', sans-serif !important;
   text-transform: uppercase;
   font-style: var(--font-heading-style);
   font-weight: var(--font-heading-weight);
