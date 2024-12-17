@@ -165,9 +165,6 @@
         cursor: pointer;
         transition: all .3s ease;
 
-    .options-container {
-        padding-top: 5rem;
-    }
     }
       
 @media screen and (max-width: 749px) {
@@ -280,6 +277,10 @@
     display: flex;
     align-items: baseline;
   }
+
+.options-container {
+    padding-top: 5rem;
+}
   
   
 @media (prefers-color-scheme: dark) { 
