@@ -3338,3 +3338,8 @@ a:hover {
   color: red !important;
   text-decoration: none !important;
 }
+
+.nav-item {
+  font-family: 'TradeGothicLT';
+  font-weight: 800;
+}
