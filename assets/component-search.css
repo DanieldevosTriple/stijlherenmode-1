@@ -80,8 +80,13 @@ input::-webkit-search-decoration {
 @media (prefers-color-scheme: dark) { 
 .search__input.field__input {
   padding-right: 9.8rem;
-  background-color: #202020;
-  border-color: #202020;
+  background-color: #323232;
+  border-color: #323232;
+}
+
+.search__button:not(:focus-visible):not(.focused), .reset__button:not(:focus-visible):not(.focused) {
+  background-color: unset;
+}
 }
 
 .field {
