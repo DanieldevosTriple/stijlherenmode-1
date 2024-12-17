@@ -81,8 +81,10 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding-left: 10rem;
-      padding-right: 10rem;
+    }
+
+    .product-custom {
+      gap: 2rem;
     }
     
   }
