@@ -1,57 +1,9 @@
 /* Trade Gothic Light */
 @font-face {
-  font-family: 'TradeGothicLT-Light';
+  font-family: 'TradeGothicLT';
   src: url('/cdn/shop/t/19/assets/TradeGothicLT-Light.woff2') format('woff2'),
        url('/cdn/shop/t/19/assets/TradeGothicLT-Light.woff') format('woff');
-  font-weight: 300;
   font-style: normal;
-}
-
-/* Trade Gothic Light Oblique */
-@font-face {
-  font-family: 'TradeGothicLT-LightOblique';
-  src: url('/cdn/shop/t/19/assets/TradeGothicLT-LightOblique.woff2') format('woff2'),
-       url('/cdn/shop/t/19/assets/TradeGothicLT-LightOblique.woff') format('woff');
-  font-weight: 300;
-  font-style: italic;
-}
-
-/* Trade Gothic Extended */
-@font-face {
-  font-family: 'TradeGothicLT-Extended';
-  src: url('/cdn/shop/t/19/assets/TradeGothicLT-Extended.woff2') format('woff2'),
-       url('/cdn/shop/t/19/assets/TradeGothicLT-Extended.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-}
-
-/* Trade Gothic Condensed Eighteen */
-@font-face {
-  font-family: 'TradeGothicLT-CondensedEighteen';
-  src: url('/cdn/shop/t/19/assets/TradeGothicLT-CondEighteen.woff2') format('woff2'),
-       url('/cdn/shop/t/19/assets/TradeGothicLT-CondEighteen.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-stretch: condensed;
-}
-
-/* Trade Gothic Bold */
-@font-face {
-  font-family: 'TradeGothicLT-Bold';
-  src: url('/cdn/shop/t/19/assets/TradeGothicLT-Bold.woff2') format('woff2'),
-       url('/cdn/shop/t/19/assets/TradeGothicLT-Bold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-}
-
-/* Trade Gothic Bold Extended */
-@font-face {
-  font-family: 'TradeGothicLT-Bold-Condensed';
-  src: url('/cdn/shop/t/19/assets/TradeGothicLT-CondEighteen.woff2') format('woff2'),
-       url('/cdn/shop/t/19/assets/TradeGothicLT-CondEighteen.woff') format('woff');
-  font-weight: 800;
-  font-style: normal;
-  font-stretch: condensed;
 }
 
 .body {
