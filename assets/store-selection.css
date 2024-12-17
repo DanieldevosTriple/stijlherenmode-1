@@ -75,7 +75,7 @@
       color: white;
     }
 
-    a:hover {
+    .button-featured-product-custom a:hover {
       color: white;
       text-decoration: none;
     }
