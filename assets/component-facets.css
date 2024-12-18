@@ -264,6 +264,10 @@
   gap: 5rem; /* Ruimte tussen de elementen */
 }
 
+.facets__item::after {
+  content: "+";
+}
+
 .svg-wrapper-sort {
   width: 1rem;
   pointer-events: none;
