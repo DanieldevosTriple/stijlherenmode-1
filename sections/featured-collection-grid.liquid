@@ -8,14 +8,14 @@
 
 <section class="container-desktop">
       {% if section.settings.section_title != '' or section.settings.section_subtitle != '' %}
-        <header class="section-header">
+        <div class="section-header">
           {% if section.settings.section_title != '' %}
             <h2 class="section-title">{{ section.settings.section_title }}</h2>
           {% endif %}
           {% if section.settings.section_subtitle != '' %}
             <p class="section-subtitle">{{ section.settings.section_subtitle }}</p>
           {% endif %}
-        </header>
+        </div>
       {% endif %}
   
       <ul class="grid-categories"> 
