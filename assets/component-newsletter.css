@@ -72,7 +72,6 @@
 .newsletter-form__button:hover {
   color: white;
   background-color: black;
-  transform: scale(1.05); /* Optioneel: een subtiel zoom-effect bij hover */
   transition: all 0.3s ease-in-out; /* Smooth overgang bij hover */
   cursor: pointer; /* Zorgt ervoor dat de knop altijd als klikbaar wordt weergegeven */
 }
