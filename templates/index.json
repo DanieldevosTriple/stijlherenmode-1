@@ -145,49 +145,56 @@
           "type": "logo",
           "settings": {
             "background_image": "shopify://shop_images/Aeden_e9d8185e-4ba6-4efc-9212-4f8ec44f7f62.jpg",
-            "collection": ""
+            "logo_image": "shopify://shop_images/Aeden_8f0135b9-53c9-436c-af52-06949f2e5eb4.png",
+            "collection": "aeden"
           }
         },
         "logo_aBNHjP": {
           "type": "logo",
           "settings": {
             "background_image": "shopify://shop_images/Herno_0b53c9a4-5949-4250-b8a3-f2b668f2d053.jpg",
-            "collection": ""
+            "logo_image": "shopify://shop_images/Herno.png",
+            "collection": "herno"
           }
         },
         "logo_ejTQqH": {
           "type": "logo",
           "settings": {
             "background_image": "shopify://shop_images/Gran_Sasso_5616eaa4-df2c-4ca4-95c1-f41468faf5d1.jpg",
-            "collection": ""
+            "logo_image": "shopify://shop_images/GS_logo.svg",
+            "collection": "gran-sasso"
           }
         },
         "logo_MdUGBn": {
           "type": "logo",
           "settings": {
             "background_image": "shopify://shop_images/Corneliani_ff14adbc-60bb-4f27-8f65-69862ecaf428.jpg",
-            "collection": ""
+            "logo_image": "shopify://shop_images/Corneliani.svg",
+            "collection": "corneliani"
           }
         },
         "logo_ifxFca": {
           "type": "logo",
           "settings": {
             "background_image": "shopify://shop_images/Woolrich_9aab09c6-3a2a-4611-9254-ba22a5a1e113.jpg",
-            "collection": ""
+            "logo_image": "shopify://shop_images/Woolrich-logo_1.svg",
+            "collection": "woolrich"
           }
         },
         "logo_TbJbw6": {
           "type": "logo",
           "settings": {
             "background_image": "shopify://shop_images/Montecore_b8417769-d065-4030-a97f-3ef4fabfbee4.jpg",
-            "collection": ""
+            "logo_image": "shopify://shop_images/logo_vector_montecore_1.svg",
+            "collection": "montecore"
           }
         },
         "logo_DqxHai": {
           "type": "logo",
           "settings": {
             "background_image": "shopify://shop_images/Peuterey.jpg",
-            "collection": ""
+            "logo_image": "shopify://shop_images/peuterey-seeklogo_1.svg",
+            "collection": "peuterey"
           }
         }
       },
