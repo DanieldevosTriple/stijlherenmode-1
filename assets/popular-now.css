@@ -34,3 +34,7 @@
         color: white;
     }
 }
+
+.popular-block {
+    gap: 1rem;
+}
