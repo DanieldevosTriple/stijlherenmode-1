@@ -296,6 +296,17 @@ details:not([open]) .facets__item::after {
   line-height: 1;
 }
 
+.facet-filters__sort::after {
+  content: "+";
+  font-weight: 100;
+  font-size: 2rem;
+}
+
+.facet-filters__sort:focus::after {
+  content: "-";
+  font-weight: 100;
+  font-size: 2rem;
+}
 
 .svg-wrapper-sort {
   width: 1rem;
