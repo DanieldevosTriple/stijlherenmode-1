@@ -1,0 +1,86 @@
+{{ featured-sales-banner.css | asset_url | stylesheet_tag }}
+
+{% style %}
+  @media (max-width: 768px) {
+    .featured-sales-banner {
+      background-image: url('{{ section.settings.mobile_background | file_url }}');
+    }
+  }
+  
+  @media (min-width: 769px) {
+    .featured-sales-banner {
+      background-image: url('{{ section.settings.desktop_background | file_url }}');
+    }
+  }
+{% endstyle %} 
+
+{% schema %}
+{
+  "name": "Featured Sales Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheader",
+      "label": "Subheader",
+      "default": "Special Offer"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Big Winter Sale"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Enjoy up to 50% off on our best-selling products. Hurry, offer ends soon!"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_background",
+      "label": "Background Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_background",
+      "label": "Background Image (Mobile)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Sales Banner",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="featured-sales-banner">
+  <div class="featured-sales-banner__content">
+    {% if section.settings.subheader != blank %}
+      <h4 class="featured-sales-banner__subheader">{{ section.settings.subheader }}</h4>
+    {% endif %}
+    {% if section.settings.title != blank %}
+      <h1 class="featured-sales-banner__title">{{ section.settings.title }}</h1>
+    {% endif %}
+    {% if section.settings.description != blank %}
+      <p class="featured-sales-banner__description">{{ section.settings.description }}</p>
+    {% endif %}
+    {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+      <a href="{{ section.settings.button_link }}" class="featured-sales-banner__button">{{ section.settings.button_text }}</a>
+    {% endif %}
+  </div>
+</section>

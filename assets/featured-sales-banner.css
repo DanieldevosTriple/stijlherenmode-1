@@ -1,0 +1,46 @@
+.featured-sales-banner {
+    position: relative;
+    text-align: center;
+    color: white;
+    padding: 50px 20px;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .featured-sales-banner__content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .featured-sales-banner__subheader {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  
+  .featured-sales-banner__title {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 10px 0;
+  }
+  
+  .featured-sales-banner__description {
+    font-size: 16px;
+    margin: 20px 0;
+  }
+  
+  .featured-sales-banner__button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+  }
+  
+  .featured-sales-banner__button:hover {
+    background-color: #444;
+  }
+
+  
