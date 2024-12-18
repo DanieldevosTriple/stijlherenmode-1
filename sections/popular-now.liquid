@@ -87,7 +87,7 @@
 
   {% assign block_count = section.blocks | size %}
   {% if block_count > 0 %}
-    <ul class="popular-block" style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); list-style: none; padding: 0; margin: 0;">
+    <ul class="popular-block">
       {% for block in section.blocks %}
         {% assign image = block.settings.image %}
         {% assign title = block.settings.title %}
