@@ -9,6 +9,16 @@
     padding-bottom: 100%; /* Forces the block to be square */
   }
 
+  .image-overlay-list {
+    display: grid; 
+    gap: 1rem; 
+    grid-template-columns: repeat(2, 1fr); 
+    list-style: none; 
+    padding: 0; 
+    margin: 0;"
+  }
+  
+
 @media (min-width: 1200px) {
 
   .image-overlay-block:nth-child(1) .image-overlay-block__title {
