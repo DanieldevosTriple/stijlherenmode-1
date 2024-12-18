@@ -999,6 +999,12 @@ summary::-webkit-details-marker {
     border: 2px solid white;
     color: white;
   }
+
+  .button-view-all:hover {
+    background-color: white;
+    color: black;
+    border: 2px solid white;
+  }
 }
 
 .button-two-blocks {
@@ -1019,10 +1025,22 @@ summary::-webkit-details-marker {
   font-family:  TradeGothicLT, sans-serif;
 }
 
+.button-two-blocks:hover {
+  background-color: black;
+  color: white;
+  border: 2px solid black;
+}
+
 @media (prefers-color-scheme: dark) {
   .button-two-blocks {
     border: 2px solid white;
     color: white;
+  }
+
+  .button-two-blocks:hover {
+  background-color: white;
+  color: black;
+  border: 2px solid white;
   }
 }
 
@@ -1041,11 +1059,23 @@ summary::-webkit-details-marker {
   font-family:  TradeGothicLT, sans-serif;
 }
 
+.button-featured-product-custom:hover {
+  background-color: black;
+  color: white;
+  border: 2px solid black;
+}
+
 @media (prefers-color-scheme: dark) {
   .button-featured-product-custom {
     border: 2px solid white;
     color: white;
   }
+
+  .button-featured-product-custom:hover {
+    background-color: white;
+    color: black;
+    border: 2px solid white;
+    }
 }
 
 .padding-button {
