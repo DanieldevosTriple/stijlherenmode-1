@@ -8,7 +8,7 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
-    "name": "t:settings_schema.logo.name",
+    "name": "Logo",
     "settings": [
       {
         "type": "image_picker",
@@ -105,6 +105,10 @@
         }
       }
     ]
+  },
+  {
+    "name": "General Settings",
+    "settings": []
   },
   {
     "name": "t:settings_schema.layout.name",
