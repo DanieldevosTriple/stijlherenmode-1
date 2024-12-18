@@ -271,8 +271,6 @@
 }
 
 .klarna {
-    display: flex; /* Flexbox inschakelen */
-    align-items: baseline; /* Verticaal centreren */
     align-content: center;
   }
   
