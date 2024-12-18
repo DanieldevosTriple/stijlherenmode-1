@@ -94,6 +94,7 @@
   font-size: 1.5rem;
   border-style: none;
   text-transform: uppercase;
+  font-weight: 800;
 }
 
 .newsletter-form__field-input:focus-visible {
