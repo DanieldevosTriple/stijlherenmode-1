@@ -13,37 +13,30 @@
 }
 
 .logo-grid-item {
-  position: relative; /* Belangrijk voor overlay positioning */
+  position: relative;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 200px; /* voorbeeld hoogte */
 }
 
-/* Overlay toevoegen via een pseudo-element */
+/* Overlay via pseudo-element */
 .logo-grid-item::after {
   content: "";
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.2); /* semi-transparant overlay */
-  z-index: 1; /* zodat overlay boven de achtergrondafbeelding komt */
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 1; /* overlay boven de achtergrond */
 }
 
+/* De link en het logo omhoog halen in de stacking order */
 .logo-grid-link {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
   position: relative;
-  text-align: center;
+  z-index: 2; /* Deze staat nu boven de overlay */
 }
 
-/* Container voor logo, zodat we deze ook kunnen centreren */
 .logo-container {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2; /* logo moet boven de overlay komen */
+  position: relative;
+  z-index: 3; /* Logo nog hoger indien nodig */
 }
 
 .logo-container img {
