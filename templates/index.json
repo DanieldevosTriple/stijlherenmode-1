@@ -241,7 +241,7 @@
           "settings": {
             "image": "shopify://shop_images/Parka.png",
             "title": "Parka Season",
-            "url": "#"
+            "url": "shopify://collections/jackets"
           }
         },
         "item_3mzd3f": {
@@ -249,7 +249,7 @@
           "settings": {
             "image": "shopify://shop_images/TravelShirts.png",
             "title": "Filling Pieces",
-            "url": "#"
+            "url": "shopify://collections/filling-pieces"
           }
         },
         "item_t8LxeP": {
@@ -257,7 +257,7 @@
           "settings": {
             "image": "shopify://shop_images/FillingPieces.png",
             "title": "Berwich Travel Suits",
-            "url": ""
+            "url": "shopify://collections/berwich"
           }
         },
         "item_YAHxEh": {
@@ -265,7 +265,7 @@
           "settings": {
             "image": "shopify://shop_images/Travel.png",
             "title": "Travel Shirts",
-            "url": ""
+            "url": "shopify://collections/xacus-overhemden"
           }
         }
       },
