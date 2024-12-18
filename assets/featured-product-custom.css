@@ -100,4 +100,8 @@
       font-size: 1.5rem;
     }
 
+    .featured-product-list {
+      flex-wrap: wrap;
+    }
+
   }
