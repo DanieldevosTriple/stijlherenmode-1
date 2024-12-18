@@ -299,20 +299,10 @@ details:not([open]) .facets__item::after {
 
 .facet-filters__field::after {
   content: "+";
-  font-weight: 100;
-  font-size: 2rem;
-  display: inline-block;
-  transition: transform 0.3s ease, opacity 0.3s ease; /* Voeg overgang toe */
-  transform: scale(1); /* Standaard grootte */
-  opacity: 1;
-  vertical-align: middle;
-  height: 1.5rem;
 }
 
 .facet-filters__field:focus::after {
   content: "-";
-  font-weight: 100;
-  font-size: 2rem;
 }
 
 .svg-wrapper-sort {
