@@ -109,7 +109,8 @@
   
   .image-overlay-block__subtitle {
     font-family: TradeGothicLT;
-    padding: 5rem;
+    padding: 2.5rem;
     text-transform: uppercase;
-    font-size: 3rem;
+    font-size: 1.5rem;
+    color: black;
   }
