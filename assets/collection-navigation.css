@@ -18,10 +18,10 @@
 }
 
 .logo-grid-item {
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  flex: 0 0 auto; /* Voorkomt dat items krimpen en in meerdere rijen komen */
+  scroll-snap-align: start;
+  min-width: 200px; 
+  height: 200px;
 }
 
 /* Overlay via pseudo-element */
