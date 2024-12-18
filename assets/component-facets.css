@@ -294,6 +294,7 @@ details:not([open]) .facets__item::after {
   display: inline-block;
   vertical-align: middle;
   line-height: 1;
+  height: 1.5rem;
 }
 
 .facet-filters__field::after {
