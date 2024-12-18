@@ -7,39 +7,41 @@
 {{ 'featured-collection-grid.css' | asset_url | stylesheet_tag }}
 
 <section class="container-desktop">
-      {% if section.settings.section_title != '' or section.settings.section_subtitle != '' %}
-        <div class="section-header">
-          {% if section.settings.section_title != '' %}
-            <h2 class="section-title">{{ section.settings.section_title }}</h2>
-          {% endif %}
-          {% if section.settings.section_subtitle != '' %}
-            <p class="section-subtitle">{{ section.settings.section_subtitle }}</p>
-          {% endif %}
-        </div>
-      {% endif %}
+    {% if section.settings.section_title != '' or section.settings.section_subtitle != '' %}
+      <div class="section-header">
+        {% if section.settings.section_title != '' %}
+          <h2 class="section-title">{{ section.settings.section_title }}</h2>
+        {% endif %}
+        {% if section.settings.section_subtitle != '' %}
+          <p class="section-subtitle">{{ section.settings.section_subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
   
-      <ul class="grid-categories"> 
-        {% for block in section.blocks %}
-          {% if block.settings.collection != blank %}
-            {% assign collection_obj = collections[block.settings.collection] %}
-            {% if collection_obj %}
-              <li class="grid-item">
-                <a href="{{ collection_obj.url }}" class="collection-image-link">
-                  {% if collection_obj.image %}
-                    <img src="{{ collection_obj.image.src | file_url | replace: 'files/files', 'files' }}" alt="{{ collection_obj.image.alt | escape }}" class="collection-image"/>
-                  {% else %}
-                    <div class="no-image-placeholder"></div>
-                  {% endif %}
-                </a>
-                <div class="collection-info">
-                  <h3 class="collection-title">{{ collection_obj.title }}</h3>
-                  <a href="{{ collection_obj.url }}" class="cta-link">{{ block.settings.cta_text }}</a>
-                </div>
-              </li>
-            {% endif %}
+    <ul class="grid-categories"> 
+      {% for block in section.blocks %}
+        {% if block.settings.collection != blank %}
+          {% assign collection_obj = collections[block.settings.collection] %}
+          {% if collection_obj %}
+            <li class="grid-item">
+              <a href="{{ collection_obj.url }}" class="collection-image-link">
+                {% if block.settings.collection_image != blank %}
+                  <img src="{{ block.settings.collection_image | image_url: 'x400' | replace: 'files/files', 'files' }}" alt="{{ collection_obj.title | escape }}" class="collection-image"/>
+                {% elsif collection_obj.image %}
+                  <img src="{{ collection_obj.image.src | file_url | replace: 'files/files', 'files' }}" alt="{{ collection_obj.image.alt | escape }}" class="collection-image"/>
+                {% else %}
+                  <div class="no-image-placeholder"></div>
+                {% endif %}
+              </a>
+              <div class="collection-info">
+                <h3 class="collection-title">{{ collection_obj.title }}</h3>
+                <a href="{{ collection_obj.url }}" class="cta-link">{{ block.settings.cta_text }}</a>
+              </div>
+            </li>
           {% endif %}
-        {% endfor %}
-      </ul>
+        {% endif %}
+      {% endfor %}
+    </ul>
   </section>
   
   {% schema %}
