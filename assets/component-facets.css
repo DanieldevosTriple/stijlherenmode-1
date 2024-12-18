@@ -302,7 +302,7 @@ details:not([open]) .facets__item::after {
   font-size: 2rem;
 }
 
-.facet-filters__sort:focus::after {
+.facet-filters__field:focus::after {
   content: "-";
   font-weight: 100;
   font-size: 2rem;
