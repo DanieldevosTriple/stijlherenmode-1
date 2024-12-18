@@ -262,15 +262,17 @@
 .facets__item {
   display: flex;
   align-items: center; /* Verticaal centreren */
-  gap: 1rem; /* Pas indien nodig de gap aan */
+  gap: 5rem; /* Ruimte tussen de elementen */
 }
 
 .facets__item::after {
   content: "+";
-  display: block; /* Zorg dat het pseudo-element blokachtig is */
-  height: 2px; /* Maak het kleiner voor visuele controle */
-  width: 1rem; /* Stel breedte van het plus-teken of decoratief element in */
-  align-self: center; /* Overschrijft andere uitlijningen */
+  display: inline-block; /* Zorgt ervoor dat het inline blijft */
+  vertical-align: middle; /* Houdt de pseudo-elementen op dezelfde hoogte */
+  line-height: 1; /* Zorg voor een consistente line-height */
+  transform: scale(1);
+  opacity: 1;
+  transition: none;
 }
 
 details[open] .facets__item::after {
