@@ -239,21 +239,41 @@
         "item_eycBhr": {
           "type": "item",
           "settings": {
-            "title": "Product 1",
+            "image": "shopify://shop_images/Parka.png",
+            "title": "Parka Season",
             "url": "#"
           }
         },
         "item_3mzd3f": {
           "type": "item",
           "settings": {
-            "title": "Product 2",
+            "image": "shopify://shop_images/TravelShirts.png",
+            "title": "Filling Pieces",
             "url": "#"
+          }
+        },
+        "item_t8LxeP": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/FillingPieces.png",
+            "title": "Berwich Travel Suits",
+            "url": ""
+          }
+        },
+        "item_YAHxEh": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Travel.png",
+            "title": "Travel Shirts",
+            "url": ""
           }
         }
       },
       "block_order": [
         "item_eycBhr",
-        "item_3mzd3f"
+        "item_3mzd3f",
+        "item_t8LxeP",
+        "item_YAHxEh"
       ],
       "settings": {
         "section_title": "Popular Now",
