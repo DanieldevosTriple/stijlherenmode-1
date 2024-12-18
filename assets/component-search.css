@@ -122,24 +122,10 @@ input::-webkit-search-decoration {
   }
 }
 
-/* Basis styling voor het bericht */
-[role="status"][class*="no-results"] {
+.no-results {
   font-family: 'TradeGothicLT';
   text-transform: uppercase;
   font-weight: 800;
   text-align: center;
   font-size: 2rem;
-}
-
-/* Styling voor zoekwoorden zoals “dswed” */
-[role="status"][class*="no-results"]::first-line {
-  color: #ff5722; /* Maak de zoekterm opvallend */
-}
-
-/* Responsieve verbeteringen */
-@media (max-width: 600px) {
-  [role="status"][class*="no-results"] {
-      font-size: 1rem;
-      padding: 15px;
-  }
 }
