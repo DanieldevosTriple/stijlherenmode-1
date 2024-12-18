@@ -4,7 +4,7 @@
 
 .logo-grid {
   display: flex;
-  flex-wrap: nowrap; /* Zorgt dat items niet naar een volgende regel gaan */
+  flex-wrap: nowrap;
   position: relative;
   overflow-x: auto;
   overflow-y: hidden;
@@ -15,6 +15,15 @@
   gap: 1rem;
   padding: 1rem;
   height: auto;
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari, and Opera */
+.logo-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .logo-grid-item {
