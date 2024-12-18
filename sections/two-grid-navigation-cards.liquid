@@ -8,14 +8,20 @@
           {% if block.settings.image != blank %}
             <div class="image-overlay-block__image" 
                  style="background-image: url({{ block.settings.image | img_url: 'master' }}); background-size: cover; background-position: center;">
-              
-              <div class="image-overlay-block__content text-center">
-                {% if block.settings.title != blank %}
-                  <h3 class="image-overlay-block__title">{{ block.settings.title }}</h3>
-                {% endif %}
-              </div>
             </div>
           {% endif %}
+
+          <div class="image-overlay-block__content text-center">
+            {% if block.settings.title != blank %}
+              <h3 class="image-overlay-block__title">{{ block.settings.title }}</h3>
+            {% endif %}
+
+            {% if block.settings.subtitle != blank %}
+              <p class="image-overlay-block__subtitle">
+                <a href="{{ block.settings.link }}" class="underline">{{ block.settings.subtitle }}</a>
+              </p>
+            {% endif %}
+          </div>
         </div>
       </div>
     {% endfor %}
@@ -40,6 +46,16 @@
           "type": "text",
           "id": "title",
           "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
         }
       ]
     }
