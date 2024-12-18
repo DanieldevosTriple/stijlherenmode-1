@@ -60,6 +60,10 @@
       order: 1;
     }
 
+    .featured-product-list {
+      flex-wrap: nowrap;
+    }
+
     .button-featured-product-custom {
       list-style: none; 
       padding: 0; 
