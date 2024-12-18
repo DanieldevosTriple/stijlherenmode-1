@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const mobileImgElement = createImageElement(
                 selectedVariant.featured_image.src,
                 `Featured image for variant ID: ${variantId}`,
-                ['col-12']
+                ['col-12', 'product-gallery-mobile-item']
             );
             mobileMediaGallery.appendChild(mobileImgElement);
         } else {
