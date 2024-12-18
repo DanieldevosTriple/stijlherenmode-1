@@ -20,7 +20,7 @@
 .logo-grid-item {
   flex: 0 0 auto; 
   scroll-snap-align: start;
-  width: 200px; /* Breedte naar wens aanpassen */
+  width: 100%; /* Breedte naar wens aanpassen */
   aspect-ratio: 1 / 1; /* Zorgt voor een vierkant (1:1 ratio) */
 }
 
