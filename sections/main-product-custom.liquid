@@ -42,10 +42,25 @@
 
             <div class="col-12 col-md-4 col-lg-4">
                 <div class="col-md-12 col-sm-12 product-section">
-                    <a href="{{ product.collections.first.url }}" class="back-arrow">
-                        <span class="arrow-head"></span>
-                        <span class="arrow-body"></span>
-                    </a>
+                  <nav class="breadcrumb">
+                    <a href="{{ routes.root_url }}">Home</a>
+                    {% if collection %}
+                      <span> / </span>
+                      <a href="{{ collection.url }}">{{ collection.title }}</a>
+                    {% endif %}
+                    {% if product %}
+                      <span> / </span>
+                      <span>{{ product.title }}</span>
+                    {% elsif article %}
+                      <span> / </span>
+                      <a href="{{ blog.url }}">{{ blog.title }}</a>
+                      <span> / </span>
+                      <span>{{ article.title }}</span>
+                    {% elsif search %}
+                      <span> / </span>
+                      <span>Zoekresultaten voor "{{ search.terms }}"</span>
+                    {% endif %}
+                  </nav>
                     <p class="product-vendor"></p>
                     <h1 class="product-title"></h1>
                     <p class="product-price"></p>
