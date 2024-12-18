@@ -32,32 +32,17 @@
 }
   
   .image-overlay-block__image {
-    position: relative;
-    width: 300px; /* breedte van je grid cel */
-    height: 200px; /* hoogte van je grid cel */
-    overflow: hidden; /* zorgt ervoor dat de scaled afbeelding niet uitsteekt */
-  }
-
-  /* Gebruik een pseudo-element om de achtergrond in te plaatsen */
-  .image-overlay-block__image::before {
-    content: "";
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('jouw-afbeelding.jpg');
+    width: 100%;
+    height: 100%;
     background-size: cover;
     background-position: center;
+    object-fit: cover; /* Ensures the image fits perfectly */
+    overflow: hidden;
     transition: transform 0.3s ease-in-out;
   }
-
-  /* Bij hover zoomt alleen het pseudo-element (de afbeelding) in, 
-    terwijl de container dezelfde afmetingen behoudt. */
-  .image-overlay-block__image:hover::before {
-    transform: scale(1.1);
-  }
-
   
   .image-overlay-block__content {
     position: absolute;
