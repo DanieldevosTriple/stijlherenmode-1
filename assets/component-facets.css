@@ -294,6 +294,7 @@ details:not([open]) .facets__item::after {
 .facet-filters__field::after {
   content: "+";
   height: 1.5rem;
+  vertical-align: middle;
 }
 
 .facet-filters__field:focus::after {
