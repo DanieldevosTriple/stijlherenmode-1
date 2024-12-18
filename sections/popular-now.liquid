@@ -106,6 +106,7 @@
             {% assign col_class = "col-12 no-padding" %}
         {% endcase %}
   
+    <ul>
         <div class="row popular-block">
           {% for block in section.blocks %}
             {% assign image = block.settings.image %}
@@ -113,6 +114,7 @@
             {% assign subtitle = block.settings.subtitle_item %}
             {% assign url = block.settings.url %}
             {% if image and title and url %}
+            <li>  
               <div class="{{ col_class }} mb-4">
                 <a href="{{ url | escape }}" class="text-decoration-none">
                   <div class="card h-100 border-0">
@@ -124,9 +126,11 @@
                   </div>
                 </a>
               </div>
+            </li>    
             {% endif %}
           {% endfor %}
         </div>
+    </ul>
       {% endif %}
   </section>
 
