@@ -31,6 +31,10 @@
   font-weight: 400;
 }
 
+section {
+  padding-bottom: var(--section-padding-bottom);
+}
+
 .body {
   overflow: hidden;
 }
