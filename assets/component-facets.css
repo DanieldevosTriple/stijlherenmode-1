@@ -266,6 +266,7 @@
 
 .facets__item::after {
   content: "+";
+  font-weight: 100;
 }
 
 .svg-wrapper-sort {
