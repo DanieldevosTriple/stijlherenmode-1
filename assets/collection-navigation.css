@@ -5,11 +5,16 @@
 .logo-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   list-style: none;
   padding: 0;
   margin: 0;
   height: 200px;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
 }
 
 .logo-grid-item {
