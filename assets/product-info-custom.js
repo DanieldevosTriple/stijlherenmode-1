@@ -46,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Voeg de afbeelding toe aan de mobiele galerij zonder extra classes
             const mobileImgElement = createImageElement(
                 selectedVariant.featured_image.src,
-                `Featured image for variant ID: ${variantId}`
+                `Featured image for variant ID: ${variantId}`,
+                ['col-12']
             );
             mobileMediaGallery.appendChild(mobileImgElement);
         } else {
@@ -60,7 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Voeg de fallback-afbeelding toe aan de mobiele galerij zonder extra classes
             const mobileFallbackImage = createImageElement(
                 productData.featured_image,
-                "Fallback featured image"
+                "Fallback featured image",
+                ['col-12']
             );
             mobileMediaGallery.appendChild(mobileFallbackImage);
         }
