@@ -6,7 +6,7 @@
 
 {{ 'featured-collection-grid.css' | asset_url | stylesheet_tag }}
 
-<section class="four-collection-grid">
+<section class="container-desktop">
     <div class="container">
       {% if section.settings.section_title != '' or section.settings.section_subtitle != '' %}
         <header class="section-header">
@@ -34,7 +34,7 @@
                 </a>
                 <div class="collection-info">
                   <h3 class="collection-title">{{ collection_obj.title }}</h3>
-                  <a href="{{ collection_obj.url }}" class="btn btn-cta">{{ block.settings.cta_text }}</a>
+                  <a href="{{ collection_obj.url }}" class="cta-link">{{ block.settings.cta_text }}</a>
                 </div>
               </li>
             {% endif %}
