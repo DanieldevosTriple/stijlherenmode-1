@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const optionsContainer = document.querySelector('.options-container');
       const secondaryGallery = document.querySelector('.secondary-gallery');
       const descriptionElement = document.querySelector('.product-description');
+      const mobileMediaGallery = document.querySelector('.product-gallery-mobile');
 
       let selectedOptions = {};
 
@@ -30,12 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
               imgElement.alt = `Featured image for variant ID: ${variantId}`;
               imgElement.classList.add('img-fluid', 'w-100', 'mb-3');
               mediaGallery.appendChild(imgElement);
+              mobileMediaGallery.appendChild(imgElement);
           } else {
               const fallbackImage = document.createElement('img');
               fallbackImage.src = productData.featured_image;
               fallbackImage.alt = "Fallback featured image";
               fallbackImage.classList.add('img-fluid', 'w-100', 'mb-3');
               mediaGallery.appendChild(fallbackImage);
+              mobileMediaGallery.appendChild(imgElement);
           }
 
           if (selectedVariant) {
