@@ -107,4 +107,7 @@
     }
   }
   
-  
+  .image-overlay-block__subtitle {
+    font-family: TradeGothicLT;
+    padding: 5rem;
+  }
