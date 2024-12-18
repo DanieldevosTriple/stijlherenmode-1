@@ -64,16 +64,6 @@
       order: 1;
     }
 
-    .button-featured-product-custom {
-      list-style: none; 
-      padding: 0; 
-      margin: 0; 
-      display: grid; 
-      gap: 1rem; 
-      grid-template-columns: repeat(2,1fr); 
-      align-items: center;
-    }
-
     .featured-product__title {
       text-align: left;
     }
