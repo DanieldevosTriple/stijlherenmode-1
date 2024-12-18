@@ -107,10 +107,27 @@
     }
   }
   
-  .image-overlay-block__subtitle h3 {
-    padding-left: 2.5rem;
-   }
+/* Styling voor de h3 in de subtitle */
+.image-overlay-block__subtitle {
+  font-size: 1.5rem; /* Pas aan naar wens */
+  font-weight: bold; /* Zorg voor duidelijke titel */
+  color: #333; /* Kies een passende kleur */
+  margin: 0 0 10px; /* Ruimte onder de titel */
+  text-transform: uppercase; /* Optioneel, hoofdletters */
+  text-align: left; /* Pas uitlijning aan naar wens */
+}
 
-  .image-overlay-block__subtitle a { }
+/* Styling voor de link */
+.underline {
+  font-size: 1rem; /* Pas aan naar wens */
+  font-weight: normal; /* Normale tekstgewicht */
+  color: #007acc; /* Linkkleur */
+  text-decoration: none; /* Geen standaard onderstreping */
+  transition: color 0.3s ease; /* Smooth hover-effect */
+}
 
-  .image-overlay-block__subtitle a:hover { }
+/* Hover-effect voor de link */
+.underline:hover {
+  color: #005b99; /* Donkerdere kleur bij hover */
+  text-decoration: underline; /* Onderstreping bij hover */
+}
