@@ -6,97 +6,64 @@
       "type": "text",
       "id": "section_title",
       "label": "Section Title",
-      "default": "What is trending"
+      "default": "Wat is trending"
     },
     {
       "type": "text",
       "id": "section_subtitle",
       "label": "Section Subtitle",
-      "default": "Discover the most popular items right now"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_1",
-      "label": "Image 1"
-    },
-    {
-      "type": "text",
-      "id": "title_1",
-      "label": "Title 1",
-      "default": "Product 1"
-    },
-    {
-      "type": "url",
-      "id": "url_1",
-      "label": "Link 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_2",
-      "label": "Image 2"
-    },
-    {
-      "type": "text",
-      "id": "title_2",
-      "label": "Title 2",
-      "default": "Product 2"
-    },
-    {
-      "type": "url",
-      "id": "url_2",
-      "label": "Link 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_3",
-      "label": "Image 3"
-    },
-    {
-      "type": "text",
-      "id": "title_3",
-      "label": "Title 3",
-      "default": "Product 3"
-    },
-    {
-      "type": "url",
-      "id": "url_3",
-      "label": "Link 3"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_4",
-      "label": "Image 4"
-    },
-    {
-      "type": "text",
-      "id": "title_4",
-      "label": "Title 4",
-      "default": "Product 4"
-    },
-    {
-      "type": "url",
-      "id": "url_4",
-      "label": "Link 4"
+      "default": "Ontdek de populairste items van dit moment"
     }
   ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Afbeelding"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titel",
+          "default": "Productnaam"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
   "presets": [
     {
       "name": "Popular now",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "image": "",
+            "title": "Product 1",
+            "url": "#"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "image": "",
+            "title": "Product 2",
+            "url": "#"
+          }
+        }
+      ],
       "settings": {
         "section_title": "Popular Now",
-        "section_subtitle": "Check out our trending items",
-        "image_1": "",
-        "title_1": "Product 1",
-        "url_1": "#",
-        "image_2": "",
-        "title_2": "Product 2",
-        "url_2": "#",
-        "image_3": "",
-        "title_3": "Product 3",
-        "url_3": "#",
-        "image_4": "",
-        "title_4": "Product 4",
-        "url_4": "#"
+        "section_subtitle": "Check out our trending items"
       }
     }
   ]
@@ -109,30 +76,48 @@
         <h2>{{ section.settings.section_title }}</h2>
         <p>{{ section.settings.section_subtitle }}</p>
       </div>
-      <div class="row">
-        {% for i in (1..4) %}
-          {% assign image_key = "image_" | append: i %}
-          {% assign title_key = "title_" | append: i %}
-          {% assign url_key = "url_" | append: i %}
-          
-          {% assign image = section.settings[image_key] %}
-          {% assign title = section.settings[title_key] %}
-          {% assign url = section.settings[url_key] %}
-          
-          {% if image and title and url %}
-            <div class="col-12 col-md-6 col-lg-3 mb-4">
-              <a href="{{ url }}" class="text-decoration-none">
-                <div class="card h-100 border-0">
-                  <img src="{{ image }}" alt="{{ title }}" class="card-img-top">
-                  <div class="card-body text-center">
-                    <h5 class="card-title">{{ title }}</h5>
+      {% assign block_count = section.blocks | size %}
+      {% if block_count > 0 %}
+        {% comment %}
+          Bepaal dynamisch de kolombreedte op basis van aantal blocks:
+          - 1 block: col-12 (volle breedte)
+          - 2 blocks: col-6
+          - 3 blocks: col-4
+          - 4 blocks: col-3
+        {% endcomment %}
+        {% case block_count %}
+          {% when 1 %}
+            {% assign col_class = "col-12 col-md-12 col-lg-12" %}
+          {% when 2 %}
+            {% assign col_class = "col-12 col-md-6 col-lg-6" %}
+          {% when 3 %}
+            {% assign col_class = "col-12 col-md-4 col-lg-4" %}
+          {% when 4 %}
+            {% assign col_class = "col-12 col-md-3 col-lg-3" %}
+          {% else %}
+            {% assign col_class = "col-12" %}
+        {% endcase %}
+  
+        <div class="row">
+          {% for block in section.blocks %}
+            {% assign image = block.settings.image %}
+            {% assign title = block.settings.title %}
+            {% assign url = block.settings.url %}
+            {% if image and title and url %}
+              <div class="{{ col_class }} mb-4">
+                <a href="{{ url | escape }}" class="text-decoration-none">
+                  <div class="card h-100 border-0">
+                    <img src="{{ image | escape }}" alt="{{ title | escape }}" class="card-img-top">
+                    <div class="card-body text-center">
+                      <h5 class="card-title">{{ title }}</h5>
+                    </div>
                   </div>
-                </div>
-              </a>
-            </div>
-          {% endif %}
-        {% endfor %}
-      </div>
+                </a>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
   </section>
   
@@ -149,4 +134,5 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
   </style>
+  
   
