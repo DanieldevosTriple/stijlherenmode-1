@@ -18,7 +18,7 @@
 }
 
    .buy-button-section {
-    padding-top: 5rem;
+    padding-top: 2rem;
     padding-bottom: 2rem;
    }
 
@@ -273,6 +273,8 @@
 .klarna {
     display: flex; /* Flexbox inschakelen */
     align-items: baseline; /* Verticaal centreren */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
   
 .klarna p {
