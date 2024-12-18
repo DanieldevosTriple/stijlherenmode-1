@@ -3428,3 +3428,7 @@ header {
     border-bottom: 1px solid lightgrey;
   }
 }
+
+.title-block {
+  padding-bottom: 5rem;
+}
