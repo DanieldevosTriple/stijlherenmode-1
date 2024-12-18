@@ -145,10 +145,6 @@
   overflow: hidden;
 }
 
-.section-padding-bottom {
-  padding-bottom: 2.5rem;
-}
-
 @media screen and (min-width: 991px) and (max-width: 1099px) {
   .container-desktop {
       padding-left: 2.5rem;

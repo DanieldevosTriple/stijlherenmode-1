@@ -6,9 +6,10 @@
 
   {{ 'quick-add.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
-  
+ 
+<section>  
 <div
-  class="color-{{ section.settings.color_scheme }} isolate gradient section-padding-bottom"
+  class="color-{{ section.settings.color_scheme }} isolate gradient"
 >
   <div
     class="collection"
@@ -115,7 +116,7 @@
     </ul>       
     </slider-component>
 
-      <div class="col-12 container-desktop padding-button collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="col-12 container-desktop collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <a
           href="{{ section.settings.collection.url }}"
           class="button-view-all"
@@ -126,6 +127,7 @@
       </div>
   </div>
 </div>
+</section> 
 
 {% schema %}
 {

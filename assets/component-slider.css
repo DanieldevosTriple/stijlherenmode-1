@@ -331,7 +331,6 @@ slider-component.slider-component-full-width {
   align-items: center; /* Verticaal centreren */
   gap: 1rem; /* Optionele ruimte tussen de titel en knoppen */
   margin-bottom: 2rem; /* Ruimte onder de header */
-  margin-top: 5rem;
 }
 
 .collection__title {
