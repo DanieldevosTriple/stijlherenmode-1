@@ -65,7 +65,8 @@
             "image": "shopify://shop_images/Frame_23_64c2766f-7af8-473f-8a41-59bb7ea9870e.png",
             "title": "Herenmode",
             "subtitle": "Herenmode",
-            "link": "shopify://collections/montecore"
+            "link": "shopify://collections/montecore",
+            "linktitle": "Bekijk nu"
           }
         },
         "block_pDxANz": {
@@ -74,7 +75,8 @@
             "image": "shopify://shop_images/Frame_25.png",
             "title": "Casual",
             "subtitle": "Casual",
-            "link": "shopify://collections/aeden"
+            "link": "shopify://collections/aeden",
+            "linktitle": "Bekijk nu"
           }
         }
       },
