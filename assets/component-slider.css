@@ -330,7 +330,7 @@ slider-component.slider-component-full-width {
   justify-content: space-between; /* Titel links, knoppen rechts */
   align-items: center; /* Verticaal centreren */
   gap: 1rem; /* Optionele ruimte tussen de titel en knoppen */
-  margin-bottom: 5rem; /* Ruimte onder de header */
+  margin-bottom: 2rem; /* Ruimte onder de header */
   margin-top: 5rem;
 }
 
