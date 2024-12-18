@@ -30,17 +30,22 @@
   }
   
   .featured-sales-banner__button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #000;
-    color: #fff;
+    background-color: transparent;
+    border: 2px solid;
+    color: black;
+    padding: 10px 50px;
+    text-align: center;
     text-decoration: none;
-    border-radius: 5px;
     display: inline-block;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'TradeGothicLT', sans-serif;
   }
   
   .featured-sales-banner__button:hover {
-    background-color: #444;
+    color: white;
+    background-color: black;
   }
 
   
