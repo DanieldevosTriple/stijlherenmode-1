@@ -11,3 +11,7 @@
   margin: 0;
   height: 200px;
 }
+
+.logo-grid-item::before {
+  background: rgba(0,0,0,0.5);
+}
