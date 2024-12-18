@@ -17,7 +17,7 @@
   color: #000; 
 }
 
-.cta-link:hover {
+.cta-link a:hover {
   text-decoration: underline;
 }
 
