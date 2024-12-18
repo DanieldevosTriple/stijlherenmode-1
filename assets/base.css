@@ -3357,7 +3357,7 @@ a:hover {
 }
 
 @media screen and (max-width: 991px) {
-  .header {
+  header {
     border-bottom: 1px solid lightgrey;
   }
 }
