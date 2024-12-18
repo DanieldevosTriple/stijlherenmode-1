@@ -270,7 +270,6 @@
   display: block; /* Zorg dat het pseudo-element blokachtig is */
   height: 2px; /* Maak het kleiner voor visuele controle */
   width: 1rem; /* Stel breedte van het plus-teken of decoratief element in */
-  background-color: black; /* Pas kleur aan indien nodig */
   align-self: center; /* Overschrijft andere uitlijningen */
 }
 
