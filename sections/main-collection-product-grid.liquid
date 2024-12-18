@@ -133,7 +133,7 @@
                     {% endcapture %}
                     
                     {% unless colorlist contains color %}
-                      <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"  
+                      <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" 
                         data-product-id="{{ product.id }}"
                         data-variant-id="{{ variant.id }}"
                         data-price="{{ variant.price | money_without_currency }}"
@@ -156,7 +156,7 @@
                   {% endfor %}
                 {% else %}
                   <!-- Product zonder color varianten of varianten -->
-                  <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in test" 
+                  <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" 
                     data-product-id="{{ product.id }}">
                     {% render 'card-product',
                       card_product: product,
@@ -168,7 +168,7 @@
                     %}
                   </li>
                 {% endif %}
-              {%- endfor -%}              
+              {%- endfor -%}                           
 
           </ul>    
                          
