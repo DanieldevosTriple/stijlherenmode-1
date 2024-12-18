@@ -271,7 +271,6 @@
 
 details[open] .facets__item::after {
   content: "-";
-  transform: scale(1.2); /* Groter bij openen */
   opacity: 1; /* Zichtbaar */
   transition: transform 0.3s ease, opacity 0.3s ease; /* Alleen bij openen */
   display: inline-block;
@@ -282,7 +281,6 @@ details[open] .facets__item::after {
 
 /* Voor het sluiten direct terugzetten */
 details:not([open]) .facets__item::after {
-  transform: scale(1); /* Direct terug naar normaal */
   opacity: 1; /* Zichtbaar */
   transition: none; /* Geen overgang bij sluiten */
   display: inline-block;
@@ -293,7 +291,6 @@ details:not([open]) .facets__item::after {
 
 .facet-filters__field::after {
   content: "+";
-  height: 1.5rem;
   vertical-align: middle;
 }
 
