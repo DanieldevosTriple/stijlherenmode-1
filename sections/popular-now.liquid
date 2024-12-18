@@ -1,0 +1,125 @@
+{% schema %}
+{
+  "name": "Popular Now",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "What is trending"
+    },
+    {
+      "type": "text",
+      "id": "section_subtitle",
+      "label": "Section Subtitle",
+      "default": "Discover the most popular items right now"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title 1",
+      "default": "Product 1"
+    },
+    {
+      "type": "url",
+      "id": "url_1",
+      "label": "Link 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title 2",
+      "default": "Product 2"
+    },
+    {
+      "type": "url",
+      "id": "url_2",
+      "label": "Link 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Title 3",
+      "default": "Product 3"
+    },
+    {
+      "type": "url",
+      "id": "url_3",
+      "label": "Link 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title_4",
+      "label": "Title 4",
+      "default": "Product 4"
+    },
+    {
+      "type": "url",
+      "id": "url_4",
+      "label": "Link 4"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="popular-now-section py-5">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2>{{ section.settings.section_title }}</h2>
+      <p>{{ section.settings.section_subtitle }}</p>
+    </div>
+    <div class="row">
+      {% for i in (1..4) %}
+        {% assign image = section.settings["image_" | append: i] %}
+        {% assign title = section.settings["title_" | append: i] %}
+        {% assign url = section.settings["url_" | append: i] %}
+        {% if image and title and url %}
+          <div class="col-12 col-md-6 col-lg-3 mb-4">
+            <a href="{{ url }}" class="text-decoration-none">
+              <div class="card h-100 border-0">
+                <img src="{{ image }}" alt="{{ title }}" class="card-img-top">
+                <div class="card-body text-center">
+                  <h5 class="card-title">{{ title }}</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+.popular-now-section img {
+  object-fit: cover;
+  height: 200px;
+}
+.popular-now-section .card {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.popular-now-section .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+</style>
