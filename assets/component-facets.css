@@ -263,18 +263,16 @@
   display: flex;
   align-items: center; /* Verticaal centreren */
   gap: 5rem; /* Ruimte tussen de elementen */
-  vertical-align: middle;
 }
 
 .facets__item::after {
   content: "+";
-  font-weight: 100;
-  font-size: 2rem;
-  display: inline-block;
-  transition: transform 0.3s ease, opacity 0.3s ease; /* Voeg overgang toe */
-  transform: scale(1); /* Standaard grootte */
+  display: inline-block; /* Zorgt ervoor dat het inline blijft */
+  vertical-align: middle; /* Houdt de pseudo-elementen op dezelfde hoogte */
+  line-height: 1; /* Zorg voor een consistente line-height */
+  transform: scale(1);
   opacity: 1;
-  vertical-align: middle;
+  transition: none;
 }
 
 details[open] .facets__item::after {
