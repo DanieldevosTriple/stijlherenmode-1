@@ -94,6 +94,7 @@
   justify-content: flex-end;
   text-transform: uppercase;
   font-family:  TradeGothicLT, sans-serif;
+  max-height: 2rem;
 }
 
 .facet-filters__field .select {
