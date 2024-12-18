@@ -1,74 +1,80 @@
 {% schema %}
 {
-  "name": "Popular Now",
-  "settings": [
-    {
-      "type": "text",
-      "id": "section_title",
-      "label": "Section Title",
-      "default": "Wat is trending"
-    },
-    {
-      "type": "text",
-      "id": "section_subtitle",
-      "label": "Section Subtitle",
-      "default": "Ontdek de populairste items van dit moment"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "item",
-      "name": "Item",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Afbeelding"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Titel",
-          "default": "Productnaam"
-        },
-        {
-          "type": "url",
-          "id": "url",
-          "label": "Link"
-        }
-      ]
-    }
-  ],
-  "max_blocks": 4,
-  "presets": [
-    {
-      "name": "Popular now",
-      "blocks": [
-        {
-          "type": "item",
-          "settings": {
-            "image": "",
-            "title": "Product 1",
-            "url": "#"
-          }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "image": "",
-            "title": "Product 2",
-            "subtitle_item": "Lorem Ipsum",
-            "url": "#"
-          }
-        }
-      ],
-      "settings": {
-        "section_title": "Popular Now",
-        "section_subtitle": "Check out our trending items"
+    "name": "Popular Now",
+    "settings": [
+      {
+        "type": "text",
+        "id": "section_title",
+        "label": "Section Title",
+        "default": "Wat is trending"
+      },
+      {
+        "type": "text",
+        "id": "section_subtitle",
+        "label": "Section Subtitle",
+        "default": "Ontdek de populairste items van dit moment"
       }
-    }
-  ]
-}
+    ],
+    "blocks": [
+      {
+        "type": "item",
+        "name": "Item",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Afbeelding"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Titel",
+            "default": "Productnaam"
+          },
+          {
+            "type": "text",
+            "id": "subtitle_item",
+            "label": "Subtitel",
+            "default": ""
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Link"
+          }
+        ]
+      }
+    ],
+    "max_blocks": 4,
+    "presets": [
+      {
+        "name": "Popular now",
+        "blocks": [
+          {
+            "type": "item",
+            "settings": {
+              "image": "",
+              "title": "Product 1",
+              "url": "#"
+            }
+          },
+          {
+            "type": "item",
+            "settings": {
+              "image": "",
+              "title": "Product 2",
+              "subtitle_item": "Lorem Ipsum",
+              "url": "#"
+            }
+          }
+        ],
+        "settings": {
+          "section_title": "Popular Now",
+          "section_subtitle": "Check out our trending items"
+        }
+      }
+    ]
+  }  
 {% endschema %}
 
 <section class="popular-now-section py-5">
