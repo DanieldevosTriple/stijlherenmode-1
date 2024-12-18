@@ -186,7 +186,7 @@
           "settings": {
             "background_image": "shopify://shop_images/Montecore_b8417769-d065-4030-a97f-3ef4fabfbee4.jpg",
             "logo_image": "shopify://shop_images/logo_vector_montecore_1.svg",
-            "collection": ""
+            "collection": "montecore"
           }
         },
         "logo_DqxHai": {
@@ -194,7 +194,7 @@
           "settings": {
             "background_image": "shopify://shop_images/Peuterey.jpg",
             "logo_image": "shopify://shop_images/peuterey-seeklogo_1.svg",
-            "collection": ""
+            "collection": "peuterey"
           }
         }
       },
