@@ -2,7 +2,7 @@
 
 <section class="col-12 logo-grid-section">
   <h2 class="container-desktop">{{ section.settings.title }}</h2>
-  <ul class="logo-grid" style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); list-style: none; padding: 0; margin: 0;">
+  <ul class="logo-grid">
     {% for block in section.blocks %}
       {% assign collection = block.settings.collection %}
       {% if collection %}
