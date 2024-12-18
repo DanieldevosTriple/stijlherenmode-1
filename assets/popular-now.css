@@ -24,3 +24,9 @@
 .card-subtitle:hover {
     text-decoration: underline;
 }
+
+@media (prefers-color-scheme: dark) {
+    .card-subtitle {
+        color: white;
+    }
+}
