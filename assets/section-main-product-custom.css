@@ -345,7 +345,7 @@
         -ms-overflow-style: none; /* Verwijder scrollbar op IE/Edge */
         scrollbar-width: none;
         scroll-padding: 0;
-        padding: 0;
+        padding: 0px;
     }
 
       .product-gallery-mobile::-webkit-scrollbar {
