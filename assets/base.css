@@ -149,14 +149,14 @@
   padding-bottom: 2.5rem;
 }
 
-@media screen and (min-width: 990px) and (max-width: 1160px) {
+@media screen and (min-width: 992px) and (max-width: 1159px) {
   .container-desktop {
       padding-left: 7rem;
       padding-right: 7rem;
   }
 }
 
-@media screen and (min-width: 1161px) and (max-width: 1308px) {
+@media screen and (min-width: 1160px) and (max-width: 1308px) {
   .container-desktop {
       padding-left: 10rem;
       padding-right: 10rem;
