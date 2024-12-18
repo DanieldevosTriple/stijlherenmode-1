@@ -1,0 +1,173 @@
+{% comment %}
+  This is an example of a Shopify section that displays a 4-column grid of selected collections.
+  Each collection shows the featured image, a title, and a CTA button.
+  There is also an optional section title and subtitle that will be hidden if empty.
+{% endcomment %}
+
+{{ 'featured-collection-grid.css' | asset_url | stylesheet_tag }}
+
+<section class="four-collection-grid">
+    <div class="container">
+      {% if section.settings.section_title != '' or section.settings.section_subtitle != '' %}
+        <header class="section-header">
+          {% if section.settings.section_title != '' %}
+            <h2 class="section-title">{{ section.settings.section_title }}</h2>
+          {% endif %}
+          {% if section.settings.section_subtitle != '' %}
+            <p class="section-subtitle">{{ section.settings.section_subtitle }}</p>
+          {% endif %}
+        </header>
+      {% endif %}
+  
+      <ul class="grid grid--4-col">
+        {% for block in section.blocks %}
+          {% if block.settings.collection != blank %}
+            {% assign collection_obj = collections[block.settings.collection] %}
+            {% if collection_obj %}
+              <li class="grid-item">
+                <a href="{{ collection_obj.url }}" class="collection-image-link">
+                  {% if collection_obj.image %}
+                    <img src="{{ collection_obj.image.src | file_url | replace: 'files/files', 'files' }}" alt="{{ collection_obj.image.alt | escape }}" class="collection-image"/>
+                  {% else %}
+                    <div class="no-image-placeholder"></div>
+                  {% endif %}
+                </a>
+                <div class="collection-info">
+                  <h3 class="collection-title">{{ collection_obj.title }}</h3>
+                  <a href="{{ collection_obj.url }}" class="btn btn-cta">{{ block.settings.cta_text }}</a>
+                </div>
+              </li>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  
+  {% schema %}
+  {
+    "name": "4-column collection grid",
+    "settings": [
+      {
+        "type": "text",
+        "id": "section_title",
+        "label": "Section Title",
+        "default": ""
+      },
+      {
+        "type": "text",
+        "id": "section_subtitle",
+        "label": "Section Subtitle",
+        "default": ""
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Choose collection"
+          },
+          {
+            "type": "text",
+            "id": "cta_text",
+            "label": "CTA Text",
+            "default": "View collection"
+          }
+        ]
+      },
+      {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Choose collection"
+          },
+          {
+            "type": "text",
+            "id": "cta_text",
+            "label": "CTA Text",
+            "default": "View collection"
+          }
+        ]
+      },
+      {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Choose collection"
+          },
+          {
+            "type": "text",
+            "id": "cta_text",
+            "label": "CTA Text",
+            "default": "View collection"
+          }
+        ]
+      },
+      {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Choose collection"
+          },
+          {
+            "type": "text",
+            "id": "cta_text",
+            "label": "CTA Text",
+            "default": "View collection"
+          }
+        ]
+      }
+    ],
+    "default": {
+      "blocks": [
+        {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "cta_text": "View collection"
+          }
+        },
+        {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "cta_text": "View collection"
+          }
+        },
+        {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "cta_text": "View collection"
+          }
+        },
+        {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "cta_text": "View collection"
+          }
+        }
+      ]
+    },
+    "presets": [
+      {
+        "name": "4-column collection grid",
+        "category": "Collections"
+      }
+    ]
+  }
+  {% endschema %}

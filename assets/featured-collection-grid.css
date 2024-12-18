@@ -1,0 +1,48 @@
+.four-collection-grid {
+    padding: 40px 0;
+  }
+  .four-collection-grid .section-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .four-collection-grid .section-title {
+    font-size: 2em;
+    margin: 0;
+  }
+  .four-collection-grid .section-subtitle {
+    font-size: 1em;
+    color: #666;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  .grid-item {
+    text-align: center;
+  }
+  .collection-image {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto 20px;
+  }
+  .collection-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  .btn-cta {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+  }
+  .no-image-placeholder {
+    width: 100%;
+    height: 200px;
+    background: #eee;
+    margin-bottom: 20px;
+  }
