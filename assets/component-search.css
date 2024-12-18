@@ -90,7 +90,7 @@ input::-webkit-search-decoration {
 }
 
 .modal__close-button .icon {
-  color: black;
+  color: white;
 }
 
 @media (prefers-color-scheme: dark) { 
@@ -122,10 +122,6 @@ input::-webkit-search-decoration {
   }
 
   .search__button .icon {
-    color: white;
-  }
-
-  .modal__close-button .icon {
     color: white;
   }
 }
