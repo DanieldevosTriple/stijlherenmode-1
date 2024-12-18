@@ -21,3 +21,7 @@
     text-transform: uppercase;
     color: black;
 }
+
+.card-subtitle:hover {
+    text-decoration: underline;
+}
