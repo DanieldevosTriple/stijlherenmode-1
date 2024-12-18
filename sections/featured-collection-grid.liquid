@@ -19,7 +19,7 @@
         </header>
       {% endif %}
   
-      <ul class="grid">
+      <ul class="grid-categories">
         {% for block in section.blocks %}
           {% if block.settings.collection != blank %}
             {% assign collection_obj = collections[block.settings.collection] %}
