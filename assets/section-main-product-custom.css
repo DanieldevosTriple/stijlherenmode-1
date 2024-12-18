@@ -358,5 +358,6 @@
         object-fit: cover; /* Zorg dat afbeeldingen volledig in beeld zijn */
         max-width: 100%;
         height: auto; /* Houd aspectratio correct */
+        padding: 0px;
     }
 }
