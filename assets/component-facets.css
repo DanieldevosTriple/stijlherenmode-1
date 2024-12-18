@@ -272,6 +272,7 @@
   transition: transform 0.3s ease, opacity 0.3s ease; /* Voeg overgang toe */
   transform: scale(1); /* Standaard grootte */
   opacity: 1;
+  vertical-align: middle;
 }
 
 details[open] .facets__item::after {
@@ -279,6 +280,9 @@ details[open] .facets__item::after {
   transform: scale(1.2); /* Groter bij openen */
   opacity: 1; /* Zichtbaar */
   transition: transform 0.3s ease, opacity 0.3s ease; /* Alleen bij openen */
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
 }
 
 /* Voor het sluiten direct terugzetten */
@@ -286,6 +290,9 @@ details:not([open]) .facets__item::after {
   transform: scale(1); /* Direct terug naar normaal */
   opacity: 1; /* Zichtbaar */
   transition: none; /* Geen overgang bij sluiten */
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
 }
 
 
