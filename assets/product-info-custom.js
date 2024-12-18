@@ -19,43 +19,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Update de gallery met de geselecteerde variant
       const updateGallery = (variantId) => {
-          mediaGallery.innerHTML = '';
-          secondaryGallery.innerHTML = '';
-
-          const selectedVariant = productData.variants.find(variant => variant.id === variantId);
-
-          if (selectedVariant && selectedVariant.featured_image) {
-              const imgElement = document.createElement('img');
-              imgElement.src = selectedVariant.featured_image.src;
-              imgElement.alt = `Featured image for variant ID: ${variantId}`;
-              imgElement.classList.add('img-fluid', 'w-100', 'mb-3');
-              mediaGallery.appendChild(imgElement);
-          } else {
-              const fallbackImage = document.createElement('img');
-              fallbackImage.src = productData.featured_image;
-              fallbackImage.alt = "Fallback featured image";
-              fallbackImage.classList.add('img-fluid', 'w-100', 'mb-3');
-              mediaGallery.appendChild(fallbackImage);
-          }
-
-          if (selectedVariant) {
-              const relevantOptions = Object.values(selectedOptions).filter(option => option.length > 3);
-              const secondaryImages = productData.media.filter(media =>
-                  media.alt && relevantOptions.some(option => media.alt.toLowerCase().includes(option.toLowerCase()))
-              );
-
-              secondaryImages.forEach(image => {
-                  const colDiv = document.createElement('div');
-                  colDiv.classList.add('col-6');
-                  const imgElement = document.createElement('img');
-                  imgElement.src = image.src;
-                  imgElement.alt = image.alt || "Secondary image";
-                  imgElement.classList.add('img-fluid', 'rounded');
-                  colDiv.appendChild(imgElement);
-                  secondaryGallery.appendChild(colDiv);
-              });
-          }
-      };
+        mediaGallery.innerHTML = '';
+        secondaryGallery.innerHTML = '';
+    
+        const selectedVariant = productData.variants.find(variant => variant.id === variantId);
+    
+        if (selectedVariant && selectedVariant.featured_image) {
+            const imgElement = document.createElement('img');
+            imgElement.src = selectedVariant.featured_image.src;
+            imgElement.alt = `Featured image for variant ID: ${variantId}`;
+            imgElement.classList.add('img-fluid', 'w-100', 'mb-3');
+            mediaGallery.appendChild(imgElement);
+        }
+    
+        // Carousel voor mobiel
+        const carouselContainer = document.createElement('div');
+        carouselContainer.classList.add('carousel', 'slide', 'd-block', 'd-md-none');
+        carouselContainer.setAttribute('data-bs-ride', 'carousel');
+        const carouselInner = document.createElement('div');
+        carouselInner.classList.add('carousel-inner');
+    
+        const secondaryImages = productData.media.filter(media => media.alt);
+        secondaryImages.forEach((image, index) => {
+            const slide = document.createElement('div');
+            slide.classList.add('carousel-item', index === 0 ? 'active' : '');
+            slide.innerHTML = `<img src="${image.src}" alt="${image.alt}" class="img-fluid rounded">`;
+            carouselInner.appendChild(slide);
+        });
+    
+        carouselContainer.appendChild(carouselInner);
+        secondaryGallery.appendChild(carouselContainer);
+    
+        // Desktop grid
+        const gridContainer = document.createElement('div');
+        gridContainer.classList.add('row', 'd-none', 'd-md-block');
+        secondaryImages.forEach(image => {
+            const colDiv = document.createElement('div');
+            colDiv.classList.add('col-6');
+            colDiv.innerHTML = `<img src="${image.src}" alt="${image.alt}" class="img-fluid rounded">`;
+            gridContainer.appendChild(colDiv);
+        });
+        secondaryGallery.appendChild(gridContainer);
+    };    
 
       const updateBuyButton = (variantId) => {
           variantInput.value = variantId;
