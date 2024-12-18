@@ -58,14 +58,6 @@
             "url": "shopify://collections/jackets"
           }
         },
-        "item_3mzd3f": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/TravelShirts.png",
-            "title": "Filling Pieces",
-            "url": "shopify://collections/filling-pieces"
-          }
-        },
         "item_t8LxeP": {
           "type": "item",
           "settings": {
@@ -85,12 +77,11 @@
       },
       "block_order": [
         "item_eycBhr",
-        "item_3mzd3f",
         "item_t8LxeP",
         "item_YAHxEh"
       ],
       "settings": {
-        "section_title": "Populair",
+        "section_title": "Inspiratie",
         "section_subtitle": "De trends van FW24"
       }
     },
