@@ -1,43 +1,37 @@
 {{ 'collection-navigation.css' | asset_url | stylesheet_tag }}
 
 <section class="collection-selector col-12 section-padding">
-    <div class="row g-3">
-
-      <!-- Left: Image and Message -->
-      <div class="col-md-7 col-lg-7 col-sm-12 text-right no-right-padding no-padding-mobile">
-        <div class="col-sm-12 collection-selector__image-container">
-          {% if section.blocks.size > 0 %}
-            <div class="collection-selector__image-wrapper">
-              <img class="collection-selector__image" src="{{ section.blocks[0].settings.image | file_url }}" alt="Collection Image">
-            </div>
-            {% endif %}            
+  <ul class="collection-selector-grid">
+    <!-- Linker kolom: Afbeelding -->
+    <li class="image-container">
+      {% if section.blocks.size > 0 %}
+        <div class="collection-selector__image-wrapper">
+          <img class="collection-selector__image" src="{{ section.blocks[0].settings.image | file_url }}" alt="Collection Image">
         </div>
-      </div>
+      {% endif %}
+    </li>
 
- 
-      <!-- Right: Title and Vertical Menu -->
-      <div class="col-md-5 col-lg-5 col-sm-12 text-container">
-        <h2 class="collection-selector__title h2">{{ section.settings.title }}</h2>
-        <ul class="list-group collection-selector__list">
-            {% for block in section.blocks %}
-            {% assign collection = block.settings.collection | default: null %}
-            {% if collection %}
+    <!-- Rechter kolom: Titel en Vertikale Lijst -->
+    <li class="text-container">
+      <h2 class="collection-selector__title h2">{{ section.settings.title }}</h2>
+      <ul class="list-group collection-selector__list" style="list-style:none; padding:0; margin:0;">
+        {% for block in section.blocks %}
+          {% assign collection = block.settings.collection | default: null %}
+          {% if collection %}
             {% assign collection_obj = collections[collection] %}
-            <li class="collection-selector__item {% if forloop.first %}active{% endif %}" 
-                data-image="{{ collection_obj.image | img_url: 'master' }}">
+            <li class="collection-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ collection_obj.image | img_url: 'master' }}">
               <a href="{{ collection_obj.url }}" class="collection-selector__link">
                 <span class="collection-selector__title-wrapper">
                   {{ collection_obj.title }}
                 </span>
               </a>
             </li>
-            {% endif %}
-            {% endfor %}
-          </ul>          
-      </div>
-
-    </div>
-  </section>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </li>
+  </ul>
+</section>
   
   <script>
     document.addEventListener('DOMContentLoaded', () => {
