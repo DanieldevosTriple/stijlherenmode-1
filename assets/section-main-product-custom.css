@@ -340,7 +340,7 @@
     .product-gallery-mobile {
         display: flex;
         overflow-x: auto;
-        scroll-snap-type: x mandatory; /* Smooth scrolling */
+        scroll-snap-type: x; /* Smooth scrolling */
         -webkit-overflow-scrolling: touch; /* Voor betere mobiele ondersteuning */
         -ms-overflow-style: none; /* Verwijder scrollbar op IE/Edge */
         scrollbar-width: none;
