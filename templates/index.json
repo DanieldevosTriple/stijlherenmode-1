@@ -138,6 +138,64 @@
         "featured_image_alt": "Featured Product Image"
       }
     },
+    "collection_navigation_akMifc": {
+      "type": "collection-navigation",
+      "blocks": {
+        "logo_dNnzXL": {
+          "type": "logo",
+          "settings": {
+            "background_image": "shopify://shop_images/Aeden_e9d8185e-4ba6-4efc-9212-4f8ec44f7f62.jpg",
+            "collection": ""
+          }
+        },
+        "logo_aBNHjP": {
+          "type": "logo",
+          "settings": {
+            "background_image": "shopify://shop_images/Herno_0b53c9a4-5949-4250-b8a3-f2b668f2d053.jpg",
+            "collection": ""
+          }
+        },
+        "logo_ejTQqH": {
+          "type": "logo",
+          "settings": {
+            "background_image": "shopify://shop_images/Gran_Sasso_5616eaa4-df2c-4ca4-95c1-f41468faf5d1.jpg",
+            "collection": ""
+          }
+        },
+        "logo_MdUGBn": {
+          "type": "logo",
+          "settings": {
+            "background_image": "shopify://shop_images/Montecore_b8417769-d065-4030-a97f-3ef4fabfbee4.jpg",
+            "collection": ""
+          }
+        },
+        "logo_ifxFca": {
+          "type": "logo",
+          "settings": {
+            "background_image": "shopify://shop_images/Woolrich_9aab09c6-3a2a-4611-9254-ba22a5a1e113.jpg",
+            "collection": ""
+          }
+        },
+        "logo_TbJbw6": {
+          "type": "logo",
+          "settings": {
+            "background_image": "shopify://shop_images/Montecore_b8417769-d065-4030-a97f-3ef4fabfbee4.jpg",
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_dNnzXL",
+        "logo_aBNHjP",
+        "logo_ejTQqH",
+        "logo_MdUGBn",
+        "logo_ifxFca",
+        "logo_TbJbw6"
+      ],
+      "settings": {
+        "title": "Shop op Merk"
+      }
+    },
     "featured_banner_tBJDRR": {
       "type": "featured-banner",
       "settings": {
@@ -177,30 +235,6 @@
       "disabled": true,
       "settings": {
         "title": "Onze winkels"
-      }
-    },
-    "collection_navigation_akMifc": {
-      "type": "collection-navigation",
-      "blocks": {
-        "logo_dNnzXL": {
-          "type": "logo",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "logo_aBNHjP": {
-          "type": "logo",
-          "settings": {
-            "collection": ""
-          }
-        }
-      },
-      "block_order": [
-        "logo_dNnzXL",
-        "logo_aBNHjP"
-      ],
-      "settings": {
-        "title": "Shop op Merk"
       }
     }
   },
