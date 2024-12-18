@@ -86,15 +86,11 @@ input::-webkit-search-decoration {
 }
 
 .search__button .icon {
-  color: white;
+  color: black;
 }
 
 .modal__close-button .icon {
   color: white;
-}
-
-.icon-search {
-  color: black;
 }
 
 @media (prefers-color-scheme: dark) { 
@@ -125,7 +121,7 @@ input::-webkit-search-decoration {
     color: white;
   }
 
-  .icon-search {
+  .search__button .icon {
     color: white;
   }
 }
