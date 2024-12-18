@@ -60,23 +60,29 @@
       }
     ],
     "blocks": [
-      {
-        "type": "collection",
-        "name": "Collection",
-        "settings": [
-          {
+        {
             "type": "collection",
-            "id": "collection",
-            "label": "Choose collection"
-          },
-          {
-            "type": "text",
-            "id": "cta_text",
-            "label": "CTA Text",
-            "default": "View collection"
+            "name": "Collection",
+            "settings": [
+              {
+                "type": "collection",
+                "id": "collection",
+                "label": "Choose collection"
+              },
+              {
+                "type": "text",
+                "id": "cta_text",
+                "label": "CTA Text",
+                "default": "View collection"
+              },
+              {
+                "type": "image_picker",
+                "id": "collection_image",
+                "label": "Custom Collection Image",
+                "info": "Upload a custom image for this collection block. If left blank, the collection's featured image will be used."
+              }
+            ]
           }
-        ]
-      }
     ],
     "presets": [
       {
