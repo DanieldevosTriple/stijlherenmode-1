@@ -58,13 +58,6 @@
             "cta_text": "View collection"
           }
         },
-        "collection_DLJVB8": {
-          "type": "collection",
-          "settings": {
-            "collection": "colberts",
-            "cta_text": "View collection"
-          }
-        },
         "collection_YHrK3y": {
           "type": "collection",
           "settings": {
@@ -78,13 +71,20 @@
             "collection": "knitwear",
             "cta_text": "View collection"
           }
+        },
+        "collection_tKdUUe": {
+          "type": "collection",
+          "settings": {
+            "collection": "schoenen",
+            "cta_text": "View collection"
+          }
         }
       },
       "block_order": [
         "collection_F6n9m8",
-        "collection_DLJVB8",
         "collection_YHrK3y",
-        "collection_ybbYcp"
+        "collection_ybbYcp",
+        "collection_tKdUUe"
       ],
       "settings": {
         "section_title": "Featured Categories",
