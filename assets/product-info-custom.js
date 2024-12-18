@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const mobileFallbackImage = createImageElement(
                 productData.featured_image,
                 "Fallback featured image",
-                ['col-12']
+                ['col-12', 'product-gallery-mobile-item']
             );
             mobileMediaGallery.appendChild(mobileFallbackImage);
         }
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 secondaryGallery.appendChild(colDiv);
 
                 // Voeg secundaire afbeeldingen toe aan de mobiele galerij zonder extra classes
-                const mobileImgElement = createImageElement(image.src, image.alt || "Secondary image", ['col-12']);
+                const mobileImgElement = createImageElement(image.src, image.alt || "Secondary image", ['col-12', 'product-gallery-mobile-item']);
                 mobileMediaGallery.appendChild(mobileImgElement);
             });
         }

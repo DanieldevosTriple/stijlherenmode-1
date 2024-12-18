@@ -336,3 +336,19 @@
     }
 }
 
+@media screen and (max-width: 991px) {
+    .product-gallery-mobile {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory; /* Smooth scrolling */
+        -webkit-overflow-scrolling: touch; /* Voor betere mobiele ondersteuning */
+      }
+      
+      .product-gallery-mobile-item {
+        flex: 0 0 100%; /* Zorg ervoor dat elke afbeelding 100% van de viewport inneemt */
+        scroll-snap-align: start; /* Afbeelding uitlijnen bij scrollen */
+        object-fit: cover; /* Zorg dat afbeeldingen volledig in beeld zijn */
+        max-width: 100%;
+        height: auto; /* Houd aspectratio correct */
+      }
+}
