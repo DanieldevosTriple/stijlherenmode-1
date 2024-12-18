@@ -57,6 +57,7 @@
           "settings": {
             "image": "",
             "title": "Product 2",
+            "subtitle": "Lorem Ipsum",
             "url": "#"
           }
         }
@@ -102,6 +103,7 @@
           {% for block in section.blocks %}
             {% assign image = block.settings.image %}
             {% assign title = block.settings.title %}
+            {% assign subtitle = block.settings.subtitle %}
             {% assign url = block.settings.url %}
             {% if image and title and url %}
               <div class="{{ col_class }} mb-4">
@@ -110,6 +112,7 @@
                     <img src="{{ image | file_url | replace: 'files/files', 'files' }}" alt="{{ title | escape }}" class="card-img-top">
                     <div class="card-body text-left">
                       <h5 class="card-title">{{ title }}</h5>
+                      <h5 class="card-title">{{ subtitle }}</h5>
                     </div>
                   </div>
                 </a>
@@ -135,6 +138,8 @@
 
   .card-body {
     padding: 0px;
+    padding-top: 1rem;
+
     }
   </style>
   
