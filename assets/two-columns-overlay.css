@@ -122,7 +122,7 @@
 .underline {
   font-size: 1rem; /* Pas aan naar wens */
   font-weight: normal; /* Normale tekstgewicht */
-  color: #007acc; /* Linkkleur */
+  color: black; /* Linkkleur */
   text-decoration: none; /* Geen standaard onderstreping */
   transition: color 0.3s ease; /* Smooth hover-effect */
   font-family: TradeGothicLT;
@@ -132,6 +132,6 @@
 
 /* Hover-effect voor de link */
 .underline:hover {
-  color: #005b99; /* Donkerdere kleur bij hover */
+  color: red; /* Donkerdere kleur bij hover */
   text-decoration: underline; /* Onderstreping bij hover */
 }
