@@ -366,6 +366,8 @@
     background-color: transparent;
     font-family: 'TradeGothicLT';
     text-transform: uppercase;
+    padding: 0px;
+    
 }
 
 .breadcrumb a {
