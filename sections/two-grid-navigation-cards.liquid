@@ -18,10 +18,8 @@
           </div>
         </div>
           {% if block.settings.subtitle != blank %}
-            <p class="image-overlay-block__subtitle">
-             <h3>{{ block.settings.subtitle }}</h3>
+             <h3 class="image-overlay-block__subtitle">{{ block.settings.subtitle }}</h3>
               <a href="{{ block.settings.link }}" class="underline">{{ block.settings.linktitle }}</a>
-            </p>
           {% endif %}
       </div>
     {% endfor %}
