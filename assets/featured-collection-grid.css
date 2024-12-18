@@ -17,6 +17,10 @@
   color: #000; 
 }
 
+.cta-link:hover {
+  text-decoration: underline;
+}
+
 .grid-categories {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
