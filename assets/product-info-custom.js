@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
               secondaryImages.forEach(image => {
                   const colDiv = document.createElement('div');
-                  colDiv.classList.add('col-6');
+                  colDiv.classList.add('col-6,secondary-image');
                   const imgElement = document.createElement('img');
                   imgElement.src = image.src;
                   imgElement.alt = image.alt || "Secondary image";
