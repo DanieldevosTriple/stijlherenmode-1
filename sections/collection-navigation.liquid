@@ -2,14 +2,16 @@
 
 <section class="col-12 logo-grid-section">
   <h2 class="container-desktop">{{ section.settings.title }}</h2>
-  <ul class="logo-grid">
+  <ul class="logo-grid" style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); list-style: none; padding: 0; margin: 0;">
     {% for block in section.blocks %}
       {% assign collection = block.settings.collection %}
       {% if collection %}
         {% assign collection_obj = collections[collection] %}
-        <li class="logo-grid-item">
-          <a href="{{ collection_obj.url }}">
-            <img src="{{ block.settings.image | file_url }}" alt="{{ collection_obj.title }}" style="max-width: 100%; height: auto;">
+        <li class="logo-grid-item" style="position: relative; background-image: url({{ block.settings.background_image | file_url }}); background-size: cover; background-position: center; background-repeat: no-repeat;">
+          <a href="{{ collection_obj.url }}" style="display: inline-block; width: 100%; height: 100%; position: relative; text-align: center;">
+            {% if block.settings.logo_image %}
+              <img src="{{ block.settings.logo_image | file_url }}" alt="{{ collection_obj.title }}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 80%; height: auto;">
+            {% endif %}
           </a>
         </li>
       {% endif %}
@@ -19,13 +21,13 @@
 
 {% schema %}
 {
-  "name": "Logo Grid",
+  "name": "Brand Logo Grid",
   "settings": [
     {
       "id": "title",
       "type": "text",
-      "label": "Sectie Titel",
-      "default": "Onze Merken"
+      "label": "Section Title",
+      "default": "Our Brands"
     }
   ],
   "blocks": [
@@ -34,14 +36,19 @@
       "name": "Logo",
       "settings": [
         {
-          "id": "image",
+          "id": "background_image",
           "type": "image_picker",
-          "label": "Logo Afbeelding"
+          "label": "Background Image"
+        },
+        {
+          "id": "logo_image",
+          "type": "image_picker",
+          "label": "Logo Image (SVG or PNG)"
         },
         {
           "id": "collection",
           "type": "collection",
-          "label": "Kies een collectie"
+          "label": "Select a Collection"
         }
       ]
     }
@@ -49,22 +56,24 @@
   "max_blocks": 10,
   "presets": [
     {
-      "name": "Merk Logo's",
+      "name": "Brand Logos",
       "settings": {
-        "title": "Shop op Merk"
+        "title": "Shop by Brand"
       },
       "blocks": [
         {
           "type": "logo",
           "settings": {
-            "image": "",
+            "background_image": "",
+            "logo_image": "",
             "collection": ""
           }
         },
         {
           "type": "logo",
           "settings": {
-            "image": "",
+            "background_image": "",
+            "logo_image": "",
             "collection": ""
           }
         }
@@ -73,5 +82,3 @@
   ]
 }
 {% endschema %}
-
-    
