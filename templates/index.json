@@ -64,8 +64,8 @@
           "settings": {
             "image": "shopify://shop_images/Frame_23_64c2766f-7af8-473f-8a41-59bb7ea9870e.png",
             "title": "Herenmode",
-            "button_link": "shopify://products/aeden-silver-tee",
-            "button_text": "Ontdek"
+            "subtitle": "Herenmode",
+            "link": "shopify://collections/montecore"
           }
         },
         "block_pDxANz": {
@@ -73,8 +73,8 @@
           "settings": {
             "image": "shopify://shop_images/Frame_25.png",
             "title": "Casual",
-            "button_link": "shopify://products/aeden-silver-tee",
-            "button_text": "Ontdek"
+            "subtitle": "Casual",
+            "link": "shopify://collections/aeden"
           }
         }
       },
