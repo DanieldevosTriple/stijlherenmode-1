@@ -101,7 +101,7 @@
     }
 
     .featured-product-list {
-      flex-wrap: wrap;
+      flex-wrap: wrap !important;
     }
 
   }
