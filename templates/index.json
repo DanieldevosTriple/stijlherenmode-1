@@ -48,6 +48,13 @@
         "accessibility_info": "Diavoorstelling over ons merk"
       }
     },
+    "featured_collection_grid_zWmzVJ": {
+      "type": "featured-collection-grid",
+      "settings": {
+        "section_title": "Featured Categories",
+        "section_subtitle": "Lorem Ipsum"
+      }
+    },
     "featured_collection_JGD7p8": {
       "type": "featured-collection",
       "settings": {
@@ -258,6 +265,7 @@
   "order": [
     "featured_sales_banner_BCAt9h",
     "slideshow_adRpPg",
+    "featured_collection_grid_zWmzVJ",
     "featured_collection_JGD7p8",
     "two_grid_navigation_cards_gLnhfz",
     "popular_now_tAFG44",
