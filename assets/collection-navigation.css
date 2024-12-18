@@ -18,10 +18,10 @@
 }
 
 .logo-grid-item {
-  flex: 0 0 auto; /* Voorkomt dat items krimpen en in meerdere rijen komen */
+  flex: 0 0 auto; 
   scroll-snap-align: start;
-  min-width: 200px; 
-  height: 200px;
+  width: 200px; /* Breedte naar wens aanpassen */
+  aspect-ratio: 1 / 1; /* Zorgt voor een vierkant (1:1 ratio) */
 }
 
 /* Overlay via pseudo-element */
