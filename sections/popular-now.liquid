@@ -104,43 +104,49 @@
 {% endschema %}
 
 <section class="popular-now-section py-5">
-  <div class="container">
-    <div class="text-center mb-4">
-      <h2>{{ section.settings.section_title }}</h2>
-      <p>{{ section.settings.section_subtitle }}</p>
-    </div>
-    <div class="row">
-      {% for i in (1..4) %}
-        {% capture image %}{{ section.settings["image_" | append: i] }}{% endcapture %}
-        {% capture title %}{{ section.settings["title_" | append: i] }}{% endcapture %}
-        {% capture url %}{{ section.settings["url_" | append: i] }}{% endcapture %}
-        {% if image and title and url %}
-          <div class="col-12 col-md-6 col-lg-3 mb-4">
-            <a href="{{ url }}" class="text-decoration-none">
-              <div class="card h-100 border-0">
-                <img src="{{ image }}" alt="{{ title }}" class="card-img-top">
-                <div class="card-body text-center">
-                  <h5 class="card-title">{{ title }}</h5>
+    <div class="container">
+      <div class="text-center mb-4">
+        <h2>{{ section.settings.section_title }}</h2>
+        <p>{{ section.settings.section_subtitle }}</p>
+      </div>
+      <div class="row">
+        {% for i in (1..4) %}
+          {% assign image_key = "image_" | append: i %}
+          {% assign title_key = "title_" | append: i %}
+          {% assign url_key = "url_" | append: i %}
+          
+          {% assign image = section.settings[image_key] %}
+          {% assign title = section.settings[title_key] %}
+          {% assign url = section.settings[url_key] %}
+          
+          {% if image and title and url %}
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+              <a href="{{ url }}" class="text-decoration-none">
+                <div class="card h-100 border-0">
+                  <img src="{{ image }}" alt="{{ title }}" class="card-img-top">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">{{ title }}</h5>
+                  </div>
                 </div>
-              </div>
-            </a>
-          </div>
-        {% endif %}
-      {% endfor %}
+              </a>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
-  </div>
-</section>
-
-<style>
-.popular-now-section img {
-  object-fit: cover;
-  height: 200px;
-}
-.popular-now-section .card {
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.popular-now-section .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-</style>
+  </section>
+  
+  <style>
+  .popular-now-section img {
+    object-fit: cover;
+    height: 200px;
+  }
+  .popular-now-section .card {
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .popular-now-section .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  </style>
+  
