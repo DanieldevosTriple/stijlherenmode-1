@@ -3360,6 +3360,10 @@ header {
   border-bottom: 1px solid lightgrey;
 }
 
+.index-page header {
+  border: none;
+}
+
 @media screen and (max-width: 991px) {
   header {
     border-bottom: 1px solid lightgrey;
