@@ -17,10 +17,6 @@
   .newsletter-form {
     align-items: flex-start;
   }
-
-  .newsletter-form__field {
-    align-items: flex-start;
-  }
 }
 
 .newsletter-form__field-wrapper {
@@ -75,6 +71,11 @@
 
 .newsletter-form__button .icon {
   width: 1.5rem;
+}
+
+.newsletter-form__button:hover {
+  color: white;
+  background-color: black;
 }
 
 .newsletter-form__field {
