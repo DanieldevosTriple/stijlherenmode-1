@@ -95,15 +95,15 @@
         {% endcomment %}
         {% case block_count %}
           {% when 1 %}
-            {% assign col_class = "col-12 col-md-12 col-lg-12" %}
+            {% assign col_class = "col-12 col-md-12 col-lg-12 no-padding" %}
           {% when 2 %}
-            {% assign col_class = "col-12 col-md-6 col-lg-6" %}
+            {% assign col_class = "col-12 col-md-6 col-lg-6 no-padding" %}
           {% when 3 %}
-            {% assign col_class = "col-12 col-md-4 col-lg-4" %}
+            {% assign col_class = "col-12 col-md-4 col-lg-4 no-padding" %}
           {% when 4 %}
-            {% assign col_class = "col-12 col-md-3 col-lg-3" %}
+            {% assign col_class = "col-12 col-md-3 col-lg-3 no-padding" %}
           {% else %}
-            {% assign col_class = "col-12" %}
+            {% assign col_class = "col-12 no-padding" %}
         {% endcase %}
   
         <div class="row">
