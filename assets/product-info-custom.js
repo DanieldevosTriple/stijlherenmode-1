@@ -22,43 +22,71 @@ document.addEventListener('DOMContentLoaded', () => {
       const updateGallery = (variantId) => {
           mediaGallery.innerHTML = '';
           secondaryGallery.innerHTML = '';
+          mobileMediaGallery.innerHTML = ''; // Clear de mobiele galerij
 
           const selectedVariant = productData.variants.find(variant => variant.id === variantId);
 
-          if (selectedVariant && selectedVariant.featured_image) {
-              const imgElement = document.createElement('img');
-              imgElement.src = selectedVariant.featured_image.src;
-              imgElement.alt = `Featured image for variant ID: ${variantId}`;
-              imgElement.classList.add('img-fluid', 'w-100', 'mb-3');
-              mediaGallery.appendChild(imgElement);
-              mobileMediaGallery.appendChild(imgElement);
-          } else {
-              const fallbackImage = document.createElement('img');
-              fallbackImage.src = productData.featured_image;
-              fallbackImage.alt = "Fallback featured image";
-              fallbackImage.classList.add('img-fluid', 'w-100', 'mb-3');
-              mediaGallery.appendChild(fallbackImage);
-          }
+          const createImageElement = (src, alt, classes = []) => {
+            const imgElement = document.createElement('img');
+            imgElement.src = src;
+            imgElement.alt = alt;
+            classes.forEach(cls => imgElement.classList.add(cls));
+            return imgElement;
+        };
 
-          if (selectedVariant) {
-              const relevantOptions = Object.values(selectedOptions).filter(option => option.length > 3);
-              const secondaryImages = productData.media.filter(media =>
-                  media.alt && relevantOptions.some(option => media.alt.toLowerCase().includes(option.toLowerCase()))
-              );
+          // Voeg de afbeelding toe aan de desktop en mobiele galerij
+        if (selectedVariant && selectedVariant.featured_image) {
+            const imgElement = createImageElement(
+                selectedVariant.featured_image.src,
+                `Featured image for variant ID: ${variantId}`,
+                ['img-fluid', 'w-100', 'mb-3']
+            );
+            mediaGallery.appendChild(imgElement);
 
-              secondaryImages.forEach(image => {
-                  const colDiv = document.createElement('div');
-                  colDiv.classList.add('col-6');
-                  colDiv.classList.add('secondary-image');
-                  const imgElement = document.createElement('img');
-                  imgElement.src = image.src;
-                  imgElement.alt = image.alt || "Secondary image";
-                  imgElement.classList.add('img-fluid', 'rounded');
-                  colDiv.appendChild(imgElement);
-                  secondaryGallery.appendChild(colDiv);
-              });
-          }
-      };
+            // Voeg de afbeelding toe aan de mobiele galerij zonder extra classes
+            const mobileImgElement = createImageElement(
+                selectedVariant.featured_image.src,
+                `Featured image for variant ID: ${variantId}`
+            );
+            mobileMediaGallery.appendChild(mobileImgElement);
+        } else {
+            const fallbackImage = createImageElement(
+                productData.featured_image,
+                "Fallback featured image",
+                ['img-fluid', 'w-100', 'mb-3']
+            );
+            mediaGallery.appendChild(fallbackImage);
+
+            // Voeg de fallback-afbeelding toe aan de mobiele galerij zonder extra classes
+            const mobileFallbackImage = createImageElement(
+                productData.featured_image,
+                "Fallback featured image"
+            );
+            mobileMediaGallery.appendChild(mobileFallbackImage);
+        }
+
+        // Voeg secundaire afbeeldingen toe
+        if (selectedVariant) {
+            const relevantOptions = Object.values(selectedOptions).filter(option => option.length > 3);
+            const secondaryImages = productData.media.filter(media =>
+                media.alt && relevantOptions.some(option => media.alt.toLowerCase().includes(option.toLowerCase()))
+            );
+
+            secondaryImages.forEach(image => {
+                const colDiv = document.createElement('div');
+                colDiv.classList.add('col-6');
+                colDiv.classList.add('secondary-image');
+
+                const imgElement = createImageElement(image.src, image.alt || "Secondary image", ['img-fluid', 'rounded']);
+                colDiv.appendChild(imgElement);
+                secondaryGallery.appendChild(colDiv);
+
+                // Voeg secundaire afbeeldingen toe aan de mobiele galerij zonder extra classes
+                const mobileImgElement = createImageElement(image.src, image.alt || "Secondary image");
+                mobileMediaGallery.appendChild(mobileImgElement);
+            });
+        }
+    };
 
       const updateBuyButton = (variantId) => {
           variantInput.value = variantId;
