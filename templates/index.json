@@ -50,6 +50,42 @@
     },
     "featured_collection_grid_zWmzVJ": {
       "type": "featured-collection-grid",
+      "blocks": {
+        "collection_F6n9m8": {
+          "type": "collection",
+          "settings": {
+            "collection": "broeken",
+            "cta_text": "View collection"
+          }
+        },
+        "collection_DLJVB8": {
+          "type": "collection",
+          "settings": {
+            "collection": "colberts",
+            "cta_text": "View collection"
+          }
+        },
+        "collection_YHrK3y": {
+          "type": "collection",
+          "settings": {
+            "collection": "jackets",
+            "cta_text": "View collection"
+          }
+        },
+        "collection_ybbYcp": {
+          "type": "collection",
+          "settings": {
+            "collection": "knitwear",
+            "cta_text": "View collection"
+          }
+        }
+      },
+      "block_order": [
+        "collection_F6n9m8",
+        "collection_DLJVB8",
+        "collection_YHrK3y",
+        "collection_ybbYcp"
+      ],
       "settings": {
         "section_title": "Featured Categories",
         "section_subtitle": "Lorem Ipsum"
