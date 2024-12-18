@@ -269,6 +269,11 @@
   font-weight: 100;
 }
 
+details[open] .facets__item::after {
+  content: "-";
+  font-weight: 100;
+}
+
 .svg-wrapper-sort {
   width: 1rem;
   pointer-events: none;
