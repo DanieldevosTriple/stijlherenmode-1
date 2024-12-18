@@ -124,6 +124,7 @@
   color: #007acc; /* Linkkleur */
   text-decoration: none; /* Geen standaard onderstreping */
   transition: color 0.3s ease; /* Smooth hover-effect */
+  font-family: TradeGothicLT;
 }
 
 /* Hover-effect voor de link */
