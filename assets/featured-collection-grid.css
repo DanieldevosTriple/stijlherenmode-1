@@ -11,6 +11,10 @@
   text-align: left;
 }
 
+.cta-link {
+  text-align: left; 
+}
+
 .grid-categories {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
