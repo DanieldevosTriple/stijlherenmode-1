@@ -47,6 +47,10 @@
     position: relative;
   }
 
+  .featured-product-list {
+    flex-wrap: nowrap !important;
+  }
+
   @media (max-width: 768px) {
 
     .text-container-product {
@@ -58,10 +62,6 @@
 
     .image-container {
       order: 1;
-    }
-
-    .featured-product-list {
-      flex-wrap: nowrap !important;
     }
 
     .button-featured-product-custom {
