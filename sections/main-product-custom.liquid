@@ -46,7 +46,7 @@
                     <a href="{{ routes.root_url }}">Home</a>
                     {% if collection %}
                       <span> / </span>
-                      <a href="{{ collection.url }}">{{ collection.title }}</a>
+                      <a href="{{ collection.url }}" class="breadcrumb-link">{{ collection.title }}</a>
                     {% endif %}
                     {% if product %}
                       {% assign product_collection = collection %}
@@ -55,13 +55,13 @@
                       {% endif %}
                       {% if product_collection %}
                         <span> / </span>
-                        <a href="{{ product_collection.url }}">{{ product_collection.title }}</a>
+                        <a href="{{ product_collection.url }}" class="breadcrumb-link">{{ product_collection.title }}</a>
                       {% endif %}
                       <span> / </span>
                       <span>{{ product.title }}</span>
                     {% elsif article %}
                       <span> / </span>
-                      <a href="{{ blog.url }}">{{ blog.title }}</a>
+                      <a href="{{ blog.url }}" class="breadcrumb-link">{{ blog.title }}</a>
                       <span> / </span>
                       <span>{{ article.title }}</span>
                     {% elsif search %}
