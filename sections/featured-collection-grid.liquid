@@ -7,7 +7,6 @@
 {{ 'featured-collection-grid.css' | asset_url | stylesheet_tag }}
 
 <section class="container-desktop">
-    <div class="row">
       {% if section.settings.section_title != '' or section.settings.section_subtitle != '' %}
         <header class="section-header">
           {% if section.settings.section_title != '' %}
@@ -41,7 +40,6 @@
           {% endif %}
         {% endfor %}
       </ul>
-    </div>
   </section>
   
   {% schema %}
