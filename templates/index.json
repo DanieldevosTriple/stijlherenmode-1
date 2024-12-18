@@ -165,7 +165,7 @@
         "logo_MdUGBn": {
           "type": "logo",
           "settings": {
-            "background_image": "shopify://shop_images/Montecore_b8417769-d065-4030-a97f-3ef4fabfbee4.jpg",
+            "background_image": "shopify://shop_images/Corneliani_ff14adbc-60bb-4f27-8f65-69862ecaf428.jpg",
             "collection": ""
           }
         },
@@ -182,6 +182,13 @@
             "background_image": "shopify://shop_images/Montecore_b8417769-d065-4030-a97f-3ef4fabfbee4.jpg",
             "collection": ""
           }
+        },
+        "logo_DqxHai": {
+          "type": "logo",
+          "settings": {
+            "background_image": "shopify://shop_images/Peuterey.jpg",
+            "collection": ""
+          }
         }
       },
       "block_order": [
@@ -190,7 +197,8 @@
         "logo_ejTQqH",
         "logo_MdUGBn",
         "logo_ifxFca",
-        "logo_TbJbw6"
+        "logo_TbJbw6",
+        "logo_DqxHai"
       ],
       "settings": {
         "title": "Shop op Merk"
