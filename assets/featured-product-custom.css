@@ -61,7 +61,7 @@
     }
 
     .featured-product-list {
-      flex-wrap: nowrap;
+      flex-wrap: nowrap !important;
     }
 
     .button-featured-product-custom {
