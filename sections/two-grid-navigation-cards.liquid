@@ -15,13 +15,12 @@
             {% if block.settings.title != blank %}
               <h3 class="image-overlay-block__title">{{ block.settings.title }}</h3>
             {% endif %}
-
-            {% if block.settings.subtitle != blank %}
-              <p class="image-overlay-block__subtitle">
-                <a href="{{ block.settings.link }}" class="underline">{{ block.settings.subtitle }}</a>
-              </p>
-            {% endif %}
           </div>
+          {% if block.settings.subtitle != blank %}
+            <p class="image-overlay-block__subtitle">
+              <a href="{{ block.settings.link }}" class="underline">{{ block.settings.subtitle }}</a>
+            </p>
+          {% endif %}
         </div>
       </div>
     {% endfor %}
