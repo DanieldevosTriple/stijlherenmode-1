@@ -50,6 +50,8 @@
                     {% endif %}
                     {% if product %}
                       <span> / </span>
+                      <a href="{{ collection.url }}">{{ collection.title }}</a>
+                      <span> / </span>
                       <span>{{ product.title }}</span>
                     {% elsif article %}
                       <span> / </span>
