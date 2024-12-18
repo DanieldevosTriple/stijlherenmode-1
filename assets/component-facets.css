@@ -267,12 +267,6 @@
 
 .facets__item::after {
   content: "+";
-  display: inline-block; /* Zorgt ervoor dat het inline blijft */
-  vertical-align: middle; /* Houdt de pseudo-elementen op dezelfde hoogte */
-  line-height: 1; /* Zorg voor een consistente line-height */
-  transform: scale(1);
-  opacity: 1;
-  transition: none;
 }
 
 details[open] .facets__item::after {
@@ -280,6 +274,17 @@ details[open] .facets__item::after {
   transform: scale(1.2); /* Groter bij openen */
   opacity: 1; /* Zichtbaar */
   transition: transform 0.3s ease, opacity 0.3s ease; /* Alleen bij openen */
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  height: 1.5rem;
+}
+
+/* Voor het sluiten direct terugzetten */
+details:not([open]) .facets__item::after {
+  transform: scale(1); /* Direct terug naar normaal */
+  opacity: 1; /* Zichtbaar */
+  transition: none; /* Geen overgang bij sluiten */
   display: inline-block;
   vertical-align: middle;
   line-height: 1;
