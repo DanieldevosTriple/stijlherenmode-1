@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 secondaryGallery.appendChild(colDiv);
 
                 // Voeg secundaire afbeeldingen toe aan de mobiele galerij zonder extra classes
-                const mobileImgElement = createImageElement(image.src, image.alt || "Secondary image");
+                const mobileImgElement = createImageElement(image.src, image.alt || "Secondary image", ['col-12']);
                 mobileMediaGallery.appendChild(mobileImgElement);
             });
         }
