@@ -1,25 +1,22 @@
 {{ 'featured-product-custom.css' | asset_url | stylesheet_tag }}
 
 <section class="featured-product-custom container-desktop col-12 section-padding">
-  <div class="row product-custom">
-    <!-- Content -->
-    <div class="col-md-5 text-container-product">
+  <ul class="featured-product-list">
+    <li class="text-container-product">
       <div class="featured-product-text">
-      <h2 class="featured-product__title">{{ section.settings.title }}</h2>
-      <p class="featured-product__description">{{ section.settings.description }}</p>
-      {% if section.settings.button_text != blank %}
-        <a href="{{ section.settings.button_link }}" class="button-featured-product-custom">{{ section.settings.button_text }}</a>
-      {% endif %}
+        <h2 class="featured-product__title">{{ section.settings.title }}</h2>
+        <p class="featured-product__description">{{ section.settings.description }}</p>
+        {% if section.settings.button_text != blank %}
+          <a href="{{ section.settings.button_link }}" class="button-featured-product-custom">{{ section.settings.button_text }}</a>
+        {% endif %}
       </div>
-  </div>
-
-    <!-- Image -->
-    <div class="col-md-7 text-center image-container">
+    </li>
+    <li class="text-center image-container">
       <img src="{{ section.settings.featured_image | img_url: 'master' }}" 
            alt="{{ section.settings.featured_image_alt }}" 
            class="img-fluid featured-product__image" width="100%" height="100%">
-    </div>
-  </div>
+    </li>
+  </ul>
 </section>
 
 {% schema %}
