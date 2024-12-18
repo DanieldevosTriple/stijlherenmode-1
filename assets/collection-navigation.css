@@ -12,6 +12,42 @@
   height: 200px;
 }
 
-.logo-grid-item::before {
-  background: rgba(0,0,0,0.5);
+.logo-grid-item {
+  position: relative; /* Belangrijk voor overlay positioning */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 25%; /* voorbeeld, pas aan naar wens */
+  height: 200px; /* voorbeeld hoogte */
+}
+
+/* Overlay toevoegen via een pseudo-element */
+.logo-grid-item::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4); /* semi-transparant overlay */
+  z-index: 1; /* zodat overlay boven de achtergrondafbeelding komt */
+}
+
+.logo-grid-link {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  text-align: center;
+}
+
+/* Container voor logo, zodat we deze ook kunnen centreren */
+.logo-container {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2; /* logo moet boven de overlay komen */
+}
+
+.logo-container img {
+  max-width: 80%;
+  height: auto;
 }
