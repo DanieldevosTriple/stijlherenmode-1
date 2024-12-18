@@ -109,6 +109,7 @@
     .buy-button:hover {
         background-color: white;
         border-color: 1px solid black;
+        color: black;
     }
 
     .option-group {
