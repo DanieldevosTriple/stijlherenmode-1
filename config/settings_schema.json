@@ -107,10 +107,6 @@
     ]
   },
   {
-    "name": "General Settings",
-    "settings": []
-  },
-  {
     "name": "t:settings_schema.layout.name",
     "settings": [
       {
@@ -184,7 +180,21 @@
         "id": "font_color_dark",
         "label": "Background Color (Dark mode)",
         "default": "#FFF"
-      }
+      },
+      {
+        "type": "header",
+        "content": "Section Padding"
+      },
+      {
+        "type": "range",
+        "id": "padding-bottom",
+        "min": 1,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "rem",
+        "label": "Section Padding Bottom"
+      },
     ]
   },
   {
