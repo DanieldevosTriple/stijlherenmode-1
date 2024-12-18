@@ -410,11 +410,6 @@ details:not([open]) .facets__item::after {
   padding: 1rem 0;
 }
 
-.facets__item {
-  display: flex;
-  align-items: center;
-}
-
 /* Hover/focus state */
 .facets-layout-list .facets__label:hover .facet-checkbox__text-label,
 .facets-layout-list input:focus ~ .facet-checkbox__text-label {
