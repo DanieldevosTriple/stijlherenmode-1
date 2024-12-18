@@ -12,7 +12,9 @@
 }
 
 .cta-link {
-  text-align: left; 
+  text-align: left;
+  text-transform: uppercase;
+  color: #000; 
 }
 
 .grid-categories {
