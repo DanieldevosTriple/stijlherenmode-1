@@ -1,7 +1,7 @@
 .featured-sales-banner {
     position: relative;
     text-align: center;
-    color: white;
+    color: black;
     padding: 50px 20px;
     background-size: cover;
     background-position: center;
@@ -31,7 +31,7 @@
   
   .featured-sales-banner__button {
     background-color: transparent;
-    border: 2px solid;
+    border: 2px solid black;
     color: black;
     padding: 10px 50px;
     text-align: center;
@@ -47,5 +47,23 @@
     color: white;
     background-color: black;
   }
+  
+  /* Dark mode styles */
+  @media (prefers-color-scheme: dark) {
+    .featured-sales-banner {
+      color: white;
+    }
+  
+    .featured-sales-banner__button {
+      border: 2px solid white;
+      color: white;
+    }
+  
+    .featured-sales-banner__button:hover {
+      color: black;
+      background-color: white;
+    }
+  }
+  
 
   
