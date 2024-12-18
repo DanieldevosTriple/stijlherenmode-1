@@ -122,7 +122,7 @@ input::-webkit-search-decoration {
   }
 }
 
-.status {
+.no-results {
   font-family: 'TradeGothicLT';
   text-transform: uppercase;
   font-weight: 800;
