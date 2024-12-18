@@ -3,6 +3,10 @@
   padding-bottom: 2rem;
 }
 
+.section-title {
+  text-align: left;
+}
+
 .grid-categories {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
