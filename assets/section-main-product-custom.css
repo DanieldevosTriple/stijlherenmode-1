@@ -361,3 +361,9 @@
         padding: 0px;
     }
 }
+
+.breadcrumb {
+    background-color: transparent;
+    font-family: 'TradeGothicLT';
+    text-transform: uppercase;
+}
