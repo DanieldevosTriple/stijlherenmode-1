@@ -232,6 +232,33 @@
       "settings": {
         "title": "Onze winkels"
       }
+    },
+    "popular_now_tAFG44": {
+      "type": "popular-now",
+      "blocks": {
+        "item_eycBhr": {
+          "type": "item",
+          "settings": {
+            "title": "Product 1",
+            "url": "#"
+          }
+        },
+        "item_3mzd3f": {
+          "type": "item",
+          "settings": {
+            "title": "Product 2",
+            "url": "#"
+          }
+        }
+      },
+      "block_order": [
+        "item_eycBhr",
+        "item_3mzd3f"
+      ],
+      "settings": {
+        "section_title": "Popular Now",
+        "section_subtitle": "Check out our trending items"
+      }
     }
   },
   "order": [
@@ -243,6 +270,7 @@
     "collection_navigation_jeAiJL",
     "section_about_us_DwCLzV",
     "featured_banner_tBJDRR",
-    "store_selection_ygz9BV"
+    "store_selection_ygz9BV",
+    "popular_now_tAFG44"
   ]
 }
