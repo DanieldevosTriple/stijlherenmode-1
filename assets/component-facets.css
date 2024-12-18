@@ -262,6 +262,7 @@
   display: flex;
   align-items: center; /* Verticaal centreren */
   gap: 5rem; /* Ruimte tussen de elementen */
+  vertical-align: middle;
 }
 
 .facets__item::after {
