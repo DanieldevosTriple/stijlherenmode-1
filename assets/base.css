@@ -3356,6 +3356,10 @@ a:hover {
   font-weight: 400;
 }
 
+header {
+  border-bottom: 1px solid lightgrey;
+}
+
 @media screen and (max-width: 991px) {
   header {
     border-bottom: 1px solid lightgrey;
