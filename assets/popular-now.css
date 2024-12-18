@@ -44,3 +44,8 @@
     margin: 0;
 }
 
+@media screen and (max-width: 990px) {
+.popular-block {
+    grid-template-columns: repeat(1, 1fr); 
+}
+}
