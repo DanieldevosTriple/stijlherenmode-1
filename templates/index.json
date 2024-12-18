@@ -47,6 +47,53 @@
         "accessibility_info": "Diavoorstelling over ons merk"
       }
     },
+    "popular_now_tAFG44": {
+      "type": "popular-now",
+      "blocks": {
+        "item_eycBhr": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Parka.png",
+            "title": "Parka Season",
+            "url": "shopify://collections/jackets"
+          }
+        },
+        "item_3mzd3f": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/TravelShirts.png",
+            "title": "Filling Pieces",
+            "url": "shopify://collections/filling-pieces"
+          }
+        },
+        "item_t8LxeP": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/FillingPieces.png",
+            "title": "Berwich Travel Suits",
+            "url": "shopify://collections/berwich"
+          }
+        },
+        "item_YAHxEh": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/Travel.png",
+            "title": "Travel Shirts",
+            "url": "shopify://collections/xacus-overhemden"
+          }
+        }
+      },
+      "block_order": [
+        "item_eycBhr",
+        "item_3mzd3f",
+        "item_t8LxeP",
+        "item_YAHxEh"
+      ],
+      "settings": {
+        "section_title": "Populair",
+        "section_subtitle": "De trends van FW24"
+      }
+    },
     "featured_collection_JGD7p8": {
       "type": "featured-collection",
       "settings": {
@@ -185,6 +232,7 @@
         "grid_item_Ly8FJ6",
         "grid_item_hYDVTF"
       ],
+      "disabled": true,
       "settings": {
         "section_title": "Over Stijl",
         "columns_per_row": 3,
@@ -232,65 +280,18 @@
       "settings": {
         "title": "Onze winkels"
       }
-    },
-    "popular_now_tAFG44": {
-      "type": "popular-now",
-      "blocks": {
-        "item_eycBhr": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/Parka.png",
-            "title": "Parka Season",
-            "url": "shopify://collections/jackets"
-          }
-        },
-        "item_3mzd3f": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/TravelShirts.png",
-            "title": "Filling Pieces",
-            "url": "shopify://collections/filling-pieces"
-          }
-        },
-        "item_t8LxeP": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/FillingPieces.png",
-            "title": "Berwich Travel Suits",
-            "url": "shopify://collections/berwich"
-          }
-        },
-        "item_YAHxEh": {
-          "type": "item",
-          "settings": {
-            "image": "shopify://shop_images/Travel.png",
-            "title": "Travel Shirts",
-            "url": "shopify://collections/xacus-overhemden"
-          }
-        }
-      },
-      "block_order": [
-        "item_eycBhr",
-        "item_3mzd3f",
-        "item_t8LxeP",
-        "item_YAHxEh"
-      ],
-      "settings": {
-        "section_title": "Populair",
-        "section_subtitle": "De trends van FW24"
-      }
     }
   },
   "order": [
     "featured_sales_banner_BCAt9h",
     "slideshow_adRpPg",
+    "popular_now_tAFG44",
     "featured_collection_JGD7p8",
     "two_grid_navigation_cards_gLnhfz",
     "featured_product_custom_BpBaCC",
     "collection_navigation_jeAiJL",
     "section_about_us_DwCLzV",
     "featured_banner_tBJDRR",
-    "store_selection_ygz9BV",
-    "popular_now_tAFG44"
+    "store_selection_ygz9BV"
   ]
 }
