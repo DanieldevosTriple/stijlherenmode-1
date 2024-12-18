@@ -57,7 +57,7 @@
           "settings": {
             "image": "",
             "title": "Product 2",
-            "subtitle": "Lorem Ipsum",
+            "subtitle_item": "Lorem Ipsum",
             "url": "#"
           }
         }
@@ -103,7 +103,7 @@
           {% for block in section.blocks %}
             {% assign image = block.settings.image %}
             {% assign title = block.settings.title %}
-            {% assign subtitle = block.settings.subtitle %}
+            {% assign subtitle = block.settings.subtitle_item %}
             {% assign url = block.settings.url %}
             {% if image and title and url %}
               <div class="{{ col_class }} mb-4">
