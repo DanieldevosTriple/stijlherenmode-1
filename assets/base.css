@@ -32,7 +32,7 @@
 }
 
 section {
-  padding-bottom: var(--section-padding-bottom);
+  padding-bottom: var(--section-padding-bottom)rem;
 }
 
 .body {
