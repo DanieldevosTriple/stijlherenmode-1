@@ -77,6 +77,10 @@
     .product-gallery {
         margin-top: 0px;
     }
+
+    .secondary-image {
+        padding: 0px;
+    }
     
     .secondary-gallery {
         display: flex;
