@@ -77,11 +77,6 @@
   width: 1.5rem;
 }
 
-.newsletter-form__button:hover {
-  color: white;
-  background-color: black;
-}
-
 .newsletter-form__field {
   position: relative;
   width: 80%;
