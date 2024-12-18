@@ -55,6 +55,7 @@
           "settings": {
             "image": "shopify://shop_images/Parka.png",
             "title": "Parka Season",
+            "subtitle_item": "Lorem Ipsum",
             "url": "shopify://collections/jackets"
           }
         },
@@ -63,6 +64,7 @@
           "settings": {
             "image": "shopify://shop_images/FillingPieces.png",
             "title": "Berwich Travel Suits",
+            "subtitle_item": "Lorem Ipsum",
             "url": "shopify://collections/berwich"
           }
         },
@@ -71,6 +73,7 @@
           "settings": {
             "image": "shopify://shop_images/Travel.png",
             "title": "Travel Shirts",
+            "subtitle_item": "Lorem Ipsum",
             "url": "shopify://collections/xacus-overhemden"
           }
         }
@@ -135,102 +138,6 @@
         "featured_image_alt": "Featured Product Image"
       }
     },
-    "collection_navigation_jeAiJL": {
-      "type": "collection-navigation",
-      "blocks": {
-        "menu_item_DTV94W": {
-          "type": "menu_item",
-          "settings": {
-            "title": "Collection",
-            "collection": "aeden"
-          }
-        },
-        "menu_item_gyLh68": {
-          "type": "menu_item",
-          "settings": {
-            "title": "Collection",
-            "collection": "corneliani"
-          }
-        },
-        "menu_item_T4XwyW": {
-          "type": "menu_item",
-          "settings": {
-            "title": "Collection",
-            "collection": "gran-sasso"
-          }
-        },
-        "menu_item_TYgxbQ": {
-          "type": "menu_item",
-          "settings": {
-            "title": "Collection",
-            "collection": "herno"
-          }
-        },
-        "menu_item_fYWma4": {
-          "type": "menu_item",
-          "settings": {
-            "title": "Collection",
-            "collection": "montecore"
-          }
-        },
-        "menu_item_e86x4t": {
-          "type": "menu_item",
-          "settings": {
-            "title": "Collection",
-            "collection": "woolrich"
-          }
-        }
-      },
-      "block_order": [
-        "menu_item_DTV94W",
-        "menu_item_gyLh68",
-        "menu_item_T4XwyW",
-        "menu_item_TYgxbQ",
-        "menu_item_fYWma4",
-        "menu_item_e86x4t"
-      ],
-      "settings": {
-        "title": "Onze collecties"
-      }
-    },
-    "section_about_us_DwCLzV": {
-      "type": "section-about-us",
-      "blocks": {
-        "grid_item_DmWDRH": {
-          "type": "grid_item",
-          "settings": {
-            "title": "",
-            "content": "Bij Stijlherenmode draait alles om elegante en tijdloze herenmode. Wij combineren klassieke stijlen met moderne trends om jou de perfecte look te bieden voor elke gelegenheid. Of je nu op zoek bent naar een strak pak, stijlvolle casual wear of de juiste accessoires, wij hebben het in huis."
-          }
-        },
-        "grid_item_Ly8FJ6": {
-          "type": "grid_item",
-          "settings": {
-            "title": "",
-            "content": "Met jarenlange ervaring en oog voor detail selecteren wij uitsluitend de beste materialen en ontwerpen. Ons assortiment is met zorg samengesteld om zowel kwaliteit als comfort te garanderen. Stijlherenmode staat voor vakmanschap en persoonlijke aandacht, zodat jij altijd straalt in jouw outfit."
-          }
-        },
-        "grid_item_hYDVTF": {
-          "type": "grid_item",
-          "settings": {
-            "title": "",
-            "content": "Bij Stijlherenmode krijg je meer dan alleen kleding. Wij bieden een unieke winkelervaring met persoonlijk advies, uitstekende service en een collectie die past bij jouw stijl en persoonlijkheid. Ontdek zelf waarom klanten ons waarderen en maak van jouw garderobe een statement."
-          }
-        }
-      },
-      "block_order": [
-        "grid_item_DmWDRH",
-        "grid_item_Ly8FJ6",
-        "grid_item_hYDVTF"
-      ],
-      "disabled": true,
-      "settings": {
-        "section_title": "Over Stijl",
-        "columns_per_row": 3,
-        "button_text": "Read More",
-        "button_link": ""
-      }
-    },
     "featured_banner_tBJDRR": {
       "type": "featured-banner",
       "settings": {
@@ -271,6 +178,30 @@
       "settings": {
         "title": "Onze winkels"
       }
+    },
+    "collection_navigation_akMifc": {
+      "type": "collection-navigation",
+      "blocks": {
+        "logo_dNnzXL": {
+          "type": "logo",
+          "settings": {
+            "collection": ""
+          }
+        },
+        "logo_aBNHjP": {
+          "type": "logo",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_dNnzXL",
+        "logo_aBNHjP"
+      ],
+      "settings": {
+        "title": "Shop op Merk"
+      }
     }
   },
   "order": [
@@ -280,8 +211,7 @@
     "featured_collection_JGD7p8",
     "two_grid_navigation_cards_gLnhfz",
     "featured_product_custom_BpBaCC",
-    "collection_navigation_jeAiJL",
-    "section_about_us_DwCLzV",
+    "collection_navigation_akMifc",
     "featured_banner_tBJDRR",
     "store_selection_ygz9BV"
   ]
