@@ -988,6 +988,12 @@ summary::-webkit-details-marker {
   font-family: 'TradeGothicLT', sans-serif;
 }
 
+.button-view-all:hover {
+  background-color: black;
+  color: white;
+  border: 2px solid black;
+}
+
 @media (prefers-color-scheme: dark) {
   .button-view-all {
     border: 2px solid white;
