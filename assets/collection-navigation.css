@@ -43,4 +43,40 @@
   height: auto;
 }
 
+/* Mobiele versie */
+@media (max-width: 991px) {
+  .logo-grid {
+    display: flex;
+    flex-wrap: inherit; /* of nowrap als je items niet wilt laten breken */
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scroll-padding-left: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+    height: auto; /* hoogte aanpassen naar wens */
+    gap: 1rem; /* spacing tussen items indien nodig */
+    padding: 1rem; /* optioneel voor wat padding links en rechts */
+  }
+
+  .logo-grid-item {
+    flex: 0 0 auto; /* Zorgt dat elk item naast elkaar blijft en niet krimpt */
+    scroll-snap-align: start;
+    /* Pas breedte aan naar wens, bijvoorbeeld 80% van viewport: */
+    min-width: 80vw;
+    height: 200px; /* of automatische hoogte */
+  }
+
+  .logo-grid-item img {
+    max-width: 80%; 
+    height: auto;
+    /* Zet positionering eventueel opnieuw, 
+       zodat het beeld in het midden blijft (optioneel) */
+    position: absolute; 
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
 
