@@ -1,138 +1,77 @@
 {{ 'collection-navigation.css' | asset_url | stylesheet_tag }}
 
-<section class="collection-selector col-12 section-padding">
-  <ul class="collection-selector-grid">
-    <!-- Linker kolom: Afbeelding -->
-    <li class="image-container">
-      {% if section.blocks.size > 0 %}
-        <div class="collection-selector__image-wrapper">
-          <img class="collection-selector__image" src="{{ section.blocks[0].settings.image | file_url }}" alt="Collection Image">
-        </div>
+<section class="logo-grid-section">
+  <h2>{{ section.settings.title }}</h2>
+  <ul class="logo-grid">
+    {% for block in section.blocks %}
+      {% assign collection = block.settings.collection %}
+      {% if collection %}
+        {% assign collection_obj = collections[collection] %}
+        <li class="logo-grid-item">
+          <a href="{{ collection_obj.url }}">
+            <img src="{{ block.settings.image | file_url }}" alt="{{ collection_obj.title }}" style="max-width: 100%; height: auto;">
+          </a>
+        </li>
       {% endif %}
-    </li>
-
-    <!-- Rechter kolom: Titel en Vertikale Lijst -->
-    <li class="text-container">
-      <h2 class="collection-selector__title h2">{{ section.settings.title }}</h2>
-      <ul class="list-group collection-selector__list" style="list-style:none; padding:0; margin:0;">
-        {% for block in section.blocks %}
-          {% assign collection = block.settings.collection | default: null %}
-          {% if collection %}
-            {% assign collection_obj = collections[collection] %}
-            <li class="collection-selector__item {% if forloop.first %}active{% endif %}" data-image="{{ collection_obj.image | img_url: 'master' }}">
-              <a href="{{ collection_obj.url }}" class="collection-selector__link">
-                <span class="collection-selector__title-wrapper">
-                  {{ collection_obj.title }}
-                </span>
-              </a>
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-    </li>
+    {% endfor %}
   </ul>
 </section>
-  
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const items = document.querySelectorAll('.collection-selector__item');
-      const image = document.querySelector('.collection-selector__image');
-    
-      if (items.length > 0) {
-        // Set the first item's image and description as default and active
-        const firstImage = items[0].getAttribute('data-image');
-        const firstDescription = items[0].getAttribute('data-description');
-        if (firstImage) {
-          image.src = firstImage;
-          items[0].classList.add('active');
-        }
-        if (firstDescription) {
-          items[0].querySelector('.collection-selector__description').classList.add('visible');
-        }
-    
-        items.forEach((item) => {
-          item.addEventListener('mouseover', () => {
-            const hoverImage = item.getAttribute('data-image');
-            const hoverDescription = item.getAttribute('data-description');
-    
-            if (hoverImage) {
-              image.src = hoverImage;
-            }
-    
-            // Update descriptions
-            document.querySelectorAll('.collection-selector__description').forEach(desc => desc.classList.add('hidden'));
-            const descriptionElement = item.querySelector('.collection-selector__description');
-            if (descriptionElement) {
-              descriptionElement.classList.remove('hidden');
-              descriptionElement.classList.add('visible');
-            }
-    
-            // Update active state
-            items.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-          });
-    
-          item.addEventListener('mouseout', () => {
-            // Reset to the first item's image and active state
-            const firstItemImage = items[0].getAttribute('data-image');
-            const firstItemDescription = items[0].getAttribute('data-description');
-    
-            if (firstItemImage) {
-              image.src = firstItemImage;
-            }
-    
-            // Reset descriptions
-            document.querySelectorAll('.collection-selector__description').forEach(desc => desc.classList.add('hidden'));
-            const firstDescriptionElement = items[0].querySelector('.collection-selector__description');
-            if (firstDescriptionElement) {
-              firstDescriptionElement.classList.remove('hidden');
-              firstDescriptionElement.classList.add('visible');
-            }
-    
-            items.forEach(i => i.classList.remove('active'));
-            items[0].classList.add('active');
-          });
-        });
-      }
-    });
-    </script>
-    
-    {% schema %}
+
+{% schema %}
+{
+  "name": "Logo Grid",
+  "settings": [
     {
-      "name": "Collection Selection",
+      "id": "title",
+      "type": "text",
+      "label": "Sectie Titel",
+      "default": "Onze Merken"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
       "settings": [
         {
-          "type": "text",
-          "id": "title",
-          "label": "Section Title",
-          "default": "Collectie Title"
-        }
-      ],
-      "blocks": [
+          "id": "image",
+          "type": "image_picker",
+          "label": "Logo Afbeelding"
+        },
         {
-          "type": "menu_item",
-          "name": "Menu Item",
-          "settings": [
-            {
-              "type": "text",
-              "id": "title",
-              "label": "Title",
-              "default": "Collection"
-            },
-            {
-              "type": "collection",
-              "id": "collection",
-              "label": "Select Collection"
-            }
-          ]
-        }
-      ],
-      "presets": [
-        {
-          "name": "Collection Selection",
-          "category": "Custom"
+          "id": "collection",
+          "type": "collection",
+          "label": "Kies een collectie"
         }
       ]
     }
-    {% endschema %}
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Merk Logo's",
+      "settings": {
+        "title": "Shop op Merk"
+      },
+      "blocks": [
+        {
+          "type": "logo",
+          "settings": {
+            "image": "",
+            "collection": ""
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "image": "",
+            "collection": ""
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
     
