@@ -15,27 +15,16 @@
         "slide_fBRMXA": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Header_-_12.png",
-            "heading": "Slide heading",
-            "image_overlay_opacity": 0,
+            "image": "shopify://shop_images/christmas.png",
+            "heading": "Fijne feestdagen!",
+            "image_overlay_opacity": 10,
             "image_theme": "light",
             "repeated_text": "Herhaal mij"
-          }
-        },
-        "slide_k6GqJV": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/image_1.png",
-            "heading": "Parka Season",
-            "image_overlay_opacity": 0,
-            "image_theme": "dark",
-            "repeated_text": "Parka Season"
           }
         }
       },
       "block_order": [
-        "slide_fBRMXA",
-        "slide_k6GqJV"
+        "slide_fBRMXA"
       ],
       "settings": {
         "auto_rotate": false,
@@ -88,7 +77,7 @@
         "description": "Jacob Cohen blijft ook in seizoen 24 trouw aan zijn kern: Italiaanse vakmanschap en hoogwaardige denim, gecombineerd met een modern randje. Deze collectie zet in op subtiele innovatie met nieuwe wassingen, opvallende stikdetails en verfijnde pasvormen.",
         "button_text": "SHOP NU",
         "button_link": "/",
-        "featured_image": "shopify://shop_images/jacob_cohen.webp",
+        "featured_image": "shopify://shop_images/1697540687-230928_hsxjacob-cohen_single_l03_0488-retouched_jpg.jpg",
         "featured_image_alt": "Featured Product Image"
       }
     },
