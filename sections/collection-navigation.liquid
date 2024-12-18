@@ -1,7 +1,7 @@
 {{ 'collection-navigation.css' | asset_url | stylesheet_tag }}
 
-<section class="col-12 logo-grid-section container-desktop">
-  <h2>{{ section.settings.title }}</h2>
+<section class="col-12 logo-grid-section">
+  <h2 class="container-desktop">{{ section.settings.title }}</h2>
   <ul class="logo-grid">
     {% for block in section.blocks %}
       {% assign collection = block.settings.collection %}
