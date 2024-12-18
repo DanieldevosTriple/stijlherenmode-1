@@ -1,8 +1,9 @@
 .logo-grid {
-  display: grid; 
-  gap: 1rem; 
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
-  list-style: none; 
-  padding: 0; 
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(6, 1fr);
+  list-style: none;
+  padding: 0;
   margin: 0;
+  height: 200px;
 }
