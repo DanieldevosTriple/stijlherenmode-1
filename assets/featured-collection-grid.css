@@ -26,6 +26,10 @@
   margin: 0;
 }
 
+.collection-info {
+  text-align: left;
+}
+
 .grid-item {
   text-align: center;
 }
