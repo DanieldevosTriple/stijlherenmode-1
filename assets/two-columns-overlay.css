@@ -123,7 +123,7 @@
   font-size: 1rem; /* Pas aan naar wens */
   font-weight: normal; /* Normale tekstgewicht */
   color: black; /* Linkkleur */
-  text-decoration: none; /* Geen standaard onderstreping */
+  text-decoration: underline; /* Geen standaard onderstreping */
   transition: color 0.3s ease; /* Smooth hover-effect */
   font-family: TradeGothicLT;
   text-transform: uppercase; /* Optioneel, hoofdletters */
