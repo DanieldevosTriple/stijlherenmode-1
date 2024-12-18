@@ -268,38 +268,26 @@
   content: "+";
   font-weight: 100;
   font-size: 2rem;
-  display: inline-block; /* Zorg dat transform werkt */
+  display: inline-block;
   transition: transform 0.3s ease, opacity 0.3s ease; /* Voeg overgang toe */
-  transform: scale(1); /* Startpositie */
-  opacity: 1; /* Zichtbaar */
+  transform: scale(1); /* Standaard grootte */
+  opacity: 1;
 }
 
 details[open] .facets__item::after {
   content: "-";
-  transform: scale(1.2); /* Schaal iets groter */
-  opacity: 1; /* Zorg dat het zichtbaar blijft */
+  transform: scale(1.2); /* Groter bij openen */
+  opacity: 1; /* Zichtbaar */
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Alleen bij openen */
 }
 
-/* Optioneel: Zorg dat het verdwijnt voordat de content wisselt */
-.facets__item::after {
-  animation: fadeInOut 0.3s forwards;
+/* Voor het sluiten direct terugzetten */
+details:not([open]) .facets__item::after {
+  transform: scale(1); /* Direct terug naar normaal */
+  opacity: 1; /* Zichtbaar */
+  transition: none; /* Geen overgang bij sluiten */
 }
 
-/* Animatie definitie (optioneel voor fade-effect) */
-@keyframes fadeInOut {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.2);
-  }
-}
 
 .svg-wrapper-sort {
   width: 1rem;
