@@ -93,6 +93,10 @@ input::-webkit-search-decoration {
   color: white;
 }
 
+.icon-search {
+  color: black;
+}
+
 @media (prefers-color-scheme: dark) { 
   .search__input.field__input {
     padding-right: 9.8rem;
@@ -118,6 +122,10 @@ input::-webkit-search-decoration {
   }
 
   .field__label, .customer .field label {
+    color: white;
+  }
+
+  .icon-search {
     color: white;
   }
 }
