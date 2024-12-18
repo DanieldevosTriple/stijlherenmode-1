@@ -15,28 +15,20 @@
         "accordion_item_78DXDU": {
           "type": "accordion_item",
           "settings": {
-            "title": "Example #1",
-            "description": "Accordion description goes here."
-          }
-        },
-        "accordion_item_WA4MwQ": {
-          "type": "accordion_item",
-          "settings": {
-            "title": "Example #2",
+            "title": "Verzending & retour",
             "description": "Accordion description goes here."
           }
         },
         "accordion_item_czU8p9": {
           "type": "accordion_item",
           "settings": {
-            "title": "Example #3",
+            "title": "Hulp nodig?",
             "description": "Accordion description goes here."
           }
         }
       },
       "block_order": [
         "accordion_item_78DXDU",
-        "accordion_item_WA4MwQ",
         "accordion_item_czU8p9"
       ],
       "settings": {
@@ -46,9 +38,9 @@
     "related_products_eXUzFK": {
       "type": "related-products",
       "settings": {
-        "title": "You may also like",
-        "color_scheme": "",
-        "enable_fallback": true
+        "related_title": "You may also like",
+        "complementary_title": "Pair it with",
+        "recommendations_limit": 8
       }
     }
   },
