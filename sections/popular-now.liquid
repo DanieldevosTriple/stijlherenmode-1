@@ -107,7 +107,7 @@
               <div class="{{ col_class }} mb-4">
                 <a href="{{ url | escape }}" class="text-decoration-none">
                   <div class="card h-100 border-0">
-                    <img src="{{ image | escape }}" alt="{{ title | escape }}" class="card-img-top">
+                    <img src="{{ image | file_url }}" alt="{{ title | escape }}" class="card-img-top">
                     <div class="card-body text-center">
                       <h5 class="card-title">{{ title }}</h5>
                     </div>
