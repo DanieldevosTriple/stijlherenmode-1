@@ -215,9 +215,20 @@
       "settings": {
         "title": "Onze winkels"
       }
+    },
+    "featured_sales_banner_BCAt9h": {
+      "type": "featured-sales-banner",
+      "settings": {
+        "subheader": "Special Offer",
+        "title": "Big Winter Sale",
+        "description": "Enjoy up to 50% off on our best-selling products. Hurry, offer ends soon!",
+        "button_link": "shopify://collections/all",
+        "button_text": "Shop Now"
+      }
     }
   },
   "order": [
+    "featured_sales_banner_BCAt9h",
     "slideshow_adRpPg",
     "featured_collection_JGD7p8",
     "two_grid_navigation_cards_gLnhfz",
