@@ -11,6 +11,7 @@
   "sections": {
     "featured_sales_banner_BCAt9h": {
       "type": "featured-sales-banner",
+      "disabled": true,
       "settings": {
         "subheader": "Uitverkoop",
         "title": "Tot 50% korting",
