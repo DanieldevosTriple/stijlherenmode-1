@@ -10,7 +10,7 @@
         <li class="logo-grid-item" style="position: relative; background-image: url({{ block.settings.background_image | file_url | replace: 'files/files', 'files' }}); background-size: cover; background-position: center; background-repeat: no-repeat;">
           <a href="{{ collection_obj.url }}" style="display: inline-block; width: 100%; height: 100%; position: relative; text-align: center;">
             {% if block.settings.logo_image %}
-              <img src="{{ block.settings.logo_image | file_url | replace: 'files/files', 'files' }}" alt="{{ collection_obj.title }}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 30%; height: auto;">
+              <img src="{{ block.settings.logo_image | file_url | replace: 'files/files', 'files' }}" alt="{{ collection_obj.title }}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 100px; height: auto;">
             {% endif %}
           </a>
         </li>
