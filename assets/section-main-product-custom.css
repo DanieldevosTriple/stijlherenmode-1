@@ -271,8 +271,13 @@
 }
 
 .klarna {
-    align-content: center;
-  }
+    display: flex;
+    flex-direction: column; /* Zorgt ervoor dat tekst en logo onder elkaar staan */
+    align-items: center; /* Centreert horizontaal */
+    justify-content: center; /* Centreert verticaal */
+    text-align: center; /* Centreert de tekst */
+    height: 100%; /* Zorg ervoor dat de hoogte wordt toegepast als nodig */
+}
   
 .klarna p {
     margin: 0; /* Verwijder standaard marge van p-element */
