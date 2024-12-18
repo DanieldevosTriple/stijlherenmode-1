@@ -41,6 +41,10 @@
     background-position: center;
     object-fit: cover; /* Ensures the image fits perfectly */
   }
+
+  .image-overlay-block__image:hover {
+    transform: scale(1.1);
+  }
   
   .image-overlay-block__content {
     position: absolute;
