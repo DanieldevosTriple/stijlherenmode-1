@@ -82,7 +82,7 @@ input::-webkit-search-decoration {
 }
 
 .field__label, .customer .field label {
-  color: white;
+  color: #999999;
 }
 
 .search__button .icon {
@@ -115,5 +115,9 @@ input::-webkit-search-decoration {
 
   .icon-arrow {
     color: white !important;
+  }
+
+  .field__label, .customer .field label {
+    color: white;
   }
 }
