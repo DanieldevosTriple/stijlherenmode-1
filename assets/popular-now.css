@@ -48,4 +48,12 @@
 .popular-block {
     grid-template-columns: repeat(1, 1fr); 
 }
+
+.title-block {
+    padding-bottom: 1rem;
+}
+
+.popular-block {
+    gap: 2rem;
+}
 }
