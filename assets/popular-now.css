@@ -1,0 +1,23 @@
+.popular-now-section img {
+    object-fit: cover;
+    height: 700px;
+}
+
+.popular-now-section .card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.popular-now-section .card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body {
+    padding: 0px;
+    padding-top: 1rem;
+
+}
+
+.card-subtitle {
+    text-transform: uppercase;
+    color: black;
+}
