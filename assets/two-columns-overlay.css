@@ -115,6 +115,7 @@
   margin: 0 0 10px; /* Ruimte onder de titel */
   text-transform: uppercase; /* Optioneel, hoofdletters */
   text-align: left; /* Pas uitlijning aan naar wens */
+  padding-top: 15px;
 }
 
 /* Styling voor de link */
@@ -126,6 +127,7 @@
   transition: color 0.3s ease; /* Smooth hover-effect */
   font-family: TradeGothicLT;
   text-transform: uppercase; /* Optioneel, hoofdletters */
+  padding-top: 15px;
 }
 
 /* Hover-effect voor de link */
