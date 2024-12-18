@@ -60,6 +60,8 @@
   background-color: rgba(0, 0, 0, 0.5); 
   padding: 10px 20px; 
   border-radius: 5px;
+  font-family: TradeGothicLT;
+  font-weight: 800;
 }
 
 @media (max-width: 576px) {
