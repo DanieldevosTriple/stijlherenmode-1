@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
               fallbackImage.alt = "Fallback featured image";
               fallbackImage.classList.add('img-fluid', 'w-100', 'mb-3');
               mediaGallery.appendChild(fallbackImage);
-              mobileMediaGallery.appendChild(imgElement);
           }
 
           if (selectedVariant) {
