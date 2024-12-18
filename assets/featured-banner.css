@@ -49,6 +49,19 @@
   transform: scale(1.05); /* Subtiel zoom-effect bij hover */
 }
 
+.featured-banner__quote {
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  text-align: center; 
+  color: white; 
+  font-size: 1.5rem; 
+  background-color: rgba(0, 0, 0, 0.5); 
+  padding: 10px 20px; 
+  border-radius: 5px;
+}
+
 @media (max-width: 576px) {
   .featured-banner {
     height: auto !important; /* Laat de hoogte automatisch aanpassen */

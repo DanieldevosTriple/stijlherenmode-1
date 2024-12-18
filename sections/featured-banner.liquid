@@ -26,6 +26,13 @@
           class="featured-banner__logo"
           style="width: 150px; height: 100%;">
       {% endif %}
+
+      <!-- Quote Section -->
+      {% if section.settings.quote != blank %}
+        <div class="featured-banner__quote">
+          {{ section.settings.quote }}
+        </div>
+      {% endif %}
     </div>
   </a>
 </section>
@@ -79,6 +86,12 @@
       "id": "banner_height",
       "label": "Banner Height (px)",
       "default": 500
+    },
+    {
+      "type": "text",
+      "id": "quote",
+      "label": "Quote Text",
+      "default": ""
     }
   ],
   "presets": [
