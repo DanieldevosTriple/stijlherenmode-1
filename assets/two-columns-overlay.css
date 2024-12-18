@@ -135,3 +135,9 @@
   color: red; /* Donkerdere kleur bij hover */
   text-decoration: underline; /* Onderstreping bij hover */
 }
+
+@media (prefers-color-scheme: dark) {
+  .underline {
+    color: white; /* Donkerdere kleur bij hover */
+  }
+}
