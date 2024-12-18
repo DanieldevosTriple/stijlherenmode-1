@@ -107,7 +107,7 @@
     }
   }
   
-  .image-overlay-block__subtitle {
+  .image-overlay-block__subtitle a {
     font-family: TradeGothicLT;
     padding: 5rem;
   }
