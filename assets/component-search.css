@@ -121,3 +121,11 @@ input::-webkit-search-decoration {
     color: white;
   }
 }
+
+.status {
+  font-family: 'TradeGothicLT';
+  text-transform: uppercase;
+  font-weight: 800;
+  text-align: center;
+  font-size: 2rem;
+}
