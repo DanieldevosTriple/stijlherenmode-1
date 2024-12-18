@@ -9,10 +9,6 @@
             <div class="image-overlay-block__image" 
                  style="background-image: url({{ block.settings.image | img_url: 'master' }}); background-size: cover; background-position: center;">
               
-             {% if block.settings.button_link != blank %}
-                  <a href="{{ block.settings.button_link }}" class="button-two-blocks">{{ block.settings.button_text }}</a>
-              {% endif %}
-              
               <div class="image-overlay-block__content text-center">
                 {% if block.settings.title != blank %}
                   <h3 class="image-overlay-block__title">{{ block.settings.title }}</h3>
@@ -44,17 +40,6 @@
           "type": "text",
           "id": "title",
           "label": "Title"
-        },
-        {
-          "type": "url",
-          "id": "button_link",
-          "label": "Button Link"
-        },
-        {
-          "type": "text",
-          "id": "button_text",
-          "label": "Button Text",
-          "default": "Learn More"
         }
       ]
     }
