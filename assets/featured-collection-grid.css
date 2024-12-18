@@ -1,20 +1,6 @@
-.four-collection-grid {
-  padding: 40px 0;
-}
-
 .section-header {
   text-align: center;
   padding-bottom: 2rem;
-}
-
-.four-collection-grid .section-title {
-  font-size: 2em;
-  margin: 0;
-}
-
-.four-collection-grid .section-subtitle {
-  font-size: 1em;
-  color: #666;
 }
 
 .grid-categories {
@@ -39,6 +25,7 @@
 .collection-title {
   font-size: 1.2em;
   margin-bottom: 10px;
+  text-align: left;
 }
 
 .btn-cta {
