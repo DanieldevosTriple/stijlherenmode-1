@@ -40,6 +40,8 @@
     background-size: cover;
     background-position: center;
     object-fit: cover; /* Ensures the image fits perfectly */
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
   }
 
   .image-overlay-block__image:hover {
