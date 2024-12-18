@@ -213,6 +213,7 @@
     },
     "featured_banner_tBJDRR": {
       "type": "featured-banner",
+      "disabled": true,
       "settings": {
         "image": "shopify://shop_images/tailor.png",
         "mobile_image": "shopify://shop_images/tailor-mobile.png",
