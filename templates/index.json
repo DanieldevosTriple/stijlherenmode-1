@@ -9,6 +9,21 @@
  */
 {
   "sections": {
+    "featured_sales_banner_BCAt9h": {
+      "type": "featured-sales-banner",
+      "disabled": true,
+      "settings": {
+        "subheader": "Uitverkoop",
+        "title": "Tot 50% korting",
+        "description": "Stijlvol voor minder",
+        "button_link": "shopify://collections/all",
+        "button_text": "Ontdek het aanbod",
+        "text_alignment": "center",
+        "title_size": 36,
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
     "slideshow_adRpPg": {
       "type": "slideshow",
       "blocks": {
@@ -288,6 +303,7 @@
     }
   },
   "order": [
+    "featured_sales_banner_BCAt9h",
     "slideshow_adRpPg",
     "featured_collection_grid_zWmzVJ",
     "featured_collection_JGD7p8",
