@@ -52,25 +52,24 @@
 <!-- Sections/product-details.liquid -->
 <section id="product-details" class="product-details-section">
     <div class="col-12">
-        <div class="row product-border">
+        <ul class="product-border">
           <!-- Desktop versie -->
-          <div class="d-none d-md-block col-12 col-md-7 col-lg-7">
+          <li class="d-none d-md-block">
             <div class="product-gallery row">
                 <div class="media-gallery col-12"></div>
             </div>
             <div class="row">
                 <div class="secondary-gallery col-12"></div>
             </div>
-          </div>
+          </li>
 
           <!-- Mobiele versie -->
-          <div class="d-block d-md-none col-12">
+          <li class="d-block d-md-none">
             <div class="product-gallery-mobile">
             </div>
-          </div>
+          </li>
 
-            <div class="col-12 col-md-5 col-lg-5">
-                <div class="col-md-12 col-sm-12 product-section">
+            <li class="product-section-information">
                   <nav class="breadcrumb">
                     <a href="{{ routes.root_url }}">Home</a>
                     {% if collection %}
@@ -136,9 +135,8 @@
                     {% endfor %}
                 </div>
 
-                </div>
-            </div>
-        </div>    
+              </li>
+            </ul>    
     </div>
 </section>
   
