@@ -368,6 +368,7 @@
     position: static;
     display: block;
     height: 100vh;
+    transition: transform 0.2s;
   }
   
   /* Menu-items stijl */
