@@ -357,7 +357,7 @@
     flex-direction: column;
     overflow: hidden; /* Zorgt dat niets buiten het menu zichtbaar is */
     transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out; /* Duration and easing of the animation */
+    transition: transform 2s ease-in-out; /* Duration and easing of the animation */
     /* You can include your background or other styling here */
   }
 
