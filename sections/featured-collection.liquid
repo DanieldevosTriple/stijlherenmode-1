@@ -16,8 +16,8 @@
     data-id="{{ section.id }}"
   >
 
-    <slider-component class="col-12 slider-collection{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-    <div class="col-12 collection__header container-mobile">
+    <slider-component class="slider-collection{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <div class="collection__header container-mobile">
       <div class="collection__title title-wrapper--no-top-margin{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %} collection__title--desktop-slider">
         {%- if section.settings.title != blank -%}
           <h2 class="carouseltitle inline-richtext h2 {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
