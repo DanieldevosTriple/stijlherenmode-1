@@ -127,7 +127,7 @@ class CartItems extends HTMLElement {
       },
       {
         id: 'cart-icon-bubble',
-        section: 'cart-icon-bubble',
+        section: 'cart-icon-bubble', 
         selector: '.shopify-section',
       },
       {

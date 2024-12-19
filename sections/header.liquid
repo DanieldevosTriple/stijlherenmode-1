@@ -130,6 +130,7 @@
                     {% else %}
                       {{ 'icon-cart.svg' | inline_asset_content }}
                     {% endif %}
+                    <p>{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</p>
               </a>
             </div>            
           </div>
