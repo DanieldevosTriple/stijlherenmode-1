@@ -1034,6 +1034,10 @@ summary::-webkit-details-marker {
     color: black;
     border: 2px solid white;
   }
+
+  p {
+    color: white;
+  }
 }
 
 .button-two-blocks {
