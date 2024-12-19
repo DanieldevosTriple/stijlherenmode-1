@@ -871,8 +871,8 @@ a.active-facets__button.focused .active-facets__button-inner {
   margin-left: 0;
   display: flex;
   justify-content: center;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
 }
 
 @media (prefers-color-scheme: dark) {
