@@ -356,6 +356,8 @@
     flex-direction: column;
     flex-direction: column;
     overflow: hidden; /* Zorgt dat niets buiten het menu zichtbaar is */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -366,6 +368,7 @@
 
   /* Toon de overlay */
   .mobile-menu-overlay.show {
+    transform: translateX(0);
     position: static;
     display: block;
     height: 100vh;
