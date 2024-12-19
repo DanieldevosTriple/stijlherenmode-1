@@ -51,96 +51,94 @@
 
 <!-- Sections/product-details.liquid -->
 <section id="product-details" class="product-details-section">
-    <div class="col-12">
-        <div class="row product-border">
-          <!-- Desktop versie -->
-          <div class="d-none d-md-block col-12 col-md-7 col-lg-7">
-            <div class="product-gallery row">
-                <div class="media-gallery col-12"></div>
-            </div>
-            <div class="row">
-                <div class="secondary-gallery col-12"></div>
-            </div>
-          </div>
+  <div class="col-12">
+      <div class="product-border">
+          <ul class="main-product-grid">
+              <!-- Desktop en Mobiele versie Productafbeeldingen -->
+              <li class="product-gallery-item">
+                  <div class="desktop-gallery d-none d-md-block">
+                      <div class="media-gallery"></div>
+                      <div class="secondary-gallery"></div>
+                  </div>
 
-          <!-- Mobiele versie -->
-          <div class="d-block d-md-none col-12">
-            <div class="product-gallery-mobile">
-            </div>
-          </div>
+                  <div class="mobile-gallery d-block d-md-none">
+                      <div class="product-gallery-mobile"></div>
+                  </div>
+              </li>
 
-            <div class="col-12 col-md-5 col-lg-5">
-                <div class="col-md-12 col-sm-12 product-section">
+              <!-- Productdetails -->
+              <li class="product-details-item">
                   <nav class="breadcrumb">
-                    <a href="{{ routes.root_url }}">Home</a>
-                    {% if collection %}
-                      <span> / </span>
-                      <a href="{{ collection.url }}" class="breadcrumb-link">{{ collection.title }}</a>
-                    {% endif %}
-                    {% if product %}
-                      {% assign product_collection = collection %}
-                      {% if product_collection == blank %}
-                        {% assign product_collection = product.collections.first %}
+                      <a href="{{ routes.root_url }}">Home</a>
+                      {% if collection %}
+                          <span> / </span>
+                          <a href="{{ collection.url }}" class="breadcrumb-link">{{ collection.title }}</a>
                       {% endif %}
-                      {% if product_collection %}
-                        <span> / </span>
-                        <a href="{{ product_collection.url }}" class="breadcrumb-link">{{ product_collection.title }}</a>
+                      {% if product %}
+                          {% assign product_collection = collection %}
+                          {% if product_collection == blank %}
+                              {% assign product_collection = product.collections.first %}
+                          {% endif %}
+                          {% if product_collection %}
+                              <span> / </span>
+                              <a href="{{ product_collection.url }}" class="breadcrumb-link">{{ product_collection.title }}</a>
+                          {% endif %}
+                          <span> / </span>
+                          <span>{{ product.title }}</span>
+                      {% elsif article %}
+                          <span> / </span>
+                          <a href="{{ blog.url }}" class="breadcrumb-link">{{ blog.title }}</a>
+                          <span> / </span>
+                          <span>{{ article.title }}</span>
+                      {% elsif search %}
+                          <span> / </span>
+                          <span>Zoekresultaten voor "{{ search.terms }}"</span>
                       {% endif %}
-                      <span> / </span>
-                      <span>{{ product.title }}</span>
-                    {% elsif article %}
-                      <span> / </span>
-                      <a href="{{ blog.url }}" class="breadcrumb-link">{{ blog.title }}</a>
-                      <span> / </span>
-                      <span>{{ article.title }}</span>
-                    {% elsif search %}
-                      <span> / </span>
-                      <span>Zoekresultaten voor "{{ search.terms }}"</span>
-                    {% endif %}
-                  </nav>                  
-                    <p class="product-vendor"></p>
-                    <h1 class="product-title"></h1>
-                    <p class="product-price"></p>
-            
-                <!-- Dynamische optieknoppen worden hier gegenereerd -->
-                <div class="options-container"></div>
-            
-                <div class="buy-button-section">
-                <!-- Aankoopknop -->
-                    <form method="post" action="/cart/add">
-                    <input type="hidden" name="id" id="selected-variant-id" />
-                    <button type="submit" class="buy-button">{{ section.settings.buy_button_text }}</button>
-                    </form>
-                </div>
+                  </nav>
 
-                <div class="klarna"><p>Koop nu, betaal later met {{- 'klarna-logo-black.svg' | inline_asset_content -}}</p></div>
+                  <p class="product-vendor"></p>
+                  <h1 class="product-title"></h1>
+                  <p class="product-price"></p>
 
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>Productbeschrijving</span>                                
-                        </div>
-                        <div class="accordion-content">
-                          <span class="product-description"></span>
-                        </div>
-                    </div>
-                    {% for block in section.blocks %}
-                        <div class="accordion-item">
-                            <div class="accordion-header">
-                                {{ block.settings.title }}                                
-                            </div>
-                            <div class="accordion-content">
-                                <p>{{ block.settings.description }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                  <div class="options-container"></div>
 
-                </div>
-            </div>
-        </div>    
-    </div>
+                  <div class="buy-button-section">
+                      <form method="post" action="/cart/add">
+                          <input type="hidden" name="id" id="selected-variant-id" />
+                          <button type="submit" class="buy-button">{{ section.settings.buy_button_text }}</button>
+                      </form>
+                  </div>
+
+                  <div class="klarna">
+                      <p>Koop nu, betaal later met {{- 'klarna-logo-black.svg' | inline_asset_content -}}</p>
+                  </div>
+
+                  <div class="accordion">
+                      <div class="accordion-item">
+                          <div class="accordion-header">
+                              <span>Productbeschrijving</span>
+                          </div>
+                          <div class="accordion-content">
+                              <span class="product-description"></span>
+                          </div>
+                      </div>
+                      {% for block in section.blocks %}
+                          <div class="accordion-item">
+                              <div class="accordion-header">
+                                  {{ block.settings.title }}
+                              </div>
+                              <div class="accordion-content">
+                                  <p>{{ block.settings.description }}</p>
+                              </div>
+                          </div>
+                      {% endfor %}
+                  </div>
+              </li>
+          </ul>
+      </div>
+  </div>
 </section>
+
   
   <!-- Schema voor de Shopify Theme Editor -->
   {% schema %}
