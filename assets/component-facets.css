@@ -1394,6 +1394,12 @@ input.mobile-facets__checkbox {
 
 }
 
+@media screen and (max-width: 991px) {
+  .facets-wrapper {
+    padding-bottom: 2rem;
+  }
+}
+
 @media (prefers-color-scheme: dark) { 
   .facets__item {
     color: white;
