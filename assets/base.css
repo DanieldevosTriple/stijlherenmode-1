@@ -9,8 +9,8 @@
 
 @font-face {
   font-family: 'TradeGothicLT';
-  src: url('/cdn/shop/t/19/assets/TradeGothicLT-BoldCondTwenty.woff2') format('woff2'),
-       url('/cdn/shop/t/19/assets/TradeGothicLT-BoldCondTwenty.woff') format('woff');
+  src: url('/cdn/shop/t/19/assets/TradeGothicLT-Bold.woff2') format('woff2'),
+       url('/cdn/shop/t/19/assets/TradeGothicLT-Bold.woff') format('woff');
   font-style: normal;
   font-weight: 800;
 }
