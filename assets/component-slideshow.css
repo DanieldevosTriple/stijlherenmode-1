@@ -164,7 +164,7 @@ slideshow-component .slideshow.banner {
 
 @media screen and (max-width: 749px) {
   slideshow-component .slideshow.banner {
-    height: 65vh;
+    height: 40vh;
   }
 
   .slideshow__controls--border-radius-mobile {
