@@ -23,17 +23,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let selectedOptions = {};
 
-        const getVariantFromURL = () => {
+        const updateURLWithVariant = (variantId) => {
             try {
                 const url = new URL(window.location.href);
-                const variantId = url.searchParams.get('variant');
-                debugLog("Variant ID from URL:", variantId);
-                return variantId;
+                const params = new URLSearchParams(url.search);
+        
+                // Update of voeg de `variant`-parameter toe
+                if (variantId) {
+                    params.set('variant', variantId);
+                } else {
+                    params.delete('variant'); // Verwijder de parameter als er geen variantId is
+                }
+        
+                // Stel de URL opnieuw in met alle bestaande parameters
+                url.search = params.toString();
+                window.history.replaceState({}, '', url.toString());
+        
+                debugLog("URL bijgewerkt:", url.toString());
             } catch (error) {
-                console.error("Fout bij het ophalen van variant ID uit URL:", error);
-                return null;
+                console.error("Fout bij het bijwerken van de URL:", error);
             }
-        };
+        };        
 
         const updateGallery = (variantId) => {
             debugLog("Gallery updaten voor variant:", variantId);
