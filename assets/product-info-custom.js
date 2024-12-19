@@ -23,25 +23,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let selectedOptions = {};
 
-        const updateURLWithVariant = (variantId) => {
+        const getVariantFromURL = () => {
             try {
-                const url = new URL(window.location.href);
-                const params = new URLSearchParams(url.search);
+                const url = new URL(window.location.href); // Haal de huidige URL op
+                const params = new URLSearchParams(url.search); // Haal alle queryparameters op
         
-                // Update of voeg de `variant`-parameter toe
+                debugLog("Huidige queryparameters:", Array.from(params.entries()));
+        
+                const variantId = params.get('variant'); // Zoek de 'variant'-parameter
                 if (variantId) {
-                    params.set('variant', variantId);
-                } else {
-                    params.delete('variant'); // Verwijder de parameter als er geen variantId is
+                    debugLog("Variant ID gevonden in URL:", variantId);
+                    return variantId; // Return de gevonden 'variant'-waarde
                 }
         
-                // Stel de URL opnieuw in met alle bestaande parameters
-                url.search = params.toString();
-                window.history.replaceState({}, '', url.toString());
-        
-                debugLog("URL bijgewerkt:", url.toString());
+                debugLog("Geen 'variant' parameter gevonden in URL.");
+                return null; // Return null als er geen 'variant'-parameter is
             } catch (error) {
-                console.error("Fout bij het bijwerken van de URL:", error);
+                console.error("Fout bij het ophalen van variant ID uit URL:", error);
+                return null;
             }
         };        
 
