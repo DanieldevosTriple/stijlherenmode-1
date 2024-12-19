@@ -74,11 +74,8 @@
   }
 
   .logo-grid-item {
-    flex: 0 0 auto; /* Zorgt dat elk item naast elkaar blijft en niet krimpt */
+    flex: 0 0 auto;
     scroll-snap-align: start;
-    /* Pas breedte aan naar wens, bijvoorbeeld 80% van viewport: */
-    min-width: 80vw;
-    height: 200px; /* of automatische hoogte */
   }
 
   .logo-grid-item img {
