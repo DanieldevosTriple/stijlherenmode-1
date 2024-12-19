@@ -346,8 +346,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-color: var(--background-color-light-mode); /* Donkere overlay */
     z-index: 9999; /* Zorg dat het menu bovenop alles staat */
     display: none; /* Verborgen standaard */
@@ -356,6 +356,9 @@
     flex-direction: column;
     flex-direction: column;
     overflow: hidden; /* Zorgt dat niets buiten het menu zichtbaar is */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out; /* Duration and easing of the animation */
+    /* You can include your background or other styling here */
   }
 
   @media (prefers-color-scheme: dark) {
