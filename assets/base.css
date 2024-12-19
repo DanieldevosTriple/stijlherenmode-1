@@ -1038,6 +1038,10 @@ summary::-webkit-details-marker {
   p {
     color: white;
   }
+
+  .klarna-logo {
+    color: white;
+  }
 }
 
 .button-two-blocks {
