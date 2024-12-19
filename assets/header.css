@@ -344,8 +344,6 @@
 /* Verborgen menu-overlay standaard */
 .mobile-menu-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     background-color: var(--background-color-light-mode); /* Donkere overlay */
@@ -354,8 +352,6 @@
     transform: translateX(-100%);
     transition: transform 0.5s ease-in-out, visibility 0.5s ease-in-out;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
     overflow: hidden;
   }
