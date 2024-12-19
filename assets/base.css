@@ -3458,3 +3458,9 @@ header {
 sticky-header {
   z-index: 999;
 }
+
+@media (prefers-color-scheme: dark) {
+  header {
+    border-bottom: 1px solid darkgrey;
+  }
+}
