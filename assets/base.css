@@ -3461,6 +3461,6 @@ sticky-header {
 
 @media (prefers-color-scheme: dark) {
   header {
-    border-bottom: 1px solid darkgrey;
+    border-bottom: 1px solid #3e3e3e;
   }
 }
