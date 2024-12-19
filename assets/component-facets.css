@@ -307,6 +307,7 @@ details:not([open]) .facets__item::after {
 .facets__summary-label {
   font-family: TradeGothicLT, sans-serif;
   text-transform: uppercase;
+  font-weight: 800;
 }
 
 .facets__summary:hover .facets__summary-label {
