@@ -25,8 +25,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const getVariantFromURL = () => {
             try {
-                const url = new URL(window.location.href); // Haal de huidige URL op
-                const params = new URLSearchParams(url.search); // Haal alle queryparameters op
+                let url = window.location.href;
+        
+                // Controleer of er meerdere '?' in de URL zitten
+                if ((url.match(/\?/g) || []).length > 1) {
+                    debugLog("Ongeldige URL gedetecteerd, corrigeren...");
+                    const [base, ...queryParts] = url.split('?');
+                    url = `${base}?${queryParts.join('&')}`; // Corrigeer door '?' na de eerste te vervangen door '&'
+                    debugLog("Gecorrigeerde URL:", url);
+                }
+        
+                const parsedURL = new URL(url); // Parse de URL
+                const params = new URLSearchParams(parsedURL.search); // Haal de queryparameters op
         
                 debugLog("Huidige queryparameters:", Array.from(params.entries()));
         
@@ -42,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Fout bij het ophalen van variant ID uit URL:", error);
                 return null;
             }
-        };        
+        };               
 
         const updateGallery = (variantId) => {
             debugLog("Gallery updaten voor variant:", variantId);
