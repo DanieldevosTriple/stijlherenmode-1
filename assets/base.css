@@ -3465,3 +3465,7 @@ sticky-header {
   }
 
 }
+
+.shopify-policy__container {
+  max-width: unset !important;
+}
