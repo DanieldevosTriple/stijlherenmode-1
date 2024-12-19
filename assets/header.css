@@ -348,8 +348,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: var(--background-color-light-mode); /* Donkere overlay */
-    z-index: 9999; /* Zorg dat het menu bovenop alles staat */
+    background-color: var(--background-color-light-mode); /* Donkere overlay */    padding-left: 0px;
+    padding-right: 0px;
     opacity: 0;
     visibility: hidden;
     transform: translateX(-100%);
