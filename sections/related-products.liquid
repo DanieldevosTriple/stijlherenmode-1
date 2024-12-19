@@ -9,42 +9,43 @@
   }
 </style>
 
-<section
-  class="col-12 product-recommendations slider-desktop slider--mobile related-products-margin"
-  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.recommendations_limit }}&intent=related"
->
+  <section
+    class="col-12 product-recommendations slider-desktop slider--mobile related-products-margin"
+    data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.recommendations_limit }}&intent=related"
+  >
   <div class="product-recommendations">
-  {%- if recommendations.performed? and recommendations.products_count > 0 -%}
-    <div class="row title-related">
-      <div class="col-12">
-    {% if recommendations.intent == 'related' %}
-      <h2>{{ section.settings.related_title }}</h2>
-    {% elsif recommendations.intent == 'complementary' %}
-      <h2>{{ section.settings.complementary_title }}</h2>
-    {% endif %}
+    {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+      <div class="row title-related">
+        <div class="col-12">
+      {% if recommendations.intent == 'related' %}
+        <h2>{{ section.settings.related_title }}</h2>
+      {% elsif recommendations.intent == 'complementary' %}
+        <h2>{{ section.settings.complementary_title }}</h2>
+      {% endif %}
+    </div>
   </div>
-</div>
 
-<ul class="related-product-slider">
-      {%- for product in recommendations.products -%}
-        <li class="col-6 col-md-3 no-padding product-item scroll-trigger animate--slide-in"> 
-          <a href="{{ product.url }}">
-            <img
-              class="related-card--img card--standard card--media"
-              src="{{ product.featured_image | image_url: width: 300, height: 300 }}"
-              alt="{{ product.featured_image.alt }}"
-            />
-            <div class="product__content">
-            <p class="product__vendor">{{ product.vendor }}</p>
-            <h3 class="card__heading__related h5">{{ product.title }}</h3>
-            <p class="product__price">{{ product.price | money}}</p>
-            </div>
-          </a>
-        </li>
-      {%- endfor -%}
-    </ul>
-  {%- endif -%}
-</section>
+  <ul class="related-product-slider">
+        {%- for product in recommendations.products -%}
+          <li class="col-6 col-md-2 no-padding product-item scroll-trigger animate--slide-in"> 
+            <a href="{{ product.url }}">
+              <img
+                class="related-card--img card--standard card--media"
+                src="{{ product.featured_image | image_url: width: 300, height: 300 }}"
+                alt="{{ product.featured_image.alt }}"
+              />
+              <div class="product__content">
+              <p class="product__vendor">{{ product.vendor }}</p>
+              <h3 class="card__heading__related h5">{{ product.title }}</h3>
+              <p class="product__price">{{ product.price | money}}</p>
+              </div>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+    </div>
+  </section>
 
 {% javascript %}
 document.addEventListener('DOMContentLoaded', () => {
