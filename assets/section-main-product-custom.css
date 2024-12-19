@@ -389,6 +389,10 @@
     font-weight: 400;
     border-bottom: 1px solid lightgrey;
     }
+
+    .product-section {
+    padding-top: 5rem;
+    }
 }
 
 .breadcrumb a {
