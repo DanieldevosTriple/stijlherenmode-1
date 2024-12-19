@@ -452,6 +452,17 @@
         height: 20px;
     }
 
+    .cart-bubble {
+        position: absolute;
+        top: 34px;
+        transform: translateY(-50%);
+        background-color: blue;
+        border-radius: 50px;
+        color: white;
+        padding: 0.5px 5px;
+        right: 6px;
+    }
+
     .ml-3 {
         margin-left: 2rem !important;
     }
