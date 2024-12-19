@@ -66,7 +66,7 @@
   {%- endif -%}
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
-  <div class="container-desktop">
+  <div class="col-12">
     <div class="product row">
       <div class="col-12 col-md-6 col-lg-6 product__media-wrapper">
         {% render 'product-media-gallery', variant_images: variant_images %}

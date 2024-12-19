@@ -6,7 +6,7 @@
 {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 
 <footer class="footer col-12 color-black gradient section-{{ section.id }}-padding">
-  <div class="row newsletter_menu container-desktop">
+  <div class="row newsletter_menu">
   <!-- Newsletter Section -->
   {%- if section.settings.newsletter_enable -%}
     <div class="footer-block--newsletter col-xs-12 col-md-6 col-lg-6">
@@ -120,7 +120,7 @@
 </div>
 
 <!-- Bottom Section -->
-<div class="footer__content-bottom col-12 container-desktop">
+<div class="footer__content-bottom col-12">
   <div class="footer__copyright col-xs-12 col-md-6 col-lg-6">
     <small class="copyright-text">&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</small>
   </div>

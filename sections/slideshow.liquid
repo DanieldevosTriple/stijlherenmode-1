@@ -72,7 +72,7 @@
       }
     </style>
     <div
-      class="slideshow__slide grid__item col-12 slider__slide container-desktop"
+      class="slideshow__slide grid__item col-12 slider__slide"
       id="Slide-{{ section.id }}-{{ forloop.index }}"
       {{ block.shopify_attributes }}
       role="group"
@@ -109,7 +109,7 @@
           </div>
         {%- endif -%}
       </div>
-      <div class="col-12 container-desktop slide-show-content">
+      <div class="col-12 slide-show-content">
         <h2 class="elixon-fits-in">
           {{ block.settings.heading }}
         </h2>
