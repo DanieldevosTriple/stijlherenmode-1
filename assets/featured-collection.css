@@ -37,8 +37,9 @@
   .carousel {
     display: grid;
     grid-auto-flow: column; /* Zorgt voor horizontale stroom van items */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Flexibele kolombreedtes */
-    gap: 16px; /* Ruimte tussen items */
+    grid-template-columns: repeat(4, 1fr); /* Flexibele kolombreedtes */
+    gap: 1rem; /* Ruimte tussen items */
+    width: max-content;
     list-style: none;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth; /* Vloeiende scrollanimatie */
