@@ -1,154 +1,22 @@
-/* Basisreset en styling */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #f5f5f5;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Carousel Container */
-  .carousel-container {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch; /* Voor soepel scrollen op iOS */
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    padding: 10px;
-    background-color: #fff;
-    position: relative; /* Voor positionering van pijlen */
-  }
-  
-  /* Verberg scrollbar in Webkit browsers */
-  .carousel-container::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* Carousel */
-  .carousel {
-    display: grid;
-    grid-auto-flow: column; /* Zorgt voor horizontale stroom van items */
-    grid-template-columns: repeat(4, 1fr); /* Flexibele kolombreedtes */
-    gap: 1rem; /* Ruimte tussen items */
-    width: max-content;
-    list-style: none;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth; /* Vloeiende scrollanimatie */
-  }
-  
-  /* Carousel Items */
-  .slider-item {
-    scroll-snap-align: start;
-    background-color: #007BFF; /* Tijdelijke achtergrondkleur, aanpasbaar */
-    color: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
+.product-slider-desktop {
     display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Hover-effect */
-  .slider-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Responsiviteit */
-  @media (max-width: 1200px) {
-    .carousel {
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Aanpassen naar kleinere breedtes */
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .carousel {
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Nog kleinere breedtes */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .carousel {
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Eén item per view op zeer kleine schermen */
-    }
-  }
-  
-  /* Verbeterde Styling voor Productkaarten */
-  .slider-item a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .slider-item img {
-    width: 100%;
+    flex-wrap: nowrap;
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+    gap: 1rem;
+    padding: 1rem;
     height: auto;
-    border-radius: 8px;
-    object-fit: cover;
-  }
-  
-  .slider-item .product-title {
-    margin-top: 10px;
-    font-size: 1em;
-    font-weight: bold;
-  }
-  
-  .slider-item .product-price {
-    margin-top: 5px;
-    font-size: 0.9em;
-    color: #ccc;
-  }
-  
-  /* Navigatiepijlen toevoegen als visuele aanwijzing */
-  .carousel-container::before,
-  .carousel-container::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 1;
-    background-size: 20px 20px;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-  
-  .carousel-container::before {
-    left: 10px;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>');
-  }
-  
-  .carousel-container::after {
-    right: 10px;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>');
-  }
-  
-  /* Zorg ervoor dat pijlen zichtbaar zijn boven de carousel */
-  .carousel-container::before,
-  .carousel-container::after {
-    opacity: 0.5;
-    transition: opacity 0.3s;
-  }
-  
-  .carousel-container:hover::before,
-  .carousel-container:hover::after {
-    opacity: 1;
-  }
-  
-  /* Pijlen zijn niet functioneel zonder JavaScript, maar dienen als visuele aanwijzingen */
-  
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.slider-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 100%;
+}
