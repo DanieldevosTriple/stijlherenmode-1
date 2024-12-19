@@ -20,6 +20,35 @@
     });       
 </script>
 
+<!-- Mobile Breadcrumb -->
+<nav class="breadcrumb-mobile">
+  <a href="{{ routes.root_url }}">Home</a>
+  {% if collection %}
+    <span> / </span>
+    <a href="{{ collection.url }}" class="breadcrumb-link">{{ collection.title }}</a>
+  {% endif %}
+  {% if product %}
+    {% assign product_collection = collection %}
+    {% if product_collection == blank %}
+      {% assign product_collection = product.collections.first %}
+    {% endif %}
+    {% if product_collection %}
+      <span> / </span>
+      <a href="{{ product_collection.url }}" class="breadcrumb-link">{{ product_collection.title }}</a>
+    {% endif %}
+    <span> / </span>
+    <span>{{ product.title }}</span>
+  {% elsif article %}
+    <span> / </span>
+    <a href="{{ blog.url }}" class="breadcrumb-link">{{ blog.title }}</a>
+    <span> / </span>
+    <span>{{ article.title }}</span>
+  {% elsif search %}
+    <span> / </span>
+    <span>Zoekresultaten voor "{{ search.terms }}"</span>
+  {% endif %}
+</nav>  
+
 <!-- Sections/product-details.liquid -->
 <section id="product-details" class="product-details-section">
     <div class="container-desktop">
