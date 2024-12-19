@@ -4,6 +4,10 @@
       gap: 1rem;
   }
 
+  .product-details-section {
+      padding-top: 2rem;
+  }
+
   .product-border {
       border-bottom: 1px solid lightgrey;
       padding-bottom: 10rem;
@@ -360,6 +364,10 @@
   }
 
   @media screen and (max-width: 991px) {
+      .product-details-section {
+          padding-top: 0rem;
+      }
+
       .product-gallery-mobile {
           display: flex;
           overflow-x: auto;
