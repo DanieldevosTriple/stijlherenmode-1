@@ -298,6 +298,9 @@
     padding-top: 2.5rem;
 }
   
+.product-section {
+    max-width: 80%;
+}
   
 @media (prefers-color-scheme: dark) { 
     .arrow-head {
@@ -402,7 +405,6 @@
 
     .product-section {
     padding-top: 2rem;
-    max-width: 80%;
     }
 }
 
