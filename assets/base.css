@@ -35,6 +35,12 @@ section {
   padding-bottom: var(--section-padding-bottom);
 } 
 
+@media screen and (max-width: 991px) {
+section {
+  padding-bottom: var(--section-padding-bottom-mobile);
+} 
+}
+
 .body {
   overflow: hidden;
 }
