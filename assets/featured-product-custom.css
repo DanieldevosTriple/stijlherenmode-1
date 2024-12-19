@@ -54,6 +54,12 @@
 
   @media (max-width: 991px) {
 
+    .featured-product__image {
+      width: 100%; /* Sets the image to 60% of its container width */
+      height: 200px;
+      object-fit: cover;
+    }
+
     .text-container-product {
       order: 2;
       padding-top: 2rem;
