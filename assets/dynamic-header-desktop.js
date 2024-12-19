@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Drempel om kleine, onbedoelde verschuivingen te voorkomen
         const delta = currentScrollY - lastScrollY;
-        if (Math.abs(delta) < 5) {
+        if (Math.abs(delta) < 2) {
             // Bij hele kleine verschuiving niets doen
             return;
         }
