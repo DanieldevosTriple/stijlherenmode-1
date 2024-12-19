@@ -456,9 +456,9 @@
         position: absolute;
         top: 34px;
         transform: translateY(-50%);
-        background-color: red;
+        background-color: black;
         border-radius: 50px;
-        color: black;
+        color: red;
         padding: 0.5px 5px;
         right: 6px;
     }
