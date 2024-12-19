@@ -350,15 +350,17 @@
     height: 100vh;
     background-color: var(--background-color-light-mode); /* Donkere overlay */
     z-index: 9999; /* Zorg dat het menu bovenop alles staat */
-    display: none; /* Verborgen standaard */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    display: flex; /* Zorg dat het element aanwezig is voor de transitie */
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    flex-direction: column;
     overflow: hidden; /* Zorgt dat niets buiten het menu zichtbaar is */
-    transform: translateX(-100%);
-    transition: transform 2s ease-in-out; /* Duration and easing of the animation */
-    /* You can include your background or other styling here */
+    padding-left: 0px;
+    padding-right: 0px;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -370,13 +372,9 @@
   /* Toon de overlay */
   .mobile-menu-overlay.show {
     transform: translateX(0);
-    position: static;
-    display: block;
-    height: 100vh;
-    padding-left: 0px;
-    padding-right: 0px;
-    width: auto;
-    transition: transform 2s ease-in;
+    opacity: 1;
+    visibility: visible;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
   }
   
   /* Menu-items stijl */
