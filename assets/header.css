@@ -487,6 +487,12 @@
         outline: none;
         background: none;
     }   
+
+    .cart-bubble {
+        background-color: white;
+        color: red;
+    }
+
 }
 
 .nav-link.active {
