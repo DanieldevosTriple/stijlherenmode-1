@@ -28,6 +28,11 @@
           "label": "Afbeelding"
         },
         {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Afbeelding (Mobiel)"
+        },        
+        {
           "type": "text",
           "id": "title",
           "label": "Titel",
@@ -90,6 +95,7 @@
     <ul class="popular-block">
       {% for block in section.blocks %}
         {% assign image = block.settings.image %}
+        {% assign image_mobile = block.settings.image_mobile %}
         {% assign title = block.settings.title %}
         {% assign subtitle = block.settings.subtitle_item %}
         {% assign url = block.settings.url %}
@@ -97,7 +103,13 @@
           <li>
             <a href="{{ url | escape }}" class="text-decoration-none">
               <div class="inspiration-card h-100 border-0">
-                <img src="{{ image | file_url | replace: 'files/files', 'files' }}" alt="{{ title | escape }}" class="card-img-top">
+                <!-- Logica om de afbeelding te kiezen op basis van de schermgrootte -->
+                <picture>
+                  {% if image_mobile %}
+                    <source srcset="{{ image_mobile | file_url | replace: 'files/files', 'files' }}" media="(max-width: 768px)">
+                  {% endif %}
+                  <img src="{{ image | file_url | replace: 'files/files', 'files' }}" alt="{{ title | escape }}" class="card-img-top">
+                </picture>
                 <div class="card-body text-left">
                   <h5 class="card-title">{{ title }}</h5>
                   <p class="card-subtitle">{{ subtitle }}</p>
@@ -110,6 +122,7 @@
     </ul>
   {% endif %}
 </section>
+
 
 
 
