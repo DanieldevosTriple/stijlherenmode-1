@@ -358,8 +358,6 @@
     align-items: center;
     flex-direction: column;
     overflow: hidden;
-    padding-left: 0px;
-    padding-right: 0px;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -373,6 +371,12 @@
     transform: translateX(0);
     visibility: visible;
     transition: transform 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    position: static;
+    display: block;
+    height: 100vh;
+    padding-left: 0px;
+    padding-right: 0px;
+    width: auto;
   }
   
   /* Menu-items stijl */
