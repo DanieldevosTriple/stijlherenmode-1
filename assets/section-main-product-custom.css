@@ -441,6 +441,7 @@
       .product-section {
           padding-top: 2rem;
           width: 100%;
+          max-width: 100%;
       }
   }
 
