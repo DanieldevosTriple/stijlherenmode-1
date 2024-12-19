@@ -387,6 +387,7 @@
     font-family: 'TradeGothicLT';
     text-transform: uppercase;
     font-weight: 400;
+    border-bottom: 1px solid lightgrey;
     }
 }
 
