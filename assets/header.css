@@ -423,15 +423,6 @@
     color: red; /* Highlight kleur */
   }
   
-  .mobile-menu-overlay {
-    opacity: 0;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .mobile-menu-overlay.show {
-    opacity: 1;
-  }
   
   /* Klasse om scrollen te voorkomen */
 .no-scroll {
