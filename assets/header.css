@@ -376,6 +376,7 @@
     padding-left: 0px;
     padding-right: 0px;
     width: auto;
+    transition: transform 2s ease-in
   }
   
   /* Menu-items stijl */
