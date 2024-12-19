@@ -127,7 +127,7 @@
 
      .search-text {
         font-size: 1.2rem;
-        font-weight: 600;
+        font-weight: 800;
      }
 
      .hover-red:hover {
@@ -205,6 +205,7 @@
     font-family: TradeGothicLT;
     color: var(--font-color-light-mode);
     font-size: 1.2rem;
+    font-weight: 800;
 }
 
 .navbar-nav .nav-link:hover {
@@ -235,7 +236,7 @@
 .cart-link {
     color: var(--font-color-light-mode);
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 800;
 }
 
 @media (prefers-color-scheme: dark) {
