@@ -69,6 +69,39 @@
       {{ body_font_bold_italic | font_face: font_display: 'swap' }}
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
 
+      /* Trade Gothic Light */
+      @font-face {
+        font-family: 'TradeGothicLT';
+        src: url('{{ "TradeGothicLT-CondEighteen.woff2" | asset_url }}') format('woff2'),
+             url('{{ 'TradeGothicLT-CondEighteen.woff' | asset_url }}') format('woff');
+        font-style: normal;
+        font-weight: 600;
+      }
+
+      @font-face {
+        font-family: 'TradeGothicLT';
+        src: url('{{ "TradeGothicLT-BoldCondTwenty.woff2" | asset_url }}') format('woff2'),
+             url('{{ "TradeGothicLT-BoldCondTwenty.woff" | asset_url }}') format('woff');
+        font-style: normal;
+        font-weight: 800;
+      }
+
+      @font-face {
+        font-family: 'TradeGothicLT';
+        src: url('{{ "TradeGothicLT-Light.woff2" | asset_url }}') format('woff2'),
+            url('{{ "TradeGothicLT-Light.woff" | asset_url }}') format('woff');
+        font-style: normal;
+        font-weight: 200;
+      }
+
+      @font-face {
+        font-family: 'TradeGothicLT';
+        src: url('{{ "TradeGothicLT.woff2" | asset_url }}') format('woff2'),
+            url('{{ "TradeGothicLT.woff" | asset_url }}') format('woff');
+        font-style: normal;
+        font-weight: 400;
+      }
+
       {% for scheme in settings.color_schemes -%}
         {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
         {% if forloop.index == 1 -%}
