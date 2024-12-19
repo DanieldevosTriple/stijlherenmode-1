@@ -138,7 +138,7 @@
       </div>
       {% if section.settings.menu != blank %}
         {% assign menu = linklists[section.settings.menu] %}
-        <div class="mobile-menu-overlay">
+        <div class="row mobile-menu-overlay">
           <ul class="mobile-menu">
             {% for link in menu.links %}
               <li class="nav-item">

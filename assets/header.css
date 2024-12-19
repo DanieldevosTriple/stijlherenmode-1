@@ -364,10 +364,12 @@
 
   /* Toon de overlay */
   .mobile-menu-overlay.show {
-    padding-top: 5rem;
     position: static;
     display: block;
     height: 100vh;
+    padding-left: 0px;
+    padding-right: 0px;
+    width: auto;
   }
   
   /* Menu-items stijl */
