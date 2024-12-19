@@ -34,6 +34,12 @@
   margin: 0;
 }
 
+@media screen and (max-width: 991px) {
+  .grid-categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .collection-info {
   text-align: left;
 }
