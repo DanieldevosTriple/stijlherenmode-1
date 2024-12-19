@@ -383,6 +383,8 @@
 
     .breadcrumb-mobile {
     display: block;
+    padding: 20px;
+    font-family: Trade;
     }
 }
 
