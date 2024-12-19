@@ -1,426 +1,455 @@
   .main-product-grid {
-    display: grid; 
-    grid-template-columns: 60% 40%;
-    gap: 1rem;
+      display: grid;
+      grid-template-columns: 60% 40%;
+      gap: 1rem;
   }
-  
+
   .product-border {
-    border-bottom: 1px solid lightgrey;
-    padding-bottom: 10rem;
-    }
-
-    .product-details-section {
-    padding-top: 10rem;
-    padding-bottom: 10rem;
-   }
-
-@media screen and (max-width: 991px) {
-        
-    .product-details-section {
-    padding-top: 0rem;
-    padding-bottom: 10rem;
-    }
-   
-}
-
-   .buy-button-section {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-   }
-
-   .product-description {
-    font-size: 1.2rem;
-   }
-   
-   .product-title {
-        font-size: 20px;
-        margin-bottom: 10px;
-        font-weight: 700;
-    }
-
-    .option-title {
-        text-transform: uppercase;
-        font-family: 'TradeGothicLT';
-        font-size: 1.3rem;
-    }
-
-    .product-vendor {
-        text-transform: uppercase;
-        font-family: 'TradeGothicLT';
-        font-size: 1.3rem;
-    }
-
-    .product-price {
-        text-transform: uppercase;
-        font-family: 'TradeGothicLT';
-        font-size: 1.8rem;
-        font-weight: 600;
-    }
-    
-    .color-swatches {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-    
-    .color-swatch {
-        width: 40px;
-        height: 40px;
-        border: 2px solid #ccc;
-        border-radius: 50%;
-        cursor: pointer;
-    }
-    
-    .color-swatch:hover {
-        border-color: #000;
-    }
-    
-    .media-gallery img {
-        max-width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .product-gallery {
-        margin-top: 0px;
-    }
-
-    .secondary-image {
-        padding: 0px;
-    }
-    
-    .secondary-gallery {
-        display: flex;
-        margin-top: 10px;
-    }
-    
-    .secondary-gallery .col-6 img {
-        max-width: 100%;
-        height: auto; /* Houdt de aspectratio */
-        object-fit: cover; /* Zorg dat de afbeelding mooi geschaald wordt */
-    }      
-    
-    .buy-button {
-        padding: 10px 20px;
-        background-color: #000;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        width: 100%;
-        font-family: TradeGothicLT;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-    
-    .buy-button:hover {
-        background-color: white;
-        border-color: 1px solid black;
-    }
-
-    .option-group {
-        margin-bottom: 20px;
-      }
-      
-    .option-swatch img.swatch-image {
-        object-fit: cover;
-    }
-
-    .option-swatch.has-image {
-        background-color: transparent;
-        font-size: 14px;
-        display: inline-block;
-        margin: 5px;
-        border: none;
-        overflow: hidden;
-        width: 60px;
-        height: 60px;
-        text-align: center;
-        cursor: pointer;
-        transition: all .3s ease;
-        padding: 0px;
-    }
-
-    .option-swatch.has-image.active {
-        border: 1px solid black;
-    }
-
-    .option-swatch:not(.has-image) {
-        background-color: transparent;
-        color: black;
-        padding: 10px;
-        font-size: 14px;
-        display: inline-block;
-        margin: 5px;
-        border: none;
-        overflow: hidden;
-        width: 40px;
-        height: 40px;
-        text-align: center;
-        cursor: pointer;
-        transition: all .3s ease;
-    }
-      
-    .option-swatch:not(.has-image).active {
-        background-color: black;
-        color: white;
-        padding: 10px;
-        font-size: 14px;
-        display: inline-block;
-        margin: 5px;
-        border: none;
-        overflow: hidden;
-        width: 40px;
-        height: 40px;
-        text-align: center;
-        cursor: pointer;
-        transition: all .3s ease;
-
-    }
-      
-@media screen and (max-width: 749px) {
-    
-    .product-border-gallery {
-        border: none;
-    }
-}
-
-.accordion {
-    width: 100%;
-    max-width: 600px;
-    margin: 20px auto;
-    background: transparent;
-    border-top: 1px solid  lightgrey;
-    border-bottom: 1px solid  lightgrey; /* Bottom border for the last item */
-}
-
-.accordion-item {
-    border-bottom: 1px solid lightgrey;
-}
-
-.accordion-item:last-child {
-    border-bottom: none; /* Verwijdert de extra border van het laatste item */
-}
-
-.accordion-header {
-    padding: 1.5rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-transform: uppercase;
-    font-weight: 800;
-    font-family: TradeGothicLT;
-    font-size: 1.5rem;
-    padding-left: 0px;
-    padding-right: 0px;
-}
-
-.accordion-header:hover {
-    color: red;
-}
-
-.accordion-content {
-    display: none;
-    transition: max-height 0.3s ease; /* Optioneel voor animatie */
-    overflow: hidden; /* Zorg ervoor dat inhoud niet buiten de container komt */
-}
-.accordion-header.active + .accordion-content {
-    display: block;
-}
-
-.accordion-content.active {
-    display: block;
-}
-
-.accordion-header.active {
-    font-weight: bold;
-}
-
-.accordion-header::after {
-    content: '+';
-    font-size: 18px;
-    margin-left: auto;
-    transition: transform 0.3s;
-    font-weight: 100;
-}
-
-.accordion-header.active::after {
-    content: '-';
-}
-
-.back-arrow {
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none;
-    padding-bottom: 3rem;
-    padding-top: 3rem;
-}
-  
-.arrow-body {
-    display: block;
-    width: 40px; /* Lengte van de steel */
-    height: 2px; /* Dikte van de steel */
-    background-color: black; /* Kleur van de pijl */
-}
-  
-.arrow-head {
-    display: block;
-    width: 10px; /* Breedte van de pijlkop */
-    height: 10px; /* Hoogte van de pijlkop */
-    border-top: 2px solid black; /* Schuine lijnen voor de pijlkop */
-    border-left: 2px solid black;
-    transform: rotate(-45deg); /* Draai om de pijl te vormen */
-    margin-left: -2px; /* Zorg ervoor dat de kop aansluit op de steel */
-}
-
-.klarna-logo {
-    height: 15px;
-    padding-right: 5px;
-    padding-left: 5px;
-}
-
-.klarna {
-    display: flex;
-    flex-direction: column; /* Zorgt ervoor dat tekst en logo onder elkaar staan */
-    align-items: center; /* Centreert horizontaal */
-    justify-content: center; /* Centreert verticaal */
-    text-align: center; /* Centreert de tekst */
-    height: 100%; /* Zorg ervoor dat de hoogte wordt toegepast als nodig */
-}
-  
-.klarna p {
-    margin: 0; /* Verwijder standaard marge van p-element */
-    display: flex;
-    align-items: baseline;
+      border-bottom: 1px solid lightgrey;
+      padding-bottom: 10rem;
   }
 
-.options-container {
-    padding-top: 2.5rem;
-}
-  
-.product-section {
-    max-width: 90%;
-}
-  
-@media (prefers-color-scheme: dark) { 
-    .arrow-head {
-        border-top: 2px solid white;
-        border-left: 2px solid white;
-    }
+  .product-details-section {
+      padding-top: 10rem;
+      padding-bottom: 10rem;
+  }
 
-    .arrow-body {
-        background-color: white;
-    }
+  @media screen and (max-width: 991px) {
 
-    .product-price {
-        color: white;
-    }
+      .product-details-section {
+          padding-top: 0rem;
+          padding-bottom: 10rem;
+      }
 
-    .option-swatch {
-        background-color: transparent;
-        color: white;
-    }
+  }
 
-    .option-swatch:not(.has-image).active {
-        background-color: white;
-        color: black;
-    }
+  .buy-button-section {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+  }
 
-    .product-description {
-        color: white;
-    }
+  .product-description {
+      font-size: 1.2rem;
+  }
 
-    .accordion-header {
-        color: white
-    }
+  .product-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+      font-weight: 700;
+  }
 
-    .product-vendor {
-        color: white;
-    }
+  .option-title {
+      text-transform: uppercase;
+      font-family: 'TradeGothicLT';
+      font-size: 1.3rem;
+  }
 
-    .option-swatch:not(.has-image) {
-        color: white;
-    }
+  .product-vendor {
+      text-transform: uppercase;
+      font-family: 'TradeGothicLT';
+      font-size: 1.3rem;
+  }
 
-    .option-swatch.has-image {
-        background-color: white;
-    }
+  .product-price {
+      text-transform: uppercase;
+      font-family: 'TradeGothicLT';
+      font-size: 1.8rem;
+      font-weight: 600;
+  }
 
-    .buy-button {
-        background-color: white;
-        color: black;
-    }
-}
+  .color-swatches {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+  }
 
-@media screen and (max-width: 991px) {
-    .product-gallery-mobile {
-        display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory; /* Smooth scrolling */
-        -webkit-overflow-scrolling: touch; /* Voor betere mobiele ondersteuning */
-        -ms-overflow-style: none; /* Verwijder scrollbar op IE/Edge */
-        scrollbar-width: none;
-        scroll-padding: 0;
-        padding: 0px;
-    }
+  .color-swatch {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+  }
+
+  .color-swatch:hover {
+      border-color: #000;
+  }
+
+  .media-gallery img {
+      max-width: 100%;
+      margin-bottom: 10px;
+  }
+
+  .product-gallery {
+      margin-top: 0px;
+  }
+
+  .secondary-image {
+      padding: 0px;
+  }
+
+  .secondary-gallery {
+      display: flex;
+      margin-top: 10px;
+  }
+
+  .secondary-gallery .col-6 img {
+      max-width: 100%;
+      height: auto;
+      /* Houdt de aspectratio */
+      object-fit: cover;
+      /* Zorg dat de afbeelding mooi geschaald wordt */
+  }
+
+  .buy-button {
+      padding: 10px 20px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      font-family: TradeGothicLT;
+      font-weight: 700;
+      text-transform: uppercase;
+  }
+
+  .buy-button:hover {
+      background-color: white;
+      border-color: 1px solid black;
+  }
+
+  .option-group {
+      margin-bottom: 20px;
+  }
+
+  .option-swatch img.swatch-image {
+      object-fit: cover;
+  }
+
+  .option-swatch.has-image {
+      background-color: transparent;
+      font-size: 14px;
+      display: inline-block;
+      margin: 5px;
+      border: none;
+      overflow: hidden;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .3s ease;
+      padding: 0px;
+  }
+
+  .option-swatch.has-image.active {
+      border: 1px solid black;
+  }
+
+  .option-swatch:not(.has-image) {
+      background-color: transparent;
+      color: black;
+      padding: 10px;
+      font-size: 14px;
+      display: inline-block;
+      margin: 5px;
+      border: none;
+      overflow: hidden;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .3s ease;
+  }
+
+  .option-swatch:not(.has-image).active {
+      background-color: black;
+      color: white;
+      padding: 10px;
+      font-size: 14px;
+      display: inline-block;
+      margin: 5px;
+      border: none;
+      overflow: hidden;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .3s ease;
+
+  }
+
+  @media screen and (max-width: 749px) {
+
+      .product-border-gallery {
+          border: none;
+      }
+  }
+
+  .accordion {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      background: transparent;
+      border-top: 1px solid lightgrey;
+      border-bottom: 1px solid lightgrey;
+      /* Bottom border for the last item */
+  }
+
+  .accordion-item {
+      border-bottom: 1px solid lightgrey;
+  }
+
+  .accordion-item:last-child {
+      border-bottom: none;
+      /* Verwijdert de extra border van het laatste item */
+  }
+
+  .accordion-header {
+      padding: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-transform: uppercase;
+      font-weight: 800;
+      font-family: TradeGothicLT;
+      font-size: 1.5rem;
+      padding-left: 0px;
+      padding-right: 0px;
+  }
+
+  .accordion-header:hover {
+      color: red;
+  }
+
+  .accordion-content {
+      display: none;
+      transition: max-height 0.3s ease;
+      /* Optioneel voor animatie */
+      overflow: hidden;
+      /* Zorg ervoor dat inhoud niet buiten de container komt */
+  }
+
+  .accordion-header.active+.accordion-content {
+      display: block;
+  }
+
+  .accordion-content.active {
+      display: block;
+  }
+
+  .accordion-header.active {
+      font-weight: bold;
+  }
+
+  .accordion-header::after {
+      content: '+';
+      font-size: 18px;
+      margin-left: auto;
+      transition: transform 0.3s;
+      font-weight: 100;
+  }
+
+  .accordion-header.active::after {
+      content: '-';
+  }
+
+  .back-arrow {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      padding-bottom: 3rem;
+      padding-top: 3rem;
+  }
+
+  .arrow-body {
+      display: block;
+      width: 40px;
+      /* Lengte van de steel */
+      height: 2px;
+      /* Dikte van de steel */
+      background-color: black;
+      /* Kleur van de pijl */
+  }
+
+  .arrow-head {
+      display: block;
+      width: 10px;
+      /* Breedte van de pijlkop */
+      height: 10px;
+      /* Hoogte van de pijlkop */
+      border-top: 2px solid black;
+      /* Schuine lijnen voor de pijlkop */
+      border-left: 2px solid black;
+      transform: rotate(-45deg);
+      /* Draai om de pijl te vormen */
+      margin-left: -2px;
+      /* Zorg ervoor dat de kop aansluit op de steel */
+  }
+
+  .klarna-logo {
+      height: 15px;
+      padding-right: 5px;
+      padding-left: 5px;
+  }
+
+  .klarna {
+      display: flex;
+      flex-direction: column;
+      /* Zorgt ervoor dat tekst en logo onder elkaar staan */
+      align-items: center;
+      /* Centreert horizontaal */
+      justify-content: center;
+      /* Centreert verticaal */
+      text-align: center;
+      /* Centreert de tekst */
+      height: 100%;
+      /* Zorg ervoor dat de hoogte wordt toegepast als nodig */
+  }
+
+  .klarna p {
+      margin: 0;
+      /* Verwijder standaard marge van p-element */
+      display: flex;
+      align-items: baseline;
+  }
+
+  .options-container {
+      padding-top: 2.5rem;
+  }
+
+  .product-section {
+      max-width: 90%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+      .arrow-head {
+          border-top: 2px solid white;
+          border-left: 2px solid white;
+      }
+
+      .arrow-body {
+          background-color: white;
+      }
+
+      .product-price {
+          color: white;
+      }
+
+      .option-swatch {
+          background-color: transparent;
+          color: white;
+      }
+
+      .option-swatch:not(.has-image).active {
+          background-color: white;
+          color: black;
+      }
+
+      .product-description {
+          color: white;
+      }
+
+      .accordion-header {
+          color: white
+      }
+
+      .product-vendor {
+          color: white;
+      }
+
+      .option-swatch:not(.has-image) {
+          color: white;
+      }
+
+      .option-swatch.has-image {
+          background-color: white;
+      }
+
+      .buy-button {
+          background-color: white;
+          color: black;
+      }
+  }
+
+  @media screen and (max-width: 991px) {
+      .product-gallery-mobile {
+          display: flex;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          /* Smooth scrolling */
+          -webkit-overflow-scrolling: touch;
+          /* Voor betere mobiele ondersteuning */
+          -ms-overflow-style: none;
+          /* Verwijder scrollbar op IE/Edge */
+          scrollbar-width: none;
+          scroll-padding: 0;
+          padding: 0px;
+      }
 
       .product-gallery-mobile::-webkit-scrollbar {
-        display: none; /* Geen scrollbar tonen */
-    }
-      
+          display: none;
+          /* Geen scrollbar tonen */
+      }
+
       .product-gallery-mobile-item {
-        flex: 0 0 100%; /* Zorg ervoor dat elke afbeelding 100% van de viewport inneemt */
-        scroll-snap-align: start; /* Afbeelding uitlijnen bij scrollen */
-        object-fit: cover; /* Zorg dat afbeeldingen volledig in beeld zijn */
-        max-width: 100%;
-        height: auto; /* Houd aspectratio correct */
-        padding: 0px;
-    }
+          flex: 0 0 100%;
+          /* Zorg ervoor dat elke afbeelding 100% van de viewport inneemt */
+          scroll-snap-align: start;
+          /* Afbeelding uitlijnen bij scrollen */
+          object-fit: cover;
+          /* Zorg dat afbeeldingen volledig in beeld zijn */
+          max-width: 100%;
+          height: auto;
+          /* Houd aspectratio correct */
+          padding: 0px;
+      }
 
-    .main-product-grid {
-        display: grid;
-        grid-template-columns: repeat(1,1fr);
-        gap: 1rem;
-    }
-}
-
-.breadcrumb {
-    background-color: transparent;
-    font-family: 'TradeGothicLT';
-    text-transform: uppercase;
-    padding: 0px;
-}
-
-.breadcrumb-mobile {
-    display: none;
-}
-
-@media screen and (max-width: 991px) {
-    .breadcrumb {
-    display: none;
-    }
-
-    .breadcrumb-mobile {
-    display: block;
-    padding: 20px;
-    font-family: 'TradeGothicLT';
-    text-transform: uppercase;
-    font-weight: 400;
-    border-bottom: 1px solid lightgrey;
-    }
-
-    .product-section {
-    padding-top: 2rem;
-    width: 100%;
-    }
-}
-
-.breadcrumb a {
-    color: grey;
-    text-decoration: none;
+      .main-product-grid {
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          gap: 1rem;
+      }
   }
 
-.breadcrumb-link {
-    color: grey;
-    text-decoration: none;
-}
+  .breadcrumb {
+      background-color: transparent;
+      font-family: 'TradeGothicLT';
+      text-transform: uppercase;
+      padding: 0px;
+  }
+
+  .breadcrumb-mobile {
+      display: none;
+  }
+
+  @media screen and (max-width: 991px) {
+      .breadcrumb {
+          display: none;
+      }
+
+      .breadcrumb-mobile {
+          display: block;
+          padding: 20px;
+          font-family: 'TradeGothicLT';
+          text-transform: uppercase;
+          font-weight: 400;
+          border-bottom: 1px solid lightgrey;
+      }
+
+      .product-section {
+          padding-top: 2rem;
+          width: 100%;
+      }
+  }
+
+  .breadcrumb a {
+      color: grey;
+      text-decoration: none;
+  }
+
+  .breadcrumb-link {
+      color: grey;
+      text-decoration: none;
+  }
