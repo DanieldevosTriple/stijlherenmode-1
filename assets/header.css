@@ -356,8 +356,6 @@
     flex-direction: column;
     flex-direction: column;
     overflow: hidden; /* Zorgt dat niets buiten het menu zichtbaar is */
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -427,7 +425,8 @@
   
   .mobile-menu-overlay {
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
   }
   
   .mobile-menu-overlay.show {
