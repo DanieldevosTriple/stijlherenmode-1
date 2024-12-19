@@ -4,6 +4,8 @@
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 
+{{ 'featured-collection.css' | asset_url | stylesheet_tag }}
+
   {{ 'quick-add.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
  
@@ -54,7 +56,7 @@
     <ul
       id="Slider-{{ section.id }}"
       data-id="{{ section.id }}"
-      class="slider-desktop slider--mobile"
+      class="carousel"
       role="list"
       aria-label="{{ 'general.slider.name' | t }}"
     >
@@ -81,7 +83,7 @@
       
                   <li
                     id="Slide-{{ section.id }}-{{ forloop.index }}"
-                    class="col-12 col-sm-6 col-md-6 col-lg-4 slider-item no-padding{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    class="slider-item scroll-trigger animate--slide-in"
                     {% if settings.animations_reveal_on_scroll %}
                       data-cascade
                       style="--animation-order: {{ forloop.index }};"

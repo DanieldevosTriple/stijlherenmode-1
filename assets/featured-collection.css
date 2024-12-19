@@ -1,0 +1,73 @@
+/* Basisreset en styling */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  /* Carousel Container */
+  .carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; /* Voor soepel scrollen op iOS */
+    gap: 16px; /* Ruimte tussen items */
+    padding: 10px;
+    list-style: none;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  
+  /* Verberg scrollbar in Webkit browsers */
+  .carousel::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Carousel Items */
+  .slider-item {
+    flex: 0 0 auto;
+    min-width: 200px; /* Basis breedte, pas aan naar wens */
+    scroll-snap-align: start;
+    background-color: #007BFF; /* Tijdelijke achtergrondkleur, aanpasbaar */
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  /* Hover-effect */
+  .slider-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Responsiviteit */
+  @media (max-width: 1024px) {
+    .slider-item {
+      min-width: 180px;
+      padding: 18px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .slider-item {
+      min-width: 150px;
+      padding: 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .slider-item {
+      min-width: 120px;
+      padding: 14px;
+    }
+  }
+  
