@@ -130,7 +130,7 @@
                     {% else %}
                       {{ 'icon-cart.svg' | inline_asset_content }}
                     {% endif %}
-                    <p class="cart-bubble">{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</p>
+                    <p class="cart-bubble">{% if cart.item_count > 0 %} {{ cart.item_count }}{% endif %}</p>
               </a>
             </div>            
           </div>
