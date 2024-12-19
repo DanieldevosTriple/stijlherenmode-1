@@ -92,6 +92,7 @@
 
     .featured-product-list {
       flex-wrap: wrap !important;
+      grid-template-columns: repeat(2, 1fr);
     }
 
   }
