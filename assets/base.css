@@ -389,7 +389,7 @@ h5,
   .h3,
   .h4,
   .h5 {
-    color: white !important;
+    color: white;
   }
 }
 
@@ -405,7 +405,7 @@ h5,
   .h3,
   .h4,
   .h5 {
-    color: black !important;
+    color: black;
   }
 }
 
@@ -3463,5 +3463,5 @@ sticky-header {
   header {
     border-bottom: 1px solid #3e3e3e;
   }
-  
+
 }
