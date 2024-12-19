@@ -195,6 +195,16 @@
         "unit": "rem",
         "label": "Section Padding Bottom"
       },
+      {
+        "type": "range",
+        "id": "padding-bottom-mobile",
+        "min": 1,
+        "max": 40,
+        "step": 1,
+        "default": 5,
+        "unit": "rem",
+        "label": "Section Padding Bottom (Mobile)"
+      },
     ]
   },
   {
