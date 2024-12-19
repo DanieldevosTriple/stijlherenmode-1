@@ -1044,7 +1044,7 @@ summary::-webkit-details-marker {
   }
 
   .breadcrumb {
-    color: white;
+    color: white !important;
   }
 }
 
