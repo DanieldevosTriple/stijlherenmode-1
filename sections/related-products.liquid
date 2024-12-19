@@ -13,7 +13,7 @@
   class="col-12 product-recommendations slider-desktop slider--mobile related-products-margin"
   data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.recommendations_limit }}&intent=related"
 >
-  <div class="col-12 product-recommendations">
+  <div class="product-recommendations">
   {%- if recommendations.performed? and recommendations.products_count > 0 -%}
     <div class="row title-related">
       <div class="col-12">
@@ -27,10 +27,10 @@
 
 <ul class="row list-unstyled overflow-auto flex-nowrap">
       {%- for product in recommendations.products -%}
-        <li class="col-6 col-md-4 col-lg-4 product">
+        <li class="col-6 col-md-3 col-lg-3 no-padding product">
           <a href="{{ product.url }}">
             <img
-              class="col-12 related-card card--standard card--media"
+              class="related-card card--standard card--media"
               src="{{ product.featured_image | image_url: width: 300, height: 300 }}"
               alt="{{ product.featured_image.alt }}"
             />
