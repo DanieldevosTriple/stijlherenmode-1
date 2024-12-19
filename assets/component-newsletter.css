@@ -49,7 +49,6 @@
 .newsletter-form__button {
   width: 20rem;
   margin: 0;
-  right: var(--inputs-border-width);
   top: 0;
   border: 1px solid #fff;
   cursor: pointer; /* Zorgt voor het handje */
