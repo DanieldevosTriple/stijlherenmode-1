@@ -350,8 +350,16 @@
     height: 100%;
     background-color: var(--background-color-light-mode); /* Donkere overlay */
     z-index: 9999; /* Zorg dat het menu bovenop alles staat */
-    display: none; /* Verborgen standaard */
-    overflow: hidden; /* Zorgt dat niets buiten het menu zichtbaar is */
+    visibility: hidden;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -363,12 +371,8 @@
   /* Toon de overlay */
   .mobile-menu-overlay.show {
     transform: translateX(0);
-    position: static;
-    display: block;
-    height: 100vh;
-    padding-left: 0px;
-    padding-right: 0px;
-    width: auto;
+    visibility: visible;
+    transition: transform 0.5s ease-in-out, visibility 0.5s ease-in-out;
   }
   
   /* Menu-items stijl */
