@@ -384,7 +384,9 @@
     .breadcrumb-mobile {
     display: block;
     padding: 20px;
-    font-family: Trade;
+    font-family: 'TradeGothicLT';
+    text-transform: uppercase;
+    font-weight: 400;
     }
 }
 
