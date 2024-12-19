@@ -190,8 +190,8 @@
   margin-bottom: 2rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid grey;
-  border-top: 1px solid grey;
+  border-bottom: 1px solid lightgrey;
+  border-top: 1px solid lightgrey;
 }
 
 .facets__wrapper {
