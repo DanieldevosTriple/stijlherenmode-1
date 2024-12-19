@@ -3433,3 +3433,6 @@ header {
   padding-top: 2rem;
 }
 
+sticky-header {
+  z-index: 999;
+}
