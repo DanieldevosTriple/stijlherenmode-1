@@ -346,15 +346,11 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-color: var(--background-color-light-mode); /* Donkere overlay */
     z-index: 9999; /* Zorg dat het menu bovenop alles staat */
     display: none; /* Verborgen standaard */
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    flex-direction: column;
     overflow: hidden; /* Zorgt dat niets buiten het menu zichtbaar is */
   }
 
@@ -366,6 +362,7 @@
 
   /* Toon de overlay */
   .mobile-menu-overlay.show {
+    transform: translateX(0);
     position: static;
     display: block;
     height: 100vh;
@@ -421,7 +418,6 @@
   .mobile-menu .nav-link:hover {
     color: red; /* Highlight kleur */
   }
-  
   
   /* Klasse om scrollen te voorkomen */
 .no-scroll {
