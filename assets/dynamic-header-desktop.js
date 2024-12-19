@@ -56,6 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Clear bestaande timeout
         clearTimeout(scrollTimeout);
         // Wacht bijvoorbeeld 100ms na scroll voor update
-        scrollTimeout = setTimeout(handleScroll, 100);
+        scrollTimeout = setTimeout(handleScroll, 10);
     });
 });
