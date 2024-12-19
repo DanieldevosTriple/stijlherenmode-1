@@ -108,37 +108,54 @@
               class="product-grid row g-4">
               {% assign skip_card_product_styles = false %}
               
-              {%- for product in collection.products -%}
+              {% for product in collection.products %}
                 {% assign lazy_load = false %}
-                {%- if forloop.index > 2 -%}
-                  {%- assign lazy_load = true %}
-                {%- endif -%}
-                
+                {% if forloop.index > 2 %}
+                  {% assign lazy_load = true %}
+                {% endif %}
+              
+                {%- comment -%}
+                  Determine if the product has variants.
+                  Instead of doing something like {% assign has_variants = product.variants.size > 0 %}, 
+                  which is not allowed in Shopify Liquid, we use an if/else block:
+                {%- endcomment -%}
+                {% if product.variants.size > 1 %}
+                  {% assign has_variants = true %}
+                {% else %}
+                  {% assign has_variants = false %}
+                {% endif %}
+              
+                {%- comment -%}
+                  Check if a 'Color' option exists and store its index.
+                  We loop over product.options to find if 'Color' is one of them.
+                  This way, we can safely reference variant.options[color_option_index] later.
+                {%- endcomment -%}
+                {% assign color_option_index = -1 %}
                 {% assign color_active = false %}
-                {% assign has_variants = product.variants.size > 0 %}
-                
-                {%- for option in product.options -%}
-                  {% if option == 'Color' %}
+                {% for opt_name in product.options %}
+                  {% if opt_name == 'Color' %}
                     {% assign color_active = true %}
+                    {% assign color_option_index = forloop.index0 %}
                   {% endif %}
-                {%- endfor -%}
-                
-                {% if has_variants and color_active %}
-                  <!-- Product met color varianten -->
-                  {% assign index = forloop.index0 %}
+                {% endfor %}
+              
+                {%- comment -%}
+                  If the product has variants and a color option, we will show only one variant per unique color.
+                  We achieve this by keeping track of colors we have already displayed, so we don't show duplicates.
+                {%- endcomment -%}
+                {% if has_variants and color_active and color_option_index != -1 %}
                   {% assign colorlist = '' %}
                   {% for variant in product.variants %}
-                    {% capture color %}
-                      {{ variant.options[index] }}
-                    {% endcapture %}
+                    {% assign color = variant.options[color_option_index] %}
                     
                     {% unless colorlist contains color %}
-                      <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" 
+                      <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
                         data-product-id="{{ product.id }}"
                         data-variant-id="{{ variant.id }}"
                         data-price="{{ variant.price | money_without_currency }}"
                         data-filter-color="{{ variant.options | first }}"
                         data-filter-size="{{ variant.options | last }}">
+                        
                         {% render 'card-product-variant',
                           card_product: product,
                           variant: variant,
@@ -148,16 +165,19 @@
                           show_rating: section.settings.show_rating,
                           lazy_load: lazy_load
                         %}
+              
                       </li>
-                      {% capture colorlist %}
-                        {{ colorlist | append: color | append: " " }}
-                      {% endcapture %}
+                      {% assign colorlist = colorlist | append: color | append: " " %}
                     {% endunless %}
                   {% endfor %}
-                {% else %}
-                  <!-- Product zonder color varianten of varianten -->
-                  <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in" 
+                {%- else -%}
+                  {%- comment -%}
+                    If the product doesn't have color variants or doesn't have variants at all,
+                    we just display the product normally.
+                  {%- endcomment -%}
+                  <li class="col-sm-6 col-md-4 col-lg-4 scroll-trigger animate--slide-in"
                     data-product-id="{{ product.id }}">
+              
                     {% render 'card-product',
                       card_product: product,
                       media_aspect_ratio: section.settings.image_ratio,
@@ -168,7 +188,7 @@
                     %}
                   </li>
                 {% endif %}
-              {%- endfor -%}                           
+              {% endfor %}                                         
 
           </ul>    
                          
