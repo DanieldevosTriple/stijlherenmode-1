@@ -442,6 +442,8 @@ mark,
 .list-unstyled {
   padding-left: 0;
   list-style: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .list-inline {
