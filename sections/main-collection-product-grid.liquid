@@ -150,12 +150,14 @@
                       Check if this color is not yet displayed:
                       We search for "|Color|" in colorlist to ensure exact matches.
                     {%- endcomment -%}
-                    {% if color != '' and colorlist contains '|' | append: color | append: '|' %}
-                      {%- comment -%}
-                        If the color is already in colorlist, skip.
-                      {%- endcomment -%}
-                      {% continue %}
-                    {% endif %}
+                    {% assign color_check = '|' | append: color | append: '|' %}
+
+                      {% if color != '' and colorlist contains color_check %}
+                        {%- comment -%}
+                          If the color is already in colorlist, skip this variant.
+                        {%- endcomment -%}
+                        {% continue %}
+                      {% endif %}
               
                     {%- comment -%}
                       Show variant for this unique color.
