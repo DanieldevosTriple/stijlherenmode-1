@@ -71,7 +71,6 @@
     margin-bottom: 1rem;
     height: auto; /* hoogte aanpassen naar wens */
     gap: 1rem; /* spacing tussen items indien nodig */
-    padding: 1rem; /* optioneel voor wat padding links en rechts */
   }
 
   .logo-grid-item {
