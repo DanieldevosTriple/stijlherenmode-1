@@ -3427,6 +3427,10 @@ header {
   header {
     border-bottom: 1px solid lightgrey;
   }
+
+  .container-mobile {
+    padding: 0px !important;
+  }
 }
 
 .title-block {
