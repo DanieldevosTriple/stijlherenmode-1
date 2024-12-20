@@ -7,7 +7,7 @@
         <div class="image-overlay-block">
           {% if block.settings.image != blank %}
             <div class="image-overlay-block__image" 
-                 style="background-image: url({{ block.settings.image | img_url: 'master' }}); background-size: cover; background-position: center;">
+                 style="background-image: url({{ block.settings.image | image_url }}); background-size: cover; background-position: center;">
             </div>
           {% endif %}
 
