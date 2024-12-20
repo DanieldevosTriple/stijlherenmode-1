@@ -26,9 +26,9 @@
             <li class="grid-item">
               <a href="{{ collection_obj.url }}" class="collection-image-link">
                 {% if block.settings.collection_image != blank %}
-                  <img src="{{ block.settings.collection_image | file_url | replace: 'files/files', 'files' }}" alt="{{ collection_obj.title | escape }}" class="collection-image"/>
+                  <img src="{{ block.settings.collection_image | file_url | replace: 'files/files', 'files' }}" width="" height="" alt="{{ collection_obj.title | escape }}" class="collection-image"/>
                 {% elsif collection_obj.image %}
-                  <img src="{{ collection_obj.image.src | file_url | replace: 'files/files', 'files' }}" alt="{{ collection_obj.image.alt | escape }}" class="collection-image"/>
+                  <img src="{{ collection_obj.image.src | file_url | replace: 'files/files', 'files' }}" alt="{{ collection_obj.image.alt | escape }}" width="" height="" class="collection-image"/>
                 {% else %}
                   <div class="no-image-placeholder"></div>
                 {% endif %}
