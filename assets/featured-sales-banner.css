@@ -47,23 +47,5 @@
     color: white;
     background-color: black;
   }
-  
-  /* Dark mode styles */
-  @media (prefers-color-scheme: dark) {
-    .featured-sales-banner {
-      color: white;
-    }
-  
-    .featured-sales-banner__button {
-      border: 2px solid white;
-      color: white;
-    }
-  
-    .featured-sales-banner__button:hover {
-      color: black;
-      background-color: white;
-    }
-  }
-  
 
   

@@ -138,18 +138,7 @@
 .card__information {
   grid-row-start: 2;
   padding: 1.3rem 1rem;
-}
-
-@media (prefers-color-scheme: light) {
-  .card__information {
-    background: var(--background-color-light-mode) !important;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .card__information {
-    background: var(--background-color-dark-mode) !important;
-  }
+  background: var(--background-color-light-mode);
 }
 
 .card:not(.ratio) > .card__content {
@@ -492,12 +481,6 @@
 
 .card-information > .price {
   color: rgb(var(--color-foreground));
-}
-
-@media (prefers-color-scheme: dark) {
-  .card-information > .price {
-    color: white;
-  }
 }
 
 .card--horizontal .card-information > .price {

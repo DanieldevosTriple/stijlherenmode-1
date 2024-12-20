@@ -98,9 +98,3 @@
     min-height: 20rem;
   }
 }
-
-@media (prefers-color-scheme: dark) {
-  .collection-hero__title + .collection-hero__description {
-    color: white;
-  }
-}

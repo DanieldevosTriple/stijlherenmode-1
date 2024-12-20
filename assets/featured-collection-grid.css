@@ -20,12 +20,6 @@
   color: #000; 
 }
 
-@media (prefers-color-scheme: dark) {
-.cta-link {
-  color: white; 
-}
-}
-
 .cta-link a:hover {
   text-decoration: underline;
   color: #000; 

@@ -66,45 +66,11 @@
     margin-top: 5px;
     display: none;
   }
-
-  @media (prefers-color-scheme: dark) {
-    .store-selector__title-wrapper {
-      color: white;
-    }
-
-    .store-selector__link a  {
-      color: white;
-    }
-
-    .button-featured-product-custom:hover {
-      color: white;
-      text-decoration: none;
-    }
-
-    .store-selector__item:hover .store-selector__title-wrapper::before,
-    .store-selector__item:hover .store-selector__title-wrapper::after,
-    .store-selector__item.active .store-selector__title-wrapper::before,
-    .store-selector__item.active .store-selector__title-wrapper::after {
-      color: white;
-    }
-
-    .store-selector__description {
-      color: #d3d3d3;
-    }
-
-  }
   
   .store-selector__item:hover .store-selector__description,
   .store-selector__item.active .store-selector__description {
     display: block;
   }
-
-  @media (prefers-color-scheme: dark) {
-  .store-selector__item:hover .store-selector__description,
-  .store-selector__item.active .store-selector__description {
-    color: #d3d3d3;
-  }
-}
 
   .store-selector__content {
     text-align: center;

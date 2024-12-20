@@ -275,22 +275,6 @@ slider-component.slider-component-full-width {
   background-color: rgb(var(--color-foreground));
 }
 
-@media (prefers-color-scheme: dark) {
-  .slider-counter__link--active.slider-counter__link--dots .dot {
-    background-color: white;
-  }
-
-  .slider-counter__link--dots .dot {
-    border: 0.1rem solid white;
-  }
-}
-
-@media screen and (forced-colors: active) {
-  .slider-counter__link--active.slider-counter__link--dots .dot {
-    background-color: CanvasText;
-  }
-}
-
 .slider-counter__link--dots:not(.slider-counter__link--active):hover .dot {
   border-color: rgb(var(--color-foreground));
 }
@@ -374,20 +358,6 @@ slider-component.slider-component-full-width {
   justify-content: center;
 }
 
-@media (prefers-color-scheme: dark) {
-  .slider-button {
-    color: white;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
 .slider-button-featured-products {
   color: rgba(var(--color-foreground), 0.75);
   background: transparent;
@@ -400,38 +370,12 @@ slider-component.slider-component-full-width {
   justify-content: center;
 }
 
-@media (prefers-color-scheme: dark) {
-  .slider-button-featured-products {
-    color: white;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
 .slider-button-featured-products:hover {
   color: rgb(var(--color-foreground));
 }
 
-@media (prefers-color-scheme: dark) {
-  .slider-button-featured-products:hover {
-    color: white;
-  }
-}
-
 .slider-button:not([disabled]):hover {
   color: rgb(var(--color-foreground));
-}
-
-@media (prefers-color-scheme: dark) {
-  .slider-button:not([disabled]):hover {
-    color: white;
-  }
 }
 
 .slider-button-featured-products .icon {
@@ -445,13 +389,6 @@ slider-component.slider-component-full-width {
 .slider-button-featured-products[disabled] .icon {
   color: rgba(var(--color-foreground), 0.3);
   cursor: not-allowed;
-}
-
-@media (prefers-color-scheme: dark) {
-.slider-button-featured-products[disabled] .icon {
-  color: #ffffff5e;
-  cursor: not-allowed;
-}
 }
 
 .slider-button[disabled] .icon {

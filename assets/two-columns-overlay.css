@@ -46,18 +46,7 @@
     margin: 0;
     line-height: 0.7;
     font-family:'TradeGothicLT' !important;
-  }
-
-  @media (prefers-color-scheme: light) {
-    .image-overlay-block__title {
-      color: white;
-    }
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    .image-overlay-block__title {
-      color: white;
-    }
+    color: white;
   }
 
   .button {
@@ -133,12 +122,6 @@
 .underline:hover {
   color: red; /* Donkerdere kleur bij hover */
   text-decoration: underline; /* Onderstreping bij hover */
-}
-
-@media (prefers-color-scheme: dark) {
-  .underline {
-    color: white; /* Donkerdere kleur bij hover */
-  }
 }
 
 @media screen and (max-width: 991px) {

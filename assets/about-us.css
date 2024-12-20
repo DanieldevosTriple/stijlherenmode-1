@@ -41,9 +41,3 @@
 .no-background {
     background: none !important;
 }
-
-@media (prefers-color-scheme: dark) {
-.card-text {
-    color: lightgrey;
-}
-}

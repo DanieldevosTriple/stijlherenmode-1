@@ -31,28 +31,8 @@
         color: black
     }
 
-    @media (prefers-color-scheme: dark) {
-    .index-page.scroll-up .navbar-nav .nav-link  {
-        color: white
-    }
-    }
-
     .index-page.scroll-up {
         background-color: var(--background-color-light-mode) !important;
-    }
-
-    @media (prefers-color-scheme: dark) {
-    .sticky {
-        background-color: var(--background-color-dark-mode);
-    }
-
-    .sticky.scroll-up {
-        background-color: var(--background-color-dark-mode) !important;
-    }
-    
-    .index-page.scroll-up {
-        background-color: var(--background-color-dark-mode) !important;
-    }
     }
 
     .new-header {
@@ -109,18 +89,6 @@
         background-size: contain; /* Ensures the image covers the element */
      }  
 
-     @media (prefers-color-scheme: dark) {
-     .sticky .scroll-up .logo {
-        display: block !important;
-        background-image: var(--logo-dark); /* Standaard light logo */
-        width: 150px;
-        height: 40px;
-        background-repeat: no-repeat;
-        background-position: center; /* Centers the image */
-        background-size: contain; /* Ensures the image covers the element */
-     } 
-    }
-
     li.search {
         color: black;
      }
@@ -133,12 +101,6 @@
      .hover-red:hover {
         color: red;
      }
-
-     @media (prefers-color-scheme: dark) {
-        li.search {
-            color: white;
-         }
-        }
      
      .index-page li.search {
         color: white;
@@ -148,12 +110,6 @@
         color: black;
      }
 
-     @media (prefers-color-scheme: dark) {
-        .index-page.scroll-up li.search {
-            color: white;
-         }
-     }
-
      .index-page .cart .transparent {
         color: white;
      }
@@ -161,18 +117,6 @@
      .index-page.scroll-up .cart .transparent {
         color: black;
      }
-
-     @media (prefers-color-scheme: dark) {
-        .index-page.scroll-up .cart .transparent {
-            color: white;
-         }
-     }
-    
-    @media (prefers-color-scheme: dark) {
-        .logo {
-            background-image: var(--logo-dark);
-        }
-    }
 
     .col-menu {
     text-align: center;
@@ -212,12 +156,6 @@
     color: red;
 }
 
-@media (prefers-color-scheme: dark) {
-    .navbar-nav .nav-link {
-        color: var(--font-color-dark-mode);
-    }
-}
-
 .text-second-menu {
     text-align: right !important;
     text-transform: uppercase;
@@ -226,23 +164,10 @@
     font-size: 1.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-    .text-second-menu {
-        color: var(--font-color-dark-mode);
-        gap: 1rem;
-    }
-}
-
 .cart-link {
     color: var(--font-color-light-mode);
     font-size: 1.2rem;
     font-weight: 800;
-}
-
-@media (prefers-color-scheme: dark) {
-    .cart-link {
-        color: var(--font-color-dark-mode);
-    }
 }
 
 .index-page .cart-link {
@@ -251,12 +176,6 @@
 
 .index-page.scroll-up .cart-link {
     color: var(--font-color-light-mode);
-}
-
-@media (prefers-color-scheme: dark) {
-    .index-page.scroll-up .cart-link {
-        color: var(--font-color-dark-mode);
-    }
 }
 
 .svg-mobile {
@@ -279,12 +198,6 @@
 
 .list-collections-page {
     color: var(--font-color-light-mode)
-}
-
-@media (prefers-color-scheme: dark) {
-    .list-collections-page {
-        color: var(--font-color-dark-mode)
-    }
 }
 
 /* Hamburger Menu */
@@ -314,25 +227,6 @@
         display: flex;
 }
 
-@media (prefers-color-scheme: dark) {
-    .icon-hamburger {
-        width: 25px;
-        color: white;
-    }
-      
-    .icon-cart {
-        color: white;
-    }
-    
-    .icon-search {
-        color: white;
-    }
-
-    .icon-cart-empty {
-        color: white;
-    }    
-}
-
 .hamburger-menu {
     all: unset;
     cursor: pointer;
@@ -356,12 +250,6 @@
     flex-direction: column;
     overflow: hidden;
   }
-
-  @media (prefers-color-scheme: dark) {
-  .mobile-menu-overlay {
-    background-color: var(--background-color-dark-mode); /* Donkere overlay */
-  }
-}
 
   /* Toon de overlay */
   .mobile-menu-overlay.show {
@@ -413,12 +301,6 @@
     color: black; /* Witte tekst */
     font-weight: 700;
   }
-
-  @media (prefers-color-scheme: dark) {
-  .mobile-menu .nav-link {
-    color: #fff; /* Witte tekst */
-  }
-}
   
   .mobile-menu .nav-link:hover {
     color: red; /* Highlight kleur */
@@ -477,23 +359,6 @@
         background: none;
         padding: 0px;
     }   
-
-@media (prefers-color-scheme: dark) {
-    .close-menu.show {
-        border: none;
-        display: block;
-        color: white;
-        width: 25px;
-        height: 25px;
-        outline: none;
-        background: none;
-    }   
-
-    .cart-bubble {
-        background-color: white;
-        color: red;
-    }
-}
 
 .nav-link.active {
     color: red !important;

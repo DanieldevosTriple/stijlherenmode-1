@@ -98,10 +98,3 @@
   border-top: 1px solid lightgrey;
   border-bottom: 1px solid lightgrey;
 }
-
-@media (prefers-color-scheme: dark) {
-  .pagination {
-    border-top: 1px solid grey;
-    border-bottom: 1px solid grey;
-  }
-}

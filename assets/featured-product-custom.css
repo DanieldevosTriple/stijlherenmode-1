@@ -22,12 +22,6 @@
     font-size: 1.4rem;
     margin: 35px 0px;
   }
-
-  @media (prefers-color-scheme: dark) {
-    .featured-product__description {
-      color: lightgrey;
-    }
-  }
   
   .featured-product__image-wrapper {
     width: 66.67%;

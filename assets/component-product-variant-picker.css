@@ -74,12 +74,6 @@ variant-selects {
   position: relative;
 }
 
-@media (prefers-color-scheme: dark) {
-  .variant-text.text-class {
-    color: white;
-  }
-}
-
 .variant-text.text-class:before {
   content: '';
   position: absolute;
@@ -100,13 +94,6 @@ variant-selects {
 .variant-text.text-class.checked {
   background-color: rgb(var(--color-foreground));
   color: rgb(var(--color-background));
-}
-
-@media (prefers-color-scheme: dark) {
-  .variant-text.text-class.checked {
-    background-color: white;
-    color: black;
-  }
 }
 
 .variant-text.text-class.disabled {
@@ -149,12 +136,6 @@ variant-selects {
 
 .variant-image.image-class.checked {
   border: 1px solid black;
-}
-
-@media (prefers-color-scheme: dark) {
-  .variant-image.image-class.checked {
-    border: 1px solid white;
-  }
 }
 
 @media screen and (forced-colors: active) {
