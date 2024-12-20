@@ -678,3 +678,21 @@
     }
   }
 }
+
+.newsletter-form__field {
+  display: grid;
+  gap: 8px;
+  /* Default mobile layout - stacked */
+  grid-template-columns: 1fr;
+}
+
+/* Desktop layout - side by side */
+@media (min-width: 768px) {
+  .newsletter-form__field {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+.newsletter-form__field-input {
+  width: 100%;
+}
