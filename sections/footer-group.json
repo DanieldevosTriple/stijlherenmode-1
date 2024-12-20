@@ -11,6 +11,23 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
+    "newsletter_pop_up_jxqFXD": {
+      "type": "newsletter-pop-up",
+      "settings": {
+        "title": "Join Our Newsletter",
+        "description": "<p>Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>",
+        "button_text": "Subscribe",
+        "policy_text": "By signing up, you agree to our Privacy Policy",
+        "confirmation_title": "Thank You!",
+        "confirmation_message": "<p>You've successfully subscribed to our newsletter.</p>",
+        "confirmation_duration": 3,
+        "show_on": "homepage",
+        "delay": 5,
+        "show_once": true,
+        "cookie_name": "newsletter_popup",
+        "cookie_duration": 30
+      }
+    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -37,6 +54,7 @@
     }
   },
   "order": [
+    "newsletter_pop_up_jxqFXD",
     "footer"
   ]
 }
