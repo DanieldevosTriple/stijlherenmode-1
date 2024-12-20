@@ -55,7 +55,7 @@
           "type": "collection",
           "settings": {
             "collection": "broeken",
-            "cta_text": "View collection",
+            "cta_text": "Bekijk collectie",
             "collection_image": "shopify://shop_images/Jeans.png"
           }
         },
@@ -63,7 +63,7 @@
           "type": "collection",
           "settings": {
             "collection": "jackets",
-            "cta_text": "View collection",
+            "cta_text": "Bekijk collectie",
             "collection_image": "shopify://shop_images/Jassen.png"
           }
         },
@@ -71,7 +71,7 @@
           "type": "collection",
           "settings": {
             "collection": "knitwear",
-            "cta_text": "View collection",
+            "cta_text": "Bekijk collectie",
             "collection_image": "shopify://shop_images/Knitwear.png"
           }
         },
@@ -79,7 +79,7 @@
           "type": "collection",
           "settings": {
             "collection": "schoenen",
-            "cta_text": "View collection",
+            "cta_text": "Bekijk collectie",
             "collection_image": "shopify://shop_images/Schoenen.png"
           }
         }
@@ -142,7 +142,7 @@
             "image": "shopify://shop_images/Parka.png",
             "image_mobile": "shopify://shop_images/Frame_30.png",
             "title": "Parka Season",
-            "subtitle_item": "Lorem Ipsum",
+            "subtitle_item": "shop jackets",
             "url": "shopify://collections/jackets"
           }
         },
@@ -151,8 +151,8 @@
           "settings": {
             "image": "shopify://shop_images/FillingPieces.png",
             "image_mobile": "shopify://shop_images/Frame_31_1128949d-fa44-4798-8d36-c7e5a51af18c.png",
-            "title": "Berwich Travel Suits",
-            "subtitle_item": "Lorem Ipsum",
+            "title": "Travel Suits",
+            "subtitle_item": "Shop berwich",
             "url": "shopify://collections/berwich"
           }
         },
@@ -162,7 +162,7 @@
             "image": "shopify://shop_images/Travel.png",
             "image_mobile": "shopify://shop_images/Frame_33.png",
             "title": "Travel Shirts",
-            "subtitle_item": "Lorem Ipsum",
+            "subtitle_item": "Shop xacus",
             "url": "shopify://collections/xacus-overhemden"
           }
         }
