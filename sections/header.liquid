@@ -151,7 +151,9 @@
           <div class="mobile-menu">
             <a href="{{ routes.cart_url }}" class="nav-item">
               <li class="nav-item">
-                <a class="nav-link">{{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</a>
+                <a href="{{ routes.cart_url }}" class="nav-link">
+                  {{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
+                </a>
               </li>
             </a>
           </div>
