@@ -124,50 +124,49 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const toggles = document.querySelectorAll('.footer__toggle');
+    const toggles = document.querySelectorAll('.footer-block__heading__menu');
   
-    function handleToggle() {
-      const menu = this.parentElement.nextElementSibling;
-      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+    // Functie om het menu te toggelen
+    function handleToggle(event) {
+      const toggle = event.currentTarget;
+      const menu = toggle.nextElementSibling;
+      const isExpanded = menu.classList.contains('footer__menu--expanded');
   
-      // Toggle de aria-expanded status
-      this.setAttribute('aria-expanded', !isExpanded);
-  
-      // Toggle de hidden status van het menu
+      // Toggle zichtbaar/onzichtbaar menu
       if (isExpanded) {
         menu.hidden = true;
+        menu.classList.remove('footer__menu--expanded');
       } else {
         menu.hidden = false;
+        menu.classList.add('footer__menu--expanded');
       }
-  
-      // Toggle de extra klasse voor styling
-      menu.classList.toggle('footer__menu--expanded');
     }
   
-    function toggleHandler() {
+    // Functie om menu's te configureren op basis van schermgrootte
+    function configureToggles() {
       const screenWidth = window.innerWidth;
   
       toggles.forEach((toggle) => {
-        const menu = toggle.parentElement.nextElementSibling;
+        const menu = toggle.nextElementSibling;
   
         if (screenWidth < 768) {
-          toggle.style.display = 'inline-block';
-          toggle.removeEventListener('click', handleToggle); // Verwijder eerdere event
+          toggle.style.cursor = 'pointer';
+          toggle.removeEventListener('click', handleToggle);
           toggle.addEventListener('click', handleToggle);
-          menu.hidden = true;
+          menu.hidden = true; // Verberg menu standaard
+          menu.classList.remove('footer__menu--expanded');
         } else {
-          toggle.style.display = 'none';
-          toggle.removeEventListener('click', handleToggle); // Geen toggle functionaliteit
-          menu.hidden = false;
+          toggle.style.cursor = 'default';
+          toggle.removeEventListener('click', handleToggle);
+          menu.hidden = false; // Toon menu standaard
+          menu.classList.remove('footer__menu--expanded');
         }
       });
     }
   
-    // Initiele check
-    toggleHandler();
-  
-    // Hercontroleer bij schermgrootte verandering
-    window.addEventListener('resize', toggleHandler);
+    // Initialiseer configuratie en luister naar venster-resizes
+    configureToggles();
+    window.addEventListener('resize', configureToggles);
   });  
 </script>
 
