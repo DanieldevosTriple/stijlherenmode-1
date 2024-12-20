@@ -13,6 +13,18 @@
   margin-bottom: 1.5rem;
 }
 
+.footer-block__heading__menu::after {
+  content: '+';
+  font-size: 1em; /* Pas dit aan naar wens */
+  margin-left: 8px; /* Ruimte tussen tekst en + */
+  display: inline-block;
+  cursor: pointer;
+}
+
+.footer-block__heading__menu[aria-expanded="true"]::after {
+  content: '-'; /* Verander de + in een - wanneer uitgeklapt */
+}
+
 .footer-block__social {
   margin-bottom: 1.5rem;
   padding-right: 0;
