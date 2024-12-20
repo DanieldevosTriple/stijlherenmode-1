@@ -270,8 +270,8 @@
     margin: 0;
     text-align: center;
     flex-direction: column;
-    border-top: 1px solid lightgrey;
-    border-bottom: 1px solid lightgrey;
+    border-top: 1px solid rgb(242, 242, 242);
+    border-bottom: 1px solid rgb(242, 242, 242);
   }
 
   ul.mobile-menu {
@@ -286,7 +286,7 @@
     padding: 10px 0;
     font-family: TradeGothicLT;
     text-transform: uppercase;
-    border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid rgb(242, 242, 242);
     text-align: left;
   }
 

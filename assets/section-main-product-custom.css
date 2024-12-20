@@ -9,7 +9,7 @@
   }
 
   .product-border {
-      border-bottom: 1px solid lightgrey;
+      border-bottom: 1px solid rgb(242, 242, 242);
       padding-bottom: 10rem;
   }
 
@@ -181,13 +181,13 @@
       max-width: 600px;
       margin: 20px auto;
       background: transparent;
-      border-top: 1px solid lightgrey;
-      border-bottom: 1px solid lightgrey;
+      border-top: 1px solid rgb(242, 242, 242);
+      border-bottom: 1px solid rgb(242, 242, 242);
       /* Bottom border for the last item */
   }
 
   .accordion-item {
-      border-bottom: 1px solid lightgrey;
+      border-bottom: 1px solid rgb(242, 242, 242);
   }
 
   .accordion-item:last-child {
@@ -379,7 +379,7 @@
           font-family: 'TradeGothicLT';
           text-transform: uppercase;
           font-weight: 400;
-          border-bottom: 1px solid lightgrey;
+          border-bottom: 1px solid rgb(242, 242, 242);
       }
 
       .product-section {

@@ -116,7 +116,7 @@
     }
 
     .facets__header {
-        border-bottom: 1px solid lightgrey;
+        border-bottom: 1px solid rgb(242, 242, 242);
         background-color: var(--background-color-dark-mode);
         color: white;
     }
@@ -137,8 +137,8 @@
     }
 
     .mobile-facets__wrapper {
-        border-top: 1px solid lightgrey;
-        border-bottom: 1px solid lightgrey;
+        border-top: 1px solid rgb(242, 242, 242);
+        border-bottom: 1px solid rgb(242, 242, 242);
     }
 
     .facets__item {

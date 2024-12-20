@@ -3288,7 +3288,7 @@ a:hover {
 }
 
 header {
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid rgb(242, 242, 242);
 }
 
 .index-page .container-desktop {
@@ -3297,7 +3297,7 @@ header {
 
 @media screen and (max-width: 991px) {
   header {
-    border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid rgb(242, 242, 242);
   }
 
   .container-mobile {

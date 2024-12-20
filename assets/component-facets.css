@@ -180,8 +180,8 @@
   margin-bottom: 2rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid lightgrey;
-  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid rgb(242, 242, 242);
+  border-top: 1px solid rgb(242, 242, 242);
 }
 
 .facets__wrapper {
@@ -825,8 +825,8 @@ a.active-facets__button.focused .active-facets__button-inner {
   margin-left: 0;
   display: flex;
   justify-content: center;
-  border-top: 1px solid lightgrey;
-  border-bottom: 1px solid lightgrey;
+  border-top: 1px solid rgb(242, 242, 242);
+  border-bottom: 1px solid rgb(242, 242, 242);
 }
 
 .mobile-facets__wrapper .disclosure-has-popup[open] > summary::before {
