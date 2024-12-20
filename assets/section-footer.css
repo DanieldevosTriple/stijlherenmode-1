@@ -699,8 +699,8 @@
 
 .newsletter-form__button {
   background-color: transparent;
-  border: 2px solid black;
-  color: #000;
+  border: 2px solid white;
+  color: white;
   padding: 10px 50px;
   text-align: center;
   text-decoration: none;
