@@ -1304,8 +1304,6 @@ shopify-accelerated-checkout-cart {
   transition: box-shadow var(--duration-short) ease;
   border-radius: 0px;
   height: 4.5rem;
-  min-height: calc(var(--inputs-border-width) * 2);
-  min-width: calc(7rem + (var(--inputs-border-width) * 2));
   position: relative;
   border: 0;
 }
@@ -1322,9 +1320,6 @@ shopify-accelerated-checkout-cart {
   right: 0;
   bottom: 0;
   left: 0;
-  border-radius: var(--inputs-radius-outset);
-  box-shadow: var(--inputs-shadow-horizontal-offset) var(--inputs-shadow-vertical-offset)
-    var(--inputs-shadow-blur-radius) rgba(var(--color-shadow), var(--inputs-shadow-opacity));
   z-index: -1;
 }
 
@@ -1392,27 +1387,6 @@ shopify-accelerated-checkout-cart {
   width: 100%;
 }
 
-/* Select */
-
-.select .svg-wrapper,
-.customer select + .svg-wrapper {
-  height: 0.6rem;
-  width: 1rem;
-  pointer-events: none;
-  position: absolute;
-  top: calc(50% - 0.2rem);
-  right: 0;
-}
-
-.select__select,
-.customer select {
-  cursor: pointer;
-  line-height: calc(1 + 0.6 / var(--font-body-scale));
-  padding: 0 calc(var(--inputs-border-width) + 3rem) 0 2rem;
-  margin: var(--inputs-border-width);
-  min-height: calc(var(--inputs-border-width) * 2);
-}
-
 /* Field */
 
 .field {
@@ -1437,15 +1411,12 @@ shopify-accelerated-checkout-cart {
   flex-grow: 1;
   text-align: left;
   padding: 1.5rem;
-  margin: var(--inputs-border-width);
   transition: box-shadow var(--duration-short) ease;
 }
 
 .field__label,
 .customer .field label {
   font-size: 1.6rem;
-  left: calc(var(--inputs-border-width) + 2rem);
-  top: calc(1rem + var(--inputs-border-width));
   margin-bottom: 0;
   pointer-events: none;
   position: absolute;
@@ -1462,8 +1433,6 @@ shopify-accelerated-checkout-cart {
 .customer .field input:not(:placeholder-shown) ~ label,
 .customer .field input:-webkit-autofill ~ label {
   font-size: 1rem;
-  top: calc(var(--inputs-border-width) + 0.5rem);
-  left: calc(var(--inputs-border-width) + 2rem);
   letter-spacing: 0.04rem;
 }
 
@@ -1474,7 +1443,6 @@ shopify-accelerated-checkout-cart {
 .customer .field input:not(:placeholder-shown),
 .customer .field input:-webkit-autofill {
   padding: 2.2rem 1.5rem 0.8rem 2rem;
-  margin: var(--inputs-border-width);
 }
 
 .field__input::-webkit-search-cancel-button,
@@ -1596,23 +1564,16 @@ input[type='checkbox'] {
 .quantity {
   color: rgba(var(--color-foreground));
   position: relative;
-  width: calc(14rem / var(--font-body-scale) + var(--inputs-border-width) * 2);
   display: flex;
   border-radius: 0px;
-  min-height: calc((var(--inputs-border-width) * 2) + 4.5rem);
 }
 
 .quantity:after {
   pointer-events: none;
   content: '';
   position: absolute;
-  top: var(--inputs-border-width);
-  right: var(--inputs-border-width);
-  bottom: var(--inputs-border-width);
-  left: var(--inputs-border-width);
   border: 0.1rem solid transparent;
   border-radius: 0px;
-  box-shadow: 0 0 0 var(--inputs-border-width) rgba(var(--color-foreground), var(--inputs-border-opacity));
   transition: box-shadow var(--duration-short) ease;
   z-index: 1;
 }
@@ -1626,9 +1587,6 @@ input[type='checkbox'] {
   right: 0;
   bottom: 0;
   left: 0;
-  border-radius: var(--inputs-radius-outset);
-  box-shadow: var(--inputs-shadow-horizontal-offset) var(--inputs-shadow-vertical-offset)
-    var(--inputs-shadow-blur-radius) rgba(var(--color-shadow), var(--inputs-shadow-opacity));
   z-index: -1;
 }
 
@@ -1662,14 +1620,6 @@ input[type='checkbox'] {
   justify-content: center;
   color: rgb(var(--color-foreground));
   padding: 0;
-}
-
-.quantity__button:first-child {
-  margin-left: calc(var(--inputs-border-width));
-}
-
-.quantity__button:last-child {
-  margin-right: calc(var(--inputs-border-width));
 }
 
 .quantity__button .svg-wrapper {
@@ -2085,7 +2035,6 @@ details[open] .modal-overlay::after {
 .search-modal {
   opacity: 0;
   border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
-  min-height: calc(100% + var(--inputs-margin-offset) + (2 * var(--inputs-border-width)));
   height: 100%;
 }
 
@@ -2098,14 +2047,6 @@ details[open] .modal-overlay::after {
   padding: 0 5rem 0 1rem;
   line-height: calc(1 + 0.8 / var(--font-body-scale));
   position: relative;
-}
-
-.search-modal__content-bottom {
-  bottom: calc((var(--inputs-margin-offset) / 2));
-}
-
-.search-modal__content-top {
-  top: calc((var(--inputs-margin-offset) / 2));
 }
 
 .search-modal__form {
