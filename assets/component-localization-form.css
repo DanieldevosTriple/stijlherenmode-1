@@ -70,7 +70,6 @@
 }
 
 .disclosure__button.localization-form__select {
-  padding: calc(2rem + var(--inputs-border-width));
   background: rgb(var(--color-background));
 }
 
@@ -78,7 +77,6 @@
   position: absolute;
   content: '';
   height: 0.6rem;
-  right: calc(var(--inputs-border-width) + 1.5rem);
   top: calc(50% - 0.2rem);
 }
 
@@ -176,12 +174,6 @@
 
 .country-filter__input {
   min-width: 200px;
-}
-
-.country-filter__reset-button,
-.country-filter__search-icon {
-  right: calc(var(--inputs-border-width));
-  top: var(--inputs-border-width);
 }
 
 .country-filter__reset-button:not(:focus-visible)::after,

@@ -6,16 +6,6 @@
   font-family: TradeGothicLT;
 }
 
-.search__button {
-  right: var(--inputs-border-width);
-  top: var(--inputs-border-width);
-}
-
-.reset__button {
-  right: calc(var(--inputs-border-width) + 4.4rem);
-  top: var(--inputs-border-width);
-}
-
 .reset__button:not(:focus-visible)::after {
   border-right: 0.1rem solid rgba(var(--color-foreground), 0.08);
   display: block;
