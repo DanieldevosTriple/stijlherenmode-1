@@ -280,7 +280,7 @@
 
   .footer__menu {
     width: 100%;
-    padding: 10px;
+    padding: 0px 10px;
     margin: 0;
     list-style: none;
     display: none;
