@@ -83,13 +83,13 @@
   }
 
   .logo-grid-item img {
-    max-width: 80%; 
     height: auto;
-    /* Zet positionering eventueel opnieuw, 
-       zodat het beeld in het midden blijft (optioneel) */
-    position: absolute; 
-    top: 50%; left: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
+    max-height: 50px;
+    max-width: 200px;
   }
 }
 
