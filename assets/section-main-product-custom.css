@@ -134,6 +134,10 @@
       padding: 0px;
   }
 
+  .option-swatch.has-image:hover {
+     border: 1px solid black;
+  }
+
   .option-swatch.has-image.active {
       border: 1px solid black;
   }
