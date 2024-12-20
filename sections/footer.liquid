@@ -126,21 +126,23 @@
   document.addEventListener('DOMContentLoaded', function () {
     const toggles = document.querySelectorAll('.footer-block__heading__menu');
   
+    // Functie om het menu te toggelen
     function handleToggle(event) {
       const toggle = event.currentTarget;
       const menu = toggle.nextElementSibling;
-      const isExpanded = toggle.classList.contains('is-expanded');
+      const isExpanded = menu.classList.contains('footer__menu--expanded');
   
-      // Toggle de klasse en de zichtbaarheid van het menu
+      // Toggle zichtbaar/onzichtbaar menu
       if (isExpanded) {
-        toggle.classList.remove('is-expanded');
         menu.hidden = true;
+        menu.classList.remove('footer__menu--expanded');
       } else {
-        toggle.classList.add('is-expanded');
         menu.hidden = false;
+        menu.classList.add('footer__menu--expanded');
       }
     }
   
+    // Functie om menu's te configureren op basis van schermgrootte
     function configureToggles() {
       const screenWidth = window.innerWidth;
   
@@ -152,12 +154,12 @@
           toggle.removeEventListener('click', handleToggle);
           toggle.addEventListener('click', handleToggle);
           menu.hidden = true; // Verberg menu standaard
-          toggle.classList.remove('is-expanded');
+          menu.classList.remove('footer__menu--expanded');
         } else {
           toggle.style.cursor = 'default';
           toggle.removeEventListener('click', handleToggle);
           menu.hidden = false; // Toon menu standaard
-          toggle.classList.remove('is-expanded');
+          menu.classList.remove('footer__menu--expanded');
         }
       });
     }
@@ -165,7 +167,7 @@
     // Initialiseer configuratie en luister naar venster-resizes
     configureToggles();
     window.addEventListener('resize', configureToggles);
-  });    
+  });  
 </script>
 
 {% schema %}
