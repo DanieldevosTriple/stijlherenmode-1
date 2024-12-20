@@ -696,3 +696,18 @@
 .newsletter-form__field-input {
   width: 100%;
 }
+
+.newsletter-form__button {
+  background-color: transparent;
+  border: 2px solid black;
+  color: #000;
+  padding: 10px 50px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  text-transform: uppercase;
+  font-weight: 600;
+  width: max-content;
+  font-family: TradeGothicLT, sans-serif;
+}
