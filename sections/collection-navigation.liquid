@@ -8,9 +8,9 @@
       {% if collection %}
         {% assign collection_obj = collections[collection] %}
         <li class="col-3 col-md-3 logo-grid-item" style="background-image: url({{ block.settings.background_image | file_url | replace: 'files/files', 'files' }});">
-          <a href="{{ collection_obj.url }}" class="logo_image_url">
+          <a href="{{ collection_obj.url }}">
             {% if block.settings.logo_image %}
-              <img src="{{ block.settings.logo_image | file_url | replace: 'files/files', 'files' }}" alt="{{ collection_obj.title }}">
+              <img class="logo_image_url" src="{{ block.settings.logo_image | file_url | replace: 'files/files', 'files' }}" alt="{{ collection_obj.title }}">
             {% endif %}
           </a>
         </li>
