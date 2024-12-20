@@ -1,6 +1,8 @@
 {% comment %}
 sections/newsletter-popup.liquid
 {% endcomment %}
+<link rel="stylesheet" href="{{ 'newsletter-popup.css' | asset_url }}">
+<script defer src="{{ 'newsletter-popup.js' | asset_url }}"></script>
 
 {% schema %}
 {
@@ -152,6 +154,3 @@ sections/newsletter-popup.liquid
     </div>
   </div>
 </div>
-
-{{ 'newsletter-popup.css' | asset_url | stylesheet_tag }}
-<script defer src="{{ 'newsletter-popup.js' | asset_url }}"></script>
