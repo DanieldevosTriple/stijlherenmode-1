@@ -12,9 +12,10 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Klasse "sticky" succesvol toegevoegd aan section-header.');
 
         let lastScrollY = window.scrollY;
+        let isScrolling = false;
 
-        // Scroll event listener toevoegen
-        window.addEventListener('scroll', () => {
+        // Functie die de scrolllogica uitvoert
+        const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
             if (currentScrollY > lastScrollY) {
@@ -26,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Gebruiker scrollt omhoog
                 sectionHeader.classList.remove('hidden');
                 sectionHeader.classList.add('scroll-up');
-                // Controleer of sectionIndexPage bestaat voordat je het gebruikt
                 if (sectionIndexPage) {
                     sectionIndexPage.classList.add('scroll-up');
                 }
@@ -44,6 +44,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Update de laatste scrollpositie
             lastScrollY = currentScrollY;
+
+            // Scrollstatus resetten
+            isScrolling = false;
+        };
+
+        // Scroll event listener met debouncing
+        window.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                isScrolling = true;
+                setTimeout(handleScroll, 100); // 100ms debounce
+            }
         });
     } else {
         console.warn('Element met klasse "section-header" niet gevonden. Controleer of de klasse correct is ingesteld in de HTML.');
