@@ -1,0 +1,144 @@
+{% comment %}
+sections/newsletter-popup.liquid
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Email Popup",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Popup Title",
+      "default": "Join Our Newsletter"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Submit Button Text",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "policy_text",
+      "label": "Privacy Policy Text",
+      "default": "By signing up, you agree to our Privacy Policy"
+    },
+    {
+      "type": "header",
+      "content": "Confirmation Screen"
+    },
+    {
+      "type": "text",
+      "id": "confirmation_title",
+      "label": "Confirmation Title",
+      "default": "Thank You!"
+    },
+    {
+      "type": "richtext",
+      "id": "confirmation_message",
+      "label": "Confirmation Message",
+      "default": "<p>You've successfully subscribed to our newsletter.</p>"
+    },
+    {
+      "type": "number",
+      "id": "confirmation_duration",
+      "label": "Confirmation Display Duration (seconds)",
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Display Settings"
+    },
+    {
+      "type": "select",
+      "id": "show_on",
+      "label": "Show Popup On",
+      "options": [
+        {
+          "value": "homepage",
+          "label": "Homepage Only"
+        },
+        {
+          "value": "all_pages",
+          "label": "All Pages"
+        }
+      ],
+      "default": "homepage"
+    },
+    {
+      "type": "number",
+      "id": "delay",
+      "label": "Delay (seconds)",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_once",
+      "label": "Show Only Once",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cookie_name",
+      "label": "Cookie Name",
+      "default": "newsletter_popup"
+    },
+    {
+      "type": "number",
+      "id": "cookie_duration",
+      "label": "Cookie Duration (days)",
+      "default": 30
+    }
+  ]
+}
+{% endschema %}
+
+<div class="popup-overlay" data-popup-overlay>
+  <div class="popup-container">
+    <button class="popup-close" data-popup-close>
+      {% render 'icon-close' %}
+    </button>
+    
+    <div class="popup-content">
+      <div class="popup-main" data-popup-main>
+        <h2>{{ section.settings.title }}</h2>
+        {{ section.settings.description }}
+        
+        <form class="popup-form" data-popup-form>
+          <input
+            type="email"
+            class="popup-input"
+            placeholder="Enter your email"
+            required
+            aria-label="Email"
+          >
+          <button type="submit" class="popup-submit">
+            {{ section.settings.button_text }}
+          </button>
+          <p class="popup-policy">
+            {{ section.settings.policy_text }}
+          </p>
+        </form>
+      </div>
+
+      <div class="popup-success" data-popup-success>
+        <h2>{{ section.settings.confirmation_title }}</h2>
+        {{ section.settings.confirmation_message }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{{ 'newsletter-popup.css' | asset_url | stylesheet_tag }}
+<script defer src="{{ 'newsletter-popup.js' | asset_url }}"></script>
