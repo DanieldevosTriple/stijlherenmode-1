@@ -11,41 +11,39 @@ document.addEventListener('DOMContentLoaded', function () {
         sectionHeader.classList.add('sticky');
         console.log('Klasse "sticky" succesvol toegevoegd aan section-header.');
 
-        let lastScrollY = window.scrollY;
+        let lastScrollY = window.scrollY; // Houdt de laatste scrollpositie bij
+        const visibilityThreshold = 50; // Pixels afstand voor zichtbaar/verborgen maken
         let isHidden = false; // Houdt bij of de header verborgen is
-        let isScrollingUp = false; // Houdt bij of de gebruiker omhoog scrolt
-        const visibilityThreshold = 50; // Pixels afstand voor zichtbaar maken
 
         // Functie om de zichtbaarheid van de header te beheren
         function updateHeaderVisibility() {
             const currentScrollY = window.scrollY;
 
-            // Scroll naar beneden
-            if (currentScrollY > lastScrollY + visibilityThreshold && !isHidden) {
-                sectionHeader.classList.remove('scroll-up');
-                sectionHeader.classList.add('hidden');
-                isHidden = true;
-                isScrollingUp = false;
-                console.log('Scrollt naar beneden: header verborgen.');
+            if (currentScrollY > lastScrollY && currentScrollY > visibilityThreshold) {
+                // Scroll naar beneden: verberg de header
+                if (!isHidden) {
+                    sectionHeader.classList.add('hidden');
+                    sectionHeader.classList.remove('scroll-up');
+                    isHidden = true;
+                    console.log('Scrollt naar beneden: header verborgen.');
+                }
+            } else if (currentScrollY < lastScrollY) {
+                // Scroll naar boven: toon de header
+                if (isHidden) {
+                    sectionHeader.classList.remove('hidden');
+                    sectionHeader.classList.add('scroll-up');
+                    isHidden = false;
+                    console.log('Scrollt omhoog: header zichtbaar.');
+                }
             }
 
-            // Scroll naar boven
-            if (currentScrollY < lastScrollY - visibilityThreshold && isHidden) {
-                sectionHeader.classList.remove('hidden');
-                sectionHeader.classList.add('scroll-up');
-                isHidden = false;
-                isScrollingUp = true;
-                console.log('Scrollt omhoog: header zichtbaar.');
-            }
-
-            // Als de gebruiker bovenaan is, reset de header
+            // Reset de header als de gebruiker bovenaan de pagina is
             if (currentScrollY === 0) {
                 sectionHeader.classList.remove('hidden', 'scroll-up');
                 if (sectionIndexPage) {
                     sectionIndexPage.classList.remove('hidden', 'scroll-up');
                 }
                 isHidden = false;
-                isScrollingUp = false;
                 console.log('Bovenaan de pagina: header gereset.');
             }
 
