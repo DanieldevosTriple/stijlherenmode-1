@@ -682,13 +682,13 @@
 .newsletter-form__field {
   display: grid;
   /* Default mobile layout - stacked */
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr auto;
 }
 
 /* Desktop layout - side by side */
 @media (max-width: 992px) {
   .newsletter-form__field {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
     gap: 1rem;
     max-width: 600px;
   }
