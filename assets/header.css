@@ -365,7 +365,7 @@
     }   
 
 .nav-link.active {
-    color: red !important;
+    color: #006fbb !important;
 }
 
 .cart-link:hover {
