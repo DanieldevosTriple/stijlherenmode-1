@@ -158,6 +158,12 @@
       transition: all .3s ease;
   }
 
+  .option-swatch:not(.has-image):hover {
+    border: 1px solid black;
+    background-color: #000;
+    color: white;
+  }
+
   .option-swatch:not(.has-image).active {
       background-color: black;
       color: white;
