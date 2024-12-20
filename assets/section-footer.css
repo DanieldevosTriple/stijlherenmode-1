@@ -712,6 +712,12 @@
   font-family: TradeGothicLT, sans-serif;
 }
 
+@media (min-width: 768px) {
+  .newsletter-form__button {
+    width: 100%
+  }
+}
+
 .newsletter-form__button:hover {
   background-color: black;
   border: 2px solid white;
