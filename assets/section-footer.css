@@ -686,7 +686,7 @@
 }
 
 /* Desktop layout - side by side */
-@media (min-width: 992px) {
+@media (max-width: 992px) {
   .newsletter-form__field {
     grid-template-columns: 1fr auto;
     gap: 1rem;
