@@ -734,6 +734,7 @@
   background-color: black;
   border: 2px solid white;
   color: white;
+  border-radius: 0px;
 }
 
 .dislaimer {
