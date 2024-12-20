@@ -29,10 +29,10 @@
     {% render 'meta-tags' %}
 
     <!-- jQuery eerst -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
 
     <!-- Bootstrap: gebruik alleen één bestand (met Popper.js inbegrepen) -->
-    <script src="{{ 'bootstrap.bundle.min.js' | asset_url }}"></script>
+    <script src="{{ 'bootstrap.bundle.min.js' | asset_url }}" defer></script>
 
     <!-- Custom scripts -->
     <script src="{{ 'constants.js' | asset_url }}" defer></script>
