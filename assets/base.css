@@ -2844,7 +2844,7 @@ details-disclosure > details {
 }
 
 .rte a {
-  color: red;
+  color: #006fbb;
   text-underline-offset: 0.3rem;
   text-decoration-thickness: 0.1rem;
   transition: text-decoration-thickness var(--duration-short) ease;
@@ -3266,19 +3266,19 @@ details-disclosure > details {
 }
 
 a:hover {
-  color: red;
+  color: #006fbb;
   text-decoration: none;
 }
 
 /* Rood effect voor card__heading bij hover over .card__information */
 .card__information:hover a {
-  color: red;
+  color: #006fbb;
   transition: color 0.3s ease;
 }
 
 /* Rood effect voor price-item bij hover over .card__information */
 .card__information:hover .price .price-item {
-  color: red;
+  color: #006fbb;
   transition: color 0.3s ease;
 }
 

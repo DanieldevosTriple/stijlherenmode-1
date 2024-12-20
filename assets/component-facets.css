@@ -620,7 +620,7 @@ details:not([open]) .facets__item::after {
 }
 
 .facets__summary-label:hover {
-  color: red;
+  color: #006fbb;
 }
 
 .facets__price .field__label {

@@ -119,7 +119,7 @@
 
 /* Hover-effect voor de link */
 .underline:hover {
-  color: red; /* Donkerdere kleur bij hover */
+  color: #006fbb; /* Donkerdere kleur bij hover */
   text-decoration: underline; /* Onderstreping bij hover */
 }
 

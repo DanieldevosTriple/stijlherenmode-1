@@ -99,7 +99,7 @@
      }
 
      .hover-red:hover {
-        color: red;
+        color: #006fbb;
      }
      
      .index-page li.search {
@@ -153,7 +153,7 @@
 }
 
 .navbar-nav .nav-link:hover {
-    color: red;
+    color: #006fbb;
 }
 
 .text-second-menu {
@@ -303,7 +303,7 @@
   }
   
   .mobile-menu .nav-link:hover {
-    color: red; /* Highlight kleur */
+    color: #006fbb; /* Highlight kleur */
   }
 
   .menu-secondary {
@@ -339,7 +339,7 @@
         transform: translateY(-50%);
         background-color: black;
         border-radius: 50px;
-        color: red;
+        color: #006fbb;
         padding: 0.5px 5px;
         right: 6px;
     }
@@ -370,5 +370,5 @@
 
 .cart-link:hover {
     text-decoration: none;
-    color: red;
+    color: #006fbb;
 }
