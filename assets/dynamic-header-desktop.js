@@ -61,4 +61,4 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.warn('Element met klasse "section-header" niet gevonden. Controleer of de klasse correct is ingesteld in de HTML.');
     }
-});
+}); 
