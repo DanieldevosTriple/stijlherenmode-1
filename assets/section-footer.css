@@ -689,6 +689,7 @@
 @media (min-width: 992px) {
   .newsletter-form__field {
     grid-template-columns: 1fr auto;
+    gap: 1rem;
     max-width: 600px;
   }
 }
