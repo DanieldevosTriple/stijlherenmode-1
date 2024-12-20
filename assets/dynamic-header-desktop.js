@@ -12,40 +12,47 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Klasse "sticky" succesvol toegevoegd aan section-header.');
 
         let lastScrollY = window.scrollY;
+        let threshold = 10; // Minimale verandering in scrollpositie om updates te triggeren
+        let isHidden = false; // Houd bij of de header verborgen is
 
         // Scroll event listener toevoegen
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
 
-            // Scroll naar beneden
+            // Alleen reageren als de scrollpositie significant verandert
+            if (Math.abs(currentScrollY - lastScrollY) < threshold) {
+                return;
+            }
+
             if (currentScrollY > lastScrollY) {
-                if (!sectionHeader.classList.contains('hidden')) {
+                // Gebruiker scrollt naar beneden
+                if (!isHidden) {
                     sectionHeader.classList.remove('scroll-up');
                     sectionHeader.classList.add('hidden');
+                    isHidden = true; // Markeer de header als verborgen
                     console.log('Scrollt naar beneden: "hidden" toegevoegd, "scroll-up" verwijderd.');
                 }
-            }
-            // Scroll naar boven
-            else if (currentScrollY < lastScrollY) {
-                if (!sectionHeader.classList.contains('scroll-up')) {
+            } else if (currentScrollY < lastScrollY) {
+                // Gebruiker scrollt omhoog
+                if (isHidden) {
                     sectionHeader.classList.remove('hidden');
                     sectionHeader.classList.add('scroll-up');
                     if (sectionIndexPage) {
                         sectionIndexPage.classList.add('scroll-up');
                     }
+                    isHidden = false; // Markeer de header als zichtbaar
                     console.log('Scrollt omhoog: "scroll-up" toegevoegd, "hidden" verwijderd.');
                 }
             }
 
-            // Gebruiker is bovenaan
+            // Wanneer de gebruiker bovenaan is
             if (currentScrollY === 0) {
-                if (sectionHeader.classList.contains('hidden') || sectionHeader.classList.contains('scroll-up')) {
-                    sectionHeader.classList.remove('hidden', 'scroll-up');
-                    if (sectionIndexPage) {
-                        sectionIndexPage.classList.remove('hidden', 'scroll-up');
-                    }
-                    console.log('Bovenaan de pagina: alleen "sticky" aanwezig.');
+                sectionHeader.classList.remove('hidden', 'scroll-up');
+                if (sectionIndexPage) {
+                    sectionIndexPage.classList.remove('hidden', 'scroll-up');
                 }
+                isHidden = false; // Reset de zichtbaarheid van de header
+                console.log('Bovenaan de pagina: alleen "sticky" aanwezig.');
             }
 
             // Update de laatste scrollpositie
