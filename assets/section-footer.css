@@ -683,14 +683,14 @@
   display: grid;
   /* Default mobile layout - stacked */
   grid-template-columns: 1fr auto;
+  max-width: 600px;
 }
 
 /* Desktop layout - side by side */
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   .newsletter-form__field {
     grid-template-columns: 1fr;
     gap: 1rem;
-    max-width: 600px;
   }
 }
 
