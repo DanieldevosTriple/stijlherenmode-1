@@ -148,6 +148,11 @@
             {% endfor %}
           </ul>
           <div class="mobile-menu-wrapper">Some other elements</div>
+          <div class="d-none d-lg-block hover-red">
+            <a href="{{ routes.cart_url }}" class="cart-link">
+              {{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
+            </a>
+          </div>
         </div>
       {% endif %}
   </header>
