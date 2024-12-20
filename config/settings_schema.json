@@ -158,6 +158,12 @@
         "label": "t:settings_schema.layout.settings.spacing_grid_vertical.label"
       },
       {
+        "type": "checkbox",
+        "id": "dark_mode_enabled",
+        "default": false,
+        "label": "Enable Dark Mode"
+      },
+      {
         "type": "color",
         "id": "background_color_light",
         "label": "Background Color (Light mode)",
