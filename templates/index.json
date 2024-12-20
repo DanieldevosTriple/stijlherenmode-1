@@ -55,7 +55,7 @@
           "type": "collection",
           "settings": {
             "collection": "broeken",
-            "cta_text": "View collection",
+            "cta_text": "Bekijk collectie",
             "collection_image": "shopify://shop_images/Jeans.png"
           }
         },
@@ -63,7 +63,7 @@
           "type": "collection",
           "settings": {
             "collection": "jackets",
-            "cta_text": "View collection",
+            "cta_text": "Bekijk collectie",
             "collection_image": "shopify://shop_images/Jassen.png"
           }
         },
@@ -71,7 +71,7 @@
           "type": "collection",
           "settings": {
             "collection": "knitwear",
-            "cta_text": "View collection",
+            "cta_text": "Bekijk collectie",
             "collection_image": "shopify://shop_images/Knitwear.png"
           }
         },
@@ -79,7 +79,7 @@
           "type": "collection",
           "settings": {
             "collection": "schoenen",
-            "cta_text": "View collection",
+            "cta_text": "Bekijk collectie",
             "collection_image": "shopify://shop_images/Schoenen.png"
           }
         }
