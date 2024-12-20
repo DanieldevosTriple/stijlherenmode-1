@@ -18,6 +18,7 @@
 .card-subtitle {
     text-transform: uppercase;
     color: black;
+    text-decoration: underline;
 }
 
 .card-subtitle:hover {
