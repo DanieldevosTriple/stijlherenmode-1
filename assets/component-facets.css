@@ -841,17 +841,13 @@ a.active-facets__button.focused .active-facets__button-inner {
   height: 100%;
   overflow-y: auto;
   pointer-events: all;
-  transition: transform var(--duration-default) ease;
+  transition: transform 0.2s ease;
   max-width: 37.5rem;
   display: flex;
   flex-direction: column;
-  border-color: rgba(var(--color-foreground), var(--drawer-border-opacity));
+  border-color: rgba(18,18,18, 0.1);
   border-style: solid;
-  border-width: 0 0 0 var(--drawer-border-width);
-  filter: drop-shadow(
-    var(--drawer-shadow-horizontal-offset) var(--drawer-shadow-vertical-offset) var(--drawer-shadow-blur-radius)
-      rgba(var(--color-shadow), var(--drawer-shadow-opacity))
-  );
+  border-width: 0 0 0 1px;
 }
 
 .menu-opening .mobile-facets__inner {
