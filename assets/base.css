@@ -1093,54 +1093,6 @@ shopify-accelerated-checkout-cart {
   rgba(var(--color-shadow), var(--shadow-opacity));
 }
 
-
-/* Button - other */
-
-.button:disabled,
-.button[aria-disabled='true'],
-.button.disabled,
-.customer button:disabled,
-.customer button[aria-disabled='true'],
-.customer button.disabled,
-.quantity__button.disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.button--full-width {
-  display: flex;
-  width: 100%;
-}
-
-.button.loading {
-  color: transparent;
-  position: relative;
-}
-
-@media screen and (forced-colors: active) {
-  .button.loading {
-    color: rgb(var(--color-foreground));
-  }
-}
-
-.button.loading > .loading__spinner {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.button.loading > .loading__spinner .spinner {
-  width: fit-content;
-}
-
-.button.loading > .loading__spinner .path {
-  stroke: rgb(var(--color-button-text));
-}
-
 /* component-form */
 .field__input,
 .select__select,
