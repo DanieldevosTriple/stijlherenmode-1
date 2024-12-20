@@ -120,7 +120,7 @@ sections/newsletter-popup.liquid
 <div class="popup-overlay" data-popup-overlay>
   <div class="popup-container">
     <button class="popup-close" data-popup-close>
-      {% render 'icon-close' %}
+      {{{- 'icon-close.svg' | inline_asset_content -}}
     </button>
     
     <div class="popup-content">
