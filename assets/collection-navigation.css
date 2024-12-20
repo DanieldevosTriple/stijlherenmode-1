@@ -30,6 +30,7 @@
   scroll-snap-align: start;
   width: 100%; /* Breedte naar wens aanpassen */
   aspect-ratio: 1 / 1; /* Zorgt voor een vierkant (1:1 ratio) */
+  background-size: cover; 
 }
 
 /* Overlay via pseudo-element */
@@ -77,7 +78,6 @@
     flex: 0 0 auto;
     scroll-snap-align: start;
     position: relative;
-    background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat;
   }
