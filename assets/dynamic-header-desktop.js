@@ -1,58 +1,85 @@
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('Script geladen: sticky instelling is actief.');
-
+    console.log('Script loaded: sticky functionality is active.');
     const sectionHeader = document.querySelector('.section-header');
     const sectionIndexPage = document.querySelector('.index-page');
+    
+    if (!sectionHeader) {
+        console.warn('Element with class "section-header" not found. Check if the class is correctly set in HTML.');
+        return;
+    }
 
-    if (sectionHeader) {
-        console.log('Element met klasse "section-header" gevonden.');
+    console.log('Element with class "section-header" found.');
+    sectionHeader.classList.add('sticky');
+    console.log('Class "sticky" successfully added to section-header.');
 
-        // Voeg de sticky klasse toe bij het laden
-        sectionHeader.classList.add('sticky');
-        console.log('Klasse "sticky" succesvol toegevoegd aan section-header.');
+    let lastScrollY = window.scrollY;
+    const visibilityThreshold = 50;
+    let isHidden = false;
+    let ticking = false;  // For requestAnimationFrame
+    let lastTime = Date.now();
+    const scrollDelay = 100;  // Minimum time between scroll updates in ms
 
-        let lastScrollY = window.scrollY; // Houdt de laatste scrollpositie bij
-        const visibilityThreshold = 50; // Pixels afstand voor zichtbaar/verborgen maken
-        let isHidden = false; // Houdt bij of de header verborgen is
+    function updateHeaderVisibility() {
+        const currentScrollY = window.scrollY;
+        const currentTime = Date.now();
 
-        // Functie om de zichtbaarheid van de header te beheren
-        function updateHeaderVisibility() {
-            const currentScrollY = window.scrollY;
-
-            if (currentScrollY > lastScrollY && currentScrollY > visibilityThreshold) {
-                // Scroll naar beneden: verberg de header
-                if (!isHidden) {
-                    sectionHeader.classList.add('hidden');
-                    sectionHeader.classList.remove('scroll-up');
-                    isHidden = true;
-                    console.log('Scrollt naar beneden: header verborgen.');
-                }
-            } else if (currentScrollY < lastScrollY) {
-                // Scroll naar boven: toon de header
-                if (isHidden) {
-                    sectionHeader.classList.remove('hidden');
-                    sectionHeader.classList.add('scroll-up');
-                    isHidden = false;
-                    console.log('Scrollt omhoog: header zichtbaar.');
-                }
-            }
-
-            // Reset de header als de gebruiker bovenaan de pagina is
-            if (currentScrollY === 0) {
-                sectionHeader.classList.remove('hidden', 'scroll-up');
-                if (sectionIndexPage) {
-                    sectionIndexPage.classList.remove('hidden', 'scroll-up');
-                }
-                isHidden = false;
-                console.log('Bovenaan de pagina: header gereset.');
-            }
-
-            lastScrollY = currentScrollY; // Update laatste scrollpositie
+        // Only process scroll events if enough time has passed
+        if (currentTime - lastTime < scrollDelay) {
+            return;
         }
 
-        // Scroll event listener
-        window.addEventListener('scroll', updateHeaderVisibility);
-    } else {
-        console.warn('Element met klasse "section-header" niet gevonden. Controleer of de klasse correct is ingesteld in de HTML.');
+        // Determine scroll direction and distance
+        const scrollDistance = Math.abs(currentScrollY - lastScrollY);
+        
+        // Only process significant scroll movements
+        if (scrollDistance < 5) {
+            return;
+        }
+
+        if (currentScrollY > lastScrollY && currentScrollY > visibilityThreshold) {
+            // Scrolling down
+            if (!isHidden) {
+                sectionHeader.classList.add('hidden');
+                sectionHeader.classList.remove('scroll-up');
+                isHidden = true;
+                console.log('Scrolling down: header hidden.');
+            }
+        } else if (currentScrollY < lastScrollY) {
+            // Scrolling up
+            if (isHidden) {
+                // Use a timeout to ensure smooth transition
+                setTimeout(() => {
+                    sectionHeader.classList.remove('hidden');
+                    sectionHeader.classList.add('scroll-up');
+                }, 50);
+                isHidden = false;
+                console.log('Scrolling up: header visible.');
+            }
+        }
+
+        // Reset header at top of page
+        if (currentScrollY === 0) {
+            sectionHeader.classList.remove('hidden', 'scroll-up');
+            if (sectionIndexPage) {
+                sectionIndexPage.classList.remove('hidden', 'scroll-up');
+            }
+            isHidden = false;
+            console.log('At top of page: header reset.');
+        }
+
+        lastScrollY = currentScrollY;
+        lastTime = currentTime;
+        ticking = false;
     }
+
+    // Optimized scroll event listener with requestAnimationFrame
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                updateHeaderVisibility();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
 });
