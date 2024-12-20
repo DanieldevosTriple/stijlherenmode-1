@@ -8,7 +8,7 @@
 
 <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
  
-<section class="col-12 featured-products color-{{ section.settings.color_scheme }} isolate gradient">  
+<div class="col-12 featured-products color-{{ section.settings.color_scheme }} isolate gradient">  
   <div
     class="collection"
     id="collection-{{ section.id }}"
@@ -109,7 +109,7 @@
     </ul>       
     </slider-component>
   </div>
-</section> 
+</div> 
 
 {% schema %}
 {
