@@ -7,7 +7,7 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(0.8rem);
+    backdrop-filter: blur(0.2rem);
     z-index: 1000;
     display: none;
   }
@@ -19,7 +19,6 @@
     transform: translate(-50%, -50%);
     background: #ffffff;
     padding: 2rem;
-    border-radius: 4px;
     width: 100%;
     max-width: 400px;
     aspect-ratio: 1/1;
@@ -34,6 +33,9 @@
     background: none;
     border: none;
     padding: 0.5rem;
+    color: black;
+    width: 25px;
+    height: 25px;
   }
   
   .popup-content {
