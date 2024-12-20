@@ -689,6 +689,7 @@
 @media (min-width: 992px) {
   .newsletter-form__field {
     grid-template-columns: 1fr auto;
+    max-width: 600px;
   }
 }
 
@@ -736,4 +737,5 @@
 
 .dislaimer {
   padding: 1rem 0rem;
+  max-width: 600px;
 }
