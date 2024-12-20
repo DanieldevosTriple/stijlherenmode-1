@@ -260,48 +260,6 @@
       "settings": {
         "title": "Shop op Merk"
       }
-    },
-    "featured_banner_tBJDRR": {
-      "type": "featured-banner",
-      "disabled": true,
-      "settings": {
-        "image": "shopify://shop_images/tailor.png",
-        "mobile_image": "shopify://shop_images/tailor-mobile.png",
-        "image_alt": "Featured Banner",
-        "logo": "shopify://shop_images/logo-black_c5193df7-2700-4cb5-972d-04667f2a7de1.svg",
-        "link_to_collection": "",
-        "banner_height": 400,
-        "quote": "La moda passa, lo stile resta."
-      }
-    },
-    "store_selection_ygz9BV": {
-      "type": "store-selection",
-      "blocks": {
-        "menu_item_EPViKT": {
-          "type": "menu_item",
-          "settings": {
-            "title": "Stijl Herenmode",
-            "image": "shopify://shop_images/Herenmode.png",
-            "description": "Houttil 17<br>1811 JL Alkmaar<br>\nTelefoon: 072 511 2587"
-          }
-        },
-        "menu_item_fjywjz": {
-          "type": "menu_item",
-          "settings": {
-            "title": "Stijl Casual",
-            "image": "shopify://shop_images/Casual.png",
-            "description": "Houttil 21<br>1811 JL Alkmaar<br>\nTelefoon: 072 511 2587"
-          }
-        }
-      },
-      "block_order": [
-        "menu_item_EPViKT",
-        "menu_item_fjywjz"
-      ],
-      "disabled": true,
-      "settings": {
-        "title": "Onze winkels"
-      }
     }
   },
   "order": [
@@ -312,8 +270,6 @@
     "two_grid_navigation_cards_gLnhfz",
     "popular_now_tAFG44",
     "featured_product_custom_BpBaCC",
-    "collection_navigation_akMifc",
-    "featured_banner_tBJDRR",
-    "store_selection_ygz9BV"
+    "collection_navigation_akMifc"
   ]
 }
