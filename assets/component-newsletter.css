@@ -53,6 +53,8 @@
   border: 1px solid #fff;
   cursor: pointer; /* Zorgt voor het handje */
   background-color: white;
+  color: black;
+  border-radius: 0px;
 }
 
 .newsletter-form__button:focus-visible {
