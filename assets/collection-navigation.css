@@ -76,6 +76,10 @@
   .logo-grid-item {
     flex: 0 0 auto;
     scroll-snap-align: start;
+    position: relative;
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
   }
 
   .logo-grid-item img {
