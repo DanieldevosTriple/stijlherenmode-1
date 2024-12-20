@@ -7,13 +7,13 @@
       {% assign collection = block.settings.collection %}
       {% if collection %}
         {% assign collection_obj = collections[collection] %}
-        <a href="{{ collection_obj.url }}">
-          <li class="col-3 col-md-3 logo-grid-item" style="background-image: url({{ block.settings.background_image | file_url | replace: 'files/files', 'files' }});">
+        <li class="col-3 col-md-3 logo-grid-item" style="background-image: url({{ block.settings.background_image | file_url | replace: 'files/files', 'files' }});">
+          <a href="{{ collection_obj.url }}" style="display: block; width: 100%; height: 100%;">
             {% if block.settings.logo_image %}
               <img class="logo_image_url" src="{{ block.settings.logo_image | file_url | replace: 'files/files', 'files' }}" alt="{{ collection_obj.title }}">
             {% endif %}
-          </li>
-        </a>        
+          </a>
+        </li>             
       {% endif %}
     {% endfor %}
   </ul>
