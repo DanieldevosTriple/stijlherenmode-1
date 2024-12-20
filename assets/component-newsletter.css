@@ -129,7 +129,6 @@
     display: flex;
     border: 0px solid #fff;
     gap: 1rem;
-    border-radius: 0px;
   }
 
   .newsletter-form__button {

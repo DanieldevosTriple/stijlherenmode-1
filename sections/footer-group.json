@@ -29,7 +29,7 @@
       ],
       "settings": {
         "newsletter_enable": true,
-        "newsletter_heading": "Subscribe to our emails",
+        "newsletter_heading": "Nieuwsbrief",
         "menu_1": "legal",
         "menu_2": "menu-new",
         "show_social": true
