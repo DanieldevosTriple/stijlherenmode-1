@@ -33,7 +33,7 @@
   background-size: cover; 
 }
 
-img .logo_image_url {
+.logo_image_url {
   height: auto;
   position: absolute;
   top: 50%;
