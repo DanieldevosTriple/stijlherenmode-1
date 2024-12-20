@@ -150,7 +150,9 @@
           <div class="mobile-menu-wrapper">Some other elements</div>
           <div class="mobile-menu">
             <a href="{{ routes.cart_url }}" class="nav-item">
-              {{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
+              <li class="nav-item">
+                <a class="nav-link {%if link.active %}active{% endif %}" href="{{ link.url }}">{{ 'cart' | t }}{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</a>
+              </li>
             </a>
           </div>
         </div>
