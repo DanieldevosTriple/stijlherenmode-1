@@ -21,7 +21,7 @@
   cursor: pointer;
 }
 
-.footer-block__heading__menu[aria-expanded="true"]::after {
+.footer-block__heading__menu.is-expanded::after {
   content: '-'; /* Verander de + in een - wanneer uitgeklapt */
 }
 
