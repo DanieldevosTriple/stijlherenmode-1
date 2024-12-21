@@ -53,7 +53,7 @@ details[open] .facet-accordion__toggle {
 }
 
 .facet-accordion__content {
-  padding: 1rem;
+  padding: 0rem;
   border-top: 1px solid var(--color-border);
   background: var(--color-background);
 }
@@ -290,6 +290,7 @@ details[open] .facet-accordion__toggle {
   width: 100%;
   padding: 0.5rem;
   padding-right: 2rem;
+  padding-left: 0rem;
   border: 1px solid var(--color-border);
   border-radius: 4px;
   background-color: var(--color-background);
