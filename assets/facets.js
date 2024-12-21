@@ -78,16 +78,24 @@ class FacetFiltersForm extends HTMLElement {
   toggleDrawer(isOpen) {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
     if (!mobileDrawer) return;
-
+  
     if (isOpen) {
-        mobileDrawer.setAttribute('open', '');
-        document.body.classList.add('overflow-hidden-mobile');
+      mobileDrawer.setAttribute('open', '');
+      mobileDrawer.classList.remove('closing');
+      document.body.classList.add('overflow-hidden-mobile');
     } else {
+      // Voeg de 'closing' class toe voor de animatie
+      mobileDrawer.classList.add('closing');
+      document.body.classList.remove('overflow-hidden-mobile');
+  
+      // Verwijder het 'open' attribuut na de animatie
+      setTimeout(() => {
         mobileDrawer.removeAttribute('open');
-        document.body.classList.remove('overflow-hidden-mobile');
+        mobileDrawer.classList.remove('closing');
+      }, 300); // Timing moet overeenkomen met de CSS-transitie
     }
   }
-
+  
   onSubmitHandler(event) {
     event.preventDefault();
     const formData = new FormData(event.target.closest('form'));

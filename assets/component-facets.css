@@ -196,18 +196,26 @@ body.overflow-hidden-mobile {
 menu-drawer {
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   width: 100%;
   height: 100%;
-  background-color: #fff;
+  background: #fff;
   z-index: 9999;
-  transform: translateX(100%);
+  transform: translateX(0); /* Standaard positie */
   transition: transform 0.3s ease-in-out;
   overflow-y: auto;
 }
 
 menu-drawer[open] {
-  transform: translateX(0);
+  transform: translateX(0); /* Menu is open */
+}
+
+menu-drawer.closing {
+  transform: translateX(100%); /* Menu sluit met animatie */
+}
+
+.overflow-hidden-mobile {
+  overflow: hidden;
 }
 
 .mobile-menu__header {
