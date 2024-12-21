@@ -39,6 +39,39 @@
   
         {% if enable_filtering %}
           <div id="FacetsWrapperDesktop" class="facets__wrapper-desktop">
+            {% if enable_sorting %}
+              <div class="facet-accordion">
+                <details
+                  id="Details-SortBy-{{ section.id }}"
+                  class="facet-accordion__item js-filter"
+                  data-index="sort"
+                >
+                  <summary class="facet-accordion__header">
+                    <div class="facet-accordion__label">{{ 'products.facets.sort_by_label' | t }}</div>
+                  </summary>
+                  <div class="facet-accordion__content">
+                    <div class="select">
+                      <select
+                        name="sort_by"
+                        class="facet-filters__sort select__select caption-large"
+                        id="SortBy"
+                        aria-describedby="a11y-refresh-page-message"
+                      >
+                        {%- for option in results.sort_options -%}
+                          <option
+                            value="{{ option.value | escape }}"
+                            {% if option.value == sort_by %}selected="selected"{% endif %}
+                          >
+                            {{ option.name | escape }}
+                          </option>
+                        {%- endfor -%}
+                      </select>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            {% endif %}
+  
             {%- for filter in results.filters -%}
               <div class="facet-accordion">
                 <details
@@ -95,33 +128,6 @@
             {%- endfor -%}
           </div>
         {% endif %}
-  
-        {%- if enable_sorting -%}
-          <div class="facet-filters sorting caption">
-            <div class="facet-filters__field">
-              <label class="facet-filters__label caption-large" for="SortBy">
-                {{ 'products.facets.sort_by_label' | t }}
-              </label>
-              <div class="select">
-                <select
-                  name="sort_by"
-                  class="facet-filters__sort select__select caption-large"
-                  id="SortBy"
-                  aria-describedby="a11y-refresh-page-message"
-                >
-                  {%- for option in results.sort_options -%}
-                    <option
-                      value="{{ option.value | escape }}"
-                      {% if option.value == sort_by %}selected="selected"{% endif %}
-                    >
-                      {{ option.name | escape }}
-                    </option>
-                  {%- endfor -%}
-                </select>
-              </div>
-            </div>
-          </div>
-        {%- endif -%}
       </form>
     </facet-filters-form>
   {%- endif -%}
