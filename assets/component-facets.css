@@ -1,6 +1,6 @@
 .facets-container {
   display: grid;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: auto;  /* Changed from repeat(2, auto) to auto */
   grid-template-rows: repeat(2, auto);
   padding-top: 1rem;
 }
@@ -11,9 +11,8 @@
 
 .mobile-facets__list {
   overflow-y: auto;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;  /* Changed from repeat(2, 1fr) to 1fr */
   display: grid;
-
 }
 
 .facets__selected,
