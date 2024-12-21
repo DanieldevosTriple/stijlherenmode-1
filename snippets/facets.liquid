@@ -131,18 +131,16 @@
     <h2 class="mobile-menu__title">{{ 'products.facets.filter_button' | t }}</h2>
     <button 
       type="button" 
-      class="mobile-menu__close" 
-      aria-label="{{ 'products.facets.close_filter' | t }}"
+      class="mobile-menu__open-button" 
+      aria-label="{{ 'products.facets.open_filter' | t }}"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
+      {{ 'products.facets.filter_button' | t }}
     </button>
+    
   </div>
 
   <!-- Drawer Content -->
-  <menu-drawer class="mobile-menu__drawer">
+  <menu-drawer id="MobileMenuDrawer" class="mobile-menu__drawer">
     <!-- Sorting -->
     {% if enable_sorting %}
     <div class="mobile-menu__sort">
