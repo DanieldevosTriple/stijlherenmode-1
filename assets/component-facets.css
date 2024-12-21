@@ -41,11 +41,8 @@
 }
 
 .facet-filters {
-  align-items: flex-start;
-  display: flex;
-  grid-column: 2;
-  grid-row: 1;
-  padding-left: 2.5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media screen and (min-width: 990px) {
