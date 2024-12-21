@@ -24,6 +24,13 @@
   transition: background-color 0.2s ease;
 }
 
+.facet-accordion__label {
+  font-weight: 800;
+  font-size: 2rem;
+  font-family: TradeGothicLT;
+  text-transform: uppercase;
+}
+
 .facet-accordion__header:hover {
   background: var(--color-background-hover);
 }
