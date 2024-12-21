@@ -1205,8 +1205,10 @@ input.mobile-facets__checkbox {
 
   .facets__form-vertical {
     display: flex;
-    flex-direction: column;
-  }
+    flex-direction: column; /* Zorgt voor 1 kolom */
+    gap: 1rem; /* Voeg ruimte tussen de rijen toe */
+    width: 100%; /* Of een specifieke breedte zoals 300px */
+  }  
 
   .facets__disclosure-vertical {
     border-top: 0.1rem solid rgba(var(--color-foreground), 0.1);
