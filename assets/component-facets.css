@@ -1028,9 +1028,11 @@ details.menu-opening .mobile-facets__close .svg-wrapper {
   font-size: 1rem;
   text-transform: uppercase;
   font-weight: 800;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.mobile-facets__summary span.facet-label::after {
+.mobile-facets__summary::after {
   content: ">";
   display: inline-block;
   margin-left: 5px;
