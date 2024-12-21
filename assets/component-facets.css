@@ -51,7 +51,7 @@
   text-transform: uppercase;
   font-size: 1rem;
   font-family: TradeGothicLT;
-  font-weight: 800TradeGothicLT;
+  font-weight: 800;
 }
 
 @keyframes slideDown {
