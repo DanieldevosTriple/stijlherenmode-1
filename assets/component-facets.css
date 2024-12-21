@@ -89,7 +89,8 @@ details[open] .facet-accordion__toggle {
   margin: 0;
 }
 
-.facet-checkbox__text {
+.facet-checkbox__text,
+.facet-filters__sort {
   font-size: 1rem;
   text-transform: uppercase;
   font-family: TradeGothicLT;
