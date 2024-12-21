@@ -1041,6 +1041,10 @@ details.menu-opening .mobile-facets__close .svg-wrapper {
   align-items: center;
 }
 
+.menu-icon-reverse {
+  transform: rotate(180deg);
+}
+
 .js .mobile-facets__submenu {
   position: absolute;
   top: 0;
