@@ -5,11 +5,11 @@
   padding-right: 1rem;
 }
 
-.facet-accordion__item {
+.facet-accordion {
   border-bottom: 1px solid rgb(242, 242, 242);
 }
 
-.facet-accordion__item:last-child {
+.facet-accordion:last-child {
   border-bottom: 1px solid rgb(242, 242, 242);
 }
 
