@@ -1030,6 +1030,12 @@ details.menu-opening .mobile-facets__close .svg-wrapper {
   font-weight: 800;
 }
 
+.mobile-facets__summary span.facet-label::after {
+  content: ">";
+  display: inline-block;
+  margin-left: 5px;
+}
+
 .mobile-facets__summary .svg-wrapper {
   margin-left: auto;
 }
@@ -1113,12 +1119,6 @@ input.mobile-facets__checkbox {
 
 .mobile-facets__label > input[type='checkbox']:checked ~ .icon-checkmark {
   visibility: visible;
-}
-
-.mobile-facets__arrow,
-.mobile-facets__summary .icon-caret {
-  margin-left: auto;
-  display: block;
 }
 
 .mobile-facets__footer {
