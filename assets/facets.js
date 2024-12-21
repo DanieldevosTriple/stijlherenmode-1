@@ -58,10 +58,10 @@ class FacetFiltersForm extends HTMLElement {
   initializeMobileDrawer() {
     const mobileDrawer = document.querySelector('menu-drawer');
     if (!mobileDrawer) return;
-
+  
     // Handle open/close of main drawer
     const drawerSummary = mobileDrawer.querySelector('.mobile-facets__disclosure summary');
-    const closeButton = mobileDrawer.querySelector('.mobile-facets__close');
+    const closeButton = mobileDrawer.querySelector('.mobile-facets__close-button');
     
     if (drawerSummary) {
       drawerSummary.addEventListener('click', (e) => {
@@ -75,7 +75,7 @@ class FacetFiltersForm extends HTMLElement {
         }
       });
     }
-
+  
     if (closeButton) {
       closeButton.addEventListener('click', () => {
         const details = mobileDrawer.querySelector('.mobile-facets__disclosure');
@@ -85,6 +85,7 @@ class FacetFiltersForm extends HTMLElement {
         }
       });
     }
+  }
 
     // Handle submenu navigation
     const submenuButtons = mobileDrawer.querySelectorAll('.mobile-facets__close-button');
