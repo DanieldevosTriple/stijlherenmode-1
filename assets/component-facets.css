@@ -45,15 +45,6 @@
   box-sizing: border-box;
 }
 
-
-
-@media screen and (min-width: 990px) {
-  .facet-filters {
-    padding-left: 3rem;
-    align-items: center;
-  }
-}
-
 .facet-filters__label {
   display: block;
   color: rgba(var(--color-foreground), 0.85);
