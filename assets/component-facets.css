@@ -10,11 +10,8 @@
 }
 
 .facet-accordion__item:last-child {
-  border-bottom: 1px solid rgb(242, 242, 242);
-}
-
-.facet-accordion__item:first-child {
   border-top: 1px solid rgb(242, 242, 242);
+  border-bottom: 1px solid rgb(242, 242, 242);
 }
 
 .facet-accordion__header {
