@@ -429,4 +429,9 @@ details[open] .mobile-facets__content {
     font-size: 1.75rem;
   }
 }
+
+@screen media and (min-width: 992px) {
+  .mobile-menu {
+    display: none
+  }
 }
