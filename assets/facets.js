@@ -48,31 +48,35 @@ class FacetFiltersForm extends HTMLElement {
     const mobileDrawer = document.querySelector('menu-drawer');
     if (!mobileDrawer) return;
 
-    const drawerSummary = mobileDrawer.querySelector('.mobile-facets__disclosure summary');
+    const openButton = document.querySelector('.mobile-menu__open-button');
     const closeButton = mobileDrawer.querySelector('.mobile-facets__close-button');
 
-    if (drawerSummary) {
-      drawerSummary.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.toggleDrawer(true);
-      });
+    // Open drawer
+    if (openButton) {
+        openButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.toggleDrawer(true);
+        });
     }
 
+    // Close drawer
     if (closeButton) {
-      closeButton.addEventListener('click', () => {
-        this.toggleDrawer(false);
-      });
+        closeButton.addEventListener('click', () => {
+            this.toggleDrawer(false);
+        });
     }
 
+    // Apply button closes the drawer
     const applyButton = mobileDrawer.querySelector('.mobile-facets__footer .button--primary');
     if (applyButton) {
-      applyButton.addEventListener('click', () => this.toggleDrawer(false));
+        applyButton.addEventListener('click', () => this.toggleDrawer(false));
     }
 
+    // Close drawer on ESC key
     document.addEventListener('keyup', (event) => {
-      if (event.code.toUpperCase() === 'ESCAPE' && mobileDrawer.hasAttribute('open')) {
-        this.toggleDrawer(false);
-      }
+        if (event.code.toUpperCase() === 'ESCAPE' && mobileDrawer.hasAttribute('open')) {
+            this.toggleDrawer(false);
+        }
     });
   }
 
@@ -81,11 +85,11 @@ class FacetFiltersForm extends HTMLElement {
     if (!mobileDrawer) return;
 
     if (isOpen) {
-      mobileDrawer.setAttribute('open', '');
-      document.body.classList.add('overflow-hidden-mobile');
+        mobileDrawer.setAttribute('open', '');
+        document.body.classList.add('overflow-hidden-mobile');
     } else {
-      mobileDrawer.removeAttribute('open');
-      document.body.classList.remove('overflow-hidden-mobile');
+        mobileDrawer.removeAttribute('open');
+        document.body.classList.remove('overflow-hidden-mobile');
     }
   }
 
