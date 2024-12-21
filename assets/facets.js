@@ -45,7 +45,7 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   initializeMobileDrawer() {
-    const mobileDrawer = document.querySelector('menu-drawer');
+    const mobileDrawer = document.querySelector('#MobileMenuDrawer');
     if (!mobileDrawer) return;
 
     const openButton = document.querySelector('.mobile-menu__open-button');
@@ -61,15 +61,10 @@ class FacetFiltersForm extends HTMLElement {
 
     // Close drawer
     if (closeButton) {
-        closeButton.addEventListener('click', () => {
+        closeButton.addEventListener('click', (e) => {
+            e.preventDefault();
             this.toggleDrawer(false);
         });
-    }
-
-    // Apply button closes the drawer
-    const applyButton = mobileDrawer.querySelector('.mobile-facets__footer .button--primary');
-    if (applyButton) {
-        applyButton.addEventListener('click', () => this.toggleDrawer(false));
     }
 
     // Close drawer on ESC key
@@ -81,7 +76,7 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   toggleDrawer(isOpen) {
-    const mobileDrawer = document.querySelector('menu-drawer');
+    const mobileDrawer = document.querySelector('#MobileMenuDrawer');
     if (!mobileDrawer) return;
 
     if (isOpen) {
