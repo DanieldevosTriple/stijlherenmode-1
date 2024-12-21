@@ -1032,12 +1032,6 @@ details.menu-opening .mobile-facets__close .svg-wrapper {
   grid-template-columns: 95% 1fr;
 }
 
-.mobile-facets__summary::after {
-  content: ">";
-  display: inline-block;
-  margin-left: 5px;
-}
-
 .mobile-facets__summary .svg-wrapper {
   margin-left: auto;
 }
