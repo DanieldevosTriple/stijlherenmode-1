@@ -11,6 +11,9 @@
 
 .mobile-facets__list {
   overflow-y: auto;
+  grid-template-columns: repeat(2, 1fr);
+  display: grid;
+
 }
 
 .facets__selected,
@@ -970,7 +973,7 @@ details.menu-opening .mobile-facets__close .svg-wrapper {
   margin-top: 1.5rem;
   padding: 1.2rem 2.6rem;
   text-decoration: none;
-
+  border: 1px solid rgb(242, 242, 242);
   display: grid;
   grid-template-columns: min-content 1fr;
   text-align: start;
