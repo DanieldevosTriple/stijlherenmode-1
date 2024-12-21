@@ -187,12 +187,8 @@
 }
 
 .facets__wrapper {
-  align-items: center;
-  align-self: flex-start;
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  flex-wrap: wrap;
+  width: 100%; /* Zorgt dat elke rij volledig breed is */
+  box-sizing: border-box; /* Zorgt dat padding en border binnen de breedte vallen */
 }
 
 .facets__heading {
