@@ -7,30 +7,16 @@ class FacetFiltersForm extends HTMLElement {
       this.onSubmitHandler(event);
     }, 500);
 
-    // Initialize desktop accordion
     this.initializeDesktopAccordion();
+    this.initializeMobileDrawer();
     
-    // Initialize form handlers
-    this.bindEvents();
-    
+    const facetForm = this.querySelector('form');
+    if (facetForm) {
+      facetForm.addEventListener('input', this.debouncedOnSubmit.bind(this));
+    }
+
     const facetWrapper = this.querySelector('#FacetsWrapperDesktop');
     if (facetWrapper) facetWrapper.addEventListener('keyup', onKeyUpEscape);
-  }
-
-  bindEvents() {
-    const forms = this.querySelectorAll('form');
-    forms.forEach(form => {
-      form.addEventListener('input', this.debouncedOnSubmit.bind(this));
-    });
-
-    this.bindSortChangeEvent();
-  }
-
-  bindSortChangeEvent() {
-    const sortSelects = this.querySelectorAll('.facet-filters__sort');
-    sortSelects.forEach(select => {
-      select.addEventListener('change', this.debouncedOnSubmit.bind(this));
-    });
   }
 
   initializeDesktopAccordion() {
@@ -61,12 +47,92 @@ class FacetFiltersForm extends HTMLElement {
     });
   }
 
+  initializeMobileDrawer() {
+    const mobileDrawer = document.querySelector('menu-drawer');
+    if (!mobileDrawer) return;
+
+    // Handle open/close of main drawer
+    const drawerSummary = mobileDrawer.querySelector('.mobile-facets__disclosure summary');
+    const closeButton = mobileDrawer.querySelector('.mobile-facets__close');
+    
+    if (drawerSummary) {
+      drawerSummary.addEventListener('click', (e) => {
+        e.preventDefault();
+        const details = drawerSummary.parentElement;
+        const isOpen = details.hasAttribute('open');
+        
+        if (!isOpen) {
+          details.setAttribute('open', '');
+          document.body.classList.add('overflow-hidden-mobile');
+        }
+      });
+    }
+
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        const details = mobileDrawer.querySelector('.mobile-facets__disclosure');
+        if (details && details.hasAttribute('open')) {
+          details.removeAttribute('open');
+          document.body.classList.remove('overflow-hidden-mobile');
+        }
+      });
+    }
+
+    // Handle submenu navigation
+    const submenuButtons = mobileDrawer.querySelectorAll('.mobile-facets__close-button');
+    submenuButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const submenu = button.closest('.mobile-facets__submenu');
+        if (submenu) {
+          const parentDetails = submenu.closest('.mobile-facets__details');
+          if (parentDetails && parentDetails.hasAttribute('open')) {
+            parentDetails.removeAttribute('open');
+          }
+        }
+      });
+    });
+
+    // Handle apply button
+    const applyButtons = mobileDrawer.querySelectorAll('.mobile-facets__footer .button--primary');
+    applyButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const details = mobileDrawer.querySelector('.mobile-facets__disclosure');
+        if (details && details.hasAttribute('open')) {
+          details.removeAttribute('open');
+          document.body.classList.remove('overflow-hidden-mobile');
+        }
+      });
+    });
+  }
+
+  static setListeners() {
+    const onHistoryChange = (event) => {
+      const searchParams = event.state ? event.state.searchParams : FacetFiltersForm.searchParamsInitial;
+      if (searchParams === FacetFiltersForm.searchParamsPrev) return;
+      FacetFiltersForm.renderPage(searchParams, null, false);
+    };
+    window.addEventListener('popstate', onHistoryChange);
+  }
+
+  static toggleActiveFacets(disable = true) {
+    document.querySelectorAll('.js-facet-remove').forEach((element) => {
+      element.classList.toggle('disabled', disable);
+    });
+  }
+
   static renderPage(searchParams, event, updateURLHash = true) {
     FacetFiltersForm.searchParamsPrev = searchParams;
     const sections = FacetFiltersForm.getSections();
-    
+    const countContainer = document.getElementById('ProductCount');
+    const countContainerDesktop = document.getElementById('ProductCountDesktop');
     document.getElementById('ProductGridContainer').querySelector('.collection').classList.add('loading');
-    
+    if (countContainer) {
+      countContainer.classList.add('loading');
+    }
+    if (countContainerDesktop) {
+      countContainerDesktop.classList.add('loading');
+    }
+
     sections.forEach((section) => {
       const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
       const filterDataUrl = (element) => element.url === url;
@@ -77,27 +143,6 @@ class FacetFiltersForm extends HTMLElement {
     });
 
     if (updateURLHash) FacetFiltersForm.updateURLHash(searchParams);
-  }
-
-  onSubmitHandler(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target.closest('form'));
-    const searchParams = new URLSearchParams(formData).toString();
-    
-    FacetFiltersForm.renderPage(searchParams, event);
-  }
-
-  onActiveFilterClick(event) {
-    event.preventDefault();
-    FacetFiltersForm.toggleActiveFacets();
-    const url = event.currentTarget.href.indexOf('?') === -1
-      ? ''
-      : event.currentTarget.href.slice(event.currentTarget.href.indexOf('?') + 1);
-    FacetFiltersForm.renderPage(url);
-  }
-
-  static updateURLHash(searchParams) {
-    history.pushState({ searchParams }, '', `${window.location.pathname}${searchParams && '?'.concat(searchParams)}`);
   }
 
   static renderSectionFromFetch(url, event) {
@@ -132,9 +177,16 @@ class FacetFiltersForm extends HTMLElement {
       .getElementById('ProductCount').innerHTML;
     
     const container = document.getElementById('ProductCount');
+    const containerDesktop = document.getElementById('ProductCountDesktop');
+    
     if (container) {
       container.innerHTML = count;
       container.classList.remove('loading');
+    }
+    
+    if (containerDesktop) {
+      containerDesktop.innerHTML = count;
+      containerDesktop.classList.remove('loading');
     }
   }
 
@@ -154,31 +206,153 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   static renderActiveFacets(html) {
-    const activeFacets = html.querySelectorAll('.active-facets-mobile');
-    activeFacets.forEach(activeFacet => {
-      document.querySelector('.active-facets-mobile').innerHTML = activeFacet.innerHTML;
+    const activeFacetElementSelectors = ['.active-facets-mobile', '.active-facets-desktop'];
+
+    activeFacetElementSelectors.forEach((selector) => {
+      const activeFacetsElement = html.querySelector(selector);
+      if (!activeFacetsElement) return;
+      document.querySelector(selector).innerHTML = activeFacetsElement.innerHTML;
     });
+
+    FacetFiltersForm.toggleActiveFacets(false);
   }
 
   static renderAdditionalElements(html) {
-    const mobileElements = html.querySelectorAll('.mobile-facets__open, .mobile-facets__count, .sorting');
-    mobileElements.forEach(element => {
-      if (!element) return;
-      document.querySelector(`.${element.className}`).innerHTML = element.innerHTML;
+    const mobileElementSelectors = ['.mobile-facets__open', '.mobile-facets__count', '.sorting'];
+
+    mobileElementSelectors.forEach((selector) => {
+      if (!html.querySelector(selector)) return;
+      document.querySelector(selector).innerHTML = html.querySelector(selector).innerHTML;
     });
   }
 
-  static resetFacets() {
-    const activeFacets = document.querySelectorAll('.js-facet-remove');
-    activeFacets.forEach((element) => {
-      element.click();
-    });
+  static updateURLHash(searchParams) {
+    history.pushState({ searchParams }, '', `${window.location.pathname}${searchParams && '?'.concat(searchParams)}`);
+  }
+
+  static getSections() {
+    return [
+      {
+        id: 'main-collection-product-grid',
+        section: document.getElementById('product-grid').dataset.id,
+      }
+    ];
+  }
+
+  createSearchParams(form) {
+    const formData = new FormData(form);
+    return new URLSearchParams(formData).toString();
+  }
+
+  onSubmitForm(searchParams, event) {
+    FacetFiltersForm.renderPage(searchParams, event);
+  }
+
+  onSubmitHandler(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target.closest('form'));
+    const searchParams = new URLSearchParams(formData).toString();
+    this.onSubmitForm(searchParams, event);
+  }
+
+  onActiveFilterClick(event) {
+    event.preventDefault();
+    FacetFiltersForm.toggleActiveFacets();
+    const url =
+      event.currentTarget.href.indexOf('?') == -1
+        ? ''
+        : event.currentTarget.href.slice(event.currentTarget.href.indexOf('?') + 1);
+    FacetFiltersForm.renderPage(url);
   }
 }
 
-customElements.define('facet-filters-form', FacetFiltersForm);
 FacetFiltersForm.filterData = [];
 FacetFiltersForm.searchParamsInitial = window.location.search.slice(1);
 FacetFiltersForm.searchParamsPrev = window.location.search.slice(1);
+customElements.define('facet-filters-form', FacetFiltersForm);
+FacetFiltersForm.setListeners();
 
-// Keep your existing PriceRange class unchanged
+class PriceRange extends HTMLElement {
+  constructor() {
+    super();
+    this.querySelectorAll('input').forEach((element) => {
+      element.addEventListener('change', this.onRangeChange.bind(this));
+      element.addEventListener('keyup', this.onKeyUp.bind(this));
+    });
+    this.setMinAndMaxValues();
+  }
+
+  onRangeChange(event) {
+    this.adjustToValidValues(event.currentTarget);
+    this.setMinAndMaxValues();
+  }
+
+  onKeyUp(event) {
+    event.preventDefault();
+    this.adjustToValidValues(event.currentTarget);
+    this.setMinAndMaxValues();
+  }
+
+  setMinAndMaxValues() {
+    const inputs = this.querySelectorAll('input');
+    const minInput = inputs[0];
+    const maxInput = inputs[1];
+    if (maxInput.value) minInput.setAttribute('max', maxInput.value);
+    if (minInput.value) maxInput.setAttribute('min', minInput.value);
+    if (minInput.value === '') maxInput.setAttribute('min', 0);
+    if (maxInput.value === '') minInput.setAttribute('max', maxInput.getAttribute('max'));
+  }
+
+  adjustToValidValues(input) {
+    const value = Number(input.value);
+    const min = Number(input.getAttribute('min'));
+    const max = Number(input.getAttribute('max'));
+
+    if (value < min) input.value = min;
+    if (value > max) input.value = max;
+  }
+}
+
+customElements.define('price-range', PriceRange);
+
+class FacetRemove extends HTMLElement {
+  constructor() {
+    super();
+    const facetLink = this.querySelector('a');
+    facetLink.setAttribute('role', 'button');
+    facetLink.addEventListener('click', this.closeFilter.bind(this));
+    facetLink.addEventListener('keyup', (event) => {
+      event.preventDefault();
+      if (event.code.toUpperCase() === 'SPACE') this.closeFilter(event);
+    });
+  }
+
+  closeFilter(event) {
+    event.preventDefault();
+    const form = this.closest('facet-filters-form') || document.querySelector('facet-filters-form');
+    form.onActiveFilterClick(event);
+  }
+}
+
+customElements.define('facet-remove', FacetRemove);
+
+// Helper function for debouncing
+function debounce(fn, wait) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn.apply(this, args), wait);
+  };
+}
+
+// Helper function for handling escape key
+function onKeyUpEscape(event) {
+  if (event.code.toUpperCase() !== 'ESCAPE') return;
+
+  const openDetailsElement = event.target.closest('details[open]');
+  if (!openDetailsElement) return;
+
+  const summaryElement = openDetailsElement.querySelector('summary');
+  openDetailsElement.removeAttribute('open');
+  summaryElement.focus();
+}

@@ -64,3 +64,54 @@
     display: none;
   }
 }
+
+@media screen and (max-width: 749px) {  
+  .mobile-facets__wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    background-color: rgba(var(--color-foreground), 0.5);
+    visibility: hidden;
+  }
+
+  .mobile-facets__wrapper details[open] {
+    visibility: visible;
+  }
+
+  .mobile-facets__disclosure {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: var(--color-background);
+    z-index: 101;
+  }
+
+  .mobile-facets__inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+  }
+
+  .mobile-facets__disclosure details[open] .mobile-facets__submenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 102;
+    background: var(--color-background);
+    overflow-y: auto;
+  }
+
+  .overflow-hidden-mobile {
+    overflow: hidden;
+  }
+}
