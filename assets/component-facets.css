@@ -45,6 +45,8 @@
   box-sizing: border-box;
 }
 
+
+
 @media screen and (min-width: 990px) {
   .facet-filters {
     padding-left: 3rem;
@@ -77,11 +79,9 @@
 }
 
 .facet-filters__field {
-  display: flex;
-  flex-grow: 1;
-  justify-content: flex-end;
-  text-transform: uppercase;
-  font-family:  TradeGothicLT, sans-serif;
+  width: 100%; /* Zorgt dat elke rij volledig breed is */
+  box-sizing: border-box; /* Zorgt dat padding en border binnen de breedte vallen */width: 100%; /* Zorgt dat elke rij volledig breed is */
+  box-sizing: border-box; /* Zorgt dat padding en border binnen de breedte vallen */
 }
 
 .facet-filters__field .select {
