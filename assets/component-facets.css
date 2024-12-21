@@ -992,10 +992,6 @@ details.menu-opening .mobile-facets__close .svg-wrapper {
   border-bottom: 1px solid #e0e0e0;
 }
 
-.mobile-facets__details:first-of-type {
-  border-top: 1px solid #e0e0e0;    /* Different border for first element */
-}
-
 .mobile-facets__main {
   padding: 0rem 0 0;
   position: relative;
