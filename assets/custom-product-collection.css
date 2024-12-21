@@ -9,3 +9,7 @@
     grid-template-columns: repeat(2, 1fr); /* Pas min-width naar wens aan */
 }
 }
+
+.vertical-facets {
+    grid-template-columns: repeat(2, 1fr);
+}

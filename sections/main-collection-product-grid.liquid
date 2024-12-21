@@ -44,7 +44,7 @@
 <section class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
 
-    <div class="col-12">
+    <div class="col-12 vertical-facets">
       {{ 'component-facets.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
