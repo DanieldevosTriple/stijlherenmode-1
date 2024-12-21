@@ -24,7 +24,11 @@ class FacetFiltersForm extends HTMLElement {
     
     desktopDetails.forEach((detail) => {
       const summary = detail.querySelector('summary');
-      if (!summary) return;
+      const toggle = summary?.querySelector('.facet-accordion__toggle');
+      if (!summary || !toggle) return;
+
+      // Set initial state
+      toggle.textContent = detail.hasAttribute('open') ? '-' : '+';
 
       summary.addEventListener('click', (e) => {
         e.preventDefault();
@@ -34,14 +38,18 @@ class FacetFiltersForm extends HTMLElement {
         desktopDetails.forEach((otherDetail) => {
           if (otherDetail !== detail && otherDetail.hasAttribute('open')) {
             otherDetail.removeAttribute('open');
+            const otherToggle = otherDetail.querySelector('.facet-accordion__toggle');
+            if (otherToggle) otherToggle.textContent = '+';
           }
         });
 
         // Toggle current detail
         if (isOpen) {
           detail.removeAttribute('open');
+          toggle.textContent = '+';
         } else {
           detail.setAttribute('open', '');
+          toggle.textContent = '-';
         }
       });
     });
@@ -126,6 +134,7 @@ class FacetFiltersForm extends HTMLElement {
     const countContainer = document.getElementById('ProductCount');
     const countContainerDesktop = document.getElementById('ProductCountDesktop');
     document.getElementById('ProductGridContainer').querySelector('.collection').classList.add('loading');
+    
     if (countContainer) {
       countContainer.classList.add('loading');
     }
@@ -203,6 +212,13 @@ class FacetFiltersForm extends HTMLElement {
 
     FacetFiltersForm.renderActiveFacets(parsedHTML);
     FacetFiltersForm.renderAdditionalElements(parsedHTML);
+
+    // Reinitialize the accordion and drawer after rendering
+    const form = document.querySelector('facet-filters-form');
+    if (form) {
+      form.initializeDesktopAccordion();
+      form.initializeMobileDrawer();
+    }
   }
 
   static renderActiveFacets(html) {
@@ -266,12 +282,6 @@ class FacetFiltersForm extends HTMLElement {
   }
 }
 
-FacetFiltersForm.filterData = [];
-FacetFiltersForm.searchParamsInitial = window.location.search.slice(1);
-FacetFiltersForm.searchParamsPrev = window.location.search.slice(1);
-customElements.define('facet-filters-form', FacetFiltersForm);
-FacetFiltersForm.setListeners();
-
 class PriceRange extends HTMLElement {
   constructor() {
     super();
@@ -313,8 +323,6 @@ class PriceRange extends HTMLElement {
   }
 }
 
-customElements.define('price-range', PriceRange);
-
 class FacetRemove extends HTMLElement {
   constructor() {
     super();
@@ -333,8 +341,6 @@ class FacetRemove extends HTMLElement {
     form.onActiveFilterClick(event);
   }
 }
-
-customElements.define('facet-remove', FacetRemove);
 
 // Helper function for debouncing
 function debounce(fn, wait) {
@@ -356,3 +362,14 @@ function onKeyUpEscape(event) {
   openDetailsElement.removeAttribute('open');
   summaryElement.focus();
 }
+
+// Initialize custom elements
+customElements.define('facet-filters-form', FacetFiltersForm);
+customElements.define('price-range', PriceRange);
+customElements.define('facet-remove', FacetRemove);
+
+// Initialize the facet filters
+FacetFiltersForm.filterData = [];
+FacetFiltersForm.searchParamsInitial = window.location.search.slice(1);
+FacetFiltersForm.searchParamsPrev = window.location.search.slice(1);
+FacetFiltersForm.setListeners();
