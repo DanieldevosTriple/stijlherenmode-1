@@ -1029,7 +1029,7 @@ details.menu-opening .mobile-facets__close .svg-wrapper {
   text-transform: uppercase;
   font-weight: 800;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 95% 1fr;
 }
 
 .mobile-facets__summary::after {
