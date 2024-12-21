@@ -1,7 +1,7 @@
 .facets__wrapper-desktop {
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  max-width: 300px;
+  padding: 2rem 0px;
 }
 
 .facet-accordion__item {
