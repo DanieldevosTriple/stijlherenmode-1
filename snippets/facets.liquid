@@ -252,6 +252,35 @@
                         {% render 'price-facet', filter: filter, id_prefix: 'Filter-', filter_type: filter_type %}
                       </price-range>
                     </div>
+                    {%- if filter_type == 'horizontal' -%}
+                      {% comment %} Sorting and product count are the last elements when filter type is horizontal {% endcomment %}
+                      {%- if enable_sorting -%}
+                        <div class="facet-filters sorting caption">
+                          <div class="facet-filters__field">
+                            <div class="select">
+                              {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
+                              <select
+                                name="sort_by"
+                                class="facet-filters__sort select__select caption-large"
+                                id="SortBy"
+                                aria-describedby="a11y-refresh-page-message"
+                              >
+                                {%- for option in results.sort_options -%}
+                                  <option
+                                    value="{{ option.value | escape }}"
+                                    {% if option.value == sort_by %}
+                                      selected="selected"
+                                    {% endif %}
+                                  >
+                                    {{ option.name | escape }}
+                                  </option>
+                                {%- endfor -%}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endif -%}
                   </details>
               {% endcase %}
             {%- endfor -%}
@@ -262,35 +291,6 @@
           <input type="hidden" name="q" value="{{ results.current_vendor }}{{ results.current_type }}">
         {% endif %}
 
-        {%- if filter_type == 'horizontal' -%}
-          {% comment %} Sorting and product count are the last elements when filter type is horizontal {% endcomment %}
-          {%- if enable_sorting -%}
-            <div class="facet-filters sorting caption">
-              <div class="facet-filters__field">
-                <div class="select">
-                  {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
-                  <select
-                    name="sort_by"
-                    class="facet-filters__sort select__select caption-large"
-                    id="SortBy"
-                    aria-describedby="a11y-refresh-page-message"
-                  >
-                    {%- for option in results.sort_options -%}
-                      <option
-                        value="{{ option.value | escape }}"
-                        {% if option.value == sort_by %}
-                          selected="selected"
-                        {% endif %}
-                      >
-                        {{ option.name | escape }}
-                      </option>
-                    {%- endfor -%}
-                  </select>
-                </div>
-              </div>
-            </div>
-          {%- endif -%}
-        {%- endif -%}
       </form>
     </facet-filters-form>
   {%- endif -%}
