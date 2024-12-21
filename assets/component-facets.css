@@ -66,6 +66,7 @@ details[open] .facet-accordion__toggle {
 
 .facet-accordion__list-item {
   margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 .facet-accordion__list-item:last-child {
@@ -89,7 +90,10 @@ details[open] .facet-accordion__toggle {
 }
 
 .facet-checkbox__text {
-  font-size: 0.9rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-family: TradeGothicLT;
+  font-weight: 600;
 }
 
 /* Mobile Drawer Styles */
