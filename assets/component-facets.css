@@ -437,8 +437,6 @@ details[open] .mobile-facets__content {
   }
 }
 
-@screen media and (min-width: 992px) {
-  .mobile-menu {
-    display: none
-  }
+.mobile-menu {
+  display: none
 }
