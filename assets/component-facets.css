@@ -1,3 +1,7 @@
+.mobile-facets {
+  display: none
+}
+
 /* Desktop Accordion Styles */
 .facets__wrapper-desktop {
   border: 1px solid var(--color-border);
@@ -438,8 +442,4 @@ details[open] .mobile-facets__content {
   .mobile-facets__heading {
     font-size: 1.75rem;
   }
-}
-
-.mobile-facets {
-  display: none
 }
