@@ -192,6 +192,7 @@ body.overflow-hidden-mobile {
   overflow: hidden;
 }
 
+@media screen and (max-width: 991px) {
 /* Mobile Menu Drawer */
 menu-drawer {
   position: fixed;
@@ -376,6 +377,7 @@ menu-drawer.closing {
 
 .mobile-facets__apply:hover {
   background-color: #005bb5;
+}
 }
 
 /* Accordeon Toggle */
