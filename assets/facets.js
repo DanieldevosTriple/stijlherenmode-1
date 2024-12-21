@@ -53,49 +53,47 @@ class FacetFiltersForm extends HTMLElement {
 
     // Open drawer
     if (openButton) {
-        openButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.toggleDrawer(true);
-        });
+      openButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.toggleDrawer(true);
+      });
     }
 
     // Close drawer
     if (closeButton) {
-        closeButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.toggleDrawer(false);
-        });
+      closeButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.toggleDrawer(false);
+      });
     }
 
     // Close drawer on ESC key
     document.addEventListener('keyup', (event) => {
-        if (event.code.toUpperCase() === 'ESCAPE' && mobileDrawer.hasAttribute('open')) {
-            this.toggleDrawer(false);
-        }
+      if (event.code.toUpperCase() === 'ESCAPE' && mobileDrawer.hasAttribute('open')) {
+        this.toggleDrawer(false);
+      }
     });
   }
 
   toggleDrawer(isOpen) {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
     if (!mobileDrawer) return;
-  
+
     if (isOpen) {
       mobileDrawer.setAttribute('open', '');
       mobileDrawer.classList.remove('closing');
       document.body.classList.add('overflow-hidden-mobile');
     } else {
-      // Voeg de 'closing' class toe voor de animatie
       mobileDrawer.classList.add('closing');
       document.body.classList.remove('overflow-hidden-mobile');
-  
-      // Verwijder het 'open' attribuut na de animatie
+
       setTimeout(() => {
         mobileDrawer.removeAttribute('open');
         mobileDrawer.classList.remove('closing');
       }, 300); // Timing moet overeenkomen met de CSS-transitie
     }
   }
-  
+
   onSubmitHandler(event) {
     event.preventDefault();
     const formData = new FormData(event.target.closest('form'));
