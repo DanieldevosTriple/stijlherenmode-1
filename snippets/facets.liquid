@@ -124,12 +124,12 @@
     </facet-filters-form>
 
  <!-- Mobile Menu Drawer -->
-  <div class="mobile-menu">
+  <div class="mobile-facets">
     <!-- Header -->
-      <div class="mobile-menu__header">
+      <div class="mobile-facets__header">
         <button 
           type="button" 
-          class="mobile-menu__open-button" 
+          class="mobile-facets__open-button" 
           aria-label="{{ 'products.facets.open_filter' | t }}"
         >
           {{ 'products.facets.filter_button' | t }}
@@ -137,13 +137,13 @@
       </div>
 
         <!-- Drawer Content -->
-      <menu-drawer id="MobileMenuDrawer" class="mobile-menu__drawer">
+      <menu-drawer id="MobileMenuDrawer" class="mobile-facets__drawer">
             <!-- Header met Exit Icon -->
-        <div class="mobile-menu__header">
-          <h2 class="mobile-menu__title">{{ 'products.facets.filter_button' | t }}</h2>
+        <div class="mobile-facets__header">
+          <h2 class="mobile-facets__title">{{ 'products.facets.filter_button' | t }}</h2>
           <button 
                 type="button" 
-                class="mobile-menu__close-button" 
+                class="mobile-facets__close-button" 
                 aria-label="{{ 'products.facets.close_filter' | t }}"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -155,9 +155,9 @@
           
           <!-- Sorting -->
           {% if enable_sorting %}
-          <div class="mobile-menu__sort">
+          <div class="mobile-facets__sort">
             <label for="SortBy-mobile">{{ 'products.facets.sort_by_label' | t }}</label>
-              <select id="SortBy-mobile" class="mobile-menu__select">
+              <select id="SortBy-mobile" class="mobile-facets__select">
                 {% for option in results.sort_options %}
                   <option value="{{ option.value }}" {% if option.value == sort_by %}selected{% endif %}>
                     {{ option.name }}
@@ -168,13 +168,13 @@
           {% endif %}
 
           <!-- Filters -->
-          <div class="mobile-menu__filters">
+          <div class="mobile-facets__filters">
             {% for filter in results.filters %}
-            <details class="mobile-menu__filter">
-              <summary class="mobile-menu__filter-header">{{ filter.label }}</summary>
-              <div class="mobile-menu__filter-body">
+            <details class="mobile-facets__filter">
+              <summary class="mobile-facets__filter-header">{{ filter.label }}</summary>
+              <div class="mobile-facets__filter-body">
                 {% if filter.type == 'list' or filter.type == 'boolean' %}
-                <ul class="mobile-menu__filter-list">
+                <ul class="mobile-facets__filter-list">
                   {% for value in filter.values %}
                   <li>
                     <label>
@@ -197,11 +197,11 @@
           </div>
 
           <!-- Footer Buttons -->
-          <div class="mobile-menu__footer">
-            <a href="{{ results_url }}" class="mobile-menu__clear button button--tertiary">
+          <div class="mobile-facets__footer">
+            <a href="{{ results_url }}" class="mobile-facets__clear button button--tertiary">
               {{ 'products.facets.clear_all' | t }}
             </a>
-            <button type="submit" class="mobile-menu__apply button button--primary">
+            <button type="submit" class="mobile-facets__apply button button--primary">
               {{ 'products.facets.apply' | t }}
             </button>
           </div>

@@ -222,7 +222,11 @@ body.overflow-hidden-mobile {
     overflow: hidden;
   }
 
-  .mobile-menu__open-button {
+  .mobile-facets {
+    display: block;
+  }
+
+  .mobile-facets__open-button {
     display: block;
     margin: 1rem;
     padding: 0.75rem 1.5rem;
@@ -234,7 +238,7 @@ body.overflow-hidden-mobile {
     cursor: pointer;
   }
 
-  .mobile-menu__close-button {
+  .mobile-facets__close-button {
     background: none;
     border: none;
     cursor: pointer;
@@ -244,13 +248,13 @@ body.overflow-hidden-mobile {
     justify-content: center;
   }
 
-  .mobile-menu__close-button svg {
+  .mobile-facets__close-button svg {
     width: 24px;
     height: 24px;
     stroke: #333;
   }
 
-  .mobile-menu__close-button:hover svg {
+  .mobile-facets__close-button:hover svg {
     stroke: #007aff;
   }
 
@@ -436,6 +440,6 @@ details[open] .mobile-facets__content {
   }
 }
 
-.mobile-menu {
+.mobile-facets {
   display: none
 }

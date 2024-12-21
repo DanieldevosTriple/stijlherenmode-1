@@ -48,7 +48,7 @@ class FacetFiltersForm extends HTMLElement {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
     if (!mobileDrawer) return;
 
-    const openButton = document.querySelector('.mobile-menu__open-button');
+    const openButton = document.querySelector('.mobile-facets__open-button');
     const closeButton = mobileDrawer.querySelector('.mobile-facets__close-button');
 
     // Open drawer
