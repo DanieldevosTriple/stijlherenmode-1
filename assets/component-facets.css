@@ -210,6 +210,7 @@ menu-drawer[open] {
   transform: translateX(0);
 }
 
+@media screen and (max-width: 992px) {
 /* Header */
 .mobile-facets__header {
   display: flex;
@@ -389,5 +390,4 @@ details[open] .mobile-facets__content {
     font-size: 1.75rem;
   }
 }
-
-
+}
