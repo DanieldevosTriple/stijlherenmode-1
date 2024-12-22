@@ -143,7 +143,8 @@ class FacetFiltersForm extends HTMLElement {
     const openButton = document.querySelector('.mobile-facets__open-button');
     const closeButton = mobileDrawer.querySelector('.mobile-facets__close-button');
     const applyButton = mobileDrawer.querySelector('.mobile-facets__apply');
-    const clearButton = mobileDrawer.querySelector('.mobile-facets__clear');
+    const filterCategories = mobileDrawer.querySelectorAll('.mobile-facets__filter-category');
+    const backButtons = mobileDrawer.querySelectorAll('.mobile-facets__back-button');
   
     // Open and close drawer
     openButton?.addEventListener('click', () => {
@@ -156,19 +157,30 @@ class FacetFiltersForm extends HTMLElement {
       console.log('Mobile drawer closed');
     });
   
-    // Apply filters
-    applyButton?.addEventListener('click', (e) => {
-      e.preventDefault();
-      console.log('Applying filters from mobile footer');
-      this.applyMobileFilters();
-      this.toggleDrawer(false);
+    // Navigate to category
+    filterCategories.forEach(category => {
+      category.addEventListener('click', (e) => {
+        e.preventDefault();
+        const categoryId = category.dataset.categoryId;
+        console.log('Navigating to category:', categoryId);
+        this.navigateToCategory(categoryId);
+      });
     });
   
-    // Clear filters
-    clearButton?.addEventListener('click', (e) => {
+    // Navigate back
+    backButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        console.log('Navigating back to main view');
+        this.navigateBack();
+      });
+    });
+  
+    // Apply filters on "Apply" button click
+    applyButton?.addEventListener('click', (e) => {
       e.preventDefault();
-      console.log('Clearing all filters');
-      this.clearFilters();
+      console.log('Applying filters from mobile drawer');
+      this.applyMobileFilters();
+      this.toggleDrawer(false);
     });
   
     // Close drawer on ESC key press
@@ -178,7 +190,7 @@ class FacetFiltersForm extends HTMLElement {
         console.log('Mobile drawer closed via ESC key');
       }
     });
-  }    
+  }  
 
   applyMobileFilters() {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
@@ -205,7 +217,7 @@ class FacetFiltersForm extends HTMLElement {
     // Update URL and render page content
     this.updateURLHash(queryString);
     this.renderPage(queryString);
-  }   
+  }    
 
   navigateToCategory(categoryId) {
     const mainView = document.querySelector('.mobile-facets__main-view');
@@ -216,7 +228,7 @@ class FacetFiltersForm extends HTMLElement {
       return;
     }
   
-    // Update header title for the category
+    // Update header title
     const categoryTitle = categoryView.querySelector('.mobile-facets__back-text')?.textContent;
     const headerTitle = document.querySelector('.mobile-facets__title');
     if (headerTitle && categoryTitle) {
@@ -250,30 +262,29 @@ class FacetFiltersForm extends HTMLElement {
     const headerTitle = document.querySelector('.mobile-facets__title');
     if (headerTitle) {
       headerTitle.textContent = headerTitle.dataset.defaultTitle || 'Filters';
-      console.log('Reset header title to default.');
+      console.log('Reset header title to default');
     }
   
-    // Transition back to the main view
+    // Transition back to main view
     mainView.style.transform = 'translateX(0)';
     currentCategoryView.style.transform = 'translateX(100%)';
     currentCategoryView.setAttribute('aria-hidden', 'true');
+    mainView.setAttribute('aria-hidden', 'false');
   
-    // Update current drawer view state
     this.currentDrawerView = 'main';
-    console.log('Navigated back to main view.');
+    console.log('Navigated back to main view');
   }
   
-
   toggleDrawer(isOpen) {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
     if (isOpen) {
       mobileDrawer.setAttribute('open', '');
       document.body.classList.add('overflow-hidden-mobile');
-      console.log('Mobile drawer opened.');
+      console.log('Mobile drawer opened');
     } else {
       mobileDrawer.removeAttribute('open');
       document.body.classList.remove('overflow-hidden-mobile');
-      console.log('Mobile drawer closed.');
+      console.log('Mobile drawer closed');
     }
   }  
 
