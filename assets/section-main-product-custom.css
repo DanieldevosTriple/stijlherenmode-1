@@ -375,6 +375,7 @@
       text-transform: uppercase;
       margin: 0px;
       padding-left: 0px; 
+      color: black;
   }
 
   .breadcrumb-mobile {
