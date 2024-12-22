@@ -28,45 +28,49 @@ class FacetFiltersForm extends HTMLElement {
   getSelectedFiltersFromURL() {
     const filters = new Map();
     const params = new URLSearchParams(window.location.search);
-
+  
     params.forEach((value, key) => {
       if (key.startsWith('filter.')) {
-        const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
-        const mobileInput = document.querySelector(`input[name="${key}"][value="${value}"]`);
-        const label = desktopInput?.closest('label')?.querySelector('.facet-checkbox__text')?.textContent || 
-                     mobileInput?.closest('label')?.querySelector('.mobile-facets__filter-label')?.textContent;
-
-        if (label) {
-          filters.set(`${key}-${value}`, { key, value, label: label.split(' (')[0] });
-        }
+        value.split(',').forEach(singleValue => {
+          const desktopInput = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+          const mobileInput = document.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+          const label = desktopInput?.closest('label')?.querySelector('.facet-checkbox__text')?.textContent || 
+                        mobileInput?.closest('label')?.querySelector('.mobile-facets__filter-label')?.textContent;
+  
+          if (label) {
+            filters.set(`${key}-${singleValue}`, { key, value: singleValue, label: label.split(' (')[0] });
+          }
+        });
       }
     });
-
+  
     return filters;
-  }
+  }  
 
   syncFromURL() {
     const params = new URLSearchParams(window.location.search);
-
+  
     // Reset all checkboxes
     this.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
     document.querySelectorAll('menu-drawer input[type="checkbox"]').forEach(input => input.checked = false);
-
+  
     // Set checkboxes based on URL
     params.forEach((value, key) => {
       if (key.startsWith('filter.')) {
-        // Update desktop
-        const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
-        if (desktopInput) desktopInput.checked = true;
-
-        // Update mobile
-        const mobileInput = document.querySelector(`menu-drawer input[name="${key}"][value="${value}"]`);
-        if (mobileInput) mobileInput.checked = true;
+        value.split(',').forEach(singleValue => {
+          // Update desktop
+          const desktopInput = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+          if (desktopInput) desktopInput.checked = true;
+  
+          // Update mobile
+          const mobileInput = document.querySelector(`menu-drawer input[name="${key}"][value="${singleValue}"]`);
+          if (mobileInput) mobileInput.checked = true;
+        });
       }
     });
-
+  
     this.renderSelectedFilters();
-  }
+  }  
 
   initializeDesktopAccordion() {
     const desktopDetails = this.querySelectorAll('#FacetsWrapperDesktop .facet-accordion__item');
@@ -220,42 +224,64 @@ class FacetFiltersForm extends HTMLElement {
   removeFilter(key, value) {
     const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
     const mobileInput = document.querySelector(`menu-drawer input[name="${key}"][value="${value}"]`);
-
+  
     if (desktopInput) desktopInput.checked = false;
     if (mobileInput) mobileInput.checked = false;
-
+  
     this.selectedFilters.delete(`${key}-${value}`);
-    this.renderSelectedFilters();
-
+  
     const form = this.querySelector('form');
     if (form) {
       const formData = new FormData(form);
-      const searchParams = new URLSearchParams(formData).toString();
-      this.updateURLHash(searchParams);
+      const params = new URLSearchParams();
+  
+      // Rebuild query string without the removed filter
+      formData.forEach((formValue, formKey) => {
+        if (formKey === key) {
+          const values = params.has(formKey) ? params.get(formKey).split(',') : [];
+          params.set(formKey, values.filter(v => v !== value).join(','));
+        } else {
+          params.append(formKey, formValue);
+        }
+      });
+  
+      this.updateURLHash(params.toString());
     }
-  }
+  
+    this.renderSelectedFilters();
+  }  
 
   clearFilters() {
     this.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
     document.querySelectorAll('menu-drawer input[type="checkbox"]').forEach(input => input.checked = false);
-
+  
     this.selectedFilters.clear();
     this.renderSelectedFilters();
     history.pushState({}, '', window.location.pathname);
-  }
+  }  
 
   onSubmitHandler(event) {
     event.preventDefault();
     const form = event.target.closest('form');
     if (!form) return;
-
+  
     const formData = new FormData(form);
-    const searchParams = new URLSearchParams(formData).toString();
-
+    const params = new URLSearchParams();
+  
+    // Group values for the same key
+    formData.forEach((value, key) => {
+      if (params.has(key)) {
+        params.set(key, `${params.get(key)},${value}`);
+      } else {
+        params.append(key, value);
+      }
+    });
+  
     this.selectedFilters = this.getSelectedFiltersFromURL();
     this.renderSelectedFilters();
-    this.renderPage(searchParams, event);
-  }
+    this.updateURLHash(params.toString());
+    this.renderPage(params.toString(), event);
+  }  
 
   renderPage(searchParams, event) {
     const sections = this.getSections();
