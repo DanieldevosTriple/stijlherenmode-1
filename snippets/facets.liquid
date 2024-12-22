@@ -74,11 +74,6 @@
                       {{ filter.label | escape }}
                       <span class="facet-accordion__toggle">+</span>
                     </div>
-                    <div class="facet-accordion__count">
-                      {%- if filter.active_values.size > 0 -%}
-                        ({{ filter.active_values.size }})
-                      {%- endif -%}
-                    </div>
                   </summary>
 
                   <div class="facet-accordion__content">
