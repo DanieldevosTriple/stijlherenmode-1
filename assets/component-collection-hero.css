@@ -49,6 +49,8 @@
   height: 24px; /* Match SVG height */
   color: black;
   text-decoration: none;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .breadcrumbs__link:hover {
