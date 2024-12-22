@@ -26,7 +26,6 @@
 }
 
 .facet-accordion__header {
-  display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -53,6 +52,11 @@
   transition: transform 0.2s ease;
   margin-left: auto;
   font-weight: 100;
+  height: 40px;
+}
+
+.facet-accordion__list {
+  display: block;
 }
 
 .facet-accordion__content {
