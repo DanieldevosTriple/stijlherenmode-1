@@ -172,6 +172,8 @@
 
   .mobile-breadcrumb {
     text-transform: uppercase;
+    font-weight: 800;
+    font-size: 1.5rem;
   }
 
   /* Drawer Styles */
