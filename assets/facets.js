@@ -6,10 +6,15 @@ class FacetFiltersForm extends HTMLElement {
     
     this.initializeDesktopAccordion();
     this.initializeMobileDrawer();
+    this.initializeSelectedFilters();
+    this.syncMenus();
     
     const facetForm = this.querySelector('form');
     if (facetForm) {
-      facetForm.addEventListener('input', this.debouncedOnSubmit);
+      facetForm.addEventListener('input', (event) => {
+        this.debouncedOnSubmit(event);
+        this.updateSelectedFilters();
+      });
     }
 
     const facetWrapper = this.querySelector('#FacetsWrapperDesktop');
@@ -111,6 +116,119 @@ class FacetFiltersForm extends HTMLElement {
     });
   }
 
+  initializeSelectedFilters() {
+    // Create selected filters container if it doesn't exist
+    const desktopWrapper = document.querySelector('#FacetsWrapperDesktop');
+    if (!desktopWrapper) return;
+
+    const selectedFiltersContainer = document.createElement('div');
+    selectedFiltersContainer.id = 'SelectedFilters';
+    selectedFiltersContainer.className = 'selected-filters';
+    desktopWrapper.insertBefore(selectedFiltersContainer, desktopWrapper.firstChild);
+
+    // Add styles for selected filters
+    const style = document.createElement('style');
+    style.textContent = `
+      .selected-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .selected-filter {
+        display: inline-flex;
+        align-items: center;
+        background: #f5f5f5;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .selected-filter button {
+        border: none;
+        background: none;
+        padding: 0;
+        margin-left: 8px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  updateSelectedFilters() {
+    const container = document.querySelector('#SelectedFilters');
+    if (!container) return;
+
+    container.innerHTML = '';
+    
+    // Get all checked checkboxes and active price ranges
+    const checkedInputs = this.querySelectorAll('input[type="checkbox"]:checked');
+    const priceInputs = this.querySelectorAll('input[type="number"][value]:not([value=""])');
+
+    // Add filter tags for checked boxes
+    checkedInputs.forEach(input => {
+      const label = input.closest('label').textContent.trim();
+      this.addFilterTag(container, label, () => {
+        input.checked = false;
+        this.applyFilters();
+      });
+    });
+
+    // Add filter tag for price range if set
+    if (priceInputs.length === 2) {
+      const minPrice = priceInputs[0].value;
+      const maxPrice = priceInputs[1].value;
+      this.addFilterTag(container, `Price: $${minPrice} - $${maxPrice}`, () => {
+        priceInputs.forEach(input => input.value = '');
+        this.applyFilters();
+      });
+    }
+  }
+
+  addFilterTag(container, label, onRemove) {
+    const tag = document.createElement('div');
+    tag.className = 'selected-filter';
+    tag.innerHTML = `
+      ${label}
+      <button type="button" aria-label="Remove filter">×</button>
+    `;
+    tag.querySelector('button').addEventListener('click', onRemove);
+    container.appendChild(tag);
+  }
+
+  syncMenus() {
+    // Sync checkbox states between mobile and desktop
+    const syncCheckboxes = (source, target) => {
+      source.checked = target.checked;
+    };
+
+    // Add event listeners to both mobile and desktop checkboxes
+    const desktopCheckboxes = this.querySelectorAll('#FacetsWrapperDesktop input[type="checkbox"]');
+    const mobileCheckboxes = this.querySelectorAll('.mobile-facets__drawer input[type="checkbox"]');
+
+    desktopCheckboxes.forEach(desktop => {
+      const mobile = Array.from(mobileCheckboxes).find(
+        m => m.name === desktop.name && m.value === desktop.value
+      );
+      if (mobile) {
+        desktop.addEventListener('change', () => syncCheckboxes(mobile, desktop));
+        mobile.addEventListener('change', () => syncCheckboxes(desktop, mobile));
+      }
+    });
+
+    // Sync price range inputs
+    const desktopPriceInputs = this.querySelectorAll('#FacetsWrapperDesktop input[type="number"]');
+    const mobilePriceInputs = this.querySelectorAll('.mobile-facets__drawer input[type="number"]');
+
+    desktopPriceInputs.forEach((desktop, index) => {
+      const mobile = mobilePriceInputs[index];
+      if (mobile) {
+        desktop.addEventListener('input', () => mobile.value = desktop.value);
+        mobile.addEventListener('input', () => desktop.value = mobile.value);
+      }
+    });
+  }
+
   navigateToCategory(categoryId) {
     const mainView = document.querySelector('.mobile-facets__main-view');
     const categoryView = document.querySelector(`.mobile-facets__category-view[data-category="${categoryId}"]`);
@@ -195,13 +313,6 @@ class FacetFiltersForm extends HTMLElement {
     this.currentDrawerView = 'main';
   }
 
-  applyFilters() {
-    const form = this.querySelector('form');
-    if (form) {
-      this.debouncedOnSubmit({ target: form, preventDefault: () => {} });
-    }
-  }
-
   clearFilters() {
     const form = this.querySelector('form');
     if (!form) return;
@@ -217,7 +328,16 @@ class FacetFiltersForm extends HTMLElement {
       input.value = '';
     });
 
+    this.updateSelectedFilters();
     this.applyFilters();
+  }
+
+  applyFilters() {
+    const form = this.querySelector('form');
+    if (form) {
+      this.debouncedOnSubmit({ target: form, preventDefault: () => {} });
+      this.updateSelectedFilters();
+    }
   }
 
   onSubmitHandler(event) {
@@ -276,6 +396,8 @@ class FacetFiltersForm extends HTMLElement {
     facetsToRender.forEach((element) => {
       document.querySelector(`[data-index="${element.dataset.index}"]`).innerHTML = element.innerHTML;
     });
+
+    this.updateSelectedFilters();
   }
 
   getSections() {
