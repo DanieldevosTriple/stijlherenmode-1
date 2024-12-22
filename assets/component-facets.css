@@ -419,8 +419,13 @@ body.overflow-hidden-mobile {
     font-size: 1.5rem;
     text-transform: uppercase;
     font-family: TradeGothicLT;
-    font-weight: 600;
+    font-weight: 800;
   }
+
+  .mobile-facets__filter-header::after {
+    content: ">"
+  }
+
 }
 
 /* Accordeon Toggle */
