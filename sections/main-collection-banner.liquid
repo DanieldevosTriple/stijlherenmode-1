@@ -1,44 +1,6 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
 {{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
 
-{%- style -%}
-.collection-hero {
-  padding: 20px 0;
-}
-
-.collection-hero__inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
-  gap: 20px;
-}
-
-.breadcrumbs {
-  text-align: left;
-}
-
-.collection-title {
-  text-align: center;
-}
-
-.product-count {
-  text-align: right;
-}
-
-@media screen and (max-width: 749px) {
-  .collection-hero__inner {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  
-  .breadcrumbs,
-  .collection-title,
-  .product-count {
-    text-align: center;
-  }
-}
-{%- endstyle -%}
-
 <div class="collection-hero color-{{ section.settings.color_scheme }} gradient">
   <div class="collection-hero__inner scroll-trigger animate--fade-in">
     <div class="breadcrumbs">
