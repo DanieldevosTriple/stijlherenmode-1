@@ -125,10 +125,19 @@
   }
 
   .mobile-facets__header {
-    display: flex;
-    justify-content: flex-end;
+    display: grid;
     padding: 1rem;
     border-bottom: 1px solid #f2f2f2;
+    grid-template-columns: repeat(2, auto);
+  }
+
+  .mobile-facets__close-button {
+    justify-self: end;
+    align-self: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
   }
 
   .mobile-facets__open-button {
