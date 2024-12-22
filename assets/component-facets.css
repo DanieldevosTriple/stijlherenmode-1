@@ -409,8 +409,9 @@ body.overflow-hidden-mobile {
     background-color: #005bb5;
   }
 
-  .mobile-facets__filters {
+  .mobile-facets__filter {
     padding: 2rem;
+    border: 1px solid #ddd;
   }
 
   .mobile-facets__filter-header {
