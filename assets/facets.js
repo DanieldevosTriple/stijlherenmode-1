@@ -174,21 +174,13 @@ class FacetFiltersForm extends HTMLElement {
         this.navigateBack();
       });
     });
-
-    // Enable "Apply" button on checkbox change
-    checkboxes.forEach((checkbox) => {
-      checkbox.addEventListener('input', () => {
-        console.log(`Checkbox changed: ${checkbox.name} = ${checkbox.value}, Checked: ${checkbox.checked}`);
-        applyButton.disabled = false; // Enable the "Apply" button
-      });
-    });
   
-    // Apply filters
+    // Apply filters on "Apply" button click
     applyButton?.addEventListener('click', (e) => {
       e.preventDefault();
-      console.log('Apply button clicked. Applying filters...');
+      console.log('Applying filters from mobile drawer');
       this.applyMobileFilters();
-      this.toggleDrawer(false); // Close the drawer
+      this.toggleDrawer(false);
     });
   
     // Close drawer on ESC key press
@@ -225,7 +217,7 @@ class FacetFiltersForm extends HTMLElement {
     // Update URL and render page content
     this.updateURLHash(queryString);
     this.renderPage(queryString);
-  }    
+  }   
 
   navigateToCategory(categoryId) {
     const mainView = document.querySelector('.mobile-facets__main-view');
@@ -236,7 +228,7 @@ class FacetFiltersForm extends HTMLElement {
       return;
     }
   
-    // Update header title
+    // Update header title for the category
     const categoryTitle = categoryView.querySelector('.mobile-facets__back-text')?.textContent;
     const headerTitle = document.querySelector('.mobile-facets__title');
     if (headerTitle && categoryTitle) {
@@ -270,17 +262,17 @@ class FacetFiltersForm extends HTMLElement {
     const headerTitle = document.querySelector('.mobile-facets__title');
     if (headerTitle) {
       headerTitle.textContent = headerTitle.dataset.defaultTitle || 'Filters';
-      console.log('Reset header title to default');
+      console.log('Reset header title to default.');
     }
   
-    // Transition back to main view
+    // Transition back to the main view
     mainView.style.transform = 'translateX(0)';
     currentCategoryView.style.transform = 'translateX(100%)';
     currentCategoryView.setAttribute('aria-hidden', 'true');
-    mainView.setAttribute('aria-hidden', 'false');
   
+    // Update current drawer view state
     this.currentDrawerView = 'main';
-    console.log('Navigated back to main view');
+    console.log('Navigated back to main view.');
   }
   
   toggleDrawer(isOpen) {
@@ -288,11 +280,11 @@ class FacetFiltersForm extends HTMLElement {
     if (isOpen) {
       mobileDrawer.setAttribute('open', '');
       document.body.classList.add('overflow-hidden-mobile');
-      console.log('Mobile drawer opened');
+      console.log('Mobile drawer opened.');
     } else {
       mobileDrawer.removeAttribute('open');
       document.body.classList.remove('overflow-hidden-mobile');
-      console.log('Mobile drawer closed');
+      console.log('Mobile drawer closed.');
     }
   }  
 
