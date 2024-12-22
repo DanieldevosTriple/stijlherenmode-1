@@ -338,6 +338,20 @@
     position: relative;
     background-color: #ccc;
   }
+
+  .mobile-facets__filter-label {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-family: TradeGothicLT;
+    font-weight: 600;
+  }
+
+  .mobile-facets__back-text {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-family: TradeGothicLT;
+    font-weight: 800;
+  }
 }
 
 /* Animations */
