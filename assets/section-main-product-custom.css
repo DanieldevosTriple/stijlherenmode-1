@@ -385,7 +385,7 @@
   .breadcrumb span {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
-    color: black;
+    color: black !important;
   }
 
   .breadcrumb a, .breadcrumb-link {
