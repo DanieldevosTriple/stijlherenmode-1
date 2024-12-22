@@ -7,8 +7,14 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-{
+ {
   "sections": {
+    "product_banner": {
+      "type": "main-product-banner",
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
+    },
     "main_product_custom_9F9PJb": {
       "type": "main-product-custom",
       "blocks": {
@@ -45,6 +51,7 @@
     }
   },
   "order": [
+    "product_banner",
     "main_product_custom_9F9PJb",
     "related_products_eXUzFK"
   ]
