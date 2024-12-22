@@ -268,22 +268,27 @@ class FacetFiltersForm extends HTMLElement {
     if (!form) return;
   
     const formData = new FormData(form);
-    const params = new URLSearchParams();
+    const queryParams = {};
   
-    // Group values for the same key
+    // Group values for the same key manually
     formData.forEach((value, key) => {
-      if (params.has(key)) {
-        params.set(key, `${params.get(key)},${value}`);
+      if (queryParams[key]) {
+        queryParams[key] += `,${value}`; // Append values with raw comma
       } else {
-        params.append(key, value);
+        queryParams[key] = value;
       }
     });
   
+    // Construct the query string manually
+    const queryString = Object.keys(queryParams)
+      .map(key => `${encodeURIComponent(key)}=${queryParams[key]}`)
+      .join('&');
+  
     this.selectedFilters = this.getSelectedFiltersFromURL();
     this.renderSelectedFilters();
-    this.updateURLHash(params.toString());
-    this.renderPage(params.toString(), event);
-  }  
+    this.updateURLHash(queryString);
+    this.renderPage(queryString, event);
+  }
 
   renderPage(searchParams, event) {
     const sections = this.getSections();
