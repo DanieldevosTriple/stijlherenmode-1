@@ -78,36 +78,48 @@ class FacetFiltersForm extends HTMLElement {
   initializeDesktopAccordion() {
     const desktopDetails = this.querySelectorAll('#FacetsWrapperDesktop .facet-accordion__item');
   
+    const updateToggleState = (detail) => {
+      const toggle = detail.querySelector('.facet-accordion__toggle');
+      if (toggle) {
+        toggle.textContent = detail.hasAttribute('open') ? '-' : '+';
+      }
+    };
+  
     desktopDetails.forEach((detail) => {
       const summary = detail.querySelector('summary');
-      const toggle = summary?.querySelector('.facet-accordion__toggle');
   
-      if (!summary || !toggle) return;
+      if (!summary) return;
   
-      // Set initial toggle state
-      toggle.textContent = detail.hasAttribute('open') ? '-' : '+';
+      // Initialize toggle state
+      updateToggleState(detail);
   
+      // Add click event listener for toggle
       summary.addEventListener('click', (e) => {
         e.preventDefault(); // Prevent default accordion behavior
-  
         const isOpen = detail.hasAttribute('open');
   
-        // Close all other details if clicked
+        // Close all other details
         desktopDetails.forEach((otherDetail) => {
           if (otherDetail !== detail && otherDetail.hasAttribute('open')) {
             otherDetail.removeAttribute('open');
-            const otherToggle = otherDetail.querySelector('.facet-accordion__toggle');
-            if (otherToggle) otherToggle.textContent = '+';
+            updateToggleState(otherDetail);
           }
         });
   
         // Toggle the clicked detail
         detail.toggleAttribute('open', !isOpen);
-        toggle.textContent = isOpen ? '+' : '-';
+        updateToggleState(detail);
       });
     });
-  }
   
+    // Update toggle state when filters are applied
+    const facetForm = this.querySelector('form');
+    if (facetForm) {
+      facetForm.addEventListener('input', () => {
+        desktopDetails.forEach(updateToggleState); // Re-sync toggle states
+      });
+    }
+  }  
 
   initializeMobileDrawer() {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
