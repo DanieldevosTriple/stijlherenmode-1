@@ -52,7 +52,7 @@
   }
   
   .product-title {
-    text-align: center;
+    display: none;
   }
   
   .product-count {
