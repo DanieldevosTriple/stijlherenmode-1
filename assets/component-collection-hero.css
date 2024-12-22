@@ -70,6 +70,10 @@
     display: none
   }
 
+  .collection-hero {
+   border-bottom: 1px solid rgb(242, 242, 242);
+  }
+
   .breadcrumbs {
     text-align: left;
   }
