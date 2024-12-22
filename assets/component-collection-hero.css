@@ -55,7 +55,8 @@
 }
 
 .breadcrumbs__link:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  color: black;
 }
 
 .collection-title {
