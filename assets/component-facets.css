@@ -352,6 +352,36 @@
     font-family: TradeGothicLT;
     font-weight: 800;
   }
+
+  .mobile-facets__clear {
+  background-color: transparent;
+  border: 2px solid black;
+  color: #000;
+  padding: 10px 50px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  text-transform: uppercase;
+  font-weight: 600;
+  width: max-content;
+  font-family: TradeGothicLT, sans-serif;
+  }
+
+  .mobile-facets__apply {
+    background-color: black;
+    border: 2px solid black;
+    color: white;
+    padding: 10px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+    width: max-content;
+    font-family: TradeGothicLT, sans-serif;
+    }
 }
 
 /* Animations */
