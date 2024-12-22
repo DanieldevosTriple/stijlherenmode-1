@@ -115,6 +115,7 @@
   }
 
   .mobile-facets__open-button {
+    gap: 1rem;
     display: flex;
     align-items: center;
     height: 24px;
