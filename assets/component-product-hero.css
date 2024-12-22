@@ -2,10 +2,6 @@
     display: none;
   }
   
-  .product-title h1 {
-    font-size: 1.5rem;
-  }
-  
   .product-hero__inner {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -51,10 +47,6 @@
     text-decoration: underline;
   }
   
-  .product-title {
-    display: none;
-  }
-  
   .product-count {
     text-align: right;
     color: grey;
@@ -80,10 +72,6 @@
   
     .breadcrumbs__list {
       justify-content: flex-start;
-    }
-  
-    .product-title {
-      display: none;
     }
   
     .product-count {
