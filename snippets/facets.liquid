@@ -127,6 +127,21 @@
  <!-- Mobile Menu Drawer -->
 <div class="mobile-facets">
 
+  <div class="col-12 mobile-header">
+    <div class="mobile-breadcrumb">
+      {% if collection.handle %}
+        <span>{{ collection.title }}</span>
+      {% endif %}
+    </div>
+    <div class="mobile-facets__filter">
+      <div class="product-count">
+        {% if collection.all_products_count > 0 %}
+          <span>{{ collection.all_products_count }} {% if collection.all_products_count == 1 %}product{% else %}producten{% endif %}</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
   <!-- Drawer Content -->
   <menu-drawer id="MobileMenuDrawer" class="mobile-facets__drawer">
     <!-- Main View -->
