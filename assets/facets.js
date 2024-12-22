@@ -197,24 +197,31 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   syncMenus() {
-    // Sync checkbox states between mobile and desktop
-    const syncCheckboxes = (source, target) => {
-      source.checked = target.checked;
+    // Function to sync a single input across mobile and desktop
+    const syncInput = (input, isMobile = false) => {
+      const selector = isMobile ? '#FacetsWrapperDesktop' : '.mobile-facets__drawer';
+      const counterpart = document.querySelector(`${selector} input[name="${input.name}"][value="${input.value}"]`);
+      
+      if (counterpart) {
+        // Sync initial state
+        counterpart.checked = input.checked;
+        
+        // Add change listener
+        input.addEventListener('change', () => {
+          counterpart.checked = input.checked;
+          this.updateSelectedFilters();
+          this.applyFilters();
+        });
+      }
     };
 
-    // Add event listeners to both mobile and desktop checkboxes
-    const desktopCheckboxes = this.querySelectorAll('#FacetsWrapperDesktop input[type="checkbox"]');
-    const mobileCheckboxes = this.querySelectorAll('.mobile-facets__drawer input[type="checkbox"]');
+    // Sync all desktop inputs with mobile
+    const desktopInputs = this.querySelectorAll('#FacetsWrapperDesktop input[type="checkbox"]');
+    desktopInputs.forEach(input => syncInput(input));
 
-    desktopCheckboxes.forEach(desktop => {
-      const mobile = Array.from(mobileCheckboxes).find(
-        m => m.name === desktop.name && m.value === desktop.value
-      );
-      if (mobile) {
-        desktop.addEventListener('change', () => syncCheckboxes(mobile, desktop));
-        mobile.addEventListener('change', () => syncCheckboxes(desktop, mobile));
-      }
-    });
+    // Sync all mobile inputs with desktop
+    const mobileInputs = this.querySelectorAll('.mobile-facets__drawer input[type="checkbox"]');
+    mobileInputs.forEach(input => syncInput(input, true));
 
     // Sync price range inputs
     const desktopPriceInputs = this.querySelectorAll('#FacetsWrapperDesktop input[type="number"]');
@@ -223,8 +230,21 @@ class FacetFiltersForm extends HTMLElement {
     desktopPriceInputs.forEach((desktop, index) => {
       const mobile = mobilePriceInputs[index];
       if (mobile) {
-        desktop.addEventListener('input', () => mobile.value = desktop.value);
-        mobile.addEventListener('input', () => desktop.value = mobile.value);
+        // Sync initial state
+        mobile.value = desktop.value;
+        
+        // Add input listeners
+        desktop.addEventListener('input', () => {
+          mobile.value = desktop.value;
+          this.updateSelectedFilters();
+          this.applyFilters();
+        });
+        
+        mobile.addEventListener('input', () => {
+          desktop.value = mobile.value;
+          this.updateSelectedFilters();
+          this.applyFilters();
+        });
       }
     });
   }
@@ -344,6 +364,22 @@ class FacetFiltersForm extends HTMLElement {
     event.preventDefault();
     const formData = new FormData(event.target.closest('form'));
     const searchParams = new URLSearchParams(formData).toString();
+    
+    // Ensure both menus are in sync before rendering
+    const form = event.target.closest('form');
+    const inputs = form.querySelectorAll('input[type="checkbox"], input[type="number"]');
+    inputs.forEach(input => {
+      if (input.type === 'checkbox') {
+        const selector = form.closest('.mobile-facets__drawer') ? '#FacetsWrapperDesktop' : '.mobile-facets__drawer';
+        const counterpart = document.querySelector(`${selector} input[name="${input.name}"][value="${input.value}"]`);
+        if (counterpart) counterpart.checked = input.checked;
+      } else if (input.type === 'number') {
+        const selector = form.closest('.mobile-facets__drawer') ? '#FacetsWrapperDesktop' : '.mobile-facets__drawer';
+        const counterpart = document.querySelector(`${selector} input[name="${input.name}"]`);
+        if (counterpart) counterpart.value = input.value;
+      }
+    });
+    
     this.renderPage(searchParams, event);
   }
 
