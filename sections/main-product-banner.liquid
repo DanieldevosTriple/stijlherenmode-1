@@ -65,7 +65,7 @@
 
 {% schema %}
 {
-  "name": "Product Banner",
+  "name": "Main Product Banner",
   "class": "section",
   "settings": [
     {
@@ -74,6 +74,13 @@
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
     }
-  ]
+  ],
+  "presets": [
+    {
+      "name": "Product Banner",
+      "category": "Product"
+    }
+  ],
+  "templates": ["product"]
 }
 {% endschema %}
