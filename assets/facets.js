@@ -136,6 +136,14 @@ class FacetFiltersForm extends HTMLElement {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
     if (!mobileDrawer) return;
   
+    const checkboxes = mobileDrawer.querySelectorAll('input[type="checkbox"]');
+  
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener('input', (e) => {
+        console.log(`Checkbox changed: ${e.target.name} = ${e.target.value}, Checked: ${e.target.checked}`);
+      });
+    });
+  
     const openButton = document.querySelector('.mobile-facets__open-button');
     const closeButton = mobileDrawer.querySelector('.mobile-facets__close-button');
     const filterCategories = mobileDrawer.querySelectorAll('.mobile-facets__filter-category');
