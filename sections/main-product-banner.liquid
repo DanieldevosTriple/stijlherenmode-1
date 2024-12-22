@@ -1,0 +1,79 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+
+<div class="collection-hero color-{{ section.settings.color_scheme }} gradient">
+  {%- comment -%} Mobile layout {%- endcomment -%}
+  <div class="col-12 mobile-header">
+    <div class="mobile-breadcrumb">
+      {% if product.handle %}
+        <nav aria-label="Mobile breadcrumb">
+          <ol class="breadcrumbs__list">
+            <li class="breadcrumbs__item">
+              <a href="javascript:history.back()" class="breadcrumbs__link">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M15 18l-6-6 6-6" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </a>
+            </li>
+            <li class="breadcrumbs__item">
+              {% if product.collections.first %}
+                <a href="{{ product.collections.first.url }}" class="breadcrumbs__link">{{ product.collections.first.title }}</a>
+              {% else %}
+                <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
+              {% endif %}
+            </li>
+          </ol>
+        </nav>
+      {% endif %}
+    </div>
+  </div>
+
+  {%- comment -%} Desktop layout {%- endcomment -%}
+  <div class="collection-hero__inner scroll-trigger animate--fade-in">
+    <div class="breadcrumbs">
+      <nav aria-label="Breadcrumbs">
+        <ol class="breadcrumbs__list">
+          <li class="breadcrumbs__item">
+            <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
+          </li>
+          {% if product.collections.first %}
+            <li class="breadcrumbs__item">
+              <a href="{{ product.collections.first.url }}" class="breadcrumbs__link">{{ product.collections.first.title }}</a>
+            </li>
+          {% endif %}
+          <li class="breadcrumbs__item">
+            <span>{{ product.title }}</span>
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <div class="collection-title">
+      <h1>
+        <span class="visually-hidden">{{ 'products.product.title' | t }}: </span>
+        {{- product.title | escape -}}
+      </h1>
+    </div>
+    <div class="product-count">
+      {%- if product.collections.first -%}
+        <a href="{{ product.collections.first.url }}" class="back-to-collection">
+          {{ product.collections.first.title }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Banner",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}
