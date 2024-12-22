@@ -2,70 +2,48 @@ class FacetFiltersForm extends HTMLElement {
   constructor() {
     super();
     this.debouncedOnSubmit = debounce(this.onSubmitHandler.bind(this), 500);
-
+    this.currentDrawerView = 'main'; // Track current drawer view
+    
     this.initializeDesktopAccordion();
     this.initializeMobileDrawer();
-
+    
     const facetForm = this.querySelector('form');
     if (facetForm) {
       facetForm.addEventListener('input', this.debouncedOnSubmit);
     }
-
-    const facetWrapper = this.querySelector('#FacetsWrapperDesktop');
-    if (facetWrapper) facetWrapper.addEventListener('keyup', onKeyUpEscape);
-  }
-
-  initializeDesktopAccordion() {
-    const desktopDetails = this.querySelectorAll('#FacetsWrapperDesktop .facet-accordion__item');
-
-    desktopDetails.forEach((detail) => {
-      const summary = detail.querySelector('summary');
-      const toggle = summary?.querySelector('.facet-accordion__toggle');
-
-      if (!summary || !toggle) return;
-
-      toggle.textContent = detail.hasAttribute('open') ? '-' : '+';
-
-      summary.addEventListener('click', (e) => {
-        e.preventDefault();
-        const isOpen = detail.hasAttribute('open');
-
-        desktopDetails.forEach((otherDetail) => {
-          if (otherDetail !== detail && otherDetail.hasAttribute('open')) {
-            otherDetail.removeAttribute('open');
-            const otherToggle = otherDetail.querySelector('.facet-accordion__toggle');
-            if (otherToggle) otherToggle.textContent = '+';
-          }
-        });
-
-        detail.toggleAttribute('open', !isOpen);
-        toggle.textContent = isOpen ? '+' : '-';
-      });
-    });
   }
 
   initializeMobileDrawer() {
+    // Initialize main drawer controls
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
+    const openButton = document.querySelector('.mobile-facets__open-button');
+    const closeButton = mobileDrawer?.querySelector('.mobile-facets__close-button');
+    const filterCategories = mobileDrawer?.querySelectorAll('.mobile-facets__filter-category');
+
     if (!mobileDrawer) return;
 
-    const openButton = document.querySelector('.mobile-facets__open-button');
-    const closeButton = mobileDrawer.querySelector('.mobile-facets__close-button');
-
-    // Open drawer
+    // Handle main drawer open/close
     if (openButton) {
-      openButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.toggleDrawer(true);
-      });
+      openButton.addEventListener('click', () => this.toggleDrawer(true));
+    }
+    if (closeButton) {
+      closeButton.addEventListener('click', () => this.toggleDrawer(false));
     }
 
-    // Close drawer
-    if (closeButton) {
-      closeButton.addEventListener('click', (e) => {
+    // Initialize category navigation
+    filterCategories?.forEach(category => {
+      category.addEventListener('click', (e) => {
         e.preventDefault();
-        this.toggleDrawer(false);
+        const categoryId = category.dataset.categoryId;
+        this.navigateToCategory(categoryId);
       });
-    }
+    });
+
+    // Handle back buttons in category views
+    const backButtons = mobileDrawer.querySelectorAll('.mobile-facets__back-button');
+    backButtons.forEach(button => {
+      button.addEventListener('click', () => this.navigateBack());
+    });
 
     // Close drawer on ESC key
     document.addEventListener('keyup', (event) => {
@@ -75,23 +53,70 @@ class FacetFiltersForm extends HTMLElement {
     });
   }
 
+  navigateToCategory(categoryId) {
+    const mainView = document.querySelector('.mobile-facets__main-view');
+    const categoryView = document.querySelector(`.mobile-facets__category-view[data-category="${categoryId}"]`);
+    
+    if (!mainView || !categoryView) return;
+
+    // Slide out main view and slide in category view
+    mainView.style.transform = 'translateX(-100%)';
+    categoryView.style.transform = 'translateX(0)';
+    categoryView.setAttribute('aria-hidden', 'false');
+    
+    this.currentDrawerView = categoryId;
+  }
+
+  navigateBack() {
+    const mainView = document.querySelector('.mobile-facets__main-view');
+    const currentCategoryView = document.querySelector(
+      `.mobile-facets__category-view[data-category="${this.currentDrawerView}"]`
+    );
+    
+    if (!mainView || !currentCategoryView) return;
+
+    // Slide back to main view
+    mainView.style.transform = 'translateX(0)';
+    currentCategoryView.style.transform = 'translateX(100%)';
+    currentCategoryView.setAttribute('aria-hidden', 'true');
+    
+    this.currentDrawerView = 'main';
+  }
+
   toggleDrawer(isOpen) {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
     if (!mobileDrawer) return;
 
     if (isOpen) {
       mobileDrawer.setAttribute('open', '');
-      mobileDrawer.classList.remove('closing');
       document.body.classList.add('overflow-hidden-mobile');
+      // Reset to main view when opening drawer
+      this.resetToMainView();
     } else {
       mobileDrawer.classList.add('closing');
       document.body.classList.remove('overflow-hidden-mobile');
-
+      
       setTimeout(() => {
         mobileDrawer.removeAttribute('open');
         mobileDrawer.classList.remove('closing');
-      }, 300); // Timing moet overeenkomen met de CSS-transitie
+      }, 300);
     }
+  }
+
+  resetToMainView() {
+    const mainView = document.querySelector('.mobile-facets__main-view');
+    const categoryViews = document.querySelectorAll('.mobile-facets__category-view');
+    
+    if (mainView) {
+      mainView.style.transform = 'translateX(0)';
+    }
+    
+    categoryViews.forEach(view => {
+      view.style.transform = 'translateX(100%)';
+      view.setAttribute('aria-hidden', 'true');
+    });
+    
+    this.currentDrawerView = 'main';
   }
 
   onSubmitHandler(event) {
