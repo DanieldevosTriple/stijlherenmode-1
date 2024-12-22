@@ -324,45 +324,27 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   removeFilter(key, value) {
+    // Uncheck the corresponding inputs
     const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
     const mobileInput = document.querySelector(`menu-drawer input[name="${key}"][value="${value}"]`);
   
-    // Uncheck the filter inputs
     if (desktopInput) desktopInput.checked = false;
     if (mobileInput) mobileInput.checked = false;
   
-    // Remove the filter from the selected filters Map
-    this.selectedFilters.delete(`${key}-${value}`);
-  
-    // Rebuild the query string without the removed filter
-    const form = this.querySelector('form');
-    if (form) {
-      const formData = new FormData(form);
-      const queryParams = {};
-  
-      formData.forEach((formValue, formKey) => {
-        const existingValues = queryParams[formKey] ? queryParams[formKey].split(',') : [];
-        if (formKey === key) {
-          queryParams[formKey] = existingValues.filter(v => v !== value).join(',');
-        } else {
-          queryParams[formKey] = [...existingValues, formValue].join(',');
-        }
-      });
-  
-      const queryString = Object.keys(queryParams)
-        .filter(param => queryParams[param]) // Exclude empty params
-        .map(param => `${encodeURIComponent(param)}=${encodeURIComponent(queryParams[param])}`)
-        .join('&');
-  
-      // Update the URL
-      this.updateURLHash(queryString);
-  
-      // Re-render the page with updated filters
-      this.renderPage(queryString);
+    // Remove the filter from the URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const updatedValues = params.get(key)?.split(',').filter(v => v !== value) || [];
+    
+    if (updatedValues.length > 0) {
+      params.set(key, updatedValues.join(','));
+    } else {
+      params.delete(key);
     }
   
-    // Update the selected filters display
-    this.renderSelectedFilters();
+    // Update the URL and refresh the page
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({}, '', newUrl);
+    window.location.reload();
   }  
 
   clearFilters() {
