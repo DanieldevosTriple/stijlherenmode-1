@@ -140,46 +140,45 @@ class FacetFiltersForm extends HTMLElement {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
     if (!mobileDrawer) return;
   
-    const checkboxes = mobileDrawer.querySelectorAll('input[type="checkbox"]');
     const openButton = document.querySelector('.mobile-facets__open-button');
     const closeButton = mobileDrawer.querySelector('.mobile-facets__close-button');
     const applyButton = mobileDrawer.querySelector('.mobile-facets__apply');
+    const filterCategories = mobileDrawer.querySelectorAll('.mobile-facets__filter-category');
+    const backButtons = mobileDrawer.querySelectorAll('.mobile-facets__back-button');
   
     // Open and close drawer
-    openButton?.addEventListener('click', () => this.toggleDrawer(true));
-    closeButton?.addEventListener('click', () => this.toggleDrawer(false));
+    openButton?.addEventListener('click', () => {
+      this.toggleDrawer(true);
+      console.log('Mobile drawer opened');
+    });
   
-    // Handle checkbox input event
-    checkboxes.forEach((checkbox) => {
-      checkbox.addEventListener('input', (e) => {
-        console.log(`Checkbox changed: ${e.target.name} = ${e.target.value}, Checked: ${e.target.checked}`);
+    closeButton?.addEventListener('click', () => {
+      this.toggleDrawer(false);
+      console.log('Mobile drawer closed');
+    });
   
-        const formData = new FormData(mobileDrawer.querySelector('form'));
-        const queryParams = {};
+    // Navigate to category
+    filterCategories.forEach(category => {
+      category.addEventListener('click', (e) => {
+        e.preventDefault();
+        const categoryId = category.dataset.categoryId;
+        console.log('Navigating to category:', categoryId);
+        this.navigateToCategory(categoryId);
+      });
+    });
   
-        // Group selected filters manually
-        formData.forEach((value, key) => {
-          if (queryParams[key]) {
-            queryParams[key] += `,${value}`;
-          } else {
-            queryParams[key] = value;
-          }
-        });
-  
-        const queryString = Object.keys(queryParams)
-          .map(key => `${encodeURIComponent(key)}=${queryParams[key]}`)
-          .join('&');
-  
-        console.log('Updated query string:', queryString);
-  
-        // Dynamically update the URL
-        this.updateURLHash(queryString);
+    // Navigate back
+    backButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        console.log('Navigating back to main view');
+        this.navigateBack();
       });
     });
   
     // Apply filters on "Apply" button click
     applyButton?.addEventListener('click', (e) => {
       e.preventDefault();
+      console.log('Applying filters from mobile drawer');
       this.applyMobileFilters();
       this.toggleDrawer(false);
     });
@@ -188,6 +187,7 @@ class FacetFiltersForm extends HTMLElement {
     document.addEventListener('keyup', (event) => {
       if (event.code.toUpperCase() === 'ESCAPE' && mobileDrawer.hasAttribute('open')) {
         this.toggleDrawer(false);
+        console.log('Mobile drawer closed via ESC key');
       }
     });
   }  
@@ -240,11 +240,12 @@ class FacetFiltersForm extends HTMLElement {
     mainView.style.transform = 'translateX(-100%)';
     categoryView.style.transform = 'translateX(0)';
     categoryView.setAttribute('aria-hidden', 'false');
+    mainView.setAttribute('aria-hidden', 'true');
   
     // Update current drawer view state
     this.currentDrawerView = categoryId;
     console.log('Navigated to category view:', categoryId);
-  }  
+  }    
 
   navigateBack() {
     const mainView = document.querySelector('.mobile-facets__main-view');
