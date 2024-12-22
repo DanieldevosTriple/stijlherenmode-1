@@ -144,17 +144,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 120px;
-    padding: 1.2rem 2rem;
     font-size: 1.4rem;
-    font-weight: 600;
+    font-weight: 800;
     text-transform: uppercase;
-    background: #000;
-    color: #fff;
+    color: black;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
   }
 
   .mobile-facets__open-button:hover {
