@@ -112,4 +112,31 @@
     .breadcrumbs__item:not(:last-child):after {
         display: none
     }
+
+    /* New/Modified CSS for alignment */
+    .mobile-breadcrumb .breadcrumbs__list {
+        padding: 0;
+        /* Remove padding that was causing misalignment */
+        height: 24px;
+        /* Match height of SVG */
+    }
+
+    .mobile-breadcrumb .breadcrumbs__link {
+        display: flex;
+        align-items: center;
+        height: 24px;
+        /* Match height of SVG */
+    }
+
+    .mobile-breadcrumb .breadcrumbs__link svg {
+        margin-right: 10px;
+        /* Add space between arrow and text */
+    }
+
+    .mobile-breadcrumb .breadcrumbs__item {
+        display: flex;
+        align-items: center;
+        height: 24px;
+        /* Match height of SVG */
+    }
 }
