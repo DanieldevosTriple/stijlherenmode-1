@@ -95,6 +95,19 @@ class FacetFiltersForm extends HTMLElement {
         toggle.textContent = isOpen ? '+' : '-';
       });
     });
+
+    const facetForm = this.querySelector('form');
+    if (facetForm) {
+      facetForm.addEventListener('input', (event) => {
+        event.preventDefault();
+        const formData = new FormData(facetForm);
+        const searchParams = new URLSearchParams(formData).toString();
+
+        this.updateURLHash(searchParams);
+        this.syncFromURL();
+        this.renderSelectedFilters();
+      });
+    }
   }
 
   initializeMobileDrawer() {
@@ -152,6 +165,7 @@ class FacetFiltersForm extends HTMLElement {
 
           this.updateURLHash(searchParams);
           this.renderPage(searchParams, null);
+          this.syncFromURL();
         }
 
         this.toggleDrawer(false);
