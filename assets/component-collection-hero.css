@@ -62,6 +62,7 @@
 
 @media screen and (max-width: 749px) {
   .mobile-header {
+    display: grid;
     grid-template-columns: 1fr 1fr;
   }
 
