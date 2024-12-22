@@ -3,7 +3,7 @@ class FacetFiltersForm extends HTMLElement {
     super();
     this.debouncedOnSubmit = debounce((event) => this.onSubmitHandler(event), 500);
     this.currentDrawerView = 'main';
-    
+
     // Initialize selected filters from URL
     this.selectedFilters = this.getSelectedFiltersFromURL();
     this.renderSelectedFilters();
@@ -64,6 +64,8 @@ class FacetFiltersForm extends HTMLElement {
         if (mobileInput) mobileInput.checked = true;
       }
     });
+
+    this.renderSelectedFilters();
   }
 
   initializeDesktopAccordion() {
@@ -93,186 +95,52 @@ class FacetFiltersForm extends HTMLElement {
         toggle.textContent = isOpen ? '+' : '-';
       });
     });
+
+    const facetForm = this.querySelector('form');
+    if (facetForm) {
+      facetForm.addEventListener('input', (event) => {
+        event.preventDefault();
+        const formData = new FormData(facetForm);
+        const searchParams = new URLSearchParams(formData).toString();
+
+        this.updateURLHash(searchParams);
+        this.syncFromURL();
+        this.renderSelectedFilters();
+      });
+    }
   }
 
   initializeMobileDrawer() {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
     if (!mobileDrawer) return;
 
-    // Initialize main drawer controls
     const openButton = document.querySelector('.mobile-facets__open-button');
     const closeButton = mobileDrawer.querySelector('.mobile-facets__close-button');
-    const filterCategories = mobileDrawer.querySelectorAll('.mobile-facets__filter-category');
-
-    // Open drawer
-    if (openButton) {
-      openButton.addEventListener('click', () => this.toggleDrawer(true));
-    }
-
-    // Close drawer
-    if (closeButton) {
-      closeButton.addEventListener('click', () => this.toggleDrawer(false));
-    }
-
-    // Initialize category navigation
-    filterCategories?.forEach(category => {
-      category.addEventListener('click', (e) => {
-        e.preventDefault();
-        const categoryId = category.dataset.categoryId;
-        this.navigateToCategory(categoryId);
-      });
-    });
-
-    // Handle back buttons
-    const backButtons = mobileDrawer.querySelectorAll('.mobile-facets__back-button');
-    backButtons.forEach(button => {
-      button.addEventListener('click', () => this.navigateBack());
-    });
-
-    // Handle apply buttons
-    const applyButtons = mobileDrawer.querySelectorAll('.mobile-facets__apply');
-    applyButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        e.preventDefault();
-        // Get all checked inputs from mobile
-        const checkedInputs = document.querySelectorAll('menu-drawer input[type="checkbox"]:checked');
-        if (checkedInputs.length > 0) {
-          const formData = new FormData();
-          
-          // Add all checked inputs to formData
-          checkedInputs.forEach(input => {
-            formData.append(input.name, input.value);
-          });
-          
-          // Create search params and update URL
-          const searchParams = new URLSearchParams(formData).toString();
-          
-          // Update URL and render page
-          window.history.pushState(
-            { searchParams }, 
-            '', 
-            `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
-          );
-          
-          // Render the page with new filters
-          this.renderPage(searchParams, null);
-        }
-        
-        // Close drawer
-        if (mobileDrawer.hasAttribute('open')) {
-          mobileDrawer.classList.add('closing');
-          document.body.classList.remove('overflow-hidden-mobile');
-          
-          setTimeout(() => {
-            mobileDrawer.removeAttribute('open');
-            mobileDrawer.classList.remove('closing');
-          }, 300);
-        }
-      });
-    });
-
-    // Handle clear buttons
     const clearButtons = mobileDrawer.querySelectorAll('.mobile-facets__clear');
+
+    openButton?.addEventListener('click', () => this.toggleDrawer(true));
+    closeButton?.addEventListener('click', () => this.toggleDrawer(false));
+
     clearButtons.forEach(button => {
       button.addEventListener('click', () => this.clearFilters());
     });
 
-    // Close drawer on ESC key
     document.addEventListener('keyup', (event) => {
       if (event.code.toUpperCase() === 'ESCAPE' && mobileDrawer.hasAttribute('open')) {
         this.toggleDrawer(false);
       }
     });
-
-    // Handle backdrop clicks
-    mobileDrawer.addEventListener('click', (event) => {
-      if (event.target === mobileDrawer) {
-        this.toggleDrawer(false);
-      }
-    });
-  }
-
-  navigateToCategory(categoryId) {
-    const mainView = document.querySelector('.mobile-facets__main-view');
-    const categoryView = document.querySelector(`.mobile-facets__category-view[data-category="${categoryId}"]`);
-    
-    if (!mainView || !categoryView) return;
-
-    // Update header title
-    const categoryTitle = categoryView.querySelector('.mobile-facets__back-text')?.textContent;
-    const headerTitle = document.querySelector('.mobile-facets__title');
-    if (headerTitle && categoryTitle) {
-      headerTitle.textContent = categoryTitle;
-    }
-
-    // Slide out main view and slide in category view
-    mainView.style.transform = 'translateX(-100%)';
-    categoryView.style.transform = 'translateX(0)';
-    categoryView.setAttribute('aria-hidden', 'false');
-    
-    this.currentDrawerView = categoryId;
-  }
-
-  navigateBack() {
-    const mainView = document.querySelector('.mobile-facets__main-view');
-    const currentCategoryView = document.querySelector(
-      `.mobile-facets__category-view[data-category="${this.currentDrawerView}"]`
-    );
-    
-    if (!mainView || !currentCategoryView) return;
-
-    // Reset header title
-    const headerTitle = document.querySelector('.mobile-facets__title');
-    if (headerTitle) {
-      headerTitle.textContent = headerTitle.dataset.defaultTitle || 'Filters';
-    }
-
-    // Slide back to main view
-    mainView.style.transform = 'translateX(0)';
-    currentCategoryView.style.transform = 'translateX(100%)';
-    currentCategoryView.setAttribute('aria-hidden', 'true');
-    
-    this.currentDrawerView = 'main';
   }
 
   toggleDrawer(isOpen) {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
-    if (!mobileDrawer) return;
-
     if (isOpen) {
       mobileDrawer.setAttribute('open', '');
       document.body.classList.add('overflow-hidden-mobile');
-      this.resetToMainView();
     } else {
-      mobileDrawer.classList.add('closing');
+      mobileDrawer.removeAttribute('open');
       document.body.classList.remove('overflow-hidden-mobile');
-      
-      setTimeout(() => {
-        mobileDrawer.removeAttribute('open');
-        mobileDrawer.classList.remove('closing');
-      }, 300);
     }
-  }
-
-  resetToMainView() {
-    const mainView = document.querySelector('.mobile-facets__main-view');
-    const categoryViews = document.querySelectorAll('.mobile-facets__category-view');
-    const headerTitle = document.querySelector('.mobile-facets__title');
-    
-    if (mainView) {
-      mainView.style.transform = 'translateX(0)';
-    }
-    
-    categoryViews.forEach(view => {
-      view.style.transform = 'translateX(100%)';
-      view.setAttribute('aria-hidden', 'true');
-    });
-
-    if (headerTitle) {
-      headerTitle.textContent = headerTitle.dataset.defaultTitle || 'Filters';
-    }
-    
-    this.currentDrawerView = 'main';
   }
 
   renderSelectedFilters() {
@@ -294,7 +162,6 @@ class FacetFiltersForm extends HTMLElement {
 
     container.innerHTML = filterElements;
 
-    // Add event listeners to remove buttons
     container.querySelectorAll('.selected-filter__remove').forEach(button => {
       button.addEventListener('click', (e) => {
         const filter = e.target.closest('.selected-filter');
@@ -304,42 +171,30 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   removeFilter(key, value) {
-    // Uncheck corresponding checkboxes
     const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
     const mobileInput = document.querySelector(`menu-drawer input[name="${key}"][value="${value}"]`);
-    
+
     if (desktopInput) desktopInput.checked = false;
     if (mobileInput) mobileInput.checked = false;
 
-    // Remove from selected filters
     this.selectedFilters.delete(`${key}-${value}`);
     this.renderSelectedFilters();
 
-    // Update URL and render
     const form = this.querySelector('form');
     if (form) {
       const formData = new FormData(form);
       const searchParams = new URLSearchParams(formData).toString();
-      this.renderPage(searchParams, null);
+      this.updateURLHash(searchParams);
     }
   }
 
   clearFilters() {
-    // Clear checkboxes
     this.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
     document.querySelectorAll('menu-drawer input[type="checkbox"]').forEach(input => input.checked = false);
 
-    // Clear selected filters
     this.selectedFilters.clear();
     this.renderSelectedFilters();
-
-    // Update URL and render
-    const form = this.querySelector('form');
-    if (form) {
-      const formData = new FormData(form);
-      const searchParams = new URLSearchParams(formData).toString();
-      this.renderPage(searchParams, null);
-    }
+    history.pushState({}, '', window.location.pathname);
   }
 
   onSubmitHandler(event) {
@@ -350,51 +205,18 @@ class FacetFiltersForm extends HTMLElement {
     const formData = new FormData(form);
     const searchParams = new URLSearchParams(formData).toString();
 
-    // Update selected filters
     this.selectedFilters = this.getSelectedFiltersFromURL();
     this.renderSelectedFilters();
-
-    // Render page with new filters
     this.renderPage(searchParams, event);
   }
 
   renderPage(searchParams, event) {
-    try {
-      const sections = this.getSections();
-      
-      // Update URL first
-      window.history.pushState(
-        { searchParams }, 
-        '', 
-        `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
-      );
-      
-      // Then update sections
-      sections.forEach((section) => {
-        const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
-        this.renderSectionFromFetch(url, event);
-      });
+    const sections = this.getSections();
 
-      // Update selected filters
-      const checkedInputs = document.querySelectorAll('input[type="checkbox"]:checked');
-      this.selectedFilters.clear();
-      
-      checkedInputs.forEach(input => {
-        const label = input.closest('label')?.querySelector('.facet-checkbox__text, .mobile-facets__filter-label')?.textContent;
-        if (label) {
-          this.selectedFilters.set(`${input.name}-${input.value}`, {
-            key: input.name,
-            value: input.value,
-            label: label.split(' (')[0]
-          });
-        }
-      });
-      
-      this.renderSelectedFilters();
-    } catch (error) {
-      console.error('Error in renderPage:', error);
-    }
-  }
+    sections.forEach((section) => {
+      const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
+      this.renderSectionFromFetch(url, event);
+    });
   }
 
   renderSectionFromFetch(url, event) {
@@ -408,23 +230,16 @@ class FacetFiltersForm extends HTMLElement {
       });
   }
 
-  renderProductGrid(html) {
-    const productGrid = document.getElementById('ProductGridContainer');
-    if (productGrid) {
-      productGrid.innerHTML = html.getElementById('ProductGridContainer').innerHTML;
-    }
+  updateURLHash(searchParams) {
+    history.pushState({}, '', `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`);
   }
 
-  renderProductCount(html) {
-    const count = document.getElementById('ProductCount');
-    const countMobile = document.getElementById('ProductCountMobile');
-    
-    if (count) {
-      count.innerHTML = html.getElementById('ProductCount').innerHTML;
-    }
-    if (countMobile) {
-      countMobile.innerHTML = html.getElementById('ProductCountMobile').innerHTML;
-    }
+  getSections() {
+    return [
+      {
+        section: document.getElementById('product-grid').dataset.id,
+      }
+    ];
   }
 
   renderFilters(html, event) {
@@ -439,20 +254,23 @@ class FacetFiltersForm extends HTMLElement {
     this.syncFromURL();
   }
 
-  getSections() {
-    return [
-      {
-        section: document.getElementById('product-grid').dataset.id,
-      }
-    ];
+  renderProductGrid(html) {
+    const productGrid = document.getElementById('ProductGridContainer');
+    if (productGrid) {
+      productGrid.innerHTML = html.getElementById('ProductGridContainer').innerHTML;
+    }
   }
 
-  updateURLHash(searchParams) {
-    history.pushState(
-      { searchParams },
-      '',
-      `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
-    );
+  renderProductCount(html) {
+    const count = document.getElementById('ProductCount');
+    const countMobile = document.getElementById('ProductCountMobile');
+
+    if (count) {
+      count.innerHTML = html.getElementById('ProductCount').innerHTML;
+    }
+    if (countMobile) {
+      countMobile.innerHTML = html.getElementById('ProductCountMobile').innerHTML;
+    }
   }
 }
 
@@ -468,12 +286,11 @@ function debounce(fn, wait) {
 // Escape Key Helper
 function onKeyUpEscape(event) {
   if (event.code.toUpperCase() !== 'ESCAPE') return;
-  
+
   const openDetailsElement = event.target.closest('details[open]');
   if (!openDetailsElement) return;
-  
+
   openDetailsElement.removeAttribute('open');
-  openDetailsElement.querySelector('summary').setAttribute('aria-expanded', false);
 }
 
 customElements.define('facet-filters-form', FacetFiltersForm);
