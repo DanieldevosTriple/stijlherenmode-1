@@ -80,6 +80,11 @@
   margin-right: 0.5rem;
 }
 
+.breadcrumb a, .breadcrumb-link {
+  color: gray;
+  text-decoration: none;
+}
+
 @media screen and (max-width: 749px) {
   .collection-hero__inner {
     display: none;

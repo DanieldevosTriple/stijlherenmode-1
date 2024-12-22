@@ -386,7 +386,11 @@
     margin-left: 0.5rem;
     margin-right: 0.5rem;
   }
-  
+
+  .breadcrumb a, .breadcrumb-link {
+    color: gray;
+    text-decoration: none;
+}
 
   @media screen and (max-width: 991px) {
       .breadcrumb {
