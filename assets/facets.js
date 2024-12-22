@@ -57,20 +57,16 @@ class FacetFiltersForm extends HTMLElement {
     const params = new URLSearchParams(window.location.search);
     console.log('Syncing filters from URL:', params.toString());
   
-    const mobileDrawer = document.querySelector('#MobileMenuDrawer');
-    const applyButton = mobileDrawer?.querySelector('.mobile-facets__apply');
-    if (applyButton) applyButton.disabled = true; // Disable "Apply" button by default
-  
     // Reset all checkboxes
     this.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
-    mobileDrawer?.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+    document.querySelectorAll('#MobileMenuDrawer input[type="checkbox"]').forEach(input => input.checked = false);
   
     // Set checkboxes based on URL
     params.forEach((value, key) => {
       if (key.startsWith('filter.')) {
         value.split(/,|%2C/).forEach(singleValue => {
           const desktopInput = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-          const mobileInput = mobileDrawer?.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+          const mobileInput = document.querySelector(`#MobileMenuDrawer input[name="${key}"][value="${singleValue}"]`);
   
           if (desktopInput) desktopInput.checked = true;
           if (mobileInput) mobileInput.checked = true;
@@ -81,7 +77,7 @@ class FacetFiltersForm extends HTMLElement {
     });
   
     this.renderSelectedFilters();
-  }     
+  }   
   
   initializeDesktopAccordion() {
     console.log('Reinitializing accordion toggles...');
@@ -211,23 +207,22 @@ class FacetFiltersForm extends HTMLElement {
     const formData = new FormData(mobileDrawer.querySelector('form'));
     const queryParams = {};
   
-    // Group selected filters manually
+    // Group filter values manually
     formData.forEach((value, key) => {
       if (queryParams[key]) {
-        queryParams[key] += `,${value}`; // Allow multiple values
+        queryParams[key] += `,${value}`;
       } else {
         queryParams[key] = value;
       }
     });
   
-    // Construct query string
     const queryString = Object.keys(queryParams)
       .map(key => `${encodeURIComponent(key)}=${queryParams[key]}`)
       .join('&');
   
-    console.log('Filters applied. Query string:', queryString);
+    console.log('Mobile filters applied. Query string:', queryString);
   
-    // Update URL and refresh product grid
+    // Update URL and render page content
     this.updateURLHash(queryString);
     this.renderPage(queryString);
   }    
@@ -419,7 +414,6 @@ class FacetFiltersForm extends HTMLElement {
 
     sections.forEach((section) => {
       const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
-      console.log('Fetching updated section from URL:', url);
       this.renderSectionFromFetch(url, event);
     });
   }
