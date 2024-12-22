@@ -6,7 +6,20 @@
   <div class="col-12 mobile-header">
     <div class="mobile-breadcrumb">
       {% if collection.handle %}
-        <span>{{ collection.title }}</span>
+        <nav aria-label="Mobile breadcrumb">
+          <ol class="breadcrumbs__list">
+            <li class="breadcrumbs__item">
+              <a href="javascript:history.back()" class="breadcrumbs__link">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M15 18l-6-6 6-6" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </a>
+            </li>
+            <li class="breadcrumbs__item">
+              <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
+            </li>
+          </ol>
+        </nav>
       {% endif %}
     </div>
     <div class="mobile-facets__filter">
@@ -21,10 +34,17 @@
     <div class="breadcrumbs">
       <nav aria-label="Breadcrumbs">
         <ol class="breadcrumbs__list">
-          <li class="breadcrumbs__item">
-            <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
-          </li>
           {% if collection.handle %}
+            <li class="breadcrumbs__item">
+              <a href="javascript:history.back()" class="breadcrumbs__link">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M15 18l-6-6 6-6" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </a>
+            </li>
+            <li class="breadcrumbs__item">
+              <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
+            </li>
             <li class="breadcrumbs__item">
               <span>{{ collection.title }}</span>
             </li>
