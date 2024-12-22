@@ -289,7 +289,6 @@ body.overflow-hidden-mobile {
     align-items: center;
     padding: 1rem;
     background: #f9f9f9;
-    border-bottom: 1px solid #ddd;
   }
 
   .mobile-facets__heading {
@@ -408,6 +407,18 @@ body.overflow-hidden-mobile {
 
   .mobile-facets__apply:hover {
     background-color: #005bb5;
+  }
+
+  .mobile-facets__filters {
+    padding: 2rem;
+  }
+
+  .mobile-facets__filter-header {
+    font-size: 1rem;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-family: TradeGothicLT;
+    font-weight: 600;
   }
 }
 
