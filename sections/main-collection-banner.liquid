@@ -33,8 +33,7 @@
     
     <div class="product-count">
       {% if collection.all_products_count > 0 %}
-        {% render 'facets', results: collection %}
-        <span>{{ 'facets.product_count_simple' | t: count: collection.all_products_count }}</span>
+        <span>{{ collection.all_products_count }} {% if collection.all_products_count == 1 %}product{% else %}producten{% endif %}</span>
       {% endif %}
     </div>
   </div>
