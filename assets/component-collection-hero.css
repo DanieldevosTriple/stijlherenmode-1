@@ -124,4 +124,13 @@
     border-radius: 4px;
     font-size: 1.4rem; /* Match breadcrumb font size */
   }
+
+  .mobile-facets__open-button {
+    display: flex;
+    align-items: center;
+  }
+  
+  .mobile-facets__open-button svg {
+    flex-shrink: 0;
+  }
 }
