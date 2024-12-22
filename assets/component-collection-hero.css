@@ -51,12 +51,6 @@
   text-decoration: none;
 }
 
-.breadcrumbs__item:not(:last-child):after {
-  content: "/";
-  margin: 0 0.5rem;
-  color: black;
-}
-
 .breadcrumbs__link:hover {
   text-decoration: underline;
 }
