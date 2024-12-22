@@ -99,6 +99,16 @@ details[open] .facet-accordion__toggle {
   font-weight: 600;
 }
 
+.custom-checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  position: relative;
+  background-color: #ccc;
+}
+
 /* Animation for accordion */
 .facet-accordion__item[open] .facet-accordion__content {
   animation: slideDown 0.2s ease-out;
