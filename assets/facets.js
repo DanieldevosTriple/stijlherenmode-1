@@ -70,45 +70,31 @@ class FacetFiltersForm extends HTMLElement {
 
   initializeDesktopAccordion() {
     const desktopDetails = this.querySelectorAll('#FacetsWrapperDesktop .facet-accordion__item');
-
+  
     desktopDetails.forEach((detail) => {
       const summary = detail.querySelector('summary');
       const toggle = summary?.querySelector('.facet-accordion__toggle');
-
+  
       if (!summary || !toggle) return;
-
+  
       toggle.textContent = detail.hasAttribute('open') ? '-' : '+';
-
+  
       summary.addEventListener('click', (e) => {
         e.preventDefault();
         const isOpen = detail.hasAttribute('open');
-
+  
         desktopDetails.forEach((otherDetail) => {
-          if (otherDetail !== detail && otherDetail.hasAttribute('open')) {
+          if (otherDetail !== detail) {
             otherDetail.removeAttribute('open');
-            const otherToggle = otherDetail.querySelector('.facet-accordion__toggle');
-            if (otherToggle) otherToggle.textContent = '+';
+            otherDetail.querySelector('.facet-accordion__toggle').textContent = '+';
           }
         });
-
+  
         detail.toggleAttribute('open', !isOpen);
         toggle.textContent = isOpen ? '+' : '-';
       });
     });
-
-    const facetForm = this.querySelector('form');
-    if (facetForm) {
-      facetForm.addEventListener('input', (event) => {
-        event.preventDefault();
-        const formData = new FormData(facetForm);
-        const searchParams = new URLSearchParams(formData).toString();
-
-        this.updateURLHash(searchParams);
-        this.syncFromURL();
-        this.renderSelectedFilters();
-      });
-    }
-  }
+  }  
 
   initializeMobileDrawer() {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
