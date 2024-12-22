@@ -106,18 +106,51 @@ class FacetFiltersForm extends HTMLElement {
       button.addEventListener('click', () => this.navigateBack());
     });
 
-    // Handle apply filters
-    applyButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        this.applyFilters();
+    // Handle apply filters in both main and category views
+    const applyButtonsAll = document.querySelectorAll('.mobile-facets__apply');
+    applyButtonsAll.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Get all forms to combine their data
+        const mobileForm = document.querySelector('menu-drawer form');
+        const desktopForm = this.querySelector('form');
+        const formData = new FormData(mobileForm || desktopForm);
+        
+        // Sync with desktop form if it exists
+        if (desktopForm && mobileForm) {
+          mobileForm.querySelectorAll('input[type="checkbox"]:checked').forEach(input => {
+            const desktopInput = desktopForm.querySelector(`input[name="${input.name}"][value="${input.value}"]`);
+            if (desktopInput) desktopInput.checked = true;
+          });
+        }
+
+        const searchParams = new URLSearchParams(formData).toString();
+        this.renderPage(searchParams, null, true); // true to ensure URL updates
         this.toggleDrawer(false);
       });
     });
 
-    // Handle clear filters
-    clearButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        this.clearFilters();
+    // Handle clear filters in both main and category views
+    const clearButtonsAll = document.querySelectorAll('.mobile-facets__clear');
+    clearButtonsAll.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const currentView = button.closest('.mobile-facets__category-view');
+        
+        if (currentView) {
+          // Clear only checkboxes in current category view
+          const categoryCheckboxes = currentView.querySelectorAll('input[type="checkbox"]');
+          categoryCheckboxes.forEach(input => {
+            if (input.checked) {
+              input.checked = false;
+              this.syncCheckboxState(input);
+            }
+          });
+        } else {
+          // Clear all filters
+          this.clearFilters();
+        }
       });
     });
 
@@ -321,7 +354,31 @@ class FacetFiltersForm extends HTMLElement {
       this.renderSectionFromFetch(url, event);
     });
 
-    if (updateURLHash) this.updateURLHash(searchParams);
+    if (updateURLHash) {
+      this.updateURLHash(searchParams);
+      
+      // Update selected filters based on URL
+      const params = new URLSearchParams(searchParams);
+      this.selectedFilters.clear();
+      
+      params.forEach((value, key) => {
+        if (key.startsWith('filter.')) {
+          const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
+          const mobileInput = document.querySelector(`menu-drawer input[name="${key}"][value="${value}"]`);
+          
+          if (desktopInput || mobileInput) {
+            const label = (desktopInput?.closest('label')?.querySelector('.facet-checkbox__text') || 
+                          mobileInput?.closest('label')?.querySelector('.mobile-facets__filter-label'))?.textContent;
+            
+            if (label) {
+              this.addSelectedFilter(key, value, label);
+            }
+          }
+        }
+      });
+      
+      this.renderSelectedFilters();
+    }}
   }
 
   renderSectionFromFetch(url, event) {
@@ -373,19 +430,42 @@ class FacetFiltersForm extends HTMLElement {
 
   clearFilters() {
     const form = this.querySelector('form');
-    if (!form) return;
-
-    const inputs = form.querySelectorAll('input[type="checkbox"], input[type="radio"]');
-    const mobileInputs = document.querySelectorAll('menu-drawer input[type="checkbox"], menu-drawer input[type="radio"]');
-    const rangeInputs = form.querySelectorAll('input[type="number"]');
+    const mobileForm = document.querySelector('menu-drawer form');
     
-    inputs.forEach(input => input.checked = false);
-    mobileInputs.forEach(input => input.checked = false);
-    rangeInputs.forEach(input => input.value = '');
+    if (!form && !mobileForm) return;
+
+    // Clear desktop inputs
+    if (form) {
+      const inputs = form.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+      const rangeInputs = form.querySelectorAll('input[type="number"]');
+      
+      inputs.forEach(input => {
+        if (input.checked) {
+          input.checked = false;
+          this.syncCheckboxState(input);
+        }
+      });
+      rangeInputs.forEach(input => input.value = '');
+    }
+
+    // Clear mobile inputs
+    if (mobileForm) {
+      const mobileInputs = mobileForm.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+      mobileInputs.forEach(input => {
+        if (input.checked) {
+          input.checked = false;
+          this.syncCheckboxState(input);
+        }
+      });
+    }
     
     this.selectedFilters.clear();
     this.renderSelectedFilters();
-    this.applyFilters();
+    
+    // Submit the form with empty filters
+    const formData = new FormData(form || mobileForm);
+    const searchParams = new URLSearchParams(formData).toString();
+    this.renderPage(searchParams, null);
   }
 
   getSections() {
@@ -397,7 +477,25 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   updateURLHash(searchParams) {
-    history.pushState({ searchParams }, '', `${window.location.pathname}?${searchParams}`);
+    // Preserve any existing non-filter parameters
+    const currentParams = new URLSearchParams(window.location.search);
+    const newParams = new URLSearchParams(searchParams);
+    
+    // Clear only filter-related parameters
+    const paramsToKeep = new URLSearchParams();
+    currentParams.forEach((value, key) => {
+      if (!key.startsWith('filter.') && !key.startsWith('sort_by')) {
+        paramsToKeep.append(key, value);
+      }
+    });
+    
+    // Add new filter parameters
+    newParams.forEach((value, key) => {
+      paramsToKeep.append(key, value);
+    });
+
+    const newUrl = `${window.location.pathname}${paramsToKeep.toString() ? '?' + paramsToKeep.toString() : ''}`;
+    history.pushState({ searchParams: paramsToKeep.toString() }, '', newUrl);
   }
 }
 
