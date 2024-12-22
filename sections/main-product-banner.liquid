@@ -1,7 +1,7 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+{{ 'component-product-hero.css' | asset_url | stylesheet_tag }}
 
-<div class="collection-hero color-{{ section.settings.color_scheme }} gradient">
+<div class="product-hero color-{{ section.settings.color_scheme }} gradient">
   {%- comment -%} Mobile layout {%- endcomment -%}
   <div class="col-12 mobile-header">
     <div class="mobile-breadcrumb">
@@ -29,7 +29,7 @@
   </div>
 
   {%- comment -%} Desktop layout {%- endcomment -%}
-  <div class="collection-hero__inner scroll-trigger animate--fade-in">
+  <div class="product-hero__inner scroll-trigger animate--fade-in">
     <div class="breadcrumbs">
       <nav aria-label="Breadcrumbs">
         <ol class="breadcrumbs__list">
@@ -47,7 +47,7 @@
         </ol>
       </nav>
     </div>
-    <div class="collection-title">
+    <div class="product-title">
       <h1>
         <span class="visually-hidden">{{ 'products.product.title' | t }}: </span>
         {{- product.title | escape -}}
