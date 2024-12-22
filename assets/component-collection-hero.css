@@ -2,6 +2,10 @@
   padding: 20px 0;
 }
 
+.collection-title {
+  font-size: 1rem;
+}
+
 .collection-hero__inner {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -32,11 +36,11 @@
 .breadcrumbs__item:not(:last-child):after {
   content: "/";
   margin: 0 0.5rem;
-  color: {{ settings.colors_text | color_modify: 'alpha', 0.6 }};
+  color: black;
 }
 
 .breadcrumbs__link {
-  color: {{ settings.colors_text }};
+  color: black;
   text-decoration: none;
 }
 
