@@ -116,11 +116,29 @@ class FacetFiltersForm extends HTMLElement {
 
     const openButton = document.querySelector('.mobile-facets__open-button');
     const closeButton = mobileDrawer.querySelector('.mobile-facets__close-button');
+    const filterCategories = mobileDrawer.querySelectorAll('.mobile-facets__filter-category');
+    const backButtons = mobileDrawer.querySelectorAll('.mobile-facets__back-button');
     const clearButtons = mobileDrawer.querySelectorAll('.mobile-facets__clear');
 
+    // Open and close drawer
     openButton?.addEventListener('click', () => this.toggleDrawer(true));
     closeButton?.addEventListener('click', () => this.toggleDrawer(false));
 
+    // Navigate to category
+    filterCategories?.forEach(category => {
+      category.addEventListener('click', (e) => {
+        e.preventDefault();
+        const categoryId = category.dataset.categoryId;
+        this.navigateToCategory(categoryId);
+      });
+    });
+
+    // Navigate back
+    backButtons.forEach(button => {
+      button.addEventListener('click', () => this.navigateBack());
+    });
+
+    // Clear filters
     clearButtons.forEach(button => {
       button.addEventListener('click', () => this.clearFilters());
     });
@@ -130,6 +148,49 @@ class FacetFiltersForm extends HTMLElement {
         this.toggleDrawer(false);
       }
     });
+  }
+
+  navigateToCategory(categoryId) {
+    const mainView = document.querySelector('.mobile-facets__main-view');
+    const categoryView = document.querySelector(`.mobile-facets__category-view[data-category="${categoryId}"]`);
+
+    if (!mainView || !categoryView) return;
+
+    // Update header title
+    const categoryTitle = categoryView.querySelector('.mobile-facets__back-text')?.textContent;
+    const headerTitle = document.querySelector('.mobile-facets__title');
+    if (headerTitle && categoryTitle) {
+      headerTitle.textContent = categoryTitle;
+    }
+
+    // Slide out main view and slide in category view
+    mainView.style.transform = 'translateX(-100%)';
+    categoryView.style.transform = 'translateX(0)';
+    categoryView.setAttribute('aria-hidden', 'false');
+
+    this.currentDrawerView = categoryId;
+  }
+
+  navigateBack() {
+    const mainView = document.querySelector('.mobile-facets__main-view');
+    const currentCategoryView = document.querySelector(
+      `.mobile-facets__category-view[data-category="${this.currentDrawerView}"]`
+    );
+
+    if (!mainView || !currentCategoryView) return;
+
+    // Reset header title
+    const headerTitle = document.querySelector('.mobile-facets__title');
+    if (headerTitle) {
+      headerTitle.textContent = headerTitle.dataset.defaultTitle || 'Filters';
+    }
+
+    // Slide back to main view
+    mainView.style.transform = 'translateX(0)';
+    currentCategoryView.style.transform = 'translateX(100%)';
+    currentCategoryView.setAttribute('aria-hidden', 'true');
+
+    this.currentDrawerView = 'main';
   }
 
   toggleDrawer(isOpen) {
