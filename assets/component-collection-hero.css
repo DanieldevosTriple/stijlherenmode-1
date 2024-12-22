@@ -34,22 +34,27 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  height: 24px; /* Match SVG height */
 }
 
 .breadcrumbs__item {
   display: inline-flex;
   align-items: center;
+  height: 24px; /* Match SVG height */
+}
+
+.breadcrumbs__link {
+  display: flex;
+  align-items: center;
+  height: 24px; /* Match SVG height */
+  color: black;
+  text-decoration: none;
 }
 
 .breadcrumbs__item:not(:last-child):after {
   content: "/";
   margin: 0 0.5rem;
   color: black;
-}
-
-.breadcrumbs__link {
-  color: black;
-  text-decoration: none;
 }
 
 .breadcrumbs__link:hover {
@@ -69,34 +74,16 @@
   .mobile-header {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    align-items: center; /* Added to align items vertically */
+    padding: 0.5rem 1rem; /* Added consistent padding */
   }
 
   .collection-hero__inner {
-    display: none
+    display: none;
   }
 
   .collection-hero {
-   border-bottom: 1px solid rgb(242, 242, 242);
-  }
-
-  .breadcrumbs {
-    text-align: left;
-  }
-
-  .breadcrumbs__list {
-    justify-content: flex-start;
-  }
-
-  .collection-title {
-    display: none;
-  }
-
-  .product-count {
-    display: none;
-  }
-
-  .mobile-facets__filter {
-    text-align: right !important;
+    border-bottom: 1px solid rgb(242, 242, 242);
   }
 
   .mobile-breadcrumb {
@@ -109,19 +96,42 @@
     border: none;
     cursor: pointer;
     background: none;
+    height: 24px; /* Match SVG height */
+  }
+
+  .mobile-breadcrumb .breadcrumbs__list {
+    height: 24px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-breadcrumb .breadcrumbs__link {
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-breadcrumb .breadcrumbs__link svg {
+    margin-right: 10px;
+  }
+
+  .mobile-facets__filter {
+    text-align: right !important;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 
   .mobile-facets__open-button {
     background: transparent;
     border: 1px solid rgb(242, 242, 242);
     border-radius: 4px;
-  }
-
-  .mobile-back {
-    max-width: 15px;
+    padding: 0.5rem 1rem;
+    height: 24px; /* Match height */
+    display: flex;
+    align-items: center;
   }
 
   .breadcrumbs__item:not(:last-child):after {
-    display: none
+    display: none;
   }
 }
