@@ -78,47 +78,41 @@ class FacetFiltersForm extends HTMLElement {
   initializeDesktopAccordion() {
     const desktopDetails = this.querySelectorAll('#FacetsWrapperDesktop .facet-accordion__item');
   
-    const updateToggleState = (detail) => {
-      const toggle = detail.querySelector('.facet-accordion__toggle');
-      if (toggle) {
-        toggle.textContent = detail.hasAttribute('open') ? '-' : '+';
-      }
-    };
-  
     desktopDetails.forEach((detail) => {
       const summary = detail.querySelector('summary');
+      const toggle = summary?.querySelector('.facet-accordion__toggle');
   
-      if (!summary) return;
+      if (!summary || !toggle) return;
   
-      // Initialize toggle state
-      updateToggleState(detail);
-  
-      // Remove existing event listeners to prevent duplicates
+      // Remove existing event listener to prevent duplicates
       summary.removeEventListener('click', summary._toggleHandler);
   
-      // Add click event listener for toggle
+      // Initialize toggle state
+      toggle.textContent = detail.hasAttribute('open') ? '-' : '+';
+  
+      // Define and attach toggle handler
       const toggleHandler = (e) => {
-        e.preventDefault(); // Prevent default accordion behavior
+        e.preventDefault();
         const isOpen = detail.hasAttribute('open');
   
-        // Close all other details
+        // Close other details
         desktopDetails.forEach((otherDetail) => {
           if (otherDetail !== detail && otherDetail.hasAttribute('open')) {
             otherDetail.removeAttribute('open');
-            updateToggleState(otherDetail);
+            const otherToggle = otherDetail.querySelector('.facet-accordion__toggle');
+            if (otherToggle) otherToggle.textContent = '+';
           }
         });
   
         // Toggle the clicked detail
         detail.toggleAttribute('open', !isOpen);
-        updateToggleState(detail);
+        toggle.textContent = isOpen ? '+' : '-';
       };
   
-      summary._toggleHandler = toggleHandler; // Store the handler reference to allow removal
+      summary._toggleHandler = toggleHandler; // Store reference for cleanup
       summary.addEventListener('click', toggleHandler);
     });
-  }
-    
+  }   
 
   initializeMobileDrawer() {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
@@ -373,13 +367,24 @@ class FacetFiltersForm extends HTMLElement {
       if (target) target.innerHTML = element.innerHTML;
     });
   
-    // Reattach event listeners
-    this.querySelectorAll('input[type="checkbox"]').forEach(input => {
-      input.addEventListener('input', this.debouncedOnSubmit);
-    });
+    // Reinitialize toggle functionality after rendering filters
+    this.initializeDesktopAccordion();
+  }
   
-    this.syncFromURL();
-  }  
+  renderSectionFromFetch(url, event) {
+    fetch(url)
+      .then((response) => response.text())
+      .then((responseText) => {
+        const html = new DOMParser().parseFromString(responseText, 'text/html');
+        this.renderFilters(html, event);
+        this.renderProductGrid(html);
+        this.renderProductCount(html);
+  
+        // Ensure sync after rendering
+        this.syncFromURL();
+        this.initializeDesktopAccordion(); // Reinitialize toggles here
+      });
+  }   
 
   renderProductGrid(html) {
     const productGrid = document.getElementById('ProductGridContainer');
