@@ -116,8 +116,6 @@
 
   .mobile-facets__filter {
     padding: 1rem;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
   }
 
   /* Hide desktop facets */
