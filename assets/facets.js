@@ -143,8 +143,7 @@ class FacetFiltersForm extends HTMLElement {
     const openButton = document.querySelector('.mobile-facets__open-button');
     const closeButton = mobileDrawer.querySelector('.mobile-facets__close-button');
     const applyButton = mobileDrawer.querySelector('.mobile-facets__apply');
-    const filterCategories = mobileDrawer.querySelectorAll('.mobile-facets__filter-category');
-    const backButtons = mobileDrawer.querySelectorAll('.mobile-facets__back-button');
+    const clearButton = mobileDrawer.querySelector('.mobile-facets__clear');
   
     // Open and close drawer
     openButton?.addEventListener('click', () => {
@@ -157,30 +156,19 @@ class FacetFiltersForm extends HTMLElement {
       console.log('Mobile drawer closed');
     });
   
-    // Navigate to category
-    filterCategories.forEach(category => {
-      category.addEventListener('click', (e) => {
-        e.preventDefault();
-        const categoryId = category.dataset.categoryId;
-        console.log('Navigating to category:', categoryId);
-        this.navigateToCategory(categoryId);
-      });
-    });
-  
-    // Navigate back
-    backButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        console.log('Navigating back to main view');
-        this.navigateBack();
-      });
-    });
-  
-    // Apply filters on "Apply" button click
+    // Apply filters
     applyButton?.addEventListener('click', (e) => {
       e.preventDefault();
-      console.log('Applying filters from mobile drawer');
+      console.log('Applying filters from mobile footer');
       this.applyMobileFilters();
       this.toggleDrawer(false);
+    });
+  
+    // Clear filters
+    clearButton?.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log('Clearing all filters');
+      this.clearFilters();
     });
   
     // Close drawer on ESC key press
@@ -190,7 +178,7 @@ class FacetFiltersForm extends HTMLElement {
         console.log('Mobile drawer closed via ESC key');
       }
     });
-  }  
+  }    
 
   applyMobileFilters() {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
