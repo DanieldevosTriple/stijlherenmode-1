@@ -296,12 +296,16 @@ class FacetFiltersForm extends HTMLElement {
         this.renderFilters(html, event);
         this.renderProductGrid(html);
         this.renderProductCount(html);
+  
+        // Ensure sync after rendering
+        this.syncFromURL();
       });
-  }
+  }  
 
   updateURLHash(searchParams) {
+    console.log('Updating URL with params:', searchParams);
     history.pushState({}, '', `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`);
-  }
+  }  
 
   getSections() {
     return [
@@ -315,13 +319,19 @@ class FacetFiltersForm extends HTMLElement {
     const facetDetailsElements = html.querySelectorAll('#FacetsWrapperDesktop .js-filter');
     const matchesIndex = (element) => element.dataset.index === event?.target?.dataset?.index;
     const facetsToRender = Array.from(facetDetailsElements).filter(element => !matchesIndex(element));
-
+  
     facetsToRender.forEach((element) => {
-      document.querySelector(`[data-index="${element.dataset.index}"]`).innerHTML = element.innerHTML;
+      const target = document.querySelector(`[data-index="${element.dataset.index}"]`);
+      if (target) target.innerHTML = element.innerHTML;
     });
-
+  
+    // Reattach event listeners
+    this.querySelectorAll('input[type="checkbox"]').forEach(input => {
+      input.addEventListener('input', this.debouncedOnSubmit);
+    });
+  
     this.syncFromURL();
-  }
+  }  
 
   renderProductGrid(html) {
     const productGrid = document.getElementById('ProductGridContainer');
