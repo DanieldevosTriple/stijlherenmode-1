@@ -84,24 +84,30 @@ class FacetFiltersForm extends HTMLElement {
   
       if (!summary || !toggle) return;
   
+      // Set initial toggle state
       toggle.textContent = detail.hasAttribute('open') ? '-' : '+';
   
       summary.addEventListener('click', (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevent default accordion behavior
+  
         const isOpen = detail.hasAttribute('open');
   
+        // Close all other details if clicked
         desktopDetails.forEach((otherDetail) => {
-          if (otherDetail !== detail) {
+          if (otherDetail !== detail && otherDetail.hasAttribute('open')) {
             otherDetail.removeAttribute('open');
-            otherDetail.querySelector('.facet-accordion__toggle').textContent = '+';
+            const otherToggle = otherDetail.querySelector('.facet-accordion__toggle');
+            if (otherToggle) otherToggle.textContent = '+';
           }
         });
   
+        // Toggle the clicked detail
         detail.toggleAttribute('open', !isOpen);
         toggle.textContent = isOpen ? '+' : '-';
       });
     });
-  }  
+  }
+  
 
   initializeMobileDrawer() {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
