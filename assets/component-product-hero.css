@@ -51,6 +51,7 @@
 .product-count {
     text-align: right;
     color: grey;
+    text-transform: uppercase;
 }
 
 @media screen and (max-width: 749px) {

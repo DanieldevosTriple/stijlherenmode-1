@@ -60,6 +60,7 @@
 .product-count {
   text-align: right;
   color: grey;
+  text-transform: uppercase;
 }
 
 .breadcrumb {
