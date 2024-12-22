@@ -324,6 +324,10 @@
   .mobile-facets__apply:hover {
     background: #333;
   }
+
+  .mobile-facets__filter-category-arrow {
+    max-width: 15px;
+  }
 }
 
 /* Animations */
