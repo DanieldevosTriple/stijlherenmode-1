@@ -119,7 +119,6 @@ class FacetFiltersForm extends HTMLElement {
     const filterCategories = mobileDrawer.querySelectorAll('.mobile-facets__filter-category');
     const backButtons = mobileDrawer.querySelectorAll('.mobile-facets__back-button');
     const clearButtons = mobileDrawer.querySelectorAll('.mobile-facets__clear');
-    const applyButtons = mobileDrawer.querySelectorAll('.mobile-facets__apply');
 
     // Open and close drawer
     openButton?.addEventListener('click', () => this.toggleDrawer(true));
@@ -142,34 +141,6 @@ class FacetFiltersForm extends HTMLElement {
     // Clear filters
     clearButtons.forEach(button => {
       button.addEventListener('click', () => this.clearFilters());
-    });
-
-    // Apply filters
-    applyButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        e.preventDefault();
-        const mobileForm = document.querySelector('menu-drawer form');
-        const desktopForm = this.querySelector('form');
-
-        if (mobileForm) {
-          const formData = new FormData(mobileForm);
-          const searchParams = new URLSearchParams(formData).toString();
-
-          if (desktopForm) {
-            const checkedInputs = mobileForm.querySelectorAll('input[type="checkbox"]:checked');
-            checkedInputs.forEach(input => {
-              const desktopInput = desktopForm.querySelector(`input[name="${input.name}"][value="${input.value}"]`);
-              if (desktopInput) desktopInput.checked = true;
-            });
-          }
-
-          this.updateURLHash(searchParams);
-          this.renderPage(searchParams, null);
-          this.syncFromURL();
-        }
-
-        this.toggleDrawer(false);
-      });
     });
 
     document.addEventListener('keyup', (event) => {
