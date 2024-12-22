@@ -328,6 +328,16 @@
   .mobile-facets__filter-category-arrow {
     max-width: 15px;
   }
+
+  .mobile-facets__filter-checkbox {
+    appearance: none;
+    width: 20px !important;
+    height: 20px !important;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    position: relative;
+    background-color: #ccc;
+  }
 }
 
 /* Animations */
