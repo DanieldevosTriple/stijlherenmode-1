@@ -159,7 +159,7 @@
   }
 
   .mobile-facets__open-button:hover {
-    background: #333;
+    color: #006fbb;
   }
 
   .mobile-facets__open-button:active {
@@ -356,6 +356,7 @@
     cursor: pointer;
     position: relative;
     background-color: #ccc;
+    border-radius: 0px;
   }
 
   .mobile-facets__filter-label {
