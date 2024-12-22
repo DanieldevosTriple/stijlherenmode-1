@@ -16,7 +16,7 @@
 
 .breadcrumbs {
   text-align: left;
-  color: {{ settings.colors_text }};
+  color: black;
 }
 
 .breadcrumbs__list {
@@ -54,7 +54,7 @@
 
 .product-count {
   text-align: right;
-  color: {{ settings.colors_text | color_modify: 'alpha', 0.8 }};
+  color: grey;
 }
 
 @media screen and (max-width: 749px) {
