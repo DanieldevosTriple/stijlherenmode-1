@@ -7,7 +7,13 @@
       <nav aria-label="Breadcrumbs">
         <ol class="breadcrumbs__list">
           <li class="breadcrumbs__item">
-            <a href="{{ routes.root_url }}" class="breadcrumbs__link">{{ 'general.breadcrumbs.home' | t }}</a>
+            <a href="{{ routes.root_url }}" class="breadcrumbs__link">
+              {%- if request.locale.iso_code == 'nl' -%}
+                Home
+              {%- else -%}
+                Home
+              {%- endif -%}
+            </a>
           </li>
           {% if collection.handle %}
             <li class="breadcrumbs__item">
