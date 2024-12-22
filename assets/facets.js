@@ -284,11 +284,30 @@ class FacetFiltersForm extends HTMLElement {
       .map(key => `${encodeURIComponent(key)}=${queryParams[key]}`)
       .join('&');
   
-    this.selectedFilters = this.getSelectedFiltersFromURL();
+    // Update selected filters dynamically
+    this.selectedFilters.clear(); // Reset filters
+    Object.entries(queryParams).forEach(([key, value]) => {
+      value.split(',').forEach(singleValue => {
+        const desktopInput = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+        const label = desktopInput?.closest('label')?.querySelector('.facet-checkbox__text')?.textContent;
+  
+        if (label) {
+          this.selectedFilters.set(`${key}-${singleValue}`, {
+            key,
+            value: singleValue,
+            label: label.split(' (')[0],
+          });
+        }
+      });
+    });
+  
+    // Render the updated selected filters
     this.renderSelectedFilters();
+  
+    // Update the URL and page content
     this.updateURLHash(queryString);
     this.renderPage(queryString, event);
-  }
+  }  
 
   renderPage(searchParams, event) {
     const sections = this.getSections();
