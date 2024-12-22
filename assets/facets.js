@@ -132,11 +132,29 @@ class FacetFiltersForm extends HTMLElement {
     // Handle apply buttons
     const applyButtons = mobileDrawer.querySelectorAll('.mobile-facets__apply');
     applyButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const form = document.querySelector('menu-drawer form');
-        if (form) {
-          const formData = new FormData(form);
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const mobileForm = document.querySelector('menu-drawer form');
+        const desktopForm = this.querySelector('form');
+        
+        if (mobileForm) {
+          // Get all checked inputs from mobile
+          const checkedInputs = mobileForm.querySelectorAll('input[type="checkbox"]:checked');
+          
+          // Sync with desktop form
+          if (desktopForm) {
+            checkedInputs.forEach(input => {
+              const desktopInput = desktopForm.querySelector(`input[name="${input.name}"][value="${input.value}"]`);
+              if (desktopInput) {
+                desktopInput.checked = true;
+              }
+            });
+          }
+
+          // Update URL and render
+          const formData = new FormData(desktopForm || mobileForm);
           const searchParams = new URLSearchParams(formData).toString();
+          this.updateURLHash(searchParams);
           this.renderPage(searchParams, null);
         }
         this.toggleDrawer(false);
@@ -337,6 +355,26 @@ class FacetFiltersForm extends HTMLElement {
       const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
       this.renderSectionFromFetch(url, event);
     });
+
+    // Update selected filters from current form state
+    const form = this.querySelector('form');
+    if (form) {
+      const checkedInputs = form.querySelectorAll('input[type="checkbox"]:checked');
+      this.selectedFilters.clear();
+      
+      checkedInputs.forEach(input => {
+        const label = input.closest('label')?.querySelector('.facet-checkbox__text')?.textContent;
+        if (label) {
+          this.selectedFilters.set(`${input.name}-${input.value}`, {
+            key: input.name,
+            value: input.value,
+            label: label.split(' (')[0]
+          });
+        }
+      });
+      
+      this.renderSelectedFilters();
+    }
 
     this.updateURLHash(searchParams);
   }
