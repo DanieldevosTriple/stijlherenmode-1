@@ -166,6 +166,14 @@
     transform: translateY(1px);
   }
 
+  .product-count-mobile {
+    text-transform: uppercase;
+  }
+
+  .mobile-breadcrumb {
+    text-transform: uppercase;
+  }
+
   /* Drawer Styles */
   .mobile-facets__drawer {
     position: fixed;
