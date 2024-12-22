@@ -32,6 +32,7 @@
   font-size: 1.5rem;
   font-family: TradeGothicLT;
   text-transform: uppercase;
+  color: black;
 }
 
 .facet-accordion__header:hover {
