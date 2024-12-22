@@ -134,30 +134,40 @@ class FacetFiltersForm extends HTMLElement {
     applyButtons.forEach(button => {
       button.addEventListener('click', (e) => {
         e.preventDefault();
-        const mobileForm = document.querySelector('menu-drawer form');
-        const desktopForm = this.querySelector('form');
-        
-        if (mobileForm) {
-          // Get all checked inputs from mobile
-          const checkedInputs = mobileForm.querySelectorAll('input[type="checkbox"]:checked');
+        // Get all checked inputs from mobile
+        const checkedInputs = document.querySelectorAll('menu-drawer input[type="checkbox"]:checked');
+        if (checkedInputs.length > 0) {
+          const formData = new FormData();
           
-          // Sync with desktop form
-          if (desktopForm) {
-            checkedInputs.forEach(input => {
-              const desktopInput = desktopForm.querySelector(`input[name="${input.name}"][value="${input.value}"]`);
-              if (desktopInput) {
-                desktopInput.checked = true;
-              }
-            });
-          }
-
-          // Update URL and render
-          const formData = new FormData(desktopForm || mobileForm);
+          // Add all checked inputs to formData
+          checkedInputs.forEach(input => {
+            formData.append(input.name, input.value);
+          });
+          
+          // Create search params and update URL
           const searchParams = new URLSearchParams(formData).toString();
-          this.updateURLHash(searchParams);
+          
+          // Update URL and render page
+          window.history.pushState(
+            { searchParams }, 
+            '', 
+            `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
+          );
+          
+          // Render the page with new filters
           this.renderPage(searchParams, null);
         }
-        this.toggleDrawer(false);
+        
+        // Close drawer
+        if (mobileDrawer.hasAttribute('open')) {
+          mobileDrawer.classList.add('closing');
+          document.body.classList.remove('overflow-hidden-mobile');
+          
+          setTimeout(() => {
+            mobileDrawer.removeAttribute('open');
+            mobileDrawer.classList.remove('closing');
+          }, 300);
+        }
       });
     });
 
@@ -349,21 +359,28 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   renderPage(searchParams, event) {
-    const sections = this.getSections();
-    
-    sections.forEach((section) => {
-      const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
-      this.renderSectionFromFetch(url, event);
-    });
+    try {
+      const sections = this.getSections();
+      
+      // Update URL first
+      window.history.pushState(
+        { searchParams }, 
+        '', 
+        `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
+      );
+      
+      // Then update sections
+      sections.forEach((section) => {
+        const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
+        this.renderSectionFromFetch(url, event);
+      });
 
-    // Update selected filters from current form state
-    const form = this.querySelector('form');
-    if (form) {
-      const checkedInputs = form.querySelectorAll('input[type="checkbox"]:checked');
+      // Update selected filters
+      const checkedInputs = document.querySelectorAll('input[type="checkbox"]:checked');
       this.selectedFilters.clear();
       
       checkedInputs.forEach(input => {
-        const label = input.closest('label')?.querySelector('.facet-checkbox__text')?.textContent;
+        const label = input.closest('label')?.querySelector('.facet-checkbox__text, .mobile-facets__filter-label')?.textContent;
         if (label) {
           this.selectedFilters.set(`${input.name}-${input.value}`, {
             key: input.name,
@@ -374,9 +391,10 @@ class FacetFiltersForm extends HTMLElement {
       });
       
       this.renderSelectedFilters();
+    } catch (error) {
+      console.error('Error in renderPage:', error);
     }
-
-    this.updateURLHash(searchParams);
+  }
   }
 
   renderSectionFromFetch(url, event) {
