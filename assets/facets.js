@@ -324,27 +324,33 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   removeFilter(key, value) {
-    // Uncheck the corresponding inputs
     const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
     const mobileInput = document.querySelector(`menu-drawer input[name="${key}"][value="${value}"]`);
   
     if (desktopInput) desktopInput.checked = false;
     if (mobileInput) mobileInput.checked = false;
   
-    // Remove the filter from the URL parameters
-    const params = new URLSearchParams(window.location.search);
-    const updatedValues = params.get(key)?.split(',').filter(v => v !== value) || [];
-    
-    if (updatedValues.length > 0) {
-      params.set(key, updatedValues.join(','));
-    } else {
-      params.delete(key);
+    this.selectedFilters.delete(`${key}-${value}`);
+  
+    const form = this.querySelector('form');
+    if (form) {
+      const formData = new FormData(form);
+      const params = new URLSearchParams();
+  
+      // Rebuild query string without the removed filter
+      formData.forEach((formValue, formKey) => {
+        if (formKey === key) {
+          const values = params.has(formKey) ? params.get(formKey).split(',') : [];
+          params.set(formKey, values.filter(v => v !== value).join(','));
+        } else {
+          params.append(formKey, formValue);
+        }
+      });
+  
+      this.updateURLHash(params.toString());
     }
   
-    // Update the URL and refresh the page
-    const newUrl = `${window.location.pathname}?${params.toString()}`;
-    window.history.pushState({}, '', newUrl);
-    window.location.reload();
+    this.renderSelectedFilters();
   }  
 
   clearFilters() {
