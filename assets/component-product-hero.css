@@ -1,5 +1,6 @@
 .product-hero {
     max-height: 50px;
+    border-bottom: 1px solid rgb(242, 242, 242);
 }
 
 .mobile-header {
@@ -12,7 +13,6 @@
     align-items: center;
     gap: 20px;
     padding: 0 20px;
-    border-bottom: 1px solid rgb(242, 242, 242);
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
