@@ -126,7 +126,7 @@ class FacetFiltersForm extends HTMLElement {
     selectedFiltersContainer.className = 'selected-filters';
     desktopWrapper.insertBefore(selectedFiltersContainer, desktopWrapper.firstChild);
 
-    // Add styles for selected filters
+    // Add styles for filters and checkboxes
     const style = document.createElement('style');
     style.textContent = `
       .selected-filters {
@@ -150,6 +150,24 @@ class FacetFiltersForm extends HTMLElement {
         margin-left: 8px;
         cursor: pointer;
         font-size: 16px;
+      }
+      .mobile-facets__filter-option {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .mobile-facets__filter-checkbox {
+        margin-right: 10px;
+        width: 20px;
+        height: 20px;
+      }
+      .mobile-facets__filter-label {
+        flex: 1;
+      }
+      .mobile-facets__filter-option:hover {
+        background-color: #f5f5f5;
       }
     `;
     document.head.appendChild(style);
@@ -206,12 +224,27 @@ class FacetFiltersForm extends HTMLElement {
         // Sync initial state
         counterpart.checked = input.checked;
         
-        // Add change listener
-        input.addEventListener('change', () => {
-          counterpart.checked = input.checked;
-          this.updateSelectedFilters();
-          this.applyFilters();
-        });
+        // Handle mobile checkbox click events
+        if (isMobile) {
+          const mobileLabel = input.closest('label');
+          if (mobileLabel) {
+            mobileLabel.addEventListener('click', (e) => {
+              // Prevent default to handle checkbox manually
+              e.preventDefault();
+              input.checked = !input.checked;
+              counterpart.checked = input.checked;
+              this.updateSelectedFilters();
+              this.applyFilters();
+            });
+          }
+        } else {
+          // Desktop checkbox change handler
+          input.addEventListener('change', () => {
+            counterpart.checked = input.checked;
+            this.updateSelectedFilters();
+            this.applyFilters();
+          });
+        }
       }
     };
 
@@ -220,7 +253,7 @@ class FacetFiltersForm extends HTMLElement {
     desktopInputs.forEach(input => syncInput(input));
 
     // Sync all mobile inputs with desktop
-    const mobileInputs = this.querySelectorAll('.mobile-facets__drawer input[type="checkbox"]');
+    const mobileInputs = this.querySelectorAll('.mobile-facets__drawer input[type="checkbox"].mobile-facets__filter-checkbox');
     mobileInputs.forEach(input => syncInput(input, true));
 
     // Sync price range inputs
