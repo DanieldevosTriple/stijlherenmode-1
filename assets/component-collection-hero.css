@@ -80,7 +80,6 @@
   margin-right: 0.5rem;
 }
 
-
 @media screen and (max-width: 749px) {
   .collection-hero__inner {
     display: none;
