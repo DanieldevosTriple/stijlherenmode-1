@@ -31,21 +31,33 @@
   {%- comment -%} Desktop layout {%- endcomment -%}
   <div class="product-hero__inner scroll-trigger animate--fade-in">
     <div class="breadcrumbs">
-      <nav aria-label="Breadcrumbs">
-        <ol class="breadcrumbs__list">
-          <li class="breadcrumbs__item">
-            <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
-          </li>
-          {% if product.collections.first %}
-            <li class="breadcrumbs__item">
-              <a href="{{ product.collections.first.url }}" class="breadcrumbs__link">{{ product.collections.first.title }}</a>
-            </li>
-          {% endif %}
-          <li class="breadcrumbs__item">
-            <span>{{ product.title }}</span>
-          </li>
-        </ol>
-      </nav>
+        <nav class="breadcrumb">
+            <a href="{{ routes.root_url }}">Home</a>
+            {% if collection %}
+              <span> / </span>
+              <a href="{{ collection.url }}" class="breadcrumb-link">{{ collection.title }}</a>
+            {% endif %}
+            {% if product %}
+              {% assign product_collection = collection %}
+              {% if product_collection == blank %}
+                {% assign product_collection = product.collections.first %}
+              {% endif %}
+              {% if product_collection %}
+                <span> / </span>
+                <a href="{{ product_collection.url }}" class="breadcrumb-link">{{ product_collection.title }}</a>
+              {% endif %}
+              <span> / </span>
+              <span>{{ product.title }}</span>
+            {% elsif article %}
+              <span> / </span>
+              <a href="{{ blog.url }}" class="breadcrumb-link">{{ blog.title }}</a>
+              <span> / </span>
+              <span>{{ article.title }}</span>
+            {% elsif search %}
+              <span> / </span>
+              <span>Zoekresultaten voor "{{ search.terms }}"</span>
+            {% endif %}
+          </nav>   
     </div>
   </div>
 </div>
