@@ -3,22 +3,42 @@ class FacetFiltersForm extends HTMLElement {
     super();
     this.debouncedOnSubmit = debounce(this.onSubmitHandler.bind(this), 500);
     this.currentDrawerView = 'main';
+    this.selectedFilters = new Map();
     
     this.initializeDesktopAccordion();
     this.initializeMobileDrawer();
-    this.initializeSelectedFilters();
-    this.syncMenus();
+    this.initializeFromURL();
+    this.renderSelectedFilters();
     
     const facetForm = this.querySelector('form');
     if (facetForm) {
-      facetForm.addEventListener('input', (event) => {
-        this.debouncedOnSubmit(event);
-        this.updateSelectedFilters();
-      });
+      facetForm.addEventListener('input', this.debouncedOnSubmit);
     }
 
     const facetWrapper = this.querySelector('#FacetsWrapperDesktop');
     if (facetWrapper) facetWrapper.addEventListener('keyup', onKeyUpEscape);
+  }
+
+  initializeFromURL() {
+    const searchParams = new URLSearchParams(window.location.search);
+    const form = this.querySelector('form');
+    if (!form) return;
+
+    // Clear existing selections
+    this.selectedFilters.clear();
+
+    searchParams.forEach((value, key) => {
+      const inputDesktop = form.querySelector(`input[name="${key}"][value="${value}"]`);
+      const inputMobile = document.querySelector(`input[name="${key}"][value="${value}"]`);
+
+      if (inputDesktop) {
+        inputDesktop.checked = true;
+        this.addSelectedFilter(key, value, inputDesktop.closest('label').querySelector('.facet-checkbox__text').textContent);
+      }
+      if (inputMobile) {
+        inputMobile.checked = true;
+      }
+    });
   }
 
   initializeDesktopAccordion() {
@@ -116,169 +136,55 @@ class FacetFiltersForm extends HTMLElement {
     });
   }
 
-  initializeSelectedFilters() {
-    // Create selected filters container if it doesn't exist
-    const desktopWrapper = document.querySelector('#FacetsWrapperDesktop');
-    if (!desktopWrapper) return;
-
-    const selectedFiltersContainer = document.createElement('div');
-    selectedFiltersContainer.id = 'SelectedFilters';
-    selectedFiltersContainer.className = 'selected-filters';
-    desktopWrapper.insertBefore(selectedFiltersContainer, desktopWrapper.firstChild);
-
-    // Add styles for filters and checkboxes
-    const style = document.createElement('style');
-    style.textContent = `
-      .selected-filters {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 16px;
-      }
-      .selected-filter {
-        display: inline-flex;
-        align-items: center;
-        background: #f5f5f5;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 14px;
-      }
-      .selected-filter button {
-        border: none;
-        background: none;
-        padding: 0;
-        margin-left: 8px;
-        cursor: pointer;
-        font-size: 16px;
-      }
-      .mobile-facets__filter-option {
-        display: flex;
-        align-items: center;
-        padding: 10px 15px;
-        cursor: pointer;
-        user-select: none;
-      }
-      .mobile-facets__filter-checkbox {
-        margin-right: 10px;
-        width: 20px;
-        height: 20px;
-      }
-      .mobile-facets__filter-label {
-        flex: 1;
-      }
-      .mobile-facets__filter-option:hover {
-        background-color: #f5f5f5;
-      }
-    `;
-    document.head.appendChild(style);
+  addSelectedFilter(key, value, label) {
+    this.selectedFilters.set(`${key}-${value}`, {
+      key,
+      value,
+      label: label.split(' (')[0] // Remove count from label
+    });
+    this.renderSelectedFilters();
   }
 
-  updateSelectedFilters() {
-    const container = document.querySelector('#SelectedFilters');
+  removeSelectedFilter(key, value) {
+    this.selectedFilters.delete(`${key}-${value}`);
+    this.renderSelectedFilters();
+
+    // Uncheck corresponding checkboxes
+    const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
+    const mobileInput = document.querySelector(`input[name="${key}"][value="${value}"]`);
+    
+    if (desktopInput) desktopInput.checked = false;
+    if (mobileInput) mobileInput.checked = false;
+
+    // Trigger form submission
+    this.applyFilters();
+  }
+
+  renderSelectedFilters() {
+    const container = document.getElementById('SelectedFilters');
     if (!container) return;
 
-    container.innerHTML = '';
-    
-    // Get all checked checkboxes and active price ranges
-    const checkedInputs = this.querySelectorAll('input[type="checkbox"]:checked');
-    const priceInputs = this.querySelectorAll('input[type="number"][value]:not([value=""])');
+    const filterElements = Array.from(this.selectedFilters.values()).map(filter => {
+      return `
+        <div class="selected-filter" data-key="${filter.key}" data-value="${filter.value}">
+          <span>${filter.label}</span>
+          <button type="button" class="selected-filter__remove" aria-label="Remove filter">
+            <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </button>
+        </div>
+      `;
+    }).join('');
 
-    // Add filter tags for checked boxes
-    checkedInputs.forEach(input => {
-      const label = input.closest('label').textContent.trim();
-      this.addFilterTag(container, label, () => {
-        input.checked = false;
-        this.applyFilters();
+    container.innerHTML = filterElements;
+
+    // Add event listeners to remove buttons
+    container.querySelectorAll('.selected-filter__remove').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const filter = e.target.closest('.selected-filter');
+        this.removeSelectedFilter(filter.dataset.key, filter.dataset.value);
       });
-    });
-
-    // Add filter tag for price range if set
-    if (priceInputs.length === 2) {
-      const minPrice = priceInputs[0].value;
-      const maxPrice = priceInputs[1].value;
-      this.addFilterTag(container, `Price: $${minPrice} - $${maxPrice}`, () => {
-        priceInputs.forEach(input => input.value = '');
-        this.applyFilters();
-      });
-    }
-  }
-
-  addFilterTag(container, label, onRemove) {
-    const tag = document.createElement('div');
-    tag.className = 'selected-filter';
-    tag.innerHTML = `
-      ${label}
-      <button type="button" aria-label="Remove filter">×</button>
-    `;
-    tag.querySelector('button').addEventListener('click', onRemove);
-    container.appendChild(tag);
-  }
-
-  syncMenus() {
-    // Function to sync a single input across mobile and desktop
-    const syncInput = (input, isMobile = false) => {
-      const selector = isMobile ? '#FacetsWrapperDesktop' : '.mobile-facets__drawer';
-      const counterpart = document.querySelector(`${selector} input[name="${input.name}"][value="${input.value}"]`);
-      
-      if (counterpart) {
-        // Sync initial state
-        counterpart.checked = input.checked;
-        
-        // Handle mobile checkbox click events
-        if (isMobile) {
-          const mobileLabel = input.closest('label');
-          if (mobileLabel) {
-            mobileLabel.addEventListener('click', (e) => {
-              // Prevent default to handle checkbox manually
-              e.preventDefault();
-              input.checked = !input.checked;
-              counterpart.checked = input.checked;
-              this.updateSelectedFilters();
-              this.applyFilters();
-            });
-          }
-        } else {
-          // Desktop checkbox change handler
-          input.addEventListener('change', () => {
-            counterpart.checked = input.checked;
-            this.updateSelectedFilters();
-            this.applyFilters();
-          });
-        }
-      }
-    };
-
-    // Sync all desktop inputs with mobile
-    const desktopInputs = this.querySelectorAll('#FacetsWrapperDesktop input[type="checkbox"]');
-    desktopInputs.forEach(input => syncInput(input));
-
-    // Sync all mobile inputs with desktop
-    const mobileInputs = this.querySelectorAll('.mobile-facets__drawer input[type="checkbox"].mobile-facets__filter-checkbox');
-    mobileInputs.forEach(input => syncInput(input, true));
-
-    // Sync price range inputs
-    const desktopPriceInputs = this.querySelectorAll('#FacetsWrapperDesktop input[type="number"]');
-    const mobilePriceInputs = this.querySelectorAll('.mobile-facets__drawer input[type="number"]');
-
-    desktopPriceInputs.forEach((desktop, index) => {
-      const mobile = mobilePriceInputs[index];
-      if (mobile) {
-        // Sync initial state
-        mobile.value = desktop.value;
-        
-        // Add input listeners
-        desktop.addEventListener('input', () => {
-          mobile.value = desktop.value;
-          this.updateSelectedFilters();
-          this.applyFilters();
-        });
-        
-        mobile.addEventListener('input', () => {
-          desktop.value = mobile.value;
-          this.updateSelectedFilters();
-          this.applyFilters();
-        });
-      }
     });
   }
 
@@ -366,53 +272,44 @@ class FacetFiltersForm extends HTMLElement {
     this.currentDrawerView = 'main';
   }
 
-  clearFilters() {
-    const form = this.querySelector('form');
-    if (!form) return;
+  syncCheckboxState(sourceInput) {
+    const { name, value, checked } = sourceInput;
+    const targetSelector = `input[name="${name}"][value="${value}"]`;
+    const label = sourceInput.closest('label').querySelector('.facet-checkbox__text, .mobile-facets__filter-label').textContent;
 
-    const inputs = form.querySelectorAll('input[type="checkbox"], input[type="radio"]');
-    const rangeInputs = form.querySelectorAll('input[type="number"]');
-    
-    inputs.forEach(input => {
-      input.checked = false;
-    });
-    
-    rangeInputs.forEach(input => {
-      input.value = '';
-    });
+    // Update desktop checkbox
+    const desktopInput = this.querySelector(targetSelector);
+    if (desktopInput && desktopInput !== sourceInput) {
+      desktopInput.checked = checked;
+    }
 
-    this.updateSelectedFilters();
-    this.applyFilters();
-  }
+    // Update mobile checkbox
+    const mobileInput = document.querySelector(`menu-drawer ${targetSelector}`);
+    if (mobileInput && mobileInput !== sourceInput) {
+      mobileInput.checked = checked;
+    }
 
-  applyFilters() {
-    const form = this.querySelector('form');
-    if (form) {
-      this.debouncedOnSubmit({ target: form, preventDefault: () => {} });
-      this.updateSelectedFilters();
+    // Update selected filters
+    if (checked) {
+      this.addSelectedFilter(name, value, label);
+    } else {
+      this.removeSelectedFilter(name, value);
     }
   }
 
   onSubmitHandler(event) {
     event.preventDefault();
-    const formData = new FormData(event.target.closest('form'));
-    const searchParams = new URLSearchParams(formData).toString();
-    
-    // Ensure both menus are in sync before rendering
     const form = event.target.closest('form');
-    const inputs = form.querySelectorAll('input[type="checkbox"], input[type="number"]');
-    inputs.forEach(input => {
-      if (input.type === 'checkbox') {
-        const selector = form.closest('.mobile-facets__drawer') ? '#FacetsWrapperDesktop' : '.mobile-facets__drawer';
-        const counterpart = document.querySelector(`${selector} input[name="${input.name}"][value="${input.value}"]`);
-        if (counterpart) counterpart.checked = input.checked;
-      } else if (input.type === 'number') {
-        const selector = form.closest('.mobile-facets__drawer') ? '#FacetsWrapperDesktop' : '.mobile-facets__drawer';
-        const counterpart = document.querySelector(`${selector} input[name="${input.name}"]`);
-        if (counterpart) counterpart.value = input.value;
-      }
-    });
-    
+    if (!form) return;
+
+    const formData = new FormData(form);
+    const searchParams = new URLSearchParams(formData).toString();
+
+    // Sync checkbox states if the change came from a checkbox
+    if (event.target.type === 'checkbox') {
+      this.syncCheckboxState(event.target);
+    }
+
     this.renderPage(searchParams, event);
   }
 
@@ -465,8 +362,30 @@ class FacetFiltersForm extends HTMLElement {
     facetsToRender.forEach((element) => {
       document.querySelector(`[data-index="${element.dataset.index}"]`).innerHTML = element.innerHTML;
     });
+  }
 
-    this.updateSelectedFilters();
+  applyFilters() {
+    const form = this.querySelector('form');
+    if (form) {
+      this.debouncedOnSubmit({ target: form, preventDefault: () => {} });
+    }
+  }
+
+  clearFilters() {
+    const form = this.querySelector('form');
+    if (!form) return;
+
+    const inputs = form.querySelectorAll('input[type="checkbox"], input[type="radio"]');
+    const mobileInputs = document.querySelectorAll('menu-drawer input[type="checkbox"], menu-drawer input[type="radio"]');
+    const rangeInputs = form.querySelectorAll('input[type="number"]');
+    
+    inputs.forEach(input => input.checked = false);
+    mobileInputs.forEach(input => input.checked = false);
+    rangeInputs.forEach(input => input.value = '');
+    
+    this.selectedFilters.clear();
+    this.renderSelectedFilters();
+    this.applyFilters();
   }
 
   getSections() {
@@ -499,7 +418,7 @@ function onKeyUpEscape(event) {
   if (!openDetailsElement) return;
   
   openDetailsElement.removeAttribute('open');
-  event.target.closest('summary').setAttribute('aria-expanded', false);
+  openDetailsElement.querySelector('summary').setAttribute('aria-expanded', false);
 }
 
 customElements.define('facet-filters-form', FacetFiltersForm);
