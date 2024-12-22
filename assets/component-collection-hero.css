@@ -1,3 +1,7 @@
+.mobile-header {
+  display: none;
+}
+
 .collection-title h1{
   font-size: 1.5rem;
 }
@@ -57,6 +61,10 @@
 }
 
 @media screen and (max-width: 749px) {
+  .mobile-header {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .collection-hero__inner {
     display: none
   }
