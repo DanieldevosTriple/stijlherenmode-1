@@ -2,18 +2,32 @@
 {{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
 
 <div class="collection-hero color-{{ section.settings.color_scheme }} gradient">
-  <div class="col-12 collection-hero__inner scroll-trigger animate--fade-in">
+  {%- comment -%} Mobile layout {%- endcomment -%}
+  <div class="mobile-header">
+    <a href="{{ routes.root_url }}" class="mobile-back">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+    <div class="mobile-breadcrumb">
+      {% if collection.handle %}
+        <span>{{ collection.title }}</span>
+      {% endif %}
+    </div>
+    <div class="mobile-facets__filter">
+      <button type="button" class="mobile-facets__open-button">
+        {{ 'products.facets.filter_button' | t }}
+      </button>
+    </div>
+  </div>
+
+  {%- comment -%} Desktop layout {%- endcomment -%}
+  <div class="collection-hero__inner scroll-trigger animate--fade-in">
     <div class="breadcrumbs">
       <nav aria-label="Breadcrumbs">
         <ol class="breadcrumbs__list">
           <li class="breadcrumbs__item">
-            <a href="{{ routes.root_url }}" class="breadcrumbs__link">
-              {%- if request.locale.iso_code == 'nl' -%}
-                Home
-              {%- else -%}
-                Home
-              {%- endif -%}
-            </a>
+            <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
           </li>
           {% if collection.handle %}
             <li class="breadcrumbs__item">
@@ -37,6 +51,15 @@
       {% endif %}
     </div>
   </div>
+
+  {% unless collection.handle %}
+    <div class="collection-title">
+      <h1>
+        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+        {{- collection.title | escape -}}
+      </h1>
+    </div>
+  {% endunless %}
 </div>
 
 {% schema %}

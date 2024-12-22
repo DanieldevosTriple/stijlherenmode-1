@@ -58,17 +58,37 @@
 
 @media screen and (max-width: 749px) {
   .collection-hero__inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto 1fr;
     gap: 10px;
+    padding: 1rem;
+    align-items: center;
   }
-  
-  .breadcrumbs,
-  .collection-title,
-  .product-count {
-    text-align: center;
+
+  .breadcrumbs {
+    text-align: left;
   }
-  
+
   .breadcrumbs__list {
-    justify-content: center;
+    justify-content: flex-start;
+  }
+
+  .collection-title {
+    display: none;
+  }
+
+  .product-count {
+    display: none;
+  }
+
+  .mobile-facets__filter {
+    text-align: right;
+  }
+
+  .mobile-facets__open-button {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid rgb(242, 242, 242);
+    border-radius: 4px;
   }
 }
+
