@@ -374,6 +374,7 @@
       font-family: 'TradeGothicLT';
       text-transform: uppercase;
       margin: 0px;
+      padding-right: 0px;
   }
 
   .breadcrumb-mobile {
