@@ -24,7 +24,7 @@
 
 .breadcrumbs__list {
   list-style: none;
-  padding: 0;
+  padding: 1rem 0rem;
   margin: 0;
   display: flex;
   flex-wrap: wrap;
