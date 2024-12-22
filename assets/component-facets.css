@@ -50,10 +50,6 @@
   transition: transform 0.2s ease;
 }
 
-details[open] .facet-accordion__toggle {
-  transform: rotate(90deg);
-}
-
 .facet-accordion__content {
   padding: 0rem;
   border-top: 1px solid var(--color-border);
@@ -423,6 +419,8 @@ body.overflow-hidden-mobile {
   margin-left: auto;
   font-size: 1.5rem;
   cursor: pointer;
+  font-weight: 100;
+  font-size: 3rem;
 }
 
 .facet-accordion__toggle:focus {
