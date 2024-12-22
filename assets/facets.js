@@ -57,8 +57,11 @@ class FacetFiltersForm extends HTMLElement {
     const params = new URLSearchParams(window.location.search);
     console.log('Syncing filters from URL:', params.toString());
   
-    this.selectedFilters.clear(); // Clear previous filters
+    // Reset all checkboxes
+    this.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+    document.querySelectorAll('#MobileMenuDrawer input[type="checkbox"]').forEach(input => input.checked = false);
   
+    // Set checkboxes based on URL
     params.forEach((value, key) => {
       if (key.startsWith('filter.')) {
         value.split(/,|%2C/).forEach(singleValue => {
@@ -68,18 +71,13 @@ class FacetFiltersForm extends HTMLElement {
           if (desktopInput) desktopInput.checked = true;
           if (mobileInput) mobileInput.checked = true;
   
-          const label = desktopInput?.closest('label')?.querySelector('.facet-checkbox__text')?.textContent ||
-                        mobileInput?.closest('label')?.querySelector('.mobile-facets__filter-label')?.textContent;
-  
-          if (label) {
-            this.selectedFilters.set(`${key}-${singleValue}`, { key, value: singleValue, label: label.split(' (')[0] });
-          }
+          console.log(`Synced checkbox: ${key} = ${singleValue}`);
         });
       }
     });
   
     this.renderSelectedFilters();
-  }  
+  }   
   
   initializeDesktopAccordion() {
     console.log('Reinitializing accordion toggles...');
@@ -145,40 +143,45 @@ class FacetFiltersForm extends HTMLElement {
     const checkboxes = mobileDrawer.querySelectorAll('input[type="checkbox"]');
     const openButton = document.querySelector('.mobile-facets__open-button');
     const closeButton = mobileDrawer.querySelector('.mobile-facets__close-button');
-    const filterCategories = mobileDrawer.querySelectorAll('.mobile-facets__filter-category');
-    const backButtons = mobileDrawer.querySelectorAll('.mobile-facets__back-button');
     const applyButton = mobileDrawer.querySelector('.mobile-facets__apply');
   
     // Open and close drawer
     openButton?.addEventListener('click', () => this.toggleDrawer(true));
     closeButton?.addEventListener('click', () => this.toggleDrawer(false));
   
-    // Listen to checkbox changes
+    // Handle checkbox input event
     checkboxes.forEach((checkbox) => {
       checkbox.addEventListener('input', (e) => {
         console.log(`Checkbox changed: ${e.target.name} = ${e.target.value}, Checked: ${e.target.checked}`);
+  
+        const formData = new FormData(mobileDrawer.querySelector('form'));
+        const queryParams = {};
+  
+        // Group selected filters manually
+        formData.forEach((value, key) => {
+          if (queryParams[key]) {
+            queryParams[key] += `,${value}`;
+          } else {
+            queryParams[key] = value;
+          }
+        });
+  
+        const queryString = Object.keys(queryParams)
+          .map(key => `${encodeURIComponent(key)}=${queryParams[key]}`)
+          .join('&');
+  
+        console.log('Updated query string:', queryString);
+  
+        // Dynamically update the URL
+        this.updateURLHash(queryString);
       });
     });
   
-    // Navigate to category
-    filterCategories.forEach(category => {
-      category.addEventListener('click', (e) => {
-        e.preventDefault();
-        const categoryId = category.dataset.categoryId;
-        this.navigateToCategory(categoryId);
-      });
-    });
-  
-    // Navigate back
-    backButtons.forEach(button => {
-      button.addEventListener('click', () => this.navigateBack());
-    });
-  
-    // Apply filters and update URL
+    // Apply filters on "Apply" button click
     applyButton?.addEventListener('click', (e) => {
       e.preventDefault();
       this.applyMobileFilters();
-      this.toggleDrawer(false); // Close the drawer after applying
+      this.toggleDrawer(false);
     });
   
     // Close drawer on ESC key press
@@ -205,28 +208,16 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
   
-    // Construct query string
     const queryString = Object.keys(queryParams)
       .map(key => `${encodeURIComponent(key)}=${queryParams[key]}`)
       .join('&');
   
     console.log('Mobile filters applied. Query string:', queryString);
   
-    // Sync desktop filters with mobile selection
-    const desktopForm = this.querySelector('form');
-    if (desktopForm) {
-      Object.entries(queryParams).forEach(([key, value]) => {
-        value.split(',').forEach(singleValue => {
-          const desktopInput = desktopForm.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-          if (desktopInput) desktopInput.checked = true;
-        });
-      });
-    }
-  
-    // Update URL and render the page
+    // Update URL and render page content
     this.updateURLHash(queryString);
     this.renderPage(queryString);
-  }  
+  }   
 
   navigateToCategory(categoryId) {
     const mainView = document.querySelector('.mobile-facets__main-view');
