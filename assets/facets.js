@@ -93,8 +93,11 @@ class FacetFiltersForm extends HTMLElement {
       // Initialize toggle state
       updateToggleState(detail);
   
+      // Remove existing event listeners to prevent duplicates
+      summary.removeEventListener('click', summary._toggleHandler);
+  
       // Add click event listener for toggle
-      summary.addEventListener('click', (e) => {
+      const toggleHandler = (e) => {
         e.preventDefault(); // Prevent default accordion behavior
         const isOpen = detail.hasAttribute('open');
   
@@ -109,17 +112,13 @@ class FacetFiltersForm extends HTMLElement {
         // Toggle the clicked detail
         detail.toggleAttribute('open', !isOpen);
         updateToggleState(detail);
-      });
-    });
+      };
   
-    // Update toggle state when filters are applied
-    const facetForm = this.querySelector('form');
-    if (facetForm) {
-      facetForm.addEventListener('input', () => {
-        desktopDetails.forEach(updateToggleState); // Re-sync toggle states
-      });
-    }
-  }  
+      summary._toggleHandler = toggleHandler; // Store the handler reference to allow removal
+      summary.addEventListener('click', toggleHandler);
+    });
+  }
+    
 
   initializeMobileDrawer() {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
