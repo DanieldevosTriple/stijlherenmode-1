@@ -87,13 +87,12 @@
   }
 
   .mobile-facets__filter {
-    text-align: right;
+    text-align: right !important;
   }
 
   .mobile-breadcrumb {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     font-size: 1.4rem;
     font-weight: 800;
     text-transform: uppercase;
