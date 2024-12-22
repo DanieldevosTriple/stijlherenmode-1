@@ -348,6 +348,7 @@
     max-width: 15px;
   }
 
+  /* Mobile Checkbox Styles */
   .mobile-facets__filter-checkbox {
     appearance: none;
     width: 20px !important;
@@ -355,8 +356,73 @@
     border: 2px solid #ccc;
     cursor: pointer;
     position: relative;
-    background-color: #ccc;
-    border-radius: 0px;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mobile-facets__filter-checkbox:checked {
+    position: relative;
+    background-color: #000;
+    border-color: #000;
+  }
+
+  .mobile-facets__filter-checkbox:checked::before {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 6px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .mobile-facets__filter-checkbox:hover {
+    border-color: #000;
+  }
+
+  .mobile-facets__filter-checkbox:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Disabled state */
+  .mobile-facets__filter-checkbox:disabled {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    cursor: not-allowed;
+  }
+
+  /* Container for checkbox and label */
+  .mobile-facets__filter-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    cursor: pointer;
+  }
+
+  /* Label styling */
+  .mobile-facets__filter-label {
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+
+  /* Add styles for when the parent label is disabled */
+  .mobile-facets__filter-option.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .mobile-facets__filter-option.disabled .mobile-facets__filter-checkbox {
+    cursor: not-allowed;
+  }
+
+  /* Ensure checkbox maintains size */
+  .mobile-facets__filter-checkbox::-ms-check {
+    display: none;
   }
 
   .mobile-facets__filter-label {
@@ -399,15 +465,16 @@
     text-transform: uppercase;
     font-weight: 600;
     font-family: TradeGothicLT, sans-serif;
-    }
+  }
 }
- 
+
 /* Animations */
 @keyframes slideDown {
   from {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
