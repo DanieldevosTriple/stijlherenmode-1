@@ -65,6 +65,7 @@
 
     .product-hero {
         border-bottom: 1px solid rgb(242, 242, 242);
+        padding: 1rem 0rem;
     }
 
     .breadcrumbs {
