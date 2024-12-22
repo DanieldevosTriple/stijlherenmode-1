@@ -313,7 +313,8 @@
     width: 100%;
     padding: 1.5rem;
     background: #fff;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2 1fr);
     justify-content: space-between;
     align-items: center;
     z-index: 1;
