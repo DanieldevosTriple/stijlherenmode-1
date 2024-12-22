@@ -76,43 +76,61 @@ class FacetFiltersForm extends HTMLElement {
   }  
   
   initializeDesktopAccordion() {
-    const desktopDetails = this.querySelectorAll('#FacetsWrapperDesktop .facet-accordion__item');
+    console.log('Reinitializing accordion toggles...');
   
-    desktopDetails.forEach((detail) => {
+    const desktopDetails = this.querySelectorAll('#FacetsWrapperDesktop .facet-accordion__item');
+    console.log('Found accordion items:', desktopDetails.length);
+  
+    const updateToggleState = (detail) => {
+      const toggle = detail.querySelector('.facet-accordion__toggle');
+      if (toggle) {
+        toggle.textContent = detail.hasAttribute('open') ? '-' : '+';
+        console.log(`Updated toggle state for ${detail.id || 'accordion item'}: Open=${detail.hasAttribute('open')}`);
+      }
+    };
+  
+    desktopDetails.forEach((detail, index) => {
       const summary = detail.querySelector('summary');
       const toggle = summary?.querySelector('.facet-accordion__toggle');
   
-      if (!summary || !toggle) return;
+      if (!summary || !toggle) {
+        console.warn(`Skipping invalid accordion item at index ${index}`);
+        return;
+      }
   
-      // Remove existing event listener to prevent duplicates
-      summary.removeEventListener('click', summary._toggleHandler);
+      // Remove any existing event listeners to prevent duplicates
+      if (summary._toggleHandler) {
+        summary.removeEventListener('click', summary._toggleHandler);
+        console.log(`Removed previous toggle handler for ${detail.id || 'accordion item'} at index ${index}`);
+      }
   
       // Initialize toggle state
-      toggle.textContent = detail.hasAttribute('open') ? '-' : '+';
+      updateToggleState(detail);
   
       // Define and attach toggle handler
       const toggleHandler = (e) => {
         e.preventDefault();
         const isOpen = detail.hasAttribute('open');
+        console.log(`Toggling accordion: ${detail.id || 'accordion item'}, Current state: Open=${isOpen}`);
   
-        // Close other details
+        // Close other accordion items
         desktopDetails.forEach((otherDetail) => {
           if (otherDetail !== detail && otherDetail.hasAttribute('open')) {
             otherDetail.removeAttribute('open');
-            const otherToggle = otherDetail.querySelector('.facet-accordion__toggle');
-            if (otherToggle) otherToggle.textContent = '+';
+            updateToggleState(otherDetail);
           }
         });
   
-        // Toggle the clicked detail
+        // Toggle the clicked accordion item
         detail.toggleAttribute('open', !isOpen);
-        toggle.textContent = isOpen ? '+' : '-';
+        updateToggleState(detail);
       };
   
       summary._toggleHandler = toggleHandler; // Store reference for cleanup
       summary.addEventListener('click', toggleHandler);
+      console.log(`Attached toggle handler for ${detail.id || 'accordion item'} at index ${index}`);
     });
-  }   
+  }    
 
   initializeMobileDrawer() {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
@@ -358,20 +376,27 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   renderFilters(html, event) {
+    console.log('Rendering filters...');
     const facetDetailsElements = html.querySelectorAll('#FacetsWrapperDesktop .js-filter');
     const matchesIndex = (element) => element.dataset.index === event?.target?.dataset?.index;
     const facetsToRender = Array.from(facetDetailsElements).filter(element => !matchesIndex(element));
   
-    facetsToRender.forEach((element) => {
+    facetsToRender.forEach((element, index) => {
       const target = document.querySelector(`[data-index="${element.dataset.index}"]`);
-      if (target) target.innerHTML = element.innerHTML;
+      if (target) {
+        target.innerHTML = element.innerHTML;
+        console.log(`Updated filter at index ${index}`);
+      } else {
+        console.warn(`No target found for filter at index ${index}`);
+      }
     });
   
-    // Reinitialize toggle functionality after rendering filters
+    // Reinitialize accordion toggles
     this.initializeDesktopAccordion();
-  }
+  }  
   
   renderSectionFromFetch(url, event) {
+    console.log(`Fetching content from URL: ${url}`);
     fetch(url)
       .then((response) => response.text())
       .then((responseText) => {
@@ -380,11 +405,14 @@ class FacetFiltersForm extends HTMLElement {
         this.renderProductGrid(html);
         this.renderProductCount(html);
   
-        // Ensure sync after rendering
-        this.syncFromURL();
-        this.initializeDesktopAccordion(); // Reinitialize toggles here
+        // Ensure toggles are reinitialized after rendering
+        this.initializeDesktopAccordion();
+        console.log('Accordion toggles reinitialized after fetch.');
+      })
+      .catch((error) => {
+        console.error('Error fetching content:', error);
       });
-  }   
+  }    
 
   renderProductGrid(html) {
     const productGrid = document.getElementById('ProductGridContainer');
