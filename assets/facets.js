@@ -28,24 +28,30 @@ class FacetFiltersForm extends HTMLElement {
   getSelectedFiltersFromURL() {
     const filters = new Map();
     const params = new URLSearchParams(window.location.search);
-  
+    
     params.forEach((value, key) => {
       if (key.startsWith('filter.')) {
-        value.split(',').forEach(singleValue => {
+        value.split(/,|%2C/).forEach(singleValue => {
           const desktopInput = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
           const mobileInput = document.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+          
+          console.log(`Desktop Input: ${key}=${singleValue}`, desktopInput);
+          console.log(`Mobile Input: ${key}=${singleValue}`, mobileInput);
+  
           const label = desktopInput?.closest('label')?.querySelector('.facet-checkbox__text')?.textContent || 
                         mobileInput?.closest('label')?.querySelector('.mobile-facets__filter-label')?.textContent;
   
           if (label) {
+            console.log('Label found:', label);
             filters.set(`${key}-${singleValue}`, { key, value: singleValue, label: label.split(' (')[0] });
           }
         });
       }
     });
   
+    console.log('Selected Filters:', filters);
     return filters;
-  }  
+  }   
 
   syncFromURL() {
     const params = new URLSearchParams(window.location.search);
