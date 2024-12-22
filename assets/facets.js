@@ -327,29 +327,41 @@ class FacetFiltersForm extends HTMLElement {
     const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
     const mobileInput = document.querySelector(`menu-drawer input[name="${key}"][value="${value}"]`);
   
+    // Uncheck the filter inputs
     if (desktopInput) desktopInput.checked = false;
     if (mobileInput) mobileInput.checked = false;
   
+    // Remove the filter from the selected filters Map
     this.selectedFilters.delete(`${key}-${value}`);
   
+    // Rebuild the query string without the removed filter
     const form = this.querySelector('form');
     if (form) {
       const formData = new FormData(form);
-      const params = new URLSearchParams();
+      const queryParams = {};
   
-      // Rebuild query string without the removed filter
       formData.forEach((formValue, formKey) => {
+        const existingValues = queryParams[formKey] ? queryParams[formKey].split(',') : [];
         if (formKey === key) {
-          const values = params.has(formKey) ? params.get(formKey).split(',') : [];
-          params.set(formKey, values.filter(v => v !== value).join(','));
+          queryParams[formKey] = existingValues.filter(v => v !== value).join(',');
         } else {
-          params.append(formKey, formValue);
+          queryParams[formKey] = [...existingValues, formValue].join(',');
         }
       });
   
-      this.updateURLHash(params.toString());
+      const queryString = Object.keys(queryParams)
+        .filter(param => queryParams[param]) // Exclude empty params
+        .map(param => `${encodeURIComponent(param)}=${encodeURIComponent(queryParams[param])}`)
+        .join('&');
+  
+      // Update the URL
+      this.updateURLHash(queryString);
+  
+      // Re-render the page with updated filters
+      this.renderPage(queryString);
     }
   
+    // Update the selected filters display
     this.renderSelectedFilters();
   }  
 
