@@ -49,29 +49,25 @@ class FacetFiltersForm extends HTMLElement {
 
   syncFromURL() {
     const params = new URLSearchParams(window.location.search);
+    console.log('Syncing from URL with params:', params.toString());
   
-    // Reset all checkboxes
     this.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
-    document.querySelectorAll('menu-drawer input[type="checkbox"]').forEach(input => input.checked = false);
   
-    // Set checkboxes based on URL
     params.forEach((value, key) => {
       if (key.startsWith('filter.')) {
         value.split(',').forEach(singleValue => {
-          // Update desktop
           const desktopInput = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-          if (desktopInput) desktopInput.checked = true;
-  
-          // Update mobile
-          const mobileInput = document.querySelector(`menu-drawer input[name="${key}"][value="${singleValue}"]`);
-          if (mobileInput) mobileInput.checked = true;
+          if (desktopInput) {
+            desktopInput.checked = true;
+            console.log(`Checked filter: ${key}=${singleValue}`);
+          }
         });
       }
     });
   
     this.renderSelectedFilters();
-  }  
-
+  }
+  
   initializeDesktopAccordion() {
     const desktopDetails = this.querySelectorAll('#FacetsWrapperDesktop .facet-accordion__item');
   
