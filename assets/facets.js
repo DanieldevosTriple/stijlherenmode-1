@@ -5,10 +5,10 @@ class FacetFiltersForm extends HTMLElement {
     this.currentDrawerView = 'main';
     this.selectedFilters = new Map();
     
+    // Initialize from URL first
+    this.initializeFromURL();
     this.initializeDesktopAccordion();
     this.initializeMobileDrawer();
-    this.initializeFromURL();
-    this.renderSelectedFilters();
     
     const facetForm = this.querySelector('form');
     if (facetForm) {
@@ -17,28 +17,57 @@ class FacetFiltersForm extends HTMLElement {
 
     const facetWrapper = this.querySelector('#FacetsWrapperDesktop');
     if (facetWrapper) facetWrapper.addEventListener('keyup', onKeyUpEscape);
+
+    // Listen for browser back/forward
+    window.addEventListener('popstate', (event) => {
+      this.initializeFromURL();
+    });
   }
 
   initializeFromURL() {
     const searchParams = new URLSearchParams(window.location.search);
-    const form = this.querySelector('form');
-    if (!form) return;
+    const desktopForm = this.querySelector('form');
+    const mobileForm = document.querySelector('menu-drawer form');
 
-    // Clear existing selections
+    // Clear all existing selections first
     this.selectedFilters.clear();
+    
+    // Reset all checkboxes
+    if (desktopForm) {
+      desktopForm.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+    }
+    if (mobileForm) {
+      mobileForm.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+    }
 
+    // Apply selections from URL
     searchParams.forEach((value, key) => {
-      const inputDesktop = form.querySelector(`input[name="${key}"][value="${value}"]`);
-      const inputMobile = document.querySelector(`input[name="${key}"][value="${value}"]`);
+      if (key.startsWith('filter.')) {
+        // Update desktop checkboxes
+        const desktopInput = desktopForm?.querySelector(`input[name="${key}"][value="${value}"]`);
+        if (desktopInput) {
+          desktopInput.checked = true;
+          const label = desktopInput.closest('label')?.querySelector('.facet-checkbox__text')?.textContent;
+          if (label) {
+            this.addSelectedFilter(key, value, label);
+          }
+        }
 
-      if (inputDesktop) {
-        inputDesktop.checked = true;
-        this.addSelectedFilter(key, value, inputDesktop.closest('label').querySelector('.facet-checkbox__text').textContent);
-      }
-      if (inputMobile) {
-        inputMobile.checked = true;
+        // Update mobile checkboxes
+        const mobileInput = mobileForm?.querySelector(`input[name="${key}"][value="${value}"]`);
+        if (mobileInput) {
+          mobileInput.checked = true;
+        }
       }
     });
+
+    // Render selected filters
+    this.renderSelectedFilters();
+
+    // Update the product grid if needed
+    if (searchParams.toString()) {
+      this.renderPage(searchParams.toString(), null, false); // false to prevent URL update
+    }
   }
 
   initializeDesktopAccordion() {
@@ -308,16 +337,21 @@ class FacetFiltersForm extends HTMLElement {
   syncCheckboxState(sourceInput) {
     const { name, value, checked } = sourceInput;
     const targetSelector = `input[name="${name}"][value="${value}"]`;
-    const label = sourceInput.closest('label').querySelector('.facet-checkbox__text, .mobile-facets__filter-label').textContent;
+    
+    // Get label text from the source input
+    const label = sourceInput.closest('label')?.querySelector('.facet-checkbox__text, .mobile-facets__filter-label')?.textContent;
+    if (!label) return;
 
     // Update desktop checkbox
-    const desktopInput = this.querySelector(targetSelector);
+    const desktopForm = this.querySelector('form');
+    const desktopInput = desktopForm?.querySelector(targetSelector);
     if (desktopInput && desktopInput !== sourceInput) {
       desktopInput.checked = checked;
     }
 
     // Update mobile checkbox
-    const mobileInput = document.querySelector(`menu-drawer ${targetSelector}`);
+    const mobileForm = document.querySelector('menu-drawer form');
+    const mobileInput = mobileForm?.querySelector(targetSelector);
     if (mobileInput && mobileInput !== sourceInput) {
       mobileInput.checked = checked;
     }
@@ -328,6 +362,11 @@ class FacetFiltersForm extends HTMLElement {
     } else {
       this.removeSelectedFilter(name, value);
     }
+
+    // Update URL immediately when checkbox changes
+    const formData = new FormData(sourceInput.closest('form'));
+    const searchParams = new URLSearchParams(formData).toString();
+    this.renderPage(searchParams, null, true);
   }
 
   onSubmitHandler(event) {
