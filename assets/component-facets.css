@@ -51,7 +51,7 @@
 }
 
 details[open] .facet-accordion__toggle {
-  transform: rotate(45deg);
+  transform: rotate(90deg);
 }
 
 .facet-accordion__content {
