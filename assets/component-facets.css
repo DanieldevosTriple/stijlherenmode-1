@@ -101,8 +101,8 @@ details[open] .facet-accordion__toggle {
 
 .custom-checkbox {
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 20px !important;
+  height: 20px !important;
   border: 2px solid #ccc;
   cursor: pointer;
   position: relative;
