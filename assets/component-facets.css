@@ -360,6 +360,7 @@
     font-weight: 600;
     font-family: TradeGothicLT, sans-serif;
     cursor: pointer;
+    font-size: 1.6rem;
   }
 
   .mobile-facets__apply {
@@ -372,6 +373,7 @@
     font-weight: 600;
     font-family: TradeGothicLT, sans-serif;
     cursor: pointer;
+    font-size: 1.6rem;
   }
 
   .mobile-facets__apply:disabled {
