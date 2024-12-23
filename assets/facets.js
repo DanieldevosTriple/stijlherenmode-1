@@ -171,22 +171,34 @@ class FacetFiltersForm extends HTMLElement {
 
   handleFilterChange(event) {
     if (this.state.loading) return;
-
-    // Price range inputs
-    if (event.target.classList.contains('facet-range__input')) {
-    // Sync mobile/desktop price inputs
-    const isDesktop = event.target.closest('.facets__desktop');
-    const selector = isDesktop ? '.facets__mobile' : '.facets__desktop';
-    const otherInput = this.querySelector(`${selector} input[name="${event.target.name}"]`);
-    if (otherInput) otherInput.value = event.target.value;
-
-    this.handlePriceRangeChange(event);
-    return;
-    }
-
-    const formData = new FormData(event.target.closest('form'));
+  
+    // Determine if the input is a checkbox
+    const input = event.target;
+    const isCheckbox = input.type === 'checkbox';
+    const formData = new FormData(input.closest('form'));
     const queryParams = {};
-
+  
+    if (isCheckbox && !input.checked) {
+      // If a checkbox is unchecked, remove the corresponding filter
+      const filterKey = input.name;
+      const filterValue = input.value;
+  
+      this.state.selectedFilters.delete(`${filterKey}-${filterValue}`);
+  
+      // Uncheck the corresponding checkbox on the other view (desktop/mobile)
+      const otherInput = this.querySelector(
+        `.facets__${this.state.isMobileView ? 'desktop' : 'mobile'} input[name="${filterKey}"][value="${filterValue}"]`
+      );
+      if (otherInput) otherInput.checked = false;
+  
+      // Update the UI and URL
+      this.renderSelectedFilters();
+      this.updateMobileApplyButton();
+      this.applySortAndFilters();
+      return;
+    }
+  
+    // Update selected filters for checked checkboxes and other inputs
     formData.forEach((value, key) => {
       if (queryParams[key]) {
         queryParams[key] = queryParams[key] + `,${value}`;
@@ -194,44 +206,42 @@ class FacetFiltersForm extends HTMLElement {
         queryParams[key] = value;
       }
     });
-
-    // Update selected filters state
+  
+    // Clear and rebuild the selectedFilters state
     this.state.selectedFilters.clear();
     Object.entries(queryParams).forEach(([key, value]) => {
       value.split(',').forEach(singleValue => {
         const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
         const label = this.getFilterLabel(input);
-
+  
         if (label) {
           this.state.selectedFilters.set(`${key}-${singleValue}`, {
             key,
             value: singleValue,
-            label
+            label,
           });
         }
       });
     });
-
+  
     // Sync checkboxes between mobile and desktop
     this.state.selectedFilters.forEach(filter => {
-      const desktopInput = this.querySelector(`.facets__desktop input[name="${filter.key}"][value="${filter.value}"]`);
-      const mobileInput = this.querySelector(`.facets__mobile input[name="${filter.key}"][value="${filter.value}"]`);
-
+      const desktopInput = this.querySelector(
+        `.facets__desktop input[name="${filter.key}"][value="${filter.value}"]`
+      );
+      const mobileInput = this.querySelector(
+        `.facets__mobile input[name="${filter.key}"][value="${filter.value}"]`
+      );
+  
       if (desktopInput) desktopInput.checked = true;
       if (mobileInput) mobileInput.checked = true;
     });
-
-    // Update UI
-    this.updateMobileApplyButton();
+  
+    // Update UI and apply filters
     this.renderSelectedFilters();
-
-    const isDesktopCheckbox = event.target.closest('.facets__desktop') !== null;
-
-    // Voor desktop: direct updaten bij checkbox change
-    if (isDesktopCheckbox) {
-      this.applySortAndFilters();
-    }
-  }
+    this.updateMobileApplyButton();
+    this.applySortAndFilters();
+  }  
 
   applyMobileFilters() {
     // Get current form data to capture unchecked boxes
