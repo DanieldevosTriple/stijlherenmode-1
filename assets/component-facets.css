@@ -309,6 +309,7 @@
     cursor: pointer;
     font-family: TradeGothicLT, sans-serif;
     color: black;
+    font-weight: 800;
   }
 
   .mobile-facets__submenu {
