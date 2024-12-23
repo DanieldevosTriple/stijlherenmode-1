@@ -24,7 +24,7 @@
 }
 
 .facet-accordion__header {
-  display: list-item; 
+  display: list-item;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -76,6 +76,19 @@
 .facet-checkbox.disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.facet-checkbox input[type=radio] {
+  position: relative;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-right: 0.8rem;
+  display: inline-flex;
+  flex-shrink: 0;
+  background-color: rgb(241, 241, 241);
+  border-radius: 50%;
+  appearance: none;
+  cursor: pointer;
 }
 
 .facet-checkbox input[type="checkbox"] {
@@ -152,6 +165,7 @@
   .facets__wrapper #SelectedFilters {
     display: none;
   }
+
   .facets__desktop {
     display: none;
   }
@@ -360,6 +374,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -374,6 +389,7 @@
   display: flex;
   gap: 10px;
 }
+
 .facet-range__input {
   width: 100%;
   padding: 8px;
