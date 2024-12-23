@@ -202,7 +202,7 @@ cart-items {
   font-size: 1.6rem;
 }
 
-.button-content {
+#dynamic-checkout-cart ul {
   max-width: 36rem;
   background-color: #000;
   border: 2px solid black;
