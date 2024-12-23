@@ -126,22 +126,36 @@ class FacetFiltersForm extends HTMLElement {
   
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
-  
+    
     accordionItems.forEach((item) => {
       const toggle = item.querySelector('.facet-accordion__toggle');
       if (toggle) {
         // Update initial state
         toggle.textContent = item.hasAttribute('open') ? '-' : '+';
-  
-        // Add click event listener
-        toggle.addEventListener('click', () => {
-          const isOpen = item.hasAttribute('open');
-          item.toggleAttribute('open'); // Add or remove the "open" attribute
-          toggle.textContent = isOpen ? '+' : '-';
+        
+        // Click listener for the toggle
+        toggle.addEventListener('click', (event) => {
+          event.stopPropagation(); // Voorkomt bubbling naar parent
+          this.toggleAccordion(item, toggle);
         });
       }
+      
+      // Click listener for the entire accordion item
+      item.addEventListener('click', () => {
+        const toggle = item.querySelector('.facet-accordion__toggle');
+        this.toggleAccordion(item, toggle);
+      });
     });
-  }    
+  }   
+
+  toggleAccordion(item, toggle) {
+    const isOpen = item.hasAttribute('open');
+    item.toggleAttribute('open'); // Add or remove the "open" attribute
+    toggle.textContent = isOpen ? '+' : '-';
+  
+    // Save state after toggling
+    this.saveAccordionState();
+  }
 
   openMobileDrawer() {
     const wrapper = this.querySelector('.facets__wrapper');
@@ -303,11 +317,18 @@ class FacetFiltersForm extends HTMLElement {
    }
 
    applySortAndFilters() {
-    console.log('applySortAndFilters called'); // Debugging
+    console.log('applySortAndFilters called');
+    
+    // Save accordion state
+    this.saveAccordionState();
+    
     const queryString = this.buildQueryParams();
     console.log('Query string:', queryString);
     this.updateURLHash(queryString);
-    this.renderPage(queryString);
+    this.renderPage(queryString).then(() => {
+      // Restore accordion state
+      this.restoreAccordionState();
+    });
   }  
 
   clearFilters() {
@@ -608,7 +629,7 @@ class FacetFiltersForm extends HTMLElement {
         })
       );
   
-      // Restore accordion state AFTER fetching
+      // Restore accordion state
       this.restoreAccordionState();
   
       this.state.loading = false;
@@ -616,7 +637,7 @@ class FacetFiltersForm extends HTMLElement {
       console.error('Error rendering page:', error);
       this.state.loading = false;
     }
-  }  
+  }   
   
   async renderSectionFromFetch(url) {
     try {
