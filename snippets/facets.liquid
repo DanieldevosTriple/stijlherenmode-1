@@ -2,6 +2,18 @@
   Renders facets (filtering and sorting)
 {% endcomment %}
 
+{%- liquid
+  assign sort_by = results.sort_by | default: results.default_sort_by
+  assign total_active_values = 0
+  assign default_presentation = 'text'
+  if results.url
+    assign results_url = results.url
+  else
+    assign terms = results.terms | escape
+    assign results_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+  endif
+-%}
+
 <div class="facets-container scroll-trigger animate--fade-in">
   <facet-filters-form class="facets">
     <!-- Mobile Header - Only visible on mobile -->
