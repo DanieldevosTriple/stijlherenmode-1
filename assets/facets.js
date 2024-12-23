@@ -82,7 +82,6 @@ class FacetFiltersForm extends HTMLElement {
     const sortValue = event.target.value;
     console.log('Selected value:', sortValue);
   
-    // Zet de state
     this.state.currentSort = sortValue;
   
     // Synchroniseer tussen desktop en mobiel
@@ -92,11 +91,12 @@ class FacetFiltersForm extends HTMLElement {
   
     if (otherInput) {
       otherInput.checked = true;
+      console.log(`Synchronized ${otherInputName} to value:`, sortValue);
     }
   
-    // Pas filters en sortering toe
+    // Pas sortering en filters toe
     this.applySortAndFilters();
-  }      
+  }       
   
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
@@ -484,40 +484,47 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   updateURLHash(searchParams) {
+    console.log('Updating URL with:', searchParams); // Debugging
     history.pushState(
       { searchParams },
       '',
       `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
     );
-  }
+  }  
 
   async renderPage(searchParams) {
+    console.log('Rendering page with params:', searchParams);
     if (this.state.loading) return;
-
+  
     try {
       this.state.loading = true;
       const sections = this.getSections();
-
-      await Promise.all(sections.map(section => {
-        const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
-        return this.renderSectionFromFetch(url);
-      }));
-
+      console.log('Sections to render:', sections);
+  
+      await Promise.all(
+        sections.map(section => {
+          const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
+          console.log('Fetching section from URL:', url);
+          return this.renderSectionFromFetch(url);
+        })
+      );
+  
       this.state.loading = false;
     } catch (error) {
       console.error('Error rendering page:', error);
       this.state.loading = false;
     }
   }
-
+  
   async renderSectionFromFetch(url) {
     try {
+      console.log('Fetching URL:', url); // Debugging
       const response = await fetch(url);
       if (!response.ok) throw new Error('Fetch failed');
-
+  
       const text = await response.text();
       const html = new DOMParser().parseFromString(text, 'text/html');
-
+  
       this.renderFilters(html);
       this.renderProductGrid(html);
       this.renderProductCount(html);
@@ -526,6 +533,7 @@ class FacetFiltersForm extends HTMLElement {
       throw error;
     }
   }
+  
 
   renderFilters(html) {
     const facetDetailsElements = html.querySelectorAll('#FacetsWrapper .js-filter');
