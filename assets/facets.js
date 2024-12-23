@@ -270,10 +270,12 @@ class FacetFiltersForm extends HTMLElement {
    }
 
    applySortAndFilters() {
+    console.log('applySortAndFilters called'); // Debugging
     const queryString = this.buildQueryParams();
+    console.log('Query string:', queryString);
     this.updateURLHash(queryString);
     this.renderPage(queryString);
-   }
+  }  
 
   clearFilters() {
     // Add radio reset
@@ -389,6 +391,7 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
   
+    console.log('Built query params:', params.join('&')); // Debugging
     return urlParts.join('&');
   }
 
