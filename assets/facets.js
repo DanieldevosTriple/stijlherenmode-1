@@ -197,6 +197,23 @@ class FacetFiltersForm extends HTMLElement {
  }
 
   applyMobileFilters() {
+      // Handle price range inputs before applying filters
+  const minInput = this.querySelector('input[name^="min_"]');
+  const maxInput = this.querySelector('input[name^="max_"]');
+  
+  if (minInput && maxInput) {
+    const min = parseInt(minInput.value) || '';
+    const max = parseInt(maxInput.value) || '';
+    
+    if (min || max) {
+      this.state.selectedFilters.set('price_filter', {
+        key: 'price_filter',
+        value: `${min}-${max}`,
+        label: `Price: $${min || '0'} - $${max || '∞'}`
+      });
+    }
+  }
+  
     // Eerst de filters toepassen
     this.applyFilters();
     // Dan de drawer sluiten
