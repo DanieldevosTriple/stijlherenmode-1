@@ -110,19 +110,63 @@
                     
                       {% when 'range' %}
                         <!-- Range Filter Logic -->
-                        <div class="facet-range">
-                          <input type="number" 
-                                 name="min_{{ filter.param_name }}" 
-                                 value="{{ filter.min_value }}" 
-                                 placeholder="Min" 
-                                 class="facet-range__input">
-                          <input type="number" 
-                                 name="max_{{ filter.param_name }}" 
-                                 value="{{ filter.max_value }}" 
-                                 placeholder="Max" 
-                                 class="facet-range__input">
-                        </div>
-                    
+                        <price-range class="facets__price">
+                      
+                          <div class="range-wrap">
+                            <input 
+                              class="range"
+                              name="{{ filter.min_value.param_name }}"
+                              id="Filter-{{ filter.label | escape }}-GTE"
+                              {% if filter.min_value.value %}
+                                  value="
+                                  {%- if uses_comma_decimals -%}
+                                  {{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '' }}
+                                  {% else %}
+                                  {{ filter.min_value.value | money_without_currency | replace: ',', '' }}
+                                  {% endif %}
+                                  "  
+                              {% else %}
+                              value="0"
+                              min="0"
+                              step="0.5"
+                              max="
+                              {%- if uses_comma_decimals -%}
+                              {{ filter.range_max | divided_by: 2 | money_without_currency | replace: '.', '' | replace: ',', '' }}
+                              {% else %}
+                              {{ filter.range_max | divided_by: 2 | money_without_currency | replace: ',', '' }}
+                              {% endif %}
+                              "
+                              {% endif %}
+                              type="range"
+                            >
+                            <output class="bubble"></output>
+                          </div>
+                          <div class="range-wrap">
+                            <input 
+                              class="range"
+                              name="{{ filter.max_value.param_name }}"
+                              id="Filter-{{ filter.label | escape }}-LTE"
+                              step="0.5"
+                              {% if filter.max_value.value %}
+                                  value="
+                                  {%- if uses_comma_decimals -%}
+                                  {{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '' }}
+                                  {% else %}
+                                  {{ filter.max_value.value | money_without_currency | replace: ',', '' }}
+                                  {% endif %}
+                                  "
+                              {% else %}
+                                  value="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                  min="{{ filter.range_max | divided_by: 2 | money_without_currency | replace: ',', '' }}"
+                              {% endif %}
+                              value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                              type="range"
+                              max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                            >
+                            <output class="bubble"></output>
+                          </div>
+                        
+                        </price-range>
                       {% when 'color' %}
                         <!-- Color Swatches -->
                         <fieldset class="facets-wrap">
@@ -214,19 +258,63 @@
                   
                     {% when 'range' %}
                       <!-- Range Filter Logic -->
-                      <div class="facet-range">
-                        <input type="number" 
-                               name="min_{{ filter.param_name }}" 
-                               value="{{ filter.min_value }}" 
-                               placeholder="Min" 
-                               class="facet-range__input">
-                        <input type="number" 
-                               name="max_{{ filter.param_name }}" 
-                               value="{{ filter.max_value }}" 
-                               placeholder="Max" 
-                               class="facet-range__input">
-                      </div>
-                  
+                      <price-range class="facets__price">
+                      
+                        <div class="range-wrap">
+                          <input 
+                            class="range"
+                            name="{{ filter.min_value.param_name }}"
+                            id="Filter-{{ filter.label | escape }}-GTE"
+                            {% if filter.min_value.value %}
+                                value="
+                                {%- if uses_comma_decimals -%}
+                                {{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '' }}
+                                {% else %}
+                                {{ filter.min_value.value | money_without_currency | replace: ',', '' }}
+                                {% endif %}
+                                "  
+                            {% else %}
+                            value="0"
+                            min="0"
+                            step="0.5"
+                            max="
+                            {%- if uses_comma_decimals -%}
+                            {{ filter.range_max | divided_by: 2 | money_without_currency | replace: '.', '' | replace: ',', '' }}
+                            {% else %}
+                            {{ filter.range_max | divided_by: 2 | money_without_currency | replace: ',', '' }}
+                            {% endif %}
+                            "
+                            {% endif %}
+                            type="range"
+                          >
+                          <output class="bubble"></output>
+                        </div>
+                        <div class="range-wrap">
+                          <input 
+                            class="range"
+                            name="{{ filter.max_value.param_name }}"
+                            id="Filter-{{ filter.label | escape }}-LTE"
+                            step="0.5"
+                            {% if filter.max_value.value %}
+                                value="
+                                {%- if uses_comma_decimals -%}
+                                {{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '' }}
+                                {% else %}
+                                {{ filter.max_value.value | money_without_currency | replace: ',', '' }}
+                                {% endif %}
+                                "
+                            {% else %}
+                                value="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                min="{{ filter.range_max | divided_by: 2 | money_without_currency | replace: ',', '' }}"
+                            {% endif %}
+                            value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                            type="range"
+                            max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                          >
+                          <output class="bubble"></output>
+                        </div>
+                      
+                      </price-range>
                     {% when 'color' %}
                       <!-- Color Swatches -->
                       <fieldset class="facets-wrap">
