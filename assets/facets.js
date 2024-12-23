@@ -81,11 +81,9 @@ class FacetFiltersForm extends HTMLElement {
     const sortValue = event.target.value;
     this.state.currentSort = sortValue;
     
-    // Update both desktop and mobile radio buttons
+    // Update all radio buttons to match new sort value
     this.querySelectorAll('input[name="sort_by"]').forEach(input => {
-      if(input.getAttribute('data-keep-checked') !== 'true') {
-        input.checked = input.value === sortValue;
-      }
+      input.checked = input.value === sortValue;
     });
    
     // Apply sort immediately
