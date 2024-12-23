@@ -34,17 +34,6 @@
   border: none;
 }
 
-.facet-accordion__header {
-  display: flex; /* Gebruik flexbox om items uit te lijnen */
-  justify-content: space-between; /* Plaats label en + aan uiteinden */
-  align-items: center; /* Verticaal centreren */
-  width: 100%;
-  padding: 2rem 2rem 2rem 0;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-}
-
 .facet-accordion__label {
   font-weight: 800;
   font-size: 1.5rem;
@@ -53,26 +42,19 @@
   color: black;
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .facet-accordion__label::after {
   content: "+";
-  font-size: 2rem; /* Maak de + groter */
-  line-height: 1; /* Zorgt voor consistente hoogte */
-  margin-left: auto; /* Zorgt dat de + helemaal naar rechts staat */
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle; /* Centreer de + verticaal */
+  margin-left: auto; /* Zorgt dat de + helemaal rechts uitlijnt */
+  text-align: right;
 }
 
 .facet-accordion__item[open] .facet-accordion__label::after {
   content: "-";
-  font-size: 2rem; /* Maak de + groter */
-  line-height: 1; /* Zorgt voor consistente hoogte */
-  margin-left: auto; /* Zorgt dat de + helemaal naar rechts staat */
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle; /* Centreer de + verticaal */
+  margin-left: auto; /* Zorgt dat de + helemaal rechts uitlijnt */
+  text-align: right;
 }
 
 .facet-accordion__list {
