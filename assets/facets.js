@@ -78,43 +78,26 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   handleSortChange(event) {
-    console.log('handleSortChange triggered'); // Log the function trigger
-    console.log('Selected value:', event.target.value); // Log the selected radio value
-    console.log('Before state change:', this.state.currentSort); // Log current sort state
-  
+    console.log('handleSortChange triggered');
     const sortValue = event.target.value;
+    console.log('Selected value:', sortValue);
   
-    // Update the current sort state
-    this.state.currentSort = sortValue;
+    // Determine if the change is from desktop or mobile
+    const isDesktop = event.target.name === 'sort_by_desktop';
   
-    // Reset all radios and set checked for the selected one
-    const allSortInputs = this.querySelectorAll('input[name="sort_by"]');
-    allSortInputs.forEach(input => {
-      const isSelected = input.value === sortValue;
-      input.checked = isSelected; // Update the DOM checked state
-      if (isSelected) {
-        input.setAttribute('checked', 'checked'); // Add the checked attribute
-      } else {
-        input.removeAttribute('checked'); // Remove the checked attribute
-      }
-      console.log(`Updated radio ${input.value} checked state to ${input.checked}`);
-    });
-  
-    // Synchronize the mobile and desktop views
-    const isDesktop = event.target.closest('.facets__desktop');
-    const selector = isDesktop ? '.facets__mobile' : '.facets__desktop';
-    const otherInput = this.querySelector(`${selector} input[name="sort_by"][value="${sortValue}"]`);
+    // Sync the other view
+    const otherName = isDesktop ? 'sort_by_mobile' : 'sort_by_desktop';
+    const otherInput = this.querySelector(`input[name="${otherName}"][value="${sortValue}"]`);
     if (otherInput) {
-      otherInput.checked = true; // Synchronize checked state
-      otherInput.setAttribute('checked', 'checked'); // Add the checked attribute
-      console.log(`Synchronized other view: ${otherInput.value} checked state to ${otherInput.checked}`);
+      otherInput.checked = true;
     }
   
-    // Apply sorting and filtering immediately
+    // Apply the sort
+    this.state.currentSort = sortValue;
     this.applySortAndFilters();
   
-    console.log('Updated sort state:', this.state.currentSort); // Debugging
-  }    
+    console.log('Updated sort state:', this.state.currentSort);
+  }     
   
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
@@ -445,25 +428,19 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   initializeFromURL() {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      
-      // Get sort value and set radio buttons
-      this.state.currentSort = params.get('sort_by') || '';
-      if (this.state.currentSort) {
-        const sortInputs = this.querySelectorAll(`input[name="sort_by"][value="${this.state.currentSort}"]`);
-        sortInputs.forEach(input => input.checked = true);
-      }
+    const params = new URLSearchParams(window.location.search);
+    const sortBy = params.get('sort_by') || '';
   
-      this.state.selectedFilters = this.getSelectedFiltersFromURL();
-      this.renderSelectedFilters();
-      this.syncFromURL();
-    } catch (error) {
-      console.error('Error initializing from URL:', error);
-      this.state.selectedFilters = new Map();
-      this.state.currentSort = '';
-    }
-  }
+    // Sync desktop and mobile radios
+    const desktopInput = this.querySelector(`input[name="sort_by_desktop"][value="${sortBy}"]`);
+    const mobileInput = this.querySelector(`input[name="sort_by_mobile"][value="${sortBy}"]`);
+  
+    if (desktopInput) desktopInput.checked = true;
+    if (mobileInput) mobileInput.checked = true;
+  
+    this.state.currentSort = sortBy;
+    console.log('Initialized sort state from URL:', this.state.currentSort);
+  }  
 
    syncFromURL() {
     try {

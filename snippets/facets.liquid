@@ -58,17 +58,16 @@
                       </div>
                     </summary>
                     <div class="facet-accordion__content">
-                      {%- for option in results.sort_options -%}
+                      {% for option in results.sort_options %}
                         <div class="facet-checkbox">
                           <input type="radio" 
-                            name="sort_by" 
-                            value="{{ option.value }}" 
-                            id="Sort-{{ option.value }}"
-                            {% if option.value == results.sort_by %} checked{% endif %}
-                          >
+                                 name="sort_by_desktop" 
+                                 value="{{ option.value }}" 
+                                 id="Sort-{{ option.value }}"
+                                 {% if option.value == results.sort_by %} checked{% endif %}>
                           <label for="Sort-{{ option.value }}">{{ option.name | escape }}</label>
                         </div>
-                      {%- endfor -%}
+                      {% endfor %}
                     </div>
                   </details>
                 </div>
@@ -164,17 +163,16 @@
                     </svg>
                   </button>
                   <div class="mobile-facets__submenu">
-                    {%- for option in results.sort_options -%}
+                    {% for option in results.sort_options %}
                       <div class="facet-checkbox">
                         <input type="radio" 
-                          name="sort_by" 
-                          value="{{ option.value }}" 
-                          id="Mobile-Sort-{{ option.value }}"
-                          {% if option.value == results.sort_by %} checked{% endif %}
-                        >
+                               name="sort_by_mobile" 
+                               value="{{ option.value }}" 
+                               id="Mobile-Sort-{{ option.value }}"
+                               {% if option.value == results.sort_by %} checked{% endif %}>
                         <label for="Mobile-Sort-{{ option.value }}">{{ option.name | escape }}</label>
                       </div>
-                    {%- endfor -%}
+                    {% endfor %}
                   </div>
                 </div>
               {% endif %}
