@@ -87,16 +87,16 @@ class FacetFiltersForm extends HTMLElement {
     // Update the current sort state
     this.state.currentSort = sortValue;
   
-    // Log the state of all radios before the update
-    const allSortInputs = this.querySelectorAll('input[name="sort_by"]');
-    console.log('Radio states before update:', Array.from(allSortInputs).map(input => ({
-      value: input.value,
-      checked: input.checked
-    })));
-  
     // Reset all radios and set checked for the selected one
+    const allSortInputs = this.querySelectorAll('input[name="sort_by"]');
     allSortInputs.forEach(input => {
-      input.checked = input.value === sortValue; // Update the DOM checked state
+      const isSelected = input.value === sortValue;
+      input.checked = isSelected; // Update the DOM checked state
+      if (isSelected) {
+        input.setAttribute('checked', 'checked'); // Add the checked attribute
+      } else {
+        input.removeAttribute('checked'); // Remove the checked attribute
+      }
       console.log(`Updated radio ${input.value} checked state to ${input.checked}`);
     });
   
@@ -105,19 +105,16 @@ class FacetFiltersForm extends HTMLElement {
     const selector = isDesktop ? '.facets__mobile' : '.facets__desktop';
     const otherInput = this.querySelector(`${selector} input[name="sort_by"][value="${sortValue}"]`);
     if (otherInput) {
-      otherInput.checked = true; // Synchronize other view
+      otherInput.checked = true; // Synchronize checked state
+      otherInput.setAttribute('checked', 'checked'); // Add the checked attribute
       console.log(`Synchronized other view: ${otherInput.value} checked state to ${otherInput.checked}`);
     }
   
     // Apply sorting and filtering immediately
     this.applySortAndFilters();
   
-    console.log('Radio states after update:', Array.from(allSortInputs).map(input => ({
-      value: input.value,
-      checked: input.checked
-    }))); // Log final radio states
     console.log('Updated sort state:', this.state.currentSort); // Debugging
-  }   
+  }    
   
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
