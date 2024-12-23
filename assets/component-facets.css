@@ -24,7 +24,7 @@
 }
 
 .facet-accordion__header {
-  display: list-item;
+  display: list-item; 
   justify-content: space-between;
   align-items: center;
   width: 100%;
