@@ -47,10 +47,12 @@
 
 .facet-accordion__label::after {
   content: "+";
+  text-align: right;
 }
 
 .facet-accordion__item[open] .facet-accordion__label::after {
   content: "-";
+  text-align: right;
 }
 
 .facet-accordion__list {
