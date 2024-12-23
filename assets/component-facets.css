@@ -273,6 +273,7 @@
     cursor: pointer;
     position: absolute;
     left: 1.5rem;
+    color: black;
   }
 
   .mobile-facets__back-button.hidden {
