@@ -1,13 +1,13 @@
 class FacetFiltersForm extends HTMLElement {
   constructor() {
     super();
-
     this.state = {
       loading: false,
       selectedFilters: new Map(),
       currentView: 'main',
       filterCache: new Map(),
-      isMobileView: window.innerWidth <= 991
+      isMobileView: window.innerWidth <= 991,
+      currentSort: '' // Added
     };
 
     this.filterPreview = new FilterPreview();
@@ -25,6 +25,12 @@ class FacetFiltersForm extends HTMLElement {
     priceInputs.forEach(input => {
       input.addEventListener('change', this.debouncedOnChange);
       input.addEventListener('input', (e) => this.validatePriceInput(e));
+    });
+
+    // Add sort input handlers
+    const sortInputs = this.querySelectorAll('input[name="sort_by"]');
+    sortInputs.forEach(input => {
+      input.addEventListener('change', (e) => this.handleSortChange(e));
     });
 
     // Form change handler for all checkboxes
@@ -66,6 +72,20 @@ class FacetFiltersForm extends HTMLElement {
         }
       }
     });
+  }
+
+  handleSortChange(event) {
+    const sortValue = event.target.value;
+    this.state.currentSort = sortValue;
+    
+    const isDesktop = event.target.closest('.facets__desktop');
+    const selector = isDesktop ? '.facets__mobile' : '.facets__desktop';
+    const otherInput = this.querySelector(`${selector} input[name="sort_by"][value="${sortValue}"]`);
+    if (otherInput) otherInput.checked = true;
+  
+    if (!this.state.isMobileView) {
+      this.applySortAndFilters();
+    }
   }
 
   initializeAccordion() {
@@ -213,15 +233,15 @@ class FacetFiltersForm extends HTMLElement {
         this.state.selectedFilters.delete(key);
       }
     });
-  
-    // Handle price range inputs before applying filters
+   
+    // Handle price range inputs
     const minInput = this.querySelector('input[name^="min_"]');
     const maxInput = this.querySelector('input[name^="max_"]');
-  
+   
     if (minInput && maxInput) {
       const min = parseInt(minInput.value) || '';
       const max = parseInt(maxInput.value) || '';
-  
+   
       if (min || max) {
         this.state.selectedFilters.set('price_filter', {
           key: 'price_filter',
@@ -232,18 +252,17 @@ class FacetFiltersForm extends HTMLElement {
         this.state.selectedFilters.delete('price_filter');
       }
     }
-  
-    // Eerst de filters toepassen
-    this.applyFilters();
-    // Dan de drawer sluiten
+   
+    // Apply sorting and filtering then close drawer
+    this.applySortAndFilters();
     this.closeMobileDrawer();
-  }
+   }
 
-  applyFilters() {
+   applySortAndFilters() {
     const queryString = this.buildQueryParams();
     this.updateURLHash(queryString);
     this.renderPage(queryString);
-  }
+   }
 
   clearFilters() {
     // Clear all price inputs (mobile + desktop)
@@ -323,8 +342,13 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   buildQueryParams() {
+    const urlParts = [];
+    
+    if (this.state.currentSort) {
+      urlParts.push(`sort_by=${encodeURIComponent(this.state.currentSort)}`);
+    }
+  
     const groupedParams = {};
-
     this.state.selectedFilters.forEach(filter => {
       if (filter.key === 'price_filter') {
         const [min, max] = filter.value.split('-');
@@ -337,8 +361,7 @@ class FacetFiltersForm extends HTMLElement {
         groupedParams[filter.key].push(filter.value);
       }
     });
-
-    const urlParts = [];
+  
     Object.entries(groupedParams).forEach(([key, values]) => {
       const encodedKey = encodeURIComponent(key);
       if (Array.isArray(values)) {
@@ -348,7 +371,7 @@ class FacetFiltersForm extends HTMLElement {
         urlParts.push(`${encodedKey}=${encodeURIComponent(values)}`);
       }
     });
-
+  
     return urlParts.join('&');
   }
 
@@ -389,19 +412,33 @@ class FacetFiltersForm extends HTMLElement {
 
   initializeFromURL() {
     try {
+      const params = new URLSearchParams(window.location.search);
+      
+      // Initialize sort value from URL
+      this.state.currentSort = params.get('sort_by') || '';
+   
+      // Initialize selected sort radio buttons
+      const sortInputs = this.querySelectorAll('input[name="sort_by"]');
+      sortInputs.forEach(input => {
+        input.checked = input.value === this.state.currentSort;
+      });
+   
+      // Initialize filters from URL
       this.state.selectedFilters = this.getSelectedFiltersFromURL();
       this.renderSelectedFilters();
       this.syncFromURL();
+   
     } catch (error) {
       console.error('Error initializing from URL:', error);
       this.state.selectedFilters = new Map();
+      this.state.currentSort = '';
     }
-  }
+   }
 
   syncFromURL() {
     try {
       const params = new URLSearchParams(window.location.search);
-
+   
       // Reset all inputs
       this.querySelectorAll('input[type="checkbox"], .facet-range__input').forEach(input => {
         if (input.type === 'checkbox') {
@@ -410,7 +447,14 @@ class FacetFiltersForm extends HTMLElement {
           input.value = '';
         }
       });
-
+   
+      // Set sort inputs based on URL
+      const sortValue = params.get('sort_by');
+      if (sortValue) {
+        const sortInputs = this.querySelectorAll(`input[name="sort_by"][value="${sortValue}"]`);
+        sortInputs.forEach(input => input.checked = true);
+      }
+   
       // Set checkboxes based on URL
       params.forEach((value, key) => {
         if (key.startsWith('filter.')) {
@@ -426,14 +470,14 @@ class FacetFiltersForm extends HTMLElement {
           }
         }
       });
-
+   
       this.renderSelectedFilters();
       this.updateMobileApplyButton();
       this.updateFilterPreview();
     } catch (error) {
       console.error('Error syncing from URL:', error);
     }
-  }
+   }
 
   updateURLHash(searchParams) {
     history.pushState(
