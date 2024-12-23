@@ -298,10 +298,10 @@ class FacetFiltersForm extends HTMLElement {
   updateMobileApplyButton() {
     const applyButton = this.querySelector('.mobile-facets__apply');
     if (!applyButton) return;
-
-    const filterCount = this.state.selectedFilters.size;
-    applyButton.disabled = filterCount === 0;
-    applyButton.textContent = filterCount ? `Apply (${filterCount})` : 'Apply';
+  
+    const hasChanges = this.state.selectedFilters.size > 0 || this.state.currentSort;
+    applyButton.disabled = !hasChanges;
+    applyButton.textContent = hasChanges ? `Apply (${this.state.selectedFilters.size})` : 'Apply';
   }
 
   getFilterLabel(input) {
