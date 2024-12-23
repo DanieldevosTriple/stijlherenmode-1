@@ -26,7 +26,7 @@
 .facet-accordion__header {
   display: flex; /* Flexbox toepassen */
   justify-content: space-between; /* Plaats items aan beide uiteinden */
-  align-items: center;
+  align-items: center; /* Verticaal centreren */
   width: 100%;
   padding: 2rem 2rem 2rem 0;
   cursor: pointer;
@@ -43,19 +43,24 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex-grow: 1; /* Label neemt de beschikbare ruimte in */
 }
 
 .facet-accordion__label::after {
   content: "+";
-  margin-left: auto; /* Zorgt dat de + helemaal rechts uitlijnt */
-  text-align: right;
+  font-size: 2rem; /* Maak de + groter */
+  line-height: 1; /* Zorg dat de hoogte overeenkomt */
+  display: inline-block; /* Houdt het inline */
+  vertical-align: middle; /* Houdt het gecentreerd */
+  margin-left: auto; /* Duw de + naar rechts */
 }
 
 .facet-accordion__item[open] .facet-accordion__label::after {
   content: "-";
-  margin-left: auto; /* Zorgt dat de + helemaal rechts uitlijnt */
-  text-align: right;
+  font-size: 2rem; /* Maak de + groter */
+  line-height: 1; /* Zorg dat de hoogte overeenkomt */
+  display: inline-block; /* Houdt het inline */
+  vertical-align: middle; /* Houdt het gecentreerd */
+  margin-left: auto; /* Duw de + naar rechts */
 }
 
 .facet-accordion__list {
