@@ -358,6 +358,8 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   buildQueryParams() {
+    console.log('Current sort state:', this.state.currentSort); // Debug de sorteerwaarde
+  
     const urlParts = []; // Correcte variabele
   
     if (this.state.currentSort) {
@@ -388,9 +390,9 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
   
-    console.log('Built query params:', urlParts.join('&')); // Gebruik de correcte variabele
+    console.log('Built query params:', urlParts.join('&')); // Debug de uiteindelijke querystring
     return urlParts.join('&');
-  }  
+  }   
 
   getSelectedFiltersFromURL() {
     const filters = new Map();
