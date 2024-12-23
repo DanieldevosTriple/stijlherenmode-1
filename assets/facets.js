@@ -631,13 +631,125 @@ class FilterPreview {
   }
 
   update(count) {
-    this.container.innerHTML = `
+    this.container.innerHTML = count ? `
       <div class="preview-content">
         <span class="preview-count">${count} products</span>
       </div>
-    `;
+    ` : '';
   }
 }
+
+class FacetFiltersForm extends HTMLElement {
+  constructor() {
+    super();
+    
+    // Initialize state
+    this.state = {
+      loading: false,
+      selectedFilters: new Map(),
+      currentDrawerView: 'main',
+      filterCache: new Map()
+    };
+
+    // Initialize components with section-based preview
+    this.filterPreview = new FilterPreview();
+    this.virtualizedList = null;
+
+    // Set up debounced handlers
+    this.debouncedOnSubmit = debounce((event) => this.onSubmitHandler(event), 500);
+    this.debouncedFilterChange = debounce((event) => this.handleFilterChange(event), 150);
+    this.debouncedPreviewUpdate = debounce(() => this.updateFilterPreview(), 300);
+
+    // Initialize from URL and setup handlers
+    this.initializeFromURL();
+    this.initializeDesktopAccordion();
+    this.initializeMobileDrawer();
+    this.setupEventListeners();
+  }
+
+  // ... (keep other existing methods)
+
+  async updateFilterPreview() {
+    if (this.state.loading) return;
+
+    try {
+      const params = this.buildQueryParams();
+      const cachedResult = this.state.filterCache.get(params);
+      
+      if (cachedResult) {
+        this.filterPreview.update(cachedResult);
+        return;
+      }
+
+      // Use the section rendering endpoint
+      const sections = this.getSections();
+      if (!sections.length) return;
+
+      const url = `${window.location.pathname}?section_id=${sections[0].section}&${params}`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch section');
+      
+      const text = await response.text();
+      const html = new DOMParser().parseFromString(text, 'text/html');
+      
+      // Extract count from product count element
+      const countElement = html.getElementById('ProductCount') || html.getElementById('ProductCountMobile');
+      if (!countElement) return;
+      
+      // Extract the number from the count text
+      const countMatch = countElement.textContent.match(/\d+/);
+      const count = countMatch ? parseInt(countMatch[0], 10) : 0;
+      
+      this.state.filterCache.set(params, count);
+      this.filterPreview.update(count);
+    } catch (error) {
+      console.error('Error updating preview:', error);
+      // Clear preview on error
+      this.filterPreview.update(null);
+    }
+  }
+
+  handleFilterChange(event) {
+    const checkbox = event.target;
+    const filterKey = `${checkbox.name}-${checkbox.value}`;
+    
+    if (checkbox.checked) {
+      const label = this.getFilterLabel(checkbox);
+      this.state.selectedFilters.set(filterKey, {
+        key: checkbox.name,
+        value: checkbox.value,
+        label
+      });
+    } else {
+      this.state.selectedFilters.delete(filterKey);
+    }
+
+    // Update mobile UI
+    this.updateMobileApplyButton();
+    this.debouncedPreviewUpdate();
+  }
+
+  removeFilter(key, value) {
+    // Update checkboxes
+    const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
+    const mobileInput = document.querySelector(`#MobileMenuDrawer input[name="${key}"][value="${value}"]`);
+    
+    if (desktopInput) desktopInput.checked = false;
+    if (mobileInput) mobileInput.checked = false;
+    
+    // Update state
+    this.state.selectedFilters.delete(`${key}-${value}`);
+    
+    // Update UI and preview
+    this.renderSelectedFilters();
+    this.updateMobileApplyButton();
+    this.debouncedPreviewUpdate();
+    
+    // Update URL and content
+    const queryString = this.buildQueryParams();
+    this.updateURLHash(queryString);
+    this.renderPage(queryString);
+  }
 
 class VirtualizedFilterList {
   constructor(container) {
