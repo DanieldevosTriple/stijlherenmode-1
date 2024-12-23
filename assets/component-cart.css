@@ -202,6 +202,20 @@ cart-items {
   font-size: 1.6rem;
 }
 
+.button-content {
+  max-width: 36rem;
+  background-color: #000;
+  border: 2px solid black;
+  color: #fff;
+  padding: 1.2rem;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: TradeGothicLT, sans-serif;
+  cursor: pointer;
+  font-size: 1.6rem;
+}
+
 .cart__ctas {
   text-align: center;
 }
