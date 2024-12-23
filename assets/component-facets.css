@@ -89,6 +89,7 @@
   border-radius: 50%;
   appearance: none; 
   cursor: pointer;
+  text-transform: uppercase;
 }
 
 .facet-checkbox input[type=radio]:checked {
