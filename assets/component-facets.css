@@ -146,6 +146,9 @@
 
 /* Mobile Styles */
 @media screen and (max-width: 991px) {
+  .facets__wrapper #SelectedFilters {
+    display: none;
+  }
   .facets__desktop {
     display: none;
   }
@@ -344,10 +347,6 @@
     overflow: hidden;
     position: fixed;
     width: 100%;
-  }
-
-  .facet-accordion__list {
-    display: block;
   }
 }
 

@@ -162,6 +162,15 @@ class FacetFiltersForm extends HTMLElement {
       });
     });
 
+    // Sync checkboxes between mobile and desktop
+    this.state.selectedFilters.forEach(filter => {
+      const desktopInput = this.querySelector(`.facets__desktop input[name="${filter.key}"][value="${filter.value}"]`);
+      const mobileInput = this.querySelector(`.facets__mobile input[name="${filter.key}"][value="${filter.value}"]`);
+      
+      if (desktopInput) desktopInput.checked = true;
+      if (mobileInput) mobileInput.checked = true;
+    });
+
     // Update UI
     this.updateMobileApplyButton();
     this.renderSelectedFilters();
@@ -408,10 +417,16 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   removeFilter(key, value) {
-    const input = this.querySelector(`input[name="${key}"][value="${value}"]`);
-    if (input) {
-      input.checked = false;
-      this.handleFilterChange({ target: input });
+    const desktopInput = this.querySelector(`.facets__desktop input[name="${key}"][value="${value}"]`);
+    const mobileInput = this.querySelector(`.facets__mobile input[name="${key}"][value="${value}"]`);
+    
+    // Update both desktop and mobile inputs
+    if (desktopInput) {
+      desktopInput.checked = false;
+      this.handleFilterChange({ target: desktopInput });
+    }
+    if (mobileInput) {
+      mobileInput.checked = false;
     }
   }
 }
