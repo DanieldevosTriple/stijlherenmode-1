@@ -72,9 +72,9 @@
     </div>
     
     <div class="product-count">
-      {% if collection.all_products_count > 0 %}
-        <span>{{ collection.all_products_count }} {% if collection.all_products_count == 1 %}product{% else %}producten{% endif %}</span>
-      {% endif %}
+      {% paginate collection.products by settings.products_per_page %}
+        <span>{{ paginate.items }} {% if paginate.items == 1 %}product{% else %}producten{% endif %}</span>
+      {% endpaginate %}
     </div>
   </div>
 
