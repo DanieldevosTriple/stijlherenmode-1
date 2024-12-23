@@ -170,33 +170,54 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   async handleMobileFilterChange(event) {
-    const checkbox = event.target;
-    const filterKey = `${checkbox.name}-${checkbox.value}`;
-    
-    if (checkbox.checked) {
-      const label = this.getFilterLabel(checkbox);
-      this.state.selectedFilters.set(filterKey, {
-        key: checkbox.name,
-        value: checkbox.value,
-        label
+    // Create FormData from the mobile form to get all selected filters
+    const mobileForm = document.querySelector('#MobileMenuDrawer form');
+    if (!mobileForm) return;
+
+    const formData = new FormData(mobileForm);
+    const queryParams = {};
+
+    // Group filter values by key (same as desktop behavior)
+    formData.forEach((value, key) => {
+      if (queryParams[key]) {
+        queryParams[key] += `,${value}`;
+      } else {
+        queryParams[key] = value;
+      }
+    });
+
+    // Update selected filters state
+    this.state.selectedFilters.clear();
+    Object.entries(queryParams).forEach(([key, value]) => {
+      value.split(',').forEach(singleValue => {
+        const input = document.querySelector(`#MobileMenuDrawer input[name="${key}"][value="${singleValue}"]`);
+        const label = this.getFilterLabel(input);
+        
+        if (label) {
+          this.state.selectedFilters.set(`${key}-${singleValue}`, {
+            key,
+            value: singleValue,
+            label
+          });
+        }
       });
-    } else {
-      this.state.selectedFilters.delete(filterKey);
-    }
+    });
 
-    // Sync desktop checkboxes
-    const desktopInput = this.querySelector(`input[name="${checkbox.name}"][value="${checkbox.value}"]`);
-    if (desktopInput) {
-      desktopInput.checked = checkbox.checked;
-    }
+    // Sync with desktop checkboxes
+    this.querySelectorAll('input[type="checkbox"]').forEach(input => {
+      const mobileInput = document.querySelector(`#MobileMenuDrawer input[name="${input.name}"][value="${input.value}"]`);
+      if (mobileInput) {
+        input.checked = mobileInput.checked;
+      }
+    });
 
-    // Update UI immediately
+    // Update UI
     this.updateMobileApplyButton();
     this.updateFilterPreview();
     this.renderSelectedFilters();
 
-    // Update URL and content immediately
-    const queryString = this.buildQueryParams();
+    // Update URL and refresh products
+    const queryString = new URLSearchParams(queryParams).toString();
     await this.updateURLHash(queryString);
     await this.renderPage(queryString);
   }
