@@ -20,13 +20,13 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   setupEventListeners() {
-    // Price range inputs
-    const priceInputs = this.querySelectorAll('.facet-range__input');
+    // Price range inputs - both mobile and desktop
+    const priceInputs = this.querySelectorAll('.facet-range__input'); 
     priceInputs.forEach(input => {
       input.addEventListener('change', this.debouncedOnChange);
       input.addEventListener('input', (e) => this.validatePriceInput(e));
     });
- 
+   
     // Form change handler for all checkboxes
     const form = this.querySelector('form');
     if (form) {
@@ -210,6 +210,12 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   clearFilters() {
+    // Clear all price inputs (mobile + desktop)
+    this.querySelectorAll('.facet-range__input').forEach(input => {
+      input.value = '';
+    });
+  
+    // Clear all checkboxes
     this.querySelectorAll('input[type="checkbox"]').forEach(input => {
       input.checked = false;
     });
@@ -357,18 +363,28 @@ class FacetFiltersForm extends HTMLElement {
     try {
       const params = new URLSearchParams(window.location.search);
       
-      // Reset all checkboxes
-      this.querySelectorAll('input[type="checkbox"]').forEach(input => {
-        input.checked = false;
+      // Reset all inputs
+      this.querySelectorAll('input[type="checkbox"], .facet-range__input').forEach(input => {
+        if(input.type === 'checkbox') {
+          input.checked = false;
+        } else {
+          input.value = '';
+        }
       });
       
       // Set checkboxes based on URL
       params.forEach((value, key) => {
         if (key.startsWith('filter.')) {
-          value.split(',').forEach(singleValue => {
-            const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-            if (input) input.checked = true;
-          });
+          if(key === 'filter.v.price.gte' || key === 'filter.v.price.lte') {
+            const inputName = key === 'filter.v.price.gte' ? 'min_price' : 'max_price';
+            const inputs = this.querySelectorAll(`input[name="${inputName}"]`);
+            inputs.forEach(input => input.value = value);
+          } else {
+            value.split(',').forEach(singleValue => {
+              const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+              if (input) input.checked = true;
+            });
+          }
         }
       });
       
@@ -378,7 +394,7 @@ class FacetFiltersForm extends HTMLElement {
     } catch (error) {
       console.error('Error syncing from URL:', error);
     }
-  }
+   }
 
   updateURLHash(searchParams) {
     history.pushState(
