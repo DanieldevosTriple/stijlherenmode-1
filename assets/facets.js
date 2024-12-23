@@ -6,7 +6,6 @@ class FacetFiltersForm extends HTMLElement {
       loading: false,
       selectedFilters: new Map(),
       currentView: 'main',
-      activeSubmenu: null,
       filterCache: new Map(),
       isMobileView: window.innerWidth <= 991
     };
@@ -21,13 +20,13 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   setupEventListeners() {
-    // Form change handler
+    // Form change handler for all checkboxes
     const form = this.querySelector('form');
     if (form) {
       form.addEventListener('change', this.debouncedOnChange);
     }
 
-    // Mobile navigation controls
+    // Mobile-specific controls
     const mobileControls = {
       open: document.querySelector('.mobile-facets__open-button'),
       close: this.querySelector('.mobile-facets__close-button'),
@@ -36,28 +35,17 @@ class FacetFiltersForm extends HTMLElement {
       apply: this.querySelector('.mobile-facets__apply')
     };
 
-    mobileControls.open?.addEventListener('click', () => this.openDrawer());
-    mobileControls.close?.addEventListener('click', () => this.closeDrawer());
-    mobileControls.back?.addEventListener('click', () => this.closeSubmenu());
+    mobileControls.open?.addEventListener('click', () => this.openMobileDrawer());
+    mobileControls.close?.addEventListener('click', () => this.closeMobileDrawer());
+    mobileControls.back?.addEventListener('click', () => this.closeMobileSubmenu());
     mobileControls.clear?.addEventListener('click', () => this.clearFilters());
-    mobileControls.apply?.addEventListener('click', () => this.closeDrawer());
-
-    // Desktop accordion headers
-    this.querySelectorAll('.facet-accordion__header').forEach(header => {
-      header.addEventListener('click', (event) => {
-        if (!this.state.isMobileView) {
-          this.toggleAccordion(event);
-        }
-      });
-    });
+    mobileControls.apply?.addEventListener('click', () => this.applyMobileFilters());
 
     // Mobile submenu buttons
     this.querySelectorAll('.mobile-facets__menu-button').forEach(button => {
       button.addEventListener('click', () => {
-        if (this.state.isMobileView) {
-          const submenuId = button.closest('.facet-accordion__item').dataset.submenu;
-          this.openSubmenu(submenuId);
-        }
+        const submenuId = button.closest('.facet-accordion__item').dataset.submenu;
+        this.openMobileSubmenu(submenuId);
       });
     });
 
@@ -65,94 +53,44 @@ class FacetFiltersForm extends HTMLElement {
     document.addEventListener('keyup', (event) => {
       if (event.code.toUpperCase() === 'ESCAPE') {
         if (this.state.currentView === 'submenu') {
-          this.closeSubmenu();
+          this.closeMobileSubmenu();
         } else if (this.state.isMobileView) {
-          this.closeDrawer();
-        } else {
-          this.closeAllAccordions();
+          this.closeMobileDrawer();
         }
       }
     });
   }
 
   initializeAccordion() {
-    this.querySelectorAll('.facet-accordion__item').forEach(item => {
-      const toggle = item.querySelector('.facet-accordion__toggle');
-      if (toggle) {
-        toggle.textContent = item.hasAttribute('open') ? '-' : '+';
-      }
-    });
-  }
-
-  toggleAccordion(event) {
-    event.preventDefault();
-    const header = event.target.closest('.facet-accordion__header');
-    const item = header.closest('.facet-accordion__item');
-    const toggle = item.querySelector('.facet-accordion__toggle');
-
-    if (!this.state.isMobileView) {
-      // Close other accordions
-      this.querySelectorAll('.facet-accordion__item[open]').forEach(other => {
-        if (other !== item) {
-          other.removeAttribute('open');
-          const otherToggle = other.querySelector('.facet-accordion__toggle');
-          if (otherToggle) otherToggle.textContent = '+';
-        }
-      });
-
-      // Toggle current accordion
-      item.toggleAttribute('open');
-      if (toggle) {
-        toggle.textContent = item.hasAttribute('open') ? '-' : '+';
-      }
-    }
-  }
-
-  closeAllAccordions() {
-    this.querySelectorAll('.facet-accordion__item[open]').forEach(item => {
-      item.removeAttribute('open');
-      const toggle = item.querySelector('.facet-accordion__toggle');
-      if (toggle) toggle.textContent = '+';
-    });
-  }
-
-  openDrawer() {
-    if (!this.state.isMobileView) return;
+    const accordionItems = this.querySelectorAll('.facet-accordion__item');
     
+    accordionItems.forEach((item) => {
+      const toggle = item.querySelector('.facet-accordion__toggle');
+      if (toggle) {
+        toggle.textContent = item.hasAttribute('open') ? '-' : '+';
+      }
+    });
+  }
+
+  openMobileDrawer() {
     const wrapper = this.querySelector('.facets__wrapper');
     if (!wrapper) return;
 
     wrapper.setAttribute('open', '');
     document.body.classList.add('overflow-hidden-mobile');
-    this.state.currentView = 'main';
   }
 
-  closeDrawer() {
+  closeMobileDrawer() {
     const wrapper = this.querySelector('.facets__wrapper');
     if (!wrapper) return;
 
     wrapper.removeAttribute('open');
     document.body.classList.remove('overflow-hidden-mobile');
-    this.state.currentView = 'main';
-    this.state.activeSubmenu = null;
-
-    // Apply filters if on mobile
-    if (this.state.isMobileView) {
-      this.applyFilters();
-    }
-
-    // Reset submenu state
-    this.querySelector('.mobile-facets__back-button')?.classList.add('hidden');
-    this.querySelectorAll('.mobile-facets__submenu').forEach(submenu => {
-      submenu.classList.remove('active');
-    });
+    this.closeMobileSubmenu();
   }
 
-  openSubmenu(submenuId) {
-    if (!this.state.isMobileView) return;
-
-    this.state.currentView = 'submenu';
-    this.state.activeSubmenu = submenuId;
+  openMobileSubmenu(submenuId) {
+    if (!submenuId) return;
 
     // Show back button
     const backButton = this.querySelector('.mobile-facets__back-button');
@@ -168,10 +106,7 @@ class FacetFiltersForm extends HTMLElement {
     this.querySelector(`.facet-accordion__item[data-submenu="${submenuId}"] .mobile-facets__submenu`)?.classList.add('active');
   }
 
-  closeSubmenu() {
-    this.state.currentView = 'main';
-    this.state.activeSubmenu = null;
-
+  closeMobileSubmenu() {
     // Hide back button
     this.querySelector('.mobile-facets__back-button')?.classList.add('hidden');
 
@@ -189,18 +124,114 @@ class FacetFiltersForm extends HTMLElement {
       const isMobile = window.innerWidth <= 991;
       if (isMobile !== this.state.isMobileView) {
         this.state.isMobileView = isMobile;
-        this.resetView();
+        if (!isMobile) {
+          this.closeMobileDrawer();
+        }
       }
     }, 250));
   }
 
-  resetView() {
-    if (!this.state.isMobileView) {
-      this.closeDrawer();
-      this.initializeAccordion();
-    } else {
-      this.closeAllAccordions();
+  handleFilterChange(event) {
+    if (this.state.loading) return;
+
+    const formData = new FormData(event.target.closest('form'));
+    const queryParams = {};
+
+    formData.forEach((value, key) => {
+      if (queryParams[key]) {
+        queryParams[key] = queryParams[key] + `,${value}`;
+      } else {
+        queryParams[key] = value;
+      }
+    });
+
+    // Update selected filters state
+    this.state.selectedFilters.clear();
+    Object.entries(queryParams).forEach(([key, value]) => {
+      value.split(',').forEach(singleValue => {
+        const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+        const label = this.getFilterLabel(input);
+        
+        if (label) {
+          this.state.selectedFilters.set(`${key}-${singleValue}`, {
+            key,
+            value: singleValue,
+            label
+          });
+        }
+      });
+    });
+
+    // Update UI
+    this.updateMobileApplyButton();
+    this.updateFilterPreview();
+    this.renderSelectedFilters();
+
+    // Apply filters immediately if not on mobile
+    if (!event.target.closest('.facets__mobile')) {
+      this.applyFilters();
     }
+  }
+
+  applyMobileFilters() {
+    this.applyFilters();
+    this.closeMobileDrawer();
+  }
+
+  applyFilters() {
+    const queryString = this.buildQueryParams();
+    this.updateURLHash(queryString);
+    this.renderPage(queryString);
+  }
+
+  clearFilters() {
+    this.querySelectorAll('input[type="checkbox"]').forEach(input => {
+      input.checked = false;
+    });
+    
+    this.state.selectedFilters.clear();
+    this.state.filterCache.clear();
+    
+    this.renderSelectedFilters();
+    this.updateMobileApplyButton();
+    this.updateFilterPreview();
+    
+    history.pushState({}, '', window.location.pathname);
+    this.renderPage('');
+  }
+
+  updateMobileApplyButton() {
+    const applyButton = this.querySelector('.mobile-facets__apply');
+    if (!applyButton) return;
+
+    const filterCount = this.state.selectedFilters.size;
+    applyButton.disabled = filterCount === 0;
+    applyButton.textContent = filterCount ? `Apply (${filterCount})` : 'Apply';
+  }
+
+  getFilterLabel(input) {
+    if (!input) return '';
+    const label = input.closest('label')?.querySelector('.facet-checkbox__text');
+    return label ? label.textContent.split(' (')[0] : '';
+  }
+
+  buildQueryParams() {
+    const groupedParams = {};
+    this.state.selectedFilters.forEach(filter => {
+      if (!groupedParams[filter.key]) {
+        groupedParams[filter.key] = [];
+      }
+      groupedParams[filter.key].push(filter.value);
+    });
+
+    const urlParts = [];
+    Object.entries(groupedParams).forEach(([key, values]) => {
+      const encodedKey = encodeURIComponent(key);
+      const encodedValues = values.map(v => encodeURIComponent(v)).join(',');
+      urlParts.push(`${encodedKey}=${encodedValues}`);
+    });
+
+    return urlParts.join('&');
   }
 
   initializeFromURL() {
@@ -238,108 +269,31 @@ class FacetFiltersForm extends HTMLElement {
     return filters;
   }
 
-  handleFilterChange(event) {
-    if (this.state.loading) return;
-
-    const formData = new FormData(event.target.closest('form'));
-    const queryParams = {};
-
-    // Group filter values by key
-    formData.forEach((value, key) => {
-      if (queryParams[key]) {
-        queryParams[key] = queryParams[key] + `,${value}`;
-      } else {
-        queryParams[key] = value;
-      }
-    });
-
-    // Update selected filters state
-    this.state.selectedFilters.clear();
-    Object.entries(queryParams).forEach(([key, value]) => {
-      value.split(',').forEach(singleValue => {
-        const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-        const label = this.getFilterLabel(input);
-        
-        if (label) {
-          this.state.selectedFilters.set(`${key}-${singleValue}`, {
-            key,
-            value: singleValue,
-            label
+  syncFromURL() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      
+      // Reset all checkboxes
+      this.querySelectorAll('input[type="checkbox"]').forEach(input => {
+        input.checked = false;
+      });
+      
+      // Set checkboxes based on URL
+      params.forEach((value, key) => {
+        if (key.startsWith('filter.')) {
+          value.split(',').forEach(singleValue => {
+            const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+            if (input) input.checked = true;
           });
         }
       });
-    });
-
-    // Update UI
-    this.updateMobileApplyButton();
-    this.updateFilterPreview();
-    this.renderSelectedFilters();
-
-    // Don't update URL or refresh products until Apply is clicked on mobile
-    if (!this.state.isMobileView) {
-      this.applyFilters();
+      
+      this.renderSelectedFilters();
+      this.updateMobileApplyButton();
+      this.updateFilterPreview();
+    } catch (error) {
+      console.error('Error syncing from URL:', error);
     }
-  }
-
-  applyFilters() {
-    const queryString = this.buildQueryParams();
-    this.updateURLHash(queryString);
-    this.renderPage(queryString);
-  }
-
-  clearFilters() {
-    this.querySelectorAll('input[type="checkbox"]').forEach(input => {
-      input.checked = false;
-    });
-    
-    this.state.selectedFilters.clear();
-    this.state.filterCache.clear();
-    
-    this.renderSelectedFilters();
-    this.updateMobileApplyButton();
-    this.updateFilterPreview();
-    
-    if (this.state.isMobileView) {
-      // Don't update URL until Apply is clicked on mobile
-      this.closeDrawer();
-    } else {
-      history.pushState({}, '', window.location.pathname);
-      this.renderPage('');
-    }
-  }
-
-  updateMobileApplyButton() {
-    const applyButton = this.querySelector('.mobile-facets__apply');
-    if (!applyButton) return;
-
-    const filterCount = this.state.selectedFilters.size;
-    applyButton.disabled = filterCount === 0;
-    applyButton.textContent = filterCount ? `Apply (${filterCount})` : 'Apply';
-  }
-
-  getFilterLabel(input) {
-    if (!input) return '';
-    const label = input.closest('label')?.querySelector('.facet-checkbox__text');
-    return label ? label.textContent.trim().split(' (')[0] : '';
-  }
-
-  buildQueryParams() {
-    const groupedParams = {};
-    this.state.selectedFilters.forEach(filter => {
-      if (!groupedParams[filter.key]) {
-        groupedParams[filter.key] = [];
-      }
-      groupedParams[filter.key].push(filter.value);
-    });
-
-    const urlParts = [];
-    Object.entries(groupedParams).forEach(([key, values]) => {
-      const encodedKey = encodeURIComponent(key);
-      const encodedValues = values.map(v => encodeURIComponent(v)).join(',');
-      urlParts.push(`${encodedKey}=${encodedValues}`);
-    });
-
-    return urlParts.join('&');
   }
 
   updateURLHash(searchParams) {
@@ -357,12 +311,11 @@ class FacetFiltersForm extends HTMLElement {
       this.state.loading = true;
       const sections = this.getSections();
 
-      const requests = sections.map(section => {
+      await Promise.all(sections.map(section => {
         const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
         return this.renderSectionFromFetch(url);
-      });
+      }));
 
-      await Promise.all(requests);
       this.state.loading = false;
     } catch (error) {
       console.error('Error rendering page:', error);
@@ -422,6 +375,41 @@ class FacetFiltersForm extends HTMLElement {
     return [{
       section: document.getElementById('product-grid')?.dataset.id
     }].filter(section => section.section);
+  }
+
+  renderSelectedFilters() {
+    const container = this.querySelector('#SelectedFilters');
+    if (!container) return;
+
+    const filterElements = Array.from(this.state.selectedFilters.values()).map(filter => {
+      return `
+        <div class="selected-filter" data-key="${filter.key}" data-value="${filter.value}">
+          <span>${filter.label}</span>
+          <button type="button" class="selected-filter__remove" aria-label="Remove ${filter.label} filter">
+            <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </button>
+        </div>
+      `;
+    }).join('');
+
+    container.innerHTML = filterElements;
+
+    container.querySelectorAll('.selected-filter__remove').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const filter = e.target.closest('.selected-filter');
+        this.removeFilter(filter.dataset.key, filter.dataset.value);
+      });
+    });
+  }
+
+  removeFilter(key, value) {
+    const input = this.querySelector(`input[name="${key}"][value="${value}"]`);
+    if (input) {
+      input.checked = false;
+      this.handleFilterChange({ target: input });
+    }
   }
 }
 
