@@ -11,9 +11,11 @@
           <span>{{ collection.title }}</span>
         {% endif %}
       </div>
-      <button type="button" class="mobile-facets__open-button" aria-expanded="false">
-        <span>{{ 'products.facets.filter_button' | t }}</span>
-      </button>
+      <div class="product-count">
+        {% paginate collection.products by settings.products_per_page %}
+          <span>{{ paginate.items }} products</span>
+        {% endpaginate %}
+      </div>
     </div>
 
     <div id="FacetsWrapper" class="facets__wrapper">
