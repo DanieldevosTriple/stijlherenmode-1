@@ -275,6 +275,7 @@ class FacetFiltersForm extends HTMLElement {
     console.log('Query string:', queryString);
     this.updateURLHash(queryString);
     this.renderPage(queryString);
+    this.updateProductCount();
   }  
 
   clearFilters() {
@@ -434,6 +435,27 @@ class FacetFiltersForm extends HTMLElement {
 
     return filters;
   }
+
+  updateProductCount() {
+    const url = `${window.location.pathname}?section_id=product-count&${this.buildQueryParams()}`;
+    console.log('Fetching product count from URL:', url); // Debugging
+    
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error('Failed to fetch product count');
+        return response.text();
+      })
+      .then(text => {
+        const html = new DOMParser().parseFromString(text, 'text/html');
+        const newCount = html.querySelector('.product-count');
+        const countContainer = document.querySelector('.product-count');
+        
+        if (newCount && countContainer) {
+          countContainer.innerHTML = newCount.innerHTML;
+        }
+      })
+      .catch(error => console.error('Error updating product count:', error));
+  }  
 
   initializeFromURL() {
     // Haal de URL-parameters op
