@@ -7,8 +7,7 @@ class FacetFiltersForm extends HTMLElement {
       currentView: 'main',
       filterCache: new Map(),
       isMobileView: window.innerWidth <= 991,
-      currentSort: '', // Added
-      accordionState: new Map() // Store accordion state
+      currentSort: '' // Added
     };
 
     this.filterPreview = new FilterPreview();
@@ -20,30 +19,6 @@ class FacetFiltersForm extends HTMLElement {
     this.setupResizeObserver();
   }
 
-  saveAccordionState() {
-    this.state.accordionState.clear();
-    this.querySelectorAll('.facet-accordion__item').forEach((item) => {
-      const isOpen = item.hasAttribute('open');
-      const index = item.dataset.index;
-      if (index) {
-        this.state.accordionState.set(index, isOpen);
-      }
-    });
-  }
-  
-  restoreAccordionState() {
-    this.querySelectorAll('.facet-accordion__item').forEach((item) => {
-      const index = item.dataset.index;
-      if (index && this.state.accordionState.has(index)) {
-        if (this.state.accordionState.get(index)) {
-          item.setAttribute('open', '');
-        } else {
-          item.removeAttribute('open');
-        }
-      }
-    });
-  }
-  
   setupEventListeners() {
     // Price range inputs - both mobile and desktop
     const priceInputs = this.querySelectorAll('.facet-range__input');
@@ -53,7 +28,7 @@ class FacetFiltersForm extends HTMLElement {
     });
 
     // Add sort input handlers
-    const sortInputs = this.querySelectorAll('input[name="sort_by_desktop"], input[name="sort_by_mobile"]');
+      const sortInputs = this.querySelectorAll('input[name="sort_by_desktop"], input[name="sort_by_mobile"]');
     console.log('Sort inputs found:', sortInputs); // Debug: Controleer gevonden inputs
     sortInputs.forEach(input => {
       input.addEventListener('change', (event) => {
@@ -126,27 +101,13 @@ class FacetFiltersForm extends HTMLElement {
   
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
-  
+
     accordionItems.forEach((item) => {
       const toggle = item.querySelector('.facet-accordion__toggle');
-      if (!toggle) return;
-  
-      // Observer voor standaard <details> gedrag
-      item.addEventListener('toggle', () => {
-        const isOpen = item.hasAttribute('open');
-        toggle.textContent = isOpen ? '-' : '+';
-      });
+      if (toggle) {
+        toggle.textContent = item.hasAttribute('open') ? '-' : '+';
+      }
     });
-  }
-   
-
-  toggleAccordion(item, toggle) {
-    const isOpen = item.hasAttribute('open');
-    item.toggleAttribute('open'); // Add or remove the "open" attribute
-    toggle.textContent = isOpen ? '+' : '-';
-  
-    // Save state after toggling
-    this.saveAccordionState();
   }
 
   openMobileDrawer() {
@@ -309,18 +270,11 @@ class FacetFiltersForm extends HTMLElement {
    }
 
    applySortAndFilters() {
-    console.log('applySortAndFilters called');
-    
-    // Save accordion state
-    this.saveAccordionState();
-    
+    console.log('applySortAndFilters called'); // Debugging
     const queryString = this.buildQueryParams();
     console.log('Query string:', queryString);
     this.updateURLHash(queryString);
-    this.renderPage(queryString).then(() => {
-      // Restore accordion state
-      this.restoreAccordionState();
-    });
+    this.renderPage(queryString);
   }  
 
   clearFilters() {
@@ -366,8 +320,8 @@ class FacetFiltersForm extends HTMLElement {
   getFilterLabel(input) {
     if (!input) return '';
     const label = input.closest('label')?.querySelector('.facet-checkbox__text');
-    return label ? label.textContent.trim().split(' (')[0] : '';
-  }  
+    return label ? label.textContent.split(' (')[0] : '';
+  }
 
   handlePriceRangeChange(event) {
     const minInput = this.querySelector('input[name^="min_"]');
@@ -482,75 +436,19 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   initializeFromURL() {
-    // Haal de URL-parameters op
     const params = new URLSearchParams(window.location.search);
-  
-    // **Initialiseer de huidige sorteerwaarde**
     const sortBy = params.get('sort_by') || '';
-    this.state.currentSort = sortBy;
   
-    // Synchroniseer desktop- en mobiele radios voor sortering
+    // Sync desktop and mobile radios
     const desktopInput = this.querySelector(`input[name="sort_by_desktop"][value="${sortBy}"]`);
     const mobileInput = this.querySelector(`input[name="sort_by_mobile"][value="${sortBy}"]`);
-    
+  
     if (desktopInput) desktopInput.checked = true;
     if (mobileInput) mobileInput.checked = true;
   
-    console.log('Sortering vanuit URL geïnitialiseerd:', this.state.currentSort);
-  
-    // **Initialiseer geselecteerde filters**
-    this.state.selectedFilters = new Map();
-  
-    params.forEach((value, key) => {
-      // Sla prijsfilters apart op
-      if (key === 'filter.v.price.gte' || key === 'filter.v.price.lte') {
-        const filterKey = 'price_filter';
-        const min = params.get('filter.v.price.gte') || '';
-        const max = params.get('filter.v.price.lte') || '';
-        
-        if (min || max) {
-          this.state.selectedFilters.set(filterKey, {
-            key: filterKey,
-            value: `${min}-${max}`,
-            label: `Prijs: €${min || '0'} - €${max || '∞'}`
-          });
-        }
-      } else if (key.startsWith('filter.')) {
-        // Verwerk reguliere filters
-        value.split(',').forEach(singleValue => {
-          const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-          if (input) {
-            input.checked = true; // Sync met checkbox
-            const label = this.getFilterLabel(input);
-            if (label) {
-              this.state.selectedFilters.set(`${key}-${singleValue}`, {
-                key,
-                value: singleValue,
-                label
-              });
-            }
-          }
-        });
-      }
-    });
-  
-    console.log('Geselecteerde filters vanuit URL:', Array.from(this.state.selectedFilters.entries()));
-  
-    // **Update UI met geselecteerde filters**
-    this.renderSelectedFilters();
-    this.updateMobileApplyButton();
-  
-    // **Initialiseer prijsrange inputs**
-    const minPriceInput = this.querySelector('input[name^="min_price"]');
-    const maxPriceInput = this.querySelector('input[name^="max_price"]');
-    const minPrice = params.get('filter.v.price.gte') || '';
-    const maxPrice = params.get('filter.v.price.lte') || '';
-  
-    if (minPriceInput) minPriceInput.value = minPrice;
-    if (maxPriceInput) maxPriceInput.value = maxPrice;
-  
-    console.log('Prijsrange vanuit URL ingesteld: €', minPrice, '-', maxPrice);
-  }   
+    this.state.currentSort = sortBy;
+    console.log('Initialized sort state from URL:', this.state.currentSort);
+  }  
 
    syncFromURL() {
     try {
@@ -606,10 +504,6 @@ class FacetFiltersForm extends HTMLElement {
   
     try {
       this.state.loading = true;
-  
-      // Save current accordion state
-      this.saveAccordionState();
-  
       const sections = this.getSections();
       console.log('Sections to render:', sections);
   
@@ -621,15 +515,12 @@ class FacetFiltersForm extends HTMLElement {
         })
       );
   
-      // Restore accordion state
-      this.restoreAccordionState();
-  
       this.state.loading = false;
     } catch (error) {
       console.error('Error rendering page:', error);
       this.state.loading = false;
     }
-  }   
+  }
   
   async renderSectionFromFetch(url) {
     try {
