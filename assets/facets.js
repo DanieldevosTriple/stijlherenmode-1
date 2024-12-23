@@ -2,7 +2,6 @@ class FacetFiltersForm extends HTMLElement {
   constructor() {
     super();
     
-    // Initialize state
     this.state = {
       loading: false,
       selectedFilters: new Map(),
@@ -10,15 +9,12 @@ class FacetFiltersForm extends HTMLElement {
       filterCache: new Map()
     };
 
-    // Initialize components
     this.filterPreview = new FilterPreview();
-    this.virtualizedList = null;  // Will be initialized when needed
+    this.virtualizedList = null;
 
-    // Set up debounced handlers
     this.debouncedOnSubmit = debounce((event) => this.onSubmitHandler(event), 500);
     this.debouncedFilterChange = debounce((event) => this.handleFilterChange(event), 150);
 
-    // Initialize from URL and setup handlers
     this.initializeFromURL();
     this.initializeDesktopAccordion();
     this.initializeMobileDrawer();
@@ -32,7 +28,6 @@ class FacetFiltersForm extends HTMLElement {
       this.syncFromURL();
     } catch (error) {
       console.error('Error initializing from URL:', error);
-      // Reset to default state if URL parsing fails
       this.state.selectedFilters = new Map();
     }
   }
@@ -104,10 +99,12 @@ class FacetFiltersForm extends HTMLElement {
       facetWrapper.addEventListener('keyup', this.handleKeyPress.bind(this));
     }
 
-    // Mobile filter change handler
+    // Mobile filter change handler - Update to trigger immediate changes
     const mobileForm = document.querySelector('#MobileMenuDrawer form');
     if (mobileForm) {
-      mobileForm.addEventListener('change', this.debouncedFilterChange);
+      mobileForm.addEventListener('change', async (event) => {
+        await this.handleMobileFilterChange(event);
+      });
     }
 
     // ESC key handler for drawer
@@ -135,20 +132,16 @@ class FacetFiltersForm extends HTMLElement {
       const summary = detail.querySelector('summary');
       if (!summary) return;
 
-      // Remove existing handler if any
       if (summary._toggleHandler) {
         summary.removeEventListener('click', summary._toggleHandler);
       }
 
-      // Initialize toggle state
       updateToggleState(detail);
 
-      // Define and attach toggle handler
       const toggleHandler = (e) => {
         e.preventDefault();
         const isOpen = detail.hasAttribute('open');
 
-        // Close other accordion items
         desktopDetails.forEach((otherDetail) => {
           if (otherDetail !== detail && otherDetail.hasAttribute('open')) {
             otherDetail.removeAttribute('open');
@@ -156,7 +149,6 @@ class FacetFiltersForm extends HTMLElement {
           }
         });
 
-        // Toggle the clicked accordion item
         detail.toggleAttribute('open', !isOpen);
         updateToggleState(detail);
       };
@@ -177,7 +169,7 @@ class FacetFiltersForm extends HTMLElement {
     }
   }
 
-  handleFilterChange(event) {
+  async handleMobileFilterChange(event) {
     const checkbox = event.target;
     const filterKey = `${checkbox.name}-${checkbox.value}`;
     
@@ -192,9 +184,21 @@ class FacetFiltersForm extends HTMLElement {
       this.state.selectedFilters.delete(filterKey);
     }
 
-    // Update mobile UI
+    // Sync desktop checkboxes
+    const desktopInput = this.querySelector(`input[name="${checkbox.name}"][value="${checkbox.value}"]`);
+    if (desktopInput) {
+      desktopInput.checked = checkbox.checked;
+    }
+
+    // Update UI immediately
     this.updateMobileApplyButton();
     this.updateFilterPreview();
+    this.renderSelectedFilters();
+
+    // Update URL and content immediately
+    const queryString = this.buildQueryParams();
+    await this.updateURLHash(queryString);
+    await this.renderPage(queryString);
   }
 
   getFilterLabel(input) {
@@ -209,7 +213,7 @@ class FacetFiltersForm extends HTMLElement {
 
     const filterCount = this.state.selectedFilters.size;
     applyButton.disabled = filterCount === 0;
-    applyButton.textContent = filterCount ? `Apply ${filterCount} filters` : 'Apply';
+    applyButton.textContent = filterCount ? `Done (${filterCount} selected)` : 'Done';
   }
 
   async updateFilterPreview() {
@@ -243,7 +247,6 @@ class FacetFiltersForm extends HTMLElement {
     const mobileDrawer = document.querySelector('#MobileMenuDrawer');
     if (!mobileDrawer) return;
 
-    // Initialize virtualized list for long filter sets
     const filterLists = mobileDrawer.querySelectorAll('.mobile-facets__list');
     filterLists.forEach(list => {
       if (list.children.length > 20) {
@@ -251,7 +254,6 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
 
-    // Set up drawer controls
     this.setupDrawerControls(mobileDrawer);
   }
 
@@ -268,7 +270,7 @@ class FacetFiltersForm extends HTMLElement {
     controls.close?.addEventListener('click', () => this.toggleDrawer(false));
     controls.apply?.addEventListener('click', (e) => {
       e.preventDefault();
-      this.applyMobileFilters();
+      this.toggleDrawer(false);
     });
 
     controls.categories.forEach(category => {
@@ -283,62 +285,18 @@ class FacetFiltersForm extends HTMLElement {
     });
   }
 
-  async applyMobileFilters() {
-    if (this.state.loading) return;
-
-    const mobileDrawer = document.querySelector('#MobileMenuDrawer');
-    if (!mobileDrawer) return;
-
-    try {
-      this.state.loading = true;
-      this.updateApplyButtonState('loading');
-
-      const queryString = this.buildQueryParams();
-      await this.updateURLHash(queryString);
-      await this.renderPage(queryString);
-
-      this.toggleDrawer(false);
-      this.state.loading = false;
-      this.updateApplyButtonState('default');
-    } catch (error) {
-      console.error('Error applying mobile filters:', error);
-      this.state.loading = false;
-      this.updateApplyButtonState('error');
-    }
-  }
-
-  updateApplyButtonState(state) {
-    const button = document.querySelector('.mobile-facets__apply');
-    if (!button) return;
-
-    switch (state) {
-      case 'loading':
-        button.disabled = true;
-        button.textContent = 'Applying...';
-        break;
-      case 'error':
-        button.disabled = false;
-        button.textContent = 'Try Again';
-        break;
-      default:
-        this.updateMobileApplyButton();
-    }
-  }
-
   navigateToCategory(categoryId) {
     const mainView = document.querySelector('.mobile-facets__main-view');
     const categoryView = document.querySelector(`.mobile-facets__category-view[data-category="${categoryId}"]`);
     
     if (!mainView || !categoryView) return;
 
-    // Update header title
     const categoryTitle = categoryView.querySelector('.mobile-facets__back-text')?.textContent;
     const headerTitle = document.querySelector('.mobile-facets__title');
     if (headerTitle && categoryTitle) {
       headerTitle.textContent = categoryTitle;
     }
 
-    // Transition views with animation
     requestAnimationFrame(() => {
       mainView.style.transform = 'translateX(-100%)';
       categoryView.style.transform = 'translateX(0)';
@@ -357,13 +315,11 @@ class FacetFiltersForm extends HTMLElement {
     
     if (!mainView || !currentCategoryView) return;
 
-    // Reset header title
     const headerTitle = document.querySelector('.mobile-facets__title');
     if (headerTitle) {
       headerTitle.textContent = headerTitle.dataset.defaultTitle || 'Filters';
     }
 
-    // Transition back with animation
     requestAnimationFrame(() => {
       mainView.style.transform = 'translateX(0)';
       currentCategoryView.style.transform = 'translateX(100%)';
@@ -385,7 +341,6 @@ class FacetFiltersForm extends HTMLElement {
       mobileDrawer.removeAttribute('open');
       document.body.classList.remove('overflow-hidden-mobile');
       
-      // Reset to main view when closing
       if (this.state.currentDrawerView !== 'main') {
         this.navigateBack();
       }
@@ -424,7 +379,6 @@ class FacetFiltersForm extends HTMLElement {
 
     container.innerHTML = filterElements;
 
-    // Add event listeners for remove buttons
     container.querySelectorAll('.selected-filter__remove').forEach(button => {
       button.addEventListener('click', (e) => {
         const filter = e.target.closest('.selected-filter');
@@ -434,42 +388,34 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   removeFilter(key, value) {
-    // Update checkboxes
     const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
     const mobileInput = document.querySelector(`#MobileMenuDrawer input[name="${key}"][value="${value}"]`);
     
     if (desktopInput) desktopInput.checked = false;
     if (mobileInput) mobileInput.checked = false;
     
-    // Update state
     this.state.selectedFilters.delete(`${key}-${value}`);
     
-    // Update UI
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
     this.updateFilterPreview();
     
-    // Update URL and content
     const queryString = this.buildQueryParams();
     this.updateURLHash(queryString);
     this.renderPage(queryString);
   }
 
   clearFilters() {
-    // Reset checkboxes
     this.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
     document.querySelectorAll('#MobileMenuDrawer input[type="checkbox"]').forEach(input => input.checked = false);
     
-    // Clear state
     this.state.selectedFilters.clear();
     this.state.filterCache.clear();
     
-    // Update UI
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
     this.updateFilterPreview();
     
-    // Reset URL and content
     history.pushState({}, '', window.location.pathname);
     this.renderPage('');
   }
@@ -483,7 +429,6 @@ class FacetFiltersForm extends HTMLElement {
       const formData = new FormData(form);
       const queryParams = {};
 
-      // Group filter values
       formData.forEach((value, key) => {
         if (queryParams[key]) {
           queryParams[key] += `,${value}`;
@@ -492,7 +437,6 @@ class FacetFiltersForm extends HTMLElement {
         }
       });
 
-      // Update selected filters
       this.state.selectedFilters.clear();
       Object.entries(queryParams).forEach(([key, value]) => {
         value.split(',').forEach(singleValue => {
@@ -509,7 +453,6 @@ class FacetFiltersForm extends HTMLElement {
         });
       });
 
-      // Update UI and content
       const queryString = this.buildQueryParams();
       this.renderSelectedFilters();
       this.updateURLHash(queryString);
@@ -664,19 +607,16 @@ class VirtualizedFilterList {
       .slice(startIndex, endIndex)
       .map(item => item.cloneNode(true));
 
-    // Position visible items
     visibleItems.forEach((item, index) => {
       item.style.position = 'absolute';
       item.style.top = `${(startIndex + index) * this.rowHeight}px`;
     });
 
-    // Update container content
     this.container.innerHTML = '';
     visibleItems.forEach(item => this.container.appendChild(item));
   }
 }
 
-// Helper function
 function debounce(fn, wait) {
   let timeout;
   return function (...args) {
