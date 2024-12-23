@@ -224,31 +224,19 @@ class FacetFiltersForm extends HTMLElement {
         return;
       }
 
-      // Use existing section rendering endpoint instead of a separate preview API
-      const sections = this.getSections();
-      if (!sections.length) return;
-
-      const url = `${window.location.pathname}?section_id=${sections[0].section}&${params}`;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Failed to fetch preview');
-      
-      const text = await response.text();
-      const html = new DOMParser().parseFromString(text, 'text/html');
-      
-      // Extract count from product count element
-      const countElement = html.getElementById('ProductCount') || html.getElementById('ProductCountMobile');
-      if (!countElement) return;
-      
-      // Extract the number from the count text (assumes format like "15 products")
-      const countMatch = countElement.textContent.match(/\d+/);
-      if (!countMatch) return;
-      
-      const count = parseInt(countMatch[0], 10);
+      const count = await this.fetchFilterPreview(params);
       this.state.filterCache.set(params, count);
       this.filterPreview.update(count);
     } catch (error) {
       console.error('Error updating filter preview:', error);
     }
+  }
+
+  async fetchFilterPreview(params) {
+    const response = await fetch(`/api/filter-preview?${params}`);
+    if (!response.ok) throw new Error('Preview fetch failed');
+    const data = await response.json();
+    return data.count;
   }
 
   initializeMobileDrawer() {
