@@ -81,15 +81,21 @@ class FacetFiltersForm extends HTMLElement {
     console.log('handleSortChange triggered'); // Log the function trigger
     console.log('Selected value:', event.target.value); // Log the selected radio value
     console.log('Before state change:', this.state.currentSort); // Log current sort state
+  
     const sortValue = event.target.value;
   
     // Update the current sort state
     this.state.currentSort = sortValue;
   
-    // Reset all radios and set checked for the selected one
+    // Log the state of all radios before the update
     const allSortInputs = this.querySelectorAll('input[name="sort_by"]');
+    console.log('Radio states before update:', Array.from(allSortInputs).map(input => ({
+      value: input.value,
+      checked: input.checked
+    })));
+  
+    // Reset all radios and set checked for the selected one
     allSortInputs.forEach(input => {
-      console.log(`Checking radio ${input.value}: current checked state is ${input.checked}`);
       input.checked = input.value === sortValue; // Update the DOM checked state
       console.log(`Updated radio ${input.value} checked state to ${input.checked}`);
     });
@@ -100,13 +106,18 @@ class FacetFiltersForm extends HTMLElement {
     const otherInput = this.querySelector(`${selector} input[name="sort_by"][value="${sortValue}"]`);
     if (otherInput) {
       otherInput.checked = true; // Synchronize other view
+      console.log(`Synchronized other view: ${otherInput.value} checked state to ${otherInput.checked}`);
     }
   
     // Apply sorting and filtering immediately
     this.applySortAndFilters();
   
+    console.log('Radio states after update:', Array.from(allSortInputs).map(input => ({
+      value: input.value,
+      checked: input.checked
+    }))); // Log final radio states
     console.log('Updated sort state:', this.state.currentSort); // Debugging
-  }  
+  }   
   
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
