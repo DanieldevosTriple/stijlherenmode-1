@@ -327,6 +327,100 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+
+    {% if template.name == 'product' %}
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": "{{ product.title | escape }}",
+        "image": [
+          {% for image in product.images %}
+            "{{ image | img_url: 'master' }}"{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ],
+        "description": "{{ product.description | strip_html | escape }}",
+        "sku": "{{ product.sku | escape }}",
+        "brand": {
+          "@type": "Brand",
+          "name": "{{ product.vendor | escape }}"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "{{ product.url }}",
+          "priceCurrency": "{{ shop.currency }}",
+          "price": "{{ product.price | divided_by: 100.0 }}",
+          "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+          "itemCondition": "https://schema.org/NewCondition",
+          "seller": {
+            "@type": "Organization",
+            "name": "{{ shop.name | escape }}"
+          }
+        }
+      }
+      </script>
+      {% endif %}
+      
+      {% if template.name == 'collection' %}
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "CollectionPage",
+        "name": "{{ collection.title | escape }}",
+        "description": "{{ collection.description | strip_html | escape }}",
+        "mainEntity": [
+          {% for product in collection.products %}
+          {
+            "@type": "Product",
+            "name": "{{ product.title | escape }}",
+            "url": "{{ product.url }}",
+            "image": "{{ product.featured_image | img_url: 'master' }}",
+            "priceCurrency": "{{ shop.currency }}",
+            "price": "{{ product.price | divided_by: 100.0 }}",
+            "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+          }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      }
+      </script>
+      {% endif %}
+      
+      {% if template.name == 'index' %}
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "WebPage",
+        "name": "{{ shop.name | escape }} - Homepage",
+        "url": "{{ shop.url }}",
+        "description": "{{ shop.meta_description | escape }}",
+        "publisher": {
+          "@type": "Organization",
+          "name": "{{ shop.name | escape }}",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "{{ shop.logo | img_url: 'master' }}"
+          }
+        },
+        "mainEntity": [
+          {
+            "@type": "OfferCatalog",
+            "name": "Product Categories",
+            "itemListElement": [
+              {% for collection in collections %}
+              {
+                "@type": "ListItem",
+                "position": {{ forloop.index }},
+                "name": "{{ collection.title | escape }}",
+                "url": "{{ collection.url }}"
+              }{% unless forloop.last %},{% endunless %}
+              {% endfor %}
+            ]
+          }
+        ]
+      }
+      </script>
+      {% endif %}      
+      
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
