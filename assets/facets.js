@@ -261,8 +261,7 @@ class FacetFiltersForm extends HTMLElement {
   
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
-    this.updateFilterPreview();
-  
+    
     // Update URL and re-render page
     history.pushState({}, '', window.location.pathname);
     this.renderPage('');
