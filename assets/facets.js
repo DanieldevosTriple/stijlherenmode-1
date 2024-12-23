@@ -5,7 +5,7 @@ class FacetFiltersForm extends HTMLElement {
     this.state = {
       loading: false,
       selectedFilters: new Map(),
-      currentDrawerView: 'main',
+      currentView: 'main',
       filterCache: new Map(),
       isMobileView: window.innerWidth <= 991
     };
@@ -16,8 +16,7 @@ class FacetFiltersForm extends HTMLElement {
     this.debouncedOnChange = debounce((event) => this.handleFilterChange(event), 150);
     
     this.initializeFromURL();
-    this.initializeDesktopAccordion();
-    this.initializeMobileDrawer();
+    this.initializeAccordion();
     this.setupEventListeners();
     this.setupResizeObserver();
   }
@@ -34,159 +33,95 @@ class FacetFiltersForm extends HTMLElement {
       open: document.querySelector('.mobile-facets__open-button'),
       close: this.querySelector('.mobile-facets__close-button'),
       clear: this.querySelector('.mobile-facets__clear'),
-      apply: this.querySelector('.mobile-facets__apply'),
-      categories: this.querySelectorAll('.mobile-facets__filter-category'),
-      backButtons: this.querySelectorAll('.mobile-facets__back-button')
+      apply: this.querySelector('.mobile-facets__apply')
     };
 
-    mobileControls.open?.addEventListener('click', () => this.toggleMobileDrawer(true));
-    mobileControls.close?.addEventListener('click', () => this.toggleMobileDrawer(false));
+    mobileControls.open?.addEventListener('click', () => this.toggleMobileView(true));
+    mobileControls.close?.addEventListener('click', () => this.toggleMobileView(false));
     mobileControls.clear?.addEventListener('click', () => this.clearFilters());
-    mobileControls.apply?.addEventListener('click', () => this.toggleMobileDrawer(false));
-
-    // Category navigation handlers
-    mobileControls.categories?.forEach(category => {
-      category.addEventListener('click', (e) => {
-        e.preventDefault();
-        const categoryId = category.dataset.categoryId;
-        this.navigateToCategory(categoryId);
-      });
-    });
-
-    mobileControls.backButtons?.forEach(button => {
-      button.addEventListener('click', () => this.navigateBack());
-    });
+    mobileControls.apply?.addEventListener('click', () => this.toggleMobileView(false));
 
     // Keyboard accessibility
     document.addEventListener('keyup', (event) => {
       if (event.code.toUpperCase() === 'ESCAPE') {
         if (this.state.isMobileView) {
-          if (this.state.currentDrawerView !== 'main') {
-            this.navigateBack();
-          } else {
-            this.toggleMobileDrawer(false);
-          }
+          this.toggleMobileView(false);
         } else {
-          this.closeDesktopAccordions();
+          this.closeOpenAccordions();
         }
       }
     });
   }
 
-  initializeMobileDrawer() {
-    // Initialize category views
-    const categoryViews = this.querySelectorAll('.mobile-facets__category-view');
-    categoryViews.forEach(view => {
-      view.style.transform = 'translateX(100%)';
-      view.setAttribute('aria-hidden', 'true');
-    });
+  setupResizeObserver() {
+    window.addEventListener('resize', debounce(() => {
+      const isMobile = window.innerWidth <= 991;
+      if (isMobile !== this.state.isMobileView) {
+        this.state.isMobileView = isMobile;
+        if (!isMobile) {
+          this.toggleMobileView(false);
+        }
+      }
+    }, 250));
+  }
 
-    // Initialize main view
-    const mainView = this.querySelector('.mobile-facets__main-view');
-    if (mainView) {
-      mainView.style.transform = 'translateX(0)';
-      mainView.setAttribute('aria-hidden', 'false');
+  initializeFromURL() {
+    try {
+      this.state.selectedFilters = this.getSelectedFiltersFromURL();
+      this.renderSelectedFilters();
+      this.syncFromURL();
+    } catch (error) {
+      console.error('Error initializing from URL:', error);
+      this.state.selectedFilters = new Map();
     }
   }
 
-  navigateToCategory(categoryId) {
-    const mainView = this.querySelector('.mobile-facets__main-view');
-    const categoryView = this.querySelector(`.mobile-facets__category-view[data-category="${categoryId}"]`);
+  getSelectedFiltersFromURL() {
+    const filters = new Map();
+    const params = new URLSearchParams(window.location.search);
     
-    if (!mainView || !categoryView) return;
-
-    // Update header title
-    const categoryTitle = categoryView.querySelector('.mobile-facets__back-text')?.textContent;
-    const headerTitle = this.querySelector('.mobile-facets__title');
-    if (headerTitle && categoryTitle) {
-      headerTitle.textContent = categoryTitle;
-    }
-
-    // Animate transition
-    requestAnimationFrame(() => {
-      mainView.style.transform = 'translateX(-100%)';
-      categoryView.style.transform = 'translateX(0)';
-      categoryView.setAttribute('aria-hidden', 'false');
-      mainView.setAttribute('aria-hidden', 'true');
-    });
-
-    this.state.currentDrawerView = categoryId;
-  }
-
-  navigateBack() {
-    const mainView = this.querySelector('.mobile-facets__main-view');
-    const currentCategoryView = this.querySelector(
-      `.mobile-facets__category-view[data-category="${this.state.currentDrawerView}"]`
-    );
-    
-    if (!mainView || !currentCategoryView) return;
-
-    // Reset header title
-    const headerTitle = this.querySelector('.mobile-facets__title');
-    if (headerTitle) {
-      headerTitle.textContent = 'Filters';
-    }
-
-    // Animate transition back
-    requestAnimationFrame(() => {
-      mainView.style.transform = 'translateX(0)';
-      currentCategoryView.style.transform = 'translateX(100%)';
-      currentCategoryView.setAttribute('aria-hidden', 'true');
-      mainView.setAttribute('aria-hidden', 'false');
-    });
-
-    this.state.currentDrawerView = 'main';
-  }
-
-  initializeDesktopAccordion() {
-    if (this.state.isMobileView) return;
-    
-    const accordionItems = this.querySelectorAll('.facet-accordion__item');
-    
-    accordionItems.forEach((item) => {
-      const summary = item.querySelector('summary');
-      const toggle = item.querySelector('.facet-accordion__toggle');
-      
-      if (!summary || !toggle) return;
-
-      const updateToggle = () => {
-        toggle.textContent = item.hasAttribute('open') ? '-' : '+';
-      };
-      
-      updateToggle();
-
-      summary.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        accordionItems.forEach((other) => {
-          if (other !== item && other.hasAttribute('open')) {
-            other.removeAttribute('open');
-            const otherToggle = other.querySelector('.facet-accordion__toggle');
-            if (otherToggle) otherToggle.textContent = '+';
+    params.forEach((value, key) => {
+      if (key.startsWith('filter.')) {
+        value.split(',').forEach(singleValue => {
+          const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+          const label = this.getFilterLabel(input);
+          
+          if (label) {
+            filters.set(`${key}-${singleValue}`, {
+              key,
+              value: singleValue,
+              label
+            });
           }
         });
-
-        item.toggleAttribute('open');
-        updateToggle();
-      });
+      }
     });
+  
+    return filters;
   }
 
-  toggleMobileDrawer(isOpen) {
-    const drawer = document.querySelector('#MobileMenuDrawer');
-    if (!drawer) return;
-
-    if (isOpen) {
-      drawer.setAttribute('open', '');
-      document.body.classList.add('overflow-hidden-mobile');
-    } else {
-      drawer.removeAttribute('open');
-      document.body.classList.remove('overflow-hidden-mobile');
+  syncFromURL() {
+    try {
+      const params = new URLSearchParams(window.location.search);
       
-      // Reset to main view when closing
-      if (this.state.currentDrawerView !== 'main') {
-        this.navigateBack();
-      }
+      // Reset all checkboxes
+      this.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+      
+      // Set checkboxes based on URL
+      params.forEach((value, key) => {
+        if (key.startsWith('filter.')) {
+          value.split(',').forEach(singleValue => {
+            const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+            if (input) input.checked = true;
+          });
+        }
+      });
+      
+      this.renderSelectedFilters();
+      this.updateMobileApplyButton();
+      this.updateFilterPreview();
+    } catch (error) {
+      console.error('Error syncing from URL:', error);
     }
   }
 
@@ -196,6 +131,7 @@ class FacetFiltersForm extends HTMLElement {
     const formData = new FormData(event.target.closest('form'));
     const queryParams = {};
 
+    // Group filter values by key
     formData.forEach((value, key) => {
       if (queryParams[key]) {
         queryParams[key] = queryParams[key] + `,${value}`;
@@ -232,25 +168,60 @@ class FacetFiltersForm extends HTMLElement {
     await this.renderPage(queryString);
   }
 
-  buildQueryParams() {
-    // Group values by filter key
-    const groupedParams = {};
-    this.state.selectedFilters.forEach(filter => {
-      if (!groupedParams[filter.key]) {
-        groupedParams[filter.key] = [];
-      }
-      groupedParams[filter.key].push(filter.value);
-    });
+  initializeAccordion() {
+    const accordionItems = this.querySelectorAll('.facet-accordion__item');
+    
+    accordionItems.forEach((item) => {
+      const summary = item.querySelector('summary');
+      const toggle = item.querySelector('.facet-accordion__toggle');
+      
+      if (!summary || !toggle) return;
 
-    // Build URL-friendly string with comma-separated values
-    const urlParts = [];
-    Object.entries(groupedParams).forEach(([key, values]) => {
-      const encodedKey = encodeURIComponent(key);
-      const encodedValues = values.map(v => encodeURIComponent(v)).join(',');
-      urlParts.push(`${encodedKey}=${encodedValues}`);
-    });
+      const updateToggle = () => {
+        toggle.textContent = item.hasAttribute('open') ? '-' : '+';
+      };
+      
+      updateToggle();
 
-    return urlParts.join('&');
+      summary.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        if (!this.state.isMobileView) {
+          accordionItems.forEach((other) => {
+            if (other !== item && other.hasAttribute('open')) {
+              other.removeAttribute('open');
+              const otherToggle = other.querySelector('.facet-accordion__toggle');
+              if (otherToggle) otherToggle.textContent = '+';
+            }
+          });
+        }
+
+        item.toggleAttribute('open');
+        updateToggle();
+      });
+    });
+  }
+
+  toggleMobileView(isOpen) {
+    const wrapper = this.querySelector('.facets__wrapper');
+    if (!wrapper) return;
+
+    if (isOpen) {
+      wrapper.setAttribute('open', '');
+      document.body.classList.add('overflow-hidden-mobile');
+    } else {
+      wrapper.removeAttribute('open');
+      document.body.classList.remove('overflow-hidden-mobile');
+      this.closeOpenAccordions();
+    }
+  }
+
+  closeOpenAccordions() {
+    this.querySelectorAll('.facet-accordion__item[open]').forEach(item => {
+      item.removeAttribute('open');
+      const toggle = item.querySelector('.facet-accordion__toggle');
+      if (toggle) toggle.textContent = '+';
+    });
   }
 
   updateMobileApplyButton() {
@@ -258,6 +229,7 @@ class FacetFiltersForm extends HTMLElement {
     if (!applyButton) return;
 
     const filterCount = this.state.selectedFilters.size;
+    applyButton.disabled = filterCount === 0;
     applyButton.textContent = filterCount ? `Done (${filterCount} selected)` : 'Done';
   }
 
