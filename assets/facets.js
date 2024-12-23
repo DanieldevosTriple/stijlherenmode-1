@@ -164,17 +164,20 @@ class FacetFiltersForm extends HTMLElement {
 
     // Update UI
     this.updateMobileApplyButton();
-    this.updateFilterPreview();
     this.renderSelectedFilters();
 
-    // Apply filters immediately if not on mobile
-    if (!event.target.closest('.facets__mobile')) {
+    const isDesktopCheckbox = event.target.closest('.facets__desktop') !== null;
+    
+    // Voor desktop: direct updaten bij checkbox change
+    if (isDesktopCheckbox) {
       this.applyFilters();
     }
   }
 
   applyMobileFilters() {
+    // Eerst de filters toepassen
     this.applyFilters();
+    // Dan de drawer sluiten
     this.closeMobileDrawer();
   }
 
