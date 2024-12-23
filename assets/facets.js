@@ -414,48 +414,39 @@ class FacetFiltersForm extends HTMLElement {
     try {
       const params = new URLSearchParams(window.location.search);
       
-      // Initialize sort value from URL
+      // Get sort value and set radio buttons
       this.state.currentSort = params.get('sort_by') || '';
-   
-      // Initialize selected sort radio buttons
-      const sortInputs = this.querySelectorAll('input[name="sort_by"]');
-      sortInputs.forEach(input => {
-        input.checked = input.value === this.state.currentSort;
-      });
-   
-      // Initialize filters from URL
+      if (this.state.currentSort) {
+        const sortInputs = this.querySelectorAll(`input[name="sort_by"][value="${this.state.currentSort}"]`);
+        sortInputs.forEach(input => input.checked = true);
+      }
+  
       this.state.selectedFilters = this.getSelectedFiltersFromURL();
       this.renderSelectedFilters();
       this.syncFromURL();
-   
     } catch (error) {
       console.error('Error initializing from URL:', error);
       this.state.selectedFilters = new Map();
       this.state.currentSort = '';
     }
-   }
+  }
 
-  syncFromURL() {
+   syncFromURL() {
     try {
       const params = new URLSearchParams(window.location.search);
-   
-      // Reset all inputs
-      this.querySelectorAll('input[type="checkbox"], .facet-range__input').forEach(input => {
+  
+      // Reset all inputs first
+      this.querySelectorAll('input[type="checkbox"], .facet-range__input, input[name="sort_by"]').forEach(input => {
         if (input.type === 'checkbox') {
           input.checked = false;
+        } else if (input.type === 'radio') {
+          input.checked = input.value === this.state.currentSort;
         } else {
           input.value = '';
         }
       });
-   
-      // Set sort inputs based on URL
-      const sortValue = params.get('sort_by');
-      if (sortValue) {
-        const sortInputs = this.querySelectorAll(`input[name="sort_by"][value="${sortValue}"]`);
-        sortInputs.forEach(input => input.checked = true);
-      }
-   
-      // Set checkboxes based on URL
+  
+      // Set other filter values from URL
       params.forEach((value, key) => {
         if (key.startsWith('filter.')) {
           if (key === 'filter.v.price.gte' || key === 'filter.v.price.lte') {
@@ -470,14 +461,14 @@ class FacetFiltersForm extends HTMLElement {
           }
         }
       });
-   
+  
       this.renderSelectedFilters();
       this.updateMobileApplyButton();
       this.updateFilterPreview();
     } catch (error) {
       console.error('Error syncing from URL:', error);
     }
-   }
+  }
 
   updateURLHash(searchParams) {
     history.pushState(
