@@ -240,11 +240,48 @@ class FacetFiltersForm extends HTMLElement {
     return label ? label.textContent.split(' (')[0] : '';
   }
 
+  handlePriceRangeChange(event) {
+    const minInput = this.querySelector('input[name^="min_"]');
+    const maxInput = this.querySelector('input[name^="max_"]');
+    
+    if (!minInput || !maxInput) return;
+  
+    const min = parseInt(minInput.value) || '';
+    const max = parseInt(maxInput.value) || '';
+  
+    if (min && max && min > max) {
+      if (event.target === minInput) {
+        minInput.value = max;
+      } else {
+        maxInput.value = min;
+      }
+    }
+  
+    const filterKey = 'price_filter';
+    
+    if (min || max) {
+      this.state.selectedFilters.set(filterKey, {
+        key: filterKey,
+        value: `${min}-${max}`,
+        label: `Price: $${min || '0'} - $${max || '∞'}`
+      });
+    } else {
+      this.state.selectedFilters.delete(filterKey);
+    }
+  
+    this.renderSelectedFilters();
+    this.updateMobileApplyButton();
+    
+    if (!this.state.isMobileView) {
+      this.applyFilters();
+    }
+  }
+  
   buildQueryParams() {
     const groupedParams = {};
     
     this.state.selectedFilters.forEach(filter => {
-      if (filter.key.startsWith('price_')) {
+      if (filter.key === 'price_filter') {
         const [min, max] = filter.value.split('-');
         if (min) groupedParams['filter.v.price.gte'] = min;
         if (max) groupedParams['filter.v.price.lte'] = max;
@@ -269,23 +306,11 @@ class FacetFiltersForm extends HTMLElement {
   
     return urlParts.join('&');
   }
-
-  initializeFromURL() {
-    try {
-      this.state.selectedFilters = this.getSelectedFiltersFromURL();
-      this.renderSelectedFilters();
-      this.syncFromURL();
-    } catch (error) {
-      console.error('Error initializing from URL:', error);
-      this.state.selectedFilters = new Map();
-    }
-  }
-
+  
   getSelectedFiltersFromURL() {
     const filters = new Map();
     const params = new URLSearchParams(window.location.search);
     
-    // Handle regular filters
     params.forEach((value, key) => {
       if (key.startsWith('filter.') && !key.includes('price')) {
         value.split(',').forEach(singleValue => {
@@ -303,7 +328,6 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
     
-    // Handle price range filters
     const min = params.get('filter.v.price.gte');
     const max = params.get('filter.v.price.lte');
     
@@ -316,6 +340,17 @@ class FacetFiltersForm extends HTMLElement {
     }
     
     return filters;
+  }
+
+  initializeFromURL() {
+    try {
+      this.state.selectedFilters = this.getSelectedFiltersFromURL();
+      this.renderSelectedFilters();
+      this.syncFromURL();
+    } catch (error) {
+      console.error('Error initializing from URL:', error);
+      this.state.selectedFilters = new Map();
+    }
   }
 
   syncFromURL() {
