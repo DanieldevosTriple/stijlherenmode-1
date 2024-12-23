@@ -126,27 +126,19 @@ class FacetFiltersForm extends HTMLElement {
   
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
-    
+  
     accordionItems.forEach((item) => {
       const toggle = item.querySelector('.facet-accordion__toggle');
-      if (toggle) {
-        // Update initial state
-        toggle.textContent = item.hasAttribute('open') ? '-' : '+';
-        
-        // Click listener for the toggle
-        toggle.addEventListener('click', (event) => {
-          event.stopPropagation(); // Voorkomt bubbling naar parent
-          this.toggleAccordion(item, toggle);
-        });
-      }
-      
-      // Click listener for the entire accordion item
-      item.addEventListener('click', () => {
-        const toggle = item.querySelector('.facet-accordion__toggle');
-        this.toggleAccordion(item, toggle);
+      if (!toggle) return;
+  
+      // Observer voor standaard <details> gedrag
+      item.addEventListener('toggle', () => {
+        const isOpen = item.hasAttribute('open');
+        toggle.textContent = isOpen ? '-' : '+';
       });
     });
-  }   
+  }
+   
 
   toggleAccordion(item, toggle) {
     const isOpen = item.hasAttribute('open');
