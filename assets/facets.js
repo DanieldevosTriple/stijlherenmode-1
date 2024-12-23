@@ -82,22 +82,21 @@ class FacetFiltersForm extends HTMLElement {
     const sortValue = event.target.value;
     console.log('Selected value:', sortValue);
   
-    // Determine if the change is from desktop or mobile
-    const isDesktop = event.target.name === 'sort_by_desktop';
+    // Zet de state
+    this.state.currentSort = sortValue;
   
-    // Sync the other view
-    const otherName = isDesktop ? 'sort_by_mobile' : 'sort_by_desktop';
-    const otherInput = this.querySelector(`input[name="${otherName}"][value="${sortValue}"]`);
+    // Synchroniseer tussen desktop en mobiel
+    const isDesktop = event.target.name === 'sort_by_desktop';
+    const otherInputName = isDesktop ? 'sort_by_mobile' : 'sort_by_desktop';
+    const otherInput = this.querySelector(`input[name="${otherInputName}"][value="${sortValue}"]`);
+  
     if (otherInput) {
       otherInput.checked = true;
     }
   
-    // Apply the sort
-    this.state.currentSort = sortValue;
+    // Pas filters en sortering toe
     this.applySortAndFilters();
-  
-    console.log('Updated sort state:', this.state.currentSort);
-  }     
+  }      
   
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
