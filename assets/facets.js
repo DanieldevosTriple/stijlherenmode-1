@@ -126,14 +126,22 @@ class FacetFiltersForm extends HTMLElement {
   
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
-
+  
     accordionItems.forEach((item) => {
       const toggle = item.querySelector('.facet-accordion__toggle');
       if (toggle) {
+        // Update initial state
         toggle.textContent = item.hasAttribute('open') ? '-' : '+';
+  
+        // Add click event listener
+        toggle.addEventListener('click', () => {
+          const isOpen = item.hasAttribute('open');
+          item.toggleAttribute('open'); // Add or remove the "open" attribute
+          toggle.textContent = isOpen ? '+' : '-';
+        });
       }
     });
-  }
+  }    
 
   openMobileDrawer() {
     const wrapper = this.querySelector('.facets__wrapper');
@@ -600,7 +608,7 @@ class FacetFiltersForm extends HTMLElement {
         })
       );
   
-      // Restore accordion state
+      // Restore accordion state AFTER fetching
       this.restoreAccordionState();
   
       this.state.loading = false;
