@@ -365,6 +365,9 @@ class FacetFiltersForm extends HTMLElement {
     if (this.state.currentSort) {
       urlParts.push(`sort_by=${encodeURIComponent(this.state.currentSort)}`);
     }
+
+    // Voeg debuglog toe om geselecteerde filters te bekijken
+    console.log('Selected filters:', Array.from(this.state.selectedFilters.entries())); 
   
     const groupedParams = {};
     this.state.selectedFilters.forEach(filter => {
