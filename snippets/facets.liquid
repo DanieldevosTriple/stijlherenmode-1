@@ -12,9 +12,8 @@
         {% endif %}
       </div>
       <div class="product-count">
-        {% paginate collection.products by settings.products_per_page %}
-          <span>{{ paginate.items }} products</span>
-        {% endpaginate %}
+        {% assign product_count = '#product-grid .grid__item' | count_elements %}
+        <span>{{ product_count }} products</span>
       </div>
     </div>
 
