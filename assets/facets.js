@@ -228,7 +228,7 @@ class FacetFiltersForm extends HTMLElement {
 
     // Voor desktop: direct updaten bij checkbox change
     if (isDesktopCheckbox) {
-      this.applyFilters();
+      this.applySortAndFilters();
     }
   }
 
