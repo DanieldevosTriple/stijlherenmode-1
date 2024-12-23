@@ -85,28 +85,68 @@
                     </summary>
                     <div class="facet-accordion__content">
                       {% case filter.type %}
-                        {% when 'boolean' or 'list' %}
-                          <fieldset class="facets-wrap">
-                            <legend class="visually-hidden">{{ filter.label | escape }}</legend>
-                            <ul class="facet-accordion__list">
-                              {%- for value in filter.values -%}
-                                <li class="facet-accordion__list-item">
-                                  <label class="facet-checkbox{% if value.count == 0 and value.active == false %} disabled{% endif %}">
-                                    <input type="checkbox"
-                                      name="{{ value.param_name }}"
-                                      value="{{ value.value }}"
-                                      {% if value.active %}checked{% endif %}
-                                      {% if value.count == 0 and value.active == false %}disabled{% endif %}
-                                    >
-                                    <span class="facet-checkbox__text">
-                                      {{ value.label | escape }} ({{ value.count }})
-                                    </span>
-                                  </label>
-                                </li>
-                              {%- endfor -%}
-                            </ul>
-                          </fieldset>
-                      {% endcase %}
+                      {% when 'boolean', 'list' %}
+                        <!-- Boolean and List Logic -->
+                        <fieldset class="facets-wrap">
+                          <legend class="visually-hidden">{{ filter.label | escape }}</legend>
+                          <ul class="facet-accordion__list">
+                            {%- for value in filter.values -%}
+                              <li class="facet-accordion__list-item">
+                                <label class="facet-checkbox{% if value.count == 0 and value.active == false %} disabled{% endif %}">
+                                  <input type="checkbox"
+                                    name="{{ value.param_name }}"
+                                    value="{{ value.value }}"
+                                    {% if value.active %}checked{% endif %}
+                                    {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                                  >
+                                  <span class="facet-checkbox__text">
+                                    {{ value.label | escape }} ({{ value.count }})
+                                  </span>
+                                </label>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </fieldset>
+                    
+                      {% when 'range' %}
+                        <!-- Range Filter Logic -->
+                        <div class="facet-range">
+                          <input type="number" 
+                                 name="min_{{ filter.param_name }}" 
+                                 value="{{ filter.min_value }}" 
+                                 placeholder="Min" 
+                                 class="facet-range__input">
+                          <input type="number" 
+                                 name="max_{{ filter.param_name }}" 
+                                 value="{{ filter.max_value }}" 
+                                 placeholder="Max" 
+                                 class="facet-range__input">
+                        </div>
+                    
+                      {% when 'color' %}
+                        <!-- Color Swatches -->
+                        <fieldset class="facets-wrap">
+                          <legend class="visually-hidden">{{ filter.label | escape }}</legend>
+                          <ul class="facet-accordion__list">
+                            {%- for value in filter.values -%}
+                              <li class="facet-accordion__list-item">
+                                <label class="facet-color{% if value.count == 0 and value.active == false %} disabled{% endif %}">
+                                  <input type="checkbox"
+                                    name="{{ value.param_name }}"
+                                    value="{{ value.value }}"
+                                    {% if value.active %}checked{% endif %}
+                                    {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                                  >
+                                  <span class="facet-color__swatch" style="background-color: {{ value.label | escape }}"></span>
+                                  <span class="facet-color__label">
+                                    {{ value.label | escape }} ({{ value.count }})
+                                  </span>
+                                </label>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </fieldset>
+                    {% endcase %}                    
                     </div>
                   </details>
                 </div>
@@ -149,28 +189,68 @@
                   </button>
                   <div class="mobile-facets__submenu">
                     {% case filter.type %}
-                      {% when 'boolean' or 'list' %}
-                        <fieldset class="facets-wrap">
-                          <legend class="visually-hidden">{{ filter.label | escape }}</legend>
-                          <ul class="facet-accordion__list">
-                            {%- for value in filter.values -%}
-                              <li class="facet-accordion__list-item">
-                                <label class="facet-checkbox{% if value.count == 0 and value.active == false %} disabled{% endif %}">
-                                  <input type="checkbox"
-                                    name="{{ value.param_name }}"
-                                    value="{{ value.value }}"
-                                    {% if value.active %}checked{% endif %}
-                                    {% if value.count == 0 and value.active == false %}disabled{% endif %}
-                                  >
-                                  <span class="facet-checkbox__text">
-                                    {{ value.label | escape }} ({{ value.count }})
-                                  </span>
-                                </label>
-                              </li>
-                            {%- endfor -%}
-                          </ul>
-                        </fieldset>
-                    {% endcase %}
+                    {% when 'boolean', 'list' %}
+                      <!-- Boolean and List Logic -->
+                      <fieldset class="facets-wrap">
+                        <legend class="visually-hidden">{{ filter.label | escape }}</legend>
+                        <ul class="facet-accordion__list">
+                          {%- for value in filter.values -%}
+                            <li class="facet-accordion__list-item">
+                              <label class="facet-checkbox{% if value.count == 0 and value.active == false %} disabled{% endif %}">
+                                <input type="checkbox"
+                                  name="{{ value.param_name }}"
+                                  value="{{ value.value }}"
+                                  {% if value.active %}checked{% endif %}
+                                  {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                                >
+                                <span class="facet-checkbox__text">
+                                  {{ value.label | escape }} ({{ value.count }})
+                                </span>
+                              </label>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </fieldset>
+                  
+                    {% when 'range' %}
+                      <!-- Range Filter Logic -->
+                      <div class="facet-range">
+                        <input type="number" 
+                               name="min_{{ filter.param_name }}" 
+                               value="{{ filter.min_value }}" 
+                               placeholder="Min" 
+                               class="facet-range__input">
+                        <input type="number" 
+                               name="max_{{ filter.param_name }}" 
+                               value="{{ filter.max_value }}" 
+                               placeholder="Max" 
+                               class="facet-range__input">
+                      </div>
+                  
+                    {% when 'color' %}
+                      <!-- Color Swatches -->
+                      <fieldset class="facets-wrap">
+                        <legend class="visually-hidden">{{ filter.label | escape }}</legend>
+                        <ul class="facet-accordion__list">
+                          {%- for value in filter.values -%}
+                            <li class="facet-accordion__list-item">
+                              <label class="facet-color{% if value.count == 0 and value.active == false %} disabled{% endif %}">
+                                <input type="checkbox"
+                                  name="{{ value.param_name }}"
+                                  value="{{ value.value }}"
+                                  {% if value.active %}checked{% endif %}
+                                  {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                                >
+                                <span class="facet-color__swatch" style="background-color: {{ value.label | escape }}"></span>
+                                <span class="facet-color__label">
+                                  {{ value.label | escape }} ({{ value.count }})
+                                </span>
+                              </label>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </fieldset>
+                  {% endcase %}                  
                   </div>
                 </div>
               {%- endfor -%}

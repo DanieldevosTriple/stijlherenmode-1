@@ -367,3 +367,14 @@
 .facet-accordion__item[open] .facet-accordion__content {
   animation: slideDown 0.2s ease-out;
 }
+
+.facet-range {
+  display: flex;
+  gap: 10px;
+}
+.facet-range__input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
