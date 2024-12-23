@@ -91,6 +91,23 @@
   cursor: pointer;
 }
 
+.facet-checkbox input[type=radio]:checked {
+  background-color: currentColor;
+  border-color: currentColor;
+}
+
+.facet-checkbox input[type=radio]:checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+}
+
 .facet-checkbox input[type="checkbox"] {
   appearance: none;
   width: 20px;
