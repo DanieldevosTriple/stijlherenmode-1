@@ -5,20 +5,64 @@ class FacetFiltersForm extends HTMLElement {
     this.state = {
       loading: false,
       selectedFilters: new Map(),
-      currentDrawerView: 'main',
-      filterCache: new Map()
+      currentView: 'main',
+      filterCache: new Map(),
+      isMobileView: window.innerWidth <= 991
     };
 
     this.filterPreview = new FilterPreview();
     this.virtualizedList = null;
-
-    this.debouncedOnSubmit = debounce((event) => this.onSubmitHandler(event), 500);
-    this.debouncedFilterChange = debounce((event) => this.handleFilterChange(event), 150);
-
+    
+    this.debouncedOnChange = debounce((event) => this.handleFilterChange(event), 150);
+    
     this.initializeFromURL();
-    this.initializeDesktopAccordion();
-    this.initializeMobileDrawer();
+    this.initializeAccordion();
     this.setupEventListeners();
+    this.setupResizeObserver();
+  }
+
+  setupEventListeners() {
+    // Form change handler for all checkboxes
+    const form = this.querySelector('form');
+    if (form) {
+      form.addEventListener('change', this.debouncedOnChange);
+    }
+
+    // Mobile-specific controls
+    const mobileControls = {
+      open: document.querySelector('.mobile-facets__open-button'),
+      close: this.querySelector('.mobile-facets__close-button'),
+      clear: this.querySelector('.mobile-facets__clear'),
+      apply: this.querySelector('.mobile-facets__apply')
+    };
+
+    mobileControls.open?.addEventListener('click', () => this.toggleMobileView(true));
+    mobileControls.close?.addEventListener('click', () => this.toggleMobileView(false));
+    mobileControls.clear?.addEventListener('click', () => this.clearFilters());
+    mobileControls.apply?.addEventListener('click', () => this.toggleMobileView(false));
+
+    // Keyboard accessibility
+    document.addEventListener('keyup', (event) => {
+      if (event.code.toUpperCase() === 'ESCAPE') {
+        if (this.state.isMobileView) {
+          this.toggleMobileView(false);
+        } else {
+          this.closeOpenAccordions();
+        }
+      }
+    });
+  }
+
+  setupResizeObserver() {
+    window.addEventListener('resize', debounce(() => {
+      const isMobile = window.innerWidth <= 991;
+      if (isMobile !== this.state.isMobileView) {
+        this.state.isMobileView = isMobile;
+        if (!isMobile) {
+          this.toggleMobileView(false);
+        }
+      }
+    }, 250));
   }
 
   initializeFromURL() {
@@ -38,11 +82,10 @@ class FacetFiltersForm extends HTMLElement {
     
     params.forEach((value, key) => {
       if (key.startsWith('filter.')) {
-        value.split(/,|%2C/).forEach(singleValue => {
-          const desktopInput = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-          const mobileInput = document.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+        value.split(',').forEach(singleValue => {
+          const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+          const label = this.getFilterLabel(input);
           
-          const label = this.getFilterLabel(desktopInput || mobileInput);
           if (label) {
             filters.set(`${key}-${singleValue}`, {
               key,
@@ -63,17 +106,13 @@ class FacetFiltersForm extends HTMLElement {
       
       // Reset all checkboxes
       this.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
-      document.querySelectorAll('#MobileMenuDrawer input[type="checkbox"]').forEach(input => input.checked = false);
       
       // Set checkboxes based on URL
       params.forEach((value, key) => {
         if (key.startsWith('filter.')) {
-          value.split(/,|%2C/).forEach(singleValue => {
-            const desktopInput = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-            const mobileInput = document.querySelector(`#MobileMenuDrawer input[name="${key}"][value="${singleValue}"]`);
-            
-            if (desktopInput) desktopInput.checked = true;
-            if (mobileInput) mobileInput.checked = true;
+          value.split(',').forEach(singleValue => {
+            const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+            if (input) input.checked = true;
           });
         }
       });
@@ -86,101 +125,16 @@ class FacetFiltersForm extends HTMLElement {
     }
   }
 
-  setupEventListeners() {
-    // Desktop form handlers
-    const facetForm = this.querySelector('form');
-    if (facetForm) {
-      facetForm.addEventListener('input', this.debouncedOnSubmit);
-    }
+  async handleFilterChange(event) {
+    if (this.state.loading) return;
 
-    // Keyboard accessibility
-    const facetWrapper = this.querySelector('#FacetsWrapperDesktop');
-    if (facetWrapper) {
-      facetWrapper.addEventListener('keyup', this.handleKeyPress.bind(this));
-    }
-
-    // Mobile filter change handler - Update to trigger immediate changes
-    const mobileForm = document.querySelector('#MobileMenuDrawer form');
-    if (mobileForm) {
-      mobileForm.addEventListener('change', async (event) => {
-        await this.handleMobileFilterChange(event);
-      });
-    }
-
-    // ESC key handler for drawer
-    document.addEventListener('keyup', (event) => {
-      if (event.code.toUpperCase() === 'ESCAPE') {
-        const mobileDrawer = document.querySelector('#MobileMenuDrawer');
-        if (mobileDrawer?.hasAttribute('open')) {
-          this.toggleDrawer(false);
-        }
-      }
-    });
-  }
-
-  initializeDesktopAccordion() {
-    const desktopDetails = this.querySelectorAll('#FacetsWrapperDesktop .facet-accordion__item');
-    
-    const updateToggleState = (detail) => {
-      const toggle = detail.querySelector('.facet-accordion__toggle');
-      if (toggle) {
-        toggle.textContent = detail.hasAttribute('open') ? '-' : '+';
-      }
-    };
-    
-    desktopDetails.forEach((detail) => {
-      const summary = detail.querySelector('summary');
-      if (!summary) return;
-
-      if (summary._toggleHandler) {
-        summary.removeEventListener('click', summary._toggleHandler);
-      }
-
-      updateToggleState(detail);
-
-      const toggleHandler = (e) => {
-        e.preventDefault();
-        const isOpen = detail.hasAttribute('open');
-
-        desktopDetails.forEach((otherDetail) => {
-          if (otherDetail !== detail && otherDetail.hasAttribute('open')) {
-            otherDetail.removeAttribute('open');
-            updateToggleState(otherDetail);
-          }
-        });
-
-        detail.toggleAttribute('open', !isOpen);
-        updateToggleState(detail);
-      };
-
-      summary._toggleHandler = toggleHandler;
-      summary.addEventListener('click', toggleHandler);
-    });
-  }
-
-  handleKeyPress(event) {
-    if (event.code.toUpperCase() === 'ESCAPE') {
-      const openDetail = event.target.closest('details[open]');
-      if (openDetail) {
-        openDetail.removeAttribute('open');
-        const toggle = openDetail.querySelector('.facet-accordion__toggle');
-        if (toggle) toggle.textContent = '+';
-      }
-    }
-  }
-
-  async handleMobileFilterChange(event) {
-    // Create FormData from the mobile form to get all selected filters
-    const mobileForm = document.querySelector('#MobileMenuDrawer form');
-    if (!mobileForm) return;
-
-    const formData = new FormData(mobileForm);
+    const formData = new FormData(event.target.closest('form'));
     const queryParams = {};
 
-    // Group filter values by key (same as desktop behavior)
+    // Group filter values by key
     formData.forEach((value, key) => {
       if (queryParams[key]) {
-        queryParams[key] += `,${value}`;
+        queryParams[key] = queryParams[key] + `,${value}`;
       } else {
         queryParams[key] = value;
       }
@@ -190,7 +144,7 @@ class FacetFiltersForm extends HTMLElement {
     this.state.selectedFilters.clear();
     Object.entries(queryParams).forEach(([key, value]) => {
       value.split(',').forEach(singleValue => {
-        const input = document.querySelector(`#MobileMenuDrawer input[name="${key}"][value="${singleValue}"]`);
+        const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
         const label = this.getFilterLabel(input);
         
         if (label) {
@@ -203,38 +157,107 @@ class FacetFiltersForm extends HTMLElement {
       });
     });
 
-    // Sync with desktop checkboxes
-    this.querySelectorAll('input[type="checkbox"]').forEach(input => {
-      const mobileInput = document.querySelector(`#MobileMenuDrawer input[name="${input.name}"][value="${input.value}"]`);
-      if (mobileInput) {
-        input.checked = mobileInput.checked;
-      }
-    });
-
     // Update UI
     this.updateMobileApplyButton();
-    this.updateFilterPreview();
+    await this.updateFilterPreview();
     this.renderSelectedFilters();
 
     // Update URL and refresh products
-    const queryString = new URLSearchParams(queryParams).toString();
+    const queryString = this.buildQueryParams();
     await this.updateURLHash(queryString);
     await this.renderPage(queryString);
   }
 
-  getFilterLabel(input) {
-    if (!input) return '';
-    const label = input.closest('label')?.querySelector('.mobile-facets__filter-label, .facet-checkbox__text');
-    return label ? label.textContent.split(' (')[0] : '';
+  initializeAccordion() {
+    const accordionItems = this.querySelectorAll('.facet-accordion__item');
+    
+    accordionItems.forEach((item) => {
+      const summary = item.querySelector('summary');
+      const toggle = item.querySelector('.facet-accordion__toggle');
+      
+      if (!summary || !toggle) return;
+
+      const updateToggle = () => {
+        toggle.textContent = item.hasAttribute('open') ? '-' : '+';
+      };
+      
+      updateToggle();
+
+      summary.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        if (!this.state.isMobileView) {
+          accordionItems.forEach((other) => {
+            if (other !== item && other.hasAttribute('open')) {
+              other.removeAttribute('open');
+              const otherToggle = other.querySelector('.facet-accordion__toggle');
+              if (otherToggle) otherToggle.textContent = '+';
+            }
+          });
+        }
+
+        item.toggleAttribute('open');
+        updateToggle();
+      });
+    });
+  }
+
+  toggleMobileView(isOpen) {
+    const wrapper = this.querySelector('.facets__wrapper');
+    if (!wrapper) return;
+
+    if (isOpen) {
+      wrapper.setAttribute('open', '');
+      document.body.classList.add('overflow-hidden-mobile');
+    } else {
+      wrapper.removeAttribute('open');
+      document.body.classList.remove('overflow-hidden-mobile');
+      this.closeOpenAccordions();
+    }
+  }
+
+  closeOpenAccordions() {
+    this.querySelectorAll('.facet-accordion__item[open]').forEach(item => {
+      item.removeAttribute('open');
+      const toggle = item.querySelector('.facet-accordion__toggle');
+      if (toggle) toggle.textContent = '+';
+    });
   }
 
   updateMobileApplyButton() {
-    const applyButton = document.querySelector('.mobile-facets__apply');
+    const applyButton = this.querySelector('.mobile-facets__apply');
     if (!applyButton) return;
 
     const filterCount = this.state.selectedFilters.size;
     applyButton.disabled = filterCount === 0;
     applyButton.textContent = filterCount ? `Done (${filterCount} selected)` : 'Done';
+  }
+
+  buildQueryParams() {
+    // Group values by filter key
+    const groupedParams = {};
+    this.state.selectedFilters.forEach(filter => {
+      if (!groupedParams[filter.key]) {
+        groupedParams[filter.key] = [];
+      }
+      groupedParams[filter.key].push(filter.value);
+    });
+
+    // Build URL-friendly string with comma-separated values
+    const urlParts = [];
+    Object.entries(groupedParams).forEach(([key, values]) => {
+      const encodedKey = encodeURIComponent(key);
+      const encodedValues = values.map(v => encodeURIComponent(v)).join(',');
+      urlParts.push(`${encodedKey}=${encodedValues}`);
+    });
+
+    return urlParts.join('&');
+  }
+
+  getFilterLabel(input) {
+    if (!input) return '';
+    const label = input.closest('label')?.querySelector('.facet-checkbox__text');
+    return label ? label.textContent.split(' (')[0] : '';
   }
 
   async updateFilterPreview() {
@@ -264,141 +287,8 @@ class FacetFiltersForm extends HTMLElement {
     return data.count;
   }
 
-  initializeMobileDrawer() {
-    const mobileDrawer = document.querySelector('#MobileMenuDrawer');
-    if (!mobileDrawer) return;
-
-    const filterLists = mobileDrawer.querySelectorAll('.mobile-facets__list');
-    filterLists.forEach(list => {
-      if (list.children.length > 20) {
-        this.virtualizedList = new VirtualizedFilterList(list);
-      }
-    });
-
-    this.setupDrawerControls(mobileDrawer);
-  }
-
-  setupDrawerControls(drawer) {
-    const controls = {
-      open: document.querySelector('.mobile-facets__open-button'),
-      close: drawer.querySelector('.mobile-facets__close-button'),
-      apply: drawer.querySelector('.mobile-facets__apply'),
-      back: drawer.querySelectorAll('.mobile-facets__back-button'),
-      categories: drawer.querySelectorAll('.mobile-facets__filter-category')
-    };
-
-    controls.open?.addEventListener('click', () => this.toggleDrawer(true));
-    controls.close?.addEventListener('click', () => this.toggleDrawer(false));
-    controls.apply?.addEventListener('click', (e) => {
-      e.preventDefault();
-      this.toggleDrawer(false);
-    });
-
-    controls.categories.forEach(category => {
-      category.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.navigateToCategory(category.dataset.categoryId);
-      });
-    });
-
-    controls.back.forEach(button => {
-      button.addEventListener('click', () => this.navigateBack());
-    });
-  }
-
-  navigateToCategory(categoryId) {
-    const mainView = document.querySelector('.mobile-facets__main-view');
-    const categoryView = document.querySelector(`.mobile-facets__category-view[data-category="${categoryId}"]`);
-    
-    if (!mainView || !categoryView) return;
-
-    const categoryTitle = categoryView.querySelector('.mobile-facets__back-text')?.textContent;
-    const headerTitle = document.querySelector('.mobile-facets__title');
-    if (headerTitle && categoryTitle) {
-      headerTitle.textContent = categoryTitle;
-    }
-
-    requestAnimationFrame(() => {
-      mainView.style.transform = 'translateX(-100%)';
-      categoryView.style.transform = 'translateX(0)';
-      categoryView.setAttribute('aria-hidden', 'false');
-      mainView.setAttribute('aria-hidden', 'true');
-    });
-
-    this.state.currentDrawerView = categoryId;
-  }
-
-  navigateBack() {
-    const mainView = document.querySelector('.mobile-facets__main-view');
-    const currentCategoryView = document.querySelector(
-      `.mobile-facets__category-view[data-category="${this.state.currentDrawerView}"]`
-    );
-    
-    if (!mainView || !currentCategoryView) return;
-
-    const headerTitle = document.querySelector('.mobile-facets__title');
-    if (headerTitle) {
-      headerTitle.textContent = headerTitle.dataset.defaultTitle || 'Filters';
-    }
-
-    requestAnimationFrame(() => {
-      mainView.style.transform = 'translateX(0)';
-      currentCategoryView.style.transform = 'translateX(100%)';
-      currentCategoryView.setAttribute('aria-hidden', 'true');
-      mainView.setAttribute('aria-hidden', 'false');
-    });
-
-    this.state.currentDrawerView = 'main';
-  }
-
-  toggleDrawer(isOpen) {
-    const mobileDrawer = document.querySelector('#MobileMenuDrawer');
-    if (!mobileDrawer) return;
-
-    if (isOpen) {
-      mobileDrawer.setAttribute('open', '');
-      document.body.classList.add('overflow-hidden-mobile');
-    } else {
-      mobileDrawer.removeAttribute('open');
-      document.body.classList.remove('overflow-hidden-mobile');
-      
-      if (this.state.currentDrawerView !== 'main') {
-        this.navigateBack();
-      }
-    }
-  }
-
-  buildQueryParams() {
-    // Group values by filter key
-    const groupedParams = {};
-    this.state.selectedFilters.forEach(filter => {
-      if (!groupedParams[filter.key]) {
-        groupedParams[filter.key] = [];
-      }
-      groupedParams[filter.key].push(filter.value);
-    });
-
-    // Build URL parts manually to avoid encoding commas
-    const urlParts = [];
-    Object.entries(groupedParams).forEach(([key, values]) => {
-      const encodedKey = encodeURIComponent(key);
-      const encodedValues = values.map(v => encodeURIComponent(v)).join(',');
-      urlParts.push(`${encodedKey}=${encodedValues}`);
-    });
-
-    return urlParts.join('&');
-  }
-
-  updateURLHash(searchParams) {
-    history.pushState(
-      { searchParams },
-      '',
-      `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
-    );
-  }
-
   renderSelectedFilters() {
-    const container = document.getElementById('SelectedFilters');
+    const container = this.querySelector('#SelectedFilters');
     if (!container) return;
 
     const filterElements = Array.from(this.state.selectedFilters.values()).map(filter => {
@@ -425,26 +315,17 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   removeFilter(key, value) {
-    const desktopInput = this.querySelector(`input[name="${key}"][value="${value}"]`);
-    const mobileInput = document.querySelector(`#MobileMenuDrawer input[name="${key}"][value="${value}"]`);
-    
-    if (desktopInput) desktopInput.checked = false;
-    if (mobileInput) mobileInput.checked = false;
-    
-    this.state.selectedFilters.delete(`${key}-${value}`);
-    
-    this.renderSelectedFilters();
-    this.updateMobileApplyButton();
-    this.updateFilterPreview();
-    
-    const queryString = this.buildQueryParams();
-    this.updateURLHash(queryString);
-    this.renderPage(queryString);
+    const input = this.querySelector(`input[name="${key}"][value="${value}"]`);
+    if (input) {
+      input.checked = false;
+      this.handleFilterChange({ target: input });
+    }
   }
 
   clearFilters() {
-    this.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
-    document.querySelectorAll('#MobileMenuDrawer input[type="checkbox"]').forEach(input => input.checked = false);
+    this.querySelectorAll('input[type="checkbox"]').forEach(input => {
+      input.checked = false;
+    });
     
     this.state.selectedFilters.clear();
     this.state.filterCache.clear();
@@ -457,49 +338,15 @@ class FacetFiltersForm extends HTMLElement {
     this.renderPage('');
   }
 
-  async onSubmitHandler(event) {
-    event.preventDefault();
-    const form = event.target.closest('form');
-    if (!form) return;
-
-    try {
-      const formData = new FormData(form);
-      const queryParams = {};
-
-      formData.forEach((value, key) => {
-        if (queryParams[key]) {
-          queryParams[key] += `,${value}`;
-        } else {
-          queryParams[key] = value;
-        }
-      });
-
-      this.state.selectedFilters.clear();
-      Object.entries(queryParams).forEach(([key, value]) => {
-        value.split(',').forEach(singleValue => {
-          const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-          const label = this.getFilterLabel(input);
-          
-          if (label) {
-            this.state.selectedFilters.set(`${key}-${singleValue}`, {
-              key,
-              value: singleValue,
-              label
-            });
-          }
-        });
-      });
-
-      const queryString = this.buildQueryParams();
-      this.renderSelectedFilters();
-      this.updateURLHash(queryString);
-      await this.renderPage(queryString, event);
-    } catch (error) {
-      console.error('Error handling form submission:', error);
-    }
+  updateURLHash(searchParams) {
+    history.pushState(
+      { searchParams },
+      '',
+      `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
+    );
   }
 
-  async renderPage(searchParams, event = null) {
+  async renderPage(searchParams) {
     if (this.state.loading) return;
 
     try {
@@ -508,7 +355,7 @@ class FacetFiltersForm extends HTMLElement {
 
       await Promise.all(sections.map(section => {
         const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
-        return this.renderSectionFromFetch(url, event);
+        return this.renderSectionFromFetch(url);
       }));
 
       this.state.loading = false;
@@ -518,7 +365,7 @@ class FacetFiltersForm extends HTMLElement {
     }
   }
 
-  async renderSectionFromFetch(url, event) {
+  async renderSectionFromFetch(url) {
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error('Fetch failed');
@@ -526,7 +373,7 @@ class FacetFiltersForm extends HTMLElement {
       const text = await response.text();
       const html = new DOMParser().parseFromString(text, 'text/html');
       
-      this.renderFilters(html, event);
+      this.renderFilters(html);
       this.renderProductGrid(html);
       this.renderProductCount(html);
     } catch (error) {
@@ -535,55 +382,41 @@ class FacetFiltersForm extends HTMLElement {
     }
   }
 
-  updateURLHash(searchParams) {
-    history.pushState(
-      { searchParams },
-      '',
-      `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
-    );
-  }
-
   getSections() {
     return [{
       section: document.getElementById('product-grid')?.dataset.id
     }].filter(section => section.section);
   }
 
-  renderFilters(html, event) {
-    const facetDetailsElements = html.querySelectorAll('#FacetsWrapperDesktop .js-filter');
-    const matchesIndex = (element) => {
-      return event?.target?.dataset?.index === element.dataset.index;
-    };
-
+  renderFilters(html) {
+    const facetDetailsElements = html.querySelectorAll('#FacetsWrapper .js-filter');
+    
     facetDetailsElements.forEach((element) => {
-      if (matchesIndex(element)) return;
-      
       const target = document.querySelector(`[data-index="${element.dataset.index}"]`);
-      if (target) {
+      if (target && !target.contains(document.activeElement)) {
         target.innerHTML = element.innerHTML;
       }
     });
 
-    this.initializeDesktopAccordion();
+    this.initializeAccordion();
   }
 
   renderProductGrid(html) {
-    const productGrid = document.getElementById('ProductGridContainer');
-    const newProductGrid = html.getElementById('ProductGridContainer');
+    const grid = document.getElementById('ProductGridContainer');
+    const newGrid = html.getElementById('ProductGridContainer');
     
-    if (productGrid && newProductGrid) {
-      productGrid.innerHTML = newProductGrid.innerHTML;
+    if (grid && newGrid) {
+      grid.innerHTML = newGrid.innerHTML;
     }
   }
 
   renderProductCount(html) {
     const count = document.getElementById('ProductCount');
-    const countMobile = document.getElementById('ProductCountMobile');
     const newCount = html.getElementById('ProductCount');
-    const newCountMobile = html.getElementById('ProductCountMobile');
 
-    if (count && newCount) count.innerHTML = newCount.innerHTML;
-    if (countMobile && newCountMobile) countMobile.innerHTML = newCountMobile.innerHTML;
+    if (count && newCount) {
+      count.innerHTML = newCount.innerHTML;
+    }
   }
 }
 
@@ -604,53 +437,6 @@ class FilterPreview {
         <span class="preview-count">${count} products</span>
       </div>
     `;
-  }
-}
-
-class VirtualizedFilterList {
-  constructor(container) {
-    this.container = container;
-    this.items = Array.from(container.children);
-    this.rowHeight = 40;
-    this.visibleItems = Math.ceil(container.clientHeight / this.rowHeight);
-    
-    this.setupVirtualization();
-  }
-
-  setupVirtualization() {
-    const totalHeight = this.items.length * this.rowHeight;
-    this.container.style.height = `${totalHeight}px`;
-    
-    let scrollTimeout;
-    this.container.addEventListener('scroll', () => {
-      if (scrollTimeout) {
-        window.cancelAnimationFrame(scrollTimeout);
-      }
-      scrollTimeout = window.requestAnimationFrame(() => this.render());
-    });
-
-    this.render();
-  }
-
-  render() {
-    const scrollTop = this.container.scrollTop;
-    const startIndex = Math.floor(scrollTop / this.rowHeight);
-    const endIndex = Math.min(
-      startIndex + this.visibleItems + 1,
-      this.items.length
-    );
-
-    const visibleItems = this.items
-      .slice(startIndex, endIndex)
-      .map(item => item.cloneNode(true));
-
-    visibleItems.forEach((item, index) => {
-      item.style.position = 'absolute';
-      item.style.top = `${(startIndex + index) * this.rowHeight}px`;
-    });
-
-    this.container.innerHTML = '';
-    visibleItems.forEach(item => this.container.appendChild(item));
   }
 }
 
