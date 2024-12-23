@@ -79,22 +79,24 @@ class FacetFiltersForm extends HTMLElement {
 
   handleSortChange(event) {
     const sortValue = event.target.value;
-    console.log('handleSortChange triggered'); // Log functie-aanroep
     console.log('Selected radio value:', sortValue); // Controleer geselecteerde waarde
   
-    this.state.currentSort = sortValue; // Update de huidige sorteerwaarde
+    // Zet de huidige sorteerwaarde in de state
+    this.state.currentSort = sortValue;
   
     // Synchroniseer tussen desktop en mobiel
     const isDesktop = event.target.name === 'sort_by_desktop';
     const otherInputName = isDesktop ? 'sort_by_mobile' : 'sort_by_desktop';
     const otherInput = this.querySelector(`input[name="${otherInputName}"][value="${sortValue}"]`);
+  
     if (otherInput) {
       otherInput.checked = true;
       console.log(`Synchronized ${otherInputName} to value:`, sortValue);
     }
   
-    this.applySortAndFilters(); // Pas filters toe
-  }        
+    // Pas sortering en filters toe
+    this.applySortAndFilters();
+  }         
   
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
