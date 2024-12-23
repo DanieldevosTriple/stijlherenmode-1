@@ -369,16 +369,32 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   buildQueryParams() {
-    const params = {};
+    // Group values by filter key
+    const groupedParams = {};
     this.state.selectedFilters.forEach(filter => {
-      if (params[filter.key]) {
-        params[filter.key] += `,${filter.value}`;
-      } else {
-        params[filter.key] = filter.value;
+      if (!groupedParams[filter.key]) {
+        groupedParams[filter.key] = [];
       }
+      groupedParams[filter.key].push(filter.value);
     });
 
-    return new URLSearchParams(params).toString();
+    // Build URL parts manually to avoid encoding commas
+    const urlParts = [];
+    Object.entries(groupedParams).forEach(([key, values]) => {
+      const encodedKey = encodeURIComponent(key);
+      const encodedValues = values.map(v => encodeURIComponent(v)).join(',');
+      urlParts.push(`${encodedKey}=${encodedValues}`);
+    });
+
+    return urlParts.join('&');
+  }
+
+  updateURLHash(searchParams) {
+    history.pushState(
+      { searchParams },
+      '',
+      `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
+    );
   }
 
   renderSelectedFilters() {
