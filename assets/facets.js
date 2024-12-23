@@ -242,20 +242,31 @@ class FacetFiltersForm extends HTMLElement {
 
   buildQueryParams() {
     const groupedParams = {};
+    
     this.state.selectedFilters.forEach(filter => {
-      if (!groupedParams[filter.key]) {
-        groupedParams[filter.key] = [];
+      if (filter.key.startsWith('price_')) {
+        const [min, max] = filter.value.split('-');
+        if (min) groupedParams['filter.v.price.gte'] = min;
+        if (max) groupedParams['filter.v.price.lte'] = max;
+      } else {
+        if (!groupedParams[filter.key]) {
+          groupedParams[filter.key] = [];
+        }
+        groupedParams[filter.key].push(filter.value);
       }
-      groupedParams[filter.key].push(filter.value);
     });
-
+  
     const urlParts = [];
     Object.entries(groupedParams).forEach(([key, values]) => {
       const encodedKey = encodeURIComponent(key);
-      const encodedValues = values.map(v => encodeURIComponent(v)).join(',');
-      urlParts.push(`${encodedKey}=${encodedValues}`);
+      if (Array.isArray(values)) {
+        const encodedValues = values.map(v => encodeURIComponent(v)).join(',');
+        urlParts.push(`${encodedKey}=${encodedValues}`);
+      } else {
+        urlParts.push(`${encodedKey}=${encodeURIComponent(values)}`);
+      }
     });
-
+  
     return urlParts.join('&');
   }
 
@@ -274,8 +285,9 @@ class FacetFiltersForm extends HTMLElement {
     const filters = new Map();
     const params = new URLSearchParams(window.location.search);
     
+    // Handle regular filters
     params.forEach((value, key) => {
-      if (key.startsWith('filter.')) {
+      if (key.startsWith('filter.') && !key.includes('price')) {
         value.split(',').forEach(singleValue => {
           const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
           const label = this.getFilterLabel(input);
@@ -290,6 +302,18 @@ class FacetFiltersForm extends HTMLElement {
         });
       }
     });
+    
+    // Handle price range filters
+    const min = params.get('filter.v.price.gte');
+    const max = params.get('filter.v.price.lte');
+    
+    if (min || max) {
+      filters.set('price_filter', {
+        key: 'price_filter',
+        value: `${min || ''}-${max || ''}`,
+        label: `Price: $${min || '0'} - $${max || '∞'}`
+      });
+    }
     
     return filters;
   }
