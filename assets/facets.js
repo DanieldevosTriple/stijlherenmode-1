@@ -30,7 +30,10 @@ class FacetFiltersForm extends HTMLElement {
     // Add sort input handlers
     const sortInputs = this.querySelectorAll('input[name="sort_by"]');
     sortInputs.forEach(input => {
-      input.addEventListener('change', (e) => this.handleSortChange(e));
+      input.addEventListener('change', (e) => {
+        this.handleSortChange(e);
+        console.log('Sort changed:', e.target.value); // Add this to debug
+      });
     });
 
     // Form change handler for all checkboxes
