@@ -11,8 +11,9 @@
           <span>{{ collection.title }}</span>
         {% endif %}
       </div>
-      {% assign product_count = '#product-grid .grid__item' | count_elements %}
-      <span>{{ product_count }} products</span>
+      {% paginate collection.products by settings.products_per_page %}
+        <span>{{ paginate.items }} products</span>
+      {% endpaginate %}
     </div>
 
     <div id="FacetsWrapper" class="facets__wrapper">
