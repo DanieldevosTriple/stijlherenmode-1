@@ -7,7 +7,7 @@
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
 
-    {%- if settings.favicon != blank -%}
+    {%- if settings.favicon-light != blank -%}
     <link rel="icon"  type="image/png" href="{{ settings.favicon-light | image_url: width: 32, height: 32 }}" media="(prefers-color-scheme: light)">
     <link rel="icon"  type="image/png" href="{{ settings.favicon-dark | image_url: width: 32, height: 32 }}" media="(prefers-color-scheme: dark)">
     {%- endif -%}
