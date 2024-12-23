@@ -45,6 +45,14 @@
   gap: 0.5rem;
 }
 
+.facet-accordion__label::after {
+  content: "+";
+}
+
+.facet-accordion__label[open]::after {
+  content: "-";
+}
+
 .facet-accordion__list {
   display: block;
   list-style: none;
