@@ -83,10 +83,10 @@ class FacetFiltersForm extends HTMLElement {
     const otherInput = this.querySelector(`${selector} input[name="sort_by"][value="${sortValue}"]`);
     if (otherInput) otherInput.checked = true;
   
-    if (!this.state.isMobileView) {
-      this.applySortAndFilters();
-    }
+    // Apply sort immediately
+    this.applySortAndFilters();
   }
+  
 
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
@@ -265,6 +265,12 @@ class FacetFiltersForm extends HTMLElement {
    }
 
   clearFilters() {
+    // Add radio reset
+    this.querySelectorAll('input[type="radio"]').forEach(input => {
+      input.checked = false;
+    });
+    this.state.currentSort = '';
+
     // Clear all price inputs (mobile + desktop)
     this.querySelectorAll('.facet-range__input').forEach(input => {
       input.value = '';
