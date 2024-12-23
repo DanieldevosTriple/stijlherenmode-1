@@ -78,6 +78,9 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   handleSortChange(event) {
+    console.log('handleSortChange triggered'); // Log the function trigger
+    console.log('Selected value:', event.target.value); // Log the selected radio value
+    console.log('Before state change:', this.state.currentSort); // Log current sort state
     const sortValue = event.target.value;
   
     // Update the current sort state
@@ -86,7 +89,9 @@ class FacetFiltersForm extends HTMLElement {
     // Reset all radios and set checked for the selected one
     const allSortInputs = this.querySelectorAll('input[name="sort_by"]');
     allSortInputs.forEach(input => {
+      console.log(`Checking radio ${input.value}: current checked state is ${input.checked}`);
       input.checked = input.value === sortValue; // Update the DOM checked state
+      console.log(`Updated radio ${input.value} checked state to ${input.checked}`);
     });
   
     // Synchronize the mobile and desktop views
