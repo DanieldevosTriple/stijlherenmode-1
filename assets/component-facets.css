@@ -49,7 +49,7 @@
   content: "+";
 }
 
-.facet-accordion__label[open]::after {
+.facet-accordion__item[open] .facet-accordion__label::after {
   content: "-";
 }
 
