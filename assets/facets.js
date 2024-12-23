@@ -436,19 +436,75 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   initializeFromURL() {
+    // Haal de URL-parameters op
     const params = new URLSearchParams(window.location.search);
-    const sortBy = params.get('sort_by') || '';
   
-    // Sync desktop and mobile radios
+    // **Initialiseer de huidige sorteerwaarde**
+    const sortBy = params.get('sort_by') || '';
+    this.state.currentSort = sortBy;
+  
+    // Synchroniseer desktop- en mobiele radios voor sortering
     const desktopInput = this.querySelector(`input[name="sort_by_desktop"][value="${sortBy}"]`);
     const mobileInput = this.querySelector(`input[name="sort_by_mobile"][value="${sortBy}"]`);
-  
+    
     if (desktopInput) desktopInput.checked = true;
     if (mobileInput) mobileInput.checked = true;
   
-    this.state.currentSort = sortBy;
-    console.log('Initialized sort state from URL:', this.state.currentSort);
-  }  
+    console.log('Sortering vanuit URL geïnitialiseerd:', this.state.currentSort);
+  
+    // **Initialiseer geselecteerde filters**
+    this.state.selectedFilters = new Map();
+  
+    params.forEach((value, key) => {
+      // Sla prijsfilters apart op
+      if (key === 'filter.v.price.gte' || key === 'filter.v.price.lte') {
+        const filterKey = 'price_filter';
+        const min = params.get('filter.v.price.gte') || '';
+        const max = params.get('filter.v.price.lte') || '';
+        
+        if (min || max) {
+          this.state.selectedFilters.set(filterKey, {
+            key: filterKey,
+            value: `${min}-${max}`,
+            label: `Prijs: €${min || '0'} - €${max || '∞'}`
+          });
+        }
+      } else if (key.startsWith('filter.')) {
+        // Verwerk reguliere filters
+        value.split(',').forEach(singleValue => {
+          const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+          if (input) {
+            input.checked = true; // Sync met checkbox
+            const label = this.getFilterLabel(input);
+            if (label) {
+              this.state.selectedFilters.set(`${key}-${singleValue}`, {
+                key,
+                value: singleValue,
+                label
+              });
+            }
+          }
+        });
+      }
+    });
+  
+    console.log('Geselecteerde filters vanuit URL:', Array.from(this.state.selectedFilters.entries()));
+  
+    // **Update UI met geselecteerde filters**
+    this.renderSelectedFilters();
+    this.updateMobileApplyButton();
+  
+    // **Initialiseer prijsrange inputs**
+    const minPriceInput = this.querySelector('input[name^="min_price"]');
+    const maxPriceInput = this.querySelector('input[name^="max_price"]');
+    const minPrice = params.get('filter.v.price.gte') || '';
+    const maxPrice = params.get('filter.v.price.lte') || '';
+  
+    if (minPriceInput) minPriceInput.value = minPrice;
+    if (maxPriceInput) maxPriceInput.value = maxPrice;
+  
+    console.log('Prijsrange vanuit URL ingesteld: €', minPrice, '-', maxPrice);
+  }   
 
    syncFromURL() {
     try {
