@@ -87,7 +87,7 @@
   flex-shrink: 0;
   background-color: rgb(241, 241, 241);
   border-radius: 50%;
-  appearance: none;
+  appearance: none; 
   cursor: pointer;
 }
 
