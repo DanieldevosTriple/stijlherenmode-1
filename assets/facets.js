@@ -7,7 +7,8 @@ class FacetFiltersForm extends HTMLElement {
       currentView: 'main',
       filterCache: new Map(),
       isMobileView: window.innerWidth <= 991,
-      currentSort: '' // Added
+      currentSort: '', // Added
+      accordionState: new Map() // Store accordion state
     };
 
     this.filterPreview = new FilterPreview();
@@ -19,6 +20,30 @@ class FacetFiltersForm extends HTMLElement {
     this.setupResizeObserver();
   }
 
+  saveAccordionState() {
+    this.state.accordionState.clear();
+    this.querySelectorAll('.facet-accordion__item').forEach((item) => {
+      const isOpen = item.hasAttribute('open');
+      const index = item.dataset.index;
+      if (index) {
+        this.state.accordionState.set(index, isOpen);
+      }
+    });
+  }
+  
+  restoreAccordionState() {
+    this.querySelectorAll('.facet-accordion__item').forEach((item) => {
+      const index = item.dataset.index;
+      if (index && this.state.accordionState.has(index)) {
+        if (this.state.accordionState.get(index)) {
+          item.setAttribute('open', '');
+        } else {
+          item.removeAttribute('open');
+        }
+      }
+    });
+  }
+  
   setupEventListeners() {
     // Price range inputs - both mobile and desktop
     const priceInputs = this.querySelectorAll('.facet-range__input');
@@ -504,6 +529,10 @@ class FacetFiltersForm extends HTMLElement {
   
     try {
       this.state.loading = true;
+  
+      // Save current accordion state
+      this.saveAccordionState();
+  
       const sections = this.getSections();
       console.log('Sections to render:', sections);
   
@@ -515,12 +544,15 @@ class FacetFiltersForm extends HTMLElement {
         })
       );
   
+      // Restore accordion state
+      this.restoreAccordionState();
+  
       this.state.loading = false;
     } catch (error) {
       console.error('Error rendering page:', error);
       this.state.loading = false;
     }
-  }
+  }  
   
   async renderSectionFromFetch(url) {
     try {
