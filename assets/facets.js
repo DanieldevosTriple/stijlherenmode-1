@@ -177,50 +177,83 @@ class FacetFiltersForm extends HTMLElement {
   
       if (!summary || !toggle) return;
   
-      const updateToggle = () => {
-        toggle.textContent = item.hasAttribute('open') ? '-' : '+';
-      };
-  
-      updateToggle();
-  
-      summary.addEventListener('click', (event) => {
-        event.preventDefault();
-  
-        // Handle accordion for desktop
-        if (!this.state.isMobileView) {
-          accordionItems.forEach((other) => {
-            if (other !== item && other.hasAttribute('open')) {
-              other.removeAttribute('open');
-              const otherToggle = other.querySelector('.facet-accordion__toggle');
-              if (otherToggle) otherToggle.textContent = '+';
-            }
-          });
-  
-          item.toggleAttribute('open');
-          updateToggle();
-        } else {
-          // Handle nested navigation for mobile
-          this.handleMobileAccordion(item);
-        }
-      });
+      if (this.state.isMobileView) {
+        this.setupMobileAccordion(item, summary, toggle);
+      } else {
+        this.setupDesktopAccordion(item, summary, toggle);
+      }
     });
   }
   
-  handleMobileAccordion(item) {
-    const categoryView = this.querySelector('.mobile-category-view');
-    const backButton = categoryView?.querySelector('.mobile-category__back');
+  setupMobileAccordion(item, summary, toggle) {
+    const subMenu = item.querySelector('.facet-accordion__submenu');
+    const backButton = document.createElement('button');
+    backButton.classList.add('submenu-back-button');
+    backButton.textContent = 'Back';
+    
+    if (subMenu) {
+      subMenu.prepend(backButton);
+    }
   
-    if (!categoryView || !backButton) return;
+    summary.addEventListener('click', (event) => {
+      event.preventDefault();
   
-    // Move to the category view
-    categoryView.innerHTML = item.innerHTML;
-    categoryView.classList.add('visible');
-  
-    // Back button logic
-    backButton.addEventListener('click', () => {
-      categoryView.classList.remove('visible');
+      // Open submenu view
+      if (subMenu) {
+        item.classList.add('submenu-active');
+        this.querySelector('.facets__wrapper').classList.add('submenu-open');
+      }
     });
-  }    
+  
+    backButton.addEventListener('click', (event) => {
+      event.preventDefault();
+  
+      // Close submenu view
+      if (subMenu) {
+        item.classList.remove('submenu-active');
+        this.querySelector('.facets__wrapper').classList.remove('submenu-open');
+      }
+    });
+  }
+  
+  setupDesktopAccordion(item, summary, toggle) {
+    const updateToggle = () => {
+      toggle.textContent = item.hasAttribute('open') ? '-' : '+';
+    };
+  
+    updateToggle();
+  
+    summary.addEventListener('click', (event) => {
+      event.preventDefault();
+  
+      this.querySelectorAll('.facet-accordion__item[open]').forEach((other) => {
+        if (other !== item) {
+          other.removeAttribute('open');
+          const otherToggle = other.querySelector('.facet-accordion__toggle');
+          if (otherToggle) otherToggle.textContent = '+';
+        }
+      });
+  
+      item.toggleAttribute('open');
+      updateToggle();
+    });
+  }
+  
+  setupResizeObserver() {
+    window.addEventListener('resize', debounce(() => {
+      const isMobile = window.innerWidth <= 991;
+      if (isMobile !== this.state.isMobileView) {
+        this.state.isMobileView = isMobile;
+  
+        // Reinitialize accordion for the new view
+        this.initializeAccordion();
+  
+        if (!isMobile) {
+          this.toggleMobileView(false);
+        }
+      }
+    }, 250));
+  }  
 
   toggleMobileView(isOpen) {
     const wrapper = this.querySelector('.facets__wrapper');
