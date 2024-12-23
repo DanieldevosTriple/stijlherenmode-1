@@ -11,13 +11,9 @@
           <span>{{ collection.title }}</span>
         {% endif %}
       </div>
-      <div class="mobile-facets__filter">
-        <div class="product-count-mobile">
-          {% if collection.all_products_count > 0 %}
-            <span>{{ collection.all_products_count }} {% if collection.all_products_count == 1 %}product{% else %}producten{% endif %}</span>
-          {% endif %}
-        </div>
-      </div>
+      <button type="button" class="mobile-facets__open-button" aria-expanded="false">
+        <span>{{ 'products.facets.filter_button' | t }}</span>
+      </button>
     </div>
 
     <div id="FacetsWrapper" class="facets__wrapper">
@@ -33,9 +29,15 @@
 
           <!-- Mobile View Header -->
           <div class="mobile-facets__header">
+            <button type="button" class="mobile-facets__back-button hidden">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"></path>
+              </svg>
+              <span>Back</span>
+            </button>
             <h2 class="mobile-facets__title">{{ 'products.facets.filter_button' | t }}</h2>
             <button type="button" class="mobile-facets__close-button">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
@@ -44,37 +46,108 @@
 
           <!-- Filters Content -->
           <div class="facets__content">
-            {% if enable_sorting %}
-              <div class="facet-accordion">
-                <details class="facet-accordion__item js-filter" data-index="sort">
-                  <summary class="facet-accordion__header">
-                    <div class="facet-accordion__label">
-                      {{ 'products.facets.sort_by_label' | t }}
-                      <span class="facet-accordion__toggle">+</span>
+            <!-- Desktop Facets -->
+            <div class="facets__desktop">
+              {% if enable_sorting %}
+                <div class="facet-accordion">
+                  <details class="facet-accordion__item js-filter" data-index="sort">
+                    <summary class="facet-accordion__header">
+                      <div class="facet-accordion__label">
+                        {{ 'products.facets.sort_by_label' | t }}
+                        <span class="facet-accordion__toggle">+</span>
+                      </div>
+                    </summary>
+                    <div class="facet-accordion__content">
+                      {%- for option in results.sort_options -%}
+                        <div class="facet-checkbox">
+                          <input type="radio" 
+                            name="sort_by" 
+                            value="{{ option.value }}" 
+                            id="Sort-{{ option.value }}"
+                            {% if option.value == results.sort_by %} checked{% endif %}
+                          >
+                          <label for="Sort-{{ option.value }}">{{ option.name | escape }}</label>
+                        </div>
+                      {%- endfor -%}
                     </div>
-                  </summary>
-                  <div class="facet-accordion__content">
-                    <!-- Sorting content -->
+                  </details>
+                </div>
+              {% endif %}
+
+              {%- for filter in results.filters -%}
+                <div class="facet-accordion">
+                  <details class="facet-accordion__item js-filter" data-index="{{ forloop.index }}">
+                    <summary class="facet-accordion__header">
+                      <div class="facet-accordion__label">
+                        {{ filter.label | escape }}
+                        <span class="facet-accordion__toggle">+</span>
+                      </div>
+                    </summary>
+                    <div class="facet-accordion__content">
+                      {% case filter.type %}
+                        {% when 'boolean' or 'list' %}
+                          <fieldset class="facets-wrap">
+                            <legend class="visually-hidden">{{ filter.label | escape }}</legend>
+                            <ul class="facet-accordion__list">
+                              {%- for value in filter.values -%}
+                                <li class="facet-accordion__list-item">
+                                  <label class="facet-checkbox{% if value.count == 0 and value.active == false %} disabled{% endif %}">
+                                    <input type="checkbox"
+                                      name="{{ value.param_name }}"
+                                      value="{{ value.value }}"
+                                      {% if value.active %}checked{% endif %}
+                                      {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                                    >
+                                    <span class="facet-checkbox__text">
+                                      {{ value.label | escape }} ({{ value.count }})
+                                    </span>
+                                  </label>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          </fieldset>
+                      {% endcase %}
+                    </div>
+                  </details>
+                </div>
+              {%- endfor -%}
+            </div>
+
+            <!-- Mobile Facets -->
+            <div class="facets__mobile">
+              {% if enable_sorting %}
+                <div class="facet-accordion__item" data-submenu="sort">
+                  <button type="button" class="mobile-facets__menu-button">
+                    <span>{{ 'products.facets.sort_by_label' | t }}</span>
+                    <svg class="mobile-facets__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </button>
+                  <div class="mobile-facets__submenu">
+                    {%- for option in results.sort_options -%}
+                      <div class="facet-checkbox">
+                        <input type="radio" 
+                          name="sort_by" 
+                          value="{{ option.value }}" 
+                          id="Mobile-Sort-{{ option.value }}"
+                          {% if option.value == results.sort_by %} checked{% endif %}
+                        >
+                        <label for="Mobile-Sort-{{ option.value }}">{{ option.name | escape }}</label>
+                      </div>
+                    {%- endfor -%}
                   </div>
-                </details>
-              </div>
-            {% endif %}
+                </div>
+              {% endif %}
 
-            {%- for filter in results.filters -%}
-              <div class="facet-accordion">
-                <details 
-                  id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
-                  class="facet-accordion__item js-filter"
-                  data-index="{{ forloop.index }}"
-                >
-                  <summary class="facet-accordion__header">
-                    <div class="facet-accordion__label">
-                      {{ filter.label | escape }}
-                      <span class="facet-accordion__toggle">+</span>
-                    </div>
-                  </summary>
-
-                  <div class="facet-accordion__content">
+              {%- for filter in results.filters -%}
+                <div class="facet-accordion__item" data-submenu="{{ filter.param_name }}">
+                  <button type="button" class="mobile-facets__menu-button">
+                    <span>{{ filter.label | escape }}</span>
+                    <svg class="mobile-facets__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
+                  </button>
+                  <div class="mobile-facets__submenu">
                     {% case filter.type %}
                       {% when 'boolean' or 'list' %}
                         <fieldset class="facets-wrap">
@@ -83,11 +156,9 @@
                             {%- for value in filter.values -%}
                               <li class="facet-accordion__list-item">
                                 <label class="facet-checkbox{% if value.count == 0 and value.active == false %} disabled{% endif %}">
-                                  <input 
-                                    type="checkbox"
+                                  <input type="checkbox"
                                     name="{{ value.param_name }}"
                                     value="{{ value.value }}"
-                                    class="custom-checkbox mobile-facets__filter-checkbox"
                                     {% if value.active %}checked{% endif %}
                                     {% if value.count == 0 and value.active == false %}disabled{% endif %}
                                   >
@@ -99,20 +170,11 @@
                             {%- endfor -%}
                           </ul>
                         </fieldset>
-
-                      {% when 'price_range' %}
-                        <price-range class="facet-accordion__price">
-                          {% render 'price-facet',
-                            filter: filter,
-                            id_prefix: 'Filter-',
-                            format: 'responsive'
-                          %}
-                        </price-range>
                     {% endcase %}
                   </div>
-                </details>
-              </div>
-            {%- endfor -%}
+                </div>
+              {%- endfor -%}
+            </div>
           </div>
 
           <!-- Mobile Footer -->
