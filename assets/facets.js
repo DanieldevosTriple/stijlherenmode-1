@@ -244,6 +244,7 @@ class FacetFiltersForm extends HTMLElement {
     const formData = new FormData(event.target.closest('form'));
     const queryParams = {};
 
+    // Group filter values by key
     formData.forEach((value, key) => {
       if (queryParams[key]) {
         queryParams[key] = queryParams[key] + `,${value}`;
@@ -274,7 +275,7 @@ class FacetFiltersForm extends HTMLElement {
     this.updateFilterPreview();
     this.renderSelectedFilters();
 
-    // Only apply filters immediately on desktop
+    // Don't update URL or refresh products until Apply is clicked on mobile
     if (!this.state.isMobileView) {
       this.applyFilters();
     }
