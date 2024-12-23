@@ -44,6 +44,13 @@
 
           <!-- Filters Content -->
           <div class="facets__content">
+            <div class="mobile-category-view">
+              <button class="mobile-category__back">
+                {{ 'products.facets.back' | t }}
+              </button>
+              <!-- Dynamic category content will be loaded here -->
+              <div class="mobile-category__content"></div>
+            </div>
             {% if enable_sorting %}
               <div class="facet-accordion">
                 <details class="facet-accordion__item js-filter" data-index="sort">
