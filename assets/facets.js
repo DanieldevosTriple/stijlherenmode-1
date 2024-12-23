@@ -20,27 +20,34 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   setupEventListeners() {
+    // Price range inputs
+    const priceInputs = this.querySelectorAll('.facet-range__input');
+    priceInputs.forEach(input => {
+      input.addEventListener('change', this.debouncedOnChange);
+      input.addEventListener('input', (e) => this.validatePriceInput(e));
+    });
+ 
     // Form change handler for all checkboxes
     const form = this.querySelector('form');
     if (form) {
       form.addEventListener('change', this.debouncedOnChange);
     }
-
-    // Mobile-specific controls
+ 
+    // Mobile-specific controls 
     const mobileControls = {
       open: document.querySelector('.mobile-facets__open-button'),
-      close: this.querySelector('.mobile-facets__close-button'),
+      close: this.querySelector('.mobile-facets__close-button'), 
       back: this.querySelector('.mobile-facets__back-button'),
       clear: this.querySelector('.mobile-facets__clear'),
       apply: this.querySelector('.mobile-facets__apply')
     };
-
+ 
     mobileControls.open?.addEventListener('click', () => this.openMobileDrawer());
     mobileControls.close?.addEventListener('click', () => this.closeMobileDrawer());
     mobileControls.back?.addEventListener('click', () => this.closeMobileSubmenu());
     mobileControls.clear?.addEventListener('click', () => this.clearFilters());
     mobileControls.apply?.addEventListener('click', () => this.applyMobileFilters());
-
+ 
     // Mobile submenu buttons
     this.querySelectorAll('.mobile-facets__menu-button').forEach(button => {
       button.addEventListener('click', () => {
@@ -48,7 +55,7 @@ class FacetFiltersForm extends HTMLElement {
         this.openMobileSubmenu(submenuId);
       });
     });
-
+ 
     // Keyboard accessibility
     document.addEventListener('keyup', (event) => {
       if (event.code.toUpperCase() === 'ESCAPE') {
@@ -59,7 +66,7 @@ class FacetFiltersForm extends HTMLElement {
         }
       }
     });
-  }
+ }
 
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
@@ -133,10 +140,16 @@ class FacetFiltersForm extends HTMLElement {
 
   handleFilterChange(event) {
     if (this.state.loading) return;
-
+ 
+    // Handle price range inputs
+    if (event.target.classList.contains('facet-range__input')) {
+      this.handlePriceRangeChange(event);
+      return;
+    }
+ 
     const formData = new FormData(event.target.closest('form'));
     const queryParams = {};
-
+ 
     formData.forEach((value, key) => {
       if (queryParams[key]) {
         queryParams[key] = queryParams[key] + `,${value}`;
@@ -144,7 +157,7 @@ class FacetFiltersForm extends HTMLElement {
         queryParams[key] = value;
       }
     });
-
+ 
     // Update selected filters state
     this.state.selectedFilters.clear();
     Object.entries(queryParams).forEach(([key, value]) => {
@@ -161,7 +174,7 @@ class FacetFiltersForm extends HTMLElement {
         }
       });
     });
-
+ 
     // Sync checkboxes between mobile and desktop
     this.state.selectedFilters.forEach(filter => {
       const desktopInput = this.querySelector(`.facets__desktop input[name="${filter.key}"][value="${filter.value}"]`);
@@ -170,18 +183,18 @@ class FacetFiltersForm extends HTMLElement {
       if (desktopInput) desktopInput.checked = true;
       if (mobileInput) mobileInput.checked = true;
     });
-
+ 
     // Update UI
     this.updateMobileApplyButton();
     this.renderSelectedFilters();
-
+ 
     const isDesktopCheckbox = event.target.closest('.facets__desktop') !== null;
     
     // Voor desktop: direct updaten bij checkbox change
     if (isDesktopCheckbox) {
       this.applyFilters();
     }
-  }
+ }
 
   applyMobileFilters() {
     // Eerst de filters toepassen
