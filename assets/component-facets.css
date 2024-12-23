@@ -577,3 +577,22 @@
     display: none;
   }
 }
+
+.facets__wrapper.submenu-open {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.submenu-active .facet-accordion__submenu {
+  display: block;
+}
+
+.submenu-back-button {
+  display: block;
+  margin-bottom: 10px;
+  background: none;
+  border: none;
+  color: #007bff;
+  text-align: left;
+  cursor: pointer;
+}
