@@ -143,20 +143,14 @@ class FacetFiltersForm extends HTMLElement {
 
     // Price range inputs
     if (event.target.classList.contains('facet-range__input')) {
-      // Sync mobile/desktop price inputs
-      const isDesktop = event.target.closest('.facets__desktop');
-      const selector = isDesktop ? '.facets__mobile' : '.facets__desktop';
-      const otherInput = this.querySelector(`${selector} input[name="${event.target.name}"]`);
-      if (otherInput) otherInput.value = event.target.value;
+    // Sync mobile/desktop price inputs
+    const isDesktop = event.target.closest('.facets__desktop');
+    const selector = isDesktop ? '.facets__mobile' : '.facets__desktop';
+    const otherInput = this.querySelector(`${selector} input[name="${event.target.name}"]`);
+    if (otherInput) otherInput.value = event.target.value;
 
-      this.handlePriceRangeChange(event);
-      return;
-    }
-
-    // Handle price range inputs
-    if (event.target.classList.contains('facet-range__input')) {
-      this.handlePriceRangeChange(event);
-      return;
+    this.handlePriceRangeChange(event);
+    return;
     }
 
     const formData = new FormData(event.target.closest('form'));
@@ -209,23 +203,36 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   applyMobileFilters() {
+    // Get current form data to capture unchecked boxes
+    const form = this.querySelector('form');
+    const formData = new FormData(form);
+    
+    // Clear existing filters that aren't in form data
+    this.state.selectedFilters.forEach((filter, key) => {
+      if (filter.key !== 'price_filter' && !formData.has(filter.key)) {
+        this.state.selectedFilters.delete(key);
+      }
+    });
+  
     // Handle price range inputs before applying filters
     const minInput = this.querySelector('input[name^="min_"]');
     const maxInput = this.querySelector('input[name^="max_"]');
-
+  
     if (minInput && maxInput) {
       const min = parseInt(minInput.value) || '';
       const max = parseInt(maxInput.value) || '';
-
+  
       if (min || max) {
         this.state.selectedFilters.set('price_filter', {
           key: 'price_filter',
           value: `${min}-${max}`,
           label: `Price: $${min || '0'} - $${max || '∞'}`
         });
+      } else {
+        this.state.selectedFilters.delete('price_filter');
       }
     }
-
+  
     // Eerst de filters toepassen
     this.applyFilters();
     // Dan de drawer sluiten
@@ -243,21 +250,25 @@ class FacetFiltersForm extends HTMLElement {
     this.querySelectorAll('.facet-range__input').forEach(input => {
       input.value = '';
     });
-
-    // Clear all checkboxes
+  
+    // Clear all checkboxes (both mobile and desktop)
     this.querySelectorAll('input[type="checkbox"]').forEach(input => {
       input.checked = false;
     });
-
+  
     this.state.selectedFilters.clear();
     this.state.filterCache.clear();
-
+  
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
     this.updateFilterPreview();
-
+  
+    // Update URL and re-render page
     history.pushState({}, '', window.location.pathname);
     this.renderPage('');
+    
+    // Close mobile drawer after clearing
+    this.closeMobileDrawer();
   }
 
   updateMobileApplyButton() {
