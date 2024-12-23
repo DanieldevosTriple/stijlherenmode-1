@@ -81,21 +81,16 @@ class FacetFiltersForm extends HTMLElement {
     const sortValue = event.target.value;
     this.state.currentSort = sortValue;
     
-    // Update radio on other view (mobile/desktop)
-    const isDesktop = event.target.closest('.facets__desktop');
-    const selector = isDesktop ? '.facets__mobile' : '.facets__desktop';
-    const otherInput = this.querySelector(`${selector} input[name="sort_by"][value="${sortValue}"]`);
-    if (otherInput) otherInput.checked = true;
-    
-    // Update all remaining radio buttons
+    // Update both desktop and mobile radio buttons
     this.querySelectorAll('input[name="sort_by"]').forEach(input => {
-      if (input !== otherInput && input !== event.target) {
+      if(input.getAttribute('data-keep-checked') !== 'true') {
         input.checked = input.value === sortValue;
       }
     });
-  
+   
+    // Apply sort immediately
     this.applySortAndFilters();
-  }
+   }
   
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
