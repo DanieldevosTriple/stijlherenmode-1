@@ -12,7 +12,7 @@
         {% endif %}
       </div>
       <div class="product-count">
-        {% assign product_count = '#product-grid .grid__item' | count_elements %}
+        {% assign product_count = '#product-grid' | count_elements %}
         <span>{{ product_count }} {% if product_count == 1 %}product{% else %}products{% endif %}</span>
       </div>
     </div>
