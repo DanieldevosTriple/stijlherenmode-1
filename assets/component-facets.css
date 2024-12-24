@@ -126,7 +126,7 @@
   border: 2px solid #ccc;
   cursor: pointer;
   position: relative;
-  background-color: white;
+  background-color: #ccc;
 }
 
 .facet-checkbox input[type="checkbox"]:checked {
