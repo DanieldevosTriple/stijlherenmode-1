@@ -1,130 +1,74 @@
-class ProductCardCarousel {
-  constructor(element) {
-    this.carousel = element;
-    this.container = element.querySelector('.product-card-carousel-container');
-    this.slides = Array.from(element.querySelectorAll('.product-card-carousel-slide'));
+document.addEventListener('DOMContentLoaded', function() {
+  const carousels = document.querySelectorAll('.product-card-carousel');
+  
+  carousels.forEach(carousel => {
+    const slides = carousel.querySelectorAll('.product-card-carousel-slide');
+    const container = carousel.querySelector('.product-card-carousel-container');
+    let currentSlide = 0;
     
-    if (this.slides.length <= 1) return;
-    
-    this.currentSlide = 0;
-    this.touchStartX = 0;
-    this.touchEndX = 0;
-    this.isDragging = false;
-    
-    this.container.style.transform = 'translateX(0)';
-    
-    this.setupControls();
-    this.setupEventListeners();
-  }
-
-  setupControls() {
-    // Add arrows
+    // Create navigation arrows
     const prevButton = document.createElement('button');
-    prevButton.className = 'carousel-arrow carousel-arrow-prev';
-    prevButton.innerHTML = '←';
+    prevButton.className = 'carousel-prev';
+    prevButton.innerHTML = '&#8249;';
     
     const nextButton = document.createElement('button');
-    nextButton.className = 'carousel-arrow carousel-arrow-next';
-    nextButton.innerHTML = '→';
+    nextButton.className = 'carousel-next';
+    nextButton.innerHTML = '&#8250;';
     
-    // Add dots
-    const dotsContainer = document.createElement('div');
-    dotsContainer.className = 'carousel-dots';
+    carousel.appendChild(prevButton);
+    carousel.appendChild(nextButton);
     
-    this.slides.forEach((_, index) => {
-      const dot = document.createElement('button');
-      dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
-      dot.addEventListener('click', () => this.goToSlide(index));
-      dotsContainer.appendChild(dot);
-    });
+    // Navigation functions
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      slides[index].classList.add('active');
+    }
     
-    this.carousel.appendChild(prevButton);
-    this.carousel.appendChild(nextButton);
-    this.carousel.appendChild(dotsContainer);
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
     
-    this.dots = dotsContainer.querySelectorAll('.carousel-dot');
-  }
-
-  setupEventListeners() {
-    // Arrow navigation
-    this.carousel.querySelector('.carousel-arrow-prev')
-      .addEventListener('click', () => this.prevSlide());
-    this.carousel.querySelector('.carousel-arrow-next')
-      .addEventListener('click', () => this.nextSlide());
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
     
-    // Mouse and Touch events
-    const startDrag = (e) => {
-      if (e.type === 'mousedown' && e.button !== 0) return;
-      this.touchStartX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-      this.isDragging = true;
-      this.container.style.transition = 'none';
-    };
+    // Event listeners
+    nextButton.addEventListener('click', nextSlide);
+    prevButton.addEventListener('click', prevSlide);
     
-    const onDrag = (e) => {
-      if (!this.touchStartX || !this.isDragging) return;
-      
-      e.preventDefault();
-      const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-      const diff = this.touchStartX - currentX;
-      const transform = -this.currentSlide * 100 - (diff / this.carousel.offsetWidth * 100);
-      this.container.style.transform = `translateX(${transform}%)`;
-    };
-    
-    const endDrag = (e) => {
-      if (!this.isDragging) return;
-      
-      this.touchEndX = e.type === 'mouseup' ? e.clientX : (e.changedTouches ? e.changedTouches[0].clientX : this.touchStartX);
-      const diff = this.touchStartX - this.touchEndX;
-      
-      this.container.style.transition = 'transform 0.3s ease-in-out';
-      
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) this.nextSlide();
-        else this.prevSlide();
-      } else {
-        this.goToSlide(this.currentSlide);
+    // Add CSS
+    const style = document.createElement('style');
+    style.textContent = `
+      .product-card-carousel {
+        position: relative;
       }
-      
-      this.touchStartX = null;
-      this.touchEndX = null;
-      this.isDragging = false;
-    };
-
-    // Add mouse and touch event listeners
-    this.container.addEventListener('mousedown', startDrag);
-    this.container.addEventListener('mousemove', onDrag);
-    this.container.addEventListener('mouseup', endDrag);
-    this.container.addEventListener('mouseleave', endDrag);
-    
-    this.container.addEventListener('touchstart', startDrag);
-    this.container.addEventListener('touchmove', onDrag);
-    this.container.addEventListener('touchend', endDrag);
-  }
-
-  goToSlide(index) {
-    this.currentSlide = index;
-    this.container.style.transition = 'transform 0.3s ease-in-out';
-    this.container.style.transform = `translateX(-${index * 100}%)`;
-    
-    // Update dots
-    this.dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === index);
-    });
-  }
-
-  nextSlide() {
-    const next = (this.currentSlide + 1) % this.slides.length;
-    this.goToSlide(next);
-  }
-
-  prevSlide() {
-    const prev = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-    this.goToSlide(prev);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.product-card-carousel').forEach(carousel => {
-    new ProductCardCarousel(carousel);
+      .product-card-carousel-slide {
+        display: none;
+      }
+      .product-card-carousel-slide.active {
+        display: block;
+      }
+      .carousel-prev, .carousel-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.8);
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      .carousel-prev {
+        left: 10px;
+      }
+      .carousel-next {
+        right: 10px;
+      }
+    `;
+    document.head.appendChild(style);
   });
 });
