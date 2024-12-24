@@ -1,7 +1,7 @@
 .footer {
   border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
   background-color: black;
-  padding-top: 15rem;
+  padding-top: 3rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
