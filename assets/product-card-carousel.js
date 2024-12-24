@@ -2,85 +2,76 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('DOMContentLoaded event fired!');
 
   // Select all product card sliders
-  const productCardContainers = document.querySelectorAll('.card__media.product-card-slider');
+  const productCardSliders = document.querySelectorAll('.card__media.product-card-slider');
 
-  if (!productCardContainers.length) {
+  if (!productCardSliders.length) {
     console.error('No product card sliders found!');
     return;
   }
 
-  console.log('Product card containers found:', productCardContainers.length);
+  console.log('Product card sliders found:', productCardSliders.length);
 
-  // Loop through each product card container
-  productCardContainers.forEach((container, containerIndex) => {
-    console.log(`Initializing product card ${containerIndex}`);
+  // Loop through each product card slider
+  productCardSliders.forEach((slider, sliderIndex) => {
+    console.log(`Initializing slider ${sliderIndex}`);
 
-    // Identify slides and buttons related to this container
-    const slides = document.querySelectorAll(`.product-card-slider-slide[data-card-index="${containerIndex}"]`);
-    const prevButton = container.nextElementSibling?.querySelector('.prev');
-    const nextButton = container.nextElementSibling?.querySelector('.next');
+    const slides = slider.querySelectorAll('.product-card-slider-slide');
+    const prevButton = slider.nextElementSibling?.querySelector('.prev');
+    const nextButton = slider.nextElementSibling?.querySelector('.next');
 
     if (!slides.length) {
-      console.error(`No slides found for product card ${containerIndex}`);
+      console.error(`No slides found for slider ${sliderIndex}`);
       return;
     }
 
     if (!prevButton || !nextButton) {
-      console.error(`Navigation buttons not found for product card ${containerIndex}`);
+      console.error(`Navigation buttons not found for slider ${sliderIndex}`);
       return;
     }
 
-    console.log(`Slides found for product card ${containerIndex}:`, slides.length);
+    console.log(`Slides found for slider ${sliderIndex}:`, slides.length);
 
     let currentIndex = 0;
 
     function updateSlides(index) {
-      console.log(`Updating slides for product card ${containerIndex}, currentIndex: ${index}`);
+      console.log(`Updating slides for slider ${sliderIndex}, currentIndex: ${index}`);
       slides.forEach((slide, i) => {
         if (i === index) {
-          slide.style.opacity = '1';
-          slide.style.zIndex = '1';
-          console.log(`Product card ${containerIndex}: Slide ${i} is now active`);
+          slide.classList.add('active');
+          console.log(`Slider ${sliderIndex}: Slide ${i} is now active`);
         } else {
-          slide.style.opacity = '0';
-          slide.style.zIndex = '0';
+          slide.classList.remove('active');
         }
       });
     }
 
     function initializeSlider() {
-      console.log(`Initializing slider for product card ${containerIndex}...`);
-      const firstSlides = Array.from(slides).filter(slide => slide.dataset.slide === '0');
+      console.log(`Initializing slider ${sliderIndex}...`);
+      const firstSlides = slider.querySelectorAll('[data-slide="0"]');
 
       if (firstSlides.length) {
-        slides.forEach(slide => {
-          slide.style.opacity = '0';
-          slide.style.zIndex = '0';
-        });
-        firstSlides.forEach(slide => {
-          slide.style.opacity = '1';
-          slide.style.zIndex = '1';
-        });
+        slides.forEach(slide => slide.classList.remove('active')); // Clear all active classes
+        firstSlides.forEach(slide => slide.classList.add('active')); // Set all slides with data-slide="0" as active
         currentIndex = 0; // Ensure the current index starts at 0
-        console.log(`Product card ${containerIndex}: All slides with data-slide="0" set to active`);
+        console.log(`Slider ${sliderIndex}: All slides with data-slide="0" set to active`);
       } else {
-        console.error(`Product card ${containerIndex}: No slide with data-slide="0" found!`);
+        console.error(`Slider ${sliderIndex}: No slide with data-slide="0" found!`);
       }
     }
 
     prevButton.addEventListener('click', () => {
-      console.log(`Product card ${containerIndex}: Previous button clicked`);
+      console.log(`Slider ${sliderIndex}: Previous button clicked`);
       currentIndex = (currentIndex - 1 + slides.length) % slides.length;
       updateSlides(currentIndex);
     });
 
     nextButton.addEventListener('click', () => {
-      console.log(`Product card ${containerIndex}: Next button clicked`);
+      console.log(`Slider ${sliderIndex}: Next button clicked`);
       currentIndex = (currentIndex + 1) % slides.length;
       updateSlides(currentIndex);
     });
 
-    // Run the initialization function
+    // Initialize the slider
     initializeSlider();
   });
 });
