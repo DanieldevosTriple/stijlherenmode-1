@@ -116,7 +116,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: white;
+  background: black;
 }
 
 .facet-checkbox input[type="checkbox"] {
@@ -130,8 +130,8 @@
 }
 
 .facet-checkbox input[type="checkbox"]:checked {
-  background-color: black;
-  border-color: black;
+  background-color: #efefef;
+  border-color: #efefef;
 }
 
 .facet-checkbox input[type="checkbox"]:checked::before {
