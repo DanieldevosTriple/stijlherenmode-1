@@ -69,17 +69,17 @@
               {%- endif -%}
 
               {% assign secondary_images = '' %}
+              {% assign variant_color_lowercase = variant_color | downcase %} 
               {% for media_item in card_product.media %}
-                {% assign alt_text_lowercase = media_item.alt | downcase %}
-                {% assign variant_color_lowercase = variant_color | downcase %}
+                {% assign alt_text_lowercase = media_item.alt | downcase %} 
                 {% if alt_text_lowercase contains variant_color_lowercase %}
                   {% assign secondary_images = secondary_images | append: media_item | append: ',' %}
                 {% endif %}
-              {% endfor %}                        
+              {% endfor %}                                     
               {%- if secondary_images != blank and show_secondary_image -%}
+                {% assign variant_color_lowercase = variant_color | downcase %}
                 {% for media_item in card_product.media %}
                   {% assign alt_text_lowercase = media_item.alt | downcase %}
-                  {% assign variant_color_lowercase = variant_color | downcase %}
                   {% if alt_text_lowercase contains variant_color_lowercase %}
                     <div class="product-card-carousel-slide">
                       <img
@@ -101,7 +101,7 @@
                     </div>
                   {% endif %}
                 {% endfor %}
-              {%- endif -%}              
+              {%- endif -%}                            
               
               {%- if card_product.media[1] != nil and show_secondary_image -%}
                 <div class="product-card-carousel-controls">
