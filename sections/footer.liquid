@@ -6,7 +6,6 @@
 {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 
 <footer class="footer col-12 color-black gradient section-{{ section.id }}-padding">
-  <div class="row newsletter_menu">
   <!-- Newsletter Section -->
   {%- if section.settings.newsletter_enable -%}
     <div class="footer-block--newsletter">
@@ -121,7 +120,6 @@
       </ul>
     </div>
   </div>
-</div>
 </div>
 
 <!-- Bottom Section -->
