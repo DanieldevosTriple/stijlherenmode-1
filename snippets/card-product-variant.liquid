@@ -83,33 +83,34 @@
                   {% endif %}
                 {% endif %}
               {% endfor %}
+              {% assign slide_counter = 1 %}
               {% for media_item in card_product.media %}
-                {% assign alt_text_lowercase = media_item.alt | downcase %}
-                {%- if alt_text_lowercase contains 'color |' -%}
-                {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
-                {% if alt_color_part == variant_color_lowercase %}
-                {% assign slide_index = forloop.index0 %}
-                <div class="product-card-carousel-slide" data-slide="{{ slide_index }}">
-                <img
-                srcset="{%- if media_item.width >= 165 -%}{{ media_item | img_url: '165x' }} 165w,{%- endif -%}
-                {%- if media_item.width >= 360 -%}{{ media_item | img_url: '360x' }} 360w,{%- endif -%}
-                {%- if media_item.width >= 533 -%}{{ media_item | img_url: '533x' }} 533w,{%- endif -%}
-                {%- if media_item.width >= 720 -%}{{ media_item | img_url: '720x' }} 720w,{%- endif -%}
-                {%- if media_item.width >= 940 -%}{{ media_item | img_url: '940x' }} 940w,{%- endif -%}
-                {%- if media_item.width >= 1066 -%}{{ media_item | img_url: '1066x' }} 1066w,{%- endif -%}
-                {{ media_item | img_url: 'master' }} {{ media_item.width }}w"
-                src="{{ media_item | img_url: '533x' }}"
-                sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-                alt="{{ media_item.alt | escape }}"
-                class="motion-reduce product-card-carousel-image"
-                loading="lazy"
-                width="{{ media_item.width }}"
-                height="{{ media_item.height }}"
-                >
-                </div>
-                {% endif %}
-                {% endif %}
-                {% endfor %}                     
+              {% assign alt_text_lowercase = media_item.alt | downcase %}
+              {%- if alt_text_lowercase contains 'color |' -%}
+              {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
+              {% if alt_color_part == variant_color_lowercase %}
+              <div class="product-card-carousel-slide" data-slide="{{ slide_counter }}">
+              <img
+              srcset="{%- if media_item.width >= 165 -%}{{ media_item | img_url: '165x' }} 165w,{%- endif -%}
+              {%- if media_item.width >= 360 -%}{{ media_item | img_url: '360x' }} 360w,{%- endif -%}
+              {%- if media_item.width >= 533 -%}{{ media_item | img_url: '533x' }} 533w,{%- endif -%}
+              {%- if media_item.width >= 720 -%}{{ media_item | img_url: '720x' }} 720w,{%- endif -%}
+              {%- if media_item.width >= 940 -%}{{ media_item | img_url: '940x' }} 940w,{%- endif -%}
+              {%- if media_item.width >= 1066 -%}{{ media_item | img_url: '1066x' }} 1066w,{%- endif -%}
+              {{ media_item | img_url: 'master' }} {{ media_item.width }}w"
+              src="{{ media_item | img_url: '533x' }}"
+              sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+              alt="{{ media_item.alt | escape }}"
+              class="motion-reduce product-card-carousel-image"
+              loading="lazy"
+              width="{{ media_item.width }}"
+              height="{{ media_item.height }}"
+              >
+              </div>
+              {% assign slide_counter = slide_counter | plus: 1 %}
+              {% endif %}
+              {% endif %}
+              {% endfor %}                    
             </div>
           </div>
         {%- endif -%}
