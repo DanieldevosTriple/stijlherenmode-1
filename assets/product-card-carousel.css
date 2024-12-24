@@ -81,8 +81,15 @@
     touch-action: pan-y pinch-zoom;
   }
   
-  @media (max-width: 767px) {
+  @media (max-width: 991px) {
     .slider-buttons-product {
       display: none;
     }
+
+    .card:not(.ratio) {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: none;
+      }
   }
