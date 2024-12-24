@@ -77,11 +77,6 @@
                 {% endfor %}
               {% endif %}
               <p>Secondary Image Alt (fallback): {{ secondary_image.alt }}</p>
-              {% if variant_color != nil %}
-                <p>Variant color detected: {{ variant_color }}</p>
-              {% else %}
-                <p>No variant color available.</p>
-              {% endif %}
               {%- if secondary_image != nil and show_secondary_image -%}    
                 <div class="product-card-carousel-slide" data-slide="1">
                   <img
