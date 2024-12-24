@@ -70,7 +70,7 @@
 
               {% assign secondary_images = '' %}
               {% for media_item in card_product.media %}
-                {% if media_item.alt contains variant_color %}
+                {% if media_item.alt | downcase contains variant_color | downcase %}
                   {% assign secondary_images = secondary_images | append: media_item | append: ',' %}
                 {% endif %}
               {% endfor %}              
@@ -144,6 +144,9 @@
               <p>Variant Color: {{ variant_color }}</p>
               <p>Secondary Image Alt: {{ secondary_image.alt }}</p>
               <p>Debug Image URL: {{ secondary_image | img_url: 'master' }}</p>
+              {%- if secondary_images == blank -%}
+                <p>No secondary images found for variant color: {{ variant_color }}</p>
+              {%- endif -%}
             </a>
           </h3>
           <div class="card-information">
