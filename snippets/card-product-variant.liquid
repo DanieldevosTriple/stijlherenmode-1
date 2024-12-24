@@ -115,13 +115,6 @@
             <button class="next">❯</button></div>
         {%- endif -%}
         <div class="card__content">
-          <div class="card__information">
-            <h3 class="card__heading">
-              <a href="{{ card_product.url | default: '#' }}" class="full-unstyled-link">
-                {{ card_product.title | escape }} - {{ variant.options | first }}
-              </a>
-            </h3>
-          </div>
           <div class="card__badge {{ settings.badge_position }}">
             {%- if card_product.available == false -%}
               <span class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}">{{ 'products.product.sold_out' | t }}</span>
