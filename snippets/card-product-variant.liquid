@@ -35,7 +35,6 @@
     assign variant_images = card_product.media | where: 'alt', variant_color
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">
-    <pre>{{ card_product.media | json }}</pre>
     <div class="card
       card--{{ settings.card_style }}
       {% if variant.featured_media %} card--media{% else %} card--text{% endif %}
