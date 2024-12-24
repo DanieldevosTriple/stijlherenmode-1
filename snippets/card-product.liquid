@@ -28,14 +28,7 @@
   -%}
   
   <div class="card-wrapper product-card-wrapper underline-links-hover">
-    <div class="card
-      card--{{ settings.card_style }}
-      {% if card_product.featured_media %} card--media{% else %} card--text{% endif %}
-      {% if settings.card_style == 'card' %} color-{{ settings.card_color_scheme }}{% endif %}
-      {% if extend_height %} card--extend-height{% endif %}
-      {% if card_product.featured_media == nil and settings.card_style == 'card' %} ratio{% endif %}"
-      style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
-    >
+    <div class="card">
       <div class="card-media-custom">
         {%- if card_product.featured_media -%}
           <div class="product-card-slider">
