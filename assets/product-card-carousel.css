@@ -1,3 +1,7 @@
+.card {
+    border: none;
+}
+
 .card-media-custom {
     height: 400px;
 }
