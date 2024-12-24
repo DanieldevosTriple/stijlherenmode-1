@@ -64,30 +64,33 @@
     gap: 8px;
     z-index: 2;
     padding: 15px;
-  }
-  
-  .dot {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+}
+
+.dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: black;
+    background: rgba(255, 255, 255, 0.5);
     border: none;
     padding: 0;
     cursor: pointer;
-  }
-  
-  .dot.active {
+}
+
+.dot.active {
     background: white;
-  }
-  
-  .product-card-slider {
+}
+
+.product-card-slider {
     user-select: none;
-    touch-action: pan-y pinch-zoom;
-  }
-  
-  @media (max-width: 991px) {
+    touch-action: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+@media (max-width: 767px) {
     .slider-buttons-product {
-      display: none;
+        display: none;
     }
 
     .card:not(.ratio) {
@@ -95,5 +98,5 @@
         flex-direction: column;
         height: 300px;
         border: none;
-      }
-  }
+    }
+}

@@ -68,7 +68,12 @@ document.addEventListener('DOMContentLoaded', function () {
     container.addEventListener('touchstart', e => {
       isDragging = true;
       touchStartX = e.touches[0].clientX;
-    }, { passive: true });
+    });
+
+    container.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      e.preventDefault();
+    }, { passive: false });
 
     container.addEventListener('touchend', e => {
       if (!isDragging) return;
