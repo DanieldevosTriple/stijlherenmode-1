@@ -742,3 +742,9 @@
   padding: 1rem 0rem;
   max-width: 600px;
 }
+
+.footer-column-description {
+  font-family: TradeGothicLT, sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+}
