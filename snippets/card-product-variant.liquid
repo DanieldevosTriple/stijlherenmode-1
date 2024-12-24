@@ -112,7 +112,8 @@
                 {% endif %}
               {% endfor %}                          
               
-              {%- if show_secondary_image = true -%}
+              {%- assign variant_images = card_product.media | where: 'alt', variant_color -%}
+              {%- if variant_images.size > 1 and show_secondary_image -%}
                 <div class="product-card-carousel-controls">
                   <button class="product-card-carousel-prev" aria-label="Previous image">
                     <span class="visually-hidden">Previous</span>
