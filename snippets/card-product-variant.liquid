@@ -112,7 +112,7 @@
                 {% endif %}
               {% endfor %}                          
               
-              {%- if card_product.media[1] != nil and show_secondary_image -%}
+              {%- if show_secondary_image = true -%}
                 <div class="product-card-carousel-controls">
                   <button class="product-card-carousel-prev" aria-label="Previous image">
                     <span class="visually-hidden">Previous</span>
