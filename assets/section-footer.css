@@ -98,21 +98,7 @@
   }
 }
 
-@media screen and (max-width: 749px) {
-  .footer .grid {
-    display: block;
-  }
-
-  .footer-block.grid__item {
-    padding: 0;
-    margin: 4rem 0;
-    width: 100%;
-  }
-
-  .footer-block.grid__item:first-child {
-    margin-top: 0;
-  }
-
+@media screen and (max-width: 991px) {
   .footer__content-bottom {
     flex-wrap: wrap;
     padding-top: 0;
@@ -140,6 +126,8 @@
     background-color: black;
     padding-top: 5rem;
     padding-bottom: 5rem;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
   }
 
   .footer__content-top {
