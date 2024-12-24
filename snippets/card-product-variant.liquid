@@ -157,6 +157,7 @@
                 <p>URL: {{ media_item | img_url: 'master' }}</p>
                 <p>Width: {{ media_item.width }}</p>
                 <p>Height: {{ media_item.height }}</p>
+                <p>Debug: Does "{{ alt_text_lowercase }}" contain "{{ variant_color_lowercase }}"?</p>
                 <hr>
               {% endfor %}
             </a>
