@@ -46,7 +46,7 @@
     >
       <div class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }}{% endif %}{% if variant.featured_media or settings.card_style == 'standard' %} ratio{% endif %}" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
         {%- if variant.featured_media -%}
-          <div class="card__media product-card-carousel">
+          <div class="card__media product-card-slider">
             <div class="media media--transparent media--hover-effect product-card-carousel-container">
               {%- if variant.featured_media -%}
                 <div class="product-card-carousel-slide active" data-slide="0">
