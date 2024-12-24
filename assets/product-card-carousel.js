@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('DOMContentLoaded event fired!');
 
   // Select all product card sliders
-  const productCardContainers = document.querySelectorAll('.card__media.product-card-slider');
+  const productCardContainers = document.querySelectorAll('.product-card-slider');
 
   if (!productCardContainers.length) {
     console.error('No product card sliders found!');
