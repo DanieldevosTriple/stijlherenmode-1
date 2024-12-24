@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   carousels.forEach(carousel => {
     const slides = carousel.querySelectorAll('.product-card-carousel-slide');
-    const container = carousel.querySelector('.product-card-carousel-container');
     let currentSlide = 0;
     
     // Create navigation arrows
@@ -15,10 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
     nextButton.className = 'carousel-next';
     nextButton.innerHTML = '&#8250;';
     
-    container.appendChild(prevButton);
-    container.appendChild(nextButton);
+    carousel.appendChild(prevButton);
+    carousel.appendChild(nextButton);
     
-    // Navigation functions
     function showSlide(index) {
       slides.forEach(slide => slide.classList.remove('active'));
       slides[index].classList.add('active');
@@ -38,11 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
       showSlide(currentSlide);
     }
     
-    // Event listeners
     nextButton.addEventListener('click', nextSlide);
     prevButton.addEventListener('click', prevSlide);
     
-    // Add CSS
     const style = document.createElement('style');
     style.textContent = `
       .product-card-carousel {
@@ -64,13 +60,23 @@ document.addEventListener('DOMContentLoaded', function() {
         height: 30px;
         cursor: pointer;
         font-size: 20px;
-        z-index: 1;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s;
+      }
+      .carousel-prev:hover, .carousel-next:hover {
+        background: rgba(255,255,255,0.9);
       }
       .carousel-prev {
         left: 10px;
       }
       .carousel-next {
         right: 10px;
+      }
+      .media {
+        position: relative;
       }
     `;
     document.head.appendChild(style);
