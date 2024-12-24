@@ -142,9 +142,6 @@
               {{ card_product.title | escape }} - {{ variant.options | first }}
               <p>Variant Color: {{ variant_color }}</p>
               <p>Secondary Image Alt: {{ secondary_image.alt }}</p>
-              {% for media_item in card_product.media %}
-                <p>Image Alt: {{ media_item.alt }}</p>
-              {% endfor %}
             </a>
           </h3>
           <div class="card-information">
