@@ -1,9 +1,9 @@
 {% comment %}
-    Renders a product card
+    Renders a product card with image carousel functionality
 
     Accepts:
     - card_product: {Object} Product Liquid object (optional)
-	- variant: {String} variant
+    - variant: {String} variant
     - media_aspect_ratio: {String} Size of the product image card. Values are "square" and "portrait". Default is "square" (optional)
     - show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
     - show_vendor: {Boolean} Show the product vendor. Default: false
@@ -28,6 +28,10 @@
     if ratio == 0 or ratio == nil
       assign ratio = 1
     endif
+
+    # Filter images to those matching the current variant's color
+    assign variant_color = variant.options | first
+    assign variant_images = card_product.media | where: 'alt', variant_color
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">
     <div class="card
@@ -39,31 +43,52 @@
       style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
     >
       <div class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }}{% endif %}{% if variant.featured_media or settings.card_style == 'standard' %} ratio{% endif %}" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
-        {%- if variant_images.size > 0 -%}
+        {%- if variant.featured_media -%}
           <div class="card__media product-card-carousel">
             <div class="media media--transparent media--hover-effect product-card-carousel-container">
-              {%- for image in variant_images -%}
-                <div class="product-card-carousel-slide {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.index0 }}">
+              {%- if variant.featured_media -%}
+                <div class="product-card-carousel-slide active" data-slide="0">
                   <img
-                    srcset="{%- if image.width >= 165 -%}{{ image | img_url: '165x' }} 165w,{%- endif -%}
-                      {%- if image.width >= 360 -%}{{ image | img_url: '360x' }} 360w,{%- endif -%}
-                      {%- if image.width >= 533 -%}{{ image | img_url: '533x' }} 533w,{%- endif -%}
-                      {%- if image.width >= 720 -%}{{ image | img_url: '720x' }} 720w,{%- endif -%}
-                      {%- if image.width >= 940 -%}{{ image | img_url: '940x' }} 940w,{%- endif -%}
-                      {%- if image.width >= 1066 -%}{{ image | img_url: '1066x' }} 1066w,{%- endif -%}
-                      {{ image | img_url: 'master' }} {{ image.width }}w"
-                    src="{{ image | img_url: '533x' }}"
+                    srcset="{%- if variant.featured_media.width >= 165 -%}{{ variant.featured_media | img_url: '165x' }} 165w,{%- endif -%}
+                    {%- if variant.featured_media.width >= 360 -%}{{ variant.featured_media | img_url: '360x' }} 360w,{%- endif -%}
+                    {%- if variant.featured_media.width >= 533 -%}{{ variant.featured_media | img_url: '533x' }} 533w,{%- endif -%}
+                    {%- if variant.featured_media.width >= 720 -%}{{ variant.featured_media | img_url: '720x' }} 720w,{%- endif -%}
+                    {%- if variant.featured_media.width >= 940 -%}{{ variant.featured_media | img_url: '940x' }} 940w,{%- endif -%}
+                    {%- if variant.featured_media.width >= 1066 -%}{{ variant.featured_media | img_url: '1066x' }} 1066w,{%- endif -%}
+                    {{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
+                    src="{{ variant.featured_media | img_url: '533x' }}"
                     sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-                    alt="{{ image.alt | escape }}"
+                    alt="{{ variant.featured_media.alt | escape }}"
                     class="motion-reduce product-card-carousel-image"
                     {% unless lazy_load == false %}loading="lazy"{% endunless %}
-                    width="{{ image.width }}"
-                    height="{{ image.height }}"
+                    width="{{ variant.featured_media.width }}"
+                    height="{{ variant.featured_media.height }}"
                   >
                 </div>
-              {%- endfor -%}
+              {%- endif -%}
 
-              {%- if variant_images.size > 1 -%}
+              {%- if card_product.media[1] != nil and show_secondary_image -%}
+                <div class="product-card-carousel-slide" data-slide="1">
+                  <img
+                    srcset="{%- if card_product.media[1].width >= 165 -%}{{ card_product.media[1] | img_url: '165x' }} 165w,{%- endif -%}
+                    {%- if card_product.media[1].width >= 360 -%}{{ card_product.media[1] | img_url: '360x' }} 360w,{%- endif -%}
+                    {%- if card_product.media[1].width >= 533 -%}{{ card_product.media[1] | img_url: '533x' }} 533w,{%- endif -%}
+                    {%- if card_product.media[1].width >= 720 -%}{{ card_product.media[1] | img_url: '720x' }} 720w,{%- endif -%}
+                    {%- if card_product.media[1].width >= 940 -%}{{ card_product.media[1] | img_url: '940x' }} 940w,{%- endif -%}
+                    {%- if card_product.media[1].width >= 1066 -%}{{ card_product.media[1] | img_url: '1066x' }} 1066w,{%- endif -%}
+                    {{ card_product.media[1] | img_url: 'master' }} {{ card_product.media[1].width }}w"
+                    src="{{ card_product.media[1] | img_url: '533x' }}"
+                    sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                    alt="{{ card_product.media[1].alt | escape }}"
+                    class="motion-reduce product-card-carousel-image"
+                    loading="lazy"
+                    width="{{ card_product.media[1].width }}"
+                    height="{{ card_product.media[1].height }}"
+                  >
+                </div>
+              {%- endif -%}
+
+              {%- if card_product.media[1] != nil and show_secondary_image -%}
                 <div class="product-card-carousel-controls">
                   <button class="product-card-carousel-prev" aria-label="Previous image">
                     <span class="visually-hidden">Previous</span>
@@ -75,9 +100,8 @@
                   </button>
                   
                   <div class="product-card-carousel-dots">
-                    {%- for image in variant_images -%}
-                      <span class="product-card-carousel-dot {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.index0 }}"></span>
-                    {%- endfor -%}
+                    <span class="product-card-carousel-dot active" data-slide="0"></span>
+                    <span class="product-card-carousel-dot" data-slide="1"></span>
                   </div>
                 </div>
               {%- endif -%}
