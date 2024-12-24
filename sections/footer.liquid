@@ -14,9 +14,9 @@
         {%- if section.settings.newsletter_heading != blank -%}
           <h2 class="footer-block__heading-newsletter">{{ section.settings.newsletter_heading }}</h2>
         {%- endif -%}
-        {%- if section.settings.menu_2_description != blank -%}
+        {%- if section.settings.newsletter_description != blank -%}
           <p class="footer-column-description">
-            {{ section.settings.menu_2_description }}
+            {{ section.settings.newsletter_description }}
           </p>
         {%- endif -%}        
         {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
@@ -199,6 +199,11 @@
     },
     {
       "type": "text",
+      "id": "newsletter_description",
+      "label": "Newsletter description"
+    },
+    {
+      "type": "text",
       "id": "newsletter_disclaimer",
       "label": "Newsletter disclaimer",
       "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -209,19 +214,9 @@
       "label": "Menu for column 1"
     },
     {
-      "type": "text",
-      "id": "menu_1_description",
-      "label": "Description for column 1"
-    },
-    {
       "type": "link_list",
       "id": "menu_2",
       "label": "Menu for column 2"
-    },
-    {
-      "type": "text",
-      "id": "menu_2_description",
-      "label": "Description for column 2"
     },
     {
       "type": "checkbox",
