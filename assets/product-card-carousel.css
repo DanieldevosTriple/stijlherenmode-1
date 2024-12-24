@@ -16,11 +16,9 @@
 }
 
 .card__media {
-    position: relative;
+    position: absolute;
     overflow: hidden;
     width: 100%;
-    max-width: 600px;
-    /* Adjust as needed */
     margin: auto;
 }
 
