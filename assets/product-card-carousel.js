@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    // Create dots container and dots
     const dotsContainer = document.createElement('div');
     dotsContainer.className = 'slider-dots';
     slides.forEach((_, i) => {
@@ -35,20 +34,21 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentIndex = 0;
     let touchStartX = 0;
     let touchEndX = 0;
+    let initialTouchY = 0;
     let isDragging = false;
+    let isScrolling = false;
     
     function updateSlides(index) {
       slides.forEach((slide, i) => {
         slide.classList.toggle('active', i === index);
       });
-      // Update dots
       dotsContainer.querySelectorAll('.dot').forEach((dot, i) => {
         dot.classList.toggle('active', i === index);
       });
     }
 
     function handleGesture() {
-      if (!isDragging) return;
+      if (!isDragging || isScrolling) return;
       
       const minSwipeDistance = 50;
       const swipeDistance = touchEndX - touchStartX;
@@ -62,45 +62,40 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSlides(currentIndex);
       }
       isDragging = false;
+      isScrolling = false;
     }
 
-    // Touch events
     container.addEventListener('touchstart', e => {
       isDragging = true;
+      isScrolling = false;
       touchStartX = e.touches[0].clientX;
-    });
+      initialTouchY = e.touches[0].clientY;
+    }, { passive: true });
 
     container.addEventListener('touchmove', e => {
       if (!isDragging) return;
-      e.preventDefault();
+      
+      const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+      const deltaX = Math.abs(currentX - touchStartX);
+      const deltaY = Math.abs(currentY - initialTouchY);
+
+      // Als de gebruiker meer verticaal dan horizontaal beweegt, laat de pagina scrollen
+      if (deltaY > deltaX) {
+        isScrolling = true;
+        return;
+      }
+
+      // Anders voorkom de scroll en laat de slider werken
+      if (deltaX > 10 && !isScrolling) {
+        e.preventDefault();
+      }
     }, { passive: false });
 
     container.addEventListener('touchend', e => {
       if (!isDragging) return;
       touchEndX = e.changedTouches[0].clientX;
       handleGesture();
-    });
-
-    // Mouse events for desktop swiping
-    container.addEventListener('mousedown', e => {
-      isDragging = true;
-      touchStartX = e.clientX;
-      e.preventDefault();
-    });
-
-    container.addEventListener('mousemove', e => {
-      if (!isDragging) return;
-      e.preventDefault();
-    });
-
-    container.addEventListener('mouseup', e => {
-      if (!isDragging) return;
-      touchEndX = e.clientX;
-      handleGesture();
-    });
-
-    container.addEventListener('mouseleave', () => {
-      isDragging = false;
     });
 
     // Button events
@@ -118,10 +113,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
     
-    // Initialize first slide
     slides[0].classList.add('active');
 
-    // Show/hide navigation based on screen size
     const mediaQuery = window.matchMedia('(min-width: 768px)');
     function handleScreenChange(e) {
       if (buttonContainer) {
