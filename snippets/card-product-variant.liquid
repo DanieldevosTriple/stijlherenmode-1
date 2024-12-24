@@ -69,10 +69,10 @@
                 </div>
               {%- endif -%}
 
-              {% assign secondary_image = card_product.media | where: 'alt', 'Dark Orange' | first %}
+              {% assign secondary_image = card_product.media | where: 'alt', variant_color | first %}
               {% if secondary_image == nil %}
                 {% for media_item in card_product.media %}
-                  {% if media_item.alt contains 'Dark Orange' %}
+                  {% if media_item.alt contains variant_color %}
                     {% assign secondary_image = media_item %}
                   {% endif %}
                 {% endfor %}
