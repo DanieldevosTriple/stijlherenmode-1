@@ -1,7 +1,12 @@
-  
-  .product-card-carousel-container {
+    .product-card-carousel-container {
     display: flex;
     transition: transform 0.3s ease-in-out;
+    user-select: none;
+    cursor: grab;
+  }
+  
+  .product-card-carousel-container:active {
+    cursor: grabbing;
   }
   
   .product-card-carousel-slide {

@@ -9,6 +9,9 @@ class ProductCardCarousel {
     this.currentSlide = 0;
     this.touchStartX = 0;
     this.touchEndX = 0;
+    this.isDragging = false;
+    
+    this.container.style.transform = 'translateX(0)';
     
     this.setupControls();
     this.setupEventListeners();
@@ -49,24 +52,31 @@ class ProductCardCarousel {
     this.carousel.querySelector('.carousel-arrow-next')
       .addEventListener('click', () => this.nextSlide());
     
-    // Touch events
-    this.container.addEventListener('touchstart', e => {
-      this.touchStartX = e.touches[0].clientX;
-    });
+    // Mouse and Touch events
+    const startDrag = (e) => {
+      if (e.type === 'mousedown' && e.button !== 0) return;
+      this.touchStartX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+      this.isDragging = true;
+      this.container.style.transition = 'none';
+    };
     
-    this.container.addEventListener('touchmove', e => {
-      if (!this.touchStartX) return;
+    const onDrag = (e) => {
+      if (!this.touchStartX || !this.isDragging) return;
       
       e.preventDefault();
-      const currentX = e.touches[0].clientX;
+      const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
       const diff = this.touchStartX - currentX;
       const transform = -this.currentSlide * 100 - (diff / this.carousel.offsetWidth * 100);
       this.container.style.transform = `translateX(${transform}%)`;
-    });
+    };
     
-    this.container.addEventListener('touchend', e => {
-      this.touchEndX = e.changedTouches[0].clientX;
+    const endDrag = (e) => {
+      if (!this.isDragging) return;
+      
+      this.touchEndX = e.type === 'mouseup' ? e.clientX : (e.changedTouches ? e.changedTouches[0].clientX : this.touchStartX);
       const diff = this.touchStartX - this.touchEndX;
+      
+      this.container.style.transition = 'transform 0.3s ease-in-out';
       
       if (Math.abs(diff) > 50) {
         if (diff > 0) this.nextSlide();
@@ -77,11 +87,23 @@ class ProductCardCarousel {
       
       this.touchStartX = null;
       this.touchEndX = null;
-    });
+      this.isDragging = false;
+    };
+
+    // Add mouse and touch event listeners
+    this.container.addEventListener('mousedown', startDrag);
+    this.container.addEventListener('mousemove', onDrag);
+    this.container.addEventListener('mouseup', endDrag);
+    this.container.addEventListener('mouseleave', endDrag);
+    
+    this.container.addEventListener('touchstart', startDrag);
+    this.container.addEventListener('touchmove', onDrag);
+    this.container.addEventListener('touchend', endDrag);
   }
 
   goToSlide(index) {
     this.currentSlide = index;
+    this.container.style.transition = 'transform 0.3s ease-in-out';
     this.container.style.transform = `translateX(-${index * 100}%)`;
     
     // Update dots
