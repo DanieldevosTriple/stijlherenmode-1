@@ -6,11 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const container = carousel.querySelector('.product-card-carousel-container');
     let currentSlide = 0;
     
-    // Create navigation container above the carousel
-    const navContainer = document.createElement('div');
-    navContainer.className = 'carousel-nav';
-    carousel.insertBefore(navContainer, container);
-    
     // Create navigation arrows
     const prevButton = document.createElement('button');
     prevButton.className = 'carousel-prev';
@@ -20,14 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
     nextButton.className = 'carousel-next';
     nextButton.innerHTML = '&#8250;';
     
-    navContainer.appendChild(prevButton);
-    navContainer.appendChild(nextButton);
-    
-    // Create clickable container for product link
-    const productLink = document.createElement('a');
-    productLink.href = carousel.dataset.productUrl || '#';
-    container.parentNode.insertBefore(productLink, container);
-    productLink.appendChild(container);
+    container.appendChild(prevButton);
+    container.appendChild(nextButton);
     
     // Navigation functions
     function showSlide(index) {
@@ -59,12 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
       .product-card-carousel {
         position: relative;
       }
-      .carousel-nav {
-        display: flex;
-        justify-content: space-between;
-        padding: 0 10px;
-        margin-bottom: 10px;
-      }
       .product-card-carousel-slide {
         display: none;
       }
@@ -72,6 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
         display: block;
       }
       .carousel-prev, .carousel-next {
+        position: absolute;
+        top: 10px;
         background: rgba(255,255,255,0.8);
         border: none;
         border-radius: 50%;
@@ -80,6 +65,12 @@ document.addEventListener('DOMContentLoaded', function() {
         cursor: pointer;
         font-size: 20px;
         z-index: 1;
+      }
+      .carousel-prev {
+        left: 10px;
+      }
+      .carousel-next {
+        right: 10px;
       }
     `;
     document.head.appendChild(style);
