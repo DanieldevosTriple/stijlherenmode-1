@@ -5,8 +5,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const slides = container.querySelectorAll('.product-card-slider-slide');
     const buttonContainer = container.nextElementSibling;
     
-    if (slides.length <= 1 && buttonContainer?.classList.contains('slider-buttons-product')) {
-      buttonContainer.style.display = 'none';
+    if (slides.length <= 1) {
+      if (slides.length === 1) {
+        slides[0].classList.add('active');
+      }
+      if (buttonContainer?.classList.contains('slider-buttons-product')) {
+        buttonContainer.style.display = 'none';
+      }
       return;
     }
     
