@@ -110,24 +110,6 @@
                   {% endif %}
                 {% endif %}
               {% endfor %}                          
-              
-              {%- assign variant_images = card_product.media | where: 'alt', variant_color -%}
-              {%- if variant_images.size > 1 and show_secondary_image -%}
-                <div class="product-card-carousel-controls">
-                  <button class="product-card-carousel-prev" aria-label="Previous image">
-                    <span class="visually-hidden">Previous</span>
-                    &#10094;
-                  </button>
-                  <button class="product-card-carousel-next" aria-label="Next image">
-                    <span class="visually-hidden">Next</span>
-                    &#10095;
-                  </button>
-                  
-                  <div class="product-card-carousel-dots">
-                    <span class="product-card-carousel-dot active" data-slide="0"></span>
-                    <span class="product-card-carousel-dot" data-slide="1"></span>
-                  </div>
-                </div>
               {%- endif -%}
             </div>
           </div>
