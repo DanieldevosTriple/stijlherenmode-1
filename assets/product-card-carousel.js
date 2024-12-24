@@ -32,4 +32,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Run the initialization function
   initializeSlider();
-});
+}); 
