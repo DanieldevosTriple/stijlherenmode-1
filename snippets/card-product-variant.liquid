@@ -35,6 +35,7 @@
     assign variant_images = card_product.media | where: 'alt', variant_color
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">
+    <pre>{{ card_product.media | json }}</pre>
     <div class="card
       card--{{ settings.card_style }}
       {% if variant.featured_media %} card--media{% else %} card--text{% endif %}
@@ -68,7 +69,15 @@
                 </div>
               {%- endif -%}
 
-              {%- assign secondary_image = card_product.media | where: 'alt', variant_color | first -%}
+              {% assign secondary_image = card_product.media | where: 'alt', 'Dark Orange' | first %}
+              {% if secondary_image == nil %}
+                {% for media_item in card_product.media %}
+                  {% if media_item.alt contains 'Dark Orange' %}
+                    {% assign secondary_image = media_item %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+              <p>Secondary Image Alt (fallback): {{ secondary_image.alt }}</p>
               {% if variant_color != nil %}
                 <p>Variant color detected: {{ variant_color }}</p>
               {% else %}
@@ -139,6 +148,9 @@
               {{ card_product.title | escape }} - {{ variant.options | first }}
               <p>Variant Color: {{ variant_color }}</p>
               <p>Secondary Image Alt: {{ secondary_image.alt }}</p>
+              {% for media_item in card_product.media %}
+                <p>Image Alt: {{ media_item.alt }}</p>
+              {% endfor %}
             </a>
           </h3>
           <div class="card-information">
