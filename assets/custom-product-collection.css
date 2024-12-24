@@ -22,15 +22,24 @@
 .product-card-carousel-container {
     position: relative;
     overflow: hidden;
+    width: 100%;
   }
   
   .product-card-carousel-slide {
     display: none;
     width: 100%;
+    transition: opacity 0.3s ease-in-out;
   }
   
   .product-card-carousel-slide.active {
     display: block;
+    opacity: 1;
+  }
+  
+  .product-card-carousel-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
   }
   
   .product-card-carousel-controls {
@@ -42,6 +51,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 10px;
+    z-index: 10;
   }
   
   .product-card-carousel-prev,
@@ -49,9 +59,19 @@
     background: rgba(0,0,0,0.5);
     color: white;
     border: none;
-    padding: 10px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    z-index: 10;
+    transition: background 0.3s ease;
+  }
+  
+  .product-card-carousel-prev:hover,
+  .product-card-carousel-next:hover {
+    background: rgba(0,0,0,0.7);
   }
   
   .product-card-carousel-dots {
@@ -64,22 +84,37 @@
   }
   
   .product-card-carousel-dot {
-    height: 10px;
-    width: 10px;
+    height: 8px;
+    width: 8px;
     background-color: #bbb;
     border-radius: 50%;
     display: inline-block;
     margin: 0 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
   
   .product-card-carousel-dot.active {
     background-color: #717171;
   }
   
-  /* Mobile-specific styles */
+  /* Debug Information Styles */
+  .debug-info {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 0.8em;
+  }
+  
+  /* Responsive Adjustments */
   @media (max-width: 767px) {
     .product-card-carousel-container {
       touch-action: pan-y;
     }
-  }
+    
+    .product-card-carousel-controls {
+      padding: 0 5px;
+    }
+    
+    .product-
