@@ -1,15 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   console.log('DOMContentLoaded event fired!');
 
-  // Dynamically select all product card sliders with the specified color scheme
-  const cardColorScheme = 'color-' + settings.card_color_scheme; // Replace settings.card_color_scheme with the actual value or variable
-  const productCardContainers = document.querySelectorAll(`.${cardColorScheme} .product-card-slider`);
-
-  // Now you can work with productCardContainers
-  productCardContainers.forEach(container => {
-    console.log(container); // Example: log each container to the console
-  });
-
+  // Select all product card sliders
+  const productCardContainers = document.querySelectorAll('.card-media-custom.product-card-slider');
 
   if (!productCardContainers.length) {
     console.error('No product card sliders found!');
