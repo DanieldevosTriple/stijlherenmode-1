@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Initialize the slider with slide index 0 active
+  function initializeSlider() {
+    currentIndex = 0; // Ensure the first slide is always active
+    updateSlides(currentIndex);
+  }
+
   prevButton.addEventListener('click', () => {
     currentIndex = (currentIndex - 1 + slides.length) % slides.length;
     updateSlides(currentIndex);
@@ -20,6 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
     updateSlides(currentIndex);
   });
 
-  // Initialize the slider
-  updateSlides(currentIndex);
+  // Run the initialization function
+  initializeSlider();
 });
