@@ -103,8 +103,8 @@
 }
 
 .facet-checkbox input[type=radio]:checked {
-  background-color: black;
-  border-color: black;
+  background-color: #efefef;
+  border-color: #efefef;
 }
 
 .facet-checkbox input[type=radio]:checked::after {
@@ -123,10 +123,10 @@
   appearance: none;
   width: 20px;
   height: 20px;
-  border: 2px solid #ccc;
+  border: 2px solid #efefef;
   cursor: pointer;
   position: relative;
-  background-color: #ccc;
+  background-color: #efefef;
 }
 
 .facet-checkbox input[type="checkbox"]:checked {
@@ -144,6 +144,7 @@
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-45deg);
+  border-color: black;
 }
 
 .facet-checkbox__text {
