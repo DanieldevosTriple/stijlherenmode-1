@@ -69,18 +69,13 @@
               {%- endif -%}
 
               {% assign secondary_images = '' %}
-              {% assign variant_color_lowercase = variant_color | downcase %} 
+              {% assign variant_color_lowercase = variant_color | downcase %}
               {% for media_item in card_product.media %}
-                {% assign alt_text_lowercase = media_item.alt | downcase %} 
-                {% if alt_text_lowercase contains variant_color_lowercase %}
-                  {% assign secondary_images = secondary_images | append: media_item | append: ',' %}
-                {% endif %}
-              {% endfor %}                                     
-              {%- if secondary_images != blank and show_secondary_image -%}
-                {% assign variant_color_lowercase = variant_color | downcase %}
-                {% for media_item in card_product.media %}
-                  {% assign alt_text_lowercase = media_item.alt | downcase %}
-                  {% if alt_text_lowercase contains variant_color_lowercase %}
+                {% assign alt_text_lowercase = media_item.alt | downcase %}
+                {%- if alt_text_lowercase contains 'color |' -%}
+                  {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
+                  {% if alt_color_part == variant_color_lowercase %}
+                    {% assign secondary_images = secondary_images | append: media_item | append: ',' %}
                     <div class="product-card-carousel-slide">
                       <img
                         srcset="{%- if media_item.width >= 165 -%}{{ media_item | img_url: '165x' }} 165w,{%- endif -%}
@@ -100,8 +95,8 @@
                       >
                     </div>
                   {% endif %}
-                {% endfor %}
-              {%- endif -%}                            
+                {% endif %}
+              {% endfor %}                           
               
               {%- if card_product.media[1] != nil and show_secondary_image -%}
                 <div class="product-card-carousel-controls">
