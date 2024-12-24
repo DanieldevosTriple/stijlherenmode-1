@@ -1,7 +1,3 @@
-.product-card-carousel {
-    position: relative;
-    overflow: hidden;
-  }
   
   .product-card-carousel-container {
     display: flex;
