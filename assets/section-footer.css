@@ -682,8 +682,9 @@
 .newsletter-form__field {
   display: grid;
   /* Default mobile layout - stacked */
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto;
   max-width: 600px;
+  gap: 1rem;
 }
 
 /* Desktop layout - side by side */
@@ -709,7 +710,6 @@
   font-size: 15px;
   text-transform: uppercase;
   font-weight: 600;
-  width: max-content;
   font-family: TradeGothicLT, sans-serif;
 }
 
