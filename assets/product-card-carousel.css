@@ -10,10 +10,14 @@
   }
   
   .product-card-carousel-slide {
+    display: none;
+  }
+  
+  .product-card-carousel-slide.active {
     min-width: 100%;
     flex-shrink: 0;
   }
-  
+
   .carousel-arrow {
     position: absolute;
     top: 50%;
