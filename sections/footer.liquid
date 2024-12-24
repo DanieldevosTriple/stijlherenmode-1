@@ -69,30 +69,31 @@
   </div>  
 
   <!-- Column 2 -->
-  <div class="footer__column border-mobile">
-    {%- for block in section.blocks -%}
-      {%- if block.type == 'link_list' and forloop.first -%}
-        <div class="footer-block footer-block--menu">
-          {%- if block.settings.heading != blank -%}
-            <h2 class="footer-block__heading">
-              {{ block.settings.heading }}
-              <button class="footer__toggle" aria-expanded="false">+</button>
-            </h2>
-          {%- else -%}
-            <h2 class="footer-block__heading__menu">
-              {{ linklists[section.settings.menu_2].title }}
-            </h2>
-          {%- endif -%}
-          <ul class="footer__menu" hidden>
-            {%- for link in linklists[section.settings.menu_2].links -%}
-              <li>
-                <a href="{{ link.url }}" class="link">{{ link.title }}</a>
-              </li>
-            {%- endfor -%}
-          </ul>
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
+    <div class="footer__column border-mobile">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'link_list' and forloop.first -%}
+          <div class="footer-block footer-block--menu">
+            {%- if block.settings.heading != blank -%}
+              <h2 class="footer-block__heading">
+                {{ block.settings.heading }}
+                <button class="footer__toggle" aria-expanded="false">+</button>
+              </h2>
+            {%- else -%}
+              <h2 class="footer-block__heading__menu">
+                {{ linklists[section.settings.menu_2].title }}
+              </h2>
+            {%- endif -%}
+            <ul class="footer__menu" hidden>
+              {%- for link in linklists[section.settings.menu_2].links -%}
+                <li>
+                  <a href="{{ link.url }}" class="link">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+      </div>
     </div>
   
     <!-- Column 3 -->
@@ -101,31 +102,28 @@
         {%- if block.type == 'link_list' and forloop.first -%}
           <div class="footer-block footer-block--menu">
     {%- if section.settings.show_social -%}
-    <div class="footer-block border-mobile footer-block__social">
-      <h2 class="footer-block__heading__menu custom-padding-payments">
-        Volg ons
-      </h2>
-      <div class="footer-block footer-block--social">
-        {%- render 'social-icons', class: 'footer__list-social' -%}
-      </div>
-    </div>  
+        <div class="footer-block border-mobile footer-block__social">
+          <h2 class="footer-block__heading__menu custom-padding-payments">
+            Volg ons
+          </h2>
+              <div class="footer-block footer-block--social">
+                {%- render 'social-icons', class: 'footer__list-social' -%}
+              </div>
+        </div>  
     {%- else -%}
       <p>Social icons zijn uitgeschakeld</p>
     {%- endif -%}
-    <div class="footer-block border-mobile footer__payment">
-      <h2 class="footer-block__heading__menu custom-padding-payments">
-        Betaalmethodes
-      </h2>
-      <ul class="list-payment" role="list">
-        {%- for type in shop.enabled_payment_types -%}
-          <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
-        {%- endfor -%}
-      </ul>
+      <div class="footer-block border-mobile footer__payment">
+        <h2 class="footer-block__heading__menu custom-padding-payments">
+          Betaalmethodes
+        </h2>
+        <ul class="list-payment" role="list">
+          {%- for type in shop.enabled_payment_types -%}
+            <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
+          {%- endfor -%}
+        </ul>
+      </div>
     </div>
-  </div>
-</div>
-</div>
-</div>
 </div>
 
 <!-- Bottom Section -->
