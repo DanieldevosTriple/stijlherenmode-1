@@ -1,144 +1,116 @@
 {% comment %}
-    Renders a product card with image carousel functionality
-
-    Accepts:
-    - card_product: {Object} Product Liquid object (optional)
-    - variant: {String} variant
-    - media_aspect_ratio: {String} Size of the product image card. Values are "square" and "portrait". Default is "square" (optional)
-    - show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
-    - show_vendor: {Boolean} Show the product vendor. Default: false
-    - show_rating: {Boolean} Show the product rating. Default: false
-    - extend_height: {Boolean} Card height extends to available container space. Default: true (optional)
-    - lazy_load: {Boolean} Image should be lazy loaded. Default: true (optional)
-
-    Usage:
-    {% render 'card-product-variant', show_vendor: section.settings.show_vendor %}
+    Renders a product card with comprehensive debugging
+    Debug levels:
+    - level 0: No debugging (default)
+    - level 1: Basic console logs
+    - level 2: Detailed logging and error handling
 {% endcomment %}
 
-{{ 'component-rating.css' | asset_url | stylesheet_tag }}
-{{ 'product-card-carousel.css' | asset_url | stylesheet_tag }}
-{{ 'product-card-carousel.js' | asset_url | script_tag }}
-
-{%- if variant and variant != empty -%}
-  {%- liquid
-    assign ratio = 1
-    if variant.featured_media and media_aspect_ratio == 'portrait'
-      assign ratio = 0.8
-    elsif variant.featured_media and media_aspect_ratio == 'adapt'
-      assign ratio = variant.featured_media.aspect_ratio
-    endif
-    if ratio == 0 or ratio == nil
-      assign ratio = 1
-    endif
-
-    # Filter images to those matching the current variant's color
-    assign variant_color = variant.options | first
-    assign variant_images = card_product.media | where: 'alt', variant_color
-  -%}
-  <div class="card-wrapper product-card-wrapper underline-links-hover">
-    <div class="card
-      card--{{ settings.card_style }}
-      {% if variant.featured_media %} card--media{% else %} card--text{% endif %}
-      {% if settings.card_style == 'card' %} color-{{ settings.card_color_scheme }}{% endif %}
-      {% if extend_height %} card--extend-height{% endif %}
-      {% if variant.featured_media == nil and settings.card_style == 'card' %} ratio{% endif %}"
-      style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
-    >
-      <div class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }}{% endif %}{% if variant.featured_media or settings.card_style == 'standard' %} ratio{% endif %}" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
-        {%- if variant.featured_media -%}
-          <div class="card__media product-card-carousel">
-            <div class="media media--transparent media--hover-effect product-card-carousel-container">
-              {%- if variant.featured_media -%}
-                <div class="product-card-carousel-slide active" data-slide="0">
-                  <img
-                    srcset="{%- if variant.featured_media.width >= 165 -%}{{ variant.featured_media | img_url: '165x' }} 165w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 360 -%}{{ variant.featured_media | img_url: '360x' }} 360w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 533 -%}{{ variant.featured_media | img_url: '533x' }} 533w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 720 -%}{{ variant.featured_media | img_url: '720x' }} 720w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 940 -%}{{ variant.featured_media | img_url: '940x' }} 940w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 1066 -%}{{ variant.featured_media | img_url: '1066x' }} 1066w,{%- endif -%}
-                    {{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
-                    src="{{ variant.featured_media | img_url: '533x' }}"
-                    sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-                    alt="{{ variant.featured_media.alt | escape }}"
-                    class="motion-reduce product-card-carousel-image"
-                    {% unless lazy_load == false %}loading="lazy"{% endunless %}
-                    width="{{ variant.featured_media.width }}"
-                    height="{{ variant.featured_media.height }}"
-                  >
-                </div>
-              {%- endif -%}
-
-              {%- liquid
-  assign variant_color = variant.options | first
-  assign secondary_images = card_product.media | where: 'alt', variant_color
+{%- liquid 
+  # Default debug level
+  assign debug_level = 1 | plus: 0
+  
+  # Image filtering with debug logging
+  assign variant_color = variant.options | first | downcase
+  
+  # Find matching images
+  assign secondary_images = card_product.media | where_exp: 'media', 'media.alt != blank and media.alt | downcase | contains: variant_color'
+  
+  # Fallback if no color-matched images
   if secondary_images.size == 0
-    assign secondary_images = card_product.media | where_exp: 'media', 'media.alt != blank and media.alt | downcase | contains: variant_color | downcase'
+      assign secondary_images = card_product.media
   endif
 -%}
-{%- for image in secondary_images offset:1 limit:1 -%}
-  <div class="product-card-carousel-slide" data-slide="1">
-    <img
-      srcset="{%- if image.width >= 165 -%}{{ image | img_url: '165x' }} 165w,{%- endif -%}
-      {%- if image.width >= 360 -%}{{ image | img_url: '360x' }} 360w,{%- endif -%}
-      {%- if image.width >= 533 -%}{{ image | img_url: '533x' }} 533w,{%- endif -%}
-      {%- if image.width >= 720 -%}{{ image | img_url: '720x' }} 720w,{%- endif -%}
-      {%- if image.width >= 940 -%}{{ image | img_url: '940x' }} 940w,{%- endif -%}
-      {%- if image.width >= 1066 -%}{{ image | img_url: '1066x' }} 1066w,{%- endif -%}
-      {{ image | img_url: 'master' }} {{ image.width }}w"
-      src="{{ image | img_url: '533x' }}"
-      sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-      alt="{{ image.alt | escape }}"
-      class="motion-reduce product-card-carousel-image"
-      loading="lazy"
-      width="{{ image.width }}"
-      height="{{ image.height }}"
-    >
-  </div>
-{%- endfor -%}
 
-              {%- if secondary_images.size > 1 and show_secondary_image -%}
-                <div class="product-card-carousel-controls">
-                  <button class="product-card-carousel-prev" aria-label="Previous image">
-                    <span class="visually-hidden">Previous</span>
-                    &#10094;
-                  </button>
-                  <button class="product-card-carousel-next" aria-label="Next image">
-                    <span class="visually-hidden">Next</span>
-                    &#10095;
-                  </button>
-                  
-                  <div class="product-card-carousel-dots">
-                    {%- for image in secondary_images limit:2 -%}
-                      <span class="product-card-carousel-dot {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.index0 }}"></span>
-                    {%- endfor -%}
-                  </div>
-                </div>
-              {%- endif -%}
-            </div>
-          </div>
-        {%- endif -%}
+{%- if variant and variant != empty -%}
+<div class="card-wrapper product-card-wrapper underline-links-hover">
+  <div class="card
+    card--{{ settings.card_style }}
+    {% if variant.featured_media %} card--media{% else %} card--text{% endif %}
+    {% if settings.card_style == 'card' %} color-{{ settings.card_color_scheme }}{% endif %}
+    {% if extend_height %} card--extend-height{% endif %}
+    {% if variant.featured_media == nil and settings.card_style == 'card' %} ratio{% endif %}"
+  >
+    {%- if debug_level > 0 -%}
+      <div class="debug-info" style="background-color: #f0f0f0; padding: 10px; margin: 10px 0;">
+        <h4>Debug Information</h4>
+        <p><strong>Variant Color:</strong> {{ variant_color }}</p>
+        <p><strong>Total Media:</strong> {{ card_product.media.size }}</p>
+        <p><strong>Matching Images:</strong> {{ secondary_images.size }}</p>
+        <details>
+          <summary>Image Details</summary>
+          {%- for image in secondary_images -%}
+            <p>Image {{ forloop.index }}: {{ image.alt }}</p>
+          {%- endfor -%}
+        </details>
+      </div>
+    {%- endif -%}
 
-              {%- if card_product.media[1] != nil and show_secondary_image -%}
-                <div class="product-card-carousel-controls">
-                  <button class="product-card-carousel-prev" aria-label="Previous image">
-                    <span class="visually-hidden">Previous</span>
-                    &#10094;
-                  </button>
-                  <button class="product-card-carousel-next" aria-label="Next image">
-                    <span class="visually-hidden">Next</span>
-                    &#10095;
-                  </button>
-                  
-                  <div class="product-card-carousel-dots">
-                    <span class="product-card-carousel-dot active" data-slide="0"></span>
-                    <span class="product-card-carousel-dot" data-slide="1"></span>
-                  </div>
-                </div>
-              {%- endif -%}
-            </div>
+    {%- if variant.featured_media -%}
+      <div class="card__media product-card-carousel">
+        <div class="media media--transparent media--hover-effect product-card-carousel-container">
+          {%- comment %}First image{% endcomment %}
+          <div class="product-card-carousel-slide active" data-slide="0">
+            <img
+              srcset="{%- if variant.featured_media.width >= 165 -%}{{ variant.featured_media | img_url: '165x' }} 165w,{%- endif -%}
+              {%- if variant.featured_media.width >= 360 -%}{{ variant.featured_media | img_url: '360x' }} 360w,{%- endif -%}
+              {%- if variant.featured_media.width >= 533 -%}{{ variant.featured_media | img_url: '533x' }} 533w,{%- endif -%}
+              {%- if variant.featured_media.width >= 720 -%}{{ variant.featured_media | img_url: '720x' }} 720w,{%- endif -%}
+              {%- if variant.featured_media.width >= 940 -%}{{ variant.featured_media | img_url: '940x' }} 940w,{%- endif -%}
+              {%- if variant.featured_media.width >= 1066 -%}{{ variant.featured_media | img_url: '1066x' }} 1066w,{%- endif -%}
+              {{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
+              src="{{ variant.featured_media | img_url: '533x' }}"
+              alt="{{ variant.featured_media.alt | escape }}"
+              class="motion-reduce product-card-carousel-image"
+              loading="lazy"
+              width="{{ variant.featured_media.width }}"
+              height="{{ variant.featured_media.height }}"
+            >
           </div>
-        {%- endif -%}
+
+          {%- comment %}Secondary images{% endcomment %}
+          {%- for image in secondary_images offset:1 limit:2 -%}
+            <div class="product-card-carousel-slide" data-slide="{{ forloop.index }}">
+              <img
+                srcset="{%- if image.width >= 165 -%}{{ image | img_url: '165x' }} 165w,{%- endif -%}
+                {%- if image.width >= 360 -%}{{ image | img_url: '360x' }} 360w,{%- endif -%}
+                {%- if image.width >= 533 -%}{{ image | img_url: '533x' }} 533w,{%- endif -%}
+                {%- if image.width >= 720 -%}{{ image | img_url: '720x' }} 720w,{%- endif -%}
+                {%- if image.width >= 940 -%}{{ image | img_url: '940x' }} 940w,{%- endif -%}
+                {%- if image.width >= 1066 -%}{{ image | img_url: '1066x' }} 1066w,{%- endif -%}
+                {{ image | img_url: 'master' }} {{ image.width }}w"
+                src="{{ image | img_url: '533x' }}"
+                alt="{{ image.alt | escape }}"
+                class="motion-reduce product-card-carousel-image"
+                loading="lazy"
+                width="{{ image.width }}"
+                height="{{ image.height }}"
+              >
+            </div>
+          {%- endfor -%}
+
+          {%- if secondary_images.size > 1 and show_secondary_image -%}
+            <div class="product-card-carousel-controls">
+              <button class="product-card-carousel-prev" aria-label="Previous image">
+                <span class="visually-hidden">Previous</span>
+                &#10094;
+              </button>
+              <button class="product-card-carousel-next" aria-label="Next image">
+                <span class="visually-hidden">Next</span>
+                &#10095;
+              </button>
+              
+              <div class="product-card-carousel-dots">
+                {%- for image in secondary_images limit:3 -%}
+                  <span class="product-card-carousel-dot {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.index0 }}"></span>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
         <div class="card__content">
           <div class="card__information">
             <h3 class="card__heading">
@@ -245,4 +217,36 @@
       </div>
     </div>
   </div>
+{%- endif -%}
+
+{%- comment %}Debug script{% endcomment %}
+{%- if debug_level > 0 -%}
+  <script>
+    (function() {
+      console.group('Product Card Debug');
+      console.log('Variant Details:', {
+        id: '{{ variant.id }}',
+        title: '{{ variant.title }}',
+        color: '{{ variant_color }}',
+        available: {{ variant.available }},
+        price: {{ variant.price }}
+      });
+      
+      console.log('Media Information:', {
+        total_media: {{ card_product.media.size }},
+        matching_images: {{ secondary_images.size }},
+        images: [
+          {%- for image in secondary_images -%}
+            {
+              alt: '{{ image.alt }}',
+              width: {{ image.width }},
+              height: {{ image.height }}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      });
+      
+      console.groupEnd();
+    })();
+  </script>
 {%- endif -%}
