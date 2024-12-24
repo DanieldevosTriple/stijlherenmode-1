@@ -69,9 +69,9 @@
               {%- endif -%}
 
               {% assign secondary_images = '' %}
-              {% assign variant_color_lowercase = variant_color | downcase %}
+              {% assign variant_color_lowercase = variant_color | downcase %} 
               {% for media_item in card_product.media %}
-                {% assign alt_text_lowercase = media_item.alt | downcase %}
+                {% assign alt_text_lowercase = media_item.alt | downcase %} 
                 {% if alt_text_lowercase contains variant_color_lowercase %}
                   {% assign secondary_images = secondary_images | append: media_item | append: ',' %}
                 {% endif %}
@@ -157,7 +157,6 @@
                 <p>URL: {{ media_item | img_url: 'master' }}</p>
                 <p>Width: {{ media_item.width }}</p>
                 <p>Height: {{ media_item.height }}</p>
-                <p>Debug: Does "{{ alt_text_lowercase }}" contain "{{ variant_color_lowercase }}"?</p>
                 <hr>
               {% endfor %}
             </a>
