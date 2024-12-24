@@ -2,21 +2,27 @@ document.addEventListener('DOMContentLoaded', function () {
   const slides = document.querySelectorAll('.product-card-slider-slide');
   const prevButton = document.querySelector('.slider-buttons-product .prev');
   const nextButton = document.querySelector('.slider-buttons-product .next');
-  let currentIndex = 0; // Ensure the first slide is always active
+  let currentIndex = 0;
 
   function updateSlides(index) {
     slides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === index);
+      if (i === index) {
+        slide.classList.add('active');
+      } else {
+        slide.classList.remove('active');
+      }
     });
   }
 
-  // Initialize the slider with slide index 0 active
+  // Initialize the slider and set slide 0 as active
   function initializeSlider() {
-    slides.forEach((slide) => slide.classList.remove('active'));
     const firstSlide = document.querySelector('.product-card-slider-slide[data-slide="0"]');
     if (firstSlide) {
-      firstSlide.classList.add('active'); // Explicitly set the active class for data-slide="0"
-      currentIndex = 0; // Set the current index
+      slides.forEach(slide => slide.classList.remove('active')); // Clear all active classes
+      firstSlide.classList.add('active'); // Set slide 0 as active
+      currentIndex = 0;
+    } else {
+      console.error('No slide with data-slide="0" found!');
     }
   }
 
@@ -30,6 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
     updateSlides(currentIndex);
   });
 
-  // Run the initialization function
+  // Initialize the slider
   initializeSlider();
-}); 
+});
