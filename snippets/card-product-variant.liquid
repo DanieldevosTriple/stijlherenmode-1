@@ -79,7 +79,6 @@
                   
                   {% if alt_color_part == variant_color_lowercase %}
                     {% assign secondary_images = secondary_images | append: media_item | append: ',' %}
-                    <p>Selected Image: {{ media_item | img_url: 'master' }}</p>
                   {% endif %}
                 {% endif %}
               {% endfor %}
