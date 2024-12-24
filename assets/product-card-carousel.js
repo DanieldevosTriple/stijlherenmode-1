@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
   sliderContainers.forEach((container) => {
     const slides = container.querySelectorAll('.product-card-slider-slide');
-    const buttonContainer = container.nextElementSibling;
+    const buttonContainer = container.querySelector('.slider-buttons-product');
     
     if (slides.length <= 1) {
       if (slides.length === 1) {
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       dotsContainer.appendChild(dot);
     });
-    container.parentNode.appendChild(dotsContainer);
+    container.appendChild(dotsContainer);
     
     const prevButton = buttonContainer?.querySelector('.prev');
     const nextButton = buttonContainer?.querySelector('.next');
@@ -64,23 +64,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Touch events
     container.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
+      e.preventDefault();
+      touchStartX = e.touches[0].clientX;
+    }, { passive: false });
+
+    container.addEventListener('touchmove', e => {
+      e.preventDefault();
+    }, { passive: false });
 
     container.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
+      touchEndX = e.changedTouches[0].clientX;
       handleGesture();
     });
 
-    // Desktop drag events
-    container.addEventListener('mousedown', e => {
-      touchStartX = e.screenX;
-    });
+    // Button events
+    if (prevButton) {
+      prevButton.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        updateSlides(currentIndex);
+      });
+    }
 
-    container.addEventListener('mouseup', e => {
-      touchEndX = e.screenX;
-      handleGesture();
-    });
+    if (nextButton) {
+      nextButton.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateSlides(currentIndex);
+      });
+    }
     
     // Initialize first slide
     slides[0].classList.add('active');
