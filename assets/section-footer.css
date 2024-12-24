@@ -674,7 +674,6 @@
   display: grid;
   /* Default mobile layout - stacked */
   grid-template-columns: auto;
-  max-width: 600px;
   gap: 1rem;
 }
 
