@@ -45,7 +45,8 @@
 
 .footer__content-top {
   padding-bottom: 5rem;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3fr, 1);
 }
 
 .footer__menu {
