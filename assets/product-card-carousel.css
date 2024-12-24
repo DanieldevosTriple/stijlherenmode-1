@@ -1,8 +1,13 @@
+.card-media-custom {
+    height: 400px;
+}
+
 .product-card-slider {
     position: relative;
     overflow: hidden;
     width: 100%;
     margin: auto;
+    height: 100%;
 }
 
 .product-card-slider-slide {
@@ -44,3 +49,4 @@
 .slider-buttons-product .next {
     right: 10px;
 }
+
