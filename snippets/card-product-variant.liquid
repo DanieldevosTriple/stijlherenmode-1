@@ -48,7 +48,7 @@
         {%- if variant.featured_media -%}
           <div class="card__media product-card-slider">
               {%- if variant.featured_media -%}
-                <div class="product-card-carousel-slide active" data-slide="0">
+                <div class="product-card-slider-slide" data-slide="0">
                   <img
                     srcset="{%- if variant.featured_media.width >= 165 -%}{{ variant.featured_media | img_url: '165x' }} 165w,{%- endif -%}
                     {%- if variant.featured_media.width >= 360 -%}{{ variant.featured_media | img_url: '360x' }} 360w,{%- endif -%}
@@ -88,7 +88,7 @@
               {%- if alt_text_lowercase contains 'color |' -%}
               {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
               {% if alt_color_part == variant_color_lowercase %}
-              <div class="product-card-carousel-slide" data-slide="{{ slide_counter }}">
+              <div class="product-card-slider-slide" data-slide="{{ slide_counter }}">
               <img
               srcset="{%- if media_item.width >= 165 -%}{{ media_item | img_url: '165x' }} 165w,{%- endif -%}
               {%- if media_item.width >= 360 -%}{{ media_item | img_url: '360x' }} 360w,{%- endif -%}
