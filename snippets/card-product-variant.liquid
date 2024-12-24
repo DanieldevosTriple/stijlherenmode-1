@@ -152,7 +152,13 @@
                 <p>No secondary images found for variant color: {{ variant_color }}</p>
               {%- endif -%}
               {% for media_item in card_product.media %}
+                <p>Media Item {{ forloop.index }}</p>
+                <p>Alt Text: {{ media_item.alt }}</p>
+                <p>URL: {{ media_item | img_url: 'master' }}</p>
+                <p>Width: {{ media_item.width }}</p>
+                <p>Height: {{ media_item.height }}</p>
                 <p>Debug: Does "{{ alt_text_lowercase }}" contain "{{ variant_color_lowercase }}"?</p>
+                <hr>
               {% endfor %}
             </a>
           </h3>
