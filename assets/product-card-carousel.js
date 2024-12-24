@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
   sliderContainers.forEach((container) => {
     const slides = container.querySelectorAll('.product-card-slider-slide');
-    const buttonContainer = container.querySelector('.slider-buttons-product');
+    const buttonContainer = container.nextElementSibling;
     
     if (slides.length <= 1) {
       if (slides.length === 1) {
@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentIndex = 0;
     let touchStartX = 0;
     let touchEndX = 0;
+    let isDragging = false;
     
     function updateSlides(index) {
       slides.forEach((slide, i) => {
@@ -47,34 +48,54 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function handleGesture() {
+      if (!isDragging) return;
+      
       const minSwipeDistance = 50;
       const swipeDistance = touchEndX - touchStartX;
       
       if (Math.abs(swipeDistance) > minSwipeDistance) {
         if (swipeDistance > 0) {
-          // Swipe right
           currentIndex = (currentIndex - 1 + slides.length) % slides.length;
         } else {
-          // Swipe left
           currentIndex = (currentIndex + 1) % slides.length;
         }
         updateSlides(currentIndex);
       }
+      isDragging = false;
     }
 
     // Touch events
     container.addEventListener('touchstart', e => {
-      e.preventDefault();
+      isDragging = true;
       touchStartX = e.touches[0].clientX;
-    }, { passive: false });
-
-    container.addEventListener('touchmove', e => {
-      e.preventDefault();
-    }, { passive: false });
+    }, { passive: true });
 
     container.addEventListener('touchend', e => {
+      if (!isDragging) return;
       touchEndX = e.changedTouches[0].clientX;
       handleGesture();
+    });
+
+    // Mouse events for desktop swiping
+    container.addEventListener('mousedown', e => {
+      isDragging = true;
+      touchStartX = e.clientX;
+      e.preventDefault();
+    });
+
+    container.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      e.preventDefault();
+    });
+
+    container.addEventListener('mouseup', e => {
+      if (!isDragging) return;
+      touchEndX = e.clientX;
+      handleGesture();
+    });
+
+    container.addEventListener('mouseleave', () => {
+      isDragging = false;
     });
 
     // Button events
