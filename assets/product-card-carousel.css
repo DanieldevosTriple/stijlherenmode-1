@@ -92,7 +92,7 @@
     }
 
     .product-card-slider { 
-        height: 250px;
+        height: 200px;
     }
 
     .card:not(.ratio) {
