@@ -1,14 +1,15 @@
 .product-card-slider {
-    transition: transform 0.5s ease-in-out;
-    display: flex;
-}
-
-.product-card-slider-slide {
-    flex: 0 0 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    z-index: 0;
-}
+    position: relative;
+    height: 400px; /* Adjust as needed */
+  }
+  
+  .product-card-slider-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 
 .product-card-slider-slide img {
     object-fit: cover;
