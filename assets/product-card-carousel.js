@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   console.log('DOMContentLoaded event fired!');
 
-  // Select all product card containers
+  // Select all product card sliders
   const productCardContainers = document.querySelectorAll('.card__media.product-card-slider');
 
   if (!productCardContainers.length) {
@@ -15,10 +15,10 @@ document.addEventListener('DOMContentLoaded', function () {
   productCardContainers.forEach((container, containerIndex) => {
     console.log(`Initializing product card ${containerIndex}`);
 
-    const slider = container; // Current slider
-    const slides = slider.querySelectorAll('.product-card-slider-slide');
-    const prevButton = slider.nextElementSibling?.querySelector('.prev');
-    const nextButton = slider.nextElementSibling?.querySelector('.next');
+    // Identify slides and buttons related to this container
+    const slides = document.querySelectorAll(`.product-card-slider-slide[data-card-index="${containerIndex}"]`);
+    const prevButton = container.nextElementSibling?.querySelector('.prev');
+    const nextButton = container.nextElementSibling?.querySelector('.next');
 
     if (!slides.length) {
       console.error(`No slides found for product card ${containerIndex}`);
@@ -36,13 +36,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateSlides(index) {
       console.log(`Updating slides for product card ${containerIndex}, currentIndex: ${index}`);
-      const offset = -index * 100; // Calculate the translateX percentage
-      slider.style.transform = `translateX(${offset}%)`;
+      slides.forEach((slide, i) => {
+        if (i === index) {
+          slide.style.opacity = '1';
+          slide.style.zIndex = '1';
+          console.log(`Product card ${containerIndex}: Slide ${i} is now active`);
+        } else {
+          slide.style.opacity = '0';
+          slide.style.zIndex = '0';
+        }
+      });
     }
 
     function initializeSlider() {
       console.log(`Initializing slider for product card ${containerIndex}...`);
-      slider.style.transform = 'translateX(0%)'; // Start at the first slide
+      const firstSlides = Array.from(slides).filter(slide => slide.dataset.slide === '0');
+
+      if (firstSlides.length) {
+        slides.forEach(slide => {
+          slide.style.opacity = '0';
+          slide.style.zIndex = '0';
+        });
+        firstSlides.forEach(slide => {
+          slide.style.opacity = '1';
+          slide.style.zIndex = '1';
+        });
+        currentIndex = 0; // Ensure the current index starts at 0
+        console.log(`Product card ${containerIndex}: All slides with data-slide="0" set to active`);
+      } else {
+        console.error(`Product card ${containerIndex}: No slide with data-slide="0" found!`);
+      }
     }
 
     prevButton.addEventListener('click', () => {
