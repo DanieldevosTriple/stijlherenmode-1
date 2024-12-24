@@ -151,7 +151,9 @@
               {%- if secondary_images == blank -%}
                 <p>No secondary images found for variant color: {{ variant_color }}</p>
               {%- endif -%}
-              <p>Debug: Does "{{ alt_text_lowercase }}" contain "{{ variant_color_lowercase }}"?</p>
+              {% for media_item in card_product.media %}
+                <p>Debug: Does "{{ alt_text_lowercase }}" contain "{{ variant_color_lowercase }}"?</p>
+              {% endfor %}
             </a>
           </h3>
           <div class="card-information">
