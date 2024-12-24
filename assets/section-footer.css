@@ -2,6 +2,8 @@
   border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
   background-color: black;
   padding-top: 15rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .footer-block__heading__menu {
@@ -46,7 +48,7 @@
 .footer__content-top {
   padding-bottom: 5rem;
   display: grid;
-  grid-template-columns: repeat(3fr, 1);
+  grid-template-columns: repeat(3, 0.5fr);
 }
 
 .footer__menu {
