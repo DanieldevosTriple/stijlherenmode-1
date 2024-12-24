@@ -122,7 +122,6 @@
         {%- endif -%}
         
         {%- if show_card_content == true -%}
-          <div class="card__content">
             <div class="card__badge {{ settings.badge_position }}">
               {%- if card_product.available == false -%}
                 <span class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}">{{ 'products.product.sold_out' | t }}</span>
@@ -130,7 +129,6 @@
                 <span class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}">{{ 'products.product.on_sale' | t }}</span>
               {%- endif -%}
             </div>
-          </div>
         {%- endif -%}               
       </div>
       <div class="card__content">
