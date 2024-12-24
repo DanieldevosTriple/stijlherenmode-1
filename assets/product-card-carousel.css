@@ -50,3 +50,41 @@
     right: 10px;
 }
 
+.slider-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 2;
+  }
+  
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .dot.active {
+    background: black;
+  }
+  
+  .product-card-slider {
+    user-select: none;
+    cursor: grab;
+  }
+  
+  .product-card-slider:active {
+    cursor: grabbing;
+  }
+  
+  @media (max-width: 767px) {
+    .slider-buttons-product {
+      display: none;
+    }
+  }
