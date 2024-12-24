@@ -6,131 +6,124 @@
 {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 
 <footer class="footer col-12 color-black gradient section-{{ section.id }}-padding">
-      <!-- Newsletter Section -->
-      {%- if section.settings.newsletter_enable -%}
-        <div class="footer-block--newsletter">
-          <div class="footer-block__newsletter">
-            {%- if section.settings.newsletter_heading != blank -%}
-              <h2 class="footer-block__heading-newsletter">{{ section.settings.newsletter_heading }}</h2>
-            {%- endif -%}
-            {%- if section.settings.newsletter_description != blank -%}
-              <p class="footer-column-description">
-                {{ section.settings.newsletter_description }}
-              </p>
-            {%- endif -%}        
-            {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
-              <input type="hidden" name="contact[tags]" value="newsletter">
-              <div class="newsletter-form__field">
-                <input
-                  type="email"
-                  name="contact[email]"
-                  class="newsletter-form__field-input"
-                  placeholder="{{ 'newsletter.label' | t }}"
-                  required
-                >
-                  <button type="submit" class="newsletter-form__button">
-                    <span class="button-text">Abonneer</span> 
-                  </button>
-              </div>
-            {%- endform -%}
-            <p class="disclaimer">
-              {{ section.settings.newsletter_disclaimer }}
-            </p>        
+  <!-- Newsletter Section -->
+  {%- if section.settings.newsletter_enable -%}
+    <div class="footer-block--newsletter">
+      <div class="footer-block__newsletter">
+        {%- if section.settings.newsletter_heading != blank -%}
+          <h2 class="footer-block__heading-newsletter">{{ section.settings.newsletter_heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.newsletter_description != blank -%}
+          <p class="footer-column-description">
+            {{ section.settings.newsletter_description }}
+          </p>
+        {%- endif -%}        
+        {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="newsletter-form__field">
+            <input
+              type="email"
+              name="contact[email]"
+              class="newsletter-form__field-input"
+              placeholder="{{ 'newsletter.label' | t }}"
+              required
+            >
+            <button type="submit" class="newsletter-form__button">
+              <span class="button-text">Abonneer</span> 
+            </button>
           </div>
-        </div>
-      {%- endif -%}
+        {%- endform -%}
+        <p class="disclaimer">
+          {{ section.settings.newsletter_disclaimer }}
+        </p>        
+      </div>
+    </div>
+  {%- endif -%}
 
-      <!-- Content Section -->
-    <div class="footer__content-top">
-      <!-- Column 1 -->
-      <div class="footer__column border-mobile">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'link_list' and forloop.first -%}
-            <div class="footer-block footer-block--menu">
-              {%- if block.settings.heading != blank -%}
-                <h2 class="footer-block__heading">
-                  {{ block.settings.heading }}
-                </h2>
-              {%- else -%}
-                <h2 class="footer-block__heading__menu">
-                  {{ linklists[section.settings.menu_1].title }}
-                </h2>
-              {%- endif -%}
-              <ul class="footer__menu" hidden>
-                {%- for link in linklists[section.settings.menu_1].links -%}
-                  <li>
-                    <a href="{{ link.url }}" class="link">{{ link.title }}</a>
-                  </li>
-                {%- endfor -%}
-              </ul>
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>  
-
-      <!-- Column 2 -->
-        <div class="footer__column border-mobile">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'link_list' and forloop.first -%}
-              <div class="footer-block footer-block--menu">
-                {%- if block.settings.heading != blank -%}
-                  <h2 class="footer-block__heading">
-                    {{ block.settings.heading }}
-                    <button class="footer__toggle" aria-expanded="false">+</button>
-                  </h2>
-                {%- else -%}
-                  <h2 class="footer-block__heading__menu">
-                    {{ linklists[section.settings.menu_2].title }}
-                  </h2>
-                {%- endif -%}
-                <ul class="footer__menu" hidden>
-                  {%- for link in linklists[section.settings.menu_2].links -%}
-                    <li>
-                      <a href="{{ link.url }}" class="link">{{ link.title }}</a>
-                    </li>
-                  {%- endfor -%}
-                </ul>
-              </div>
-            {%- endif -%}
-          {%- endfor -%}
-          </div>
-        </div>
-      
-        <!-- Column 3 -->
-      <div class="footer__column border-mobile">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'link_list' and forloop.first -%}
-              <div class="footer-block footer-block--menu">
-          {%- if section.settings.show_social -%}
-              <div class="footer-block border-mobile footer-block__social">
-                  <h2 class="footer-block__heading__menu custom-padding-payments">
-                    Volg ons
-                  </h2>
-                    <div class="footer-block footer-block--social">
-                      {%- render 'social-icons', class: 'footer__list-social' -%}
-                    </div>
-              </div></div>  
-          {%- else -%}
-          <p>Social icons zijn uitgeschakeld</p>
-          {%- endif -%}
-            <div class="footer-block border-mobile footer__payment">
-              <h2 class="footer-block__heading__menu custom-padding-payments">
-                Betaalmethodes
+  <!-- Content Section -->
+  <div class="footer__content-top">
+    <!-- Column 1 -->
+    <div class="footer__column border-mobile">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'link_list' and forloop.first -%}
+          <div class="footer-block footer-block--menu">
+            {%- if block.settings.heading != blank -%}
+              <h2 class="footer-block__heading">
+                {{ block.settings.heading }}
               </h2>
-              <ul class="list-payment" role="list">
-                {%- for type in shop.enabled_payment_types -%}
-                  <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
-                {%- endfor -%}
-              </ul>
-            </div>
-      </div>
+            {%- else -%}
+              <h2 class="footer-block__heading__menu">
+                {{ linklists[section.settings.menu_1].title }}
+              </h2>
+            {%- endif -%}
+            <ul class="footer__menu" hidden>
+              {%- for link in linklists[section.settings.menu_1].links -%}
+                <li>
+                  <a href="{{ link.url }}" class="link">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
 
-      <!-- Bottom Section -->
-      <div class="footer__content-bottom">
-        <div class="footer__copyright col-12">
-          <small class="copyright-text">&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</small>
+    <!-- Column 2 -->
+    <div class="footer__column border-mobile">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'link_list' and forloop.first -%}
+          <div class="footer-block footer-block--menu">
+            {%- if block.settings.heading != blank -%}
+              <h2 class="footer-block__heading">
+                {{ block.settings.heading }}
+                <button class="footer__toggle" aria-expanded="false">+</button>
+              </h2>
+            {%- else -%}
+              <h2 class="footer-block__heading__menu">
+                {{ linklists[section.settings.menu_2].title }}
+              </h2>
+            {%- endif -%}
+            <ul class="footer__menu" hidden>
+              {%- for link in linklists[section.settings.menu_2].links -%}
+                <li>
+                  <a href="{{ link.url }}" class="link">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- Column 3 -->
+    <div class="footer__column border-mobile">
+      {%- if section.settings.show_social -%}
+        <div class="footer-block footer-block__social">
+          <h2 class="footer-block__heading__menu custom-padding-payments">Volg ons</h2>
+          <div class="footer-block footer-block--social">
+            {%- render 'social-icons', class: 'footer__list-social' -%}
+          </div>
         </div>
+      {%- else -%}
+        <p>Social icons zijn uitgeschakeld</p>
+      {%- endif -%}
+      <div class="footer-block footer__payment">
+        <h2 class="footer-block__heading__menu custom-padding-payments">Betaalmethodes</h2>
+        <ul class="list-payment" role="list">
+          {%- for type in shop.enabled_payment_types -%}
+            <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
+          {%- endfor -%}
+        </ul>
       </div>
+    </div>
+  </div>
+
+  <!-- Bottom Section -->
+  <div class="footer__content-bottom">
+    <div class="footer__copyright col-12">
+      <small class="copyright-text">&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</small>
+    </div>
+  </div>
 </footer>
 
 <script>
