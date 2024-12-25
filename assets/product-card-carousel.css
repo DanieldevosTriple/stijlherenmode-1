@@ -108,3 +108,10 @@
         border: none;
     }
 }
+
+.card__badge {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    z-index: 3;
+  }
