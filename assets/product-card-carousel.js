@@ -5,7 +5,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const cardMedia = container.closest('.card-media-custom');
     const slides = container.querySelectorAll('.product-card-slider-slide');
     const buttonContainer = container.nextElementSibling;
-    
+
+    // Add swipe-enabled class to make card-media-custom interactive
+    if (cardMedia) {
+      cardMedia.classList.add('swipe-enabled');
+    }
+
     if (slides.length <= 1) {
       if (slides.length === 1) {
         slides[0].classList.add('active');
