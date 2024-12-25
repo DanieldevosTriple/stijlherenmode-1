@@ -245,8 +245,8 @@
 
 .card__badge {
   position: absolute;
-  bottom: 15px;
-  left: 15px;
+  top: 0px;
+  left: 0px;
   z-index: 3;
 }
 
