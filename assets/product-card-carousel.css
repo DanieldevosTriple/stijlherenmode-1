@@ -4,7 +4,6 @@
 
 .card-media-custom {
     height: 100%;
-    pointer-events: auto;
 }
 
 .product-card-slider {
@@ -12,8 +11,6 @@
     overflow: hidden;
     height: 500px;
     margin: auto;
-    z-index: 1;
-    touch-action: pan-x; /* Allows horizontal swiping */
 }
 
 .product-card-slider-slide {
@@ -23,10 +20,6 @@
     opacity: 0;
     transition: opacity 0.5s ease;
     z-index: 0;
-}
-
-.card-media-custom.swipe-enabled {
-    pointer-events: auto;
 }
 
 .product-card-slider-slide img {
@@ -118,7 +111,7 @@
 
 .card__badge {
     position: absolute;
-    bottom: 15px;
-    left: 15px;
+    bottom: 0px;
+    left: 0px;
     z-index: 3;
   }
