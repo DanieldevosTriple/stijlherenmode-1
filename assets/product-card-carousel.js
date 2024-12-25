@@ -70,16 +70,16 @@ document.addEventListener('DOMContentLoaded', function () {
       isScrolling = false;
     }
 
-    // Add touch events to card-media-custom
+    // Add touch events to both container and images
     if (cardMedia) {
-      cardMedia.addEventListener('touchstart', e => {
+      const handleTouchStart = e => {
         isDragging = true;
         isScrolling = false;
         touchStartX = e.touches[0].clientX;
         initialTouchY = e.touches[0].clientY;
-      }, { passive: true });
+      };
 
-      cardMedia.addEventListener('touchmove', e => {
+      const handleTouchMove = e => {
         if (!isDragging) return;
         
         const currentX = e.touches[0].clientX;
@@ -95,13 +95,35 @@ document.addEventListener('DOMContentLoaded', function () {
         if (deltaX > 10 && !isScrolling) {
           e.preventDefault();
         }
-      }, { passive: false });
+      };
 
-      cardMedia.addEventListener('touchend', e => {
+      const handleTouchEnd = e => {
         if (!isDragging) return;
         touchEndX = e.changedTouches[0].clientX;
         handleSwipe();
+      };
+
+      // Add listeners to container
+      cardMedia.addEventListener('touchstart', handleTouchStart, { passive: true });
+      cardMedia.addEventListener('touchmove', handleTouchMove, { passive: false });
+      cardMedia.addEventListener('touchend', handleTouchEnd);
+
+      // Add listeners to all images
+      slides.forEach(slide => {
+        const img = slide.querySelector('img');
+        if (img) {
+          img.addEventListener('touchstart', handleTouchStart, { passive: true });
+          img.addEventListener('touchmove', handleTouchMove, { passive: false });
+          img.addEventListener('touchend', handleTouchEnd);
+        }
       });
+        isDragging = true;
+        isScrolling = false;
+        touchStartX = e.touches[0].clientX;
+        initialTouchY = e.touches[0].clientY;
+      }, { passive: true });
+
+
     }
 
     // Button click handlers
