@@ -47,10 +47,12 @@
 
 .slider-buttons-product .prev {
     left: 10px;
+    background: none;
 }
 
 .slider-buttons-product .next {
     right: 10px;
+    background: none;
 }
 
 .slider-dots {
