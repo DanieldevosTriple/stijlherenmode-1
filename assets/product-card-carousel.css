@@ -48,11 +48,13 @@
 .slider-buttons-product .prev {
     left: 10px;
     background: none;
+    color: black;
 }
 
 .slider-buttons-product .next {
     right: 10px;
     background: none;
+    color: black;
 }
 
 .slider-dots {
