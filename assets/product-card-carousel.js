@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    // Initialize dots container
     const dotsContainer = document.createElement('div');
     dotsContainer.className = 'slider-dots';
     slides.forEach((_, i) => {
@@ -31,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     container.appendChild(dotsContainer);
 
-    // Set up navigation buttons
     const prevButton = buttonContainer?.querySelector('.prev');
     const nextButton = buttonContainer?.querySelector('.next');
     
@@ -70,16 +68,15 @@ document.addEventListener('DOMContentLoaded', function () {
       isScrolling = false;
     }
 
-    // Add touch events to card-media-custom
     if (cardMedia) {
-      cardMedia.addEventListener('touchstart', e => {
+      container.addEventListener('touchstart', e => {
         isDragging = true;
         isScrolling = false;
         touchStartX = e.touches[0].clientX;
         initialTouchY = e.touches[0].clientY;
       }, { passive: true });
 
-      cardMedia.addEventListener('touchmove', e => {
+      container.addEventListener('touchmove', e => {
         if (!isDragging) return;
         
         const currentX = e.touches[0].clientX;
@@ -97,14 +94,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }, { passive: false });
 
-      cardMedia.addEventListener('touchend', e => {
+      container.addEventListener('touchend', e => {
         if (!isDragging) return;
         touchEndX = e.changedTouches[0].clientX;
         handleSwipe();
       });
     }
 
-    // Button click handlers
     if (prevButton) {
       prevButton.addEventListener('click', () => {
         currentIndex = (currentIndex - 1 + slides.length) % slides.length;
@@ -119,10 +115,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // Initialize first slide
     slides[0].classList.add('active');
 
-    // Handle responsive behavior
     const mediaQuery = window.matchMedia('(min-width: 768px)');
     
     function handleScreenChange(e) {
