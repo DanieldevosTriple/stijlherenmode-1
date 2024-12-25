@@ -244,9 +244,10 @@
 }
 
 .card__badge {
-  align-self: flex-end;
-  grid-row-start: 3;
-  justify-self: flex-start;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  z-index: 3;
 }
 
 .card__badge.top {
