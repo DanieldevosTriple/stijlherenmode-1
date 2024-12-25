@@ -4,10 +4,7 @@
 
 .card-media-custom {
     height: 100%;
-}
-
-.card-media-custom {
-    pointer-events: none; /* Default non-interactive */
+    pointer-events: auto;
 }
 
 .product-card-slider {
