@@ -4,6 +4,7 @@
 
 .card-media-custom {
     height: 100%;
+    pointer-events: none;
 }
 
 .product-card-slider {
@@ -12,6 +13,7 @@
     height: 500px;
     margin: auto;
     z-index: 1;
+    touch-action: pan-y; /* Allows horizontal swipes */
 }
 
 .product-card-slider-slide {
