@@ -11,6 +11,7 @@
     overflow: hidden;
     height: 500px;
     margin: auto;
+    z-index: 1;
 }
 
 .product-card-slider-slide {
