@@ -40,8 +40,13 @@
       <div class="card-media-custom">
         {%- if variant.featured_media -%}
           <div class="product-card-slider">
+            {% assign slide_counter = 0 %}
+            {% for media_item in card_product.media %}
+              <input type="radio" name="slider" id="slide{{ forloop.index }}" {% if forloop.first %}checked{% endif %}>
+            {% endfor %}
+            <div class="slides">
               {%- if variant.featured_media -%}
-                <div class="product-card-slider-slide active" data-slide="0">
+                <div class="slide" id="s{{ forloop.index }}">
                   <img
                     srcset="{%- if variant.featured_media.width >= 165 -%}{{ variant.featured_media | img_url: '165x' }} 165w,{%- endif -%}
                     {%- if variant.featured_media.width >= 360 -%}{{ variant.featured_media | img_url: '360x' }} 360w,{%- endif -%}
@@ -60,7 +65,6 @@
                   >
                 </div>
               {%- endif -%}
-
               {% assign secondary_images = '' %}
               {% assign variant_color_lowercase = variant_color | downcase %}
               
@@ -81,7 +85,7 @@
               {%- if alt_text_lowercase contains 'color |' -%}
               {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
               {% if alt_color_part == variant_color_lowercase %}
-              <div class="product-card-slider-slide" data-slide="{{ slide_counter }}">
+                <div class="slide" id="s{{ forloop.index }}">
               <img
               srcset="{%- if media_item.width >= 165 -%}{{ media_item | img_url: '165x' }} 165w,{%- endif -%}
               {%- if media_item.width >= 360 -%}{{ media_item | img_url: '360x' }} 360w,{%- endif -%}
@@ -104,6 +108,7 @@
               {% endif %}
               {% endfor %}                    
             </div>
+          </div>
         {%- endif -%}
         {%- assign show_card_content = false -%}
         {%- if card_product.available == false -%}
@@ -111,34 +116,10 @@
         {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
           {%- assign show_card_content = true -%}
         {%- endif -%}
-        <div class="slider-controls">
-          <!-- Navigation buttons (visible on desktop) -->
-          <div class="slider-buttons-product">
-            <button class="prev">❮</button>
-            <button class="next">❯</button>
-          </div>
-        
-          <!-- Dots (visible on mobile) -->
-          <div class="slider-counter slider-counter--dots">
-            <div class="slideshow__control-wrapper">
-              {% assign slide_counter = 1 %}
-              {% for media_item in card_product.media %}
-              {% assign alt_text_lowercase = media_item.alt | downcase %}
-              {%- if alt_text_lowercase contains 'color |' -%}
-              {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
-              {% if alt_color_part == variant_color_lowercase %}
-                <button
-                  class="slider-counter__link slider-counter__link--dots link {% if forloop.first %}active{% endif %}"
-                  aria-label="Go to slide {{ forloop.index }} of {{ card_product.media.size }}"
-                  aria-controls="Slider-{{ card_product.id }}"
-                >
-                  <span class="dot"></span>
-                </button>
-              {% endif %}
-            {% endif %}
-            {% endfor %} 
-            </div>
-          </div>
+        <div class="navigation">
+          {% for media_item in card_product.media %}
+          <label for="slide{{ forloop.index }}"></label>
+          {% endfor %}
         </div>
                 
         {%- if show_card_content == true -%}
