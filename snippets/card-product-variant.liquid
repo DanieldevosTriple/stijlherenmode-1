@@ -51,7 +51,7 @@
           </button>
         </div>
         {%- if variant.featured_media -%}
-          <div class="slide">
+          <div class="full-page-image">
             <img
               srcset="{{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
               src="{{ variant.featured_media | img_url: '533x' }}"
@@ -69,7 +69,7 @@
           {% if alt_text_lowercase contains 'color |' %}
             {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
             {% if alt_color_part == variant_color_downcase %}
-              <div class="slide">
+              <div class="full-page-image">
                 <img
                   srcset="{{ media_item | img_url: 'master' }} {{ media_item.width }}w"
                   src="{{ media_item | img_url: '533x' }}"
