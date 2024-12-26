@@ -9,7 +9,6 @@
 }
  
 .slide {
-    width: 300px;
     flex-shrink: 0;
     height: 100%;
     -webkit-overflow-scrolling: touch;
