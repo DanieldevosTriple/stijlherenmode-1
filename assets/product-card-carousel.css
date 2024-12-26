@@ -15,9 +15,12 @@
   }
 
   .product-card-slider img {
-    height: 200px;
-    width: 100px;
-  }
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 200px; /* Of pas deze waarde aan naar jouw gewenste limiet */
+    object-fit: contain; /* Zorgt ervoor dat de afbeelding binnen het kader blijft */
+}
   
   input[name="slider"] {
     display: none;
