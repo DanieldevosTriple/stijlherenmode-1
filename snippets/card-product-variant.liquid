@@ -22,16 +22,6 @@
 {%- if variant and variant != empty -%}
   {%- liquid
     assign ratio = 1
-    if variant.featured_media and media_aspect_ratio == 'portrait'
-      assign ratio = 0.8
-    elsif variant.featured_media and media_aspect_ratio == 'adapt'
-      assign ratio = variant.featured_media.aspect_ratio
-    endif
-    if ratio == 0 or ratio == nil
-      assign ratio = 1
-    endif
-
-    # Filter images to those matching the current variant's color
     assign variant_color = variant.options | first
     assign variant_color_downcase = variant_color | downcase
     assign variant_images = card_product.media | where: 'alt', variant_color_downcase
@@ -177,7 +167,7 @@
       </div>
     </div>
   </div>
-{%- else -%}
+  {%- else -%}
   <div class="card-wrapper underline-links-hover">
     <div class="card
       card--{{ settings.card_style }}
