@@ -1,11 +1,11 @@
-.product-card-slider img {
+.product-card-media-slider img {
     max-width: 400px;
     max-height: 400px;
     display: block;
     object-fit: cover;
 }
 
-.product-card-slider {
+.product-card-media-slider {
     position: relative;
     width: 100%;
     overflow: hidden;

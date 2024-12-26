@@ -16,7 +16,7 @@
     assign variant_images = card_product.media | where: 'alt', variant_color_downcase
   -%}
         {%- if variant.featured_media -%}
-          <div class="product-card-slider">
+          <div class="product-card-media-slider">
             {% assign slide_counter = 0 %}
         
               <!-- Featured Image -->
