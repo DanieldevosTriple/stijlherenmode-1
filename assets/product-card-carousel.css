@@ -4,22 +4,13 @@
 }
 
 .product-card-slider {
-    display: flex;
-    flex-wrap: nowrap;
-    position: relative;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    margin-bottom: 1rem;
-    gap: 1rem;
-    height: auto;
+    width: 400px;
+    height: 400px;
 }
-
+ 
 .slide {
     width: 300px;
     flex-shrink: 0;
     height: 100%;
     -webkit-overflow-scrolling: touch;
-}
+  } 
