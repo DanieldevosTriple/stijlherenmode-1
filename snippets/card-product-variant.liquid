@@ -14,7 +14,6 @@
     assign variant_color_downcase = variant_color | downcase
     assign variant_images = card_product.media | where: 'alt', variant_color_downcase
   -%}
-      <div class="card-media-custom">
         {%- if variant.featured_media -%}
           <div class="product-card-slider">
             {% assign slide_counter = 0 %}
@@ -58,7 +57,6 @@
               {% endfor %}
           </div> 
         {%- endif -%}
-      </div>
 
       <!-- Rest of the card content remains the same -->
       <div class="card__content">
