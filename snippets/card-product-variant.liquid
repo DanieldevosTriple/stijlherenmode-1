@@ -41,7 +41,7 @@
         {%- if variant.featured_media -%}
           <div class="product-card-slider">
               {%- if variant.featured_media -%}
-                <div class="product-card-slider-slide" data-slide="0">
+                <div class="product-card-slider-slide active" data-slide="0">
                   <img
                     srcset="{%- if variant.featured_media.width >= 165 -%}{{ variant.featured_media | img_url: '165x' }} 165w,{%- endif -%}
                     {%- if variant.featured_media.width >= 360 -%}{{ variant.featured_media | img_url: '360x' }} 360w,{%- endif -%}
