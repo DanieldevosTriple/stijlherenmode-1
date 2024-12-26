@@ -1,3 +1,7 @@
+body {
+  overflow-x: hidden;
+}
+
 section {
   padding-bottom: var(--section-padding-bottom);
 } 
