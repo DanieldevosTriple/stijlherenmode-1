@@ -1,160 +1,141 @@
 (function() {
-  if (window.sliderInitialized) {
-    document.querySelectorAll('.product-card-media-slider').forEach(slider => {
-      const oldWrapper = slider.querySelector('.slider-wrapper');
-      if (oldWrapper) {
-        const newWrapper = oldWrapper.cloneNode(true);
-        oldWrapper.parentNode.replaceChild(newWrapper, oldWrapper);
+  let sliderInstances = new Map();
+
+  class Slider {
+    constructor(element) {
+      this.slider = element;
+      this.sliderId = element.id;
+      this.wrapper = element.querySelector('.slider-wrapper');
+      this.slides = element.querySelectorAll('.slide');
+      this.dots = element.querySelector('.dots');
+      
+      // State
+      this.currentSlide = 0;
+      this.startX = 0;
+      this.isDragging = false;
+      this.initialPosition = 0;
+      this.currentTranslate = 0;
+      
+      this.init();
+    }
+    
+    init() {
+      if (this.slides.length <= 1) return;
+      
+      console.log(`[${this.sliderId}] Initializing slider`);
+      
+      // Bind event handlers
+      this.handleTouchStart = this.handleTouchStart.bind(this);
+      this.handleTouchMove = this.handleTouchMove.bind(this);
+      this.handleTouchEnd = this.handleTouchEnd.bind(this);
+      
+      // Add event listeners
+      this.wrapper.addEventListener('touchstart', this.handleTouchStart, { passive: false });
+      this.wrapper.addEventListener('touchmove', this.handleTouchMove, { passive: false });
+      this.wrapper.addEventListener('touchend', this.handleTouchEnd);
+      this.wrapper.addEventListener('touchcancel', this.handleTouchEnd);
+      
+      // Create dots
+      this.createDots();
+    }
+    
+    createDots() {
+      this.slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        this.dots.appendChild(dot);
+      });
+    }
+    
+    handleTouchStart(e) {
+      e.preventDefault();
+      this.startX = e.touches[0].clientX;
+      this.isDragging = true;
+      this.initialPosition = this.currentSlide * -100;
+      this.currentTranslate = this.initialPosition;
+      this.wrapper.style.transition = 'none';
+      
+      console.log(`[${this.sliderId}] Touch Start:`, {
+        currentSlide: this.currentSlide,
+        isDragging: this.isDragging
+      });
+    }
+    
+    handleTouchMove(e) {
+      if (!this.isDragging) return;
+      
+      e.preventDefault();
+      const currentX = e.touches[0].clientX;
+      const diff = currentX - this.startX;
+      const movePercent = (diff / this.wrapper.offsetWidth) * 100;
+      this.currentTranslate = this.initialPosition + movePercent;
+      
+      // Add resistance at edges
+      if (this.currentTranslate > 0) {
+        this.currentTranslate *= 0.3;
+      } else if (this.currentTranslate < -((this.slides.length - 1) * 100)) {
+        const overScroll = this.currentTranslate + ((this.slides.length - 1) * 100);
+        this.currentTranslate = -((this.slides.length - 1) * 100) + (overScroll * 0.3);
       }
-    });
-    return;
+      
+      this.wrapper.style.transform = `translateX(${this.currentTranslate}%)`;
+    }
+    
+    handleTouchEnd() {
+      if (!this.isDragging) return;
+      
+      this.isDragging = false;
+      this.wrapper.style.transition = 'transform 0.3s ease';
+      
+      const movePercent = this.currentTranslate - this.initialPosition;
+      console.log(`[${this.sliderId}] Touch End - Move: ${movePercent.toFixed(2)}%`);
+      
+      if (Math.abs(movePercent) > 20) {
+        if (movePercent > 0 && this.currentSlide > 0) {
+          this.currentSlide--;
+        } else if (movePercent < 0 && this.currentSlide < this.slides.length - 1) {
+          this.currentSlide++;
+        }
+      }
+      
+      this.goToSlide(this.currentSlide);
+      
+      // Reset state
+      this.startX = 0;
+      this.initialPosition = this.currentSlide * -100;
+      this.currentTranslate = this.initialPosition;
+      
+      console.log(`[${this.sliderId}] Slide Complete:`, {
+        currentSlide: this.currentSlide,
+        isDragging: this.isDragging
+      });
+    }
+    
+    goToSlide(index) {
+      this.currentSlide = index;
+      const translate = -index * 100;
+      this.wrapper.style.transform = `translateX(${translate}%)`;
+      this.updateDots(index);
+    }
+    
+    updateDots(index) {
+      const dots = this.dots.querySelectorAll('.dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+    }
   }
-  
-  window.sliderInitialized = true;
 
   function initSliders() {
-    const sliders = document.querySelectorAll('.product-card-media-slider');
-    const isMobile = window.innerWidth <= 768;
-    
-    sliders.forEach(function(slider) {
-      const sliderId = slider.id;
-      const wrapper = slider.querySelector('.slider-wrapper');
-      const slides = slider.querySelectorAll('.slide');
-      const dots = slider.querySelector('.dots');
-      
-      // State variables
-      let currentSlide = 0;
-      let startX = 0;
-      let isDragging = false;
-      let initialPosition = 0;
-      let currentTranslate = 0;
-      let isTransitioning = false;
-      
-      if (slides.length <= 1) return;
-
-      // Mobile dot indicators
-      if (isMobile) {
-        slides.forEach((_, index) => {
-          const dot = document.createElement('div');
-          dot.classList.add('dot');
-          if (index === 0) dot.classList.add('active');
-          dots.appendChild(dot);
-        });
+    document.querySelectorAll('.product-card-media-slider').forEach(element => {
+      if (!sliderInstances.has(element.id)) {
+        sliderInstances.set(element.id, new Slider(element));
       }
-
-      function handleTouchStart(event) {
-        if (isTransitioning) {
-          console.log(`[${sliderId}] Touch ignored - still transitioning`);
-          return;
-        }
-
-        event.preventDefault();
-        startX = event.touches[0].clientX;
-        isDragging = true;
-        initialPosition = currentSlide * -100;
-        currentTranslate = initialPosition;
-        wrapper.style.transition = 'none';
-        
-        console.log(`[${sliderId}] Touch Start:`, {
-          currentSlide,
-          isDragging,
-          initialPosition,
-          startX
-        });
-      }
-
-      function handleTouchMove(event) {
-        if (!isDragging || isTransitioning) return;
-        
-        event.preventDefault();
-        const currentX = event.touches[0].clientX;
-        const diff = currentX - startX;
-        const movePercent = (diff / wrapper.offsetWidth) * 100;
-        currentTranslate = initialPosition + movePercent;
-        
-        // Edge resistance
-        if (currentTranslate > 0) {
-          currentTranslate *= 0.3;
-        } else if (currentTranslate < -((slides.length - 1) * 100)) {
-          const overScroll = currentTranslate + ((slides.length - 1) * 100);
-          currentTranslate = -((slides.length - 1) * 100) + (overScroll * 0.3);
-        }
-        
-        wrapper.style.transform = `translateX(${currentTranslate}%)`;
-      }
-
-      function handleTouchEnd() {
-        if (!isDragging || isTransitioning) return;
-        
-        isDragging = false;
-        isTransitioning = true;
-        wrapper.style.transition = 'transform 0.3s ease';
-        
-        const movePercent = currentTranslate - initialPosition;
-        
-        console.log(`[${sliderId}] Touch End:`, {
-          movePercent,
-          currentSlide,
-          currentTranslate
-        });
-        
-        if (Math.abs(movePercent) > 20) {
-          if (movePercent > 0 && currentSlide > 0) {
-            currentSlide--;
-          } else if (movePercent < 0 && currentSlide < slides.length - 1) {
-            currentSlide++;
-          }
-        }
-        
-        goToSlide(currentSlide);
-        
-        // Reset after transition
-        setTimeout(() => {
-          isTransitioning = false;
-          isDragging = false;
-          startX = 0;
-          currentTranslate = -currentSlide * 100;
-          initialPosition = currentTranslate;
-          wrapper.style.transition = 'none';
-          
-          console.log(`[${sliderId}] Reset Complete:`, {
-            currentSlide,
-            isDragging,
-            isTransitioning,
-            currentTranslate
-          });
-        }, 300);
-      }
-
-      function goToSlide(index) {
-        currentSlide = index;
-        const translate = -index * 100;
-        wrapper.style.transform = `translateX(${translate}%)`;
-        
-        if (isMobile) {
-          updateDots(index);
-        }
-      }
-
-      function updateDots(index) {
-        const allDots = dots.querySelectorAll('.dot');
-        allDots.forEach((dot, i) => {
-          dot.classList.toggle('active', i === index);
-        });
-      }
-
-      // Event Listeners
-      wrapper.addEventListener('touchstart', handleTouchStart, { passive: false });
-      wrapper.addEventListener('touchmove', handleTouchMove, { passive: false });
-      wrapper.addEventListener('touchend', handleTouchEnd);
-      wrapper.addEventListener('touchcancel', handleTouchEnd);
-
-      // Initialize
-      console.log(`[${sliderId}] Initialized with ${slides.length} slides`);
     });
   }
 
-  // Initialize on DOM ready
+  // Initialize
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSliders);
   } else {
