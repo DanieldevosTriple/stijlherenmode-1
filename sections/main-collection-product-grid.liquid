@@ -71,7 +71,6 @@
       >
         {%- if collection.products.size == 0 -%}
           <div class="collection collection--empty" id="product-grid" data-id="{{ section.id }}">
-            <div class="loading-overlay gradient"></div>
             <div class="title-wrapper center">
               <h2 class="title title--primary">
                 {{ 'sections.collection_template.empty' | t -}}
@@ -85,7 +84,6 @@
           </div>
         {%- else -%}
           <div class="collection">
-            <div class="loading-overlay gradient"></div>
             <div
               id="product-grid"
               data-id="{{ section.id }}"

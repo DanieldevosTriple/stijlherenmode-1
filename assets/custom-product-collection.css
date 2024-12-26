@@ -2,6 +2,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Pas min-width naar wens aan */
     gap: 1rem; /* ruimte tussen items, vervangt g-4 bijvoorbeeld */
+    max-width: 100%; /* Zorgt dat het niet breder wordt dan de parent */
+    box-sizing: border-box; /* Houd padding en borders binnen de breedte */
 }
 
 @media screen and (max-width: 991px) {
