@@ -40,7 +40,7 @@
     height: 8px;
     border-radius: 50%;
     border: none;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: black;
     cursor: pointer;
     padding: 0;
     pointer-events: auto;
@@ -48,7 +48,7 @@
   }
   
   .slider-dot.active {
-    background-color: white;
+    background-color: red;
   }
   
   /* Prevent text selection during swipe */
