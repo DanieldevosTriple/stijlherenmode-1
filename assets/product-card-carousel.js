@@ -77,13 +77,11 @@
           dot.classList.toggle('active', index === this.currentSlide);
         });
 
-        // Reset values
-        setTimeout(() => {
-          this.startX = null;
-          this.currentX = null;
-          this.wrapper.style.transition = '';
-          console.log('Reset complete, current slide:', this.currentSlide);
-        }, 300);
+        // Reset values immediately after transition
+        this.startX = null;
+        this.currentX = null;
+        this.wrapper.style.transition = '';
+        console.log('Reset complete, current slide:', this.currentSlide);
       });
     }
   }
