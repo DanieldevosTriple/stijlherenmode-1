@@ -178,15 +178,9 @@
     // Werkelijke breedte van de inhoud
     const contentWidth = bannerHeading.scrollWidth;
 
-    // Debugging: log de waarden
-    console.log('Parent Width:', parentWidth, 'Content Width:', contentWidth);
-
     // Controleer of breedtes geldig zijn en bereken de juiste schaalfactor
     if (contentWidth > 0 && parentWidth > 0) {
       const scaleFactor = parentWidth / contentWidth;
-
-      // Debugging: log de berekende schaalfactor
-      console.log('Scale Factor:', scaleFactor);
 
       // Pas de schaal aan via de CSS-variabele
       bannerHeading.style.setProperty('--efiScale', scaleFactor);

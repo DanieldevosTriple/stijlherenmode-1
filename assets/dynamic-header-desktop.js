@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('Script loaded: sticky functionality is active.');
     const sectionHeader = document.querySelector('.section-header');
     const sectionIndexPage = document.querySelector('.index-page');
     
@@ -8,9 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    console.log('Element with class "section-header" found.');
     sectionHeader.classList.add('sticky');
-    console.log('Class "sticky" successfully added to section-header.');
 
     let lastScrollY = window.scrollY;
     const visibilityThreshold = 50;
@@ -42,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 sectionHeader.classList.add('hidden');
                 sectionHeader.classList.remove('scroll-up');
                 isHidden = true;
-                console.log('Scrolling down: header hidden.');
             }
         } else if (currentScrollY < lastScrollY) {
             // Scrolling up
@@ -53,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     sectionHeader.classList.add('scroll-up');
                 }, 50);
                 isHidden = false;
-                console.log('Scrolling up: header visible.');
             }
         }
 
@@ -64,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 sectionIndexPage.classList.remove('hidden', 'scroll-up');
             }
             isHidden = false;
-            console.log('At top of page: header reset.');
         }
 
         lastScrollY = currentScrollY;
