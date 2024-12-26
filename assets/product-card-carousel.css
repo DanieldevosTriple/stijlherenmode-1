@@ -4,18 +4,27 @@
 }
 
 .product-card-slider {
-    width: 400px;
-    height: 400px;
     display: flex;
+    flex-wrap: nowrap;
+    position: relative;
     overflow-x: auto;
-    scroll-snap-type: x mandatory; /* Helps with snapping for swiping */
-    gap: 10px; /* Adds spacing between slides */
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1rem;
+    gap: 1rem;
+    height: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .slide {
     width: 300px;
     height: 100%;
     flex-shrink: 0;
-    scroll-snap-align: start; /* Ensures proper snapping */
-    -webkit-overflow-scrolling: touch; /* Enables smooth scrolling on iOS */
+    scroll-snap-align: start;
+    /* Ensures proper snapping */
+    -webkit-overflow-scrolling: touch;
+    /* Enables smooth scrolling on iOS */
 }
