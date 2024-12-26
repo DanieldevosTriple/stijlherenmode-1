@@ -1,162 +1,74 @@
-.card {
-    border: none;
-}
+/* CSS for Product Card Slider */
 
-.card-media-custom {
-    height: 100%;
-}
-
+/* General Slider Styling */
 .product-card-slider {
     position: relative;
     overflow: hidden;
-    height: 500px;
-    margin: auto;
-}
-
-.product-card-slider-slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    z-index: 0;
-}
-
-.product-card-slider-slide img {
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
-}
-
-.product-card-slider-slide.active {
-    opacity: 1;
-    z-index: 1;
-}
-
-.slider-buttons-product button {
+    display: flex;
+    flex-wrap: nowrap;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .product-card-slider-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    display: none;
+  }
+  
+  .product-card-slider-slide.active {
+    display: block;
+  }
+  
+  /* Navigation Buttons */
+  .slider-buttons-product {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.slider-buttons-product .prev {
-    left: 10px;
-    background: none;
-    color: black;
-    font-size: xx-large;
-}
-
-.slider-buttons-product .next {
-    right: 10px;
-    background: none;
-    color: black;
-    font-size: xx-large;
-}
-
-.slider-dots {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    z-index: 2;
-    padding: 15px;
-}
-
-.dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: black;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-}
-
-.dot.active {
-    background: white;
-}
-
-.product-card-slider {
-    user-select: none;
-    touch-action: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-}
-
-@media (max-width: 991px) {
-    .slider-buttons-product {
-        display: none;
-    }
-
-    .product-card-slider { 
-        height: 200px;
-    }
-
-    .card:not(.ratio) {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        border: none;
-    }
-}
-
-.card__badge {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    z-index: 3;
-  }
-
-  .slider-controls {
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    transform: translateY(-50%);
+    z-index: 10;
   }
   
-  .slider-buttons-product {
-    display: none; /* Standaard verborgen (voor mobiel) */
+  .slider-buttons-product button {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    display: none; /* Initially hidden */
   }
   
-  .slider-counter--dots {
+  /* Show arrows if there are multiple slides */
+  .product-card-slider.multiple-images .slider-buttons-product button {
+    display: block;
+  }
+  
+  /* Dots for Mobile */
+  .slider-counter {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    justify-content: center;
     gap: 0.5rem;
+    display: none; /* Initially hidden */
+  }
+  
+  .slider-counter.slider-counter--dots {
+    display: flex;
   }
   
   .slider-counter__link {
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .slider-counter__link .dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: #ccc;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
   }
   
-  .slider-counter__link.active .dot {
-    background-color: #333;
-  }
-  
-  @media (min-width: 768px) {
-    .slider-buttons-product {
-      display: flex; /* Zichtbaar op desktop */
-      gap: 0.5rem;
-    }
-  
-    .slider-counter--dots {
-      display: none; /* Verborgen op desktop */
-    }
+  .slider-counter__link.active {
+    background: white;
   }
   

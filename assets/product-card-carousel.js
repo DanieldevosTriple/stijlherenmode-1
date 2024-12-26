@@ -1,53 +1,51 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const sliderContainers = document.querySelectorAll('.product-card-slider');
+  const sliders = document.querySelectorAll('.product-card-slider');
 
-  sliderContainers.forEach((container) => {
-    const slides = container.querySelectorAll('.product-card-slider-slide');
-    const prevButton = container.closest('.slider-controls').querySelector('.prev');
-    const nextButton = container.closest('.slider-controls').querySelector('.next');
-    const dotsContainer = container.closest('.slider-controls').querySelector('.slideshow__control-wrapper');
-    const dots = dotsContainer.querySelectorAll('.slider-counter__link');
+  sliders.forEach((slider) => {
+    const slides = slider.querySelectorAll('.product-card-slider-slide');
+    const prevButton = slider.querySelector('.slider-buttons-product .prev');
+    const nextButton = slider.querySelector('.slider-buttons-product .next');
+    const dotsContainer = slider.querySelector('.slider-counter');
+
     let currentIndex = 0;
 
-    function updateSlides(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
+    function updateSlider() {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentIndex);
       });
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
+      if (dotsContainer) {
+        const dots = dotsContainer.querySelectorAll('.slider-counter__link');
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentIndex);
+        });
+      }
+    }
+
+    function goToIndex(index) {
+      if (index >= 0 && index < slides.length) {
+        currentIndex = index;
+        updateSlider();
+      }
+    }
+
+    if (prevButton && nextButton) {
+      prevButton.addEventListener('click', () => goToIndex(currentIndex - 1));
+      nextButton.addEventListener('click', () => goToIndex(currentIndex + 1));
+
+      if (slides.length > 1) {
+        slider.classList.add('multiple-images');
+      }
+    }
+
+    if (dotsContainer) {
+      slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('slider-counter__link');
+        dot.addEventListener('click', () => goToIndex(index));
+        dotsContainer.appendChild(dot);
       });
     }
 
-    // Zorg dat de eerste slide met data-slide="0" standaard op active staat
-    const firstSlide = container.querySelector('.product-card-slider-slide[data-slide="0"]');
-    if (firstSlide) {
-      firstSlide.classList.add('active');
-    }
-
-    // Dots click handlers
-    dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => {
-        currentIndex = i;
-        updateSlides(currentIndex);
-      });
-    });
-
-    // Navigation button handlers
-    if (prevButton) {
-      prevButton.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        updateSlides(currentIndex);
-      });
-    }
-
-    if (nextButton) {
-      nextButton.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % slides.length;
-        updateSlides(currentIndex);
-      });
-    }
-
-    // Initialize first slide
-    updateSlides(0);
+    updateSlider();
   });
 });
