@@ -86,7 +86,7 @@
         {%- else -%}
           <div class="collection">
             <div class="loading-overlay gradient"></div>
-            <ul
+            <div
               id="product-grid"
               data-id="{{ section.id }}"
               class="product-grid">
@@ -146,7 +146,7 @@
                     {%- comment -%}
                       Show variant for this unique color.
                     {%- endcomment -%}
-                    <li class="scroll-trigger animate--slide-in"
+                    <div class="scroll-trigger animate--slide-in"
                       data-product-id="{{ product.id }}"
                       data-variant-id="{{ variant.id }}"
                       data-price="{{ variant.price | money_without_currency }}"
@@ -162,7 +162,7 @@
                         show_rating: section.settings.show_rating,
                         lazy_load: lazy_load
                       %}
-                    </li>
+                    </div>
               
                     {%- comment -%}
                       Append this color to the list with delimiters to avoid partial matches.
@@ -174,7 +174,7 @@
                   {%- comment -%}
                     If there are no color variants or no variants at all, just render the product card.
                   {%- endcomment -%}
-                  <li class="scroll-trigger animate--slide-in"
+                  <div class="scroll-trigger animate--slide-in"
                     data-product-id="{{ product.id }}">
                     
                     {% render 'card-product',
@@ -185,11 +185,11 @@
                       show_rating: section.settings.show_rating,
                       lazy_load: lazy_load
                     %}
-                  </li>
+                  </div>
                 {% endif %}
               {% endfor %}                                                       
 
-          </ul>    
+            </div>    
                          
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
