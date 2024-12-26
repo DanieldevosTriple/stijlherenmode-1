@@ -1,52 +1,29 @@
-const ProductCardCarousel = (function() {
-  let instances = new WeakMap();
-  
+(function() {
   class Slider {
     constructor(element) {
-      if (instances.has(element)) {
-        return instances.get(element);
-      }
-      
+      // Elements
       this.slider = element;
-      this.sliderId = element.id;
       this.wrapper = element.querySelector('.slider-wrapper');
       this.slides = element.querySelectorAll('.slide');
       this.dots = element.querySelector('.dots');
       
-      // State
-      this.state = {
-        currentSlide: 0,
-        isDragging: false,
-        startX: null,
-        currentX: null,
-        translateX: 0,
-        lastTranslate: 0,
-        isAnimating: false
-      };
+      // Variables
+      this.currentSlide = 0;
+      this.startPos = 0;
+      this.currentTranslate = 0;
+      this.isDragging = false;
       
       this.init();
-      instances.set(element, this);
     }
-    
+
     init() {
       if (this.slides.length <= 1) return;
       
-      this.addDots();
-      this.bindEvents();
-      console.log(`[${this.sliderId}] Initialized with ${this.slides.length} slides`);
+      this.createDots();
+      this.setupEvents();
     }
-    
-    bindEvents() {
-      this.handleTouchStart = this.handleTouchStart.bind(this);
-      this.handleTouchMove = this.handleTouchMove.bind(this);
-      this.handleTouchEnd = this.handleTouchEnd.bind(this);
-      
-      this.wrapper.addEventListener('touchstart', this.handleTouchStart, { passive: false });
-      this.wrapper.addEventListener('touchmove', this.handleTouchMove, { passive: false });
-      this.wrapper.addEventListener('touchend', this.handleTouchEnd);
-    }
-    
-    addDots() {
+
+    createDots() {
       this.dots.innerHTML = '';
       this.slides.forEach((_, index) => {
         const dot = document.createElement('div');
@@ -55,106 +32,73 @@ const ProductCardCarousel = (function() {
         this.dots.appendChild(dot);
       });
     }
-    
-    handleTouchStart(e) {
-      if (this.state.isAnimating) return;
-      
-      e.preventDefault();
-      
-      this.state.isDragging = true;
-      this.state.startX = e.touches[0].clientX;
-      this.state.currentX = this.state.startX;
-      this.state.lastTranslate = this.state.translateX;
-      
-      this.wrapper.style.transition = 'none';
-      
-      console.log(`[${this.sliderId}] Start:`, {
-        slide: this.state.currentSlide,
-        translateX: this.state.translateX
-      });
-    }
-    
-    handleTouchMove(e) {
-      if (!this.state.isDragging) return;
-      
-      e.preventDefault();
-      
-      this.state.currentX = e.touches[0].clientX;
-      const diff = this.state.currentX - this.state.startX;
-      const newTranslate = this.state.lastTranslate + diff;
-      
-      // Add resistance at edges
-      if (newTranslate > 0) {
-        this.state.translateX = newTranslate * 0.3;
-      } else if (newTranslate < -(this.slides.length - 1) * this.wrapper.offsetWidth) {
-        const overscroll = newTranslate + (this.slides.length - 1) * this.wrapper.offsetWidth;
-        this.state.translateX = -(this.slides.length - 1) * this.wrapper.offsetWidth + (overscroll * 0.3);
-      } else {
-        this.state.translateX = newTranslate;
-      }
-      
-      this.updateTransform();
-    }
-    
-    handleTouchEnd() {
-      if (!this.state.isDragging) return;
-      
-      this.state.isDragging = false;
-      this.state.isAnimating = true;
-      
-      const moveDistance = this.state.translateX - this.state.lastTranslate;
-      const movePercent = (moveDistance / this.wrapper.offsetWidth) * 100;
-      
-      console.log(`[${this.sliderId}] End:`, { movePercent });
-      
-      this.wrapper.style.transition = 'transform 0.3s ease';
-      
-      if (Math.abs(movePercent) > 20) {
-        if (movePercent > 0 && this.state.currentSlide > 0) {
-          this.state.currentSlide--;
-        } else if (movePercent < 0 && this.state.currentSlide < this.slides.length - 1) {
-          this.state.currentSlide++;
-        }
-      }
-      
-      this.snapToSlide();
-      
-      setTimeout(() => {
-        this.state.isAnimating = false;
+
+    setupEvents() {
+      const touchStart = (e) => {
+        this.isDragging = true;
+        this.startPos = e.touches[0].clientX;
+        this.currentTranslate = -this.currentSlide * 100;
         this.wrapper.style.transition = 'none';
-      }, 300);
+      };
+
+      const touchMove = (e) => {
+        if (!this.isDragging) return;
+        
+        const currentPosition = e.touches[0].clientX;
+        const diff = currentPosition - this.startPos;
+        const move = (diff / this.wrapper.offsetWidth) * 100;
+        const translate = this.currentTranslate + move;
+        
+        this.wrapper.style.transform = `translateX(${translate}%)`;
+      };
+
+      const touchEnd = () => {
+        if (!this.isDragging) return;
+        
+        this.isDragging = false;
+        this.wrapper.style.transition = 'transform 0.3s ease';
+        
+        const endTranslate = parseFloat(this.wrapper.style.transform.replace('translateX(', '').replace('%)', ''));
+        const diff = endTranslate - (-this.currentSlide * 100);
+        
+        if (Math.abs(diff) > 20) {
+          if (diff > 0 && this.currentSlide > 0) {
+            this.currentSlide--;
+          } else if (diff < 0 && this.currentSlide < this.slides.length - 1) {
+            this.currentSlide++;
+          }
+        }
+        
+        this.goToSlide(this.currentSlide);
+      };
+
+      this.wrapper.addEventListener('touchstart', touchStart);
+      this.wrapper.addEventListener('touchmove', touchMove);
+      this.wrapper.addEventListener('touchend', touchEnd);
     }
-    
-    snapToSlide() {
-      this.state.translateX = -(this.state.currentSlide * this.wrapper.offsetWidth);
-      this.updateTransform();
-      this.updateDots();
-    }
-    
-    updateTransform() {
-      const percent = (this.state.translateX / this.wrapper.offsetWidth) * 100;
-      this.wrapper.style.transform = `translateX(${percent}%)`;
-    }
-    
-    updateDots() {
+
+    goToSlide(index) {
+      this.currentSlide = index;
+      const translate = -index * 100;
+      this.wrapper.style.transform = `translateX(${translate}%)`;
+      
       const dots = this.dots.querySelectorAll('.dot');
       dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === this.state.currentSlide);
+        dot.classList.toggle('active', i === index);
       });
     }
   }
-  
-  return {
-    init: function() {
-      const sliders = document.querySelectorAll('.product-card-media-slider');
-      sliders.forEach(element => new Slider(element));
-    }
-  };
-})();
 
-// Initialize on DOM ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', ProductCardCarousel.init);
-} else {
-  ProductCardCarousel.init();
-}
+  // Initialize
+  function init() {
+    document.querySelectorAll('.product-card-media-slider').forEach(slider => {
+      new Slider(slider);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
