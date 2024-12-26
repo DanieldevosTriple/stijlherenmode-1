@@ -12,9 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let initialPosition = 0;
     let currentTranslate = 0;
     
-    // Alleen setup als er meerdere slides zijn
     if (slides.length > 1) {
-      // Maak dots aan
+      // Add debug message for initialization
+      console.log('Initializing slider with slides:', slides.length);
+      
       slides.forEach((_, index) => {
         const dot = document.createElement('div');
         dot.classList.add('dot');
@@ -22,74 +23,105 @@ document.addEventListener('DOMContentLoaded', function() {
         dots.appendChild(dot);
       });
 
-      // Touch events
       wrapper.addEventListener('touchstart', handleTouchStart);
       wrapper.addEventListener('touchmove', handleTouchMove);
       wrapper.addEventListener('touchend', handleTouchEnd);
+      
+      // Debug message for event listeners
+      console.log('Event listeners attached');
     }
 
     function handleTouchStart(event) {
+      console.log('Touch Start:', {
+        clientX: event.touches[0].clientX,
+        isDragging: isDragging,
+        currentSlide: currentSlide
+      });
+      
       startX = event.touches[0].clientX;
       isDragging = true;
-      initialPosition = currentSlide * -100; // Calculate initial position based on current slide
+      initialPosition = currentSlide * -100;
       currentTranslate = initialPosition;
       wrapper.style.transition = 'none';
     }
 
     function handleTouchMove(event) {
-      if (!isDragging) return;
+      if (!isDragging) {
+        console.log('Touch Move ignored - not dragging');
+        return;
+      }
       
       const currentX = event.touches[0].clientX;
       const diff = currentX - startX;
       const movePercent = (diff / wrapper.offsetWidth) * 100;
-      
-      // Update position based on initial position and movement
       currentTranslate = initialPosition + movePercent;
       
-      // Add resistance at edges
-      if (currentTranslate > 0) {
-        currentTranslate = currentTranslate * 0.3; // More resistance at start
-      } else if (currentTranslate < -((slides.length - 1) * 100)) {
-        const overScroll = currentTranslate + ((slides.length - 1) * 100);
-        currentTranslate = -((slides.length - 1) * 100) + (overScroll * 0.3);
-      }
+      console.log('Touch Move:', {
+        currentX: currentX,
+        diff: diff,
+        movePercent: movePercent,
+        currentTranslate: currentTranslate
+      });
       
       wrapper.style.transform = `translateX(${currentTranslate}%)`;
     }
 
     function handleTouchEnd() {
-      if (!isDragging) return;
+      console.log('Touch End Start:', {
+        isDragging: isDragging,
+        currentSlide: currentSlide,
+        currentTranslate: currentTranslate,
+        initialPosition: initialPosition
+      });
+      
+      if (!isDragging) {
+        console.log('Touch End ignored - not dragging');
+        return;
+      }
       
       isDragging = false;
       wrapper.style.transition = 'transform 0.3s ease';
       
-      // Calculate movement since touch start
       const movePercent = currentTranslate - initialPosition;
       
-      // Determine if we should change slide
+      console.log('Movement calculation:', {
+        movePercent: movePercent,
+        threshold: 20
+      });
+      
       if (Math.abs(movePercent) > 20) {
         if (movePercent > 0 && currentSlide > 0) {
           currentSlide--;
+          console.log('Moving to previous slide:', currentSlide);
         } else if (movePercent < 0 && currentSlide < slides.length - 1) {
           currentSlide++;
+          console.log('Moving to next slide:', currentSlide);
         }
       }
       
-      // Reset to proper position
       goToSlide(currentSlide);
       
-      // Reset variables for next swipe
+      // Reset variables
       startX = 0;
       currentTranslate = 0;
       initialPosition = 0;
+      
+      console.log('Touch End Complete:', {
+        currentSlide: currentSlide,
+        isDragging: isDragging,
+        startX: startX,
+        currentTranslate: currentTranslate,
+        initialPosition: initialPosition
+      });
     }
 
     function goToSlide(index) {
+      console.log('Going to slide:', index);
+      
       currentSlide = index;
       const translate = -index * 100;
       wrapper.style.transform = `translateX(${translate}%)`;
       
-      // Update dots
       updateDots(index);
     }
 
@@ -98,6 +130,8 @@ document.addEventListener('DOMContentLoaded', function() {
       allDots.forEach((dot, i) => {
         dot.classList.toggle('active', i === index);
       });
+      
+      console.log('Dots updated for slide:', index);
     }
   });
 });
