@@ -36,10 +36,21 @@
             "image_theme": "light",
             "repeated_text": "Herhaal mij"
           }
+        },
+        "slide_7FgxJ8": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/christmas.png",
+            "heading": "Fijne feestdagen!",
+            "image_overlay_opacity": 10,
+            "image_theme": "light",
+            "repeated_text": "Herhaal mij"
+          }
         }
       },
       "block_order": [
-        "slide_fBRMXA"
+        "slide_fBRMXA",
+        "slide_7FgxJ8"
       ],
       "settings": {
         "auto_rotate": false,
