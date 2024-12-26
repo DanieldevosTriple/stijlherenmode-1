@@ -54,7 +54,7 @@
 
       // End
       this.wrapper.addEventListener('touchend', () => {
-        if (!this.startX) return;
+        if (!this.startX || this.startX === this.currentX) return;
 
         const diff = this.currentX - this.startX;
         const threshold = this.slideWidth * 0.2;
@@ -77,7 +77,7 @@
           dot.classList.toggle('active', index === this.currentSlide);
         });
 
-        // Reset values immediately after transition
+        // Reset values
         this.startX = null;
         this.currentX = null;
         this.wrapper.style.transition = '';
