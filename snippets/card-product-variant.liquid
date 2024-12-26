@@ -21,7 +21,7 @@
     <div class="detail-card">
       <div class="card-media-custom">
         {%- if variant.featured_media -%}
-          <div class="product-card-slider js-flickity">
+          <div class="product-card-slider js-flickity" data-flickity-options='{ "cellAlign": "left", "contain": true }'>
             {% assign slide_counter = 0 %}
         
               <!-- Featured Image -->
