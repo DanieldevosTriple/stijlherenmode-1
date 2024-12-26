@@ -130,6 +130,6 @@ class ProductCardSlider {
 
 // Initialize all product card sliders on the page
 document.addEventListener('DOMContentLoaded', () => {
-  const sliders = document.querySelectorAll('.product-card-slider');
+  const sliders = document.querySelectorAll('.product-card-media-slider');
   sliders.forEach(slider => new ProductCardSlider(slider));
 });
