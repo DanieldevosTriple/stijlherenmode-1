@@ -5,8 +5,6 @@
 
 {{ 'component-rating.css' | asset_url | stylesheet_tag }}
 {{ 'product-card-carousel.css' | asset_url | stylesheet_tag }}
-{{ 'flickity.css' | asset_url | stylesheet_tag }}
-{{ 'flickity.pkgd.min.js' | asset_url | script_tag }}
 
 
 {%- if variant and variant != empty -%}
@@ -20,7 +18,7 @@
     <div class="detail-card">
       <div class="card-media-custom">
         {%- if variant.featured_media -%}
-          <div class="product-card-slider js-flickity" data-flickity-options='{ "cellAlign": "left", "contain": true }'>
+          <div class="product-card-slider">
             {% assign slide_counter = 0 %}
         
               <!-- Featured Image -->
