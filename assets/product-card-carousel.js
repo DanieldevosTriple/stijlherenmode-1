@@ -1,199 +1,108 @@
-// product-card-carousel.js
-(() => {
-  class ProductCardCarousel {
-    constructor(element) {
-      this.slider = element;
-      this.wrapper = element.querySelector('.slider-wrapper');
-      this.slides = element.querySelectorAll('.slide');
-      this.prev = element.querySelector('.prev');
-      this.next = element.querySelector('.next');
-      this.dotsContainer = element.querySelector('.dots');
+/* product-card-carousel.js */
+document.addEventListener('DOMContentLoaded', () => {
+  const sliders = document.querySelectorAll('.product-card-media-slider');
+  
+  sliders.forEach(slider => {
+    const wrapper = slider.querySelector('.slider-wrapper');
+    const slides = slider.querySelectorAll('.slide');
+    const prevBtn = slider.querySelector('.prev');
+    const nextBtn = slider.querySelector('.next');
+    const dots = slider.querySelector('.dots');
+    
+    let currentSlide = 0;
+    let startPos = 0;
+    let currentTranslate = 0;
+    let isDragging = false;
+    
+    // Only show navigation if multiple slides
+    if (slides.length > 1) {
+      prevBtn.style.display = 'flex';
+      nextBtn.style.display = 'flex';
       
-      this.currentIndex = 0;
-      this.slideCount = this.slides.length;
-      
-      // Initialize drag state
-      this.isDragging = false;
-      this.startX = 0;
-      this.startY = 0;
-      this.currentTranslate = 0;
-      this.lastMoveX = 0;
-      
-      this.initialize();
-    }
-
-    initialize() {
       // Create dots
-      this.createDots();
-      
-      // Only show navigation if multiple slides
-      if (this.slideCount > 1) {
-        this.prev.style.display = 'flex';
-        this.next.style.display = 'flex';
-        this.dotsContainer.style.display = 'flex';
-        
-        // Add navigation event listeners
-        this.prev.addEventListener('click', () => this.prevSlide());
-        this.next.addEventListener('click', () => this.nextSlide());
-      } else {
-        this.prev.style.display = 'none';
-        this.next.style.display = 'none';
-        this.dotsContainer.style.display = 'none';
-      }
-      
-      // Touch events
-      this.wrapper.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
-      this.wrapper.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
-      this.wrapper.addEventListener('touchend', () => this.handleTouchEnd());
-      
-      // Mouse events for click and drag
-      this.wrapper.addEventListener('mousedown', (e) => this.handleMouseDown(e));
-      document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
-      document.addEventListener('mouseup', () => this.handleMouseUp());
-      
-      // Update active dot
-      this.updateDots();
-    }
-
-    createDots() {
-      for (let i = 0; i < this.slideCount; i++) {
+      slides.forEach((_, index) => {
         const dot = document.createElement('div');
         dot.classList.add('dot');
-        dot.addEventListener('click', () => this.goToSlide(i));
-        this.dotsContainer.appendChild(dot);
-      }
-    }
-
-    updateDots() {
-      const dots = this.dotsContainer.querySelectorAll('.dot');
-      dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === this.currentIndex);
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        dots.appendChild(dot);
       });
     }
-
-    goToSlide(index) {
-      this.currentIndex = index;
-      this.wrapper.style.transform = `translateX(-${index * 100}%)`;
-      this.updateDots();
+    
+    function updateDots() {
+      const dotElements = dots.querySelectorAll('.dot');
+      dotElements.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
     }
-
-    prevSlide() {
-      this.currentIndex = (this.currentIndex - 1 + this.slideCount) % this.slideCount;
-      this.goToSlide(this.currentIndex);
+    
+    function goToSlide(index) {
+      currentSlide = index;
+      currentTranslate = -index * 100;
+      wrapper.style.transform = `translateX(${currentTranslate}%)`;
+      updateDots();
     }
-
-    nextSlide() {
-      this.currentIndex = (this.currentIndex + 1) % this.slideCount;
-      this.goToSlide(this.currentIndex);
+    
+    function handleDragStart(e) {
+      isDragging = true;
+      startPos = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+      wrapper.style.transition = 'none';
     }
-
-    // Generic start handler for both mouse and touch
-    handleDragStart(clientX, clientY) {
-      this.isDragging = true;
-      this.startX = clientX;
-      this.startY = clientY;
-      this.startTime = Date.now();
-      this.currentTranslate = -this.currentIndex * 100;
+    
+    function handleDragMove(e) {
+      if (!isDragging) return;
       
-      this.wrapper.style.transition = 'none';
-      this.wrapper.style.cursor = 'grabbing';
+      e.preventDefault();
+      const currentPosition = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+      const diff = currentPosition - startPos;
+      const translate = (diff / slider.offsetWidth) * 100 + currentTranslate;
+      
+      // Add boundaries
+      if (translate > 0 || translate < -((slides.length - 1) * 100)) return;
+      
+      wrapper.style.transform = `translateX(${translate}%)`;
     }
-
-    // Generic move handler for both mouse and touch
-    handleDragMove(clientX, clientY) {
-      if (!this.isDragging) return;
+    
+    function handleDragEnd(e) {
+      if (!isDragging) return;
       
-      const deltaX = clientX - this.startX;
-      const deltaY = clientY - this.startY;
+      isDragging = false;
+      wrapper.style.transition = 'transform 0.3s ease';
       
-      // If vertical scrolling is dominant, stop handling the swipe
-      if (Math.abs(deltaY) > Math.abs(deltaX)) {
-        this.isDragging = false;
-        return;
-      }
+      const currentPosition = e.type.includes('mouse') ? e.pageX : (e.changedTouches ? e.changedTouches[0].pageX : startPos);
+      const diff = currentPosition - startPos;
       
-      // Calculate new position
-      const movePercent = (deltaX / this.slider.offsetWidth) * 100;
-      const newTranslate = this.currentTranslate + movePercent;
-      
-      // Apply the transform with boundaries
-      const maxTranslate = -((this.slideCount - 1) * 100);
-      this.wrapper.style.transform = `translateX(${Math.max(Math.min(newTranslate, 0), maxTranslate)}%)`;
-    }
-
-    // Generic end handler for both mouse and touch
-    handleDragEnd() {
-      if (!this.isDragging) return;
-      
-      this.isDragging = false;
-      const timeElapsed = Date.now() - this.startTime;
-      
-      // Calculate swipe
-      const deltaX = this.lastMoveX - this.startX;
-      const velocity = Math.abs(deltaX) / timeElapsed;
-      
-      // Reset transition
-      this.wrapper.style.transition = 'transform 0.3s ease-out';
-      this.wrapper.style.cursor = 'grab';
-      
-      // Determine direction and if swipe was fast enough
-      const threshold = 0.2; // Velocity threshold
-      const minSwipeDistance = 50; // Minimum swipe distance in pixels
-      
-      if (Math.abs(deltaX) > minSwipeDistance || velocity > threshold) {
-        if (deltaX > 0 && this.currentIndex > 0) {
-          this.prevSlide();
-        } else if (deltaX < 0 && this.currentIndex < this.slideCount - 1) {
-          this.nextSlide();
+      if (Math.abs(diff) > slider.offsetWidth / 4) {
+        if (diff > 0 && currentSlide > 0) {
+          goToSlide(currentSlide - 1);
+        } else if (diff < 0 && currentSlide < slides.length - 1) {
+          goToSlide(currentSlide + 1);
         } else {
-          this.goToSlide(this.currentIndex);
+          goToSlide(currentSlide);
         }
       } else {
-        this.goToSlide(this.currentIndex);
+        goToSlide(currentSlide);
       }
     }
-
-    // Touch event handlers
-    handleTouchStart(e) {
-      e.preventDefault();
-      const touch = e.touches[0];
-      this.handleDragStart(touch.clientX, touch.clientY);
-    }
-
-    handleTouchMove(e) {
-      e.preventDefault();
-      const touch = e.touches[0];
-      this.lastMoveX = touch.clientX;
-      this.handleDragMove(touch.clientX, touch.clientY);
-    }
-
-    handleTouchEnd() {
-      this.handleDragEnd();
-    }
-
-    // Mouse event handlers
-    handleMouseDown(e) {
-      e.preventDefault();
-      this.handleDragStart(e.clientX, e.clientY);
-    }
-
-    handleMouseMove(e) {
-      this.lastMoveX = e.clientX;
-      this.handleDragMove(e.clientX, e.clientY);
-    }
-
-    handleMouseUp() {
-      this.handleDragEnd();
-    }
-  }
-
-  // Initialize all product card carousels
-  function initializeCarousels() {
-    const sliders = document.querySelectorAll('.product-card-media-slider');
-    sliders.forEach(slider => new ProductCardCarousel(slider));
-  }
-
-  // Initialize on DOMContentLoaded and after Shopify section updates
-  document.addEventListener('DOMContentLoaded', initializeCarousels);
-  document.addEventListener('shopify:section:load', initializeCarousels);
-})();
+    
+    // Mouse Events
+    wrapper.addEventListener('mousedown', handleDragStart);
+    wrapper.addEventListener('mousemove', handleDragMove);
+    wrapper.addEventListener('mouseup', handleDragEnd);
+    wrapper.addEventListener('mouseleave', handleDragEnd);
+    
+    // Touch Events
+    wrapper.addEventListener('touchstart', handleDragStart);
+    wrapper.addEventListener('touchmove', handleDragMove);
+    wrapper.addEventListener('touchend', handleDragEnd);
+    
+    // Button navigation
+    prevBtn.addEventListener('click', () => {
+      if (currentSlide > 0) goToSlide(currentSlide - 1);
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      if (currentSlide < slides.length - 1) goToSlide(currentSlide + 1);
+    });
+  });
+});
