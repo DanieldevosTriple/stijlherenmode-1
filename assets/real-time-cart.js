@@ -1,18 +1,42 @@
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('/cart.js')
-      .then(response => response.json())
-      .then(data => {
-        const cartItemCount = data.item_count || 0;
-        const cartIcon = document.querySelector('.cart-icon img');
-  
-        if (cartItemCount === 0) {
-          cartIcon.src = emptyCartIconUrl; // Pas het pad aan
-          cartIcon.alt = 'Empty Cart';
+  // Haal de winkelwagentje-gegevens op
+  fetch('/cart.js')
+    .then(response => response.json())
+    .then(data => {
+      const cartItemCount = data.item_count || 0;
+
+      // Zoek de desktop cart-link en update het aantal artikelen
+      const desktopCartLink = document.querySelector('.d-none.d-lg-block .cart-link');
+      if (desktopCartLink) {
+        if (cartItemCount > 0) {
+          desktopCartLink.innerHTML = `{{ 'cart' | t }} (${cartItemCount})`;
         } else {
-          cartIcon.src = fullCartIconUrl; // Pas het pad aan
-          cartIcon.alt = 'Cart with Items';
+          desktopCartLink.innerHTML = `{{ 'cart' | t }}`;
         }
-      })
-      .catch(error => console.error('Error fetching cart data:', error));
-  });
-  
+      }
+
+      // Zoek de mobiele cart-link en update het aantal artikelen en het pictogram
+      const mobileCartLink = document.querySelector('.d-lg-none .cart-link');
+      const mobileCartBubble = document.querySelector('.d-lg-none .cart-bubble');
+      const mobileCartIcon = mobileCartLink.querySelector('img');
+
+      if (mobileCartLink) {
+        // Update het aantal artikelen in de bubble
+        if (cartItemCount > 0) {
+          mobileCartBubble.textContent = cartItemCount;
+        } else {
+          mobileCartBubble.textContent = '';
+        }
+
+        // Update het winkelwagentje-icoon
+        if (mobileCartIcon) {
+          if (cartItemCount === 0) {
+            mobileCartLink.innerHTML = `{{ 'icon-cart-empty.svg' | inline_asset_content }}<p class="cart-bubble"></p>`;
+          } else {
+            mobileCartLink.innerHTML = `{{ 'icon-cart.svg' | inline_asset_content }}<p class="cart-bubble">${cartItemCount}</p>`;
+          }
+        }
+      }
+    })
+    .catch(error => console.error('Error fetching cart data:', error));
+});
