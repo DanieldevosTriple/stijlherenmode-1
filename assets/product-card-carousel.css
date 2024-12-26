@@ -2,3 +2,17 @@
     max-width: 400px;
     max-height: 400px;
 }
+
+.product-card-slider {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    overflow-x: auto;
+}
+
+.slide {
+    width: 300px;
+    flex-shrink: 0;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
