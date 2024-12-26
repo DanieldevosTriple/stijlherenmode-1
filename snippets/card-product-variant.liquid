@@ -20,12 +20,12 @@
     <div class="detail-card">
       <div class="card-media-custom">
         {%- if variant.featured_media -%}
-          <div class="gallery js-flickity" data-flickity-options='{ "cellAlign": "left", "contain": true }'>
+          <div class="product-card-slider js-flickity" data-flickity-options='{ "cellAlign": "left", "contain": true }'>
             {% assign slide_counter = 0 %}
         
               <!-- Featured Image -->
               {%- if variant.featured_media -%}
-                <div class="gallery-cell" id="s0">
+                <div class="slide" id="s0">
                   <img
                     srcset="{{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
                     src="{{ variant.featured_media | img_url: '533x' }}"
@@ -45,7 +45,7 @@
                 {% if alt_text_lowercase contains 'color |' %}
                   {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
                   {% if alt_color_part == variant_color_downcase %}
-                    <div class="gallery-cell" id="s{{ slide_counter }}">
+                    <div class="slide" id="s{{ slide_counter }}">
                       <img
                         srcset="{{ media_item | img_url: 'master' }} {{ media_item.width }}w"
                         src="{{ media_item | img_url: '533x' }}"

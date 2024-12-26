@@ -1,19 +1,18 @@
-.gallery img {
+.product-card-slider img {
     max-width: 400px;
     max-height: 400px;
 }
 
-.gallery {
+.product-card-slider {
     width: 400px;
     height: 400px;
     display: flex;
     overflow-x: auto;
 }
  
-.gallery-cell {
-    width: 100%;
-    height: 200px;
-    margin-right: 10px;
-    background: #8C8;
-    counter-increment: gallery-cell;
-}
+.slide {
+    width: 300px;
+    flex-shrink: 0;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
