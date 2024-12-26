@@ -18,7 +18,6 @@
     <!-- product-card-carousel.liquid -->
   <div class="product-card">
     <div class="product-card-media-slider" id="slider-{{ variant.id }}">
-      <div class="slider-wrapper">
         <div class="slideshow__controls slideshow__controls--top slider-buttons{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
           <button
             type="button"
@@ -50,6 +49,10 @@
           >
           </button>
         </div>
+      <div class="slider-wrapper" 
+        id="Slider-{{ section.id }}"
+        aria-live="polite"
+        aria-atomic="true">
         {%- if variant.featured_media -%}
           <div class="full-page-image">
             <img
