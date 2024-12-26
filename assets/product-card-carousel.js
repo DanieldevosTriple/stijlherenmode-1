@@ -66,22 +66,72 @@ class ProductCardCarousel {
 
   handleTouchStart(e) {
     this.touchStartX = e.touches[0].clientX;
+    this.touchStartY = e.touches[0].clientY;
+    this.touchStartTime = Date.now();
+    this.isDragging = true;
+    this.currentTranslate = -this.currentIndex * 100;
+    
+    // Prevent default only if we're starting a horizontal swipe
+    e.preventDefault();
+    
+    // Add transition class for smooth movement
+    this.wrapper.style.transition = 'none';
   }
 
   handleTouchMove(e) {
-    this.touchEndX = e.touches[0].clientX;
+    if (!this.isDragging) return;
+    
+    const currentX = e.touches[0].clientX;
+    const currentY = e.touches[0].clientY;
+    
+    // Calculate distance moved
+    const deltaX = currentX - this.touchStartX;
+    const deltaY = currentY - this.touchStartY;
+    
+    // If vertical scrolling is dominant, stop handling the swipe
+    if (Math.abs(deltaY) > Math.abs(deltaX)) {
+      this.isDragging = false;
+      return;
+    }
+    
+    // Calculate new position
+    const movePercent = (deltaX / this.slider.offsetWidth) * 100;
+    const newTranslate = this.currentTranslate + movePercent;
+    
+    // Apply the transform with boundaries
+    this.wrapper.style.transform = `translateX(${Math.max(Math.min(newTranslate, 0), -((this.slideCount - 1) * 100))}%)`;
   }
 
   handleTouchEnd() {
-    const diff = this.touchStartX - this.touchEndX;
-    const threshold = 50; // minimum distance for swipe
-
-    if (Math.abs(diff) > threshold) {
-      if (diff > 0) {
+    if (!this.isDragging) return;
+    
+    this.isDragging = false;
+    const touchEndTime = Date.now();
+    const timeElapsed = touchEndTime - this.touchStartTime;
+    
+    // Calculate swipe velocity
+    const deltaX = this.touchEndX - this.touchStartX;
+    const velocity = Math.abs(deltaX) / timeElapsed;
+    
+    // Reset transition
+    this.wrapper.style.transition = 'transform 0.3s ease-out';
+    
+    // Determine direction and if swipe was fast enough
+    const threshold = 0.2; // Velocity threshold
+    const minSwipeDistance = 50; // Minimum swipe distance in pixels
+    
+    if (Math.abs(deltaX) > minSwipeDistance || velocity > threshold) {
+      if (deltaX > 0 && this.currentIndex > 0) {
+        this.prevSlide();
+      } else if (deltaX < 0 && this.currentIndex < this.slideCount - 1) {
         this.nextSlide();
       } else {
-        this.prevSlide();
+        // Snap back to current slide if at the end
+        this.goToSlide(this.currentIndex);
       }
+    } else {
+      // Not enough movement or velocity, snap back
+      this.goToSlide(this.currentIndex);
     }
   }
 }
