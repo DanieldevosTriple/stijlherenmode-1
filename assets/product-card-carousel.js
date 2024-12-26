@@ -1,5 +1,4 @@
 (function() {
-  // Prevent multiple initializations
   if (window.sliderInitialized) {
     console.log('Sliders already initialized, removing old listeners...');
     document.querySelectorAll('.product-card-media-slider').forEach(slider => {
@@ -19,7 +18,6 @@
     const isMobile = window.innerWidth <= 768;
     
     sliders.forEach(function(slider, sliderIndex) {
-      // Get slider ID from DOM or create one
       const sliderId = slider.id || `slider-${sliderIndex}`;
       slider.id = sliderId;
       
@@ -27,7 +25,6 @@
       const slides = slider.querySelectorAll('.slide');
       const dots = slider.querySelector('.dots');
       
-      // Give each slide a unique ID
       slides.forEach((slide, slideIndex) => {
         slide.id = `${sliderId}-slide-${slideIndex}`;
       });
@@ -39,9 +36,8 @@
       let currentTranslate = 0;
       
       if (slides.length > 1) {
-        console.log(`[${sliderId}] Initializing slider with ${slides.length} slides`);
+        console.log(`[${sliderId}] Init with ${slides.length} slides`);
         
-        // Create dots for mobile
         if (isMobile) {
           slides.forEach((_, index) => {
             const dot = document.createElement('div');
@@ -55,30 +51,20 @@
         wrapper.addEventListener('touchstart', handleTouchStart, { passive: false });
         wrapper.addEventListener('touchmove', handleTouchMove, { passive: false });
         wrapper.addEventListener('touchend', handleTouchEnd);
-        
-        console.log(`[${sliderId}] Event listeners attached`);
       }
 
       function handleTouchStart(event) {
-        console.log(`[${sliderId}] Touch Start:`, {
-          slideId: `${sliderId}-slide-${currentSlide}`,
-          clientX: event.touches[0].clientX,
-          isDragging: isDragging,
-          currentSlide: currentSlide
-        });
-        
         startX = event.touches[0].clientX;
         isDragging = true;
         initialPosition = currentSlide * -100;
         currentTranslate = initialPosition;
         wrapper.style.transition = 'none';
+        
+        console.log(`[${sliderId}] Touch Start - Slide: ${currentSlide}`);
       }
 
       function handleTouchMove(event) {
-        if (!isDragging) {
-          console.log(`[${sliderId}] Touch Move ignored - not dragging`);
-          return;
-        }
+        if (!isDragging) return;
         
         const currentX = event.touches[0].clientX;
         const diff = currentX - startX;
@@ -93,48 +79,26 @@
           currentTranslate = -((slides.length - 1) * 100) + (overScroll * 0.3);
         }
         
-        console.log(`[${sliderId}] Touch Move:`, {
-          slideId: `${sliderId}-slide-${currentSlide}`,
-          currentX: currentX,
-          diff: diff,
-          movePercent: movePercent,
-          currentTranslate: currentTranslate
-        });
-        
         wrapper.style.transform = `translateX(${currentTranslate}%)`;
       }
 
       function handleTouchEnd() {
-        console.log(`[${sliderId}] Touch End Start:`, {
-          slideId: `${sliderId}-slide-${currentSlide}`,
-          isDragging: isDragging,
-          currentSlide: currentSlide,
-          currentTranslate: currentTranslate,
-          initialPosition: initialPosition
-        });
-        
-        if (!isDragging) {
-          console.log(`[${sliderId}] Touch End ignored - not dragging`);
-          return;
-        }
+        if (!isDragging) return;
         
         isDragging = false;
         wrapper.style.transition = 'transform 0.3s ease';
         
         const movePercent = currentTranslate - initialPosition;
         
-        console.log(`[${sliderId}] Movement calculation:`, {
-          movePercent: movePercent,
-          threshold: 20
-        });
+        console.log(`[${sliderId}] Touch End - Move: ${movePercent.toFixed(2)}%`);
         
         if (Math.abs(movePercent) > 20) {
           if (movePercent > 0 && currentSlide > 0) {
             currentSlide--;
-            console.log(`[${sliderId}] Moving to previous slide:`, currentSlide);
+            console.log(`[${sliderId}] Moving to previous: ${currentSlide}`);
           } else if (movePercent < 0 && currentSlide < slides.length - 1) {
             currentSlide++;
-            console.log(`[${sliderId}] Moving to next slide:`, currentSlide);
+            console.log(`[${sliderId}] Moving to next: ${currentSlide}`);
           }
         }
         
@@ -144,23 +108,9 @@
         startX = 0;
         currentTranslate = 0;
         initialPosition = 0;
-        
-        console.log(`[${sliderId}] Touch End Complete:`, {
-          slideId: `${sliderId}-slide-${currentSlide}`,
-          isDragging: isDragging,
-          startX: startX,
-          currentTranslate: currentTranslate,
-          initialPosition: initialPosition
-        });
       }
 
       function goToSlide(index) {
-        console.log(`[${sliderId}] Going to slide:`, {
-          slideId: `${sliderId}-slide-${index}`,
-          fromSlide: currentSlide,
-          toSlide: index
-        });
-        
         currentSlide = index;
         const translate = -index * 100;
         wrapper.style.transform = `translateX(${translate}%)`;
@@ -168,17 +118,14 @@
         if (isMobile) {
           updateDots(index);
         }
+        
+        console.log(`[${sliderId}] At slide: ${index}`);
       }
 
       function updateDots(index) {
         const allDots = dots.querySelectorAll('.dot');
         allDots.forEach((dot, i) => {
           dot.classList.toggle('active', i === index);
-        });
-        
-        console.log(`[${sliderId}] Dots updated for slide:`, {
-          currentDot: `${sliderId}-dot-${index}`,
-          slideIndex: index
         });
       }
     });
