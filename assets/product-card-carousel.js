@@ -25,10 +25,7 @@
       const slides = slider.querySelectorAll('.slide');
       const dots = slider.querySelector('.dots');
       
-      slides.forEach((slide, slideIndex) => {
-        slide.id = `${sliderId}-slide-${slideIndex}`;
-      });
-      
+      // State variables
       let currentSlide = 0;
       let startX = 0;
       let isDragging = false;
@@ -48,24 +45,31 @@
           });
         }
 
+        // Add event listeners
         wrapper.addEventListener('touchstart', handleTouchStart, { passive: false });
         wrapper.addEventListener('touchmove', handleTouchMove, { passive: false });
         wrapper.addEventListener('touchend', handleTouchEnd);
+        wrapper.addEventListener('touchcancel', handleTouchEnd);
       }
 
       function handleTouchStart(event) {
+        event.preventDefault();
         startX = event.touches[0].clientX;
         isDragging = true;
         initialPosition = currentSlide * -100;
         currentTranslate = initialPosition;
         wrapper.style.transition = 'none';
         
-        console.log(`[${sliderId}] Touch Start - Slide: ${currentSlide}`);
+        console.log(`[${sliderId}] Touch Start - Slide: ${currentSlide}, isDragging: ${isDragging}`);
       }
 
       function handleTouchMove(event) {
-        if (!isDragging) return;
+        if (!isDragging) {
+          console.log(`[${sliderId}] Touch Move ignored - not dragging`);
+          return;
+        }
         
+        event.preventDefault();
         const currentX = event.touches[0].clientX;
         const diff = currentX - startX;
         const movePercent = (diff / wrapper.offsetWidth) * 100;
@@ -82,14 +86,16 @@
         wrapper.style.transform = `translateX(${currentTranslate}%)`;
       }
 
-      function handleTouchEnd() {
-        if (!isDragging) return;
+      function handleTouchEnd(event) {
+        if (!isDragging) {
+          console.log(`[${sliderId}] Touch End ignored - not dragging`);
+          return;
+        }
         
         isDragging = false;
         wrapper.style.transition = 'transform 0.3s ease';
         
         const movePercent = currentTranslate - initialPosition;
-        
         console.log(`[${sliderId}] Touch End - Move: ${movePercent.toFixed(2)}%`);
         
         if (Math.abs(movePercent) > 20) {
@@ -104,10 +110,14 @@
         
         goToSlide(currentSlide);
         
-        // Reset variables
-        startX = 0;
-        currentTranslate = 0;
-        initialPosition = 0;
+        // Complete reset of variables
+        setTimeout(() => {
+          startX = 0;
+          currentTranslate = -currentSlide * 100;
+          initialPosition = currentTranslate;
+          wrapper.style.transition = 'none';
+          console.log(`[${sliderId}] Reset complete - Ready for next slide`);
+        }, 300); // Same as transition duration
       }
 
       function goToSlide(index) {
