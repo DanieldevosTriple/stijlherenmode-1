@@ -4,20 +4,35 @@ class ProductCardSlider {
     this.slides = Array.from(this.slider.querySelectorAll('.slide'));
     this.currentSlide = 0;
     this.slideCount = this.slides.length;
+    
+    // Touch tracking variables
     this.touchStartX = 0;
-    this.touchEndX = 0;
+    this.touchMoveX = 0;
     this.isDragging = false;
 
-    // Add navigation dots
+    // Initialize slider
+    this.initializeSlider();
     this.createNavigationDots();
-    
-    // Bind event handlers
-    this.handleTouchStart = this.handleTouchStart.bind(this);
-    this.handleTouchMove = this.handleTouchMove.bind(this);
-    this.handleTouchEnd = this.handleTouchEnd.bind(this);
-    
-    // Initialize touch events
     this.initializeEvents();
+    
+    // Set initial slide
+    this.updateSlidePositions();
+  }
+
+  initializeSlider() {
+    // Set initial styles for the slider container
+    this.slider.style.position = 'relative';
+    this.slider.style.overflow = 'hidden';
+    
+    // Initialize each slide
+    this.slides.forEach((slide, index) => {
+      slide.style.position = 'absolute';
+      slide.style.left = '0';
+      slide.style.top = '0';
+      slide.style.width = '100%';
+      slide.style.transition = 'transform 0.3s ease-out';
+      slide.style.transform = `translateX(${100 * index}%)`;
+    });
   }
 
   createNavigationDots() {
@@ -26,16 +41,10 @@ class ProductCardSlider {
     
     for (let i = 0; i < this.slideCount; i++) {
       const dot = document.createElement('button');
-      dot.className = 'slider-dot';
+      dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
       dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-      if (i === 0) {
-        dot.classList.add('active');
-      }
       
-      dot.addEventListener('click', () => {
-        this.goToSlide(i);
-      });
-      
+      dot.addEventListener('click', () => this.goToSlide(i));
       dotsContainer.appendChild(dot);
     }
     
@@ -45,83 +54,63 @@ class ProductCardSlider {
 
   initializeEvents() {
     // Touch events
-    this.slider.addEventListener('touchstart', this.handleTouchStart, { passive: true });
-    this.slider.addEventListener('touchmove', this.handleTouchMove, { passive: true });
-    this.slider.addEventListener('touchend', this.handleTouchEnd);
-    
-    // Mouse events for desktop
-    this.slider.addEventListener('mousedown', (e) => {
+    this.slider.addEventListener('touchstart', (e) => {
+      this.touchStartX = e.touches[0].clientX;
       this.isDragging = true;
-      this.touchStartX = e.clientX;
-    });
-    
-    document.addEventListener('mousemove', (e) => {
+    }, { passive: true });
+
+    this.slider.addEventListener('touchmove', (e) => {
       if (!this.isDragging) return;
-      this.touchEndX = e.clientX;
-      const diff = this.touchStartX - this.touchEndX;
-      this.handleSlideMove(diff);
-    });
-    
-    document.addEventListener('mouseup', () => {
+      
+      this.touchMoveX = e.touches[0].clientX;
+      const diff = this.touchStartX - this.touchMoveX;
+      const offset = -diff;
+      
+      // Apply live transform during swipe
+      this.slides.forEach((slide, index) => {
+        const baseOffset = (index - this.currentSlide) * 100;
+        slide.style.transform = `translateX(calc(${baseOffset}% + ${offset}px))`;
+      });
+    }, { passive: true });
+
+    this.slider.addEventListener('touchend', () => {
       if (!this.isDragging) return;
-      this.isDragging = false;
-      this.handleSlideEnd();
-    });
-  }
-
-  handleTouchStart(event) {
-    this.touchStartX = event.touches[0].clientX;
-  }
-
-  handleTouchMove(event) {
-    this.touchEndX = event.touches[0].clientX;
-    const diff = this.touchStartX - this.touchEndX;
-    this.handleSlideMove(diff);
-  }
-
-  handleTouchEnd() {
-    this.handleSlideEnd();
-  }
-
-  handleSlideMove(diff) {
-    // Prevent default only if swiping
-    if (Math.abs(diff) > 5) {
-      event.preventDefault();
-    }
-  }
-
-  handleSlideEnd() {
-    const diff = this.touchStartX - this.touchEndX;
-    
-    // Minimum distance for swipe
-    if (Math.abs(diff) > 50) {
-      if (diff > 0 && this.currentSlide < this.slideCount - 1) {
-        // Swipe left
-        this.goToSlide(this.currentSlide + 1);
-      } else if (diff < 0 && this.currentSlide > 0) {
-        // Swipe right
-        this.goToSlide(this.currentSlide - 1);
+      
+      const diff = this.touchStartX - this.touchMoveX;
+      
+      if (Math.abs(diff) > 50) { // Minimum swipe distance
+        if (diff > 0 && this.currentSlide < this.slideCount - 1) {
+          // Swipe left - next slide
+          this.goToSlide(this.currentSlide + 1);
+        } else if (diff < 0 && this.currentSlide > 0) {
+          // Swipe right - previous slide
+          this.goToSlide(this.currentSlide - 1);
+        } else {
+          // Bounce back if at the end
+          this.updateSlidePositions();
+        }
       } else {
-        // Bounce back if at the end
-        this.goToSlide(this.currentSlide);
+        // Not enough distance, snap back
+        this.updateSlidePositions();
       }
-    } else {
-      // Not enough distance, snap back
-      this.goToSlide(this.currentSlide);
-    }
+      
+      this.isDragging = false;
+    });
+  }
+
+  updateSlidePositions() {
+    this.slides.forEach((slide, index) => {
+      slide.style.transform = `translateX(${100 * (index - this.currentSlide)}%)`;
+    });
   }
 
   goToSlide(index) {
-    // Update current slide
+    if (index < 0 || index >= this.slideCount) return;
+    
     this.currentSlide = index;
+    this.updateSlidePositions();
     
-    // Update slides visibility
-    this.slides.forEach((slide, i) => {
-      slide.style.transform = `translateX(${100 * (i - index)}%)`;
-      slide.style.transition = 'transform 0.3s ease-out';
-    });
-    
-    // Update dots
+    // Update navigation dots
     this.dots.forEach((dot, i) => {
       dot.classList.toggle('active', i === index);
     });

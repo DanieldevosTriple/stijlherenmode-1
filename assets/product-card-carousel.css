@@ -1,10 +1,3 @@
-.product-card-media-slider img {
-    max-width: 400px;
-    max-height: 400px;
-    display: block;
-    object-fit: cover;
-}
-
 .product-card-media-slider {
     position: relative;
     width: 100%;
@@ -13,14 +6,25 @@
   }
   
   .slide {
-    position: absolute;
+    display: block;
     width: 100%;
     height: 100%;
-    transition: transform 0.3s ease-out;
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: transform;
   }
   
+  .product-card-carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Set the first slide to establish the height */
   .slide:first-child {
-    position: relative; /* Establishes height */
+    position: relative;
   }
   
   .slider-dots {
@@ -31,8 +35,7 @@
     display: flex;
     justify-content: center;
     gap: 0.5rem;
-    pointer-events: none;
-    z-index: 999;
+    z-index: 2;
   }
   
   .slider-dot {
@@ -40,27 +43,18 @@
     height: 8px;
     border-radius: 50%;
     border: none;
-    background-color: black;
+    background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
     padding: 0;
-    pointer-events: auto;
     transition: background-color 0.3s ease;
   }
   
   .slider-dot.active {
-    background-color: red;
+    background-color: white;
   }
   
   /* Prevent text selection during swipe */
-  .product-card-slider {
+  .product-card-media-slider {
     user-select: none;
     -webkit-user-select: none;
   }
-  
-  /* Ensure images maintain aspect ratio */
-  .product-card-carousel-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
