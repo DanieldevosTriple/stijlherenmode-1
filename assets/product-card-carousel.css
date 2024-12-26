@@ -6,30 +6,18 @@
 }
 
 .product-card-slider {
-    display: flex; /* Zorgt ervoor dat de slides naast elkaar worden geplaatst */
-    overflow-x: auto; /* Maakt horizontaal scrollen mogelijk */
-    scroll-behavior: smooth; /* Optioneel, maakt scrollen soepel */
-    gap: 10px; /* Optioneel, voegt ruimte tussen de slides toe */
-    padding: 10px; /* Optioneel, voegt padding toe aan de container */
-    box-sizing: border-box; /* Zorgt ervoor dat padding wordt meegerekend */
-  }
-  
-  .product-card-slider::-webkit-scrollbar {
-    height: 8px; /* Pas aan naar wens */
-  }
-  
-  .product-card-slider::-webkit-scrollbar-thumb {
-    background: #aaa; /* Stijl van de scrollbar */
-    border-radius: 10px;
-  }
-  
-  .product-card-slider::-webkit-scrollbar-track {
-    background: #f4f4f4;
-  }
-  
-  .slide {
-    flex: 0 0 auto; /* Zorgt ervoor dat de slides niet worden geschaald */
-    width: 200px; /* Pas aan naar wens */
-    height: auto;
-  }
-  
+    width: 400px;
+    height: 400px;
+    display: flex;
+    transition: transform 0.3s ease;
+    animation: slide-animation 6s infinite;
+    overflow-x: auto; /* Zorgt voor een horizontale scrollbalk */
+    overflow-y: hidden; /* Verbergt de verticale scrollbalk */
+    scroll-snap-type: x mandatory; /* Optioneel: voor smooth snapping */
+}
+ 
+.slide {
+    flex-shrink: 0;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+  } 
