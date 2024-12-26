@@ -19,14 +19,29 @@ class ProductCardCarousel {
     // Create dots
     this.createDots();
     
-    // Add event listeners
-    this.prev.addEventListener('click', () => this.prevSlide());
-    this.next.addEventListener('click', () => this.nextSlide());
+    // Only show navigation if multiple slides
+    if (this.slideCount > 1) {
+      this.prev.style.display = 'flex';
+      this.next.style.display = 'flex';
+      
+      // Add navigation event listeners
+      this.prev.addEventListener('click', () => this.prevSlide());
+      this.next.addEventListener('click', () => this.nextSlide());
+    } else {
+      this.prev.style.display = 'none';
+      this.next.style.display = 'none';
+    }
     
     // Touch events
     this.wrapper.addEventListener('touchstart', (e) => this.handleTouchStart(e));
     this.wrapper.addEventListener('touchmove', (e) => this.handleTouchMove(e));
     this.wrapper.addEventListener('touchend', () => this.handleTouchEnd());
+    
+    // Mouse events for click and drag
+    this.wrapper.addEventListener('mousedown', (e) => this.handleMouseDown(e));
+    this.wrapper.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+    this.wrapper.addEventListener('mouseup', () => this.handleMouseUp());
+    this.wrapper.addEventListener('mouseleave', () => this.handleMouseUp());
     
     // Update active dot
     this.updateDots();
@@ -64,35 +79,33 @@ class ProductCardCarousel {
     this.goToSlide(this.currentIndex);
   }
 
-  handleTouchStart(e) {
-    this.touchStartX = e.touches[0].clientX;
-    this.touchStartY = e.touches[0].clientY;
-    this.touchStartTime = Date.now();
+  // Generic start handler for both mouse and touch
+  handleDragStart(clientX, clientY) {
+    this.startX = clientX;
+    this.startY = clientY;
+    this.startTime = Date.now();
     this.isDragging = true;
     this.currentTranslate = -this.currentIndex * 100;
     
-    // Prevent default only if we're starting a horizontal swipe
-    e.preventDefault();
-    
-    // Add transition class for smooth movement
+    // Remove transition for immediate response
     this.wrapper.style.transition = 'none';
   }
 
-  handleTouchMove(e) {
+  // Generic move handler for both mouse and touch
+  handleDragMove(clientX, clientY) {
     if (!this.isDragging) return;
     
-    const currentX = e.touches[0].clientX;
-    const currentY = e.touches[0].clientY;
-    
-    // Calculate distance moved
-    const deltaX = currentX - this.touchStartX;
-    const deltaY = currentY - this.touchStartY;
+    const deltaX = clientX - this.startX;
+    const deltaY = clientY - this.startY;
     
     // If vertical scrolling is dominant, stop handling the swipe
     if (Math.abs(deltaY) > Math.abs(deltaX)) {
       this.isDragging = false;
       return;
     }
+    
+    // Prevent page scrolling while dragging
+    event.preventDefault();
     
     // Calculate new position
     const movePercent = (deltaX / this.slider.offsetWidth) * 100;
@@ -102,15 +115,15 @@ class ProductCardCarousel {
     this.wrapper.style.transform = `translateX(${Math.max(Math.min(newTranslate, 0), -((this.slideCount - 1) * 100))}%)`;
   }
 
-  handleTouchEnd() {
+  // Generic end handler for both mouse and touch
+  handleDragEnd(endX) {
     if (!this.isDragging) return;
     
     this.isDragging = false;
-    const touchEndTime = Date.now();
-    const timeElapsed = touchEndTime - this.touchStartTime;
+    const timeElapsed = Date.now() - this.startTime;
     
     // Calculate swipe velocity
-    const deltaX = this.touchEndX - this.touchStartX;
+    const deltaX = endX - this.startX;
     const velocity = Math.abs(deltaX) / timeElapsed;
     
     // Reset transition
@@ -133,6 +146,34 @@ class ProductCardCarousel {
       // Not enough movement or velocity, snap back
       this.goToSlide(this.currentIndex);
     }
+  }
+
+  // Touch event handlers
+  handleTouchStart(e) {
+    this.handleDragStart(e.touches[0].clientX, e.touches[0].clientY);
+  }
+
+  handleTouchMove(e) {
+    this.handleDragMove(e.touches[0].clientX, e.touches[0].clientY);
+  }
+
+  handleTouchEnd() {
+    this.handleDragEnd(this.lastMoveX);
+  }
+
+  // Mouse event handlers
+  handleMouseDown(e) {
+    e.preventDefault();
+    this.handleDragStart(e.clientX, e.clientY);
+  }
+
+  handleMouseMove(e) {
+    this.lastMoveX = e.clientX;
+    this.handleDragMove(e.clientX, e.clientY);
+  }
+
+  handleMouseUp() {
+    this.handleDragEnd(this.lastMoveX);
   }
 }
 
