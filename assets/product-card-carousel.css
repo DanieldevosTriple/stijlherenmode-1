@@ -1,60 +1,22 @@
-.product-card-media-slider {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    touch-action: pan-y pinch-zoom;
-  }
-  
-  .slide {
+.product-card-slider img {
+    max-width: 400px;
+    max-height: 400px;
     display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    will-change: transform;
-  }
-  
-  .product-card-carousel-image {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
-    display: block;
-  }
-  
-  /* Set the first slide to establish the height */
-  .slide:first-child {
-    position: relative;
-  }
-  
-  .slider-dots {
-    position: absolute;
-    bottom: 1rem;
-    left: 0;
-    right: 0;
+}
+
+.product-card-slider {
+    width: 400px;
+    height: 400px;
     display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    z-index: 2;
-  }
+    transition: transform 0.3s ease;
+    animation: slide-animation 6s infinite;
+}
+ 
+.slide {
+    flex-shrink: 0;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+  } 
+
   
-  .slider-dot {
-    width: 8px; 
-    height: 8px;
-    border-radius: 50%;
-    border: none;
-    background-color: black;
-    cursor: pointer;
-    padding: 0;
-    transition: background-color 0.3s ease;
-  }
-  
-  .slider-dot.active {
-    background-color: red;
-  }
-  
-  /* Prevent text selection during swipe */
-  .product-card-media-slider {
-    user-select: none;
-    -webkit-user-select: none;
-  }
