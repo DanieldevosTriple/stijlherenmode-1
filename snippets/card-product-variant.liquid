@@ -5,9 +5,8 @@
 
 {{ 'component-rating.css' | asset_url | stylesheet_tag }}
 {{ 'product-card-carousel.css' | asset_url | stylesheet_tag }}
-
-<link rel="stylesheet" href="/path/to/flickity.css" media="screen">
-<script src="/path/to/flickity.pkgd.min.js" defer></script>
+{{ 'flickity.css' | asset_url | stylesheet_tag }}
+{{ 'flickity.pkgd.min.js' | asset_url | script_tag }}
 
 
 {%- if variant and variant != empty -%}
