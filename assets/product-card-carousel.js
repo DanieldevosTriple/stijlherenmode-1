@@ -1,6 +1,4 @@
 (function() {
-  let sliderInstances = new Map();
-
   class Slider {
     constructor(element) {
       this.slider = element;
@@ -13,8 +11,7 @@
       this.currentSlide = 0;
       this.startX = 0;
       this.isDragging = false;
-      this.initialPosition = 0;
-      this.currentTranslate = 0;
+      this.isTransitioning = false;
       
       this.init();
     }
@@ -22,24 +19,35 @@
     init() {
       if (this.slides.length <= 1) return;
       
-      console.log(`[${this.sliderId}] Initializing slider`);
-      
-      // Bind event handlers
+      // Bind handlers
       this.handleTouchStart = this.handleTouchStart.bind(this);
       this.handleTouchMove = this.handleTouchMove.bind(this);
       this.handleTouchEnd = this.handleTouchEnd.bind(this);
       
-      // Add event listeners
+      // Add listeners
+      this.addEventListeners();
+      this.createDots();
+      
+      console.log(`[${this.sliderId}] Initialized`);
+    }
+    
+    addEventListeners() {
+      // Remove existing listeners first
+      this.removeEventListeners();
+      
       this.wrapper.addEventListener('touchstart', this.handleTouchStart, { passive: false });
       this.wrapper.addEventListener('touchmove', this.handleTouchMove, { passive: false });
       this.wrapper.addEventListener('touchend', this.handleTouchEnd);
-      this.wrapper.addEventListener('touchcancel', this.handleTouchEnd);
-      
-      // Create dots
-      this.createDots();
+    }
+    
+    removeEventListeners() {
+      this.wrapper.removeEventListener('touchstart', this.handleTouchStart);
+      this.wrapper.removeEventListener('touchmove', this.handleTouchMove);
+      this.wrapper.removeEventListener('touchend', this.handleTouchEnd);
     }
     
     createDots() {
+      this.dots.innerHTML = ''; // Clear existing dots
       this.slides.forEach((_, index) => {
         const dot = document.createElement('div');
         dot.classList.add('dot');
@@ -49,47 +57,55 @@
     }
     
     handleTouchStart(e) {
+      if (this.isTransitioning) return;
+      
+      e.stopPropagation(); // Prevent event bubbling
       e.preventDefault();
+      
       this.startX = e.touches[0].clientX;
       this.isDragging = true;
-      this.initialPosition = this.currentSlide * -100;
-      this.currentTranslate = this.initialPosition;
-      this.wrapper.style.transition = 'none';
+      this.currentTranslate = this.currentSlide * -100;
       
-      console.log(`[${this.sliderId}] Touch Start:`, {
-        currentSlide: this.currentSlide,
-        isDragging: this.isDragging
-      });
+      this.wrapper.style.transition = 'none';
+      console.log(`[${this.sliderId}] Touch Start:`, { slide: this.currentSlide });
     }
     
     handleTouchMove(e) {
-      if (!this.isDragging) return;
+      if (!this.isDragging || this.isTransitioning) return;
       
+      e.stopPropagation();
       e.preventDefault();
+      
       const currentX = e.touches[0].clientX;
       const diff = currentX - this.startX;
       const movePercent = (diff / this.wrapper.offsetWidth) * 100;
-      this.currentTranslate = this.initialPosition + movePercent;
+      let translate = this.currentTranslate + movePercent;
       
       // Add resistance at edges
-      if (this.currentTranslate > 0) {
-        this.currentTranslate *= 0.3;
-      } else if (this.currentTranslate < -((this.slides.length - 1) * 100)) {
-        const overScroll = this.currentTranslate + ((this.slides.length - 1) * 100);
-        this.currentTranslate = -((this.slides.length - 1) * 100) + (overScroll * 0.3);
+      if (translate > 0) {
+        translate *= 0.3;
+      } else if (translate < -((this.slides.length - 1) * 100)) {
+        const overScroll = translate + ((this.slides.length - 1) * 100);
+        translate = -((this.slides.length - 1) * 100) + (overScroll * 0.3);
       }
       
-      this.wrapper.style.transform = `translateX(${this.currentTranslate}%)`;
+      this.wrapper.style.transform = `translateX(${translate}%)`;
     }
     
-    handleTouchEnd() {
-      if (!this.isDragging) return;
+    handleTouchEnd(e) {
+      if (!this.isDragging || this.isTransitioning) return;
+      
+      e && e.stopPropagation();
       
       this.isDragging = false;
+      this.isTransitioning = true;
+      
+      const currentTranslate = parseFloat(this.wrapper.style.transform.match(/-?\d+\.?\d*/)[0] || 0);
+      const movePercent = currentTranslate - (this.currentSlide * -100);
+      
       this.wrapper.style.transition = 'transform 0.3s ease';
       
-      const movePercent = this.currentTranslate - this.initialPosition;
-      console.log(`[${this.sliderId}] Touch End - Move: ${movePercent.toFixed(2)}%`);
+      console.log(`[${this.sliderId}] Touch End:`, { movePercent });
       
       if (Math.abs(movePercent) > 20) {
         if (movePercent > 0 && this.currentSlide > 0) {
@@ -101,22 +117,20 @@
       
       this.goToSlide(this.currentSlide);
       
-      // Reset state
-      this.startX = 0;
-      this.initialPosition = this.currentSlide * -100;
-      this.currentTranslate = this.initialPosition;
-      
-      console.log(`[${this.sliderId}] Slide Complete:`, {
-        currentSlide: this.currentSlide,
-        isDragging: this.isDragging
-      });
+      // Reset state after transition
+      setTimeout(() => {
+        this.isTransitioning = false;
+        this.wrapper.style.transition = 'none';
+      }, 300);
     }
     
     goToSlide(index) {
-      this.currentSlide = index;
       const translate = -index * 100;
+      this.currentSlide = index;
       this.wrapper.style.transform = `translateX(${translate}%)`;
       this.updateDots(index);
+      
+      console.log(`[${this.sliderId}] At slide:`, index);
     }
     
     updateDots(index) {
@@ -127,15 +141,14 @@
     }
   }
 
+  // Initialize sliders
   function initSliders() {
-    document.querySelectorAll('.product-card-media-slider').forEach(element => {
-      if (!sliderInstances.has(element.id)) {
-        sliderInstances.set(element.id, new Slider(element));
-      }
+    const sliders = document.querySelectorAll('.product-card-media-slider');
+    sliders.forEach(element => {
+      new Slider(element);
     });
   }
 
-  // Initialize
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSliders);
   } else {
