@@ -32,6 +32,7 @@
     justify-content: center;
     gap: 0.5rem;
     pointer-events: none;
+    z-index: 999;
   }
   
   .slider-dot {
