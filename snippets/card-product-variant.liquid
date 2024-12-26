@@ -121,7 +121,12 @@
           <!-- Dots (visible on mobile) -->
           <div class="slider-counter slider-counter--dots">
             <div class="slideshow__control-wrapper">
+              {% assign slide_counter = 1 %}
               {% for media_item in card_product.media %}
+              {% assign alt_text_lowercase = media_item.alt | downcase %}
+              {%- if alt_text_lowercase contains 'color |' -%}
+              {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
+              {% if alt_color_part == variant_color_lowercase %}
                 <button
                   class="slider-counter__link slider-counter__link--dots link {% if forloop.first %}active{% endif %}"
                   aria-label="Go to slide {{ forloop.index }} of {{ card_product.media.size }}"
@@ -129,7 +134,9 @@
                 >
                   <span class="dot"></span>
                 </button>
-              {% endfor %}
+              {% endif %}
+            {% endif %}
+            {% endfor %} 
             </div>
           </div>
         </div>
