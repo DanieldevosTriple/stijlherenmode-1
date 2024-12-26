@@ -6,6 +6,9 @@
 {{ 'component-rating.css' | asset_url | stylesheet_tag }}
 {{ 'product-card-carousel.css' | asset_url | stylesheet_tag }}
 
+<link rel="stylesheet" href="/path/to/flickity.css" media="screen">
+<script src="/path/to/flickity.pkgd.min.js" defer></script>
+
 
 {%- if variant and variant != empty -%}
   {%- liquid
@@ -18,7 +21,7 @@
     <div class="detail-card">
       <div class="card-media-custom">
         {%- if variant.featured_media -%}
-          <div class="product-card-slider">
+          <div class="product-card-slider js-flickity">
             {% assign slide_counter = 0 %}
         
               <!-- Featured Image -->
