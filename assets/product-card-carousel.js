@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let currentSlide = 0;
     let startX = 0;
-    let currentTranslate = 0;
     let isDragging = false;
-    let currentPosition = 0;
+    let initialPosition = 0;
+    let currentTranslate = 0;
     
-    // Only setup if we have multiple slides
+    // Alleen setup als er meerdere slides zijn
     if (slides.length > 1) {
-      // Create dots
+      // Maak dots aan
       slides.forEach((_, index) => {
         const dot = document.createElement('div');
         dot.classList.add('dot');
@@ -23,43 +23,50 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       // Touch events
-      wrapper.addEventListener('touchstart', touchStart);
-      wrapper.addEventListener('touchmove', touchMove);
-      wrapper.addEventListener('touchend', touchEnd);
+      wrapper.addEventListener('touchstart', handleTouchStart);
+      wrapper.addEventListener('touchmove', handleTouchMove);
+      wrapper.addEventListener('touchend', handleTouchEnd);
     }
 
-    function touchStart(event) {
+    function handleTouchStart(event) {
       startX = event.touches[0].clientX;
       isDragging = true;
-      currentPosition = currentSlide * -100;
+      initialPosition = currentSlide * -100; // Calculate initial position based on current slide
+      currentTranslate = initialPosition;
       wrapper.style.transition = 'none';
     }
 
-    function touchMove(event) {
+    function handleTouchMove(event) {
       if (!isDragging) return;
       
       const currentX = event.touches[0].clientX;
       const diff = currentX - startX;
       const movePercent = (diff / wrapper.offsetWidth) * 100;
-      currentTranslate = currentPosition + movePercent;
       
-      // Limit the swipe to adjacent slides only
-      if (currentTranslate > 0 || currentTranslate < -((slides.length - 1) * 100)) {
-        return;
+      // Update position based on initial position and movement
+      currentTranslate = initialPosition + movePercent;
+      
+      // Add resistance at edges
+      if (currentTranslate > 0) {
+        currentTranslate = currentTranslate * 0.3; // More resistance at start
+      } else if (currentTranslate < -((slides.length - 1) * 100)) {
+        const overScroll = currentTranslate + ((slides.length - 1) * 100);
+        currentTranslate = -((slides.length - 1) * 100) + (overScroll * 0.3);
       }
       
       wrapper.style.transform = `translateX(${currentTranslate}%)`;
     }
 
-    function touchEnd() {
+    function handleTouchEnd() {
       if (!isDragging) return;
       
       isDragging = false;
       wrapper.style.transition = 'transform 0.3s ease';
       
-      // Calculate if we should move to next/previous slide
-      const movePercent = currentTranslate - currentPosition;
+      // Calculate movement since touch start
+      const movePercent = currentTranslate - initialPosition;
       
+      // Determine if we should change slide
       if (Math.abs(movePercent) > 20) {
         if (movePercent > 0 && currentSlide > 0) {
           currentSlide--;
@@ -68,8 +75,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
       
-      // Update slide position
+      // Reset to proper position
       goToSlide(currentSlide);
+      
+      // Reset variables for next swipe
+      startX = 0;
+      currentTranslate = 0;
+      initialPosition = 0;
     }
 
     function goToSlide(index) {
@@ -78,6 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
       wrapper.style.transform = `translateX(${translate}%)`;
       
       // Update dots
+      updateDots(index);
+    }
+
+    function updateDots(index) {
       const allDots = dots.querySelectorAll('.dot');
       allDots.forEach((dot, i) => {
         dot.classList.toggle('active', i === index);
