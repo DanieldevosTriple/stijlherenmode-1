@@ -43,13 +43,7 @@
               {%- if variant.featured_media -%}
                 <div class="slide" id="s0">
                   <img
-                    srcset="{%- if variant.featured_media.width >= 165 -%}{{ variant.featured_media | img_url: '165x' }} 165w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 360 -%}{{ variant.featured_media | img_url: '360x' }} 360w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 533 -%}{{ variant.featured_media | img_url: '533x' }} 533w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 720 -%}{{ variant.featured_media | img_url: '720x' }} 720w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 940 -%}{{ variant.featured_media | img_url: '940x' }} 940w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 1066 -%}{{ variant.featured_media | img_url: '1066x' }} 1066w,{%- endif -%}
-                    {{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
+                    srcset="{{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
                     src="{{ variant.featured_media | img_url: '533x' }}"
                     alt="{{ variant.featured_media.alt | escape }}"
                     class="motion-reduce product-card-carousel-image"
@@ -69,13 +63,7 @@
                   {% if alt_color_part == variant_color_downcase %}
                     <div class="slide" id="s{{ slide_counter }}">
                       <img
-                        srcset="{%- if media_item.width >= 165 -%}{{ media_item | img_url: '165x' }} 165w,{%- endif -%}
-                        {%- if media_item.width >= 360 -%}{{ media_item | img_url: '360x' }} 360w,{%- endif -%}
-                        {%- if media_item.width >= 533 -%}{{ media_item | img_url: '533x' }} 533w,{%- endif -%}
-                        {%- if media_item.width >= 720 -%}{{ media_item | img_url: '720x' }} 720w,{%- endif -%}
-                        {%- if media_item.width >= 940 -%}{{ media_item | img_url: '940x' }} 940w,{%- endif -%}
-                        {%- if media_item.width >= 1066 -%}{{ media_item | img_url: '1066x' }} 1066w,{%- endif -%}
-                        {{ media_item | img_url: 'master' }} {{ media_item.width }}w"
+                        srcset="{{ media_item | img_url: 'master' }} {{ media_item.width }}w"
                         src="{{ media_item | img_url: '533x' }}"
                         alt="{{ media_item.alt | escape }}"
                         class="motion-reduce product-card-carousel-image"
