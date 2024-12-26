@@ -115,3 +115,48 @@
     left: 0px;
     z-index: 3;
   }
+
+  .slider-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .slider-buttons-product {
+    display: none; /* Standaard verborgen (voor mobiel) */
+  }
+  
+  .slider-counter--dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .slider-counter__link {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .slider-counter__link .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+  }
+  
+  .slider-counter__link.active .dot {
+    background-color: #333;
+  }
+  
+  @media (min-width: 768px) {
+    .slider-buttons-product {
+      display: flex; /* Zichtbaar op desktop */
+      gap: 0.5rem;
+    }
+  
+    .slider-counter--dots {
+      display: none; /* Verborgen op desktop */
+    }
+  }
+  

@@ -111,9 +111,29 @@
         {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
           {%- assign show_card_content = true -%}
         {%- endif -%}
-        <div class="slider-buttons-product">  <button class="prev">❮</button>
-        <button class="next">❯</button></div>
+        <div class="slider-controls">
+          <!-- Navigation buttons (visible on desktop) -->
+          <div class="slider-buttons-product">
+            <button class="prev">❮</button>
+            <button class="next">❯</button>
+          </div>
         
+          <!-- Dots (visible on mobile) -->
+          <div class="slider-counter slider-counter--dots">
+            <div class="slideshow__control-wrapper">
+              {% for media_item in card_product.media %}
+                <button
+                  class="slider-counter__link slider-counter__link--dots link {% if forloop.first %}active{% endif %}"
+                  aria-label="Go to slide {{ forloop.index }} of {{ card_product.media.size }}"
+                  aria-controls="Slider-{{ card_product.id }}"
+                >
+                  <span class="dot"></span>
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+                
         {%- if show_card_content == true -%}
             <div class="card__badge {{ settings.badge_position }}">
               {%- if card_product.available == false -%}
