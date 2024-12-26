@@ -1,16 +1,16 @@
-.product-card-slider img {
+.gallery img {
     max-width: 400px;
     max-height: 400px;
 }
 
-.product-card-slider {
+.gallery {
     width: 400px;
     height: 400px;
     display: flex;
     overflow-x: auto;
 }
  
-.slide {
+.gallery-cell {
     width: 100%;
     height: 200px;
     margin-right: 10px;
