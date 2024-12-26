@@ -16,49 +16,51 @@
     assign variant_images = card_product.media | where: 'alt', variant_color_downcase
   -%}
     <!-- product-card-carousel.liquid -->
-    <div class="product-card">
-      <div class="product-card-media-slider" id="slider-{{ variant.id }}">
-        <div class="slider-wrapper">
-          {%- if variant.featured_media -%}
-            <div class="slide">
-              <img
-                srcset="{{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
-                src="{{ variant.featured_media | img_url: '533x' }}"
-                alt="{{ variant.featured_media.alt | escape }}"
-                class="product-card-carousel-image"
-                loading="lazy"
-                width="{{ variant.featured_media.width }}"
-                height="{{ variant.featured_media.height }}"
-              >
-            </div>
-          {%- endif -%}
+  <div class="product-card">
+    <div class="product-card-media-slider" id="slider-{{ variant.id }}">
+      <div class="slider-wrapper">
+        {%- if variant.featured_media -%}
+          <div class="slide">
+            <img
+              srcset="{{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
+              src="{{ variant.featured_media | img_url: '533x' }}"
+              alt="{{ variant.featured_media.alt | escape }}"
+              class="product-card-carousel-image"
+              loading="lazy"
+              width="{{ variant.featured_media.width }}"
+              height="{{ variant.featured_media.height }}"
+            >
+          </div>
+        {%- endif -%}
 
-          {% for media_item in card_product.media %}
-            {% assign alt_text_lowercase = media_item.alt | downcase %}
-            {% if alt_text_lowercase contains 'color |' %}
-              {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
-              {% if alt_color_part == variant_color_downcase %}
-                <div class="slide">
-                  <img
-                    srcset="{{ media_item | img_url: 'master' }} {{ media_item.width }}w"
-                    src="{{ media_item | img_url: '533x' }}"
-                    alt="{{ media_item.alt | escape }}"
-                    class="product-card-carousel-image"
-                    loading="lazy"
-                    width="{{ media_item.width }}"
-                    height="{{ media_item.height }}"
-                  >
-                </div>
-              {% endif %}
+        {% for media_item in card_product.media %}
+          {% assign alt_text_lowercase = media_item.alt | downcase %}
+          {% if alt_text_lowercase contains 'color |' %}
+            {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
+            {% if alt_color_part == variant_color_downcase %}
+              <div class="slide">
+                <img
+                  srcset="{{ media_item | img_url: 'master' }} {{ media_item.width }}w"
+                  src="{{ media_item | img_url: '533x' }}"
+                  alt="{{ media_item.alt | escape }}"
+                  class="product-card-carousel-image"
+                  loading="lazy"
+                  width="{{ media_item.width }}"
+                  height="{{ media_item.height }}"
+                >
+              </div>
             {% endif %}
-          {% endfor %}
-        </div>
-        
-        <div class="slider-nav">
-          <button class="prev" aria-label="Previous image">&lt;</button>
-          <div class="dots"></div>
-          <button class="next" aria-label="Next image">&gt;</button>
-        </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      
+      <div class="slider-nav">
+        <button class="prev" aria-label="Previous image">&lt;</button>
+        <div class="dots"></div>
+        <button class="next" aria-label="Next image">&gt;</button>
+      </div>
+    </div>
+  </div>
 
       <!-- Rest of the card content remains the same -->
       <div class="card__content">
@@ -80,6 +82,4 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
 {%- endif -%}
