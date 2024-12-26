@@ -40,87 +40,68 @@
       <div class="card-media-custom">
         {%- if variant.featured_media -%}
           <div class="product-card-slider">
-            {% assign slide_counter = 0 %}
+            {% assign slide_index = 0 %}
+            {% assign variant_color_lowercase = variant_color | downcase %}
+            
+            <!-- Dynamische Radio Inputs -->
             {% for media_item in card_product.media %}
-              <input type="radio" name="slider" id="slide{{ forloop.index }}" {% if forloop.first %}checked{% endif %}>
+              {% assign alt_text_lowercase = media_item.alt | downcase %}
+              {%- if alt_text_lowercase contains 'color |' -%}
+                {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
+                {% if alt_color_part == variant_color_lowercase %}
+                  <input type="radio" name="slider" id="slide{{ slide_index }}" {% if slide_index == 0 %}checked{% endif %}>
+                  {% assign slide_index = slide_index | plus: 1 %}
+                {% endif %}
+              {% endif %}
             {% endfor %}
+          
             <div class="slides">
-              {%- if variant.featured_media -%}
-                <div class="slide" id="s{{ forloop.index }}">
-                  <img
-                    srcset="{%- if variant.featured_media.width >= 165 -%}{{ variant.featured_media | img_url: '165x' }} 165w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 360 -%}{{ variant.featured_media | img_url: '360x' }} 360w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 533 -%}{{ variant.featured_media | img_url: '533x' }} 533w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 720 -%}{{ variant.featured_media | img_url: '720x' }} 720w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 940 -%}{{ variant.featured_media | img_url: '940x' }} 940w,{%- endif -%}
-                    {%- if variant.featured_media.width >= 1066 -%}{{ variant.featured_media | img_url: '1066x' }} 1066w,{%- endif -%}
-                    {{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
-                    src="{{ variant.featured_media | img_url: '533x' }}"
-                    sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-                    alt="{{ variant.featured_media.alt | escape }}"
-                    class="motion-reduce product-card-carousel-image"
-                    {% unless lazy_load == false %}loading="lazy"{% endunless %}
-                    width="{{ variant.featured_media.width }}"
-                    height="{{ variant.featured_media.height }}"
-                  >
-                </div>
-              {%- endif -%}
-              {% assign secondary_images = '' %}
-              {% assign variant_color_lowercase = variant_color | downcase %}
-              
+              {% assign slide_index = 0 %}
+              <!-- Dynamische Slides -->
               {% for media_item in card_product.media %}
                 {% assign alt_text_lowercase = media_item.alt | downcase %}
-                
                 {%- if alt_text_lowercase contains 'color |' -%}
                   {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
-                  
                   {% if alt_color_part == variant_color_lowercase %}
-                    {% assign secondary_images = secondary_images | append: media_item | append: ',' %}
+                    <div class="slide" id="s{{ slide_index }}">
+                      <img
+                        srcset="{%- if media_item.width >= 165 -%}{{ media_item | img_url: '165x' }} 165w,{%- endif -%}
+                        {%- if media_item.width >= 360 -%}{{ media_item | img_url: '360x' }} 360w,{%- endif -%}
+                        {%- if media_item.width >= 533 -%}{{ media_item | img_url: '533x' }} 533w,{%- endif -%}
+                        {%- if media_item.width >= 720 -%}{{ media_item | img_url: '720x' }} 720w,{%- endif -%}
+                        {%- if media_item.width >= 940 -%}{{ media_item | img_url: '940x' }} 940w,{%- endif -%}
+                        {%- if media_item.width >= 1066 -%}{{ media_item | img_url: '1066x' }} 1066w,{%- endif -%}
+                        {{ media_item | img_url: 'master' }} {{ media_item.width }}w"
+                        src="{{ media_item | img_url: '533x' }}"
+                        sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                        alt="{{ media_item.alt | escape }}"
+                        class="motion-reduce product-card-carousel-image"
+                        loading="lazy"
+                        width="{{ media_item.width }}"
+                        height="{{ media_item.height }}"
+                      >
+                    </div>
+                    {% assign slide_index = slide_index | plus: 1 %}
                   {% endif %}
                 {% endif %}
               {% endfor %}
-              {% assign slide_counter = 1 %}
-              {% for media_item in card_product.media %}
-              {% assign alt_text_lowercase = media_item.alt | downcase %}
-              {%- if alt_text_lowercase contains 'color |' -%}
-              {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
-              {% if alt_color_part == variant_color_lowercase %}
-                <div class="slide" id="s{{ forloop.index }}">
-              <img
-              srcset="{%- if media_item.width >= 165 -%}{{ media_item | img_url: '165x' }} 165w,{%- endif -%}
-              {%- if media_item.width >= 360 -%}{{ media_item | img_url: '360x' }} 360w,{%- endif -%}
-              {%- if media_item.width >= 533 -%}{{ media_item | img_url: '533x' }} 533w,{%- endif -%}
-              {%- if media_item.width >= 720 -%}{{ media_item | img_url: '720x' }} 720w,{%- endif -%}
-              {%- if media_item.width >= 940 -%}{{ media_item | img_url: '940x' }} 940w,{%- endif -%}
-              {%- if media_item.width >= 1066 -%}{{ media_item | img_url: '1066x' }} 1066w,{%- endif -%}
-              {{ media_item | img_url: 'master' }} {{ media_item.width }}w"
-              src="{{ media_item | img_url: '533x' }}"
-              sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-              alt="{{ media_item.alt | escape }}"
-              class="motion-reduce product-card-carousel-image"
-              loading="lazy"
-              width="{{ media_item.width }}"
-              height="{{ media_item.height }}"
-              >
-              </div>
-              {% assign slide_counter = slide_counter | plus: 1 %}
-              {% endif %}
-              {% endif %}
-              {% endfor %}                    
             </div>
-          </div>
-        {%- endif -%}
-        {%- assign show_card_content = false -%}
-        {%- if card_product.available == false -%}
-          {%- assign show_card_content = true -%}
-        {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
-          {%- assign show_card_content = true -%}
-        {%- endif -%}
-        <div class="navigation">
-          {% for media_item in card_product.media %}
-          <label for="slide{{ forloop.index }}"></label>
-          {% endfor %}
-        </div>
+          
+            <div class="navigation">
+              <!-- Dynamische Navigatie Labels -->
+              {% assign slide_index = 0 %}
+              {% for media_item in card_product.media %}
+                {% assign alt_text_lowercase = media_item.alt | downcase %}
+                {%- if alt_text_lowercase contains 'color |' -%}
+                  {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
+                  {% if alt_color_part == variant_color_lowercase %}
+                    <label for="slide{{ slide_index }}"></label>
+                    {% assign slide_index = slide_index | plus: 1 %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>          
                 
         {%- if show_card_content == true -%}
             <div class="card__badge {{ settings.badge_position }}">
