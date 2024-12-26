@@ -50,9 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Mobile-only touch handlers
     if (isMobile) {
+      let initialX = 0;
+      let currentX = 0;
+
       function handleDragStart(e) {
         isDragging = true;
-        startPos = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+        initialX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+        currentX = initialX;
+        startPos = initialX;
         wrapper.style.transition = 'none';
         wrapper.classList.add('dragging');
       }
@@ -61,14 +66,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isDragging) return;
         
         e.preventDefault();
-        const currentPosition = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-        const diff = currentPosition - startPos;
+        currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+        const diff = currentX - initialX;
         const translate = (diff / slider.offsetWidth) * 100 + currentTranslate;
         
-        // Add boundaries
-        if (translate > 0 || translate < -((slides.length - 1) * 100)) return;
+        // Allow movement but with resistance at boundaries
+        const maxTranslate = -((slides.length - 1) * 100);
+        let finalTranslate = translate;
         
-        wrapper.style.transform = `translateX(${translate}%)`;
+        if (translate > 0) {
+          finalTranslate = translate * 0.3; // Add resistance at start
+        } else if (translate < maxTranslate) {
+          finalTranslate = maxTranslate + (translate - maxTranslate) * 0.3; // Add resistance at end
+        }
+        
+        wrapper.style.transform = `translateX(${finalTranslate}%)`;
       }
       
       function handleDragEnd(e) {
@@ -78,10 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.classList.remove('dragging');
         wrapper.style.transition = 'transform 0.3s ease';
         
-        const currentPosition = e.type.includes('mouse') ? e.pageX : (e.changedTouches ? e.changedTouches[0].pageX : startPos);
-        const diff = currentPosition - startPos;
+        const diff = currentX - startPos;
+        const swipeThreshold = slider.offsetWidth * 0.15; // 15% of slider width
         
-        if (Math.abs(diff) > slider.offsetWidth / 4) {
+        if (Math.abs(diff) > swipeThreshold) {
           if (diff > 0 && currentSlide > 0) {
             goToSlide(currentSlide - 1);
           } else if (diff < 0 && currentSlide < slides.length - 1) {
@@ -92,6 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           goToSlide(currentSlide);
         }
+        
+        // Reset variables
+        initialX = 0;
+        currentX = 0;
       }
       
       // Touch Events for mobile
