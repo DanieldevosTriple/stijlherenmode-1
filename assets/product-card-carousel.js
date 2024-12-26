@@ -50,65 +50,66 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Mobile-only touch handlers
     if (isMobile) {
-      let initialX = 0;
-      let currentX = 0;
-
       function handleDragStart(e) {
+        if (e.type === 'touchstart') {
+          startPos = e.touches[0].clientX;
+        } else {
+          startPos = e.clientX;
+        }
         isDragging = true;
-        initialX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-        currentX = initialX;
-        startPos = initialX;
+        currentTranslate = -currentSlide * 100; // Update current translate based on slide
         wrapper.style.transition = 'none';
-        wrapper.classList.add('dragging');
       }
-      
+
       function handleDragMove(e) {
         if (!isDragging) return;
-        
+
         e.preventDefault();
-        currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-        const diff = currentX - initialX;
-        const translate = (diff / slider.offsetWidth) * 100 + currentTranslate;
-        
-        // Allow movement but with resistance at boundaries
-        const maxTranslate = -((slides.length - 1) * 100);
-        let finalTranslate = translate;
-        
-        if (translate > 0) {
-          finalTranslate = translate * 0.3; // Add resistance at start
-        } else if (translate < maxTranslate) {
-          finalTranslate = maxTranslate + (translate - maxTranslate) * 0.3; // Add resistance at end
-        }
-        
-        wrapper.style.transform = `translateX(${finalTranslate}%)`;
+        const currentPosition = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        const diff = currentPosition - startPos;
+        const translate = currentTranslate + (diff / wrapper.offsetWidth) * 100;
+
+        wrapper.style.transform = `translateX(${translate}%)`;
       }
-      
+
       function handleDragEnd(e) {
         if (!isDragging) return;
-        
+
         isDragging = false;
-        wrapper.classList.remove('dragging');
         wrapper.style.transition = 'transform 0.3s ease';
+
+        const currentPosition = e.type === 'touchend' ? 
+          (e.changedTouches ? e.changedTouches[0].clientX : startPos) : 
+          e.clientX;
+        const diff = currentPosition - startPos;
         
-        const diff = currentX - startPos;
-        const swipeThreshold = slider.offsetWidth * 0.15; // 15% of slider width
+        // Calculate how far we swiped as a percentage of the screen width
+        const swipePercentage = (diff / wrapper.offsetWidth) * 100;
         
-        if (Math.abs(diff) > swipeThreshold) {
+        // If swiped more than 20% of the screen width, change slide
+        if (Math.abs(swipePercentage) > 20) {
           if (diff > 0 && currentSlide > 0) {
-            goToSlide(currentSlide - 1);
+            currentSlide--;
           } else if (diff < 0 && currentSlide < slides.length - 1) {
-            goToSlide(currentSlide + 1);
-          } else {
-            goToSlide(currentSlide);
+            currentSlide++;
           }
-        } else {
-          goToSlide(currentSlide);
         }
         
-        // Reset variables
-        initialX = 0;
-        currentX = 0;
+        goToSlide(currentSlide);
       }
+      
+      // Touch Events
+      wrapper.addEventListener('touchstart', handleDragStart, { passive: false });
+      wrapper.addEventListener('touchmove', handleDragMove, { passive: false });
+      wrapper.addEventListener('touchend', handleDragEnd);
+      wrapper.addEventListener('touchcancel', handleDragEnd);
+
+      // Mouse Events (for testing on desktop)
+      wrapper.addEventListener('mousedown', handleDragStart);
+      wrapper.addEventListener('mousemove', handleDragMove);
+      wrapper.addEventListener('mouseup', handleDragEnd);
+      wrapper.addEventListener('mouseleave', handleDragEnd);
+    }
       
       // Touch Events for mobile
       wrapper.addEventListener('touchstart', handleDragStart, { passive: false });
