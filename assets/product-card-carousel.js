@@ -70,11 +70,22 @@ document.addEventListener('DOMContentLoaded', function() {
         lastTouchX = clientX;
         initialXOffset = -currentSlide * 100;
         
+        console.log('DragStart:', {
+          isDragging,
+          startPos,
+          lastTouchX,
+          initialXOffset,
+          currentSlide
+        });
+        
         wrapper.style.transition = 'none';
       }
 
       function handleDragMove(e) {
-        if (!isDragging) return;
+        if (!isDragging) {
+          console.log('Move ignored - not dragging');
+          return;
+        }
         
         e.preventDefault();
         let clientX;
@@ -88,11 +99,28 @@ document.addEventListener('DOMContentLoaded', function() {
         const diff = clientX - startPos;
         const translate = initialXOffset + (diff / wrapper.offsetWidth) * 100;
         
+        console.log('DragMove:', {
+          lastTouchX,
+          diff,
+          translate,
+          currentSlide
+        });
+        
         wrapper.style.transform = `translateX(${translate}%)`;
       }
 
       function handleDragEnd(e) {
-        if (!isDragging) return;
+        if (!isDragging) {
+          console.log('End ignored - not dragging');
+          return;
+        }
+        
+        console.log('DragEnd Start:', {
+          lastTouchX,
+          startPos,
+          currentSlide,
+          isDragging
+        });
         
         isDragging = false;
         wrapper.style.transition = 'transform 0.3s ease';
@@ -100,15 +128,43 @@ document.addEventListener('DOMContentLoaded', function() {
         const diff = lastTouchX - startPos;
         const swipePercentage = (diff / wrapper.offsetWidth) * 100;
         
+        console.log('Swipe Calculation:', {
+          diff,
+          swipePercentage,
+          threshold: 15
+        });
+        
         if (Math.abs(swipePercentage) > 15) {
           if (diff > 0 && currentSlide > 0) {
             currentSlide--;
+            console.log('Swiping right to slide:', currentSlide);
           } else if (diff < 0 && currentSlide < slides.length - 1) {
             currentSlide++;
+            console.log('Swiping left to slide:', currentSlide);
           }
         }
         
         goToSlide(currentSlide);
+        
+        console.log('DragEnd Complete:', {
+          currentSlide,
+          isDragging,
+          lastTouchX,
+          startPos
+        });
+      }
+
+      function goToSlide(index) {
+        console.log('GoToSlide:', {
+          fromSlide: currentSlide,
+          toSlide: index
+        });
+        
+        currentSlide = index;
+        const translate = -index * 100;
+        wrapper.style.transition = 'transform 0.3s ease';
+        wrapper.style.transform = `translateX(${translate}%)`;
+        updateDots();
       }
       
       wrapper.addEventListener('touchstart', handleDragStart, { passive: false });
