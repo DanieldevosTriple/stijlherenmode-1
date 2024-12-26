@@ -19,177 +19,38 @@
   <div class="product-card">
     <div class="product-card-media-slider" id="slider-{{ variant.id }}">
       <div class="slider-wrapper">
+        <div class="slideshow__controls slideshow__controls--top slider-buttons{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
+          <button
+            type="button"
+            class="slider-button slider-button--prev"
+            name="previous"
+            aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
+            aria-controls="Slider-{{ section.id }}"
+          >
+          </button>
+          <div class="slider-counter slider-counter--dots">
+              <div class="slideshow__control-wrapper">
+                {%- for block in section.blocks -%}
+                  <button
+                    class="slider-counter__link slider-counter__link--dots link"
+                    aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                    aria-controls="Slider-{{ section.id }}"
+                  >
+                      <span class="dot"></span>
+                  </button>
+                {%- endfor -%}
+              </div>
+          </div>
+          <button
+            type="button"
+            class="slider-button slider-button--next"
+            name="next"
+            aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
+            aria-controls="Slider-{{ section.id }}"
+          >
+          </button>
+        </div>
         {%- if variant.featured_media -%}
-
-          <slideshow-component
-            class="slider-mobile-gutter"
-            role="region"
-            aria-roledescription="{{ 'sections.slideshow.carousel' | t }}"
-            aria-label="{{ section.settings.accessibility_info | escape }}"
-          >
-            {%- if section.settings.auto_rotate and section.blocks.size > 1 -%}
-              <div class="slideshow__controls slideshow__controls--top slider-buttons{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
-                <button
-                  type="button"
-                  class="slider-button slider-button--prev"
-                  name="previous"
-                  aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
-                  aria-controls="Slider-{{ section.id }}"
-                >
-                </button>
-                <div class="slider-counter slider-counter--dots">
-                    <div class="slideshow__control-wrapper">
-                      {%- for block in section.blocks -%}
-                        <button
-                          class="slider-counter__link slider-counter__link--dots link"
-                          aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
-                          aria-controls="Slider-{{ section.id }}"
-                        >
-                            <span class="dot"></span>
-                        </button>
-                      {%- endfor -%}
-                    </div>
-                </div>
-                <button
-                  type="button"
-                  class="slider-button slider-button--next"
-                  name="next"
-                  aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
-                  aria-controls="Slider-{{ section.id }}"
-                >
-                </button>
-          
-                {%- if section.settings.auto_rotate -%}
-                  <button
-                    type="button"
-                    class="slideshow__autoplay slider-button{% if section.settings.auto_rotate == false %} slideshow__autoplay--paused{% endif %}"
-                    aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}"
-                  >
-                    <span class="svg-wrapper">
-                      {{- 'icon-pause.svg' | inline_asset_content -}}
-                    </span>
-                    <span class="svg-wrapper">
-                      {{- 'icon-play.svg' | inline_asset_content -}}
-                    </span>
-                  </button>
-                {%- endif -%}
-              </div>
-            {%- endif -%}
-          
-           <div
-            class="slideshow banner banner--adapt_image grid col-12 slider slider--everywhere {% if section.blocks.first.settings.image == blank %} slideshow--placeholder{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
-            id="Slider-{{ section.id }}"
-            aria-live="polite"
-            aria-atomic="true"
-            data-autoplay="{{ section.settings.auto_rotate }}"
-            data-speed="{{ section.settings.change_slides_speed }}"
-          >
-            {%- for block in section.blocks -%}
-              <style>
-                #Slide-{{ section.id }}-{{ forloop.index }} .banner__media::after {
-                  opacity: {{ block.settings.image_overlay_opacity | divided_by: 100.0 }};
-                }
-              </style>
-              <div
-                class="slideshow__slide grid__item col-12 slider__slide"
-                id="Slide-{{ section.id }}-{{ forloop.index }}"
-                {{ block.shopify_attributes }}
-                role="group"
-                data-theme="{{ block.settings.image_theme }}"
-                aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
-                aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
-                tabindex="-1"
-              >
-                <div class="slideshow__media banner__media media{% if block.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}">
-                  {%- if block.settings.image -%}
-                    <div class="full-page-image">
-                      {%- if forloop.first %}
-                        {{
-                          block.settings.image
-                          | image_url: width: 3840
-                          | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
-                        }}
-                      {%- else -%}
-                        {{
-                          block.settings.image
-                          | image_url: width: 3840
-                          | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
-                        }}
-                      {%- endif -%}
-                    </div>
-                  {%- else -%}
-                    {%- assign placeholder_slide = forloop.index | modulo: 2 -%}
-                    <div class="full-page-placeholder">
-                      {%- if placeholder_slide == 1 -%}
-                        {{ 'hero-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
-                      {%- else -%}
-                        {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
-                      {%- endif -%}
-                    </div>
-                  {%- endif -%}
-                </div>
-                <div class="col-12 slide-show-content">
-                  <h2 class="elixon-fits-in">
-                    {{ block.settings.heading }}
-                  </h2>
-                </div>      
-              </div>
-            {%- endfor -%}
-          </div>  
-          
-            {%- if section.blocks.size > 1 and section.settings.auto_rotate == false -%}
-              <div class="slideshow__controls slider-buttons{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
-                <button
-                  type="button"
-                  class="slider-button slider-button--prev"
-                  name="previous"
-                  aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
-                  aria-controls="Slider-{{ section.id }}"
-                >
-                </button>
-                <div class="slider-counter slider-counter--dots">
-                    <div class="slideshow__control-wrapper">
-                      {%- for block in section.blocks -%}
-                        <button
-                          class="slider-counter__link slider-counter__link--dots link"
-                          aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
-                          aria-controls="Slider-{{ section.id }}"
-                        >
-                            <span class="dot"></span>
-                        </button>
-                      {%- endfor -%}
-                    </div>
-                </div>
-                <button
-                  type="button"
-                  class="slider-button slider-button--next"
-                  name="next"
-                  aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
-                  aria-controls="Slider-{{ section.id }}"
-                >
-                </button>
-          
-                {%- if section.settings.auto_rotate -%}
-                  <button
-                    type="button"
-                    class="slideshow__autoplay slider-button{% if section.settings.auto_rotate == false %} slideshow__autoplay--paused{% endif %}"
-                    aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}"
-                  >
-                    <span class="svg-wrapper">
-                      {{- 'icon-pause.svg' | inline_asset_content -}}
-                    </span>
-                    <span class="svg-wrapper">
-                      {{- 'icon-play.svg' | inline_asset_content -}}
-                    </span>
-                  </button>
-                {%- endif -%}
-              </div>
-            {%- endif -%}
-          </slideshow-component>
-
-
-
-
           <div class="slide">
             <img
               srcset="{{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
@@ -224,10 +85,36 @@
         {% endfor %}
       </div>
       
-      <div class="slider-nav">
-        <button class="prev" aria-label="Previous image">&lt;</button>
-        <div class="dots"></div>
-        <button class="next" aria-label="Next image">&gt;</button>
+      <div class="slideshow__controls slider-buttons{% if section.settings.show_text_below %} slideshow__controls--border-radius-mobile{% endif %}">
+        <button
+          type="button"
+          class="slider-button slider-button--prev"
+          name="previous"
+          aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
+          aria-controls="Slider-{{ section.id }}"
+        >
+        </button>
+        <div class="slider-counter slider-counter--dots">
+            <div class="slideshow__control-wrapper">
+              {%- for block in section.blocks -%}
+                <button
+                  class="slider-counter__link slider-counter__link--dots link"
+                  aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                  aria-controls="Slider-{{ section.id }}"
+                >
+                    <span class="dot"></span>
+                </button>
+              {%- endfor -%}
+            </div>
+        </div>
+        <button
+          type="button"
+          class="slider-button slider-button--next"
+          name="next"
+          aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
+          aria-controls="Slider-{{ section.id }}"
+        >
+        </button>
       </div>
     </div>
   </div>
