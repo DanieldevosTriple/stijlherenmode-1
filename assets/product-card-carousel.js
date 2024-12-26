@@ -18,9 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // Zorg dat de eerste slide standaard op active staat
-    if (slides.length > 0) {
-      slides[0].classList.add('active');
+    // Zorg dat de eerste slide met data-slide="0" standaard op active staat
+    const firstSlide = container.querySelector('.product-card-slider-slide[data-slide="0"]');
+    if (firstSlide) {
+      firstSlide.classList.add('active');
     }
 
     // Dots click handlers
