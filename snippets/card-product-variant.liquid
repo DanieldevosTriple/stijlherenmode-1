@@ -21,23 +21,6 @@
           <div class="product-card-slider">
             {% assign slide_counter = 0 %}
           
-            <!-- Radio Inputs -->
-            {%- if variant.featured_media -%}
-              <input type="radio" name="slider" id="slide{{ slide_counter }}" checked>
-              {% assign slide_counter = slide_counter | plus: 1 %}
-            {%- endif -%}
-            
-            {% for media_item in card_product.media %}
-              {% assign alt_text_lowercase = media_item.alt | downcase %}
-              {% if alt_text_lowercase contains 'color |' %}
-                {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
-                {% if alt_color_part == variant_color_downcase %}
-                  <input type="radio" name="slider" id="slide{{ slide_counter }}">
-                  {% assign slide_counter = slide_counter | plus: 1 %}
-                {% endif %}
-              {% endif %}
-            {% endfor %}
-          
             <div class="slides">
               <!-- Featured Image -->
               {%- if variant.featured_media -%}
