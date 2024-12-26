@@ -11,6 +11,9 @@
     display: flex;
     transition: transform 0.3s ease;
     animation: slide-animation 6s infinite;
+    overflow-x: auto; /* Zorgt voor een horizontale scrollbalk */
+    overflow-y: hidden; /* Verbergt de verticale scrollbalk */
+    scroll-snap-type: x mandatory; /* Optioneel: voor smooth snapping */
 }
  
 .slide {
