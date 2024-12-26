@@ -33,7 +33,8 @@
 
     # Filter images to those matching the current variant's color
     assign variant_color = variant.options | first
-    assign variant_images = card_product.media | where: 'alt', variant_color
+    assign variant_color_downcase = variant_color | downcase
+    assign variant_images = card_product.media | where: 'alt', variant_color_downcase
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">
     <div class="card">
@@ -48,7 +49,6 @@
               {% assign slide_counter = slide_counter | plus: 1 %}
             {%- endif -%}
             
-            {% assign variant_color_downcase = variant_color | downcase %}
             {% for media_item in card_product.media %}
               {% assign alt_text_lowercase = media_item.alt | downcase %}
               {% if alt_text_lowercase contains 'color |' %}
@@ -59,7 +59,7 @@
                 {% endif %}
               {% endif %}
             {% endfor %}
- 
+          
             <div class="slides">
               <!-- Featured Image -->
               {%- if variant.featured_media -%}
@@ -88,7 +88,7 @@
                 {% assign alt_text_lowercase = media_item.alt | downcase %}
                 {% if alt_text_lowercase contains 'color |' %}
                   {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
-                  {% if alt_color_part == variant_color | downcase %}
+                  {% if alt_color_part == variant_color_downcase %}
                     <div class="slide" id="s{{ slide_counter }}">
                       <img
                         srcset="{%- if media_item.width >= 165 -%}{{ media_item | img_url: '165x' }} 165w,{%- endif -%}
@@ -124,15 +124,14 @@
                 {% assign alt_text_lowercase = media_item.alt | downcase %}
                 {% if alt_text_lowercase contains 'color |' %}
                   {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
-                  {% if alt_color_part == variant_color | downcase %}
+                  {% if alt_color_part == variant_color_downcase %}
                     <label for="slide{{ slide_counter }}"></label>
                     {% assign slide_counter = slide_counter | plus: 1 %}
                   {% endif %}
                 {% endif %}
               {% endfor %}
             </div>
-          </div> 
-        {%-  endif -%}              
+          </div>             
       </div>
       <div class="card__content">
         <div class="card__information">
