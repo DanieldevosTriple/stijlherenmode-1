@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
+    // Zorg dat de eerste slide standaard op active staat
+    if (slides.length > 0) {
+      slides[0].classList.add('active');
+    }
+
     // Dots click handlers
     dots.forEach((dot, i) => {
       dot.addEventListener('click', () => {
