@@ -14,7 +14,6 @@
     assign variant_color_downcase = variant_color | downcase
     assign variant_images = card_product.media | where: 'alt', variant_color_downcase
   -%}
-  <div class="simple-product-card">
       <div class="card-media-custom">
         {%- if variant.featured_media -%}
           <div class="product-card-slider">
@@ -81,5 +80,4 @@
           </div>
         </div>
       </div>
-    </div>
 {%- endif -%}
