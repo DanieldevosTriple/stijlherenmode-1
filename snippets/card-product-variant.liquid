@@ -59,27 +59,6 @@
                 {% endif %}
               {% endfor %}
           </div> 
-            
-            <div class="navigation">
-              <!-- Navigation Dots -->
-              {% assign slide_counter = 0 %}
-              {%- if variant.featured_media -%}
-                <label for="slide0"></label>
-                {% assign slide_counter = slide_counter | plus: 1 %}
-              {%- endif -%}
-          
-              {% for media_item in card_product.media %}
-                {% assign alt_text_lowercase = media_item.alt | downcase %}
-                {% if alt_text_lowercase contains 'color |' %}
-                  {% assign alt_color_part = alt_text_lowercase | split: 'color |' | last | strip %}
-                  {% if alt_color_part == variant_color_downcase %}
-                    <label for="slide{{ slide_counter }}"></label>
-                    {% assign slide_counter = slide_counter | plus: 1 %}
-                  {% endif %}
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
         {%- endif -%}
       </div>
 
