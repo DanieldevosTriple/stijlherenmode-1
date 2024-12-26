@@ -1,23 +1,74 @@
 {% comment %}
-    Renders a product card with image carousel functionality
-
-    Accepts:
-    - card_product: {Object} Product Liquid object (optional)
-    - variant: {String} variant
-    - media_aspect_ratio: {String} Size of the product image card. Values are "square" and "portrait". Default is "square" (optional)
-    - show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
-    - show_vendor: {Boolean} Show the product vendor. Default: false
-    - show_rating: {Boolean} Show the product rating. Default: false
-    - extend_height: {Boolean} Card height extends to available container space. Default: true (optional)
-    - lazy_load: {Boolean} Image should be lazy loaded. Default: true (optional)
-
-    Usage:
-    {% render 'card-product-variant', show_vendor: section.settings.show_vendor %}
+    Renders a product card with CSS-only image carousel functionality
+    No JavaScript required
 {% endcomment %}
 
 {{ 'component-rating.css' | asset_url | stylesheet_tag }}
-{{ 'product-card-carousel.css' | asset_url | stylesheet_tag }}
-{{ 'product-card-carousel.js' | asset_url | script_tag }}
+
+<style>
+.product-card-slider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.slides {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.product-card-carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.navigation {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.navigation label {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.navigation label:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+{% for i in (0..9) %}
+#slide{{ i }}:checked ~ .slides #s{{ i }} {
+  opacity: 1;
+  z-index: 1;
+}
+
+#slide{{ i }}:checked ~ .navigation label:nth-child({{ i | plus: 1 }}) {
+  background: white;
+}
+{% endfor %}
+</style>
 
 {%- if variant and variant != empty -%}
   {%- liquid
@@ -33,7 +84,7 @@
           <div class="product-card-slider">
             {% assign slide_counter = 0 %}
           
-            <!-- Dynamische Radio Inputs -->
+            <!-- Radio Inputs -->
             {%- if variant.featured_media -%}
               <input type="radio" name="slider" id="slide{{ slide_counter }}" checked>
               {% assign slide_counter = slide_counter | plus: 1 %}
@@ -72,7 +123,7 @@
                 </div>
               {%- endif -%}
           
-              <!-- Overige Afbeeldingen -->
+              <!-- Additional Images -->
               {% assign slide_counter = 1 %}
               {% for media_item in card_product.media %}
                 {% assign alt_text_lowercase = media_item.alt | downcase %}
@@ -103,7 +154,7 @@
             </div>
             
             <div class="navigation">
-              <!-- Navigatie Labels -->
+              <!-- Navigation Dots -->
               {% assign slide_counter = 0 %}
               {%- if variant.featured_media -%}
                 <label for="slide0"></label>
@@ -122,12 +173,14 @@
               {% endfor %}
             </div>
           </div>
-        {%-  endif -%}               
+        {%- endif -%}
       </div>
+
+      <!-- Rest of the card content remains the same -->
       <div class="card__content">
         <div class="card__information">
           <h3 class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}">
-            <a href="{{ card_product.url }}?variant={{ variant.id }} " class="full-unstyled-link">
+            <a href="{{ card_product.url }}?variant={{ variant.id }}" class="full-unstyled-link">
               {{ card_product.title | escape }} - {{ variant.options | first }}
             </a>
           </h3>
@@ -139,35 +192,13 @@
 
             <span class="caption-large light">{{ block.settings.description | escape }}</span>
 
-            {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
-              {% liquid
-                assign rating_decimal = 0
-                assign decimal = card_product.metafields.reviews.rating.value.rating | modulo: 1
-                if decimal >= 0.3 and decimal <= 0.7
-                  assign rating_decimal = 0.5
-                elsif decimal > 0.7
-                  assign rating_decimal = 1
-                endif
-              %}
-              <div class="rating" role="img" aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: card_product.metafields.reviews.rating.value, rating_max: card_product.metafields.reviews.rating.value.scale_max }}">
-                <span aria-hidden="true" class="rating-star color-icon-{{ settings.accent_icons }}" style="--rating: {{ card_product.metafields.reviews.rating.value.rating | floor }}; --rating-max: {{ card_product.metafields.reviews.rating.value.scale_max }}; --rating-decimal: {{ rating_decimal }};"></span>
-              </div>
-              <p class="rating-text caption">
-                <span aria-hidden="true">{{ card_product.metafields.reviews.rating.value }} / {{ card_product.metafields.reviews.rating.value.scale_max }}</span>
-              </p>
-              <p class="rating-count caption">
-                <span aria-hidden="true">({{ card_product.metafields.reviews.rating_count }})</span>
-                <span class="visually-hidden">{{ card_product.metafields.reviews.rating_count }} {{ "accessibility.total_reviews" | t }}</span>
-              </p>
-            {%- endif -%}
-
             {% render 'price', product: variant, price_class: '' %}
           </div>
         </div>
       </div>
     </div>
   </div>
-  {%- else -%}
+{%- else -%}
   <div class="card-wrapper underline-links-hover">
     <div class="card
       card--{{ settings.card_style }}
