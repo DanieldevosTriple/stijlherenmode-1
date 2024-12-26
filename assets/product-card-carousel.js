@@ -17,11 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Only show navigation if multiple slides
     if (slides.length > 1) {
-      if (!isMobile) {
-        prevBtn.style.display = 'flex';
-        nextBtn.style.display = 'flex';
-      } else {
-        // Create dots for mobile
+      // Create dots for mobile
+      if (isMobile) {
         slides.forEach(function(_, index) {
           const dot = document.createElement('div');
           dot.classList.add('dot');
@@ -31,6 +28,10 @@ document.addEventListener('DOMContentLoaded', function() {
           });
           dots.appendChild(dot);
         });
+      } else {
+        // Show arrows for desktop
+        prevBtn.style.display = 'flex';
+        nextBtn.style.display = 'flex';
       }
     }
     
@@ -53,14 +54,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mobile-only touch handlers
     if (isMobile) {
+      let lastTouchX = 0;
+      let initialXOffset = 0;
+
       function handleDragStart(e) {
+        let clientX;
         if (e.type === 'touchstart') {
-          startPos = e.touches[0].clientX;
+          clientX = e.touches[0].clientX;
         } else {
-          startPos = e.clientX;
+          clientX = e.clientX;
         }
+        
         isDragging = true;
-        currentTranslate = -currentSlide * 100;
+        startPos = clientX;
+        lastTouchX = clientX;
+        initialXOffset = -currentSlide * 100;
+        
         wrapper.style.transition = 'none';
       }
 
@@ -68,9 +77,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!isDragging) return;
         
         e.preventDefault();
-        const currentPosition = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-        const diff = currentPosition - startPos;
-        const translate = currentTranslate + (diff / wrapper.offsetWidth) * 100;
+        let clientX;
+        if (e.type === 'touchmove') {
+          clientX = e.touches[0].clientX;
+        } else {
+          clientX = e.clientX;
+        }
+        
+        lastTouchX = clientX;
+        const diff = clientX - startPos;
+        const translate = initialXOffset + (diff / wrapper.offsetWidth) * 100;
         
         wrapper.style.transform = `translateX(${translate}%)`;
       }
@@ -81,14 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
         isDragging = false;
         wrapper.style.transition = 'transform 0.3s ease';
         
-        const currentPosition = e.type === 'touchend' ? 
-          (e.changedTouches ? e.changedTouches[0].clientX : startPos) : 
-          e.clientX;
-        const diff = currentPosition - startPos;
-        
+        const diff = lastTouchX - startPos;
         const swipePercentage = (diff / wrapper.offsetWidth) * 100;
         
-        if (Math.abs(swipePercentage) > 20) {
+        if (Math.abs(swipePercentage) > 15) {
           if (diff > 0 && currentSlide > 0) {
             currentSlide--;
           } else if (diff < 0 && currentSlide < slides.length - 1) {
