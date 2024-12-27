@@ -9,20 +9,22 @@
       this.nextButton = element.querySelector('.next');
       this.currentSlide = 0;
       this.slideWidth = 100;
-      this.isDragging = false;  // Variabele om te controleren of er gesleept wordt
+      this.isDragging = false;
       this.init();
     }
 
     init() {
-      if (this.slides.length <= 1) return;
+      if (this.slides.length <= 1) {
+        // Hide dots and navigation if there is 1 or fewer slides
+        if (this.dots) this.dots.style.display = 'none';
+        if (this.prevButton) this.prevButton.style.display = 'none';
+        if (this.nextButton) this.nextButton.style.display = 'none';
+        return;
+      }
 
-      // Create dots
+      // Create dots and setup navigation only if there are more than 1 slide
       this.createDots();
-      
-      // Setup touch events
       this.setupTouchEvents();
-      
-      // Setup desktop navigation
       this.setupDesktopNav();
     }
 
