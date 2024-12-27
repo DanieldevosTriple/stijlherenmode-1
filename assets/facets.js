@@ -286,7 +286,10 @@ class FacetFiltersForm extends HTMLElement {
     this.updateURLHash(queryString);
     this.renderPage(queryString);
     this.updateProductCount();
-  }  
+    
+    // Dispatch the facets:updated event after rendering
+    document.dispatchEvent(new CustomEvent('facets:updated'));
+    }
 
   clearFilters() {
     // Add radio reset
