@@ -7,8 +7,6 @@
 @media screen and (min-weight: 992px) {
     .product-card-media-slider img {
         height: 700px;
-        display: block;
-        object-fit: cover;
     }
 }
 
