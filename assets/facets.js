@@ -716,18 +716,31 @@ class FacetFiltersForm extends HTMLElement {
   }  
 
   removeFilter(key, value) {
-    const desktopInput = this.querySelector(`.facets__desktop input[name="${key}"][value="${value}"]`);
-    const mobileInput = this.querySelector(`.facets__mobile input[name="${key}"][value="${value}"]`);
-
-    // Update both desktop and mobile inputs
-    if (desktopInput) {
-      desktopInput.checked = false;
-      this.handleFilterChange({ target: desktopInput });
+    // Verwijder de prijsfilter apart
+    if (key === 'price_filter') {
+      this.state.selectedFilters.delete('price_filter');
+      this.querySelectorAll('.facet-range__input').forEach(input => {
+        input.value = ''; // Reset de prijs invoervelden
+      });
+    } else {
+      const desktopInput = this.querySelector(`.facets__desktop input[name="${key}"][value="${value}"]`);
+      const mobileInput = this.querySelector(`.facets__mobile input[name="${key}"][value="${value}"]`);
+  
+      // Update beide desktop- en mobiele invoeren
+      if (desktopInput) {
+        desktopInput.checked = false;
+        this.handleFilterChange({ target: desktopInput });
+      }
+      if (mobileInput) {
+        mobileInput.checked = false;
+      }
     }
-    if (mobileInput) {
-      mobileInput.checked = false;
-    }
-  }
+  
+    // Update de UI na het verwijderen van de filter
+    this.renderSelectedFilters();
+    this.updateMobileApplyButton();
+    this.applySortAndFilters();
+  }  
 }
 
 class FilterPreview {
