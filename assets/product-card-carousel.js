@@ -38,24 +38,44 @@
     }
 
     setupTouchEvents() {
-      this.wrapper.addEventListener('touchstart', (e) => {
-        e.preventDefault();
+      let isDragging = false;
+      
+      const handleTouchStart = (e) => {
+        isDragging = true;
         this.startX = e.touches[0].clientX;
         this.currentX = this.startX;
         this.wrapper.style.transition = 'none';
-      }, { passive: false });
+      };
 
-      this.wrapper.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        if (!this.startX) return;
+      const handleTouchMove = (e) => {
+        if (!isDragging) return;
+        
         this.currentX = e.touches[0].clientX;
         const diffX = this.currentX - this.startX;
         const translateX = diffX - (this.currentSlide * this.slideWidth);
-        this.wrapper.style.transform = `translateX(${translateX}%)`;
-      }, { passive: false });
+        
+        // Add resistance at edges
+        let actualTranslate = translateX;
+        const maxTranslate = this.slideWidth * (this.slides.length - 1);
+        
+        if (translateX > 0) {
+          actualTranslate = translateX * 0.3;
+        } else if (Math.abs(translateX) > maxTranslate) {
+          const overScroll = Math.abs(translateX) - maxTranslate;
+          actualTranslate = -maxTranslate + (overScroll * 0.3);
+        }
+        
+        this.wrapper.style.transform = `translateX(${actualTranslate}%)`;
+      };
 
-      this.wrapper.addEventListener('touchend', () => {
-        if (!this.startX || this.startX === this.currentX) return;
+      const handleTouchEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        if (this.startX === this.currentX) {
+          return;
+        }
+
         const diff = this.currentX - this.startX;
         const threshold = this.slideWidth * 0.2;
         this.wrapper.style.transition = 'transform 0.3s ease';
@@ -70,11 +90,18 @@
           this.goToSlide(this.currentSlide);
         }
 
-        // Reset values
-        this.startX = null;
-        this.currentX = null;
-        this.wrapper.style.transition = '';
-      });
+        // Reset after transition
+        setTimeout(() => {
+          this.wrapper.style.transition = '';
+          this.startX = null;
+          this.currentX = null;
+        }, 300);
+      };
+
+      this.wrapper.addEventListener('touchstart', handleTouchStart, { passive: true });
+      this.wrapper.addEventListener('touchmove', handleTouchMove, { passive: true });
+      this.wrapper.addEventListener('touchend', handleTouchEnd);
+      this.wrapper.addEventListener('touchcancel', handleTouchEnd);
     }
 
     setupDesktopNav() {
