@@ -1,4 +1,6 @@
 (function() {
+  let sliderInstances = []; // Array to store slider instances
+
   class Slider {
     constructor(element) {
       this.slider = element;
@@ -14,7 +16,13 @@
     }
 
     init() {
-      if (this.slides.length <= 1) {
+      // Get actual slides (not empty ones)
+      const actualSlides = Array.from(this.slides).filter(slide => {
+        // Check if the slide has actual content (image)
+        return slide.querySelector('img') || slide.innerText.trim() !== '';
+      });
+
+      if (actualSlides.length <= 1) {
         // Hide dots and navigation if there is 1 or fewer slides
         if (this.dots) this.dots.style.display = 'none';
         if (this.prevButton) this.prevButton.style.display = 'none';
@@ -26,6 +34,25 @@
       this.createDots();
       this.setupTouchEvents();
       this.setupDesktopNav();
+    }
+
+    destroy() {
+      // Remove event listeners
+      if (this.prevButton) {
+        this.prevButton.removeEventListener('click', () => this.goToPrevSlide());
+      }
+      if (this.nextButton) {
+        this.nextButton.removeEventListener('click', () => this.goToNextSlide());
+      }
+      // Reset styles
+      if (this.wrapper) {
+        this.wrapper.style.transform = '';
+        this.wrapper.style.transition = '';
+      }
+      // Clear dots
+      if (this.dots) {
+        this.dots.innerHTML = '';
+      }
     }
 
     createDots() {
@@ -152,9 +179,19 @@
     }
   }
 
-  // Initialize sliders and handle faceted filtering
+  // Modified initialization function
   function initSliders() {
-    document.querySelectorAll('.product-card-media-slider').forEach(slider => new Slider(slider));
+    // First, cleanup existing instances
+    sliderInstances.forEach(instance => {
+      instance.destroy();
+    });
+    sliderInstances = [];
+
+    // Initialize new instances
+    document.querySelectorAll('.product-card-media-slider').forEach(slider => {
+      const instance = new Slider(slider);
+      sliderInstances.push(instance);
+    });
   }
 
   // Initial load
@@ -164,9 +201,11 @@
     initSliders();
   }
 
-  // Handle faceted navigation updates
+  // Modified event listener with delay
   document.addEventListener('facets:updated', () => {
-    // Re-initialize sliders after facet update
-    initSliders();
+    // Wait for DOM to be updated with new products
+    setTimeout(() => {
+      initSliders();
+    }, 100); // Small delay to ensure DOM is updated
   });
 })();
