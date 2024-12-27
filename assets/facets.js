@@ -24,14 +24,15 @@ class FacetFiltersForm extends HTMLElement {
     const priceInputs = this.querySelectorAll('.facet-range__input');
     priceInputs.forEach(input => {
       input.addEventListener('change', this.debouncedOnChange);
-      // Bind the correct context for validatePriceInput
       input.addEventListener('input', (e) => this.validatePriceInput(e));
     });
 
     // Add sort input handlers
       const sortInputs = this.querySelectorAll('input[name="sort_by_desktop"], input[name="sort_by_mobile"]');
+    console.log('Sort inputs found:', sortInputs); // Debug: Controleer gevonden inputs
     sortInputs.forEach(input => {
       input.addEventListener('change', (event) => {
+        console.log('Sort input changed:', event.target.value); // Debug: Log verandering
         this.handleSortChange(event);
       });
     });
@@ -77,56 +78,10 @@ class FacetFiltersForm extends HTMLElement {
     });
   }
 
-// Add the validatePriceInput method to your class
-validatePriceInput(event) {
-  const input = event.target;
-  
-  // Remove any non-numeric characters except decimal point
-  let value = input.value.replace(/[^\d.]/g, '');
-  
-  // Ensure only one decimal point
-  const decimalPoints = value.match(/\./g)?.length || 0;
-  if (decimalPoints > 1) {
-    value = value.replace(/\./g, (match, index) => index === value.indexOf('.') ? match : '');
-  }
-  
-  // Prevent negative values
-  value = Math.max(0, Number(value));
-  
-  // Format to 2 decimal places if there's a decimal point
-  if (value.toString().includes('.')) {
-    value = parseFloat(value).toFixed(2);
-  }
-  
-  // Update input value
-  input.value = value;
-  
-  // Get min/max inputs
-  const isMinInput = input.name.startsWith('min_');
-  const container = input.closest('.facet-range');
-  const minInput = container.querySelector('input[name^="min_"]');
-  const maxInput = container.querySelector('input[name^="max_"]');
-  
-  // Validate min/max relationship
-  if (minInput && maxInput) {
-    const minValue = parseFloat(minInput.value) || 0;
-    const maxValue = parseFloat(maxInput.value) || Infinity;
-    
-    if (isMinInput && maxValue !== Infinity && minValue > maxValue) {
-      input.value = maxValue;
-    } else if (!isMinInput && minValue !== 0 && maxValue < minValue) {
-      input.value = minValue;
-    }
-  }
-  
-  // Trigger the debounced onChange if this was a direct user input
-  if (event.inputType) {
-    this.debouncedOnChange(event);
-  }
-  }
-
   handleSortChange(event) {
+    console.log('handleSortChange triggered'); // Log aanroepen van de functie
     const sortValue = event.target.value;
+    console.log('Selected radio value:', sortValue); // Log de waarde van de geselecteerde radio
   
     this.state.currentSort = sortValue;
   
@@ -137,6 +92,7 @@ validatePriceInput(event) {
   
     if (otherInput) {
       otherInput.checked = true;
+      console.log(`Synchronized ${otherInputName} to value:`, sortValue);
     }
   
     this.applySortAndFilters();
@@ -324,7 +280,9 @@ validatePriceInput(event) {
    }
 
    applySortAndFilters() {
+    console.log('applySortAndFilters called'); // Debugging
     const queryString = this.buildQueryParams();
+    console.log('Query string:', queryString);
     this.updateURLHash(queryString);
     this.renderPage(queryString);
     this.updateProductCount();
@@ -414,11 +372,16 @@ validatePriceInput(event) {
   }
 
   buildQueryParams() {
+    console.log('Current sort state:', this.state.currentSort); // Debug de sorteerwaarde
+  
     const urlParts = []; // Correcte variabele
   
     if (this.state.currentSort) {
       urlParts.push(`sort_by=${encodeURIComponent(this.state.currentSort)}`);
     }
+
+    // Voeg debuglog toe om geselecteerde filters te bekijken
+    console.log('Selected filters:', Array.from(this.state.selectedFilters.entries())); 
   
     const groupedParams = {};
     this.state.selectedFilters.forEach(filter => {
@@ -444,6 +407,7 @@ validatePriceInput(event) {
       }
     });
   
+    console.log('Built query params:', urlParts.join('&')); // Debug de uiteindelijke querystring
     return urlParts.join('&');
   }   
 
@@ -484,6 +448,7 @@ validatePriceInput(event) {
 
   updateProductCount() {
     const url = `${window.location.pathname}?section_id=product-count&${this.buildQueryParams()}`;
+    console.log('Fetching product count from URL:', url); // Debugging
     
     fetch(url)
       .then(response => {
@@ -516,6 +481,8 @@ validatePriceInput(event) {
     
     if (desktopInput) desktopInput.checked = true;
     if (mobileInput) mobileInput.checked = true;
+  
+    console.log('Sortering vanuit URL geïnitialiseerd:', this.state.currentSort);
   
     // **Initialiseer geselecteerde filters**
     this.state.selectedFilters = new Map();
@@ -553,6 +520,8 @@ validatePriceInput(event) {
       }
     });
   
+    console.log('Geselecteerde filters vanuit URL:', Array.from(this.state.selectedFilters.entries()));
+  
     // **Update UI met geselecteerde filters**
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
@@ -566,6 +535,7 @@ validatePriceInput(event) {
     if (minPriceInput) minPriceInput.value = minPrice;
     if (maxPriceInput) maxPriceInput.value = maxPrice;
   
+    console.log('Prijsrange vanuit URL ingesteld: €', minPrice, '-', maxPrice);
   }   
 
    syncFromURL() {
@@ -608,6 +578,7 @@ validatePriceInput(event) {
   }
 
   updateURLHash(searchParams) {
+    console.log('Updating URL with:', searchParams); // Debugging
     history.pushState(
       { searchParams },
       '',
@@ -628,10 +599,12 @@ validatePriceInput(event) {
 
       this.state.loading = true;
       const sections = this.getSections();
+      console.log('Sections to render:', sections);
 
       await Promise.all(
         sections.map(section => {
           const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
+          console.log('Fetching section from URL:', url);
           return this.renderSectionFromFetch(url);
         })
       );
@@ -650,6 +623,7 @@ validatePriceInput(event) {
   
   async renderSectionFromFetch(url) {
     try {
+      console.log('Fetching URL:', url); // Debugging
       const response = await fetch(url);
       if (!response.ok) throw new Error('Fetch failed');
   
