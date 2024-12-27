@@ -12,6 +12,9 @@
       this.currentSlide = 0;
       this.slideWidth = 100;
       this.isDragging = false;
+      this.startX = null;
+      this.currentX = null;
+      this.minSwipeDistance = 30; // Minimum distance to consider it a swipe
       this.init();
     }
 
@@ -112,60 +115,92 @@
 
     setupTouchEvents() {
       const handleTouchStart = (e) => {
-        this.isDragging = true;
+        // Store the initial touch position
         this.startX = e.touches[0].clientX;
         this.currentX = this.startX;
+        this.isDragging = false; // Don't set dragging true immediately
         this.wrapper.style.transition = 'none';
       };
 
       const handleTouchMove = (e) => {
-        if (!this.isDragging) return;
-        this.currentX = e.touches[0].clientX;
-        const diffX = this.currentX - this.startX;
-        const translateX = diffX - (this.currentSlide * this.slideWidth);
+        if (this.startX === null) return;
         
-        // Add resistance at edges
-        let actualTranslate = translateX;
-        const maxTranslate = this.slideWidth * (this.slides.length - 1);
-        if (translateX > 0) {
-          actualTranslate = translateX * 0.3;
-        } else if (Math.abs(translateX) > maxTranslate) {
-          const overScroll = Math.abs(translateX) - maxTranslate;
-          actualTranslate = -maxTranslate + (overScroll * 0.3);
+        this.currentX = e.touches[0].clientX;
+        const diffX = Math.abs(this.currentX - this.startX);
+        
+        // Only start dragging if we've moved more than the minimum distance
+        if (diffX > this.minSwipeDistance) {
+          this.isDragging = true;
+          e.preventDefault(); // Prevent scrolling once we're swiping
+          
+          const translateX = (this.currentX - this.startX) - (this.currentSlide * this.slideWidth);
+          
+          // Add resistance at edges
+          let actualTranslate = translateX;
+          const maxTranslate = this.slideWidth * (this.slides.length - 1);
+          if (translateX > 0) {
+            actualTranslate = translateX * 0.3;
+          } else if (Math.abs(translateX) > maxTranslate) {
+            const overScroll = Math.abs(translateX) - maxTranslate;
+            actualTranslate = -maxTranslate + (overScroll * 0.3);
+          }
+          this.wrapper.style.transform = `translateX(${actualTranslate}%)`;
         }
-        this.wrapper.style.transform = `translateX(${actualTranslate}%)`;
       };
 
-      const handleTouchEnd = () => {
-        if (!this.isDragging) return;
-        this.isDragging = false;
-        if (this.startX === this.currentX) {
-          return;
-        }
-        const diff = this.currentX - this.startX;
-        const threshold = this.slideWidth * 0.2;
-        this.wrapper.style.transition = 'transform 0.3s ease';
-        if (Math.abs(diff) > threshold) {
-          if (diff > 0) {
-            this.goToPrevSlide();
+      const handleTouchEnd = (e) => {
+        if (this.startX === null) return;
+        
+        const diffX = this.currentX - this.startX;
+        
+        // Only handle as a swipe if we were actually dragging
+        if (this.isDragging) {
+          const threshold = this.slideWidth * 0.2;
+          this.wrapper.style.transition = 'transform 0.3s ease';
+          
+          if (Math.abs(diffX) > threshold) {
+            if (diffX > 0) {
+              this.goToPrevSlide();
+            } else {
+              this.goToNextSlide();
+            }
           } else {
-            this.goToNextSlide();
+            this.goToSlide(this.currentSlide);
           }
-        } else {
-          this.goToSlide(this.currentSlide);
+          
+          // Prevent the click if we were dragging
+          e.preventDefault();
+          e.stopPropagation();
         }
+        
+        // Reset everything
+        this.isDragging = false;
+        this.startX = null;
+        this.currentX = null;
+        
         // Reset transition after the swipe
         setTimeout(() => {
           this.wrapper.style.transition = '';
-          this.startX = null;
-          this.currentX = null;
         }, 300);
       };
 
       this.wrapper.addEventListener('touchstart', handleTouchStart, { passive: true });
-      this.wrapper.addEventListener('touchmove', handleTouchMove, { passive: true });
+      this.wrapper.addEventListener('touchmove', handleTouchMove, { passive: false });
       this.wrapper.addEventListener('touchend', handleTouchEnd);
       this.wrapper.addEventListener('touchcancel', handleTouchEnd);
+
+      // Add click handler for links
+      this.slides.forEach(slide => {
+        const link = slide.querySelector('a');
+        if (link) {
+          link.addEventListener('click', (e) => {
+            // Only prevent the click if we were dragging
+            if (this.isDragging) {
+              e.preventDefault();
+            }
+          });
+        }
+      });
     }
 
     setupDesktopNav() {
