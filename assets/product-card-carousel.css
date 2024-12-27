@@ -122,6 +122,7 @@
 
 .dot.active {
     background-color: #333;
+    border-color: white;
 }
 
 /* Maak de dots groter of anders op mobiel */
