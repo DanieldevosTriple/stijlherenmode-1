@@ -365,12 +365,13 @@ class FacetFiltersForm extends HTMLElement {
       this.state.selectedFilters.delete(filterKey);
     }
   
+    // Werk de UI bij met geselecteerde filters
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
   
-    // Apply filters and update the page
+    // Pas filters toe en werk de pagina bij
     this.applySortAndFilters();
-  }   
+  }     
 
   buildQueryParams() {
     const urlParts = [];
@@ -718,8 +719,9 @@ class FacetFiltersForm extends HTMLElement {
     // Verwijder de prijsfilter apart
     if (key === 'price_filter') {
       this.state.selectedFilters.delete('price_filter');
+      // Reset de prijsinvoervelden
       this.querySelectorAll('.facet-range__input').forEach(input => {
-        input.value = ''; // Reset de prijs invoervelden
+        input.value = ''; // Reset de waarde van de prijsinvoervelden
       });
     } else {
       const desktopInput = this.querySelector(`.facets__desktop input[name="${key}"][value="${value}"]`);
