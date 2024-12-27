@@ -124,6 +124,7 @@
     goToSlide(index) {
       console.log("Go to slide", index); // Log slide change
       this.currentSlide = index;
+      this.wrapper.style.transition = 'transform 0.3s ease'; // Ensure smooth transition
       this.wrapper.style.transform = `translateX(${-this.currentSlide * this.slideWidth}%)`;
       this.updateDots();
     }
