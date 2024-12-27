@@ -103,7 +103,8 @@
             </s>
           </span>
         {%- endunless -%}
-        <span class="badge badge--sale"><span>{{ product.compare_at_price_max | minus: product.price | times: 100.0 | divided_by: product.compare_at_price_max | money_without_currency | times: 100 | remove: '.0'}}%</span></span>
+        {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round | append: '%' -%}
+        <span class="badge price__badge-sale color-{{ settings.sale_badge_color_scheme }}">{{ savings }} OFF</span>
         <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
         <span class="price-item price-item--sale price-item--last">
           {{ money_price }}
