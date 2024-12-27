@@ -103,18 +103,9 @@
             </s>
           </span>
         {%- endunless -%}
-        {%- if compare_at_price and compare_at_price > money_price %}
-          {%- assign regular_price = compare_at_price | times: 1 %}
-          {%- assign sale_price = money_price | times: 1 %}
-          {%- assign discount_percentage = regular_price | minus: sale_price %}
-          {%- assign discount_percentage = discount_percentage | times: 100 %}
-          {%- assign discount_percentage = discount_percentage | divided_by: regular_price %}
-          {%- assign discount_percentage = discount_percentage | round %}
-          
-          <span class="price-item price-item--discount">
-            ({{ discount_percentage }}% off)
-          </span>
-        {%- endif -%}
+        {% if product.compare_at_price_max > product.price %}
+          <span class="badge badge--sale"><span>{{ product.compare_at_price_max | minus: product.price | times: 100.0 | divided_by: product.compare_at_price_max | money_without_currency | times: 100 | remove: '.0'}}%</span></span>
+          {% endif %}
         <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
         <span class="price-item price-item--sale price-item--last">
           {{ money_price }}
