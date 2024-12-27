@@ -99,7 +99,7 @@
      }
 
      .hover-red:hover {
-        color: #006fbb;
+        color: #faf7f3;
      }
      
      .index-page li.search {
@@ -153,7 +153,7 @@
 }
 
 .navbar-nav .nav-link:hover {
-    color: #006fbb;
+    color: #faf7f3;
 }
 
 .text-second-menu {
@@ -303,7 +303,7 @@
   }
   
   .mobile-menu .nav-link:hover {
-    color: #006fbb; /* Highlight kleur */
+    color: #faf7f3; /* Highlight kleur */
   }
 
   .menu-secondary {
@@ -339,7 +339,7 @@
         transform: translateY(-50%);
         background-color: black;
         border-radius: 50px;
-        color: #006fbb;
+        color: #faf7f3;
         padding: 0.5px 5px;
         right: 6px;
     }
@@ -365,10 +365,10 @@
     }   
 
 .nav-link.active {
-    color: #006fbb !important;
+    color: #faf7f3 !important;
 }
 
 .cart-link:hover {
     text-decoration: none;
-    color: #006fbb;
+    color: #faf7f3;
 }

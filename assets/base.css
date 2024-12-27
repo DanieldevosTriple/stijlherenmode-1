@@ -2098,8 +2098,8 @@ details-disclosure > details {
   line-height: 1;
   padding: 0.5rem 1.3rem 0.6rem 1.3rem;
   text-align: center;
-  background-color: #006fbb;
-  border-color: #006fbb;
+  background-color: #faf7f3;
+  border-color: #faf7f3;
   color: white;
   word-break: break-word;
 }
@@ -2347,7 +2347,7 @@ details-disclosure > details {
 }
 
 .rte a {
-  color: #006fbb;
+  color: #faf7f3;
   text-underline-offset: 0.3rem;
   text-decoration-thickness: 0.1rem;
   transition: text-decoration-thickness var(--duration-short) ease;
@@ -2598,19 +2598,19 @@ details-disclosure > details {
 }
 
 a:hover {
-  color: #006fbb;
+  color: #faf7f3;
   text-decoration: none;
 }
 
 /* Rood effect voor card__heading bij hover over .card__information */
 .card__information:hover a {
-  color: #006fbb;
+  color: #faf7f3;
   transition: color 0.3s ease;
 }
 
 /* Rood effect voor price-item bij hover over .card__information */
 .card__information:hover .price .price-item {
-  color: #006fbb;
+  color: #faf7f3;
   transition: color 0.3s ease;
 }
 
