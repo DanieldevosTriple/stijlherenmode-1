@@ -27,6 +27,7 @@
 .price-sale-percentage {
   font-weight: 800 !important;
   font-size: 1.5rem !important;
+  color: rgb(97, 97, 97);
 }
 
 .price .price-item {
@@ -100,7 +101,7 @@
 
 .price--on-sale .price-item--regular {
   text-decoration: line-through;
-  color: rgba(var(--color-foreground), 0.75);
+  color: rgb(97, 97, 97);
   font-size: 1.1rem;
 }
 
