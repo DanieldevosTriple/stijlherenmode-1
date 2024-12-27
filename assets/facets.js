@@ -454,7 +454,9 @@ class FacetFiltersForm extends HTMLElement {
 
   updateProductCount() {
     const queryString = this.buildQueryParams();
+    // Adjust the product count URL construction based on the backend structure
     const url = `${window.location.pathname}?section_id=product-count${queryString ? '&' + queryString : ''}`;
+    
     console.log('Fetching product count from URL:', url); // Debugging
   
     fetch(url)
@@ -472,7 +474,7 @@ class FacetFiltersForm extends HTMLElement {
         }
       })
       .catch(error => console.error('Error updating product count:', error));
-  }   
+  }    
 
   initializeFromURL() {
     // Haal de URL-parameters op
