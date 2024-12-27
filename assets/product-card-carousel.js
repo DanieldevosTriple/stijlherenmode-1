@@ -46,31 +46,22 @@
       if (this.validSlidesCount <= 1) {
         console.log('Single or no image detected - hiding navigation');
         
-        // Hide slider navigation with !important
+        // Hide the entire slider navigation
         const sliderNav = this.slider.querySelector('.slider-nav');
         if (sliderNav) {
-          sliderNav.setAttribute('style', 'display: none !important');
+          sliderNav.style.display = 'none';
         }
     
-        // Hide individual elements
+        // Also hide individual elements as fallback
         if (this.dots) {
-          this.dots.setAttribute('style', 'display: none !important');
+          this.dots.style.display = 'none';
+          this.dots.innerHTML = '';
         }
         if (this.prevButton) {
-          this.prevButton.setAttribute('style', 'display: none !important');
-          this.prevButton.disabled = true;
+          this.prevButton.style.display = 'none';
         }
         if (this.nextButton) {
-          this.nextButton.setAttribute('style', 'display: none !important');
-          this.nextButton.disabled = true;
-        }
-    
-        // Remove event listeners
-        if (this.prevButton) {
-          this.prevButton.removeEventListener('click', this.goToPrevSlide);
-        }
-        if (this.nextButton) {
-          this.nextButton.removeEventListener('click', this.goToNextSlide);
+          this.nextButton.style.display = 'none';
         }
     
         // Reset wrapper styles
@@ -86,60 +77,6 @@
       this.setupDesktopNav();
     }
     
-    destroy() {
-      console.log('Destroying slider instance:', this.slider.id);
-      
-      // Store references to the bound event handlers
-      this.prevClickHandler = () => this.goToPrevSlide();
-      this.nextClickHandler = () => this.goToNextSlide();
-      
-      // Remove navigation event listeners
-      if (this.prevButton) {
-        this.prevButton.removeEventListener('click', this.prevClickHandler);
-        this.prevButton.setAttribute('style', 'display: none !important');
-        this.prevButton.disabled = true;
-      }
-      if (this.nextButton) {
-        this.nextButton.removeEventListener('click', this.nextClickHandler);
-        this.nextButton.setAttribute('style', 'display: none !important');
-        this.nextButton.disabled = true;
-      }
-      
-      // Remove touch event listeners
-      if (this.wrapper) {
-        this.wrapper.removeEventListener('touchstart', this.handleTouchStart);
-        this.wrapper.removeEventListener('touchmove', this.handleTouchMove);
-        this.wrapper.removeEventListener('touchend', this.handleTouchEnd);
-        this.wrapper.removeEventListener('touchcancel', this.handleTouchEnd);
-        
-        // Reset wrapper styles
-        this.wrapper.style.transform = '';
-        this.wrapper.style.transition = '';
-      }
-      
-      // Remove dots and their event listeners
-      if (this.dots) {
-        const dots = this.dots.querySelectorAll('.dot');
-        dots.forEach(dot => {
-          dot.removeEventListener('click', this.dotClickHandler);
-        });
-        this.dots.innerHTML = '';
-        this.dots.setAttribute('style', 'display: none !important');
-      }
-    
-      // Hide slider navigation
-      const sliderNav = this.slider.querySelector('.slider-nav');
-      if (sliderNav) {
-        sliderNav.setAttribute('style', 'display: none !important');
-      }
-    
-      // Reset instance variables
-      this.currentSlide = 0;
-      this.isDragging = false;
-      this.startX = null;
-      this.currentX = null;
-    }
-
     createDots() {
       // Only create dots if we have multiple valid slides
       if (this.validSlidesCount <= 1) return;
@@ -152,6 +89,36 @@
         dot.addEventListener('click', () => this.goToSlide(i));
         this.dots.appendChild(dot);
       }
+    }
+
+    destroy() {
+      // Remove event listeners
+      if (this.prevButton) {
+        this.prevButton.removeEventListener('click', () => this.goToPrevSlide());
+      }
+      if (this.nextButton) {
+        this.nextButton.removeEventListener('click', () => this.goToNextSlide());
+      }
+      // Reset styles
+      if (this.wrapper) {
+        this.wrapper.style.transform = '';
+        this.wrapper.style.transition = '';
+      }
+      // Clear dots
+      if (this.dots) {
+        this.dots.innerHTML = '';
+      }
+    }
+
+    createDots() {
+      this.dots.innerHTML = '';
+      this.slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => this.goToSlide(index));
+        this.dots.appendChild(dot);
+      });
     }
 
     setupTouchEvents() {
@@ -312,43 +279,10 @@
     initSliders();
   }
 
-// Handle faceted navigation updates
-document.addEventListener('facets:updated', () => {
-  // First destroy all existing instances
-  sliderInstances.forEach(instance => {
-    instance.destroy();
+  // Handle faceted navigation updates
+  document.addEventListener('facets:updated', () => {
+    setTimeout(() => {
+      initSliders();
+    }, 150); // Slightly longer delay to ensure images are loaded
   });
-  sliderInstances = [];
-
-  // Wait for DOM to be fully updated
-  setTimeout(() => {
-    console.log('Running slider initialization after facet update');
-    // Get only sliders from the newly rendered products
-    const newSliders = document.querySelectorAll('.product-card-media-slider');
-    console.log(`Found ${newSliders.length} new sliders after facet update`);
-    
-    newSliders.forEach(slider => {
-      // Check if slider is fully loaded in DOM
-      const images = slider.querySelectorAll('img.product-card-carousel-image');
-      const areImagesLoaded = Array.from(images).every(img => img.complete);
-      
-      if (areImagesLoaded) {
-        const instance = new Slider(slider);
-        sliderInstances.push(instance);
-      } else {
-        // Wait for images to load
-        Promise.all(Array.from(images).map(img => {
-          if (img.complete) return Promise.resolve();
-          return new Promise(resolve => {
-            img.onload = resolve;
-            img.onerror = resolve;
-          });
-        })).then(() => {
-          const instance = new Slider(slider);
-          sliderInstances.push(instance);
-        });
-      }
-    });
-  }, 200); // Slightly longer delay to ensure old content is removed
-});
 })();
