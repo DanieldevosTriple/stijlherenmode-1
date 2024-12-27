@@ -1,4 +1,3 @@
-// product-card-carousel.js
 (function() {
   class Slider {
     constructor(element) {
@@ -41,6 +40,7 @@
       let isDragging = false;
       
       const handleTouchStart = (e) => {
+        console.log("Touch Start", e.touches[0].clientX); // Log the touch start position
         isDragging = true;
         this.startX = e.touches[0].clientX;
         this.currentX = this.startX;
@@ -49,7 +49,7 @@
 
       const handleTouchMove = (e) => {
         if (!isDragging) return;
-        
+
         this.currentX = e.touches[0].clientX;
         const diffX = this.currentX - this.startX;
         const translateX = diffX - (this.currentSlide * this.slideWidth);
@@ -57,7 +57,7 @@
         // Add resistance at edges
         let actualTranslate = translateX;
         const maxTranslate = this.slideWidth * (this.slides.length - 1);
-        
+
         if (translateX > 0) {
           actualTranslate = translateX * 0.3;
         } else if (Math.abs(translateX) > maxTranslate) {
@@ -65,6 +65,7 @@
           actualTranslate = -maxTranslate + (overScroll * 0.3);
         }
         
+        console.log("Touch Move", actualTranslate); // Log the translated position during move
         this.wrapper.style.transform = `translateX(${actualTranslate}%)`;
       };
 
@@ -72,7 +73,10 @@
         if (!isDragging) return;
         isDragging = false;
         
+        console.log("Touch End"); // Log when touch ends
+        
         if (this.startX === this.currentX) {
+          console.log("No movement detected"); // Log if there was no movement
           return;
         }
 
@@ -82,11 +86,14 @@
 
         if (Math.abs(diff) > threshold) {
           if (diff > 0) {
+            console.log("Swiped Right");
             this.goToPrevSlide();
           } else {
+            console.log("Swiped Left");
             this.goToNextSlide();
           }
         } else {
+          console.log("No threshold crossed, stay on current slide");
           this.goToSlide(this.currentSlide);
         }
 
@@ -115,12 +122,14 @@
     }
 
     goToSlide(index) {
+      console.log("Go to slide", index); // Log slide change
       this.currentSlide = index;
       this.wrapper.style.transform = `translateX(${-this.currentSlide * this.slideWidth}%)`;
       this.updateDots();
     }
 
     goToNextSlide() {
+      console.log("Go to next slide"); // Log next slide
       if (this.currentSlide >= this.slides.length - 1) {
         // Loop back to first slide
         this.currentSlide = 0;
@@ -131,6 +140,7 @@
     }
 
     goToPrevSlide() {
+      console.log("Go to previous slide"); // Log previous slide
       if (this.currentSlide <= 0) {
         // Loop to last slide
         this.currentSlide = this.slides.length - 1;
