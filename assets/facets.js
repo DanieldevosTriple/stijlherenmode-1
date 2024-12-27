@@ -232,11 +232,11 @@ class FacetFiltersForm extends HTMLElement {
       const mobileInput = this.querySelector(
         `.facets__mobile input[name="${filter.key}"][value="${filter.value}"]`
       );
-  
+
       if (desktopInput) desktopInput.checked = true;
       if (mobileInput) mobileInput.checked = true;
     });
-  
+
     // Update UI and apply filters
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
@@ -290,7 +290,6 @@ class FacetFiltersForm extends HTMLElement {
     this.renderPage(queryString);
     this.updateProductCount();
   }
-   
 
   clearFilters() {
     // Add radio reset
@@ -347,8 +346,6 @@ class FacetFiltersForm extends HTMLElement {
     const min = parseInt(minInput.value) || '';
     const max = parseInt(maxInput.value) || '';
   
-    console.log('Price Range Changed:', min, max); // Debug log om de waarden te controleren
-  
     // Prevent min > max scenario
     if (min && max && min > max) {
       if (event.target === minInput) {
@@ -362,7 +359,6 @@ class FacetFiltersForm extends HTMLElement {
   
     // Update de geselecteerde filters voor prijsbereik
     if (min || max) {
-      console.log(`Adding price filter: €${min || '0'} - €${max || '∞'}`); // Debug log voor prijsfilter
       this.state.selectedFilters.set(filterKey, {
         key: filterKey,
         value: `${min}-${max}`,
@@ -370,7 +366,6 @@ class FacetFiltersForm extends HTMLElement {
       });
     } else {
       this.state.selectedFilters.delete(filterKey);
-      console.log('Removing price filter'); // Debug log voor verwijdering van prijsfilter
     }
   
     // Werk de UI bij met geselecteerde filters
@@ -379,7 +374,7 @@ class FacetFiltersForm extends HTMLElement {
   
     // Pas filters toe en werk de pagina bij
     this.applySortAndFilters();
-  }      
+  }         
 
   buildQueryParams() {
     const urlParts = [];
@@ -483,76 +478,74 @@ class FacetFiltersForm extends HTMLElement {
     }
 } 
     
-  initializeFromURL() {
-    // Haal de URL-parameters op
-    const params = new URLSearchParams(window.location.search);
-  
-    // **Initialiseer de huidige sorteerwaarde**
-    const sortBy = params.get('sort_by') || '';
-    this.state.currentSort = sortBy;
-  
-    // Synchroniseer desktop- en mobiele radios voor sortering
-    const desktopInput = this.querySelector(`input[name="sort_by_desktop"][value="${sortBy}"]`);
-    const mobileInput = this.querySelector(`input[name="sort_by_mobile"][value="${sortBy}"]`);
-    
-    if (desktopInput) desktopInput.checked = true;
-    if (mobileInput) mobileInput.checked = true;
-  
-    console.log('Sortering vanuit URL geïnitialiseerd:', this.state.currentSort);
-  
-    // **Initialiseer geselecteerde filters**
-    this.state.selectedFilters = new Map();
-  
-    params.forEach((value, key) => {
-      // Sla prijsfilters apart op
-      if (key === 'filter.v.price.gte' || key === 'filter.v.price.lte') {
-        const filterKey = 'price_filter';
-        const min = params.get('filter.v.price.gte') || '';
-        const max = params.get('filter.v.price.lte') || '';
-        
-        if (min || max) {
-          this.state.selectedFilters.set(filterKey, {
-            key: filterKey,
-            value: `${min}-${max}`,
-            label: `Prijs: €${min || '0'} - €${max || '∞'}`
+    initializeFromURL() {
+      // Haal de URL-parameters op
+      const params = new URLSearchParams(window.location.search);
+
+      // **Initialiseer de huidige sorteerwaarde**
+      const sortBy = params.get('sort_by') || '';
+      this.state.currentSort = sortBy;
+
+      // Synchroniseer desktop- en mobiele radios voor sortering
+      const desktopInput = this.querySelector(`input[name="sort_by_desktop"][value="${sortBy}"]`);
+      const mobileInput = this.querySelector(`input[name="sort_by_mobile"][value="${sortBy}"]`);
+      
+      if (desktopInput) desktopInput.checked = true;
+      if (mobileInput) mobileInput.checked = true;
+
+      console.log('Sortering vanuit URL geïnitialiseerd:', this.state.currentSort);
+
+      // **Initialiseer geselecteerde filters**
+      this.state.selectedFilters = new Map();
+
+      params.forEach((value, key) => {
+        // Sla prijsfilters apart op
+        if (key === 'filter.v.price.gte' || key === 'filter.v.price.lte') {
+          const filterKey = 'price_filter';
+          const min = params.get('filter.v.price.gte') || '';
+          const max = params.get('filter.v.price.lte') || '';
+          
+          if (min || max) {
+            this.state.selectedFilters.set(filterKey, {
+              key: filterKey,
+              value: `${min}-${max}`,
+              label: `Prijs: €${min || '0'} - €${max || '∞'}`
+            });
+          }
+        } else if (key.startsWith('filter.')) {
+          // Verwerk reguliere filters
+          value.split(',').forEach(singleValue => {
+            const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+            if (input) {
+              input.checked = true; // Sync met checkbox
+              const label = this.getFilterLabel(input);
+              if (label) {
+                this.state.selectedFilters.set(`${key}-${singleValue}`, {
+                  key,
+                  value: singleValue,
+                  label
+                });
+              }
+            }
           });
         }
-      } else if (key.startsWith('filter.')) {
-        // Verwerk reguliere filters
-        value.split(',').forEach(singleValue => {
-          const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-          if (input) {
-            input.checked = true; // Sync met checkbox
-            const label = this.getFilterLabel(input);
-            if (label) {
-              this.state.selectedFilters.set(`${key}-${singleValue}`, {
-                key,
-                value: singleValue,
-                label
-              });
-            }
-          }
-        });
-      }
-    });
-  
-    console.log('Geselecteerde filters vanuit URL:', Array.from(this.state.selectedFilters.entries()));
-  
-    // **Update UI met geselecteerde filters**
-    this.renderSelectedFilters();
-    this.updateMobileApplyButton();
-  
-    // **Initialiseer prijsrange inputs**
-    const minPriceInput = this.querySelector('input[name^="min_price"]');
-    const maxPriceInput = this.querySelector('input[name^="max_price"]');
-    const minPrice = params.get('filter.v.price.gte') || '';
-    const maxPrice = params.get('filter.v.price.lte') || '';
-  
-    if (minPriceInput) minPriceInput.value = minPrice;
-    if (maxPriceInput) maxPriceInput.value = maxPrice;
-  
-    console.log('Prijsrange vanuit URL ingesteld: €', minPrice, '-', maxPrice);
-  }   
+      });
+
+      // **Update de UI met geselecteerde filters**
+      this.renderSelectedFilters();
+      this.updateMobileApplyButton();
+
+      // **Initialiseer prijsrange inputs**
+      const minPriceInput = this.querySelector('input[name^="min_price"]');
+      const maxPriceInput = this.querySelector('input[name^="max_price"]');
+      const minPrice = params.get('filter.v.price.gte') || '';
+      const maxPrice = params.get('filter.v.price.lte') || '';
+
+      if (minPriceInput) minPriceInput.value = minPrice;
+      if (maxPriceInput) maxPriceInput.value = maxPrice;
+
+      console.log('Prijsrange vanuit URL ingesteld: €', minPrice, '-', maxPrice);
+    }   
 
    syncFromURL() {
     try {
