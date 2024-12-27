@@ -105,7 +105,7 @@
         {%- endunless -%}
         {%- if compare_at_price and compare_at_price > money_price %}
             <span class="price-item price-item--discount">
-              ({{ compare_at_price | minus: money_price | times: 100 | divided_by: compare_at_price | round }}% off)
+              ({{ compare_at_price | times: 1.0 | minus: money_price | times: 100 | divided_by: compare_at_price | round }}% off)
             </span>
           {%- endif -%}
         <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
