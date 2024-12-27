@@ -103,12 +103,16 @@
             </s>
           </span>
         {%- endunless -%}
+        <div class="regular-price">
         {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round | append: '%' -%}
         <span class="price-sale-percentage">-{{ savings }}</span>
+        </div>
+        <div class="sales-price">
         <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
         <span class="price-item price-item--sale">
           {{ money_price }}
         </span>
+      </div>
       </div>
       
       <small class="unit-price caption{% if product.selected_or_first_available_variant.unit_price_measurement == nil %} hidden{% endif %}">
