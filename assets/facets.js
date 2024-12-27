@@ -469,7 +469,7 @@ class FacetFiltersForm extends HTMLElement {
     } else {
       console.error('Product grid container not found.');
     }
-  }  
+  }   
     
   initializeFromURL() {
     // Haal de URL-parameters op
