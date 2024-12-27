@@ -27,6 +27,7 @@
           <div class="slider-wrapper">
             {%- for media in card_product.media -%}
               <div class="slide" data-slide="{{ forloop.index0 }}">
+                <a href="{{ card_product.url }}?variant={{ variant.id }}" class="product-link">
                 <img
                   srcset="{%- if media.width >= 165 -%}{{ media | img_url: '165x' }} 165w,{%- endif -%}
                   {%- if media.width >= 360 -%}{{ media | img_url: '360x' }} 360w,{%- endif -%}
@@ -43,6 +44,7 @@
                   width="{{ media.width }}"
                   height="{{ media.height }}"
                 >
+                  </a>
               </div>
             {%- endfor -%}
           </div>
