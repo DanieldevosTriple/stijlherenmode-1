@@ -3,10 +3,6 @@
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'custom-product-collection.css' | asset_url | stylesheet_tag }}
 
-{% if section.settings.image_shape == 'blob' %}
-  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
-{%- endif -%}
-
 <script>
   window.products = {};
   {% for product in collections.all.products %}
@@ -65,7 +61,7 @@
       {%- endif -%}
 
       <div
-        class="product-grid-container scroll-trigger animate--slide-in"
+        class="product-grid-container"
         id="ProductGridContainer"
           data-cascade
       >
