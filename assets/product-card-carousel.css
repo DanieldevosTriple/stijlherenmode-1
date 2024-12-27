@@ -134,6 +134,7 @@
 @media (min-width: 992px) {
     .product-card-media-slider img {
         height: 700px;
+        max-height: 700px;
     }
 
     .slider-nav {
