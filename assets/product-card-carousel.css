@@ -88,6 +88,11 @@
     .next {
         right: 10px;
     }
+
+    .featured-products .prev,
+    .featured-products .next {
+        top: unset;
+    }
 }
 
 /* Mobile dots */
