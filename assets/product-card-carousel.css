@@ -117,12 +117,12 @@
     margin: 0 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    border-color: white;
+    border: 1px solid white;
 }
 
 .dot.active {
     background-color: #333;
-    border-color: white;
+    border: 1px solid white;
 }
 
 /* Maak de dots groter of anders op mobiel */
