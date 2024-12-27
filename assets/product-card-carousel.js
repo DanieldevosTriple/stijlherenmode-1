@@ -19,8 +19,6 @@
     }
 
     init() {
-      console.log('Initializing slider:', this.slider);
-      
       // First, get all images that are actually loaded in the slides
       const validSlides = Array.from(this.slides).filter(slide => {
         const image = slide.querySelector('img.product-card-carousel-image');
@@ -30,24 +28,14 @@
                        image.src !== '' && 
                        image.complete &&
                        !image.src.includes('placeholder');
-        
-        console.log('Checking slide:', {
-          slideElement: slide,
-          hasImage: !!image,
-          imageSrc: image?.src,
-          isValid: isValid
-        });
         return isValid;
       });
-    
-      console.log('Valid slides count:', validSlides.length);
     
       // Important: Store the valid slides count
       this.validSlidesCount = validSlides.length;
     
       // If there's only one valid slide or no slides
       if (this.validSlidesCount <= 1) {
-        console.log('Single or no image detected - hiding navigation');
         
         // Hide the entire slider navigation
         const sliderNav = this.slider.querySelector('.slider-nav');
@@ -252,7 +240,6 @@
 
   // Modified initialization function
   function initSliders() {
-    console.log('Initializing sliders...'); // Debug log
     
     // First, cleanup existing instances
     sliderInstances.forEach(instance => {
@@ -262,14 +249,12 @@
 
     // Initialize new instances
     const sliders = document.querySelectorAll('.product-card-media-slider');
-    console.log(`Found ${sliders.length} sliders`); // Debug log
     
     sliders.forEach(slider => {
       // Process each slider independently
       const images = Array.from(slider.querySelectorAll('img.product-card-carousel-image'));
       
       if (images.length === 0) {
-        console.log('No images found in slider:', slider);
         return;
       }
 
@@ -277,7 +262,6 @@
       if (images.every(img => img.complete && img.naturalWidth > 0)) {
         const instance = new Slider(slider);
         sliderInstances.push(instance);
-        console.log('Slider initialized immediately:', slider);
       } else {
         // Wait for just this slider's images
         Promise.all(
@@ -301,7 +285,6 @@
         ).then(() => {
           const instance = new Slider(slider);
           sliderInstances.push(instance);
-          console.log('Slider initialized after loading:', slider);
         });
       }
     });
@@ -309,7 +292,6 @@
 
   // Initialize sliders progressively after grid updates
   document.addEventListener('product-grid:updated', () => {
-    console.log('Product grid updated - initializing sliders progressively');
     
     // Small delay to ensure initial DOM is updated
     setTimeout(() => {
