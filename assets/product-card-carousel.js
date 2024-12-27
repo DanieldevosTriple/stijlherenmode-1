@@ -308,5 +308,4 @@
     // Trigger the same initialization process
     document.dispatchEvent(new CustomEvent('product-grid:updated'));
   });
-
 })();
