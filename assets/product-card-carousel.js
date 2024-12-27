@@ -15,7 +15,8 @@
     init() {
       if (this.slides.length <= 1) return;
       
-      // Create dots
+      // Create dots based on the number of slides
+      this.dots.innerHTML = ''; // Clear any existing dots
       this.slides.forEach((_, index) => {
         const dot = document.createElement('div');
         dot.classList.add('dot');
@@ -31,7 +32,7 @@
         this.wrapper.style.transition = 'none';
       }, { passive: false });
 
-      // Move
+      // Move event
       this.wrapper.addEventListener('touchmove', (e) => {
         e.preventDefault();
         if (!this.startX) return;
@@ -52,7 +53,7 @@
         this.wrapper.style.transform = `translateX(${actualTranslate}%)`;
       }, { passive: false });
 
-      // End
+      // End event
       this.wrapper.addEventListener('touchend', () => {
         if (!this.startX || this.startX === this.currentX) return;
 
