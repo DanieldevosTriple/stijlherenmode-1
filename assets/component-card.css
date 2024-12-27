@@ -120,6 +120,7 @@
   grid-template-rows: minmax(0, 1fr) max-content minmax(0, 1fr);
   width: 100%;
   flex-grow: 1;
+  padding-top: 1rem;
 }
 
 .card__content--auto-margins {
