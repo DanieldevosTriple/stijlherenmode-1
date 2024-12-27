@@ -237,7 +237,7 @@
   // Modified initialization function
   function initSliders() {
     console.log('Initializing sliders...'); // Debug log
-
+    
     // First, cleanup existing instances
     sliderInstances.forEach(instance => {
       instance.destroy();
@@ -247,12 +247,12 @@
     // Initialize new instances
     const sliders = document.querySelectorAll('.product-card-media-slider');
     console.log(`Found ${sliders.length} sliders`); // Debug log
-
+    
     sliders.forEach(slider => {
       // Check if slider is fully loaded in DOM
       const images = slider.querySelectorAll('img');
       const areImagesLoaded = Array.from(images).every(img => img.complete);
-
+      
       if (areImagesLoaded) {
         const instance = new Slider(slider);
         sliderInstances.push(instance);
@@ -275,11 +275,11 @@
   // Initialize sliders only after grid updates
   document.addEventListener('product-grid:updated', () => {
     console.log('Product grid updated - waiting for images before initializing sliders');
-
+    
     // Small delay to ensure DOM is updated
     setTimeout(() => {
       const sliders = document.querySelectorAll('.product-card-media-slider');
-      const allImages = Array.from(sliders).flatMap(slider =>
+      const allImages = Array.from(sliders).flatMap(slider => 
         Array.from(slider.querySelectorAll('img.product-card-carousel-image'))
       );
 
