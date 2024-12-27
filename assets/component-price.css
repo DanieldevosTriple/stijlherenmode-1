@@ -18,6 +18,12 @@
   text-align: right;
 }
 
+.price-item--sale {
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: red;
+}
+
 .price .price-item {
   display: inline-block;
   margin: 0 1rem 0 0;

@@ -103,11 +103,17 @@
             </s>
           </span>
         {%- endunless -%}
+        {%- if compare_at_price and compare_at_price > money_price %}
+          <span class="price-item price-item--discount">
+            ({{ ((compare_at_price - money_price) / compare_at_price) | times: 100 | round }}% off)
+          </span>
+        {%- endif -%}
         <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
         <span class="price-item price-item--sale price-item--last">
           {{ money_price }}
         </span>
       </div>
+      
       <small class="unit-price caption{% if product.selected_or_first_available_variant.unit_price_measurement == nil %} hidden{% endif %}">
         <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
         <span class="price-item price-item--last">
