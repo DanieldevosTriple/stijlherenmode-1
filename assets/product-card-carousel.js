@@ -19,22 +19,31 @@
       console.log('Initializing slider:', this.slider);
       // Get actual slides (not empty ones)
       const actualSlides = Array.from(this.slides).filter(slide => {
-        const hasImage = slide.querySelector('img');
-        const hasContent = slide.innerText.trim() !== '';
-        console.log('Slide content:', { hasImage, hasContent });
-        return hasImage || hasContent;
+        const image = slide.querySelector('img');
+        // Only count slides that have a loaded image
+        const hasValidImage = image && image.src && image.src !== '';
+        console.log('Slide content:', { hasValidImage, imageSrc: image?.src });
+        return hasValidImage;
       });
-
+    
       console.log('Actual slides count:', actualSlides.length);
-
+    
       if (actualSlides.length <= 1) {
         // Hide dots and navigation if there is 1 or fewer slides
-        if (this.dots) this.dots.style.display = 'none';
-        if (this.prevButton) this.prevButton.style.display = 'none';
-        if (this.nextButton) this.nextButton.style.display = 'none';
+        if (this.dots) {
+          this.dots.style.display = 'none';
+        }
+        if (this.prevButton) {
+          this.prevButton.style.display = 'none';
+          this.prevButton.setAttribute('aria-hidden', 'true');
+        }
+        if (this.nextButton) {
+          this.nextButton.style.display = 'none';
+          this.nextButton.setAttribute('aria-hidden', 'true');
+        }
         return;
       }
-
+    
       // Create dots and setup navigation only if there are more than 1 slide
       this.createDots();
       this.setupTouchEvents();
