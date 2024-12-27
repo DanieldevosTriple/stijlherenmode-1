@@ -125,7 +125,7 @@
 
   .footer {
     border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
-    background-color: black;
+    background-color: #faf7f3;
     padding-top: 5rem;
     padding-bottom: 5rem;
     display: grid;
