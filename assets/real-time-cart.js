@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
       const desktopCartLink = document.querySelector('.d-none.d-lg-block .cart-link');
       if (desktopCartLink) {
         if (cartItemCount > 0) {
-          desktopCartLink.innerHTML = `{{ 'cart' | t }} (${cartItemCount})`;
+          desktopCartLink.innerHTML = `Winkelwagen (${cartItemCount})`;
         } else {
-          desktopCartLink.innerHTML = `{{ 'cart' | t }}`;
+          desktopCartLink.innerHTML = `Winkelwagen`;
         }
       }
 
