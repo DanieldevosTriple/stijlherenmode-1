@@ -154,3 +154,12 @@
         /* Square aspect ratio for mobile */
     }
 }
+
+.featured-products .product-card-media-slider {
+    position: relative;
+    width: 100%;
+    /* Add aspect ratio container */
+    aspect-ratio: 8 / 9;
+    /* You can adjust this ratio as needed */
+    overflow: hidden;
+}
