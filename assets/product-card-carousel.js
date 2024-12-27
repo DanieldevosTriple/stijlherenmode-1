@@ -74,6 +74,7 @@
         isDragging = false;
         
         console.log("Touch End"); // Log when touch ends
+        console.log("StartX:", this.startX, "CurrentX:", this.currentX); // Log start and end position
         
         if (this.startX === this.currentX) {
           console.log("No movement detected"); // Log if there was no movement
@@ -125,6 +126,7 @@
       console.log("Go to slide", index); // Log slide change
       this.currentSlide = index;
       this.wrapper.style.transition = 'transform 0.3s ease'; // Ensure smooth transition
+      console.log("Setting transform to", `translateX(${-this.currentSlide * this.slideWidth}%)`); // Log the transform value
       this.wrapper.style.transform = `translateX(${-this.currentSlide * this.slideWidth}%)`;
       this.updateDots();
     }
@@ -137,6 +139,7 @@
       } else {
         this.currentSlide++;
       }
+      console.log("Next Slide:", this.currentSlide); // Log current slide after increment
       this.goToSlide(this.currentSlide);
     }
 
@@ -148,6 +151,7 @@
       } else {
         this.currentSlide--;
       }
+      console.log("Prev Slide:", this.currentSlide); // Log current slide after decrement
       this.goToSlide(this.currentSlide);
     }
 
