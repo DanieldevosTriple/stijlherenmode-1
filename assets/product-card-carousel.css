@@ -131,7 +131,8 @@
 /* Maak de dots groter of anders op mobiel */
 @media (max-width: 768px) {
     .dot {
-        width: 15px;
-        height: 15px;
+        width: 10px;
+        height: 10px;
+        display: block;
     }
 }
