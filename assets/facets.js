@@ -458,7 +458,7 @@ class FacetFiltersForm extends HTMLElement {
     
     // If the product grid exists, count the number of product cards
     if (productGrid) {
-      const productCards = productGrid.querySelectorAll('.product-card'); // Adjust the selector to match your product card class
+      const productCards = productGrid.querySelectorAll('.product-article'); // Adjust the selector to match your product card class
       const countContainer = document.querySelector('.product-count');
       
       // If the count container exists, update it with the count
