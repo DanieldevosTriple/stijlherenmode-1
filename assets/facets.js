@@ -284,22 +284,9 @@ class FacetFiltersForm extends HTMLElement {
     const queryString = this.buildQueryParams();
     console.log('Query string:', queryString);
     this.updateURLHash(queryString);
-    
-    // If renderPage returns a Promise
-    if (this.renderPage(queryString).then) {
-        this.renderPage(queryString).then(() => {
-            console.log('Page rendered, dispatching facets:updated');
-            document.dispatchEvent(new CustomEvent('facets:updated'));
-            this.updateProductCount();
-        });
-    } else {
-        // If renderPage is synchronous
-        this.renderPage(queryString);
-        console.log('Page rendered, dispatching facets:updated');
-        document.dispatchEvent(new CustomEvent('facets:updated'));
-        this.updateProductCount();
-    }
-  }
+    this.renderPage(queryString);
+    this.updateProductCount();
+  }  
 
   clearFilters() {
     // Add radio reset
