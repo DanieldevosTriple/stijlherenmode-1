@@ -24,6 +24,7 @@ class FacetFiltersForm extends HTMLElement {
     const priceInputs = this.querySelectorAll('.facet-range__input');
     priceInputs.forEach(input => {
       input.addEventListener('change', this.debouncedOnChange);
+      // Bind the correct context for validatePriceInput
       input.addEventListener('input', (e) => this.validatePriceInput(e));
     });
 
@@ -74,6 +75,54 @@ class FacetFiltersForm extends HTMLElement {
         }
       }
     });
+  }
+
+// Add the validatePriceInput method to your class
+validatePriceInput(event) {
+  const input = event.target;
+  
+  // Remove any non-numeric characters except decimal point
+  let value = input.value.replace(/[^\d.]/g, '');
+  
+  // Ensure only one decimal point
+  const decimalPoints = value.match(/\./g)?.length || 0;
+  if (decimalPoints > 1) {
+    value = value.replace(/\./g, (match, index) => index === value.indexOf('.') ? match : '');
+  }
+  
+  // Prevent negative values
+  value = Math.max(0, Number(value));
+  
+  // Format to 2 decimal places if there's a decimal point
+  if (value.toString().includes('.')) {
+    value = parseFloat(value).toFixed(2);
+  }
+  
+  // Update input value
+  input.value = value;
+  
+  // Get min/max inputs
+  const isMinInput = input.name.startsWith('min_');
+  const container = input.closest('.facet-range');
+  const minInput = container.querySelector('input[name^="min_"]');
+  const maxInput = container.querySelector('input[name^="max_"]');
+  
+  // Validate min/max relationship
+  if (minInput && maxInput) {
+    const minValue = parseFloat(minInput.value) || 0;
+    const maxValue = parseFloat(maxInput.value) || Infinity;
+    
+    if (isMinInput && maxValue !== Infinity && minValue > maxValue) {
+      input.value = maxValue;
+    } else if (!isMinInput && minValue !== 0 && maxValue < minValue) {
+      input.value = minValue;
+    }
+  }
+  
+  // Trigger the debounced onChange if this was a direct user input
+  if (event.inputType) {
+    this.debouncedOnChange(event);
+  }
   }
 
   handleSortChange(event) {
