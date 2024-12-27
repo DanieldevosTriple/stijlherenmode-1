@@ -106,7 +106,7 @@
         {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round | append: '%' -%}
         <span class="price-sale-percentage">-{{ savings }}</span>
         <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
-        <span class="price-item price-item--sale price-item--last">
+        <span class="price-item price-item--sale">
           {{ money_price }}
         </span>
       </div>
