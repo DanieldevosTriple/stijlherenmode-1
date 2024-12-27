@@ -2598,19 +2598,19 @@ details-disclosure > details {
 }
 
 a:hover {
-  color: #faf7f3;
+  color: #a59580;
   text-decoration: none;
 }
 
 /* Rood effect voor card__heading bij hover over .card__information */
 .card__information:hover a {
-  color: #faf7f3;
+  color: #a59580;
   transition: color 0.3s ease;
 }
 
 /* Rood effect voor price-item bij hover over .card__information */
 .card__information:hover .price .price-item {
-  color: #faf7f3;
+  color: #a59580;
   transition: color 0.3s ease;
 }
 
