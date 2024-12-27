@@ -279,30 +279,84 @@
     initSliders();
   }
 
-  // Handle product grid updates from faceted navigation
-  document.addEventListener('product-grid:updated', () => {
-    // Wait for images to be loaded before initializing sliders
-    const sliders = document.querySelectorAll('.product-card-media-slider');
-    const allImages = Array.from(sliders).flatMap(slider => 
-      Array.from(slider.querySelectorAll('img.product-card-carousel-image'))
-    );
-
-    // If no images, don't proceed
-    if (allImages.length === 0) return;
-
-    // Wait for all images to load or error out
-    Promise.all(
-      allImages.map(img => {
-        if (img.complete) return Promise.resolve();
-        return new Promise(resolve => {
-          img.onload = resolve;
-          img.onerror = resolve;
+  (function() {
+    let sliderInstances = []; // Array to store slider instances
+  
+    // [Previous Slider class code stays exactly the same]
+  
+    // Modified initialization function
+    function initSliders() {
+      console.log('Initializing sliders...'); // Debug log
+      
+      // First, cleanup existing instances
+      sliderInstances.forEach(instance => {
+        instance.destroy();
+      });
+      sliderInstances = [];
+  
+      // Initialize new instances
+      const sliders = document.querySelectorAll('.product-card-media-slider');
+      console.log(`Found ${sliders.length} sliders`); // Debug log
+      
+      sliders.forEach(slider => {
+        // Check if slider is fully loaded in DOM
+        const images = slider.querySelectorAll('img');
+        const areImagesLoaded = Array.from(images).every(img => img.complete);
+        
+        if (areImagesLoaded) {
+          const instance = new Slider(slider);
+          sliderInstances.push(instance);
+        } else {
+          // Wait for images to load
+          Promise.all(Array.from(images).map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise(resolve => {
+              img.onload = resolve;
+              img.onerror = resolve;
+            });
+          })).then(() => {
+            const instance = new Slider(slider);
+            sliderInstances.push(instance);
+          });
+        }
+      });
+    }
+  
+    // Initialize sliders only after grid updates
+    document.addEventListener('product-grid:updated', () => {
+      console.log('Product grid updated - waiting for images before initializing sliders');
+      
+      // Small delay to ensure DOM is updated
+      setTimeout(() => {
+        const sliders = document.querySelectorAll('.product-card-media-slider');
+        const allImages = Array.from(sliders).flatMap(slider => 
+          Array.from(slider.querySelectorAll('img.product-card-carousel-image'))
+        );
+  
+        if (allImages.length === 0) {
+          console.log('No images found to initialize');
+          return;
+        }
+  
+        Promise.all(
+          allImages.map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise(resolve => {
+              img.onload = resolve;
+              img.onerror = resolve;
+            });
+          })
+        ).then(() => {
+          console.log('All images loaded - initializing sliders');
+          initSliders();
         });
-      })
-    ).then(() => {
-      // Initialize sliders after all images are loaded
-      initSliders();
-      console.log('Sliders initialized after product grid update');
+      }, 50);
     });
-  });
+  
+    // Also handle initial page load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Trigger the same initialization process
+      document.dispatchEvent(new CustomEvent('product-grid:updated'));
+    });
+  })();
 })();
