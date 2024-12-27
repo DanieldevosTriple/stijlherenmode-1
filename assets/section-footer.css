@@ -62,14 +62,14 @@
 
 .footer-block__heading {
   text-transform: uppercase;
-  color: white;
+  color: black;
   text-align: left;
   font-weight: 300;
 }
 
 .footer-block__heading-newsletter {
   text-transform: uppercase;
-  color: white !important;
+  color: black !important;
   text-align: left;
   padding-bottom: 2rem;
 }
@@ -694,7 +694,7 @@
 
 .newsletter-form__button {
   background-color: white;
-  border: 2px solid white;
+  border: 2px solid black;
   color: black;
   padding: 10px 50px;
   text-align: center;
