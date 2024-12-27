@@ -14,9 +14,6 @@
     assign variant_color = variant.options | first
     assign variant_color_downcase = variant_color | downcase
     assign variant_images = card_product.media | where: 'alt', variant_color_downcase
-    assign current_date = 'now' | date: "%s"  # Current timestamp
-    assign product_created_date = card_product.created_at | date: "%s" # Product created timestamp
-    assign new_product_threshold = 30 * 86400  # 30 days in seconds
   -%}
     <!-- product-card-carousel.liquid -->
   <div class="product-card">
@@ -69,13 +66,21 @@
     </div>
   </div>
 
-    <!-- Add badges section -->
-    <div class="product-badges">
-      {%- if card_product.compare_at_price > card_product.price -%}
-        <span class="badge badge-sale">{{ 'Sale' | t }}</span>
-      {%- endif -%}
-      {%- if current_date | minus: product_created_date < new_product_threshold -%}
-        <span class="badge badge-new">{{ 'New' | t }}</span>
+    <div class="card__badge {{ settings.badge_position }}">
+      {%- if card_product.available == false -%}
+        <span
+          id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
+          class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
+        >
+          {{- 'products.product.sold_out' | t -}}
+        </span>
+      {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+        <span
+          id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
+          class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
+        >
+          {{- 'products.product.on_sale' | t -}}
+        </span>
       {%- endif -%}
     </div>
 
