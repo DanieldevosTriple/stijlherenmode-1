@@ -14,7 +14,6 @@
 {{ 'product-card-carousel.css' | asset_url | stylesheet_tag }}
 {{ 'product-card-carousel.js' | asset_url | script_tag }}
 
-{%- if variant and variant != empty -%}
   {%- liquid
     assign ratio = 1
     assign variant_color = variant.options | first
@@ -77,4 +76,3 @@
           </div>
         </div>
   </div>
-{%- endif -%}
