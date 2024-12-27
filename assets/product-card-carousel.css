@@ -133,6 +133,6 @@
     .dot {
         width: 10px;
         height: 10px;
-        display: block;
+        display: block !important;
     }
 }
