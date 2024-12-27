@@ -17,39 +17,66 @@
 
     init() {
       console.log('Initializing slider:', this.slider);
-      // Get actual slides (not empty ones)
-      const actualSlides = Array.from(this.slides).filter(slide => {
-        const image = slide.querySelector('img');
-        // Only count slides that have a loaded image
-        const hasValidImage = image && image.src && image.src !== '';
-        console.log('Slide content:', { hasValidImage, imageSrc: image?.src });
-        return hasValidImage;
+      
+      // First, get all images that are actually loaded in the slides
+      const validSlides = Array.from(this.slides).filter(slide => {
+        const image = slide.querySelector('img.product-card-carousel-image');
+        // Check if the image exists, has a source, and is loaded
+        const isValid = image && 
+                       image.src && 
+                       image.src !== '' && 
+                       image.complete &&
+                       !image.src.includes('placeholder');
+        
+        console.log('Checking slide:', {
+          slideElement: slide,
+          hasImage: !!image,
+          imageSrc: image?.src,
+          isValid: isValid
+        });
+        return isValid;
       });
     
-      console.log('Actual slides count:', actualSlides.length);
+      console.log('Valid slides count:', validSlides.length);
     
-      if (actualSlides.length <= 1) {
-        // Hide dots and navigation if there is 1 or fewer slides
+      // Important: Store the valid slides count
+      this.validSlidesCount = validSlides.length;
+    
+      // If there's only one valid slide or no slides
+      if (this.validSlidesCount <= 1) {
+        console.log('Single or no image detected - hiding navigation');
+        
+        // Hide the entire slider navigation
+        const sliderNav = this.slider.querySelector('.slider-nav');
+        if (sliderNav) {
+          sliderNav.style.display = 'none';
+        }
+    
+        // Also hide individual elements as fallback
         if (this.dots) {
           this.dots.style.display = 'none';
+          this.dots.innerHTML = '';
         }
         if (this.prevButton) {
           this.prevButton.style.display = 'none';
-          this.prevButton.setAttribute('aria-hidden', 'true');
         }
         if (this.nextButton) {
           this.nextButton.style.display = 'none';
-          this.nextButton.setAttribute('aria-hidden', 'true');
+        }
+    
+        // Reset wrapper styles
+        if (this.wrapper) {
+          this.wrapper.style.transform = 'none';
         }
         return;
       }
     
-      // Create dots and setup navigation only if there are more than 1 slide
+      // Only continue with slider setup if we have multiple valid slides
       this.createDots();
       this.setupTouchEvents();
       this.setupDesktopNav();
     }
-
+    
     destroy() {
       // Remove event listeners
       if (this.prevButton) {
@@ -70,14 +97,17 @@
     }
 
     createDots() {
+      // Only create dots if we have multiple valid slides
+      if (this.validSlidesCount <= 1) return;
+      
       this.dots.innerHTML = '';
-      this.slides.forEach((_, index) => {
+      for (let i = 0; i < this.validSlidesCount; i++) {
         const dot = document.createElement('div');
         dot.classList.add('dot');
-        if (index === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => this.goToSlide(index));
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => this.goToSlide(i));
         this.dots.appendChild(dot);
-      });
+      }
     }
 
     setupTouchEvents() {
