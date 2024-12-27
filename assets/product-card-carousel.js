@@ -46,22 +46,31 @@
       if (this.validSlidesCount <= 1) {
         console.log('Single or no image detected - hiding navigation');
         
-        // Hide the entire slider navigation
+        // Hide slider navigation with !important
         const sliderNav = this.slider.querySelector('.slider-nav');
         if (sliderNav) {
-          sliderNav.style.display = 'none';
+          sliderNav.setAttribute('style', 'display: none !important');
         }
     
-        // Also hide individual elements as fallback
+        // Hide individual elements
         if (this.dots) {
-          this.dots.style.display = 'none';
-          this.dots.innerHTML = '';
+          this.dots.setAttribute('style', 'display: none !important');
         }
         if (this.prevButton) {
-          this.prevButton.style.display = 'none';
+          this.prevButton.setAttribute('style', 'display: none !important');
+          this.prevButton.disabled = true;
         }
         if (this.nextButton) {
-          this.nextButton.style.display = 'none';
+          this.nextButton.setAttribute('style', 'display: none !important');
+          this.nextButton.disabled = true;
+        }
+    
+        // Remove event listeners
+        if (this.prevButton) {
+          this.prevButton.removeEventListener('click', this.goToPrevSlide);
+        }
+        if (this.nextButton) {
+          this.nextButton.removeEventListener('click', this.goToNextSlide);
         }
     
         // Reset wrapper styles
@@ -78,22 +87,57 @@
     }
     
     destroy() {
-      // Remove event listeners
+      console.log('Destroying slider instance:', this.slider.id);
+      
+      // Store references to the bound event handlers
+      this.prevClickHandler = () => this.goToPrevSlide();
+      this.nextClickHandler = () => this.goToNextSlide();
+      
+      // Remove navigation event listeners
       if (this.prevButton) {
-        this.prevButton.removeEventListener('click', () => this.goToPrevSlide());
+        this.prevButton.removeEventListener('click', this.prevClickHandler);
+        this.prevButton.setAttribute('style', 'display: none !important');
+        this.prevButton.disabled = true;
       }
       if (this.nextButton) {
-        this.nextButton.removeEventListener('click', () => this.goToNextSlide());
+        this.nextButton.removeEventListener('click', this.nextClickHandler);
+        this.nextButton.setAttribute('style', 'display: none !important');
+        this.nextButton.disabled = true;
       }
-      // Reset styles
+      
+      // Remove touch event listeners
       if (this.wrapper) {
+        this.wrapper.removeEventListener('touchstart', this.handleTouchStart);
+        this.wrapper.removeEventListener('touchmove', this.handleTouchMove);
+        this.wrapper.removeEventListener('touchend', this.handleTouchEnd);
+        this.wrapper.removeEventListener('touchcancel', this.handleTouchEnd);
+        
+        // Reset wrapper styles
         this.wrapper.style.transform = '';
         this.wrapper.style.transition = '';
       }
-      // Clear dots
+      
+      // Remove dots and their event listeners
       if (this.dots) {
+        const dots = this.dots.querySelectorAll('.dot');
+        dots.forEach(dot => {
+          dot.removeEventListener('click', this.dotClickHandler);
+        });
         this.dots.innerHTML = '';
+        this.dots.setAttribute('style', 'display: none !important');
       }
+    
+      // Hide slider navigation
+      const sliderNav = this.slider.querySelector('.slider-nav');
+      if (sliderNav) {
+        sliderNav.setAttribute('style', 'display: none !important');
+      }
+    
+      // Reset instance variables
+      this.currentSlide = 0;
+      this.isDragging = false;
+      this.startX = null;
+      this.currentX = null;
     }
 
     createDots() {
