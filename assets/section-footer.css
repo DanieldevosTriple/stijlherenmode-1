@@ -1,6 +1,6 @@
 .footer {
   border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
-  background-color: black;
+  background-color: #faf7f3;
   padding-top: 3rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -9,7 +9,7 @@
 
 .footer-block__heading__menu {
   text-transform: uppercase;
-  color: white !important;
+  color: black !important;
   text-align: left;
   font-weight: 200;
   font-size: 1.7rem !important;
@@ -267,7 +267,7 @@
     cursor: pointer;
     font-size: 2rem !important;
     font-weight: 500 !important;
-    color: white !important;
+    color: black !important;
     padding-top: 20px;
   }
 
@@ -725,19 +725,21 @@
   text-transform: uppercase;
   font-weight: 600;
   text-align: left;
-  background-color: black;
+  background-color: #faf7f3;
   border: 2px solid white;
-  color: white;
+  color: black;
   border-radius: 0px;
 }
 
 .disclaimer {
   padding: 1rem 0rem;
   max-width: 600px;
+  color: black;
 }
 
 .footer-column-description {
   font-family: TradeGothicLT, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
+  color: black;
 }
