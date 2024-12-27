@@ -111,11 +111,12 @@
 .dot {
     width: 10px;
     height: 10px;
-    background-color: #ccc;
+    background-color: black;
     border-radius: 50%;
     margin: 0 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    color: white;
 }
 
 .dot.active {
@@ -138,6 +139,6 @@
     }
 
     .slider-nav {
-        bottom: 350px;
+        bottom: 300px;
     }
 }
