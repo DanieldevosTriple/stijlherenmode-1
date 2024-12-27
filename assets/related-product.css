@@ -7,7 +7,6 @@
 }
 
 .product__price {
-    font-size: 1.5rem;
     color: grey;
     text-decoration: none;
     font-weight: 300;
@@ -22,7 +21,6 @@
 
 .product__vendor {
     text-decoration: none;
-    font-size: 1.3rem;
     color: grey;
     text-transform: uppercase;
     font-family: TradeGothicLT;
