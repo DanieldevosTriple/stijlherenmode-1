@@ -373,16 +373,12 @@ class FacetFiltersForm extends HTMLElement {
   }  
 
   buildQueryParams() {
-    console.log('Current sort state:', this.state.currentSort); // Debug de sorteerwaarde
+    const urlParts = [];
   
-    const urlParts = []; // Correcte variabele
-  
+    // Add the sort if it's set
     if (this.state.currentSort) {
       urlParts.push(`sort_by=${encodeURIComponent(this.state.currentSort)}`);
     }
-
-    // Voeg debuglog toe om geselecteerde filters te bekijken
-    console.log('Selected filters:', Array.from(this.state.selectedFilters.entries())); 
   
     const groupedParams = {};
     this.state.selectedFilters.forEach(filter => {
@@ -398,6 +394,9 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
   
+    // Log to see the selected filters and their corresponding params
+    console.log('Selected filters to build query:', Array.from(this.state.selectedFilters.entries()));
+  
     Object.entries(groupedParams).forEach(([key, values]) => {
       const encodedKey = encodeURIComponent(key);
       if (Array.isArray(values)) {
@@ -408,9 +407,15 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
   
-    console.log('Built query params:', urlParts.join('&')); // Debug de uiteindelijke querystring
-    return urlParts.join('&');
-  }   
+    // Check if URL parts are empty before generating the final query string
+    const queryString = urlParts.join('&');
+    if (queryString) {
+      console.log('Built query params:', queryString); // Debugging
+      return queryString;
+    } else {
+      return ''; // Return an empty string if no filters
+    }
+  }    
 
   getSelectedFiltersFromURL() {
     const filters = new Map();
@@ -448,9 +453,10 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   updateProductCount() {
-    const url = `${window.location.pathname}?section_id=product-count&${this.buildQueryParams()}`;
+    const queryString = this.buildQueryParams();
+    const url = `${window.location.pathname}?section_id=product-count${queryString ? '&' + queryString : ''}`;
     console.log('Fetching product count from URL:', url); // Debugging
-    
+  
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error('Failed to fetch product count');
@@ -466,7 +472,7 @@ class FacetFiltersForm extends HTMLElement {
         }
       })
       .catch(error => console.error('Error updating product count:', error));
-  }  
+  }   
 
   initializeFromURL() {
     // Haal de URL-parameters op
