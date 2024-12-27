@@ -16,11 +16,16 @@
     }
 
     init() {
+      console.log('Initializing slider:', this.slider);
       // Get actual slides (not empty ones)
       const actualSlides = Array.from(this.slides).filter(slide => {
-        // Check if the slide has actual content (image)
-        return slide.querySelector('img') || slide.innerText.trim() !== '';
+        const hasImage = slide.querySelector('img');
+        const hasContent = slide.innerText.trim() !== '';
+        console.log('Slide content:', { hasImage, hasContent });
+        return hasImage || hasContent;
       });
+
+      console.log('Actual slides count:', actualSlides.length);
 
       if (actualSlides.length <= 1) {
         // Hide dots and navigation if there is 1 or fewer slides
@@ -181,6 +186,8 @@
 
   // Modified initialization function
   function initSliders() {
+    console.log('Initializing sliders...'); // Debug log
+    
     // First, cleanup existing instances
     sliderInstances.forEach(instance => {
       instance.destroy();
@@ -188,9 +195,30 @@
     sliderInstances = [];
 
     // Initialize new instances
-    document.querySelectorAll('.product-card-media-slider').forEach(slider => {
-      const instance = new Slider(slider);
-      sliderInstances.push(instance);
+    const sliders = document.querySelectorAll('.product-card-media-slider');
+    console.log(`Found ${sliders.length} sliders`); // Debug log
+    
+    sliders.forEach(slider => {
+      // Check if slider is fully loaded in DOM
+      const images = slider.querySelectorAll('img');
+      const areImagesLoaded = Array.from(images).every(img => img.complete);
+      
+      if (areImagesLoaded) {
+        const instance = new Slider(slider);
+        sliderInstances.push(instance);
+      } else {
+        // Wait for images to load
+        Promise.all(Array.from(images).map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve;
+          });
+        })).then(() => {
+          const instance = new Slider(slider);
+          sliderInstances.push(instance);
+        });
+      }
     });
   }
 
@@ -201,11 +229,10 @@
     initSliders();
   }
 
-  // Modified event listener with delay
+  // Handle faceted navigation updates
   document.addEventListener('facets:updated', () => {
-    // Wait for DOM to be updated with new products
     setTimeout(() => {
       initSliders();
-    }, 100); // Small delay to ensure DOM is updated
+    }, 150); // Slightly longer delay to ensure images are loaded
   });
 })();
