@@ -4,6 +4,14 @@
     object-fit: cover;
 }
 
+@media screen and (min-weight: 992px) {
+    .product-card-media-slider img {
+        height: 700px;
+        display: block;
+        object-fit: cover;
+    }
+}
+
 /* product-card-carousel.css */
 .product-card-media-slider {
     position: relative;
