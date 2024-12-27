@@ -586,15 +586,21 @@ class FacetFiltersForm extends HTMLElement {
     );
   }  
 
+  // Voeg dit toe aan je facets.js
   async renderPage(searchParams) {
-    console.log('Rendering page with params:', searchParams);
     if (this.state.loading) return;
-  
+
     try {
+      // Voeg loading class toe
+      const gridContainer = document.getElementById('ProductGridContainer');
+      if (gridContainer) {
+        gridContainer.classList.add('is-loading');
+      }
+
       this.state.loading = true;
       const sections = this.getSections();
       console.log('Sections to render:', sections);
-  
+
       await Promise.all(
         sections.map(section => {
           const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
@@ -602,7 +608,12 @@ class FacetFiltersForm extends HTMLElement {
           return this.renderSectionFromFetch(url);
         })
       );
-  
+
+      // Verwijder loading class
+      if (gridContainer) {
+        gridContainer.classList.remove('is-loading');
+      }
+
       this.state.loading = false;
     } catch (error) {
       console.error('Error rendering page:', error);
