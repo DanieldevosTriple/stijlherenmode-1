@@ -462,14 +462,18 @@ class FacetFiltersForm extends HTMLElement {
       const productCards = productGrid.querySelectorAll('.product-article'); // Adjust the selector to match your product card class
       const countContainer = document.querySelector('.product-count');
       
-      // If the count container exists, update it with the count
-      if (countContainer) {
-        countContainer.innerHTML = `${productCards.length} products`;
-      }
-    } else {
-      console.error('Product grid container not found.');
+    // If the count container exists, update it with the count
+    if (countContainer) {
+      // Check if there's more than 1 product
+      const productCount = productCards.length;
+      const productText = productCount === 1 ? 'product' : 'products';
+      
+      countContainer.innerHTML = `${productCount} ${productText}`;
     }
-  }   
+    } else {
+    console.error('Product grid container not found.');
+    }
+} 
     
   initializeFromURL() {
     // Haal de URL-parameters op
