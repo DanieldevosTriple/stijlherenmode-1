@@ -17,6 +17,7 @@ class FacetFiltersForm extends HTMLElement {
     this.initializeAccordion();
     this.setupEventListeners();
     this.setupResizeObserver();
+    this.updateProductCount();
   }
 
   setupEventListeners() {
@@ -618,6 +619,7 @@ class FacetFiltersForm extends HTMLElement {
       }
 
       this.state.loading = false;
+      this.updateProductCount(); // Ensure the product count is updated after rendering
     } catch (error) {
       console.error('Error rendering page:', error);
       this.state.loading = false;
