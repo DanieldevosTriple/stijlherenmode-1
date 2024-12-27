@@ -288,8 +288,8 @@ class FacetFiltersForm extends HTMLElement {
     this.updateProductCount();
     
     // Re-initialize sliders after sorting and filtering
-    this.reinitializeSliders();
-  }
+    reinitializeSliders();  // Ensure this is called to update the navigation elements
+  }  
   
   // Re-initialize all sliders after filtering and sorting
   reinitializeSliders() {
