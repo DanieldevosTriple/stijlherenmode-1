@@ -25,7 +25,6 @@ class FacetFiltersForm extends HTMLElement {
     const priceInputs = this.querySelectorAll('.facet-range__input');
     priceInputs.forEach(input => {
       input.addEventListener('change', (e) => this.handlePriceRangeChange(e)); // Updated handler
-      input.addEventListener('input', (e) => this.validatePriceInput(e)); // Retaining validation
     });
 
     // Add sort input handlers
@@ -371,7 +370,7 @@ class FacetFiltersForm extends HTMLElement {
   
     // Apply filters and update the page
     this.applySortAndFilters();
-  }  
+  }   
 
   buildQueryParams() {
     const urlParts = [];
