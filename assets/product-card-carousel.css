@@ -112,12 +112,12 @@
 .dot {
     width: 10px;
     height: 10px;
-    background-color: black;
+    background-color: white;
     border-radius: 50%;
     margin: 0 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    color: white;
+    border-color: white;
 }
 
 .dot.active {
