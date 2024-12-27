@@ -162,4 +162,5 @@
     aspect-ratio: 8 / 9;
     /* You can adjust this ratio as needed */
     overflow: hidden;
+    margin-bottom: -4rem;
 }
