@@ -112,11 +112,11 @@
                 {% assign color_option_index = -1 %}
                 {% assign color_active = false %}
                 {% for opt_name in product.options %}
-                  {% if opt_name == 'Color' %}
+                  {% if opt_name == 'Color' or opt_name == 'Kleur' %}
                     {% assign color_active = true %}
                     {% assign color_option_index = forloop.index0 %}
                   {% endif %}
-                {% endfor %}
+                {% endfor %}                
               
                 {%- comment -%}
                   If the product has variants and a color option,
