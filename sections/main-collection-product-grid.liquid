@@ -144,7 +144,7 @@
                     {%- comment -%}
                       Show variant for this unique color.
                     {%- endcomment -%}
-                    <article class="product-article"
+                    <div class="product-article"
                       data-product-id="{{ product.id }}"
                       data-variant-id="{{ variant.id }}"
                       data-price="{{ variant.price | money_without_currency }}"
@@ -159,7 +159,7 @@
                         show_vendor: section.settings.show_vendor,
                         show_rating: section.settings.show_rating
                       %}
-                    </article>
+                    </div>
               
                     {%- comment -%}
                       Append this color to the list with delimiters to avoid partial matches.
@@ -171,7 +171,7 @@
                   {%- comment -%}
                     If there are no color variants or no variants at all, just render the product card.
                   {%- endcomment -%}
-                  <article class="product-article"
+                  <div class="product-article"
                     data-product-id="{{ product.id }}">
                     
                     {% render 'card-product',
@@ -181,7 +181,7 @@
                       show_vendor: section.settings.show_vendor,
                       show_rating: section.settings.show_rating
                     %}
-                  </article>
+                  </div>
                 {% endif %}
               {% endfor %}                                                       
 
