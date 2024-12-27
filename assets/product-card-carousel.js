@@ -312,10 +312,43 @@
     initSliders();
   }
 
-  // Handle faceted navigation updates
-  document.addEventListener('facets:updated', () => {
-    setTimeout(() => {
-      initSliders();
-    }, 150); // Slightly longer delay to ensure images are loaded
+// Handle faceted navigation updates
+document.addEventListener('facets:updated', () => {
+  // First destroy all existing instances
+  sliderInstances.forEach(instance => {
+    instance.destroy();
   });
+  sliderInstances = [];
+
+  // Wait for DOM to be fully updated
+  setTimeout(() => {
+    console.log('Running slider initialization after facet update');
+    // Get only sliders from the newly rendered products
+    const newSliders = document.querySelectorAll('.product-card-media-slider');
+    console.log(`Found ${newSliders.length} new sliders after facet update`);
+    
+    newSliders.forEach(slider => {
+      // Check if slider is fully loaded in DOM
+      const images = slider.querySelectorAll('img.product-card-carousel-image');
+      const areImagesLoaded = Array.from(images).every(img => img.complete);
+      
+      if (areImagesLoaded) {
+        const instance = new Slider(slider);
+        sliderInstances.push(instance);
+      } else {
+        // Wait for images to load
+        Promise.all(Array.from(images).map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve;
+          });
+        })).then(() => {
+          const instance = new Slider(slider);
+          sliderInstances.push(instance);
+        });
+      }
+    });
+  }, 200); // Slightly longer delay to ensure old content is removed
+});
 })();
