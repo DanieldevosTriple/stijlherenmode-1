@@ -1,29 +1,30 @@
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Pas min-width naar wens aan */
-    gap: 1rem; /* ruimte tussen items, vervangt g-4 bijvoorbeeld */
-    max-width: 100%; /* Zorgt dat het niet breder wordt dan de parent */
-    box-sizing: border-box; /* Houd padding en borders binnen de breedte */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 @media screen and (max-width: 991px) {
-.product-grid {
-    grid-template-columns: repeat(2, 1fr); /* Pas min-width naar wens aan */
-}
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* Pas min-width naar wens aan */
+    }
 }
 
 
 @media screen and (min-width: 992px) {
-.vertical-facets {
-    grid-template-columns: 25% 75%;
-    display: grid;
-}
+    .vertical-facets {
+        grid-template-columns: 25% 75%;
+        display: grid;
+    }
 }
 
 .product-grid-container {
     position: relative;
     min-height: 200px;
-  }
+}
 
 .product-grid-container.is-loading::after {
     content: '';
@@ -34,9 +35,9 @@
     bottom: 0;
     background: rgba(255, 255, 255, 0.8);
     z-index: 2;
-  }
-  
-  .product-grid-container.is-loading::before {
+}
+
+.product-grid-container.is-loading::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -49,9 +50,14 @@
     border-radius: 50%;
     animation: spin 1s linear infinite;
     z-index: 3;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
