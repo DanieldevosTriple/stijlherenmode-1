@@ -69,6 +69,7 @@
           }
         }
 
+        // Move slider to the correct slide
         this.wrapper.style.transform = `translateX(${-this.currentSlide * this.slideWidth}%)`;
         
         // Update dots
@@ -77,11 +78,14 @@
           dot.classList.toggle('active', index === this.currentSlide);
         });
 
-        // Reset values
+        // Reset values after slide change
         this.startX = null;
         this.currentX = null;
         this.wrapper.style.transition = '';
         console.log('Reset complete, current slide:', this.currentSlide);
+
+        // Re-enable swipe after reset by allowing new touch events to work again
+        this.wrapper.addEventListener('touchstart', this.touchStartHandler);
       });
     }
   }
