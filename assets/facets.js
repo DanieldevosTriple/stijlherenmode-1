@@ -28,7 +28,7 @@ class FacetFiltersForm extends HTMLElement {
     });
 
     // Add sort input handlers
-      const sortInputs = this.querySelectorAll('input[name="sort_by_desktop"], input[name="sort_by_mobile"]');
+    const sortInputs = this.querySelectorAll('input[name="sort_by_desktop"], input[name="sort_by_mobile"]');
     console.log('Sort inputs found:', sortInputs); // Debug: Controleer gevonden inputs
     sortInputs.forEach(input => {
       input.addEventListener('change', (event) => {
@@ -82,23 +82,23 @@ class FacetFiltersForm extends HTMLElement {
     console.log('handleSortChange triggered'); // Log aanroepen van de functie
     const sortValue = event.target.value;
     console.log('Selected radio value:', sortValue); // Log de waarde van de geselecteerde radio
-  
+
     this.state.currentSort = sortValue;
-  
+
     // Synchroniseer tussen desktop en mobiel
     const isDesktop = event.target.name === 'sort_by_desktop';
     const otherInputName = isDesktop ? 'sort_by_mobile' : 'sort_by_desktop';
     const otherInput = this.querySelector(`input[name="${otherInputName}"][value="${sortValue}"]`);
-  
+
     if (otherInput) {
       otherInput.checked = true;
       console.log(`Synchronized ${otherInputName} to value:`, sortValue);
     }
-  
+
     this.applySortAndFilters();
   }
-          
-  
+
+
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
 
@@ -171,33 +171,33 @@ class FacetFiltersForm extends HTMLElement {
 
   handleFilterChange(event) {
     if (this.state.loading) return;
-  
+
     // Determine if the input is a checkbox
     const input = event.target;
     const isCheckbox = input.type === 'checkbox';
     const formData = new FormData(input.closest('form'));
     const queryParams = {};
-  
+
     if (isCheckbox && !input.checked) {
       // If a checkbox is unchecked, remove the corresponding filter
       const filterKey = input.name;
       const filterValue = input.value;
-  
+
       this.state.selectedFilters.delete(`${filterKey}-${filterValue}`);
-  
+
       // Uncheck the corresponding checkbox on the other view (desktop/mobile)
       const otherInput = this.querySelector(
         `.facets__${this.state.isMobileView ? 'desktop' : 'mobile'} input[name="${filterKey}"][value="${filterValue}"]`
       );
       if (otherInput) otherInput.checked = false;
-  
+
       // Update the UI and URL
       this.renderSelectedFilters();
       this.updateMobileApplyButton();
       this.applySortAndFilters();
       return;
     }
-  
+
     // Update selected filters for checked checkboxes and other inputs
     formData.forEach((value, key) => {
       if (queryParams[key]) {
@@ -206,14 +206,14 @@ class FacetFiltersForm extends HTMLElement {
         queryParams[key] = value;
       }
     });
-  
+
     // Clear and rebuild the selectedFilters state
     this.state.selectedFilters.clear();
     Object.entries(queryParams).forEach(([key, value]) => {
       value.split(',').forEach(singleValue => {
         const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
         const label = this.getFilterLabel(input);
-  
+
         if (label) {
           this.state.selectedFilters.set(`${key}-${singleValue}`, {
             key,
@@ -223,7 +223,7 @@ class FacetFiltersForm extends HTMLElement {
         }
       });
     });
-  
+
     // Sync checkboxes between mobile and desktop
     this.state.selectedFilters.forEach(filter => {
       const desktopInput = this.querySelector(
@@ -241,28 +241,28 @@ class FacetFiltersForm extends HTMLElement {
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
     this.applySortAndFilters();
-  }  
+  }
 
   applyMobileFilters() {
     // Get current form data to capture unchecked boxes
     const form = this.querySelector('form');
     const formData = new FormData(form);
-    
+
     // Clear existing filters that aren't in form data
     this.state.selectedFilters.forEach((filter, key) => {
       if (filter.key !== 'price_filter' && !formData.has(filter.key)) {
         this.state.selectedFilters.delete(key);
       }
     });
-   
+
     // Handle price range inputs
     const minInput = this.querySelector('input[name^="min_"]');
     const maxInput = this.querySelector('input[name^="max_"]');
-   
+
     if (minInput && maxInput) {
       const min = parseInt(minInput.value) || '';
       const max = parseInt(maxInput.value) || '';
-   
+
       if (min || max) {
         this.state.selectedFilters.set('price_filter', {
           key: 'price_filter',
@@ -273,21 +273,26 @@ class FacetFiltersForm extends HTMLElement {
         this.state.selectedFilters.delete('price_filter');
       }
     }
-   
+
     // Apply sorting and filtering then close drawer
     this.applySortAndFilters();
     this.closeMobileDrawer();
-   }
+  }
 
-   applySortAndFilters() {
+  applySortAndFilters() {
     console.log('applySortAndFilters called'); // Debugging
-    console.log('Selected filters to build query:', Array.from(this.state.selectedFilters.entries())); // Zorg ervoor dat filters niet leeg zijn
-  
+
+    // Ensure that filters are built correctly
     const queryString = this.buildQueryParams();
-    console.log('Query string:', queryString);
-  
+    console.log('Query string:', queryString); // Debugging the query string
+
+    // Update the URL with the new query string
     this.updateURLHash(queryString);
+
+    // Render the page with the new filters
     this.renderPage(queryString);
+
+    // Update the product count based on the new filters
     this.updateProductCount();
   }
 
@@ -302,22 +307,22 @@ class FacetFiltersForm extends HTMLElement {
     this.querySelectorAll('.facet-range__input').forEach(input => {
       input.value = '';
     });
-  
+
     // Clear all checkboxes (both mobile and desktop)
     this.querySelectorAll('input[type="checkbox"]').forEach(input => {
       input.checked = false;
     });
-  
+
     this.state.selectedFilters.clear();
     this.state.filterCache.clear();
-  
+
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
-    
+
     // Update URL and re-render page
     history.pushState({}, '', window.location.pathname);
     this.renderPage('');
-    
+
     // Close mobile drawer after clearing
     this.closeMobileDrawer();
   }
@@ -325,7 +330,7 @@ class FacetFiltersForm extends HTMLElement {
   updateMobileApplyButton() {
     const applyButton = this.querySelector('.mobile-facets__apply');
     if (!applyButton) return;
-  
+
     const hasChanges = this.state.selectedFilters.size > 0 || this.state.currentSort;
     applyButton.disabled = !hasChanges;
     applyButton.textContent = hasChanges ? `Apply (${this.state.selectedFilters.size})` : 'Apply';
@@ -340,12 +345,12 @@ class FacetFiltersForm extends HTMLElement {
   handlePriceRangeChange(event) {
     const minInput = this.querySelector('input[name="min_filter.v.price"]');
     const maxInput = this.querySelector('input[name="max_filter.v.price"]');
-  
+
     if (!minInput || !maxInput) return;
-  
+
     const min = parseInt(minInput.value) || '';
     const max = parseInt(maxInput.value) || '';
-  
+
     // Prevent min > max scenario
     if (min && max && min > max) {
       if (event.target === minInput) {
@@ -354,10 +359,10 @@ class FacetFiltersForm extends HTMLElement {
         maxInput.value = min;
       }
     }
-  
+
     const filterKey = 'price_filter';
-  
-    // Update de geselecteerde filters voor prijsbereik
+
+    // Update the selected filters for price range
     if (min || max) {
       this.state.selectedFilters.set(filterKey, {
         key: filterKey,
@@ -367,23 +372,21 @@ class FacetFiltersForm extends HTMLElement {
     } else {
       this.state.selectedFilters.delete(filterKey);
     }
-  
-    // Werk de UI bij met geselecteerde filters
+
+    // Update the UI and apply filters
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
-  
-    // Pas filters toe en werk de pagina bij
     this.applySortAndFilters();
-  }         
+  }
 
   buildQueryParams() {
     const urlParts = [];
-  
+
     // Add the sort if it's set
     if (this.state.currentSort) {
       urlParts.push(`sort_by=${encodeURIComponent(this.state.currentSort)}`);
     }
-  
+
     const groupedParams = {};
     this.state.selectedFilters.forEach(filter => {
       if (filter.key === 'price_filter') {
@@ -397,10 +400,10 @@ class FacetFiltersForm extends HTMLElement {
         groupedParams[filter.key].push(filter.value);
       }
     });
-  
+
     // Log to see the selected filters and their corresponding params
     console.log('Selected filters to build query:', Array.from(this.state.selectedFilters.entries()));
-  
+
     Object.entries(groupedParams).forEach(([key, values]) => {
       const encodedKey = encodeURIComponent(key);
       if (Array.isArray(values)) {
@@ -410,7 +413,7 @@ class FacetFiltersForm extends HTMLElement {
         urlParts.push(`${encodedKey}=${encodeURIComponent(values)}`);
       }
     });
-  
+
     // Check if URL parts are empty before generating the final query string
     const queryString = urlParts.join('&');
     if (queryString) {
@@ -419,7 +422,7 @@ class FacetFiltersForm extends HTMLElement {
     } else {
       return ''; // Return an empty string if no filters
     }
-  }    
+  }
 
   getSelectedFiltersFromURL() {
     const filters = new Map();
@@ -459,98 +462,78 @@ class FacetFiltersForm extends HTMLElement {
   updateProductCount() {
     // Select the product grid container that holds the product cards
     const productGrid = document.querySelector('#ProductGridContainer');
-    
+
     // If the product grid exists, count the number of product cards
     if (productGrid) {
       const productCards = productGrid.querySelectorAll('.product-article'); // Adjust the selector to match your product card class
       const countContainer = document.querySelector('.product-count');
-      
-    // If the count container exists, update it with the count
-    if (countContainer) {
-      // Check if there's more than 1 product
-      const productCount = productCards.length;
-      const productText = productCount === 1 ? 'product' : 'producten';
-      
-      countContainer.innerHTML = `${productCount} ${productText}`;
-    }
+
+      // If the count container exists, update it with the count
+      if (countContainer) {
+        // Check if there's more than 1 product
+        const productCount = productCards.length;
+        const productText = productCount === 1 ? 'product' : 'producten';
+
+        countContainer.innerHTML = `${productCount} ${productText}`;
+      }
     } else {
-    console.error('Product grid container not found.');
+      console.error('Product grid container not found.');
     }
-} 
-    
-    initializeFromURL() {
-      // Haal de URL-parameters op
-      const params = new URLSearchParams(window.location.search);
+  }
 
-      // **Initialiseer de huidige sorteerwaarde**
-      const sortBy = params.get('sort_by') || '';
-      this.state.currentSort = sortBy;
+  initializeFromURL() {
+    const params = new URLSearchParams(window.location.search);
 
-      // Synchroniseer desktop- en mobiele radios voor sortering
-      const desktopInput = this.querySelector(`input[name="sort_by_desktop"][value="${sortBy}"]`);
-      const mobileInput = this.querySelector(`input[name="sort_by_mobile"][value="${sortBy}"]`);
-      
-      if (desktopInput) desktopInput.checked = true;
-      if (mobileInput) mobileInput.checked = true;
+    // Initialize the selected filters based on URL parameters
+    this.state.selectedFilters = new Map();
 
-      console.log('Sortering vanuit URL geïnitialiseerd:', this.state.currentSort);
+    params.forEach((value, key) => {
+      if (key === 'filter.v.price.gte' || key === 'filter.v.price.lte') {
+        const min = params.get('filter.v.price.gte') || '';
+        const max = params.get('filter.v.price.lte') || '';
 
-      // **Initialiseer geselecteerde filters**
-      this.state.selectedFilters = new Map();
-
-      params.forEach((value, key) => {
-        // Sla prijsfilters apart op
-        if (key === 'filter.v.price.gte' || key === 'filter.v.price.lte') {
-          const filterKey = 'price_filter';
-          const min = params.get('filter.v.price.gte') || '';
-          const max = params.get('filter.v.price.lte') || '';
-          
-          if (min || max) {
-            this.state.selectedFilters.set(filterKey, {
-              key: filterKey,
-              value: `${min}-${max}`,
-              label: `Prijs: €${min || '0'} - €${max || '∞'}`
-            });
-          }
-        } else if (key.startsWith('filter.')) {
-          // Verwerk reguliere filters
-          value.split(',').forEach(singleValue => {
-            const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-            if (input) {
-              input.checked = true; // Sync met checkbox
-              const label = this.getFilterLabel(input);
-              if (label) {
-                this.state.selectedFilters.set(`${key}-${singleValue}`, {
-                  key,
-                  value: singleValue,
-                  label
-                });
-              }
-            }
+        if (min || max) {
+          this.state.selectedFilters.set('price_filter', {
+            key: 'price_filter',
+            value: `${min}-${max}`,
+            label: `Price: €${min || '0'} - €${max || '∞'}`
           });
         }
-      });
+      } else if (key.startsWith('filter.')) {
+        value.split(',').forEach(singleValue => {
+          const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+          if (input) {
+            input.checked = true;
+            const label = this.getFilterLabel(input);
+            if (label) {
+              this.state.selectedFilters.set(`${key}-${singleValue}`, {
+                key,
+                value: singleValue,
+                label
+              });
+            }
+          }
+        });
+      }
+    });
 
-      // **Update de UI met geselecteerde filters**
-      this.renderSelectedFilters();
-      this.updateMobileApplyButton();
+    // Reinitialize the price range inputs
+    const minPriceInput = this.querySelector('input[name^="min_filter.v.price"]');
+    const maxPriceInput = this.querySelector('input[name^="max_filter.v.price"]');
+    const minPrice = params.get('filter.v.price.gte') || '';
+    const maxPrice = params.get('filter.v.price.lte') || '';
 
-      // **Initialiseer prijsrange inputs**
-      const minPriceInput = this.querySelector('input[name^="min_price"]');
-      const maxPriceInput = this.querySelector('input[name^="max_price"]');
-      const minPrice = params.get('filter.v.price.gte') || '';
-      const maxPrice = params.get('filter.v.price.lte') || '';
+    if (minPriceInput) minPriceInput.value = minPrice;
+    if (maxPriceInput) maxPriceInput.value = maxPrice;
 
-      if (minPriceInput) minPriceInput.value = minPrice;
-      if (maxPriceInput) maxPriceInput.value = maxPrice;
+    this.renderSelectedFilters();
+    this.updateMobileApplyButton();
+  }
 
-      console.log('Prijsrange vanuit URL ingesteld: €', minPrice, '-', maxPrice);
-    }   
-
-   syncFromURL() {
+  syncFromURL() {
     try {
       const params = new URLSearchParams(window.location.search);
-  
+
       // Reset all inputs first
       this.querySelectorAll('input[type="checkbox"], .facet-range__input, input[name="sort_by"]').forEach(input => {
         if (input.type === 'checkbox') {
@@ -561,7 +544,7 @@ class FacetFiltersForm extends HTMLElement {
           input.value = '';
         }
       });
-  
+
       // Set other filter values from URL
       params.forEach((value, key) => {
         if (key.startsWith('filter.')) {
@@ -577,7 +560,7 @@ class FacetFiltersForm extends HTMLElement {
           }
         }
       });
-  
+
       this.renderSelectedFilters();
       this.updateMobileApplyButton();
       this.updateFilterPreview();
@@ -593,7 +576,7 @@ class FacetFiltersForm extends HTMLElement {
       '',
       `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
     );
-  }  
+  }
 
   // Voeg dit toe aan je facets.js
   async renderPage(searchParams) {
@@ -630,16 +613,16 @@ class FacetFiltersForm extends HTMLElement {
       this.state.loading = false;
     }
   }
-  
+
   async renderSectionFromFetch(url) {
     try {
       console.log('Fetching URL:', url); // Debugging
       const response = await fetch(url);
       if (!response.ok) throw new Error('Fetch failed');
-  
+
       const text = await response.text();
       const html = new DOMParser().parseFromString(text, 'text/html');
-  
+
       this.renderFilters(html);
       this.renderProductGrid(html);
       this.renderProductCount(html);
@@ -648,7 +631,7 @@ class FacetFiltersForm extends HTMLElement {
       throw error;
     }
   }
-  
+
 
   renderFilters(html) {
     const facetDetailsElements = html.querySelectorAll('#FacetsWrapper .js-filter');
@@ -692,7 +675,7 @@ class FacetFiltersForm extends HTMLElement {
   renderSelectedFilters() {
     const container = this.querySelector('#SelectedFilters');
     if (!container) return;
-  
+
     const filterElements = Array.from(this.state.selectedFilters.values()).map(filter => {
       return `
         <div class="selected-filter" data-key="${filter.key}" data-value="${filter.value}">
@@ -705,44 +688,45 @@ class FacetFiltersForm extends HTMLElement {
         </div>
       `;
     }).join('');
-  
+
     container.innerHTML = filterElements;
-  
+
     container.querySelectorAll('.selected-filter__remove').forEach(button => {
       button.addEventListener('click', (e) => {
         const filter = e.target.closest('.selected-filter');
         this.removeFilter(filter.dataset.key, filter.dataset.value);
       });
     });
-  }  
+  }
 
   removeFilter(key, value) {
-    // Verwijder de prijsfilter apart
+    // Handle the price filter specifically
     if (key === 'price_filter') {
       this.state.selectedFilters.delete('price_filter');
-      // Reset de prijsinvoervelden
-      this.querySelectorAll('.facet-range__input').forEach(input => {
-        input.value = ''; // Reset de waarde van de prijsinvoervelden
-      });
+
+      // Reset price input fields
+      const minInput = this.querySelector('input[name="min_filter.v.price"]');
+      const maxInput = this.querySelector('input[name="max_filter.v.price"]');
+      if (minInput) minInput.value = '';
+      if (maxInput) maxInput.value = '';
+
     } else {
+      // For other filters, uncheck the input elements
       const desktopInput = this.querySelector(`.facets__desktop input[name="${key}"][value="${value}"]`);
       const mobileInput = this.querySelector(`.facets__mobile input[name="${key}"][value="${value}"]`);
-  
-      // Update beide desktop- en mobiele invoeren
-      if (desktopInput) {
-        desktopInput.checked = false;
-        this.handleFilterChange({ target: desktopInput });
-      }
-      if (mobileInput) {
-        mobileInput.checked = false;
-      }
+
+      // Reset UI for both desktop and mobile
+      if (desktopInput) desktopInput.checked = false;
+      if (mobileInput) mobileInput.checked = false;
+
+      this.state.selectedFilters.delete(`${key}-${value}`);
     }
-  
-    // Update de UI na het verwijderen van de filter
+
+    // Update the UI after deletion
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
     this.applySortAndFilters();
-  }  
+  }
 }
 
 class FilterPreview {
