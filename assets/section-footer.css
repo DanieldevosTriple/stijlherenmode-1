@@ -714,7 +714,7 @@
 
 .newsletter-form__button:hover {
   background-color: black;
-  border: 2px solid white;
+  border: 2px solid black;
   color: white;
 }
 
