@@ -23,8 +23,8 @@ class FacetFiltersForm extends HTMLElement {
     // Price range inputs - both mobile and desktop
     const priceInputs = this.querySelectorAll('.facet-range__input');
     priceInputs.forEach(input => {
-      input.addEventListener('change', this.debouncedOnChange);
-      input.addEventListener('input', (e) => this.validatePriceInput(e));
+      input.addEventListener('change', (e) => this.handlePriceRangeChange(e)); // Updated handler
+      input.addEventListener('input', (e) => this.validatePriceInput(e)); // Retaining validation
     });
 
     // Add sort input handlers
@@ -335,14 +335,15 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   handlePriceRangeChange(event) {
-    const minInput = this.querySelector('input[name^="min_"]');
-    const maxInput = this.querySelector('input[name^="max_"]');
-
+    const minInput = this.querySelector('input[name="min_filter.v.price"]');
+    const maxInput = this.querySelector('input[name="max_filter.v.price"]');
+  
     if (!minInput || !maxInput) return;
-
+  
     const min = parseInt(minInput.value) || '';
     const max = parseInt(maxInput.value) || '';
-
+  
+    // Prevent min > max scenario
     if (min && max && min > max) {
       if (event.target === minInput) {
         minInput.value = max;
@@ -350,26 +351,26 @@ class FacetFiltersForm extends HTMLElement {
         maxInput.value = min;
       }
     }
-
+  
     const filterKey = 'price_filter';
-
+  
+    // Update the selected filters for price range
     if (min || max) {
       this.state.selectedFilters.set(filterKey, {
         key: filterKey,
         value: `${min}-${max}`,
-        label: `Price: $${min || '0'} - $${max || '∞'}`
+        label: `Price: €${min || '0'} - €${max || '∞'}`
       });
     } else {
       this.state.selectedFilters.delete(filterKey);
     }
-
+  
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
-
-    if (!this.state.isMobileView) {
-      this.applyFilters();
-    }
-  }
+  
+    // Apply filters and update the page
+    this.applySortAndFilters();
+  }  
 
   buildQueryParams() {
     console.log('Current sort state:', this.state.currentSort); // Debug de sorteerwaarde
@@ -682,7 +683,7 @@ class FacetFiltersForm extends HTMLElement {
   renderSelectedFilters() {
     const container = this.querySelector('#SelectedFilters');
     if (!container) return;
-
+  
     const filterElements = Array.from(this.state.selectedFilters.values()).map(filter => {
       return `
         <div class="selected-filter" data-key="${filter.key}" data-value="${filter.value}">
@@ -695,16 +696,16 @@ class FacetFiltersForm extends HTMLElement {
         </div>
       `;
     }).join('');
-
+  
     container.innerHTML = filterElements;
-
+  
     container.querySelectorAll('.selected-filter__remove').forEach(button => {
       button.addEventListener('click', (e) => {
         const filter = e.target.closest('.selected-filter');
         this.removeFilter(filter.dataset.key, filter.dataset.value);
       });
     });
-  }
+  }  
 
   removeFilter(key, value) {
     const desktopInput = this.querySelector(`.facets__desktop input[name="${key}"][value="${value}"]`);
