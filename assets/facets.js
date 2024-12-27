@@ -281,12 +281,16 @@ class FacetFiltersForm extends HTMLElement {
 
    applySortAndFilters() {
     console.log('applySortAndFilters called'); // Debugging
+    console.log('Selected filters to build query:', Array.from(this.state.selectedFilters.entries())); // Zorg ervoor dat filters niet leeg zijn
+  
     const queryString = this.buildQueryParams();
     console.log('Query string:', queryString);
+  
     this.updateURLHash(queryString);
     this.renderPage(queryString);
     this.updateProductCount();
-  }  
+  }
+   
 
   clearFilters() {
     // Add radio reset
@@ -343,6 +347,8 @@ class FacetFiltersForm extends HTMLElement {
     const min = parseInt(minInput.value) || '';
     const max = parseInt(maxInput.value) || '';
   
+    console.log('Price Range Changed:', min, max); // Debug log om de waarden te controleren
+  
     // Prevent min > max scenario
     if (min && max && min > max) {
       if (event.target === minInput) {
@@ -354,8 +360,9 @@ class FacetFiltersForm extends HTMLElement {
   
     const filterKey = 'price_filter';
   
-    // Update the selected filters for price range
+    // Update de geselecteerde filters voor prijsbereik
     if (min || max) {
+      console.log(`Adding price filter: €${min || '0'} - €${max || '∞'}`); // Debug log voor prijsfilter
       this.state.selectedFilters.set(filterKey, {
         key: filterKey,
         value: `${min}-${max}`,
@@ -363,6 +370,7 @@ class FacetFiltersForm extends HTMLElement {
       });
     } else {
       this.state.selectedFilters.delete(filterKey);
+      console.log('Removing price filter'); // Debug log voor verwijdering van prijsfilter
     }
   
     // Werk de UI bij met geselecteerde filters
@@ -371,7 +379,7 @@ class FacetFiltersForm extends HTMLElement {
   
     // Pas filters toe en werk de pagina bij
     this.applySortAndFilters();
-  }     
+  }      
 
   buildQueryParams() {
     const urlParts = [];
