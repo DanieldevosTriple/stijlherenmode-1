@@ -4,12 +4,6 @@
     object-fit: cover;
 }
 
-@media screen and (min-weight: 992px) {
-    .product-card-media-slider img {
-        height: 700px;
-    }
-}
-
 /* product-card-carousel.css */
 .product-card-media-slider {
     position: relative;
@@ -134,5 +128,15 @@
         width: 10px;
         height: 10px;
         display: block !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .product-card-media-slider img {
+        height: 700px;
+    }
+
+    .slider-nav {
+        bottom: 350px;
     }
 }
