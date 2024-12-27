@@ -63,6 +63,7 @@
     align-items: center;
     gap: 10px;
     padding: 10px;
+    z-index: 999;
 }
 
 /* Desktop arrows */
