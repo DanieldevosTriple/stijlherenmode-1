@@ -9,6 +9,7 @@
       this.nextButton = element.querySelector('.next');
       this.currentSlide = 0;
       this.slideWidth = 100;
+      this.isDragging = false;  // Variabele om te controleren of er gesleept wordt
       this.init();
     }
 
@@ -37,18 +38,15 @@
     }
 
     setupTouchEvents() {
-      let isDragging = false;
-      
       const handleTouchStart = (e) => {
-        console.log("Touch Start", e.touches[0].clientX); // Log the touch start position
-        isDragging = true;
+        this.isDragging = true;
         this.startX = e.touches[0].clientX;
         this.currentX = this.startX;
         this.wrapper.style.transition = 'none';
       };
 
       const handleTouchMove = (e) => {
-        if (!isDragging) return;
+        if (!this.isDragging) return;
 
         this.currentX = e.touches[0].clientX;
         const diffX = this.currentX - this.startX;
@@ -64,20 +62,15 @@
           const overScroll = Math.abs(translateX) - maxTranslate;
           actualTranslate = -maxTranslate + (overScroll * 0.3);
         }
-        
-        console.log("Touch Move", actualTranslate); // Log the translated position during move
+
         this.wrapper.style.transform = `translateX(${actualTranslate}%)`;
       };
 
       const handleTouchEnd = () => {
-        if (!isDragging) return;
-        isDragging = false;
-        
-        console.log("Touch End"); // Log when touch ends
-        console.log("StartX:", this.startX, "CurrentX:", this.currentX); // Log start and end position
+        if (!this.isDragging) return;
+        this.isDragging = false;
         
         if (this.startX === this.currentX) {
-          console.log("No movement detected"); // Log if there was no movement
           return;
         }
 
@@ -87,18 +80,15 @@
 
         if (Math.abs(diff) > threshold) {
           if (diff > 0) {
-            console.log("Swiped Right");
             this.goToPrevSlide();
           } else {
-            console.log("Swiped Left");
             this.goToNextSlide();
           }
         } else {
-          console.log("No threshold crossed, stay on current slide");
           this.goToSlide(this.currentSlide);
         }
 
-        // Reset after transition
+        // Reset transition after the swipe
         setTimeout(() => {
           this.wrapper.style.transition = '';
           this.startX = null;
@@ -123,35 +113,32 @@
     }
 
     goToSlide(index) {
-      console.log("Go to slide", index); // Log slide change
+      // Loop over if necessary
+      if (index < 0) index = this.slides.length - 1;
+      if (index >= this.slides.length) index = 0;
+
+      // Update the current slide and move
       this.currentSlide = index;
-      this.wrapper.style.transition = 'transform 0.3s ease'; // Ensure smooth transition
-      console.log("Setting transform to", `translateX(${-this.currentSlide * this.slideWidth}%)`); // Log the transform value
+      this.wrapper.style.transition = 'transform 0.3s ease';
       this.wrapper.style.transform = `translateX(${-this.currentSlide * this.slideWidth}%)`;
       this.updateDots();
     }
 
     goToNextSlide() {
-      console.log("Go to next slide"); // Log next slide
-      if (this.currentSlide >= this.slides.length - 1) {
-        // Loop back to first slide
-        this.currentSlide = 0;
-      } else {
+      if (this.currentSlide < this.slides.length - 1) {
         this.currentSlide++;
+      } else {
+        this.currentSlide = 0;
       }
-      console.log("Next Slide:", this.currentSlide); // Log current slide after increment
       this.goToSlide(this.currentSlide);
     }
 
     goToPrevSlide() {
-      console.log("Go to previous slide"); // Log previous slide
-      if (this.currentSlide <= 0) {
-        // Loop to last slide
-        this.currentSlide = this.slides.length - 1;
-      } else {
+      if (this.currentSlide > 0) {
         this.currentSlide--;
+      } else {
+        this.currentSlide = this.slides.length - 1;
       }
-      console.log("Prev Slide:", this.currentSlide); // Log current slide after decrement
       this.goToSlide(this.currentSlide);
     }
 
