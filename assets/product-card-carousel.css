@@ -5,128 +5,55 @@
     object-fit: cover;
 }
 
-/* product-card-carousel.css */
-.product-card-media-slider {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-}
-
-.slider-wrapper {
-    display: flex;
-    transition: transform 0.3s ease;
-    width: 100%;
-}
-
-.slide {
-    flex: 0 0 100%;
-    width: 100%;
-    position: relative;
-}
-
-.product-card-carousel-image {
+.swiper {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-drag: none;
-}
-
-/* Mobile swipe overlay */
-@media (max-width: 768px) {
-    .slider-wrapper:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 10;
-        cursor: grab;
-    }
-
-    .slider-wrapper.dragging:before {
-        cursor: grabbing;
-    }
-}
-
-/* Navigation styles */
-.slider-nav {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-}
-
-/* Desktop arrows */
-@media (min-width: 769px) {
-    .prev,
-    .next {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-    }
-  
-    .prev {
-      left: 10px;
-    }
-  
-    .next {
-      right: 10px;
-    }
   }
-
-/* Mobile dots */
-@media (max-width: 768px) {
-
-    .prev,
-    .next {
-        display: none !important;
-    }
-}
-
-.dots {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.dot {
+  
+  .swiper-slide img {
+    max-width: 400px;
+    max-height: 400px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  
+  /* Navigation arrows */
+  .swiper-button-next,
+  .swiper-button-prev {
+    background: rgba(255, 255, 255, 0.8);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .swiper-button-next:after,
+  .swiper-button-prev:after {
+    font-size: 18px;
+    color: #000;
+  }
+  
+  /* Pagination dots */
+  .swiper-pagination-bullet {
     width: 10px;
     height: 10px;
-    background-color: #ccc;
-    border-radius: 50%;
-    margin: 0 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.dot.active {
-    background-color: #333;
-}
-
-/* Maak de dots groter of anders op mobiel */
-@media (max-width: 768px) {
-    .dot {
-        width: 10px;
-        height: 10px;
-        display: block !important;
+    background: #ccc;
+    opacity: 1;
+  }
+  
+  .swiper-pagination-bullet-active {
+    background: #333;
+  }
+  
+  @media (max-width: 768px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: none;
     }
-}
+    
+    .swiper-pagination-bullet {
+      width: 10px;
+      height: 10px;
+    }
+  }
