@@ -56,6 +56,19 @@
           <button class="next" aria-label="Next image">&gt;</button>
         </div>
       </div>
+
+        <!-- Add badges section -->
+        <div class="product-badges">
+          {%- if card_product.tags contains 'sale' -%}
+            <span class="badge badge-sale">{{ 'Sale' | t }}</span>
+          {%- endif -%}
+          {%- if card_product.tags contains 'new' -%}
+            <span class="badge badge-new">{{ 'New' | t }}</span>
+          {%- endif -%}
+          {%- if card_product.tags contains 'bestseller' -%}
+            <span class="badge badge-bestseller">{{ 'Best Seller' | t }}</span>
+          {%- endif -%}
+        </div>
   
         <!-- Rest of the card content remains the same -->
         <div class="card__content">
