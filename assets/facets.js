@@ -286,16 +286,8 @@ class FacetFiltersForm extends HTMLElement {
     this.updateURLHash(queryString);
     this.renderPage(queryString);
     this.updateProductCount();
-    
-    // Re-initialize sliders after sorting and filtering
-    reinitializeSliders();  // Ensure this is called to update the navigation elements
   }  
-  
-  // Re-initialize all sliders after filtering and sorting
-  reinitializeSliders() {
-    document.querySelectorAll('.product-card-media-slider').forEach(slider => new Slider(slider));
-  }
-  
+
   clearFilters() {
     // Add radio reset
     this.querySelectorAll('input[type="radio"]').forEach(input => {
