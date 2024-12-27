@@ -10,7 +10,7 @@
   vertical-align: top;
 }
 
-.price.price--unavailable {
+.price.price--unavailable { 
   visibility: hidden;
 }
 
