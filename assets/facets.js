@@ -648,6 +648,8 @@ class FacetFiltersForm extends HTMLElement {
 
     if (grid && newGrid) {
       grid.innerHTML = newGrid.innerHTML;
+      // Emit a custom event after the grid content is updated
+      document.dispatchEvent(new CustomEvent('product-grid:updated'));
     }
   }
 

@@ -279,10 +279,30 @@
     initSliders();
   }
 
-  // Handle faceted navigation updates
-  document.addEventListener('facets:updated', () => {
-    setTimeout(() => {
+  // Handle product grid updates from faceted navigation
+  document.addEventListener('product-grid:updated', () => {
+    // Wait for images to be loaded before initializing sliders
+    const sliders = document.querySelectorAll('.product-card-media-slider');
+    const allImages = Array.from(sliders).flatMap(slider => 
+      Array.from(slider.querySelectorAll('img.product-card-carousel-image'))
+    );
+
+    // If no images, don't proceed
+    if (allImages.length === 0) return;
+
+    // Wait for all images to load or error out
+    Promise.all(
+      allImages.map(img => {
+        if (img.complete) return Promise.resolve();
+        return new Promise(resolve => {
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      })
+    ).then(() => {
+      // Initialize sliders after all images are loaded
       initSliders();
-    }, 150); // Slightly longer delay to ensure images are loaded
+      console.log('Sliders initialized after product grid update');
+    });
   });
 })();
