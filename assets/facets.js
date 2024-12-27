@@ -466,7 +466,7 @@ class FacetFiltersForm extends HTMLElement {
     if (countContainer) {
       // Check if there's more than 1 product
       const productCount = productCards.length;
-      const productText = productCount === 1 ? 'product' : 'products';
+      const productText = productCount === 1 ? 'product' : 'producten';
       
       countContainer.innerHTML = `${productCount} ${productText}`;
     }
