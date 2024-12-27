@@ -453,29 +453,24 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   updateProductCount() {
-    const queryString = this.buildQueryParams();
-    // Adjust the product count URL construction based on the backend structure
-    const url = `${window.location.pathname}?section_id=product-count${queryString ? '&' + queryString : ''}`;
+    // Count the number of product cards rendered on the page
+    const productCards = document.querySelectorAll('.product-card'); // Replace with the appropriate selector for your product cards
     
-    console.log('Fetching product count from URL:', url); // Debugging
-  
-    fetch(url)
-      .then(response => {
-        if (!response.ok) throw new Error('Failed to fetch product count');
-        return response.text();
-      })
-      .then(text => {
-        const html = new DOMParser().parseFromString(text, 'text/html');
-        const newCount = html.querySelector('.product-count');
-        const countContainer = document.querySelector('.product-count');
-        
-        if (newCount && countContainer) {
-          countContainer.innerHTML = newCount.innerHTML;
-        }
-      })
-      .catch(error => console.error('Error updating product count:', error));
-  }    
-
+    // Get the count of product cards
+    const productCount = productCards.length;
+    
+    // Log the count for debugging
+    console.log('Product count:', productCount);
+    
+    // Find the element where the product count is displayed
+    const countContainer = document.querySelector('.product-count');
+    
+    // Update the product count display
+    if (countContainer) {
+      countContainer.innerHTML = `${productCount} products`;
+    }
+  }
+    
   initializeFromURL() {
     // Haal de URL-parameters op
     const params = new URLSearchParams(window.location.search);
