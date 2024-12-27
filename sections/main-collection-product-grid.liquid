@@ -87,11 +87,6 @@
               {% assign skip_card_product_styles = false %}
               
               {% for product in collection.products %}
-                {% assign lazy_load = false %}
-                {% if forloop.index > 2 %}
-                  {% assign lazy_load = true %}
-                {% endif %}
-              
                 {%- comment -%}
                   Determine if the product has variants.
                   Instead of directly assigning a boolean with a condition, we use if/else.
@@ -191,9 +186,6 @@
       </div>
     </div>
   {%- endpaginate -%}
-  {% if section.settings.image_shape == 'arch' %}
-    {{ 'mask-arch.svg' | inline_asset_content }}
-  {%- endif -%}
 </section>
 
 {% schema %}
