@@ -29,10 +29,8 @@ class FacetFiltersForm extends HTMLElement {
 
     // Add sort input handlers
       const sortInputs = this.querySelectorAll('input[name="sort_by_desktop"], input[name="sort_by_mobile"]');
-    console.log('Sort inputs found:', sortInputs); // Debug: Controleer gevonden inputs
     sortInputs.forEach(input => {
       input.addEventListener('change', (event) => {
-        console.log('Sort input changed:', event.target.value); // Debug: Log verandering
         this.handleSortChange(event);
       });
     });
@@ -79,9 +77,7 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   handleSortChange(event) {
-    console.log('handleSortChange triggered'); // Log aanroepen van de functie
     const sortValue = event.target.value;
-    console.log('Selected radio value:', sortValue); // Log de waarde van de geselecteerde radio
   
     this.state.currentSort = sortValue;
   
@@ -92,7 +88,6 @@ class FacetFiltersForm extends HTMLElement {
   
     if (otherInput) {
       otherInput.checked = true;
-      console.log(`Synchronized ${otherInputName} to value:`, sortValue);
     }
   
     this.applySortAndFilters();
@@ -280,9 +275,7 @@ class FacetFiltersForm extends HTMLElement {
    }
 
    applySortAndFilters() {
-    console.log('applySortAndFilters called'); // Debugging
     const queryString = this.buildQueryParams();
-    console.log('Query string:', queryString);
     this.updateURLHash(queryString);
     this.renderPage(queryString);
     this.updateProductCount();
@@ -372,16 +365,11 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   buildQueryParams() {
-    console.log('Current sort state:', this.state.currentSort); // Debug de sorteerwaarde
-  
     const urlParts = []; // Correcte variabele
   
     if (this.state.currentSort) {
       urlParts.push(`sort_by=${encodeURIComponent(this.state.currentSort)}`);
     }
-
-    // Voeg debuglog toe om geselecteerde filters te bekijken
-    console.log('Selected filters:', Array.from(this.state.selectedFilters.entries())); 
   
     const groupedParams = {};
     this.state.selectedFilters.forEach(filter => {
@@ -407,7 +395,6 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
   
-    console.log('Built query params:', urlParts.join('&')); // Debug de uiteindelijke querystring
     return urlParts.join('&');
   }   
 
@@ -448,7 +435,6 @@ class FacetFiltersForm extends HTMLElement {
 
   updateProductCount() {
     const url = `${window.location.pathname}?section_id=product-count&${this.buildQueryParams()}`;
-    console.log('Fetching product count from URL:', url); // Debugging
     
     fetch(url)
       .then(response => {
@@ -481,8 +467,6 @@ class FacetFiltersForm extends HTMLElement {
     
     if (desktopInput) desktopInput.checked = true;
     if (mobileInput) mobileInput.checked = true;
-  
-    console.log('Sortering vanuit URL geïnitialiseerd:', this.state.currentSort);
   
     // **Initialiseer geselecteerde filters**
     this.state.selectedFilters = new Map();
@@ -520,8 +504,6 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
   
-    console.log('Geselecteerde filters vanuit URL:', Array.from(this.state.selectedFilters.entries()));
-  
     // **Update UI met geselecteerde filters**
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
@@ -535,7 +517,6 @@ class FacetFiltersForm extends HTMLElement {
     if (minPriceInput) minPriceInput.value = minPrice;
     if (maxPriceInput) maxPriceInput.value = maxPrice;
   
-    console.log('Prijsrange vanuit URL ingesteld: €', minPrice, '-', maxPrice);
   }   
 
    syncFromURL() {
@@ -578,7 +559,6 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   updateURLHash(searchParams) {
-    console.log('Updating URL with:', searchParams); // Debugging
     history.pushState(
       { searchParams },
       '',
@@ -599,12 +579,10 @@ class FacetFiltersForm extends HTMLElement {
 
       this.state.loading = true;
       const sections = this.getSections();
-      console.log('Sections to render:', sections);
 
       await Promise.all(
         sections.map(section => {
           const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
-          console.log('Fetching section from URL:', url);
           return this.renderSectionFromFetch(url);
         })
       );
@@ -623,7 +601,6 @@ class FacetFiltersForm extends HTMLElement {
   
   async renderSectionFromFetch(url) {
     try {
-      console.log('Fetching URL:', url); // Debugging
       const response = await fetch(url);
       if (!response.ok) throw new Error('Fetch failed');
   
