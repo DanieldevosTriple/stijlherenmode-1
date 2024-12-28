@@ -30,13 +30,19 @@
       <nav class="breadcrumb">
         <a href="{{ routes.root_url }}">Home</a>
           <span> / </span>
+          <span> Policy </span>
+          <span> / </span>
           <span class="breadcrumb-link">{{ page.title }}</span>
       </nav> 
     </div>
     
     <div class="collection-title">
         <h1>
+            {% if template contains 'policy' %}
               {{ policy.title }}
+            {% else %}
+              {{ page.title }}
+            {% endif %}
           </h1>
     </div>
   </div>
