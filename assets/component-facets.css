@@ -339,7 +339,7 @@
     position: relative;
     overflow: hidden;
     -webkit-overflow-scrolling: touch;
-    height: 100dvh;
+    height: 90dvh;
   }
 
   .mobile-facets__footer {
