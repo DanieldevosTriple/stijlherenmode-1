@@ -713,9 +713,9 @@
 }
 
 .newsletter-form__button:hover {
-  background-color: black;
+  background-color: white;
   border: 2px solid black;
-  color: white;
+  color: black;
 }
 
 .newsletter-form__field-input {
