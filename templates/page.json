@@ -15,7 +15,7 @@
     }
   },
   "order": [
-    "main",
-    "main-page-banner"
+        "main-page-banner",
+        "main"
   ]
 }

@@ -22,8 +22,6 @@
         </nav>
       {% endif %}
     </div>
-    <div class="mobile-facets__filter">
-    </div>
   </div>
 
   {%- comment -%} Desktop layout {%- endcomment -%}
@@ -63,12 +61,6 @@
         <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
         {{- collection.title | escape -}}
       </h1>
-    </div>
-    
-    <div class="product-count">
-      {% paginate collection.products by settings.products_per_page %}
-        <span>{{ paginate.items }} {% if paginate.items == 1 %}product{% else %}producten{% endif %}</span>
-      {% endpaginate %}
     </div>
   </div>
 
