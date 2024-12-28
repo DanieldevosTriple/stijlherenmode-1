@@ -29,37 +29,15 @@
     <div class="breadcrumbs">
       <nav class="breadcrumb">
         <a href="{{ routes.root_url }}">Home</a>
-        {% if collection %}
           <span> / </span>
-          <span class="breadcrumb-link">{{ collection.title }}</span>
-        {% endif %}
-        {% if product %}
-          {% assign product_collection = collection %}
-          {% if product_collection == blank %}
-            {% assign product_collection = product.collections.first %}
-          {% endif %}
-          {% if product_collection %}
-            <span> / </span>
-            <a href="{{ product_collection.url }}" class="breadcrumb-link">{{ product_collection.title }}</a>
-          {% endif %}
-          <span> / </span>
-          <span>{{ product.title }}</span>
-        {% elsif article %}
-          <span> / </span>
-          <a href="{{ blog.url }}" class="breadcrumb-link">{{ blog.title }}</a>
-          <span> / </span>
-          <span>{{ article.title }}</span>
-        {% elsif search %}
-          <span> / </span>
-          <span>Zoekresultaten voor "{{ search.terms }}"</span>
-        {% endif %}
+          <span class="breadcrumb-link">{{ page.title }}</span>
       </nav> 
     </div>
     
     <div class="collection-title">
       <h1>
         <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{ page.title | escape }}
+        {{ page.title }}
       </h1>
     </div>
   </div>
