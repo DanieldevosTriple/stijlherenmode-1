@@ -59,19 +59,10 @@
     <div class="collection-title">
       <h1>
         <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
+        {{ page.title | escape }}
       </h1>
     </div>
   </div>
-
-  {% unless collection.handle %}
-    <div class="collection-title">
-      <h1>
-        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
-      </h1>
-    </div>
-  {% endunless %}
 </div>
 
 {% schema %}
