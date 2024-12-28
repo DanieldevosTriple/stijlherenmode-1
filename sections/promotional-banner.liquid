@@ -10,10 +10,6 @@
           {%- if section.settings.link != blank -%}
             <a href="{{ section.settings.link }}" class="banner__link">
           {%- endif -%}
-          
-          {%- if section.settings.show_icon -%}
-            <span class="banner__icon">{{ section.settings.icon }}</span>
-          {%- endif -%}
   
           <div class="banner__text" style="color: {{ section.settings.text_color }}">
             {%- if section.settings.heading != blank -%}
@@ -24,18 +20,6 @@
               <span class="banner__text-content">{{ section.settings.text | escape }}</span>
             {%- endif -%}
           </div>
-  
-          {%- if section.settings.button_label != blank -%}
-            <span class="banner__button button"
-                  style="background-color: {{ section.settings.button_color }};
-                         color: {{ section.settings.button_text_color }}">
-              {{ section.settings.button_label | escape }}
-            </span>
-          {%- endif -%}
-  
-          {%- if section.settings.link != blank -%}
-            </a>
-          {%- endif -%}
   
           {%- if section.settings.show_close_button -%}
             <button type="button" class="banner__close" aria-label="{{ 'general.accessibility.close' | t }}">
@@ -176,76 +160,6 @@
         "id": "text",
         "label": "Text",
         "default": "Use code SAVE20 for 20% off your order"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_icon",
-        "label": "Show icon",
-        "default": true
-      },
-      {
-        "type": "text",
-        "id": "icon",
-        "label": "Icon (emoji or text)",
-        "default": "🎉"
-      },
-      {
-        "type": "url",
-        "id": "link",
-        "label": "Banner link"
-      },
-      {
-        "type": "text",
-        "id": "button_label",
-        "label": "Button label"
-      },
-      {
-        "type": "header",
-        "content": "Styling"
-      },
-      {
-        "type": "color",
-        "id": "background_color",
-        "label": "Background color",
-        "default": "#000000"
-      },
-      {
-        "type": "color",
-        "id": "text_color",
-        "label": "Text color",
-        "default": "#ffffff"
-      },
-      {
-        "type": "color",
-        "id": "button_color",
-        "label": "Button background",
-        "default": "#ffffff"
-      },
-      {
-        "type": "color",
-        "id": "button_text_color",
-        "label": "Button text color",
-        "default": "#000000"
-      },
-      {
-        "type": "range",
-        "id": "padding_y",
-        "min": 5,
-        "max": 50,
-        "step": 5,
-        "unit": "px",
-        "label": "Vertical padding",
-        "default": 15
-      },
-      {
-        "type": "range",
-        "id": "padding_x",
-        "min": 10,
-        "max": 100,
-        "step": 5,
-        "unit": "px",
-        "label": "Horizontal padding",
-        "default": 20
       }
     ],
     "presets": [
