@@ -1,0 +1,257 @@
+{% comment %}
+  sections/promotional-banner.liquid
+{% endcomment %}
+
+{%- if section.settings.show_banner -%}
+    <div class="promotional-banner {% if section.settings.enable_sticky %}banner-sticky{% endif %}" 
+         style="background-color: {{ section.settings.background_color }}">
+      <div class="page-width">
+        <div class="banner__content">
+          {%- if section.settings.link != blank -%}
+            <a href="{{ section.settings.link }}" class="banner__link">
+          {%- endif -%}
+          
+          {%- if section.settings.show_icon -%}
+            <span class="banner__icon">{{ section.settings.icon }}</span>
+          {%- endif -%}
+  
+          <div class="banner__text" style="color: {{ section.settings.text_color }}">
+            {%- if section.settings.heading != blank -%}
+              <span class="banner__heading h5">{{ section.settings.heading | escape }}</span>
+            {%- endif -%}
+  
+            {%- if section.settings.text != blank -%}
+              <span class="banner__text-content">{{ section.settings.text | escape }}</span>
+            {%- endif -%}
+          </div>
+  
+          {%- if section.settings.button_label != blank -%}
+            <span class="banner__button button"
+                  style="background-color: {{ section.settings.button_color }};
+                         color: {{ section.settings.button_text_color }}">
+              {{ section.settings.button_label | escape }}
+            </span>
+          {%- endif -%}
+  
+          {%- if section.settings.link != blank -%}
+            </a>
+          {%- endif -%}
+  
+          {%- if section.settings.show_close_button -%}
+            <button type="button" class="banner__close" aria-label="{{ 'general.accessibility.close' | t }}">
+              {% render 'icon-close' %}
+            </button>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  
+    {% style %}
+      .promotional-banner {
+        transition: opacity 0.3s ease-in-out;
+        opacity: 1;
+      }
+  
+      .promotional-banner.banner-sticky {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+  
+      .promotional-banner.is-hidden {
+        opacity: 0;
+        display: none;
+      }
+  
+      .banner__content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: {{ section.settings.padding_y }}px {{ section.settings.padding_x }}px;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+  
+      @media screen and (min-width: 750px) {
+        .banner__content {
+          flex-wrap: nowrap;
+        }
+      }
+  
+      .banner__link {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex: 1;
+      }
+  
+      .banner__text {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+  
+      .banner__close {
+        padding: 0.5rem;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: currentColor;
+      }
+    {% endstyle %}
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const banner = document.querySelector('.promotional-banner');
+        const closeButton = banner.querySelector('.banner__close');
+        
+        if (closeButton) {
+          closeButton.addEventListener('click', function() {
+            banner.classList.add('is-hidden');
+            if ({{ section.settings.save_closed_state | json }}) {
+              localStorage.setItem('promoBannerClosed', 'true');
+            }
+          });
+        }
+  
+        // Check if banner was previously closed
+        if ({{ section.settings.save_closed_state | json }}) {
+          if (localStorage.getItem('promoBannerClosed') === 'true') {
+            banner.classList.add('is-hidden');
+          }
+        }
+      });
+    </script>
+  {%- endif -%}
+  
+  {% schema %}
+  {
+    "name": "Promotional Banner",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Banner Visibility"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_banner",
+        "label": "Show banner",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_sticky",
+        "label": "Make banner sticky",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_close_button",
+        "label": "Show close button",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "save_closed_state",
+        "label": "Remember closed state",
+        "default": true,
+        "info": "If enabled, the banner will stay hidden for users who have closed it"
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Special Offer!"
+      },
+      {
+        "type": "text",
+        "id": "text",
+        "label": "Text",
+        "default": "Use code SAVE20 for 20% off your order"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_icon",
+        "label": "Show icon",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "icon",
+        "label": "Icon (emoji or text)",
+        "default": "🎉"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Banner link"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label"
+      },
+      {
+        "type": "header",
+        "content": "Styling"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "button_color",
+        "label": "Button background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button text color",
+        "default": "#000000"
+      },
+      {
+        "type": "range",
+        "id": "padding_y",
+        "min": 5,
+        "max": 50,
+        "step": 5,
+        "unit": "px",
+        "label": "Vertical padding",
+        "default": 15
+      },
+      {
+        "type": "range",
+        "id": "padding_x",
+        "min": 10,
+        "max": 100,
+        "step": 5,
+        "unit": "px",
+        "label": "Horizontal padding",
+        "default": 20
+      }
+    ],
+    "presets": [
+      {
+        "name": "Promotional Banner",
+        "category": "Promotional"
+      }
+    ]
+  }
+  {% endschema %}
