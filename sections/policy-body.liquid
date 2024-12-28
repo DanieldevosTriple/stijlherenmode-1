@@ -10,6 +10,6 @@
       {% elsif request.path contains '/policies/shipping-policy' %}
         {{ shop.shipping_policy.body }}
       {% else %}
-        {{ page.body }}
+        <div class="col-12">{{ page.body }}</div>
       {% endif %}
 </div>

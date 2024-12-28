@@ -435,6 +435,9 @@
       {% elsif request.path contains '/policies/subscription-policy' %}
         {% section 'main-page-banner' %}
         {% section 'policy-body' %}
+      {% elsif request.path contains '/pages/betalen' %}
+        {% section 'main-page-banner' %}
+        {% section 'policy-body' %}  
       {% else %}
         {{ content_for_layout }}
       {% endif %}
