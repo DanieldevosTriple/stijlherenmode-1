@@ -2,17 +2,31 @@
   Renders facets (filtering and sorting)
 {% endcomment %}
 
+{%- liquid
+  assign is_search_page = results.url contains '/search'
+  assign paginate_by = settings.products_per_page
+  if is_search_page
+    assign items = results.results
+    assign total_items = results.results_count
+  else
+    assign items = collection.products
+    assign total_items = collection.products_count
+  endif
+-%}
+
 <div class="facets-container scroll-trigger animate--fade-in">
   <facet-filters-form class="facets">
     <!-- Mobile Header - Only visible on mobile -->
     <div class="mobile-header">
       <div class="mobile-breadcrumb">
-        {% if collection.handle %}
+        {% if is_search_page %}
+          <span>{{ 'templates.search.title' | t }}</span>
+        {% elsif collection.handle %}
           <span>{{ collection.title }}</span>
         {% endif %}
       </div>
-      {% paginate collection.products by settings.products_per_page %}
-        <span>{{ paginate.items }} {% if paginate.items == 1 %}product{% else %}producten{% endif %}</span>
+      {% paginate items by paginate_by %}
+        <span>{{ total_items }} {% if total_items == 1 %}product{% else %}producten{% endif %}</span>
       {% endpaginate %}
     </div>
 
