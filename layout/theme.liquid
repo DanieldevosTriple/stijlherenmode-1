@@ -420,7 +420,7 @@
       {% if request.path == '/policies/legal-notice' %}
         {% section 'main-page-banner' %}
         {% section 'refund-policy' %}
-      {% if request.path == '/policies/refund-policy' %}
+      {% elsif request.path == '/policies/refund-policy' %}
         {% section 'main-page-banner' %}
         {% section 'refund-policy' %}
       {% elsif request.path contains '/policies/privacy-policy' %}

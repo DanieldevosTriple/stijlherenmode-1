@@ -52,7 +52,9 @@
     
     <div class="collection-title">
         <h1>
-            {% if request.path == '/policies/refund-policy' %}
+            {% if request.path == '/policies/legal-notice' %}
+                {{ shop.legal_notice.title }}
+            {% elsif request.path == '/policies/refund-policy' %}
                 {{ shop.refund_policy.title }}
               {% elsif request.path contains '/policies/privacy-policy' %}
                 {{ shop.privacy_policy.title }}
