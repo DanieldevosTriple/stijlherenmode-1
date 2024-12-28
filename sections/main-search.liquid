@@ -1,3 +1,26 @@
+{%- liquid
+  assign search_terms_downcase = search.terms | downcase
+  assign is_color_search = false
+  assign matching_color = ""
+  
+  # Check if search term matches any color variant
+  for product in search.results
+    if product.object_type == 'product'
+      for variant in product.variants
+        assign color = variant.option1 | downcase
+        if color contains search_terms_downcase or search_terms_downcase contains color
+          assign is_color_search = true
+          assign matching_color = variant.option1
+          break
+        endif
+      endfor
+    endif
+    if is_color_search
+      break
+    endif
+  endfor
+-%}
+
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
@@ -13,6 +36,9 @@
 
 <script>
   window.products = {};
+  window.isColorSearch = {{ is_color_search | json }};
+  window.matchingColor = {{ matching_color | json }};
+  
   {% for product in search.results %}
     {% if product.object_type == 'product' %}
       window.products[{{ product.id }}] = {
@@ -59,6 +85,20 @@
 
   .search__button .icon {
     height: 1.8rem;
+  }
+
+  .color-search-notice {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .color-search-notice p {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 500;
   }
 </style>
 
@@ -202,22 +242,21 @@
             </div>
           {%- else -%}
             <div class="collection" id="product-grid" data-id="{{ section.id }}">
+              {% if is_color_search %}
+                <div class="color-search-notice">
+                  <p>Showing results for color: {{ matching_color }}</p>
+                </div>
+              {% endif %}
+
               <div class="product-grid">
                 {%- for item in search.results -%}
                   {%- if item.object_type == 'product' -%}
-                    {%- comment -%}
-                      Determine if the product has variants.
-                      Instead of directly assigning a boolean with a condition, we use if/else.
-                    {%- endcomment -%}
                     {% if item.variants.size > 0 %}
                       {% assign has_variants = true %}
                     {% else %}
                       {% assign has_variants = false %}
                     {% endif %}
 
-                    {%- comment -%}
-                      Identify if a 'Color' option exists and store its index.
-                    {%- endcomment -%}
                     {% assign color_option_index = -1 %}
                     {% assign color_active = false %}
                     {% for opt_name in item.options %}
@@ -227,26 +266,24 @@
                       {% endif %}
                     {% endfor %}
 
-                    {%- comment -%}
-                      If the product has variants and a color option,
-                      we want to show one variant per unique color.
-                      To avoid issues with 'contains', we wrap each color in a unique delimiter.
-                    {%- endcomment -%}
                     {% if has_variants and color_active and color_option_index != -1 %}
                       {% assign colorlist = '|' %}
+                      {% assign has_matching_variant = false %}
+                      
                       {% for variant in item.variants %}
                         {% assign color = variant.options[color_option_index] | strip %}
-
-                        {%- comment -%}
-                          Check if this color is not yet displayed:
-                          We search for "|Color|" in colorlist to ensure exact matches.
-                        {%- endcomment -%}
                         {% assign color_check = '|' | append: color | append: '|' %}
 
+                        {% if is_color_search %}
+                          {% assign variant_color_downcase = color | downcase %}
+                          {% if variant_color_downcase contains search_terms_downcase or search_terms_downcase contains variant_color_downcase %}
+                            {% assign has_matching_variant = true %}
+                          {% else %}
+                            {% continue %}
+                          {% endif %}
+                        {% endif %}
+
                         {% if color != '' and colorlist contains color_check %}
-                          {%- comment -%}
-                            If the color is already in colorlist, skip this variant.
-                          {%- endcomment -%}
                           {% continue %}
                         {% endif %}
 
@@ -270,50 +307,47 @@
                         {% assign colorlist = colorlist | append: color | append: '|' %}
                       {% endfor %}
                     {% else %}
-                      <div class="product-article"
-                        data-product-id="{{ item.id }}">
-                        {% render 'card-product',
-                          card_product: item,
-                          media_aspect_ratio: section.settings.image_ratio,
-                          show_secondary_image: section.settings.show_secondary_image,
-                          show_vendor: section.settings.show_vendor,
-                          show_rating: section.settings.show_rating
-                        %}
-                      </div>
+                      {% unless is_color_search %}
+                        <div class="product-article"
+                          data-product-id="{{ item.id }}">
+                          {% render 'card-product',
+                            card_product: item,
+                            media_aspect_ratio: section.settings.image_ratio,
+                            show_secondary_image: section.settings.show_secondary_image,
+                            show_vendor: section.settings.show_vendor,
+                            show_rating: section.settings.show_rating
+                          %}
+                        </div>
+                      {% endunless %}
                     {% endif %}
                   {%- else -%}
-                    <div class="product-article">
-                      {%- case item.object_type -%}
-                        {%- when 'article' -%}
-                          {% render 'article-card',
-                            article: item,
-                            show_image: true,
-                            show_date: section.settings.article_show_date,
-                            show_author: section.settings.article_show_author,
-                            show_badge: true,
-                            media_aspect_ratio: 1
-                          %}
-                        {%- when 'page' -%}
-                          <div class="article-card-wrapper card-wrapper underline-links-hover">
-                            <div class="card card--card card--text ratio color-{{ settings.blog_card_color_scheme }}" style="--ratio-percent: 100%;">
-                              <div class="card__content">
-                                <div class="card__information">
-                                  <h3 class="card__heading">
-                                    <a href="{{ item.url }}" class="full-unstyled-link">
-                                      {{ item.title | truncate: 50 | escape }}
-                                    </a>
-                                  </h3>
-                                </div>
-                                <div class="card__badge {{ settings.badge_position }}">
-                                  <span class="badge color-{{ settings.color_schemes | first }}">
-                                    {{- 'templates.search.page' | t -}}
-                                  </span>
-                                </div>
-                              </div>
+                    {% unless is_color_search %}
+                      <div class="product-article">
+                        {%- case item.object_type -%}
+                          {%- when 'article' -%}
+                            {% render 'article-card',
+                              article: item,
+                              show_image: true,
+                              show_date: section.settings.article_show_date,
+                              show_author: section.settings.article_show_author,
+                              show_badge: true,
+                              media_aspect_ratio: 1
+                            %}
+                          {%- when 'page' -%}
+                            <div class="article-card-wrapper card-wrapper underline-links-hover">
+                              <div class="card card--card card--text ratio color-{{ settings.blog_card_color_scheme }}" style="--ratio-percent: 100%;">
+                                <div class="card__content">
+                                  <div class="card__information">
+                                    <h3 class="card__heading">
+                                      <a href="{{ item.url }}" class="full-unstyled-link">
+                                        {{ item.title | truncate: 50 | escape }}
+                                      </a>
+                                    </h3>
+                                  </div>
                             </div>
-                          </div>
-                      {%- endcase -%}
-                    </div>
+                        {%- endcase -%}
+                      </div>
+                    {% endunless %}
                   {%- endif -%}
                 {%- endfor -%}
               </div>
