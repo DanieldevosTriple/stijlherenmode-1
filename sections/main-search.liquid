@@ -2,17 +2,36 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-search.css' | asset_url | stylesheet_tag }}
+{{ 'custom-product-collection.css' | asset_url | stylesheet_tag }}
 
 {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
   {{ 'component-facets.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-{% if section.settings.image_shape == 'blob' %}
-  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
-{%- endif -%}
-
 <script src="{{ 'main-search.js' | asset_url }}" defer="defer"></script>
+
+<script>
+  window.products = {};
+  {% for product in search.results %}
+    {% if product.object_type == 'product' %}
+      window.products[{{ product.id }}] = {
+        "id": {{ product.id }},
+        "title": "{{ product.title }}",
+        "variants": [
+          {% for variant in product.variants %}
+            {
+              "id": {{ variant.id }},
+              "color": "{{ variant.option1 }}",
+              "image": "{{ variant.image | img_url: 'medium' }}"
+            }
+            {% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      };
+    {% endif %}
+  {% endfor %}
+</script>
 
 <style>
   .template-search__header {
@@ -145,64 +164,8 @@
         {%- endif -%}
       {%- endif -%}
     </div>
+    
     {%- if search.performed -%}
-      {%- if section.settings.enable_sorting
-        and section.settings.filter_type == 'vertical'
-        and search.filters != empty
-      -%}
-        <facet-filters-form class="facets facets-vertical-sort page-width small-hide">
-          <form class="facets-vertical-form" id="FacetSortForm">
-            <div class="facet-filters sorting caption">
-              <div class="facet-filters__field">
-                <h2 class="facet-filters__label caption-large text-body">
-                  <label for="SortBy">{{ 'products.facets.sort_by_label' | t }}</label>
-                </h2>
-                <div class="select">
-                  {%- assign sort_by = search.sort_by | default: search.default_sort_by -%}
-                  <select
-                    name="sort_by"
-                    class="facet-filters__sort select__select caption-large"
-                    id="SortBy"
-                    aria-describedby="a11y-refresh-page-message"
-                  >
-                    {%- for option in search.sort_options -%}
-                      <option
-                        value="{{ option.value | escape }}"
-                        {% if option.value == sort_by %}
-                          selected="selected"
-                        {% endif %}
-                      >
-                        {{ option.name | escape }}
-                      </option>
-                    {%- endfor -%}
-                  </select>
-                  <span class="svg-wrapper">
-                    {{- 'icon-caret.svg' | inline_asset_content -}}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-count-vertical light" role="status">
-              <h2 class="product-count__text text-body">
-                <span id="ProductCountDesktop">
-                  {%- if search.results_count -%}
-                    {{ 'templates.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
-                  {%- elsif search.products_count == search.all_products_count -%}
-                    {{ 'products.facets.product_count_simple' | t: count: search.products_count }}
-                  {%- else -%}
-                    {{
-                      'products.facets.product_count'
-                      | t: product_count: search.products_count, count: search.all_products_count
-                    }}
-                  {%- endif -%}
-                </span>
-              </h2>
-              {%- render 'loading-spinner' -%}
-            </div>
-          </form>
-        </facet-filters-form>
-      {%- endif -%}
       <div
         {% if section.settings.filter_type == 'vertical' %}
           class="facets-vertical page-width"
@@ -226,14 +189,10 @@
             </aside>
           {%- endif -%}
         {%- endif -%}
+
         <div class="product-grid-container" id="ProductGridContainer">
           {%- if search.results.size == 0 and search.filters != empty -%}
-            <div
-              class="col-12 template-search__results collection collection--empty"
-              id="product-grid"
-              data-id="{{ section.id }}"
-            >
-              <div class="loading-overlay gradient"></div>
+            <div class="collection collection--empty" id="product-grid" data-id="{{ section.id }}">
               <div class="title-wrapper center">
                 <h2 class="title title--primary">
                   {{ 'sections.collection_template.empty' | t -}}
@@ -246,80 +205,123 @@
               </div>
             </div>
           {%- else -%}
-            <div
-              class="template-search__results collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
-              id="product-grid"
-              data-id="{{ section.id }}"
-            >
-              <div class="loading-overlay gradient"></div>
-              <ul
-                class="product-grid g-4"
-                role="list"
-              >
-
-                {%- assign skip_card_product_styles = false -%}
+            <div class="collection" id="product-grid" data-id="{{ section.id }}">
+              <div class="product-grid">
                 {%- for item in search.results -%}
-                  {% assign lazy_load = false %}
-                  {%- if forloop.index > 2 -%}
-                    {%- assign lazy_load = true -%}
-                  {%- endif -%}
-
-                  <li
-                    class="scroll-trigger animate--slide-in"
-                    {% if settings.animations_reveal_on_scroll %}
-                      data-cascade
+                  {%- if item.object_type == 'product' -%}
+                    {%- comment -%}
+                      Determine if the product has variants.
+                      Instead of directly assigning a boolean with a condition, we use if/else.
+                    {%- endcomment -%}
+                    {% if item.variants.size > 0 %}
+                      {% assign has_variants = true %}
+                    {% else %}
+                      {% assign has_variants = false %}
                     {% endif %}
-                  >
-                    {%- case item.object_type -%}
-                      {%- when 'product' -%}
-                        {%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
+
+                    {%- comment -%}
+                      Identify if a 'Color' option exists and store its index.
+                    {%- endcomment -%}
+                    {% assign color_option_index = -1 %}
+                    {% assign color_active = false %}
+                    {% for opt_name in item.options %}
+                      {% if opt_name == 'Color' or opt_name == 'Kleur' %}
+                        {% assign color_active = true %}
+                        {% assign color_option_index = forloop.index0 %}
+                      {% endif %}
+                    {% endfor %}
+
+                    {%- comment -%}
+                      If the product has variants and a color option,
+                      we want to show one variant per unique color.
+                      To avoid issues with 'contains', we wrap each color in a unique delimiter.
+                    {%- endcomment -%}
+                    {% if has_variants and color_active and color_option_index != -1 %}
+                      {% assign colorlist = '|' %}
+                      {% for variant in item.variants %}
+                        {% assign color = variant.options[color_option_index] | strip %}
+
+                        {%- comment -%}
+                          Check if this color is not yet displayed:
+                          We search for "|Color|" in colorlist to ensure exact matches.
+                        {%- endcomment -%}
+                        {% assign color_check = '|' | append: color | append: '|' %}
+
+                        {% if color != '' and colorlist contains color_check %}
+                          {%- comment -%}
+                            If the color is already in colorlist, skip this variant.
+                          {%- endcomment -%}
+                          {% continue %}
+                        {% endif %}
+
+                        <div class="product-article"
+                          data-product-id="{{ item.id }}"
+                          data-variant-id="{{ variant.id }}"
+                          data-price="{{ variant.price | money_without_currency }}"
+                          data-filter-color="{{ variant.options[color_option_index] | escape }}"
+                          data-filter-size="{% if item.options.size > 1 %}{{ variant.options.last | escape }}{% endif %}">
+                          
+                          {% render 'card-product-variant',
+                            card_product: item,
+                            variant: variant,
+                            media_aspect_ratio: section.settings.image_ratio,
+                            show_secondary_image: section.settings.show_secondary_image,
+                            show_vendor: section.settings.show_vendor,
+                            show_rating: section.settings.show_rating
+                          %}
+                        </div>
+
+                        {% assign colorlist = colorlist | append: color | append: '|' %}
+                      {% endfor %}
+                    {% else %}
+                      <div class="product-article"
+                        data-product-id="{{ item.id }}">
                         {% render 'card-product',
                           card_product: item,
                           media_aspect_ratio: section.settings.image_ratio,
-                          image_shape: section.settings.image_shape,
                           show_secondary_image: section.settings.show_secondary_image,
                           show_vendor: section.settings.show_vendor,
-                          show_rating: section.settings.show_rating,
-                          lazy_load: lazy_load,
-                          skip_styles: skip_card_product_styles
+                          show_rating: section.settings.show_rating
                         %}
-                        {%- assign skip_card_product_styles = true -%}
-                      {%- when 'article' -%}
-                        {% render 'article-card',
-                          article: item,
-                          show_image: true,
-                          show_date: section.settings.article_show_date,
-                          show_author: section.settings.article_show_author,
-                          show_badge: true,
-                          media_aspect_ratio: 1,
-                          lazy_load: lazy_load
-                        %}
-                      {%- when 'page' -%}
-                        <div class="article-card-wrapper card-wrapper underline-links-hover">
-                          <div
-                            class="card card--card card--text ratio color-{{ settings.blog_card_color_scheme }}"
-                            style="--ratio-percent: 100%;"
-                          >
-                            <div class="card__content">
-                              <div class="card__information">
-                                <h3 class="card__heading">
-                                  <a href="{{ item.url }}" class="full-unstyled-link">
-                                    {{ item.title | truncate: 50 | escape }}
-                                  </a>
-                                </h3>
-                              </div>
-                              <div class="card__badge {{ settings.badge_position }}">
-                                <span class="badge color-{{ settings.color_schemes | first }}">
-                                  {{- 'templates.search.page' | t -}}
-                                </span>
+                      </div>
+                    {% endif %}
+                  {%- else -%}
+                    <div class="product-article">
+                      {%- case item.object_type -%}
+                        {%- when 'article' -%}
+                          {% render 'article-card',
+                            article: item,
+                            show_image: true,
+                            show_date: section.settings.article_show_date,
+                            show_author: section.settings.article_show_author,
+                            show_badge: true,
+                            media_aspect_ratio: 1
+                          %}
+                        {%- when 'page' -%}
+                          <div class="article-card-wrapper card-wrapper underline-links-hover">
+                            <div class="card card--card card--text ratio color-{{ settings.blog_card_color_scheme }}" style="--ratio-percent: 100%;">
+                              <div class="card__content">
+                                <div class="card__information">
+                                  <h3 class="card__heading">
+                                    <a href="{{ item.url }}" class="full-unstyled-link">
+                                      {{ item.title | truncate: 50 | escape }}
+                                    </a>
+                                  </h3>
+                                </div>
+                                <div class="card__badge {{ settings.badge_position }}">
+                                  <span class="badge color-{{ settings.color_schemes | first }}">
+                                    {{- 'templates.search.page' | t -}}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                    {%- endcase -%}
-                  </li>
+                      {%- endcase -%}
+                    </div>
+                  {%- endif -%}
                 {%- endfor -%}
-              </ul>
+              </div>
+
               {%- if paginate.pages > 1 -%}
                 {% render 'pagination', paginate: paginate %}
               {%- endif -%}
@@ -330,9 +332,6 @@
     {%- endif -%}
   </div>
 {% endpaginate %}
-{% if section.settings.image_shape == 'arch' %}
-  {{ 'mask-arch.svg' | inline_asset_content }}
-{%- endif -%}
 
 {% schema %}
 {
