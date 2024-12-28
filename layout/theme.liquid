@@ -417,6 +417,7 @@
     {% sections 'header-group' %}
 
     <main id="MainContent" class="content-for-layout focus-none container-general" role="main" tabindex="-1">
+      {% section 'main-page-banner' %}
       {% if request.path == '/policies/refund-policy' %}
         {% section 'refund-policy' %}
       {% elsif request.path contains '/policies/privacy-policy' %}
