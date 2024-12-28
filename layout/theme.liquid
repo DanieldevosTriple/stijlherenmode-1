@@ -417,16 +417,20 @@
     {% sections 'header-group' %}
 
     <main id="MainContent" class="content-for-layout focus-none container-general" role="main" tabindex="-1">
-      {% section 'main-page-banner' %}
       {% if request.path == '/policies/refund-policy' %}
+        {% section 'main-page-banner' %}
         {% section 'refund-policy' %}
       {% elsif request.path contains '/policies/privacy-policy' %}
+        {% section 'main-page-banner' %}
         {% section 'privacy-policy' %}
       {% elsif request.path contains '/policies/terms-of-service' %}
+        {% section 'main-page-banner' %}
         {% section 'terms-of-service' %}
       {% elsif request.path contains '/policies/shipping-policy' %}
+        {% section 'main-page-banner' %}
         {% section 'shipping-policy' %}
       {% elsif request.path contains '/policies/subscription-policy' %}
+        {% section 'main-page-banner' %}
         {% section 'subscription-policy' %}
       {% else %}
         {{ content_for_layout }}
