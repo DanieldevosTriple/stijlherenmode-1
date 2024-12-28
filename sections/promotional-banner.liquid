@@ -11,19 +11,14 @@
             <a href="{{ section.settings.link }}" class="banner__link">
           {%- endif -%}
   
-          <div class="banner__text" style="color: {{ section.settings.text_color }}">
-            {%- if section.settings.heading != blank -%}
-              <span class="banner__heading h5">{{ section.settings.heading | escape }}</span>
-            {%- endif -%}
-  
+          <div class="banner__text" style="color: {{ section.settings.text_color }}">  
             {%- if section.settings.text != blank -%}
               <span class="banner__text-content">{{ section.settings.text | escape }}</span>
             {%- endif -%}
           </div>
-  
           {%- if section.settings.show_close_button -%}
             <button type="button" class="banner__close" aria-label="{{ 'general.accessibility.close' | t }}">
-              {% render 'icon-close.svg' %}
+                {{- 'icon-close.svg' | inline_asset_content -}}
             </button>
           {%- endif -%}
         </div>
