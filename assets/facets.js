@@ -7,7 +7,9 @@ class FacetFiltersForm extends HTMLElement {
       currentView: 'main',
       filterCache: new Map(),
       isMobileView: window.innerWidth <= 991,
-      currentSort: '' // Added
+      currentSort: '',
+      isSearchPage: window.location.pathname.includes('/search'), // Add check for search page
+      searchTerms: new URLSearchParams(window.location.search).get('q') || '' // Store search terms
     };
 
     this.filterPreview = new FilterPreview();
@@ -19,6 +21,7 @@ class FacetFiltersForm extends HTMLElement {
     this.setupResizeObserver();
     this.updateProductCount();
   }
+
 
   setupEventListeners() {
     // Price range inputs - both mobile and desktop
@@ -382,6 +385,12 @@ class FacetFiltersForm extends HTMLElement {
   buildQueryParams() {
     const urlParts = [];
 
+    // Preserve search query if on search page
+    if (this.state.isSearchPage && this.state.searchTerms) {
+      urlParts.push(`q=${encodeURIComponent(this.state.searchTerms)}`);
+      urlParts.push('options[prefix]=last');
+    }
+
     // Add the sort if it's set
     if (this.state.currentSort) {
       urlParts.push(`sort_by=${encodeURIComponent(this.state.currentSort)}`);
@@ -401,9 +410,6 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
 
-    // Log to see the selected filters and their corresponding params
-    console.log('Selected filters to build query:', Array.from(this.state.selectedFilters.entries()));
-
     Object.entries(groupedParams).forEach(([key, values]) => {
       const encodedKey = encodeURIComponent(key);
       if (Array.isArray(values)) {
@@ -414,13 +420,39 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
 
-    // Check if URL parts are empty before generating the final query string
-    const queryString = urlParts.join('&');
-    if (queryString) {
-      console.log('Built query params:', queryString); // Debugging
-      return queryString;
-    } else {
-      return ''; // Return an empty string if no filters
+    return urlParts.join('&');
+  }
+
+  async renderPage(searchParams) {
+    if (this.state.loading) return;
+
+    try {
+      const gridContainer = document.getElementById('ProductGridContainer');
+      if (gridContainer) {
+        gridContainer.classList.add('is-loading');
+      }
+
+      this.state.loading = true;
+      const sections = this.getSections();
+
+      await Promise.all(
+        sections.map(section => {
+          // Build URL based on whether we're on search page or collection page
+          const baseUrl = this.state.isSearchPage ? '/search' : window.location.pathname;
+          const url = `${baseUrl}?section_id=${section.section}&${searchParams}`;
+          return this.renderSectionFromFetch(url);
+        })
+      );
+
+      if (gridContainer) {
+        gridContainer.classList.remove('is-loading');
+      }
+
+      this.state.loading = false;
+      this.updateProductCount();
+    } catch (error) {
+      console.error('Error rendering page:', error);
+      this.state.loading = false;
     }
   }
 
@@ -484,6 +516,9 @@ class FacetFiltersForm extends HTMLElement {
   initializeFromURL() {
     const params = new URLSearchParams(window.location.search);
 
+    // Store search terms if present
+    this.state.searchTerms = params.get('q') || '';
+    
     // Initialize the selected filters based on URL parameters
     this.state.selectedFilters = new Map();
 
@@ -514,10 +549,14 @@ class FacetFiltersForm extends HTMLElement {
             }
           }
         });
+      } else if (key === 'sort_by') {
+        this.state.currentSort = value;
+        const sortInputs = this.querySelectorAll(`input[name^="sort_by"][value="${value}"]`);
+        sortInputs.forEach(input => input.checked = true);
       }
     });
 
-    // Reinitialize the price range inputs
+    // Initialize price range inputs
     const minPriceInput = this.querySelector('input[name^="min_filter.v.price"]');
     const maxPriceInput = this.querySelector('input[name^="max_filter.v.price"]');
     const minPrice = params.get('filter.v.price.gte') || '';
