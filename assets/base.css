@@ -2648,3 +2648,55 @@ sticky-header {
 .shopify-policy__container {
   max-width: unset !important;
 }
+
+/* Banner container */
+.shopify-pc__banner__dialog {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtiele schaduw */
+  padding: 20px;
+  background-color: #faf7f3 !important;
+}
+
+.shopify-pc__banner__dialog p,
+.shopify-pc__banner__dialog button.shopify-pc__banner__btn-manage-prefs,
+.shopify-pc__banner__dialog button.shopify-pc__banner__btn-accept,
+.shopify-pc__banner__dialog button.shopify-pc__banner__btn-decline,
+.shopify-pc__banner__btn-manage-prefs {
+  text-transform: uppercase;
+}
+
+/* Banner titel */
+#shopify-pc__banner__body-title {
+  font-size: 18px;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.shopify-pc__banner__dialog button.shopify-pc__banner__btn-accept {
+    background-color: black !important;
+    border: 2px solid black !important;
+    color: white !important;
+    padding: 10px 50px !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    font-size: 15px !important;
+    text-transform: uppercase !important;
+    font-weight: 600 !important;
+    width: max-content !important;
+    font-family: TradeGothicLT, sans-serif !important;
+}
+
+.shopify-pc__banner__dialog button.shopify-pc__banner__btn-decline {
+  background-color: transparent;
+  border: 2px solid black !important;
+  color: black !important;
+  padding: 10px 50px !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  font-size: 15px !important;
+  text-transform: uppercase !important;
+  font-weight: 600 !important;
+  width: max-content !important;
+  font-family: TradeGothicLT, sans-serif !important;
+}
