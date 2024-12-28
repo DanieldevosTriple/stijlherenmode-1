@@ -106,12 +106,13 @@
   }
 
   .mobile-policy-page-title {
-    display: flex-end; /* Changed to flex */
+    display: flex; /* Changed to flex */
     align-items: center;
     height: 24px; /* Fixed height */
     text-transform: uppercase;
     font-weight: 800;
     justify-content: flex-end;
+    font-size: 1.4rem;
   }
 
   .mobile-breadcrumb {
