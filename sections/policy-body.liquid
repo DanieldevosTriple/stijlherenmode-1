@@ -1,0 +1,15 @@
+<div class=col-12>
+    {% if request.path == '/policies/legal-notice' %}
+        {{ shop.legal_notice.body }}
+    {% elsif request.path == '/policies/refund-policy' %}
+        {{ shop.refund_policy.body }}
+      {% elsif request.path contains '/policies/privacy-policy' %}
+        {{ shop.privacy_policy.body }}
+      {% elsif request.path contains '/policies/terms-of-service' %}
+        {{ shop.terms_of_service.body }}
+      {% elsif request.path contains '/policies/shipping-policy' %}
+        {{ shop.shipping_policy.body }}
+      {% else %}
+        {{ page.body }}
+      {% endif %}
+</div>

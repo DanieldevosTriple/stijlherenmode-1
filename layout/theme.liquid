@@ -419,22 +419,22 @@
     <main id="MainContent" class="content-for-layout focus-none container-general" role="main" tabindex="-1">
       {% if request.path == '/policies/legal-notice' %}
         {% section 'main-page-banner' %}
-        {% section 'refund-policy' %}
+        {% section 'policy-body' %}
       {% elsif request.path == '/policies/refund-policy' %}
         {% section 'main-page-banner' %}
-        {% section 'refund-policy' %}
+        {% section 'policy-body' %}
       {% elsif request.path contains '/policies/privacy-policy' %}
         {% section 'main-page-banner' %}
-        {% section 'privacy-policy' %}
+        {% section 'policy-body' %}
       {% elsif request.path contains '/policies/terms-of-service' %}
         {% section 'main-page-banner' %}
-        {% section 'terms-of-service' %}
+        {% section 'policy-body' %}
       {% elsif request.path contains '/policies/shipping-policy' %}
         {% section 'main-page-banner' %}
-        {% section 'shipping-policy' %}
+        {% section 'policy-body' %}
       {% elsif request.path contains '/policies/subscription-policy' %}
         {% section 'main-page-banner' %}
-        {% section 'subscription-policy' %}
+        {% section 'policy-body' %}
       {% else %}
         {{ content_for_layout }}
       {% endif %}
