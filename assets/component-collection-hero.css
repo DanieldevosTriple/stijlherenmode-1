@@ -111,6 +111,7 @@
     height: 24px; /* Fixed height */
     text-transform: uppercase;
     font-weight: 800;
+    justify-content: flex-end;
   }
 
   .mobile-breadcrumb {
