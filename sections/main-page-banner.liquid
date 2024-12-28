@@ -38,10 +38,17 @@
     
     <div class="collection-title">
         <h1>
-                {{ shop.privacy_policy.title }}
+            {% if request.path == '/policies/refund-policy' %}
                 {{ shop.refund_policy.title }}
-                {{ shop.shipping_policy.title }}
+              {% elsif request.path contains '/policies/privacy-policy' %}
+                {{ shop.privacy_policy.title }}
+              {% elsif request.path contains '/policies/terms-of-service' %}
                 {{ shop.terms_of_service.title }}
+              {% elsif request.path contains '/policies/shipping-policy' %}
+                {{ shop.shipping_policy.title }}
+              {% else %}
+                {{ page.title }}
+              {% endif %}
           </h1>
     </div>
   </div>
