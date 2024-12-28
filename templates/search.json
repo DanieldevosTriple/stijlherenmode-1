@@ -1,5 +1,11 @@
 {
   "sections": {
+    "search-banner": {
+      "type": "search-banner",
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
+    },
     "main": {
       "type": "main-search",
       "settings": {
@@ -19,6 +25,7 @@
     }
   },
   "order": [
+    "search-banner",
     "main"
   ]
 }
