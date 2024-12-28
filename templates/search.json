@@ -1,7 +1,7 @@
 {
   "sections": {
     "search-banner": {
-      "type": "search-banner",
+      "type": "main-search-banner",
       "settings": {
         "color_scheme": "scheme-1"
       }
