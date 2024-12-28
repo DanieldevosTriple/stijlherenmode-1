@@ -17,23 +17,23 @@
             <li class="breadcrumbs__item">
               <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
             </li>
-            <li class="breadcrumbs__item">
-                {% if request.path == '/policies/legal-notice' %}
-                    {{ shop.legal_notice.title }}
-                {% elsif request.path == '/policies/refund-policy' %}
-                    {{ shop.refund_policy.title }}
-                  {% elsif request.path contains '/policies/privacy-policy' %}
-                    {{ shop.privacy_policy.title }}
-                  {% elsif request.path contains '/policies/terms-of-service' %}
-                    {{ shop.terms_of_service.title }}
-                  {% elsif request.path contains '/policies/shipping-policy' %}
-                    {{ shop.shipping_policy.title }}
-                  {% else %}
-                    {{ page.title }}
-                  {% endif %}
-              </li>
           </ol>
         </nav>
+        <div>
+            {% if request.path == '/policies/legal-notice' %}
+                {{ shop.legal_notice.title }}
+            {% elsif request.path == '/policies/refund-policy' %}
+                {{ shop.refund_policy.title }}
+              {% elsif request.path contains '/policies/privacy-policy' %}
+                {{ shop.privacy_policy.title }}
+              {% elsif request.path contains '/policies/terms-of-service' %}
+                {{ shop.terms_of_service.title }}
+              {% elsif request.path contains '/policies/shipping-policy' %}
+                {{ shop.shipping_policy.title }}
+              {% else %}
+                {{ page.title }}
+              {% endif %}
+            </div>
     </div>
   </div>
 
