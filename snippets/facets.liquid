@@ -3,8 +3,13 @@
 {% endcomment %}
 
 {%- liquid
-  assign is_search_page = results.url contains '/search'
+  assign is_search_page = false
+  if results.url contains '/search'
+    assign is_search_page = true
+  endif
+  
   assign paginate_by = settings.products_per_page
+  
   if is_search_page
     assign items = results.results
     assign total_items = results.results_count
