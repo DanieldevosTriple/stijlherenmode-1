@@ -87,6 +87,10 @@
 }
 
 @media screen and (max-width: 749px) {
+  .collection-hero {
+    max-height: unset;
+  }
+
   .collection-hero__inner {
     display: none;
   }
