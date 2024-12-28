@@ -35,20 +35,13 @@
     </div>
     
     <div class="collection-title">
-      <h1>
-        {% case page.handle %}
-        {% when 'shipping-policy' %}
-        Verzendbeleid
-        {% when 'refund-policy' %}
-        Retour & Garantie
-        {% when 'terms-of-service' %}  
-        Algemene Voorwaarden
-        {% when 'privacy-policy' %}  
-        Privacy Policy   
-        {% else %}
-          {{ page.title }}
-      {% endcase %}
-      </h1>
+        <h1>
+            {% if template contains 'policy' %}
+              {{ policy.title }}
+            {% else %}
+              {{ page.title }}
+            {% endif %}
+          </h1>
     </div>
   </div>
 </div>
