@@ -2708,7 +2708,7 @@ sticky-header {
 }
 
 .shopify-pc__banner__dialog button.shopify-pc__banner__btn-accept:hover {
-  background-color: white;
+  background-color: white !important;
   border: 2px solid black !important;
   color: black !important;
 }
