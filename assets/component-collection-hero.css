@@ -106,7 +106,7 @@
   }
 
   .mobile-policy-page-title {
-    display: flex; /* Changed to flex */
+    display: flex; /* Changed to flex */ 
     align-items: center;
     height: 24px; /* Fixed height */
     text-transform: uppercase;
