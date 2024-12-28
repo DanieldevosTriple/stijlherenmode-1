@@ -1,6 +1,6 @@
 {
   "sections": {
-    "search-banner": {
+    "main-search-banner": {
       "type": "main-search-banner",
       "settings": {
         "color_scheme": "scheme-1"
