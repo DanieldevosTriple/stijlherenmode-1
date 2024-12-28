@@ -86,6 +86,8 @@
   text-decoration: none;
 }
 
+
+
 @media screen and (max-width: 749px) {
   .collection-hero {
     max-height: unset;
@@ -101,6 +103,14 @@
     align-items: center;
     padding: 1rem; /* Consistent padding */
     min-height: 50px; /* Match collection-hero height */
+  }
+
+  .mobile-policy-page-title {
+    display: flex; /* Changed to flex */
+    align-items: right;
+    height: 24px; /* Fixed height */
+    text-transform: uppercase;
+    font-weight: 800;
   }
 
   .mobile-breadcrumb {
