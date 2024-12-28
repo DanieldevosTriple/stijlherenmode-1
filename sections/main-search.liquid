@@ -166,11 +166,7 @@
     </div>
     
     {%- if search.performed -%}
-      <div
-        {% if section.settings.filter_type == 'vertical' %}
-          class="facets-vertical page-width"
-        {% endif %}
-      >
+      <div class="col-12 vertical-facets">
         {%- if search.filters != empty -%}
           {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
             <aside
