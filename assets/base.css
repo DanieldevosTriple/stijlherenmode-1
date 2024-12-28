@@ -2700,3 +2700,15 @@ sticky-header {
   width: max-content !important;
   font-family: TradeGothicLT, sans-serif !important;
 }
+
+.shopify-pc__banner__dialog button.shopify-pc__banner__btn-decline:hover {
+  background-color: black !important;
+  border: 2px solid black !important;
+  color: white !important;
+}
+
+.shopify-pc__banner__dialog button.shopify-pc__banner__btn-accept:hover {
+  background-color: transparent;
+  border: 2px solid black !important;
+  color: black !important;
+}
