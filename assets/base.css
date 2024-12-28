@@ -2705,10 +2705,12 @@ sticky-header {
   background-color: black !important;
   border: 2px solid black !important;
   color: white !important;
+  cursor: pointer;
 }
 
 .shopify-pc__banner__dialog button.shopify-pc__banner__btn-accept:hover {
   background-color: white !important;
   border: 2px solid black !important;
   color: black !important;
+  cursor: pointer;
 }

@@ -704,6 +704,7 @@
   text-transform: uppercase;
   font-weight: 600;
   font-family: TradeGothicLT, sans-serif;
+  cursor: pointer;
 }
 
 @media (max-width: 991px) {
