@@ -39,7 +39,10 @@
     <div class="collection-title">
         <h1>
             {% if template contains 'policy' %}
-              {{ policy.title }}
+                {{ shop.privacy_policy.title }}
+                {{ shop.refund_policy.title }}
+                {{ shop.shipping_policy.title }}
+                {{ shop.terms_of_service.title }}
             {% else %}
               {{ page.title }}
             {% endif %}
