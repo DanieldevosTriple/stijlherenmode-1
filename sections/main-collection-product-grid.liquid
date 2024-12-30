@@ -25,50 +25,41 @@
 
 <script>
   window.products = {};
-  let debugInfo = {
-    allProducts: [],
-    productsWithVariants: [],
-    productsWithColorVariants: [],
-    count: 0
+  window.debugInfo = {
+    count: 0,
+    productsWithVariants: []
   };
+  console.log('Starting product processing');
   
-  {%- paginate collections.all.products by 1000 -%}  // Or any number larger than your total products
-    {% for product in collections.all.products %}
-      debugInfo.count = debugInfo.count + 1;
-      
-      window.products[{{ product.id }}] = {
-        "id": {{ product.id }},
-        "title": "{{ product.title }}",
-        "options": [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
-        "variants": [
-          {% for variant in product.variants %}
-            {
-              "id": {{ variant.id }},
-              "color": "{{ variant.option1 }}",
-              "image": "{{ variant.image | img_url: 'medium' }}"
-            }
-            {% unless forloop.last %},{% endunless %}
-          {% endfor %}
-        ]
-      };
-  
-      {% if product.variants.size > 0 %}
-        debugInfo.productsWithVariants.push({
-          id: {{ product.id }},
-          title: "{{ product.title }}",
-          index: debugInfo.count,
-          variantCount: {{ product.variants.size }},
-          options: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
-        });
-      {% endif %}
-    {% endfor %}
-  {%- endpaginate -%}
-  
-  console.log('Total products in collection: {{ collections.all.products.size }}');
-  console.log('Total products processed:', debugInfo.count);
-  console.log('Products with variants:', debugInfo.productsWithVariants);
-  console.log('Last processed product index:', debugInfo.count);
-  </script>
+  {% for product in collections.all.products %}
+    window.debugInfo.count++;
+    
+    window.products[{{ product.id }}] = {
+      "id": {{ product.id }},
+      "title": "{{ product.title }}",
+      "variants": [
+        {% for variant in product.variants %}
+          {
+            "id": {{ variant.id }},
+            "color": "{{ variant.option1 }}",
+            "image": "{{ variant.image | img_url: 'medium' }}",
+            "hasVariantCard": {% if has_variants and color_active and color_option_index != -1 %}true{% else %}false{% endif %}
+          }
+          {% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    };
+
+    console.log('Processed product:', { 
+      id: {{ product.id }}, 
+      title: "{{ product.title }}",
+      variantCount: {{ product.variants.size }}
+    });
+  {% endfor %}
+
+  console.log('Total products processed:', window.debugInfo.count);
+  console.log('All products:', window.products);
+</script>
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -83,6 +74,13 @@
     }
   }
 {%- endstyle -%}
+
+{%- comment -%}Debug info{%- endcomment -%}
+<div style="display: none" data-debug>
+  Collection size: {{ collections.all.products.size }}
+  Current template: {{ template }}
+  Collection handle: {{ collection.handle }}
+</div>
 
 <section class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
