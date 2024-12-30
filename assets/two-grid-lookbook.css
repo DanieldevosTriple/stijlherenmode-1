@@ -1,9 +1,9 @@
 .two-column-section {
-    display: flex;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
   .column {
-    width: 45%;
     position: relative;
     cursor: pointer;
   }
