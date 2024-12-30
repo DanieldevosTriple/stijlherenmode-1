@@ -29,42 +29,12 @@
     allProducts: [],
     productsWithVariants: [],
     productsWithColorVariants: [],
-    productsUsingCardProductVariant: []
+    count: 0
   };
   
   {% for product in collections.all.products %}
-    // Store basic product info
-    debugInfo.allProducts.push({
-      id: {{ product.id }},
-      title: "{{ product.title }}",
-      hasVariants: {% if product.variants.size > 0 %}true{% else %}false{% endif %},
-      options: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
-      variantCount: {{ product.variants.size }}
-    });
-  
-    // Track products with variants
-    {% if product.variants.size > 0 %}
-      debugInfo.productsWithVariants.push({
-        id: {{ product.id }},
-        title: "{{ product.title }}",
-        variantCount: {{ product.variants.size }},
-        options: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
-      });
-      
-      // Check if product has color option
-      {% assign has_color = false %}
-      {% for option in product.options %}
-        {% if option == 'Color' or option == 'Kleur' %}
-          debugInfo.productsWithColorVariants.push({
-            id: {{ product.id }},
-            title: "{{ product.title }}",
-            options: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
-            firstVariantColor: "{{ product.variants.first.option1 }}"
-          });
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  
+    debugInfo.count = debugInfo.count + 1;
+    
     window.products[{{ product.id }}] = {
       "id": {{ product.id }},
       "title": "{{ product.title }}",
@@ -80,25 +50,21 @@
         {% endfor %}
       ]
     };
+  
+    {% if product.variants.size > 0 %}
+      debugInfo.productsWithVariants.push({
+        id: {{ product.id }},
+        title: "{{ product.title }}",
+        index: debugInfo.count,
+        variantCount: {{ product.variants.size }},
+        options: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
+      });
+    {% endif %}
   {% endfor %}
   
-  // Add debug logs
-  console.log('Debug Information:', {
-    'Total Products': debugInfo.allProducts.length,
-    'Products with variants': debugInfo.productsWithVariants.length,
-    'Products with color variants': debugInfo.productsWithColorVariants.length
-  });
-  
-  // Log products that have variants but no color option
-  console.log('Products with variants but no color option:', 
-    debugInfo.productsWithVariants.filter(product => 
-      !debugInfo.productsWithColorVariants.find(p => p.id === product.id)
-    )
-  );
-  
-  // Log all products with their options
-  console.log('All products with variants:', debugInfo.productsWithVariants);
-  console.log('Products with color variants:', debugInfo.productsWithColorVariants);
+  console.log('Total products processed:', debugInfo.count);
+  console.log('Products with variants:', debugInfo.productsWithVariants);
+  console.log('Last processed product index:', debugInfo.count);
   </script>
 
 {%- style -%}
