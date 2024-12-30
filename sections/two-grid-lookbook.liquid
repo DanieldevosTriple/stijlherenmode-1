@@ -10,19 +10,19 @@
                  style="background-image: url({{ block.settings.lookbook_image | image_url }}); background-size: cover; background-position: center;">
              
               <div class="lookbook-dots">
-                {% for product_block in block.blocks %}
+                {% for product in block.settings.products %}
                   <span class="dot" data-index="{{ forloop.index0 }}"></span>
                 {% endfor %}
               </div>
               
               <div class="lookbook-products">
-                {% for product_block in block.blocks %}
+                {% for product in block.settings.products %}
                   <div class="lookbook-product" data-index="{{ forloop.index0 }}">
-                    <img src="{{ product_block.settings.product_image | image_url }}" height="" width="" alt="{{ product_block.settings.product_title }}">
+                    <img src="{{ product.product_image | image_url }}" height="" width="" alt="{{ product.product_title }}">
                     <div class="lookbook-product-details">
-                      <p class="product-title">{{ product_block.settings.product_title }}</p>
-                      <p class="product-price">{{ product_block.settings.product_price }}</p>
-                      <a href="{{ product_block.settings.product_link }}" class="underline">View Product</a>
+                      <p class="product-title">{{ product.product_title }}</p>
+                      <p class="product-price">{{ product.product_price }}</p>
+                      <a href="{{ product.product_link }}" class="underline">View Product</a>
                     </div>
                   </div>
                 {% endfor %}
@@ -68,32 +68,33 @@
           "type": "text",
           "id": "subtitle",
           "label": "Subtitle"
-        }
-      ]
-    },
-    {
-      "type": "product_block",
-      "name": "Product Block",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "product_image",
-          "label": "Product Image"
         },
         {
-          "type": "text",
-          "id": "product_title",
-          "label": "Product Title"
-        },
-        {
-          "type": "text",
-          "id": "product_price",
-          "label": "Product Price"
-        },
-        {
-          "type": "url",
-          "id": "product_link",
-          "label": "Product Link"
+          "type": "list",
+          "id": "products",
+          "label": "Products",
+          "fields": [
+            {
+              "type": "image_picker",
+              "id": "product_image",
+              "label": "Product Image"
+            },
+            {
+              "type": "text",
+              "id": "product_title",
+              "label": "Product Title"
+            },
+            {
+              "type": "text",
+              "id": "product_price",
+              "label": "Product Price"
+            },
+            {
+              "type": "url",
+              "id": "product_link",
+              "label": "Product Link"
+            }
+          ]
         }
       ]
     }
