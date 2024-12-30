@@ -248,39 +248,37 @@ sections/newsletter-popup.liquid
         return false;
       }
     
-      if (this.settings.showOn === 'all_pages') {
-        console.log('Popup should show on all pages');  // Debugging: Popup moet op alle pagina's getoond worden
-      }
-    
       if (this.settings.showOnce && this.getCookie(this.settings.cookieName)) {
-        console.log('Popup has already been shown before (cookie present)');  // Debugging: Popup al getoond
+        console.log('Cookie present, not showing popup again');  // Debugging: Cookie aanwezig, toon de popup niet opnieuw
         return false;
       }
     
       return true;
-    }    
+    }
+        
   
     show() {
       this.scrollPos = window.scrollY;
       console.log('Scroll position:', this.scrollPos);  // Debugging: Huidige scrollpositie
-  
+    
       this.overlay.classList.add('active');
+      console.log('Popup is now active');  // Debugging: Popup actief
       document.body.style.overflow = 'hidden';
       this.overlay.style.top = '0';
       this.overlay.style.position = 'fixed';
     }
-  
+    
     hide() {
       console.log('Hiding popup...');  // Debugging: Popup verbergen
-  
+    
       this.overlay.classList.remove('active');
       document.body.style.overflow = '';
       window.scrollTo(0, this.scrollPos);
-  
+    
       if (this.settings.showOnce) {
         this.setCookie();
       }
-    }
+    }    
   
     handleSubmit(e) {
       console.log('Form submitted...');  // Debugging: Formulier wordt ingediend
@@ -316,8 +314,9 @@ sections/newsletter-popup.liquid
       const date = new Date();
       date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
       document.cookie = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;
+      
       console.log('Setting cookie:', `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`);  // Debugging: Cookie instellen
-    }    
+    }       
   
     getCookie(name) {
       console.log('Checking cookie for:', name);  // Debugging: Welke cookie wordt gecontroleerd?
