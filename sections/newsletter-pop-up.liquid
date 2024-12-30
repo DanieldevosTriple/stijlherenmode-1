@@ -21,12 +21,11 @@ sections/newsletter-popup.liquid
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  padding: 1rem;
+  padding: 1rem 2rem 2rem 2rem;
 }
 
 .newsletter-interest {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: 2rem;
 }
 
 .interests label {
@@ -61,12 +60,12 @@ sections/newsletter-popup.liquid
 }
 
 .interests input[type=checkbox]:checked::after {
-  content: '✔';  /* Het vinkje */
-  color: black;  /* Kleur van het vinkje */
-  font-size: 10px;  /* Het vinkje kleiner maken */
-  position: absolute;  /* Plaats het vinkje in het midden van de stip */
-  top: 2px;
-  left: 2px;
+  content: '✔';
+    color: black;
+    font-size: 15px;
+    position: absolute;
+    top: 1px;
+    left: 6px;
 }
 
 .newsletter-pop-up-field-input {
@@ -233,7 +232,7 @@ sections/newsletter-popup.liquid
                 placeholder="{{ 'newsletter.label' | t }}"
                 autocorrect="off"
                 autocapitalize="off">
-              <h3 class="newsletter-interest">Ik ben geinteresseerd in:</h3>
+              <p class="newsletter-interest">Ik ben geinteresseerd in:</p>
               <div class="interests">
                 <label>
                   <input type="checkbox" name="contact[tags][]" value="Stijl Casual" /> Stijl Casual
