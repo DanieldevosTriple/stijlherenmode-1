@@ -56,8 +56,17 @@ sections/newsletter-popup.liquid
 }
 
 .interests input[type=checkbox]:checked {
-    background-color: #000;
+    background-color: #efefef;
     border-color: #efefef;
+}
+
+.interests input[type=checkbox]:checked::after {
+  content: '✔';  /* Het vinkje */
+  color: black;  /* Kleur van het vinkje */
+  font-size: 10px;  /* Het vinkje kleiner maken */
+  position: absolute;  /* Plaats het vinkje in het midden van de stip */
+  top: 2px;
+  left: 2px;
 }
 
 .newsletter-pop-up-field-input {
