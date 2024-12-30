@@ -164,19 +164,21 @@ sections/newsletter-popup.liquid
     constructor() {
       console.log('Initializing NewsletterPopup...');  // Debugging: Initialisatie van de popup
       this.overlay = document.querySelector('.js-newsletter-popup');
+      console.log('Overlay found:', this.overlay);  // Debugging: Controleer of de overlay wordt gevonden
       if (!this.overlay) {
         console.log('Overlay not found!');  // Debugging: Overlay element niet gevonden
         return;
       }
   
       this.closeBtn = this.overlay.querySelector('[data-popup-close]');
+      console.log('Close Button:', this.closeBtn);  // Debugging: Controleer of de sluitknop wordt gevonden
       this.form = this.overlay.querySelector('[data-popup-form]');
-      this.mainContent = this.overlay.querySelector('[data-popup-main]');
-      this.successContent = this.overlay.querySelector('[data-popup-success]');
+      console.log('Form:', this.form);  // Debugging: Controleer of het formulier wordt gevonden
   
-      console.log('Overlay:', this.overlay);  // Debugging: Overlay-element
-      console.log('Close Button:', this.closeBtn);  // Debugging: Sluit-knop
-      console.log('Form:', this.form);  // Debugging: Formulier-element
+      this.mainContent = this.overlay.querySelector('[data-popup-main]');
+      console.log('Main Content:', this.mainContent);  // Debugging: Controleer het hoofdcontent-element
+      this.successContent = this.overlay.querySelector('[data-popup-success]');
+      console.log('Success Content:', this.successContent);  // Debugging: Controleer of de succescontent wordt gevonden
   
       this.settings = {
         showOn: this.overlay.dataset.showOn,
