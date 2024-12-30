@@ -229,22 +229,16 @@ sections/newsletter-popup.liquid
         {% form 'customer', class: 'newsletter-form' %}
           <div class="newsletter-pop-up-field" data-popup-form>
             {{ form.errors | default_errors }}
-            {% if form.posted_successfully? %}
-              <div class="popup-success hidden" data-popup-success>
-                <h2>{{ section.settings.confirmation_title }}</h2>
-                <div>{{ section.settings.confirmation_message }}</div>
-              </div>
-            {% else %}
-              <input type="hidden" name="contact[tags]" value="newsletter,{{ section.settings.select_option }}">
-              <input type="email"
-                class="newsletter-pop-up-field-input" 
-                name="contact[email]"
-                id="Email"
-                value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
-                placeholder="{{ 'newsletter.label' | t }}"
-                autocorrect="off"
-                autocapitalize="off"
-                required>
+            <input type="hidden" name="contact[tags]" value="newsletter,{{ section.settings.select_option }}">
+            <input type="email"
+              class="newsletter-pop-up-field-input" 
+              name="contact[email]"
+              id="Email"
+              required
+              value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
+              placeholder="{{ 'newsletter.label' | t }}"
+              autocorrect="off"
+              autocapitalize="off">
               <p class="newsletter-interest">Ik ben geinteresseerd in:</p>
               <div class="interests">
                 <label>
@@ -254,12 +248,11 @@ sections/newsletter-popup.liquid
                   <input type="checkbox" name="contact[tags][]" value="Stijl Herenmode" /> Stijl Herenmode
                 </label>
               </div>                
-              <button class="newsletter-button" type="submit" name="commit" id="Subscribe">
+              <button type="submit" class="newsletter-button" name="commit" id="Subscribe">
                 <span>{{ section.settings.button_text }}</span>
               </button>
-            {% endif %}                      
-          </div>
-        {% endform %}
+            </div>
+          {% endform %}
       </div>
     </div>    
   </div>
@@ -392,14 +385,18 @@ sections/newsletter-popup.liquid
     }
     
     handleSubmit(e) {
-      const formData = new FormData(this.form);
-      
+      // Let the form submit naturally
       this.setCookie();
-  
+      
+      // Don't try to handle the form submission programmatically
+      // Just update the UI to show success
+      this.showSuccess();
       setTimeout(() => {
-        this.showSuccess();
-        setTimeout(() => this.hide(), this.settings.confirmationDuration);
-      }, 500);
+        this.hide();
+      }, this.settings.confirmationDuration);
+      
+      // This is important: return true to allow the form to submit naturally
+      return true;
     }
   
     showSuccess() {
