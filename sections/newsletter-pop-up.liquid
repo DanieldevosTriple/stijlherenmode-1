@@ -3,6 +3,10 @@ sections/newsletter-popup.liquid
 {% endcomment %}
 
 {%- style -%}
+.hidden {
+  display: none !important;
+}
+
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -253,6 +257,11 @@ sections/newsletter-popup.liquid
               </button>
             </div>
           {% endform %}
+          <!-- Add this success message container -->
+        <div class="popup-success hidden" data-popup-success>
+          <h2 class="newsletter-header">{{ section.settings.confirmation_title }}</h2>
+          <p class="newsletter-subheader">{{ section.settings.confirmation_message }}</p>
+        </div>
       </div>
     </div>    
   </div>
@@ -400,9 +409,16 @@ sections/newsletter-popup.liquid
     }
   
     showSuccess() {
-      console.log('Showing success message...');  // Debugging: Succesmelding tonen
-      this.mainContent.classList.add('hidden');
-      this.successContent.classList.remove('hidden');
+      console.log('Showing success message...');
+      const mainContent = this.overlay.querySelector('[data-popup-main]');
+      const successContent = this.overlay.querySelector('[data-popup-success]');
+      
+      if (mainContent && successContent) {
+        mainContent.classList.add('hidden');
+        successContent.classList.remove('hidden');
+      } else {
+        console.error('Success or main content elements not found');
+      }
     }
   
     setCookie() {
