@@ -32,72 +32,79 @@
     colorOptionAnalysis: []
   };
   
-  {% for product in collections.sale.products %}
-    // Track ALL products with their option info
-    const currentProductOptions = [{% for option in product.options %}"{{ option | strip }}"{% unless forloop.last %},{% endunless %}{% endfor %}];
-    
-    window.debugInfo.colorOptionAnalysis.push({
-      id: {{ product.id }},
-      title: "{{ product.title }}",
-      options: currentProductOptions,
-      rawOptions: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
-      firstOptionType: "{{ product.options.first }}",
-      hasVariants: {% if product.variants.size > 0 %}true{% else %}false{% endif %},
-      variantCount: {{ product.variants.size }},
-      firstVariantOption1: "{{ product.variants.first.option1 }}"
-    });
-  
-    {% if product.variants.size > 0 %}
-      window.debugInfo.productsWithVariants.push({
+  // Pre-collect all product data in arrays first
+  const productData = [
+    {% for product in collections.sale.products %}
+      {
         id: {{ product.id }},
         title: "{{ product.title }}",
-        options: currentProductOptions,
-        variantCount: {{ product.variants.size }}
+        options: [{% for option in product.options %}"{{ option | strip }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
+        rawOptions: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
+        firstOptionType: "{{ product.options.first }}",
+        hasVariants: {% if product.variants.size > 0 %}true{% else %}false{% endif %},
+        variantCount: {{ product.variants.size }},
+        firstVariantOption1: "{{ product.variants.first.option1 }}",
+        variants: [
+          {% for variant in product.variants %}
+            {
+              id: {{ variant.id }},
+              color: "{{ variant.option1 }}",
+              image: "{{ variant.image | img_url: 'medium' }}"
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+  
+  // Now process the data using JavaScript
+  productData.forEach(product => {
+    // Add to window.products
+    window.products[product.id] = product;
+    
+    // Add to colorOptionAnalysis
+    window.debugInfo.colorOptionAnalysis.push({
+      id: product.id,
+      title: product.title,
+      options: product.options,
+      rawOptions: product.rawOptions,
+      firstOptionType: product.firstOptionType,
+      hasVariants: product.hasVariants,
+      variantCount: product.variantCount,
+      firstVariantOption1: product.firstVariantOption1
+    });
+  
+    // Check for variants
+    if (product.variantCount > 0) {
+      window.debugInfo.productsWithVariants.push({
+        id: product.id,
+        title: product.title,
+        options: product.options,
+        variantCount: product.variantCount
       });
-      
-      // Check if product has color option (with detailed logging)
-      {% assign has_color = false %}
-      {% for option in product.options %}
-        {% assign stripped_option = option | strip %}
-        {% if stripped_option == 'Color' or stripped_option == 'Kleur' %}
-          {% assign has_color = true %}
-          window.debugInfo.productsWithColorVariants.push({
-            id: {{ product.id }},
-            title: "{{ product.title }}",
-            colorOptionIndex: {{ forloop.index0 }},
-            allOptions: currentProductOptions,
-            rawColorOption: "{{ option }}",
-            strippedColorOption: "{{ stripped_option }}"
-          });
-        {% endif %}
-      {% endfor %}
-    {% endif %}
   
-    window.products[{{ product.id }}] = {
-      "id": {{ product.id }},
-      "title": "{{ product.title }}",
-      "options": currentProductOptions,
-      "variants": [
-        {% for variant in product.variants %}
-          {
-            "id": {{ variant.id }},
-            "color": "{{ variant.option1 }}",
-            "image": "{{ variant.image | img_url: 'medium' }}"
-          }
-          {% unless forloop.last %},{% endunless %}
-        {% endfor %}
-      ]
-    };
-  {% endfor %}
+      // Check for color option
+      if (product.options.some(opt => opt === 'Color' || opt === 'Kleur')) {
+        window.debugInfo.productsWithColorVariants.push({
+          id: product.id,
+          title: product.title,
+          colorOptionIndex: product.options.findIndex(opt => opt === 'Color' || opt === 'Kleur'),
+          allOptions: product.options,
+          rawColorOption: product.rawOptions[product.options.findIndex(opt => opt === 'Color' || opt === 'Kleur')],
+          strippedColorOption: product.options[product.options.findIndex(opt => opt === 'Color' || opt === 'Kleur')]
+        });
+      }
+    }
+  });
   
-  // Add analysis after all products are processed
+  // Analysis logs
   console.log('Basic counts:', {
     'Total Products': Object.keys(window.products).length,
     'Products with variants': window.debugInfo.productsWithVariants.length,
     'Products with color variants': window.debugInfo.productsWithColorVariants.length
   });
   
-  // Find products that have "Color" in options but aren't in colorVariants
+  // Find missing color products
   const missingColorProducts = window.debugInfo.colorOptionAnalysis.filter(product => 
     product.options.some(opt => opt.includes('Color')) && 
     !window.debugInfo.productsWithColorVariants.find(p => p.id === product.id)
@@ -113,7 +120,7 @@
     rawOptions: p.rawOptions
   })));
   
-  // Log products that might have color variants but aren't being caught
+  // Check for potential color products
   const potentialColorProducts = window.debugInfo.colorOptionAnalysis.filter(p => 
     p.firstOptionType.toLowerCase().includes('color') || 
     p.firstVariantOption1.match(/^(Black|White|Blue|Red|Green|Yellow|Purple|Pink|Brown|Grey|Gray)/i)
