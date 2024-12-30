@@ -21,6 +21,12 @@ sections/newsletter-popup.liquid
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  padding: 1rem;
+}
+
+.interests label {
+  vertical-align: middle; /* Zorg ervoor dat ze verticaal gecentreerd zijn */
+  display: inline-block;
 }
 
 .interests input[type="radio"] {
@@ -35,6 +41,7 @@ sections/newsletter-popup.liquid
     -webkit-appearance: none;
     appearance: none;
     cursor: pointer;
+    vertical-align: middle; /* Zorg ervoor dat de radio button en de tekst op dezelfde hoogte staan */
 }
 
 .interests input[type=radio]:checked {
@@ -53,6 +60,7 @@ sections/newsletter-popup.liquid
     border: 2px solid black;
     color: #000;
     border-radius: 0;
+    width: 100%;
 }
 
 .newsletter-button {
@@ -68,6 +76,7 @@ sections/newsletter-popup.liquid
     font-weight: 600;
     font-family: TradeGothicLT, sans-serif;
     cursor: pointer;
+    width: 100%;
 }
 
 .popup-overlay.active {
