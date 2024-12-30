@@ -21,7 +21,7 @@
         "confirmation_title": "Thank You!",
         "confirmation_message": "<p>You've successfully subscribed to our newsletter.</p>",
         "confirmation_duration": 3,
-        "show_on": "homepage",
+        "show_on": "all_pages",
         "delay": 5,
         "show_once": false,
         "cookie_name": "newsletter_popup",
