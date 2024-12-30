@@ -123,21 +123,34 @@ sections/newsletter-popup.liquid
         <h2>{{ section.settings.title }}</h2>
         <div>{{ section.settings.description }}</div>
         
-        {% form 'customer' %}
-          <div class="email">
-            <label for="email">Email</label>
-            <input type="email" name="contact[email]" />
-          </div>
-        
-          <div class="submit">
-            <input type="submit" value="Sign up" />
-          </div>
-        {% endform %}
-      </div>
+        {% if section.settings.section_title != blank %}
+          <label for="Email">{{ section.settings.section_title | escape }}</label>
+        {% endif %}
+        {% if section.settings.subheading != blank %}
+          <p>{{ section.settings.subheading | escape }}</p>
+        {% endif %}
       
-      <div class="popup-success hidden" data-popup-success>
-        <h2>{{ section.settings.confirmation_title }}</h2>
-        <div>{{ section.settings.confirmation_message }}</div>
+        {% form 'customer' %}
+          {{ form.errors | default_errors }}
+          {% if form.posted_successfully? %}
+            <div class="popup-success hidden" data-popup-success>
+              <h2>{{ section.settings.confirmation_title }}</h2>
+              <div>{{ section.settings.confirmation_message }}</div>
+            </div>
+          {% else %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input type="email"
+              name="contact[email]"
+              id="Email"
+              value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
+              placeholder="{{ 'newsletter.label' | t }}"
+              autocorrect="off"
+              autocapitalize="off">
+            <button type="submit" name="commit" id="Subscribe">
+              <span>Abonneer</span>
+            </button>
+          {% endif %}
+        {% endform %}
       </div>
     </div>
   </div>
