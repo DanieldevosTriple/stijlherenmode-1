@@ -3,44 +3,40 @@
 <section>
   <div class="container-fluid section-padding">
     <div class="row">
+      <!-- Column 1 -->
       <div class="col-md-6">
-        <!-- Lookbook Image Column -->
         {% for block in section.blocks %}
-          {% if block.type == 'lookbook_block' %}
-            <div class="lookbook-container">
-              {% if block.settings.lookbook_image != blank %}
+          {% if block.settings.column == 'column_1' %}
+            <div class="lookbook-column">
+              {% if block.settings.image != blank %}
                 <div class="lookbook-background" 
-                     style="background-image: url({{ block.settings.lookbook_image | image_url }}); background-size: cover; background-position: center;">
+                     style="background-image: url({{ block.settings.image | image_url }}); background-size: cover; background-position: center;">
+                  <div class="dot" 
+                       style="position: absolute; top: {{ block.settings.dot_top }}; bottom: {{ block.settings.dot_bottom }}; left: {{ block.settings.dot_left }}; right: {{ block.settings.dot_right }};">
+                  </div>
                 </div>
               {% endif %}
             </div>
           {% endif %}
         {% endfor %}
       </div>
+      
+      <!-- Column 2 -->
       <div class="col-md-6">
-        <!-- Products Column -->
-        <div class="lookbook-products">
-          {% for block in section.blocks %}
-            {% if block.type == 'product_block' %}
-              <div class="lookbook-product" data-index="{{ forloop.index0 }}">
-                <img src="{{ block.settings.product_image | image_url }}" height="" width="" alt="{{ block.settings.product_title }}">
-                <div class="lookbook-product-details">
-                  <p class="product-title">{{ block.settings.product_title }}</p>
-                  <p class="product-price">{{ block.settings.product_price }}</p>
-                  <a href="{{ block.settings.product_link }}" class="underline">View Product</a>
+        {% for block in section.blocks %}
+          {% if block.settings.column == 'column_2' %}
+            <div class="lookbook-column">
+              {% if block.settings.image != blank %}
+                <div class="lookbook-background" 
+                     style="background-image: url({{ block.settings.image | image_url }}); background-size: cover; background-position: center;">
+                  <div class="dot" 
+                       style="position: absolute; top: {{ block.settings.dot_top }}; bottom: {{ block.settings.dot_bottom }}; left: {{ block.settings.dot_left }}; right: {{ block.settings.dot_right }};">
+                  </div>
                 </div>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-        <!-- Dots Navigation -->
-        <div class="lookbook-dots">
-          {% for block in section.blocks %}
-            {% if block.type == 'product_block' %}
-              <span class="dot" data-index="{{ forloop.index0 }}"></span>
-            {% endif %}
-          {% endfor %}
-        </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -48,7 +44,7 @@
 
 {% schema %}
 {
-  "name": "Lookbook Grid",
+  "name": "Two Column Lookbook",
   "settings": [],
   "blocks": [
     {
@@ -57,41 +53,55 @@
       "settings": [
         {
           "type": "image_picker",
-          "id": "lookbook_image",
-          "label": "Lookbook Background Image"
-        }
-      ]
-    },
-    {
-      "type": "product_block",
-      "name": "Product Block",
-      "settings": [
+          "id": "image",
+          "label": "Lookbook Image"
+        },
         {
-          "type": "image_picker",
-          "id": "product_image",
-          "label": "Product Image"
+          "type": "select",
+          "id": "column",
+          "label": "Column",
+          "options": [
+            {
+              "value": "column_1",
+              "label": "Column 1"
+            },
+            {
+              "value": "column_2",
+              "label": "Column 2"
+            }
+          ],
+          "default": "column_1"
         },
         {
           "type": "text",
-          "id": "product_title",
-          "label": "Product Title"
+          "id": "dot_top",
+          "label": "Dot Top Position",
+          "default": "10px"
         },
         {
           "type": "text",
-          "id": "product_price",
-          "label": "Product Price"
+          "id": "dot_bottom",
+          "label": "Dot Bottom Position",
+          "default": ""
         },
         {
-          "type": "url",
-          "id": "product_link",
-          "label": "Product Link"
+          "type": "text",
+          "id": "dot_left",
+          "label": "Dot Left Position",
+          "default": "50%"
+        },
+        {
+          "type": "text",
+          "id": "dot_right",
+          "label": "Dot Right Position",
+          "default": ""
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Lookbook Grid"
+      "name": "Two Column Lookbook"
     }
   ]
 }
