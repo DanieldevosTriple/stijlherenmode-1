@@ -7,6 +7,12 @@ sections/newsletter-popup.liquid
   display: none !important;
 }
 
+.h-captcha {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -243,20 +249,22 @@ sections/newsletter-popup.liquid
               placeholder="{{ 'newsletter.label' | t }}"
               autocorrect="off"
               autocapitalize="off">
-              <p class="newsletter-interest">Ik ben geinteresseerd in:</p>
-              <div class="interests">
-                <label>
-                  <input type="checkbox" name="contact[tags][]" value="Stijl Casual" /> Stijl Casual
-                </label>
-                <label>
-                  <input type="checkbox" name="contact[tags][]" value="Stijl Herenmode" /> Stijl Herenmode
-                </label>
-              </div>                
-              <button type="submit" class="newsletter-button" name="commit" id="Subscribe">
-                <span>{{ section.settings.button_text }}</span>
-              </button>
+            <p class="newsletter-interest">Ik ben geinteresseerd in:</p>
+            <div class="interests">
+              <label>
+                <input type="checkbox" name="contact[tags][]" value="Stijl Casual" /> Stijl Casual
+              </label>
+              <label>
+                <input type="checkbox" name="contact[tags][]" value="Stijl Herenmode" /> Stijl Herenmode
+              </label>
             </div>
-          {% endform %}
+            <!-- Add this div for hCaptcha -->
+            <div class="h-captcha" data-sitekey="{{ settings.hcaptcha_site_key }}"></div>
+            <button type="submit" class="newsletter-button" name="commit" id="Subscribe">
+              <span>{{ section.settings.button_text }}</span>
+            </button>
+          </div>
+        {% endform %}
           <!-- Add this success message container -->
         <div class="popup-success hidden" data-popup-success>
           <h2 class="newsletter-header">{{ section.settings.confirmation_title }}</h2>
@@ -394,18 +402,30 @@ sections/newsletter-popup.liquid
     }
     
     handleSubmit(e) {
-      // Let the form submit naturally
-      this.setCookie();
+      e.preventDefault(); // We need to prevent default to handle hCaptcha
       
-      // Don't try to handle the form submission programmatically
-      // Just update the UI to show success
-      this.showSuccess();
-      setTimeout(() => {
-        this.hide();
-      }, this.settings.confirmationDuration);
+      // Check if hCaptcha is verified
+      const hcaptchaResponse = document.querySelector('[name="h-captcha-response"]')?.value;
       
-      // This is important: return true to allow the form to submit naturally
-      return true;
+      if (!hcaptchaResponse) {
+        console.log('Please complete the captcha');
+        return false;
+      }
+      
+      // Now submit the form
+      const form = e.target.closest('form');
+      if (form) {
+        this.setCookie();
+        form.submit(); // Submit the form after captcha verification
+        
+        // Show success message after short delay
+        setTimeout(() => {
+          this.showSuccess();
+          setTimeout(() => this.hide(), this.settings.confirmationDuration);
+        }, 500);
+      }
+      
+      return false;
     }
   
     showSuccess() {
