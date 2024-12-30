@@ -345,25 +345,26 @@ sections/newsletter-popup.liquid
     shouldShowPopup() {
       const isHomepage = document.body.classList.contains('template-index');
       console.log('Is homepage:', isHomepage);  // Debugging: Is de pagina de homepage?
-  
+    
       // De popup tonen op de juiste pagina
       if (this.settings.showOn === 'homepage' && !isHomepage) {
         console.log('Popup should only show on homepage but not on current page');  // Debugging: Alleen op homepage
         return false;
       }
-  
+    
+      // Als showOn 'all_pages' is, moet de popup op alle pagina's getoond worden
       if (this.settings.showOn === 'all_pages') {
         console.log('Popup should show on all pages');  // Debugging: Popup moet op alle pagina's getoond worden
       }
-  
+    
       // Popup alleen tonen als de cookie niet aanwezig is en de popup eenmaal wordt getoond
       if (this.settings.showOnce && this.getCookie(this.settings.cookieName)) {
         console.log('Cookie present, not showing popup again');  // Debugging: Cookie aanwezig, toon de popup niet opnieuw
         return false;
       }
-  
+    
       return true;
-    }
+    }    
   
     show() {
       this.scrollPos = window.scrollY;
@@ -378,22 +379,23 @@ sections/newsletter-popup.liquid
   
     hide() {
       console.log('Hiding popup...');  // Debugging: Popup verbergen
-  
+    
       this.overlay.classList.remove('active');
       document.body.style.overflow = '';
       window.scrollTo(0, this.scrollPos);
-  
-      // Cookie instellen bij het sluiten van de popup
+    
+      // Voeg hier de log toe om te controleren of de cookie wordt ingesteld
       if (this.settings.showOnce) {
+        console.log('Setting cookie after closing popup...');
         this.setCookie();
       }
     }
-  
+    
     handleSubmit(e) {
       console.log('Form submitted...');  // Debugging: Formulier wordt ingediend
       e.preventDefault();
       const formData = new FormData(this.form);
-  
+    
       fetch(this.form.action, {
         method: 'POST',
         body: formData,
@@ -411,7 +413,7 @@ sections/newsletter-popup.liquid
       .catch(error => {
         console.error('Newsletter subscription failed:', error);  // Debugging: Fout bij inzending
       });
-    }
+    }    
   
     showSuccess() {
       console.log('Showing success message...');  // Debugging: Succesmelding tonen
@@ -421,13 +423,13 @@ sections/newsletter-popup.liquid
   
     setCookie() {
       const date = new Date();
-      date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));  // Vervaldatum
+      date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
       const cookieString = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;  // Cookie instellen
       document.cookie = cookieString;
     
       console.log('Setting cookie:', cookieString);  // Debugging: Toon het cookie-string in de console
-    }    
-  
+    }
+    
     getCookie(name) {
       console.log('Checking cookie for:', name);  // Debugging: Welke cookie wordt gecontroleerd?
     
@@ -440,7 +442,7 @@ sections/newsletter-popup.liquid
         console.log('Cookie not found');  // Debugging: Als cookie niet is gevonden
         return null;
       }
-    }    
+    }       
   }
   
   // Initialize popup
