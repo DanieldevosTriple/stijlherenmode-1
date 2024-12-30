@@ -31,9 +31,10 @@ sections/newsletter-popup.liquid
   background: #ffffff;
   padding: 2rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   aspect-ratio: 1/1;
   z-index: 1001;
+  border: 0.1rem solid #b5b5b5;
 }
 
 .popup-close {
@@ -122,23 +123,16 @@ sections/newsletter-popup.liquid
         <h2>{{ section.settings.title }}</h2>
         <div>{{ section.settings.description }}</div>
         
-        {%- form 'contact', class: 'popup-form', data-popup-form -%}
-          <input type="hidden" name="contact[tags]" value="newsletter">
-          <input
-            type="email"
-            name="contact[email]"
-            class="popup-input"
-            placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
-            required
-            aria-label="{{ 'general.newsletter_form.email_placeholder' | t }}"
-          >
-          <button type="submit" class="popup-submit">
-            {{ section.settings.button_text }}
-          </button>
-          <p class="popup-policy">
-            {{ section.settings.policy_text }}
-          </p>
-        {%- endform -%}
+        {% form 'customer' %}
+          <div class="email">
+            <label for="email">Email</label>
+            <input type="email" name="contact[email]" />
+          </div>
+        
+          <div class="submit">
+            <input type="submit" value="Sign up" />
+          </div>
+        {% endform %}
       </div>
       
       <div class="popup-success hidden" data-popup-success>
