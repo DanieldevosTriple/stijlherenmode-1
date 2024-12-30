@@ -294,7 +294,9 @@ sections/newsletter-popup.liquid
         confirmationDuration: parseInt(this.overlay.dataset.confirmationDuration, 10) * 1000
       };
       console.log('Settings initialized:', this.settings); // Debug settings
-    }
+      
+    this.init();  // Add this line
+  }
   
     init() {
       console.log('Initializing events...');  // Debugging: Evenementen initialiseren
