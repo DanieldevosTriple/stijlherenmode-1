@@ -42,6 +42,19 @@ sections/newsletter-popup.liquid
     border-color: #efefef;
 }
 
+.newsletter-pop-up-field-input {
+    padding: 10px;
+    font-family: TradeGothicLT, sans-serif;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: left;
+    background-color: #faf7f3;
+    border: 2px solid black;
+    color: #000;
+    border-radius: 0;
+}
+
 .newsletter-button {
     background-color: #000;
     border: 2px solid black;
@@ -168,7 +181,7 @@ sections/newsletter-popup.liquid
         {% endif %}
     
         {% form 'customer' %}
-          <div data-popup-form>
+          <div class="newsletter-pop-up-field" data-popup-form>
             {{ form.errors | default_errors }}
             {% if form.posted_successfully? %}
               <div class="popup-success hidden" data-popup-success>
@@ -178,6 +191,7 @@ sections/newsletter-popup.liquid
             {% else %}
               <input type="hidden" name="contact[tags]" value="newsletter,{{ section.settings.select_option }}">
               <input type="email"
+                class="newsletter-pop-up-field-input" 
                 name="contact[email]"
                 id="Email"
                 value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
