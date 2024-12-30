@@ -120,16 +120,13 @@ sections/newsletter-popup.liquid
     
     <div class="popup-content">
       <div class="popup-main" data-popup-main>
-        <h2>{{ section.settings.title }}</h2>
-        <div>{{ section.settings.description }}</div>
+        <h2>{{ section.settings.header }}</h2>
+        <div>{{ section.settings.subheader }}</div>
         
-        {% if section.settings.section_title != blank %}
-          <label for="Email">{{ section.settings.section_title | escape }}</label>
+        {% if section.settings.disclaimer != blank %}
+          <div class="popup-policy">{{ section.settings.disclaimer | escape }}</div>
         {% endif %}
-        {% if section.settings.subheading != blank %}
-          <p>{{ section.settings.subheading | escape }}</p>
-        {% endif %}
-      
+        
         {% form 'customer' %}
           {{ form.errors | default_errors }}
           {% if form.posted_successfully? %}
@@ -138,7 +135,7 @@ sections/newsletter-popup.liquid
               <div>{{ section.settings.confirmation_message }}</div>
             </div>
           {% else %}
-            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input type="hidden" name="contact[tags]" value="newsletter,{{ section.settings.select_option }}">
             <input type="email"
               name="contact[email]"
               id="Email"
@@ -146,8 +143,14 @@ sections/newsletter-popup.liquid
               placeholder="{{ 'newsletter.label' | t }}"
               autocorrect="off"
               autocapitalize="off">
+            <div>
+              <select name="contact[tags]" id="TagSelection">
+                <option value="Stijl Casual">Stijl Casual</option>
+                <option value="Stijl Herenmode">Stijl Herenmode</option>
+              </select>
+            </div>
             <button type="submit" name="commit" id="Subscribe">
-              <span>Abonneer</span>
+              <span>{{ section.settings.button_text }}</span>
             </button>
           {% endif %}
         {% endform %}
@@ -211,12 +214,9 @@ class NewsletterPopup {
   }
 
   show() {
-    // Store current scroll position
     this.scrollPos = window.scrollY;
     this.overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-    
-    // Ensure popup appears relative to viewport
     this.overlay.style.top = '0';
     this.overlay.style.position = 'fixed';
   }
@@ -224,8 +224,6 @@ class NewsletterPopup {
   hide() {
     this.overlay.classList.remove('active');
     document.body.style.overflow = '';
-    
-    // Restore scroll position
     window.scrollTo(0, this.scrollPos);
     
     if (this.settings.showOnce) {
@@ -272,7 +270,6 @@ class NewsletterPopup {
   }
 }
 
-// Initialize popup
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => new NewsletterPopup());
 } else {
@@ -290,43 +287,43 @@ if (document.readyState === 'loading') {
     },
     {
       "type": "text",
-      "id": "title",
-      "label": "Popup Title",
-      "default": "Join Our Newsletter"
+      "id": "header",
+      "label": "Popup Header",
+      "default": "Abonneer op onze nieuwsbrief"
+    },
+    {
+      "type": "text",
+      "id": "subheader",
+      "label": "Popup Subheader",
+      "default": "Meld je aan en blijf op de hoogte van de laatste aanbiedingen en nieuws."
     },
     {
       "type": "richtext",
-      "id": "description",
-      "label": "Description",
-      "default": "<p>Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>"
+      "id": "disclaimer",
+      "label": "Disclaimer Text",
+      "default": "Voorwaarden zijn van toepassing. Deze actie geldt alleen voor nieuwe abonnees."
     },
     {
       "type": "text",
       "id": "button_text",
       "label": "Submit Button Text",
-      "default": "Subscribe"
-    },
-    {
-      "type": "text",
-      "id": "policy_text",
-      "label": "Privacy Policy Text",
-      "default": "By signing up, you agree to our Privacy Policy"
+      "default": "Abonneer"
     },
     {
       "type": "header",
-      "content": "Confirmation Screen"
+      "content": "Bevestiging"
     },
     {
       "type": "text",
       "id": "confirmation_title",
       "label": "Confirmation Title",
-      "default": "Thank You!"
+      "default": "Bedankt voor je inschrijving"
     },
     {
       "type": "richtext",
       "id": "confirmation_message",
       "label": "Confirmation Message",
-      "default": "<p>You've successfully subscribed to our newsletter.</p>"
+      "default": "<p>Je bent succesvol ingeschreven voor de nieuwsbrief</p>"
     },
     {
       "type": "number",
@@ -377,6 +374,12 @@ if (document.readyState === 'loading') {
       "id": "cookie_duration",
       "label": "Cookie Duration (days)",
       "default": 30
+    },
+    {
+      "type": "text",
+      "id": "select_option",
+      "label": "Default Select Option",
+      "default": "Stijl Casual"
     }
   ],
   "presets": [
