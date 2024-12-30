@@ -29,9 +29,9 @@
     count: 0,
     productsWithVariants: []
   };
-  console.log('Starting product processing');
+  console.log('Starting sale products processing');
   
-  {% for product in collections.all.products %}
+  {% for product in collections.sale.products %}
     window.debugInfo.count++;
     
     window.products[{{ product.id }}] = {
@@ -57,8 +57,8 @@
     });
   {% endfor %}
 
-  console.log('Total products processed:', window.debugInfo.count);
-  console.log('All products:', window.products);
+  console.log('Total sale products processed:', window.debugInfo.count);
+  console.log('All sale products:', window.products);
 </script>
 
 {%- style -%}
