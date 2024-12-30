@@ -31,6 +31,10 @@ sections/newsletter-popup.liquid
   text-transform: uppercase;
 }
 
+.newsletter-header {
+  padding-bottom: 1rem;
+}
+
 .interests input[type="radio"] {
   position: relative;
     width: 2.4rem;
@@ -190,7 +194,7 @@ sections/newsletter-popup.liquid
     
     <div class="popup-content">
       <div class="popup-main" data-popup-main>
-        <h2>{{ section.settings.header }}</h2>
+        <h2 class="newsletter-header">{{ section.settings.header }}</h2>
         <div>{{ section.settings.subheader }}</div>
     
         {% if section.settings.disclaimer != blank %}
