@@ -122,40 +122,42 @@ sections/newsletter-popup.liquid
       <div class="popup-main" data-popup-main>
         <h2>{{ section.settings.header }}</h2>
         <div>{{ section.settings.subheader }}</div>
-        
+    
         {% if section.settings.disclaimer != blank %}
           <div class="popup-policy">{{ section.settings.disclaimer | escape }}</div>
         {% endif %}
-        
+    
         {% form 'customer' %}
-          {{ form.errors | default_errors }}
-          {% if form.posted_successfully? %}
-            <div class="popup-success hidden" data-popup-success>
-              <h2>{{ section.settings.confirmation_title }}</h2>
-              <div>{{ section.settings.confirmation_message }}</div>
-            </div>
-          {% else %}
-            <input type="hidden" name="contact[tags]" value="newsletter,{{ section.settings.select_option }}">
-            <input type="email"
-              name="contact[email]"
-              id="Email"
-              value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
-              placeholder="{{ 'newsletter.label' | t }}"
-              autocorrect="off"
-              autocapitalize="off">
-            <div>
-              <select name="contact[tags]" id="TagSelection">
-                <option value="Stijl Casual">Stijl Casual</option>
-                <option value="Stijl Herenmode">Stijl Herenmode</option>
-              </select>
-            </div>
-            <button type="submit" name="commit" id="Subscribe">
-              <span>{{ section.settings.button_text }}</span>
-            </button>
-          {% endif %}
+          <div data-popup-form>
+            {{ form.errors | default_errors }}
+            {% if form.posted_successfully? %}
+              <div class="popup-success hidden" data-popup-success>
+                <h2>{{ section.settings.confirmation_title }}</h2>
+                <div>{{ section.settings.confirmation_message }}</div>
+              </div>
+            {% else %}
+              <input type="hidden" name="contact[tags]" value="newsletter,{{ section.settings.select_option }}">
+              <input type="email"
+                name="contact[email]"
+                id="Email"
+                value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
+                placeholder="{{ 'newsletter.label' | t }}"
+                autocorrect="off"
+                autocapitalize="off">
+              <div>
+                <select name="contact[tags]" id="TagSelection">
+                  <option value="Stijl Casual">Stijl Casual</option>
+                  <option value="Stijl Herenmode">Stijl Herenmode</option>
+                </select>
+              </div>
+              <button type="submit" name="commit" id="Subscribe">
+                <span>{{ section.settings.button_text }}</span>
+              </button>
+            {% endif %}
+          </div>
         {% endform %}
       </div>
-    </div>
+    </div>    
   </div>
 </div>
 
