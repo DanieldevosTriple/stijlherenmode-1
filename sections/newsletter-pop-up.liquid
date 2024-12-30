@@ -162,13 +162,21 @@ sections/newsletter-popup.liquid
 <script>
   class NewsletterPopup {
     constructor() {
+      console.log('Initializing NewsletterPopup...');  // Debugging: Initialisatie van de popup
       this.overlay = document.querySelector('.js-newsletter-popup');
-      if (!this.overlay) return;
+      if (!this.overlay) {
+        console.log('Overlay not found!');  // Debugging: Overlay element niet gevonden
+        return;
+      }
   
       this.closeBtn = this.overlay.querySelector('[data-popup-close]');
       this.form = this.overlay.querySelector('[data-popup-form]');
       this.mainContent = this.overlay.querySelector('[data-popup-main]');
       this.successContent = this.overlay.querySelector('[data-popup-success]');
+  
+      console.log('Overlay:', this.overlay);  // Debugging: Overlay-element
+      console.log('Close Button:', this.closeBtn);  // Debugging: Sluit-knop
+      console.log('Form:', this.form);  // Debugging: Formulier-element
   
       this.settings = {
         showOn: this.overlay.dataset.showOn,
@@ -179,36 +187,65 @@ sections/newsletter-popup.liquid
         confirmationDuration: parseInt(this.overlay.dataset.confirmationDuration, 10) * 1000
       };
   
+      console.log('Settings:', this.settings);  // Debugging: Instellingen van de popup
+  
       this.init();
     }
   
     init() {
-      if (!this.overlay || !this.closeBtn || !this.form) return; // Verzeker dat de elementen bestaan
+      console.log('Initializing events...');  // Debugging: Evenementen initialiseren
   
-      if (!this.shouldShowPopup()) return;
+      // Controleer of de noodzakelijke elementen bestaan
+      if (!this.overlay || !this.closeBtn || !this.form) {
+        console.log('One or more required elements are missing!');  // Debugging: Als belangrijke elementen ontbreken
+        return;
+      }
   
-      setTimeout(() => this.show(), this.settings.delay);
+      // Controleer of we de popup moeten tonen
+      if (!this.shouldShowPopup()) {
+        console.log('Popup should not be shown');  // Debugging: Popup wordt niet getoond
+        return;
+      }
   
-      this.closeBtn.addEventListener('click', () => this.hide());
+      // Wacht tot de vertraging en toon de popup
+      setTimeout(() => {
+        console.log('Displaying popup...');  // Debugging: Popup wordt getoond
+        this.show();
+      }, this.settings.delay);
+  
+      this.closeBtn.addEventListener('click', () => {
+        console.log('Closing popup...');  // Debugging: Popup wordt gesloten
+        this.hide();
+      });
+  
       this.form.addEventListener('submit', (e) => this.handleSubmit(e));
   
       this.overlay.addEventListener('click', (e) => {
-        if (e.target === this.overlay) this.hide();
+        if (e.target === this.overlay) {
+          console.log('Clicked outside popup, closing...');  // Debugging: Klik buiten popup
+          this.hide();
+        }
       });
   
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') this.hide();
+        if (e.key === 'Escape') {
+          console.log('Escape key pressed, closing popup...');  // Debugging: Escape-toets om popup te sluiten
+          this.hide();
+        }
       });
     }
   
     shouldShowPopup() {
       const isHomepage = document.body.classList.contains('template-index');
+      console.log('Is homepage:', isHomepage);  // Debugging: Is de pagina de homepage?
   
       if (this.settings.showOn === 'homepage' && !isHomepage) {
+        console.log('Popup should only show on homepage but not on current page');  // Debugging: Alleen op homepage
         return false;
       }
   
       if (this.settings.showOnce && this.getCookie(this.settings.cookieName)) {
+        console.log('Popup has already been shown before (cookie present)');  // Debugging: Popup al getoond
         return false;
       }
   
@@ -217,6 +254,8 @@ sections/newsletter-popup.liquid
   
     show() {
       this.scrollPos = window.scrollY;
+      console.log('Scroll position:', this.scrollPos);  // Debugging: Huidige scrollpositie
+  
       this.overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
       this.overlay.style.top = '0';
@@ -224,6 +263,8 @@ sections/newsletter-popup.liquid
     }
   
     hide() {
+      console.log('Hiding popup...');  // Debugging: Popup verbergen
+  
       this.overlay.classList.remove('active');
       document.body.style.overflow = '';
       window.scrollTo(0, this.scrollPos);
@@ -234,6 +275,7 @@ sections/newsletter-popup.liquid
     }
   
     handleSubmit(e) {
+      console.log('Form submitted...');  // Debugging: Formulier wordt ingediend
       e.preventDefault();
       const formData = new FormData(this.form);
   
@@ -246,16 +288,18 @@ sections/newsletter-popup.liquid
       })
       .then(response => response.json())
       .then(() => {
+        console.log('Form submission successful!');  // Debugging: Succesvolle inzending
         this.showSuccess();
         this.setCookie();
         setTimeout(() => this.hide(), this.settings.confirmationDuration);
       })
       .catch(error => {
-        console.error('Newsletter subscription failed:', error);
+        console.error('Newsletter subscription failed:', error);  // Debugging: Fout bij inzending
       });
     }
   
     showSuccess() {
+      console.log('Showing success message...');  // Debugging: Succesmelding tonen
       this.mainContent.classList.add('hidden');
       this.successContent.classList.remove('hidden');
     }
@@ -264,6 +308,7 @@ sections/newsletter-popup.liquid
       const date = new Date();
       date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
       document.cookie = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;
+      console.log('Setting cookie:', `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`);  // Debugging: Cookie instellen
     }
   
     getCookie(name) {
@@ -274,8 +319,12 @@ sections/newsletter-popup.liquid
   
   // Initialize popup
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new NewsletterPopup());
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM is ready, initializing NewsletterPopup...');  // Debugging: DOM geladen
+      new NewsletterPopup();
+    });
   } else {
+    console.log('DOM already loaded, initializing NewsletterPopup...');  // Debugging: DOM al geladen
     new NewsletterPopup();
   }  
 </script>
