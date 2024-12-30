@@ -41,52 +41,35 @@
 -%}
 
 {%- unless target == null and placeholder == null -%}
-  <div
-    class="
-      price
-      {%- if price_class %} {{ price_class }}{% endif -%}
-      {%- if available == false %} price--sold-out{% endif -%}
-      {%- if compare_at_price > price and product.quantity_price_breaks_configured? != true %} price--on-sale{% endif -%}
-      {%- if compare_at_price > price and product.quantity_price_breaks_configured? %} volume-pricing--sale-badge{% endif -%}
-      {%- if product.price_varies == false and product.compare_at_price_varies %} price--no-compare{% endif -%}
-      {%- if show_badges %} price--show-badge{% endif -%}
-    "
-  >
-    <div class="price__container">
-      {%- comment -%}
-        Explanation of description list:
-          - div.price__regular: Displayed when there are no variants on sale
-          - div.price__sale: Displayed when a variant is a sale
-      {%- endcomment -%}
-      <div class="price-container">
-        {% if product.compare_at_price > product.price %}
-          <!-- Product is on sale -->
-          <div class="price-sale">
-            <!-- Original price (crossed out) -->
-            <s class="price-regular">
-              {{ product.compare_at_price | money }}
-            </s>
-            
-            <!-- Sale price -->
-            <span class="price-current">
-              {{ product.price | money }}
-            </span>
-            
-            <!-- Discount percentage -->
-            {% assign discount_percentage = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
-            <span class="price-discount">
-              -{{ discount_percentage }}%
-            </span>
-          </div>
-        {% else %}
-          <!-- Regular price (no sale) -->
-          <div class="price-regular">
-            <span class="price-current">
-              {{ product.price | money }}
-            </span>
-          </div>
-        {% endif %}
+  <div class="price-container">
+    {% if product.compare_at_price > product.price %}
+      <!-- Product is on sale -->
+      <div class="price-sale">
+        <!-- Original price (crossed out) -->
+        <s class="price-regular">
+          {{ product.compare_at_price | money }}
+        </s>
+        
+        <!-- Sale price -->
+        <span class="price-current">
+          {{ product.price | money }}
+        </span>
+        
+        <!-- Discount percentage -->
+        {% assign discount_percentage = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
+        <span class="price-discount">
+          -{{ discount_percentage }}%
+        </span>
       </div>
+    {% else %}
+      <!-- Regular price (no sale) -->
+      <div class="price-regular">
+        <span class="price-current">
+          {{ product.price | money }}
+        </span>
+      </div>
+    {% endif %}
+  </div>
       
       <small class="unit-price caption{% if product.selected_or_first_available_variant.unit_price_measurement == nil %} hidden{% endif %}">
         <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
