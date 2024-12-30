@@ -160,121 +160,124 @@ sections/newsletter-popup.liquid
 </div>
 
 <script>
-class NewsletterPopup {
-  constructor() {
-    this.overlay = document.querySelector('.js-newsletter-popup');
-    if (!this.overlay) return;
-    
-    this.closeBtn = this.overlay.querySelector('[data-popup-close]');
-    this.form = this.overlay.querySelector('[data-popup-form]');
-    this.mainContent = this.overlay.querySelector('[data-popup-main]');
-    this.successContent = this.overlay.querySelector('[data-popup-success]');
-    
-    this.settings = {
-      showOn: this.overlay.dataset.showOn,
-      delay: parseInt(this.overlay.dataset.delay, 10) * 1000,
-      showOnce: this.overlay.dataset.showOnce === 'true',
-      cookieName: this.overlay.dataset.cookieName,
-      cookieDuration: parseInt(this.overlay.dataset.cookieDuration, 10),
-      confirmationDuration: parseInt(this.overlay.dataset.confirmationDuration, 10) * 1000
-    };
-    
-    this.init();
-  }
-
-  init() {
-    if (!this.shouldShowPopup()) return;
-    
-    setTimeout(() => this.show(), this.settings.delay);
-    
-    this.closeBtn.addEventListener('click', () => this.hide());
-    this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-    
-    this.overlay.addEventListener('click', (e) => {
-      if (e.target === this.overlay) this.hide();
-    });
-    
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') this.hide();
-    });
-  }
-
-  shouldShowPopup() {
-    const isHomepage = document.body.classList.contains('template-index');
-    
-    if (this.settings.showOn === 'homepage' && !isHomepage) {
-      return false;
+  class NewsletterPopup {
+    constructor() {
+      this.overlay = document.querySelector('.js-newsletter-popup');
+      if (!this.overlay) return;
+  
+      this.closeBtn = this.overlay.querySelector('[data-popup-close]');
+      this.form = this.overlay.querySelector('[data-popup-form]');
+      this.mainContent = this.overlay.querySelector('[data-popup-main]');
+      this.successContent = this.overlay.querySelector('[data-popup-success]');
+  
+      this.settings = {
+        showOn: this.overlay.dataset.showOn,
+        delay: parseInt(this.overlay.dataset.delay, 10) * 1000,
+        showOnce: this.overlay.dataset.showOnce === 'true',
+        cookieName: this.overlay.dataset.cookieName,
+        cookieDuration: parseInt(this.overlay.dataset.cookieDuration, 10),
+        confirmationDuration: parseInt(this.overlay.dataset.confirmationDuration, 10) * 1000
+      };
+  
+      this.init();
     }
-    
-    if (this.settings.showOnce && this.getCookie(this.settings.cookieName)) {
-      return false;
+  
+    init() {
+      if (!this.overlay || !this.closeBtn || !this.form) return; // Verzeker dat de elementen bestaan
+  
+      if (!this.shouldShowPopup()) return;
+  
+      setTimeout(() => this.show(), this.settings.delay);
+  
+      this.closeBtn.addEventListener('click', () => this.hide());
+      this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+  
+      this.overlay.addEventListener('click', (e) => {
+        if (e.target === this.overlay) this.hide();
+      });
+  
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') this.hide();
+      });
     }
-    
-    return true;
-  }
-
-  show() {
-    this.scrollPos = window.scrollY;
-    this.overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    this.overlay.style.top = '0';
-    this.overlay.style.position = 'fixed';
-  }
-
-  hide() {
-    this.overlay.classList.remove('active');
-    document.body.style.overflow = '';
-    window.scrollTo(0, this.scrollPos);
-    
-    if (this.settings.showOnce) {
-      this.setCookie();
-    }
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    const formData = new FormData(this.form);
-    
-    fetch(this.form.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
+  
+    shouldShowPopup() {
+      const isHomepage = document.body.classList.contains('template-index');
+  
+      if (this.settings.showOn === 'homepage' && !isHomepage) {
+        return false;
       }
-    })
-    .then(response => response.json())
-    .then(() => {
-      this.showSuccess();
-      this.setCookie();
-      setTimeout(() => this.hide(), this.settings.confirmationDuration);
-    })
-    .catch(error => {
-      console.error('Newsletter subscription failed:', error);
-    });
+  
+      if (this.settings.showOnce && this.getCookie(this.settings.cookieName)) {
+        return false;
+      }
+  
+      return true;
+    }
+  
+    show() {
+      this.scrollPos = window.scrollY;
+      this.overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      this.overlay.style.top = '0';
+      this.overlay.style.position = 'fixed';
+    }
+  
+    hide() {
+      this.overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      window.scrollTo(0, this.scrollPos);
+  
+      if (this.settings.showOnce) {
+        this.setCookie();
+      }
+    }
+  
+    handleSubmit(e) {
+      e.preventDefault();
+      const formData = new FormData(this.form);
+  
+      fetch(this.form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(() => {
+        this.showSuccess();
+        this.setCookie();
+        setTimeout(() => this.hide(), this.settings.confirmationDuration);
+      })
+      .catch(error => {
+        console.error('Newsletter subscription failed:', error);
+      });
+    }
+  
+    showSuccess() {
+      this.mainContent.classList.add('hidden');
+      this.successContent.classList.remove('hidden');
+    }
+  
+    setCookie() {
+      const date = new Date();
+      date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
+      document.cookie = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;
+    }
+  
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+      return match ? match[2] : null;
+    }
   }
-
-  showSuccess() {
-    this.mainContent.classList.add('hidden');
-    this.successContent.classList.remove('hidden');
-  }
-
-  setCookie() {
-    const date = new Date();
-    date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
-    document.cookie = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;
-  }
-
-  getCookie(name) {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    return match ? match[2] : null;
-  }
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => new NewsletterPopup());
-} else {
-  new NewsletterPopup();
-}
+  
+  // Initialize popup
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new NewsletterPopup());
+  } else {
+    new NewsletterPopup();
+  }  
 </script>
 
 {% schema %}
