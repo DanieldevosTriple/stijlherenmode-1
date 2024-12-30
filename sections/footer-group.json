@@ -13,7 +13,6 @@
   "sections": {
     "newsletter_pop_up_jxqFXD": {
       "type": "newsletter-pop-up",
-      "disabled": true,
       "settings": {
         "title": "Join Our Newsletter",
         "description": "<p>Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>",
