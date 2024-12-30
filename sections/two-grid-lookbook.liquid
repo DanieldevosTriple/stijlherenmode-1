@@ -1,0 +1,116 @@
+{{ 'two-grid-lookbook.css' | asset_url | stylesheet_tag }}
+
+<section><div class="container-fluid section-padding section-padding">
+  <ul class="image-overlay-list">
+    {% for block in section.blocks %}
+      <li class="lookbook-block">
+        <div class="lookbook-container">
+          {% if block.settings.lookbook_image != blank %}
+            <div class="lookbook-background" 
+                 style="background-image: url({{ block.settings.lookbook_image | image_url }}); background-size: cover; background-position: center;">
+             
+              <div class="lookbook-dots">
+                {% for product in block.settings.products %}
+                  <span class="dot" data-index="{{ forloop.index0 }}"></span>
+                {% endfor %}
+              </div>
+              
+              <div class="lookbook-products">
+                {% for product in block.settings.products %}
+                  <div class="lookbook-product" data-index="{{ forloop.index0 }}">
+                    <img src="{{ product.product_image | image_url }}" height="" width="" alt="{{ product.product_title }}">
+                    <div class="lookbook-product-details">
+                      <p class="product-title">{{ product.product_title }}</p>
+                      <p class="product-price">{{ product.product_price }}</p>
+                      <a href="{{ product.product_link }}" class="underline">View Product</a>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+          
+          <div class="lookbook-overlay-content text-center">
+            {% if block.settings.title != blank %}
+              <h3 class="lookbook-title">{{ block.settings.title }}</h3>
+            {% endif %}
+            {% if block.settings.subtitle != blank %}
+              <h3 class="lookbook-subtitle">{{ block.settings.subtitle }}</h3>
+            {% endif %}
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+</section>
+
+{% schema %}
+{
+  "name": "Lookbook Grid",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "block",
+      "name": "Lookbook Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "lookbook_image",
+          "label": "Lookbook Background Image"
+        },
+        {
+          "type": "list",
+          "id": "products",
+          "label": "Products",
+          "default": [
+            {
+              "product_image": "",
+              "product_title": "Product Title",
+              "product_price": "$0.00",
+              "product_link": "#"
+            }
+          ],
+          "fields": [
+            {
+              "type": "image_picker",
+              "id": "product_image",
+              "label": "Product Image"
+            },
+            {
+              "type": "text",
+              "id": "product_title",
+              "label": "Product Title"
+            },
+            {
+              "type": "text",
+              "id": "product_price",
+              "label": "Product Price"
+            },
+            {
+              "type": "url",
+              "id": "product_link",
+              "label": "Product Link"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lookbook Grid with Multiple Products"
+    }
+  ]
+}
+{% endschema %}
