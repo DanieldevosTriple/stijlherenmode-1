@@ -236,7 +236,7 @@ sections/newsletter-popup.liquid
           <div class="popup-policy"><p>{{ section.settings.disclaimer | escape }}</p></div>
         {% endif %}
     
-        {% form 'customer', class: 'newsletter-form' %}
+        {% form 'contact', class: 'newsletter-form' %}
           <div class="newsletter-pop-up-field" data-popup-form>
             {{ form.errors | default_errors }}
             <input type="hidden" name="contact[tags]" value="newsletter,{{ section.settings.select_option }}">
@@ -257,9 +257,9 @@ sections/newsletter-popup.liquid
               <label>
                 <input type="checkbox" name="contact[tags][]" value="Stijl Herenmode" /> Stijl Herenmode
               </label>
-            </div>
-            <!-- Add this div for hCaptcha -->
-            <div class="h-captcha" data-sitekey="{{ settings.hcaptcha_site_key }}"></div>
+            </div>                
+            <!-- Add hCaptcha div with site key -->
+            <div class="h-captcha" data-sitekey="{{ section.settings.hcaptcha_site_key }}"></div>
             <button type="submit" class="newsletter-button" name="commit" id="Subscribe">
               <span>{{ section.settings.button_text }}</span>
             </button>
