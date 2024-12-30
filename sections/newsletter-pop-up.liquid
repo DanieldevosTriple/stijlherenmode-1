@@ -124,7 +124,7 @@ sections/newsletter-popup.liquid
         <div>{{ section.settings.subheader }}</div>
     
         {% if section.settings.disclaimer != blank %}
-          <div class="popup-policy">{{ section.settings.disclaimer | escape }}</div>
+          <div class="popup-policy"><p>{{ section.settings.disclaimer | escape }}</p></div>
         {% endif %}
     
         {% form 'customer' %}
@@ -145,11 +145,15 @@ sections/newsletter-popup.liquid
                 autocorrect="off"
                 autocapitalize="off">
               <div>
-                <select name="contact[tags]" id="TagSelection">
-                  <option value="Stijl Casual">Stijl Casual</option>
-                  <option value="Stijl Herenmode">Stijl Herenmode</option>
-                </select>
+                  <label>
+                    <input type="radio" name="contact[tags]" value="Stijl Casual" /> Stijl Casual
+                  </label>
               </div>
+              <div>
+                  <label>
+                    <input type="radio" name="contact[tags]" value="Stijl Herenmode" /> Stijl Herenmode
+                  </label>
+              </div>                
               <button type="submit" name="commit" id="Subscribe">
                 <span>{{ section.settings.button_text }}</span>
               </button>
@@ -370,7 +374,7 @@ sections/newsletter-popup.liquid
       "type": "richtext",
       "id": "disclaimer",
       "label": "Disclaimer Text",
-      "default": "<p>Voorwaarden zijn van toepassing. Deze actie geldt alleen voor nieuwe abonnees.</p>"
+      "default": "Voorwaarden zijn van toepassing. Deze actie geldt alleen voor nieuwe abonnees."
     },
     {
       "type": "text",
