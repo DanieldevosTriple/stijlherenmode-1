@@ -320,9 +320,19 @@ sections/newsletter-popup.liquid
     }    
   
     getCookie(name) {
+      console.log('Checking cookie for:', name);  // Debugging: Welke cookie wordt gecontroleerd?
+    
       const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-      return match ? match[2] : null;
+      
+      if (match) {
+        console.log('Cookie found:', match[2]);  // Debugging: Als cookie is gevonden, toon de waarde
+        return match[2];
+      } else {
+        console.log('Cookie not found');  // Debugging: Als cookie niet is gevonden
+        return null;
+      }
     }
+    
   }
   
   // Initialize popup
