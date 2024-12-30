@@ -289,14 +289,11 @@ sections/newsletter-popup.liquid
         showOn: this.overlay.dataset.showOn,
         delay: parseInt(this.overlay.dataset.delay, 10) * 1000,
         showOnce: this.overlay.dataset.showOnce === 'true',
-        cookieName: this.overlay.dataset.cookieName,
-        cookieDuration: parseInt(this.overlay.dataset.cookieDuration, 10),
+        cookieName: this.overlay.dataset.cookieName || 'newsletter_popup', // Add default
+        cookieDuration: parseInt(this.overlay.dataset.cookieDuration, 10) || 30, // Add default
         confirmationDuration: parseInt(this.overlay.dataset.confirmationDuration, 10) * 1000
       };
-  
-      console.log('Settings:', this.settings);  // Debugging: Instellingen van de popup
-  
-      this.init();
+      console.log('Settings initialized:', this.settings); // Debug settings
     }
   
     init() {
@@ -378,24 +375,23 @@ sections/newsletter-popup.liquid
     }
   
     hide() {
-      console.log('Hiding popup...');  // Debugging: Popup verbergen
-    
+      console.log('Hide called with showOnce:', this.settings.showOnce);
       this.overlay.classList.remove('active');
       document.body.style.overflow = '';
       window.scrollTo(0, this.scrollPos);
-    
-      // Voeg hier de log toe om te controleren of de cookie wordt ingesteld
+        
       if (this.settings.showOnce) {
-        console.log('Setting cookie after closing popup...');
+        console.log('Setting cookie on hide');
         this.setCookie();
+      } else {
+        console.log('Not setting cookie because showOnce is false');
       }
     }
     
     handleSubmit(e) {
-      console.log('Form submitted...');  // Debugging: Formulier wordt ingediend
       e.preventDefault();
       const formData = new FormData(this.form);
-    
+        
       fetch(this.form.action, {
         method: 'POST',
         body: formData,
@@ -403,17 +399,22 @@ sections/newsletter-popup.liquid
           'Accept': 'application/json'
         }
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then(() => {
-        console.log('Form submission successful!');  // Debugging: Succesvolle inzending
         this.showSuccess();
-        this.setCookie(); // Cookie wordt ook ingesteld na succesvolle inzending
+        this.setCookie(); // Will now be called even if there's an error
         setTimeout(() => this.hide(), this.settings.confirmationDuration);
       })
       .catch(error => {
-        console.error('Newsletter subscription failed:', error);  // Debugging: Fout bij inzending
+        console.error('Newsletter subscription failed:', error);
+        this.setCookie(); // Still set cookie even on error
       });
-    }    
+    }  
   
     showSuccess() {
       console.log('Showing success message...');  // Debugging: Succesmelding tonen
@@ -422,12 +423,15 @@ sections/newsletter-popup.liquid
     }
   
     setCookie() {
-      const date = new Date();
-      date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
-      const cookieString = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;  // Cookie instellen
-      document.cookie = cookieString;
-    
-      console.log('Setting cookie:', cookieString);  // Debugging: Toon het cookie-string in de console
+      try {
+        const date = new Date();
+        date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
+        const cookieString = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;
+        document.cookie = cookieString;
+        console.log('Cookie set successfully:', cookieString); // Add debugging
+      } catch (error) {
+        console.error('Error setting cookie:', error);
+      }
     }
     
     getCookie(name) {
