@@ -421,17 +421,18 @@ sections/newsletter-popup.liquid
   
     setCookie() {
       const date = new Date();
-      date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
-      document.cookie = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;
-  
-      console.log('Setting cookie:', `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`);  // Debugging: Cookie instellen
-    }
+      date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));  // Vervaldatum
+      const cookieString = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;  // Cookie instellen
+      document.cookie = cookieString;
+    
+      console.log('Setting cookie:', cookieString);  // Debugging: Toon het cookie-string in de console
+    }    
   
     getCookie(name) {
       console.log('Checking cookie for:', name);  // Debugging: Welke cookie wordt gecontroleerd?
-  
+    
       const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  
+      
       if (match) {
         console.log('Cookie found:', match[2]);  // Debugging: Als cookie is gevonden, toon de waarde
         return match[2];
@@ -439,7 +440,7 @@ sections/newsletter-popup.liquid
         console.log('Cookie not found');  // Debugging: Als cookie niet is gevonden
         return null;
       }
-    }
+    }    
   }
   
   // Initialize popup
