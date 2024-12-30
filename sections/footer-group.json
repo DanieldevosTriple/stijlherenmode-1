@@ -23,7 +23,7 @@
         "confirmation_duration": 3,
         "show_on": "homepage",
         "delay": 5,
-        "show_once": true,
+        "show_once": false,
         "cookie_name": "newsletter_popup",
         "cookie_duration": 30
       }
