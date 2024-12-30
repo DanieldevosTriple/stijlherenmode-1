@@ -35,7 +35,7 @@ sections/newsletter-popup.liquid
   padding-bottom: 1rem;
 }
 
-.interests input[type="radio"] {
+.interests input[type="checkbox"] {
   position: relative;
     width: 2.4rem;
     height: 2.4rem;
@@ -50,7 +50,7 @@ sections/newsletter-popup.liquid
     vertical-align: middle; /* Zorg ervoor dat de radio button en de tekst op dezelfde hoogte staan */
 }
 
-.interests input[type=radio]:checked {
+.interests input[type=checkbox]:checked {
     background-color: #efefef;
     border-color: #efefef;
 }
@@ -219,18 +219,19 @@ sections/newsletter-popup.liquid
                 placeholder="{{ 'newsletter.label' | t }}"
                 autocorrect="off"
                 autocapitalize="off">
+              <h3 class="newsletter-interest">Ik ben geinteresseerd in:</h3>
               <div class="interests">
-                  <label>
-                    <input type="radio" name="contact[tags]" value="Stijl Casual" /> Stijl Casual
-                  </label>
-                  <label>
-                    <input type="radio" name="contact[tags]" value="Stijl Herenmode" /> Stijl Herenmode
-                  </label>
+                <label>
+                  <input type="checkbox" name="contact[tags]" value="Stijl Casual" /> Stijl Casual
+                </label>
+                <label>
+                  <input type="checkbox" name="contact[tags]" value="Stijl Herenmode" /> Stijl Herenmode
+                </label>
               </div>                
               <button class="newsletter-button" type="submit" name="commit" id="Subscribe">
                 <span>{{ section.settings.button_text }}</span>
               </button>
-            {% endif %}
+            {% endif %}            
           </div>
         {% endform %}
       </div>
