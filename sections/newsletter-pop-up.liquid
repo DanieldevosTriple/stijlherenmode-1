@@ -17,6 +17,21 @@ sections/newsletter-popup.liquid
   transition: opacity 0.3s, visibility 0.3s;
 }
 
+.newsletter-button {
+    background-color: #000;
+    border: 2px solid black;
+    color: #fff;
+    padding: 10px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: TradeGothicLT, sans-serif;
+    cursor: pointer;
+}
+
 .popup-overlay.active {
   opacity: 1;
   visibility: visible;
@@ -154,7 +169,7 @@ sections/newsletter-popup.liquid
                     <input type="radio" name="contact[tags]" value="Stijl Herenmode" /> Stijl Herenmode
                   </label>
               </div>                
-              <button type="submit" name="commit" id="Subscribe">
+              <button class="newsletter-button" type="submit" name="commit" id="Subscribe">
                 <span>{{ section.settings.button_text }}</span>
               </button>
             {% endif %}
