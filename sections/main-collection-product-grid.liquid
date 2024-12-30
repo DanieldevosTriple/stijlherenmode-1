@@ -29,7 +29,7 @@
     count: 0,
     productsWithVariants: []
   };
-  console.log('Starting sale products processing');
+  console.log('Starting product processing');
   
   {% for product in collections.sale.products %}
     window.debugInfo.count++;
@@ -57,8 +57,8 @@
     });
   {% endfor %}
 
-  console.log('Total sale products processed:', window.debugInfo.count);
-  console.log('All sale products:', window.products);
+  console.log('Total products processed:', window.debugInfo.count);
+  console.log('All products:', window.products);
 </script>
 
 {%- style -%}
