@@ -236,38 +236,38 @@ sections/newsletter-popup.liquid
           <div class="popup-policy"><p>{{ section.settings.disclaimer | escape }}</p></div>
         {% endif %}
     
-        {% form 'customer', class: 'newsletter-form' %}
+        {% form 'contact', class: 'newsletter-form' %}
           <div class="newsletter-pop-up-field" data-popup-form>
-            {{ form.errors | default_errors }}
-            {% if form.posted_successfully? %}
-              <div class="popup-success" data-popup-success>
-                <h2>{{ section.settings.confirmation_title }}</h2>
-                <div>{{ section.settings.confirmation_message }}</div>
-              </div>
-            {% else %}
-              <input type="hidden" name="contact[tags]" value="newsletter,{{ section.settings.select_option }}">
-              <input type="email"
-                class="newsletter-pop-up-field-input" 
-                name="contact[email]"
-                id="Email"
-                required
-                value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
-                placeholder="{{ 'newsletter.label' | t }}"
-                autocorrect="off"
-                autocapitalize="off">
-              <p class="newsletter-interest">Ik ben geinteresseerd in:</p>
-              <div class="interests">
-                <label>
-                  <input type="checkbox" name="contact[tags][]" value="Stijl Casual" /> Stijl Casual
-                </label>
-                <label>
-                  <input type="checkbox" name="contact[tags][]" value="Stijl Herenmode" /> Stijl Herenmode
-                </label>
-              </div>                
-              <button type="submit" class="newsletter-button" name="commit" id="Subscribe">
-                <span>{{ section.settings.button_text }}</span>
-              </button>
-            {% endif %}                      
+            <input type="hidden" name="form_type" value="customer" />
+            <input type="hidden" name="utf8" value="✓" />
+            <input type="hidden" name="contact[tags]" value="newsletter" />
+            
+            <!-- Email field -->
+            <input type="email"
+              class="newsletter-pop-up-field-input" 
+              name="contact[email]"
+              id="Email"
+              required
+              value="{% if customer.email != blank %}{{ customer.email }}{% endif %}"
+              placeholder="{{ 'newsletter.label' | t }}"
+              autocorrect="off"
+              autocapitalize="off">
+              
+            <!-- Interest section -->
+            <p class="newsletter-interest">Ik ben geinteresseerd in:</p>
+            <div class="interests">
+              <label>
+                <input type="checkbox" name="contact[tags][]" value="Stijl Casual" /> Stijl Casual
+              </label>
+              <label>
+                <input type="checkbox" name="contact[tags][]" value="Stijl Herenmode" /> Stijl Herenmode
+              </label>
+            </div>
+            
+            <!-- Submit button -->
+            <button type="submit" class="newsletter-button" name="commit" id="Subscribe">
+              <span>{{ section.settings.button_text }}</span>
+            </button>
           </div>
         {% endform %}
       </div>
@@ -393,16 +393,35 @@ class NewsletterPopup {
   }
 
   handleSubmit(e) {
-    // Let form submit naturally to handle captcha
-    this.setCookie();
+    e.preventDefault(); // Need to prevent default for proper handling
     
-    // Show success after a short delay
-    setTimeout(() => {
-      this.showSuccess();
-      setTimeout(() => this.hide(), this.settings.confirmationDuration);
-    }, 500);
-
-    return true; // Allow form to submit naturally
+    const formData = new FormData(this.form);
+    
+    // Add required Shopify form fields
+    formData.append('form_type', 'customer');
+    formData.append('utf8', '✓');
+  
+    fetch('/contact', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        // Set cookie and show success message
+        this.setCookie();
+        this.showSuccess();
+        setTimeout(() => this.hide(), this.settings.confirmationDuration);
+      } else {
+        throw new Error('Network response was not ok');
+      }
+    })
+    .catch(error => {
+      console.error('Newsletter subscription failed:', error);
+    });
   }
 
   showSuccess() {
