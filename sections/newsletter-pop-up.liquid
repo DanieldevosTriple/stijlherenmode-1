@@ -24,6 +24,11 @@ sections/newsletter-popup.liquid
   padding: 1rem;
 }
 
+.newsletter-interest {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 .interests label {
   vertical-align: middle; /* Zorg ervoor dat ze verticaal gecentreerd zijn */
   display: inline-block;
@@ -51,7 +56,7 @@ sections/newsletter-popup.liquid
 }
 
 .interests input[type=checkbox]:checked {
-    background-color: #efefef;
+    background-color: #000;
     border-color: #efefef;
 }
 
@@ -222,16 +227,16 @@ sections/newsletter-popup.liquid
               <h3 class="newsletter-interest">Ik ben geinteresseerd in:</h3>
               <div class="interests">
                 <label>
-                  <input type="checkbox" name="contact[tags]" value="Stijl Casual" /> Stijl Casual
+                  <input type="checkbox" name="contact[tags][]" value="Stijl Casual" /> Stijl Casual
                 </label>
                 <label>
-                  <input type="checkbox" name="contact[tags]" value="Stijl Herenmode" /> Stijl Herenmode
+                  <input type="checkbox" name="contact[tags][]" value="Stijl Herenmode" /> Stijl Herenmode
                 </label>
               </div>                
               <button class="newsletter-button" type="submit" name="commit" id="Subscribe">
                 <span>{{ section.settings.button_text }}</span>
               </button>
-            {% endif %}            
+            {% endif %}                      
           </div>
         {% endform %}
       </div>
