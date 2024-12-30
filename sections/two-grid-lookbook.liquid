@@ -1,48 +1,49 @@
 {{ 'two-grid-lookbook.css' | asset_url | stylesheet_tag }}
 
-<section><div class="container-fluid section-padding section-padding">
-  <ul class="image-overlay-list">
-    {% for block in section.blocks %}
-      <li class="lookbook-block">
-        <div class="lookbook-container">
-          {% if block.settings.lookbook_image != blank %}
-            <div class="lookbook-background" 
-                 style="background-image: url({{ block.settings.lookbook_image | image_url }}); background-size: cover; background-position: center;">
-             
-              <div class="lookbook-dots">
-                {% for product in block.settings.products %}
-                  <span class="dot" data-index="{{ forloop.index0 }}"></span>
-                {% endfor %}
-              </div>
-              
-              <div class="lookbook-products">
-                {% for product in block.settings.products %}
-                  <div class="lookbook-product" data-index="{{ forloop.index0 }}">
-                    <img src="{{ product.product_image | image_url }}" height="" width="" alt="{{ product.product_title }}">
-                    <div class="lookbook-product-details">
-                      <p class="product-title">{{ product.product_title }}</p>
-                      <p class="product-price">{{ product.product_price }}</p>
-                      <a href="{{ product.product_link }}" class="underline">View Product</a>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
+<section>
+  <div class="container-fluid section-padding">
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Lookbook Image Column -->
+        {% for block in section.blocks %}
+          {% if block.type == 'lookbook_block' %}
+            <div class="lookbook-container">
+              {% if block.settings.lookbook_image != blank %}
+                <div class="lookbook-background" 
+                     style="background-image: url({{ block.settings.lookbook_image | image_url }}); background-size: cover; background-position: center;">
+                </div>
+              {% endif %}
             </div>
           {% endif %}
-          
-          <div class="lookbook-overlay-content text-center">
-            {% if block.settings.title != blank %}
-              <h3 class="lookbook-title">{{ block.settings.title }}</h3>
+        {% endfor %}
+      </div>
+      <div class="col-md-6">
+        <!-- Products Column -->
+        <div class="lookbook-products">
+          {% for block in section.blocks %}
+            {% if block.type == 'product_block' %}
+              <div class="lookbook-product" data-index="{{ forloop.index0 }}">
+                <img src="{{ block.settings.product_image | image_url }}" height="" width="" alt="{{ block.settings.product_title }}">
+                <div class="lookbook-product-details">
+                  <p class="product-title">{{ block.settings.product_title }}</p>
+                  <p class="product-price">{{ block.settings.product_price }}</p>
+                  <a href="{{ block.settings.product_link }}" class="underline">View Product</a>
+                </div>
+              </div>
             {% endif %}
-            {% if block.settings.subtitle != blank %}
-              <h3 class="lookbook-subtitle">{{ block.settings.subtitle }}</h3>
-            {% endif %}
-          </div>
+          {% endfor %}
         </div>
-      </li>
-    {% endfor %}
-  </ul>
-</div>
+        <!-- Dots Navigation -->
+        <div class="lookbook-dots">
+          {% for block in section.blocks %}
+            {% if block.type == 'product_block' %}
+              <span class="dot" data-index="{{ forloop.index0 }}"></span>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 {% schema %}
@@ -58,43 +59,32 @@
           "type": "image_picker",
           "id": "lookbook_image",
           "label": "Lookbook Background Image"
+        }
+      ]
+    },
+    {
+      "type": "product_block",
+      "name": "Product Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image"
         },
         {
           "type": "text",
-          "id": "title",
-          "label": "Title"
+          "id": "product_title",
+          "label": "Product Title"
         },
         {
           "type": "text",
-          "id": "subtitle",
-          "label": "Subtitle"
+          "id": "product_price",
+          "label": "Product Price"
         },
         {
-          "type": "list",
-          "id": "products",
-          "label": "Products",
-          "fields": [
-            {
-              "type": "image_picker",
-              "id": "product_image",
-              "label": "Product Image"
-            },
-            {
-              "type": "text",
-              "id": "product_title",
-              "label": "Product Title"
-            },
-            {
-              "type": "text",
-              "id": "product_price",
-              "label": "Product Price"
-            },
-            {
-              "type": "url",
-              "id": "product_link",
-              "label": "Product Link"
-            }
-          ]
+          "type": "url",
+          "id": "product_link",
+          "label": "Product Link"
         }
       ]
     }
