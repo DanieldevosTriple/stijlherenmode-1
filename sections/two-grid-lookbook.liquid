@@ -1,7 +1,5 @@
 {{ 'two-grid-lookbook.css' | asset_url | stylesheet_tag }}
 
-{{ 'two-grid-lookbook.css' | asset_url | stylesheet_tag }}
-
 {% schema %}
 {
   "name": "2 Column Lookbook Section",
@@ -74,7 +72,7 @@
 <div id="left-products" class="product-cards" style="display: none;">
   {% for product in section.settings.left_column_products %}
     <div class="product-card">
-      <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+      <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
       <h3>{{ product.title }}</h3>
       <p>{{ product.price | money }}</p>
       <a href="{{ product.url }}">View Product</a>
@@ -85,7 +83,7 @@
 <div id="right-products" class="product-cards" style="display: none;">
   {% for product in section.settings.right_column_products %}
     <div class="product-card">
-      <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+      <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
       <h3>{{ product.title }}</h3>
       <p>{{ product.price | money }}</p>
       <a href="{{ product.url }}">View Product</a>
