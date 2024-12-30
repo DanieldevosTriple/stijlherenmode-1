@@ -1,148 +1,109 @@
 {{ 'two-grid-lookbook.css' | asset_url | stylesheet_tag }}
 
-<section>
-  <div class="container-fluid section-padding">
-    <div class="row">
-      <!-- Column 1 -->
-      <div class="col-md-6">
-        <div class="lookbook-column">
-          {% if section.settings.image_1 != blank %}
-            <div class="lookbook-background" 
-                 style="background-image: url({{ section.settings.image_1 | image_url }}); background-size: cover; background-position: center;">
-              <!-- Product 1 -->
-              <div class="dot" 
-                   style="position: absolute; top: {{ section.settings.dot_1_top }}; left: {{ section.settings.dot_1_left }};">
-              </div>
-              <!-- Product 2 -->
-              <div class="dot" 
-                   style="position: absolute; top: {{ section.settings.dot_2_top }}; left: {{ section.settings.dot_2_left }};">
-              </div>
-              <!-- Product 3 -->
-              <div class="dot" 
-                   style="position: absolute; top: {{ section.settings.dot_3_top }}; left: {{ section.settings.dot_3_left }};">
-              </div>
-            </div>
-          {% endif %}
-        </div>
-      </div>
-      
-      <!-- Column 2 -->
-      <div class="col-md-6">
-        <div class="lookbook-column">
-          {% if section.settings.image_2 != blank %}
-            <div class="lookbook-background" 
-                 style="background-image: url({{ section.settings.image_2 | image_url }}); background-size: cover; background-position: center;">
-              <!-- Product 1 -->
-              <div class="dot" 
-                   style="position: absolute; top: {{ section.settings.dot_4_top }}; left: {{ section.settings.dot_4_left }};">
-              </div>
-              <!-- Product 2 -->
-              <div class="dot" 
-                   style="position: absolute; top: {{ section.settings.dot_5_top }}; left: {{ section.settings.dot_5_left }};">
-              </div>
-              <!-- Product 3 -->
-              <div class="dot" 
-                   style="position: absolute; top: {{ section.settings.dot_6_top }}; left: {{ section.settings.dot_6_left }};">
-              </div>
-            </div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+{{ 'two-grid-lookbook.css' | asset_url | stylesheet_tag }}
 
 {% schema %}
 {
-  "name": "Two Column Lookbook",
+  "name": "2 Column Lookbook Section",
   "settings": [
     {
       "type": "image_picker",
-      "id": "image_1",
-      "label": "Column 1 Lookbook Image"
+      "label": "Left Column Image",
+      "id": "left_column_image"
     },
     {
       "type": "image_picker",
-      "id": "image_2",
-      "label": "Column 2 Lookbook Image"
+      "label": "Right Column Image",
+      "id": "right_column_image"
     },
     {
       "type": "text",
-      "id": "dot_1_top",
-      "label": "Product 1 Dot Top Position (Column 1)",
-      "default": "10%"
+      "label": "Left Column Header",
+      "id": "left_column_header",
+      "default": "Left Column Header"
+    },
+    {
+      "type": "textarea",
+      "label": "Left Column Subheader",
+      "id": "left_column_subhead",
+      "default": "Left Column Subheader"
+    },
+    {
+      "type": "product_list",
+      "label": "Left Column Products",
+      "id": "left_column_products"
     },
     {
       "type": "text",
-      "id": "dot_1_left",
-      "label": "Product 1 Dot Left Position (Column 1)",
-      "default": "50%"
+      "label": "Right Column Header",
+      "id": "right_column_header",
+      "default": "Right Column Header"
     },
     {
-      "type": "text",
-      "id": "dot_2_top",
-      "label": "Product 2 Dot Top Position (Column 1)",
-      "default": "30%"
+      "type": "textarea",
+      "label": "Right Column Subheader",
+      "id": "right_column_subhead",
+      "default": "Right Column Subheader"
     },
     {
-      "type": "text",
-      "id": "dot_2_left",
-      "label": "Product 2 Dot Left Position (Column 1)",
-      "default": "50%"
-    },
-    {
-      "type": "text",
-      "id": "dot_3_top",
-      "label": "Product 3 Dot Top Position (Column 1)",
-      "default": "50%"
-    },
-    {
-      "type": "text",
-      "id": "dot_3_left",
-      "label": "Product 3 Dot Left Position (Column 1)",
-      "default": "50%"
-    },
-    {
-      "type": "text",
-      "id": "dot_4_top",
-      "label": "Product 1 Dot Top Position (Column 2)",
-      "default": "10%"
-    },
-    {
-      "type": "text",
-      "id": "dot_4_left",
-      "label": "Product 1 Dot Left Position (Column 2)",
-      "default": "50%"
-    },
-    {
-      "type": "text",
-      "id": "dot_5_top",
-      "label": "Product 2 Dot Top Position (Column 2)",
-      "default": "30%"
-    },
-    {
-      "type": "text",
-      "id": "dot_5_left",
-      "label": "Product 2 Dot Left Position (Column 2)",
-      "default": "50%"
-    },
-    {
-      "type": "text",
-      "id": "dot_6_top",
-      "label": "Product 3 Dot Top Position (Column 2)",
-      "default": "50%"
-    },
-    {
-      "type": "text",
-      "id": "dot_6_left",
-      "label": "Product 3 Dot Left Position (Column 2)",
-      "default": "50%"
-    }
-  ],
-  "presets": [
-    {
-      "name": "Two Column Lookbook"
+      "type": "product_list",
+      "label": "Right Column Products",
+      "id": "right_column_products"
     }
   ]
 }
 {% endschema %}
+
+<div class="two-column-section">
+  <div class="column left-column" onclick="showProducts('left')">
+    <img src="{{ section.settings.left_column_image | image_url }}" height="" width="" alt="Left Column Image">
+    <div class="badge">New</div>
+    <h2>{{ section.settings.left_column_header }}</h2>
+    <p>{{ section.settings.left_column_subhead }}</p>
+  </div>
+
+  <div class="column right-column" onclick="showProducts('right')">
+    <img src="{{ section.settings.right_column_image | image_url }}" height="" width="" alt="Right Column Image">
+    <div class="badge">Sale</div>
+    <h2>{{ section.settings.right_column_header }}</h2>
+    <p>{{ section.settings.right_column_subhead }}</p>
+  </div>
+</div>
+
+<!-- Product Cards -->
+<div id="left-products" class="product-cards" style="display: none;">
+  {% for product in section.settings.left_column_products %}
+    <div class="product-card">
+      <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+      <h3>{{ product.title }}</h3>
+      <p>{{ product.price | money }}</p>
+      <a href="{{ product.url }}">View Product</a>
+    </div>
+  {% endfor %}
+</div>
+
+<div id="right-products" class="product-cards" style="display: none;">
+  {% for product in section.settings.right_column_products %}
+    <div class="product-card">
+      <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+      <h3>{{ product.title }}</h3>
+      <p>{{ product.price | money }}</p>
+      <a href="{{ product.url }}">View Product</a>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  function showProducts(column) {
+    var leftProducts = document.getElementById('left-products');
+    var rightProducts = document.getElementById('right-products');
+
+    if (column === 'left') {
+      leftProducts.style.display = leftProducts.style.display === 'block' ? 'none' : 'block';
+      rightProducts.style.display = 'none';
+    } else {
+      rightProducts.style.display = rightProducts.style.display === 'block' ? 'none' : 'block';
+      leftProducts.style.display = 'none';
+    }
+  }
+</script>
