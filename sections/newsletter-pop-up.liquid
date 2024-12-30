@@ -22,6 +22,9 @@ sections/newsletter-popup.liquid
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   padding: 1rem 2rem 2rem 2rem;
+  text-transform: uppercase;
+  font-family: TradeGothicLT, sans-serif;
+  font-size: 15px;  
 }
 
 .newsletter-interest {
@@ -37,6 +40,13 @@ sections/newsletter-popup.liquid
 
 .newsletter-header {
   padding-bottom: 1rem;
+}
+
+.newsletter-subheader {
+  padding-bottom: 1rem;
+  text-transform: uppercase;
+  font-family: TradeGothicLT, sans-serif;
+  font-size: 15px;
 }
 
 .interests input[type="checkbox"] {
@@ -208,7 +218,7 @@ sections/newsletter-popup.liquid
     <div class="popup-content">
       <div class="popup-main" data-popup-main>
         <h2 class="newsletter-header">{{ section.settings.header }}</h2>
-        <div>{{ section.settings.subheader }}</div>
+        <p class="newsletter-subheader">{{ section.settings.subheader }}</p>
     
         {% if section.settings.disclaimer != blank %}
           <div class="popup-policy"><p>{{ section.settings.disclaimer | escape }}</p></div>
