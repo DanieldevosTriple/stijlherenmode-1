@@ -25,7 +25,7 @@
 
 <script>
   window.products = {};
-  let debugInfo = {
+  window.debugInfo = {
     allProducts: [],
     productsWithVariants: [],
     productsWithColorVariants: [],
@@ -34,12 +34,12 @@
   
   {% for product in collections.sale.products %}
     // Track ALL products with their option info
-    let productOptions = [{% for option in product.options %}"{{ option | strip }}"{% unless forloop.last %},{% endunless %}{% endfor %}];
+    const currentProductOptions = [{% for option in product.options %}"{{ option | strip }}"{% unless forloop.last %},{% endunless %}{% endfor %}];
     
-    debugInfo.colorOptionAnalysis.push({
+    window.debugInfo.colorOptionAnalysis.push({
       id: {{ product.id }},
       title: "{{ product.title }}",
-      options: productOptions,
+      options: currentProductOptions,
       rawOptions: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
       firstOptionType: "{{ product.options.first }}",
       hasVariants: {% if product.variants.size > 0 %}true{% else %}false{% endif %},
@@ -48,10 +48,10 @@
     });
   
     {% if product.variants.size > 0 %}
-      debugInfo.productsWithVariants.push({
+      window.debugInfo.productsWithVariants.push({
         id: {{ product.id }},
         title: "{{ product.title }}",
-        options: productOptions,
+        options: currentProductOptions,
         variantCount: {{ product.variants.size }}
       });
       
@@ -61,11 +61,11 @@
         {% assign stripped_option = option | strip %}
         {% if stripped_option == 'Color' or stripped_option == 'Kleur' %}
           {% assign has_color = true %}
-          debugInfo.productsWithColorVariants.push({
+          window.debugInfo.productsWithColorVariants.push({
             id: {{ product.id }},
             title: "{{ product.title }}",
             colorOptionIndex: {{ forloop.index0 }},
-            allOptions: productOptions,
+            allOptions: currentProductOptions,
             rawColorOption: "{{ option }}",
             strippedColorOption: "{{ stripped_option }}"
           });
@@ -76,7 +76,7 @@
     window.products[{{ product.id }}] = {
       "id": {{ product.id }},
       "title": "{{ product.title }}",
-      "options": productOptions,
+      "options": currentProductOptions,
       "variants": [
         {% for variant in product.variants %}
           {
@@ -90,31 +90,31 @@
     };
   {% endfor %}
   
-  // Detailed analysis logs
+  // Add analysis after all products are processed
   console.log('Basic counts:', {
-    'Total Products': debugInfo.allProducts.length,
-    'Products with variants': debugInfo.productsWithVariants.length,
-    'Products with color variants': debugInfo.productsWithColorVariants.length
+    'Total Products': Object.keys(window.products).length,
+    'Products with variants': window.debugInfo.productsWithVariants.length,
+    'Products with color variants': window.debugInfo.productsWithColorVariants.length
   });
   
   // Find products that have "Color" in options but aren't in colorVariants
-  const missingColorProducts = debugInfo.colorOptionAnalysis.filter(product => 
+  const missingColorProducts = window.debugInfo.colorOptionAnalysis.filter(product => 
     product.options.some(opt => opt.includes('Color')) && 
-    !debugInfo.productsWithColorVariants.find(p => p.id === product.id)
+    !window.debugInfo.productsWithColorVariants.find(p => p.id === product.id)
   );
   
   console.log('Products with "Color" option but not in color variants:', missingColorProducts);
   
   // Check for whitespace issues
-  console.log('Option Analysis:', debugInfo.colorOptionAnalysis.map(p => ({
+  console.log('Option Analysis:', window.debugInfo.colorOptionAnalysis.map(p => ({
     id: p.id,
     title: p.title,
     options: p.options,
-    rawOptions: p.rawOptions // This will show any extra whitespace
+    rawOptions: p.rawOptions
   })));
   
   // Log products that might have color variants but aren't being caught
-  const potentialColorProducts = debugInfo.colorOptionAnalysis.filter(p => 
+  const potentialColorProducts = window.debugInfo.colorOptionAnalysis.filter(p => 
     p.firstOptionType.toLowerCase().includes('color') || 
     p.firstVariantOption1.match(/^(Black|White|Blue|Red|Green|Yellow|Purple|Pink|Brown|Grey|Gray)/i)
   );
