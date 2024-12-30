@@ -211,14 +211,14 @@
                 {%- comment -%}
                   Identify if a 'Color' option exists and store its index.
                 {%- endcomment -%}
-                {% assign color_option_index = -1 %}
-                {% assign color_active = false %}
                 {% for opt_name in product.options %}
-                  {% if opt_name == 'Color' or opt_name == 'Kleur' %}
+                  {% assign opt_lower = opt_name | downcase | strip %}
+                  {% if opt_lower contains 'color' or opt_lower contains 'kleur' or 
+                        opt_lower contains 'couleur' or opt_lower contains 'farbe' %}
                     {% assign color_active = true %}
                     {% assign color_option_index = forloop.index0 %}
                   {% endif %}
-                {% endfor %}                
+                {% endfor %}              
               
                 {%- comment -%}
                   If the product has variants and a color option,
