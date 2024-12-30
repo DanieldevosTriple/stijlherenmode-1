@@ -17,6 +17,11 @@ sections/newsletter-popup.liquid
   transition: opacity 0.3s, visibility 0.3s;
 }
 
+.interests {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .newsletter-button {
     background-color: #000;
     border: 2px solid black;
@@ -159,7 +164,7 @@ sections/newsletter-popup.liquid
                 placeholder="{{ 'newsletter.label' | t }}"
                 autocorrect="off"
                 autocapitalize="off">
-              <div>
+              <div class="interests">
                   <label>
                     <input type="radio" name="contact[tags]" value="Stijl Casual" /> Stijl Casual
                   </label>
