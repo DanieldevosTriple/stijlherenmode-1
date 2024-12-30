@@ -23,6 +23,87 @@
   {% endfor %}
 </script>
 
+<script>
+  window.products = {};
+  let debugInfo = {
+    allProducts: [],
+    productsWithVariants: [],
+    productsWithColorVariants: [],
+    productsUsingCardProductVariant: []
+  };
+  
+  {% for product in collections.all.products %}
+    // Store basic product info
+    debugInfo.allProducts.push({
+      id: {{ product.id }},
+      title: "{{ product.title }}",
+      hasVariants: {{ product.variants.size > 0 }},
+      options: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
+      variantCount: {{ product.variants.size }}
+    });
+  
+    // Track products with variants
+    {% if product.variants.size > 0 %}
+      debugInfo.productsWithVariants.push({{ product.id }});
+      
+      // Check if product has color option
+      {% assign has_color = false %}
+      {% for option in product.options %}
+        {% if option == 'Color' or option == 'Kleur' %}
+          {% assign has_color = true %}
+        {% endif %}
+      {% endfor %}
+      
+      {% if has_color %}
+        debugInfo.productsWithColorVariants.push({
+          id: {{ product.id }},
+          title: "{{ product.title }}",
+          options: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
+        });
+      {% endif %}
+    {% endif %}
+  
+    window.products[{{ product.id }}] = {
+      "id": {{ product.id }},
+      "title": "{{ product.title }}",
+      "variants": [
+        {% for variant in product.variants %}
+          {
+            "id": {{ variant.id }},
+            "color": "{{ variant.option1 }}",
+            "image": "{{ variant.image | img_url: 'medium' }}"
+          }
+          {% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    };
+  {% endfor %}
+  
+  // Add debug logs
+  console.log('Debug Information:', {
+    'Total Products': debugInfo.allProducts.length,
+    'Products with variants': debugInfo.productsWithVariants.length,
+    'Products with color variants': debugInfo.productsWithColorVariants.length
+  });
+  
+  console.log('Products with variants but no color option:', 
+    debugInfo.productsWithVariants.filter(id => 
+      !debugInfo.productsWithColorVariants.find(p => p.id === id)
+    )
+  );
+  
+  // Log detailed product information
+  console.log('Detailed product information:', 
+    debugInfo.allProducts.filter(p => p.hasVariants).map(p => ({
+      id: p.id,
+      title: p.title,
+      options: p.options,
+      variantCount: p.variantCount,
+      hasColorOption: p.options.includes('Color') || p.options.includes('Kleur')
+    }))
+  );
+  </script>
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
