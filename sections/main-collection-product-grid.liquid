@@ -32,36 +32,39 @@
     count: 0
   };
   
-  {% for product in collections.all.products %}
-    debugInfo.count = debugInfo.count + 1;
-    
-    window.products[{{ product.id }}] = {
-      "id": {{ product.id }},
-      "title": "{{ product.title }}",
-      "options": [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
-      "variants": [
-        {% for variant in product.variants %}
-          {
-            "id": {{ variant.id }},
-            "color": "{{ variant.option1 }}",
-            "image": "{{ variant.image | img_url: 'medium' }}"
-          }
-          {% unless forloop.last %},{% endunless %}
-        {% endfor %}
-      ]
-    };
+  {%- paginate collections.all.products by 1000 -%}  // Or any number larger than your total products
+    {% for product in collections.all.products %}
+      debugInfo.count = debugInfo.count + 1;
+      
+      window.products[{{ product.id }}] = {
+        "id": {{ product.id }},
+        "title": "{{ product.title }}",
+        "options": [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
+        "variants": [
+          {% for variant in product.variants %}
+            {
+              "id": {{ variant.id }},
+              "color": "{{ variant.option1 }}",
+              "image": "{{ variant.image | img_url: 'medium' }}"
+            }
+            {% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      };
   
-    {% if product.variants.size > 0 %}
-      debugInfo.productsWithVariants.push({
-        id: {{ product.id }},
-        title: "{{ product.title }}",
-        index: debugInfo.count,
-        variantCount: {{ product.variants.size }},
-        options: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
-      });
-    {% endif %}
-  {% endfor %}
+      {% if product.variants.size > 0 %}
+        debugInfo.productsWithVariants.push({
+          id: {{ product.id }},
+          title: "{{ product.title }}",
+          index: debugInfo.count,
+          variantCount: {{ product.variants.size }},
+          options: [{% for option in product.options %}"{{ option }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
+        });
+      {% endif %}
+    {% endfor %}
+  {%- endpaginate -%}
   
+  console.log('Total products in collection: {{ collections.all.products.size }}');
   console.log('Total products processed:', debugInfo.count);
   console.log('Products with variants:', debugInfo.productsWithVariants);
   console.log('Last processed product index:', debugInfo.count);
