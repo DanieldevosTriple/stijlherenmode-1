@@ -122,7 +122,7 @@ sections/newsletter-popup.liquid
         <h2>{{ section.settings.title }}</h2>
         <div>{{ section.settings.description }}</div>
         
-        {%- form 'customer', class: 'popup-form', data-popup-form -%}
+        {%- form 'contact', class: 'popup-form', data-popup-form -%}
           <input type="hidden" name="contact[tags]" value="newsletter">
           <input
             type="email"
