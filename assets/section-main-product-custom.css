@@ -453,7 +453,6 @@
 
 .modal-content {
     transform: scale(0.4);
-    bottom: 100%;
 }
 
 .close-modal {
