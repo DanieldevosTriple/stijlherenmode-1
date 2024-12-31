@@ -120,9 +120,9 @@
         "block_Efmtxr": {
           "type": "block",
           "settings": {
-            "media_type": "image",
+            "media_type": "video",
             "image": "shopify://shop_images/Frame_23_64c2766f-7af8-473f-8a41-59bb7ea9870e.png",
-            "video_url": "",
+            "video_url": "https://player.vimeo.com/video/875916857",
             "title": "Herenmode",
             "subtitle": "Herenmode",
             "link": "shopify://collections/montecore",
