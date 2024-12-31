@@ -122,7 +122,7 @@
           "settings": {
             "media_type": "video",
             "image": "shopify://shop_images/Frame_23_64c2766f-7af8-473f-8a41-59bb7ea9870e.png",
-            "video": "shopify://files/videos/AQOymxaK3O5i-W4as0xEsYUHkqzWDQjxZAXGCXw9K5sfp_oQiXAghUDgAs6N6uqcDAD-4wqFTT4G4leoEIec_To_.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/fdd1509c42c1485ba86e04529eb0c594.mp4",
             "title": "",
             "subtitle": "Herenmode",
             "link": "shopify://collections/montecore",
@@ -134,6 +134,7 @@
           "settings": {
             "media_type": "image",
             "image": "shopify://shop_images/Frame_25.png",
+            "video_url": "",
             "title": "Casual",
             "subtitle": "Casual",
             "link": "shopify://collections/aeden",
