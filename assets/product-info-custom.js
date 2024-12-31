@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const createExpandIcon = (container) => {
                 const icon = document.createElement('img');
-                icon.src = "{{ 'icon-expand.svg' | asset_url }}";
+                icon.src = "/cdn/shop/t/22/assets/icon-expand.svg";
                 icon.className = 'expand-icon';
                 icon.alt = 'Expand image';
                 container.appendChild(icon);
