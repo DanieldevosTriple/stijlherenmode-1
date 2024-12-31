@@ -108,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 secondaryImages.forEach(image => {
                     const colDiv = document.createElement('div');
-                    colDiv.classList.add('col-6');
                     colDiv.classList.add('secondary-image');
 
                     const imgElement = createImageElement(image.src, image.alt || "Secondary image", ['img-fluid', 'rounded']);
