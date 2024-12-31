@@ -452,13 +452,8 @@
 }
 
 .modal-content {
-    max-width: 90%;
-    max-height: 90vh;
-    margin: auto;
-    display: block;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    transform: scale(0.4);
+    bottom: 100%;
 }
 
 .close-modal {
@@ -499,12 +494,11 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    color: white;
-    font-size: 30px;
+    color: #fff;
+    font-size: 15px;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 10px;
-    border-radius: 50%;
+    background: #fff3;
+    padding: 4px 11px;
 }
 
 .prev-image {
@@ -513,4 +507,9 @@
 
 .next-image {
     right: 20px;
+}
+
+/* Hide expand icon when image is in modal */
+.modal-content + .expand-icon {
+    display: none;
 }
