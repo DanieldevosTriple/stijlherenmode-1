@@ -12,11 +12,14 @@
   }
   .badge {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: red;
-    color: white;
-    padding: 5px;
+    top: 0px;
+    left: 0px;
+    background-color: #faf7f3;
+    color: black;
+    padding: 19px;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-transform: uppercase;
   }
   .product-cards {
     display: none;
