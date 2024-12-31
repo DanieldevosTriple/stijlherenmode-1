@@ -71,14 +71,18 @@
   <div class="column left-column" onclick="showProducts('left')">
     <img src="{{ section.settings.left_column_image | image_url }}" height="" width="" alt="Left Column Image">
     <div class="badge">{{ section.settings.left_column_products.size }} articles</div>
-    <h5>{{ section.settings.left_column_header }}</h5>
+    <div class="card-body text-left">
+    <h5 class="card-title">{{ section.settings.left_column_header }}</h5>
     <p>{{ section.settings.left_column_subhead }}</p>
+  </div>
   </div>
   <div class="column right-column" onclick="showProducts('right')">
     <img src="{{ section.settings.right_column_image | image_url }}" height="" width="" alt="Right Column Image">
     <div class="badge">{{ section.settings.right_column_products.size }} articles</div>
-    <h5>{{ section.settings.right_column_header }}</h5>
+    <div class="card-body text-left">
+    <h5 class="card-title">{{ section.settings.right_column_header }}</h5>
     <p>{{ section.settings.right_column_subhead }}</p>
+    </div>
   </div>
 </div>
 
@@ -87,12 +91,10 @@
   {% for product in section.settings.left_column_products %}
     <div class="product-card">
       <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
-      <div class="card-body text-left">
-      <h5 class="card-title">{{ product.title }}</h5>
+      <h5>{{ product.title }}</h5>
       <p>{{ product.price | money }}</p>
       <a href="{{ product.url }}">View Product</a>
     </div>
-  </div>
   {% endfor %}
 </div>
 
