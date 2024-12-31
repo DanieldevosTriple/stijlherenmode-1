@@ -120,6 +120,22 @@
         }
       }
     },
+    "logo": {
+      "name": "Logo",
+      "settings": {
+        "logo_image": {
+          "label": "Logo"
+        },
+        "logo_width": {
+          "label": "Width",
+          "info": "The width is automatically adjusted to maintain the original aspect ratio."
+        },
+        "favicon": {
+          "label": "Favicon-afbeelding",
+          "info": "Will be resized to 32x32 pixels."
+        }
+      }
+    },
     "colors": {
       "name": "Colors",
       "settings": {
