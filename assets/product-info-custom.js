@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const DEBUG_MODE = true; // Schakel in/uit voor debuginformatie
+    const DEBUG_MODE = true;
 
     const debugLog = (message, data = null) => {
         if (DEBUG_MODE) {
@@ -22,32 +22,124 @@ document.addEventListener('DOMContentLoaded', () => {
         const mobileMediaGallery = document.querySelector('.product-gallery-mobile');
 
         let selectedOptions = {};
+        let gallery;
+
+        // Modal creation and gallery initialization
+        const createImageModal = () => {
+            const modal = document.createElement('div');
+            modal.className = 'image-modal';
+            modal.innerHTML = `
+                <span class="close-modal">&times;</span>
+                <img class="modal-content" id="modal-image">
+                <div class="modal-nav prev-image">&#10094;</div>
+                <div class="modal-nav next-image">&#10095;</div>
+            `;
+            document.body.appendChild(modal);
+            return modal;
+        };
+
+        const initializeGallery = () => {
+            const modal = createImageModal();
+            const modalImg = modal.querySelector('#modal-image');
+            const closeBtn = modal.querySelector('.close-modal');
+            const prevBtn = modal.querySelector('.prev-image');
+            const nextBtn = modal.querySelector('.next-image');
+            let currentImageIndex = 0;
+            let galleryImages = [];
+
+            const updateGalleryImages = () => {
+                galleryImages = [
+                    ...Array.from(document.querySelectorAll('.media-gallery img')),
+                    ...Array.from(document.querySelectorAll('.secondary-gallery img')),
+                    ...Array.from(document.querySelectorAll('.product-gallery-mobile img'))
+                ];
+            };
+
+            const showImage = (index) => {
+                currentImageIndex = index;
+                modalImg.src = galleryImages[index].src;
+            };
+
+            const closeModal = () => {
+                modal.style.display = 'none';
+            };
+
+            const navigateImages = (direction) => {
+                currentImageIndex = (currentImageIndex + direction + galleryImages.length) % galleryImages.length;
+                showImage(currentImageIndex);
+            };
+
+            prevBtn.addEventListener('click', () => navigateImages(-1));
+            nextBtn.addEventListener('click', () => navigateImages(1));
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (modal.style.display === 'block') {
+                    if (e.key === 'ArrowLeft') navigateImages(-1);
+                    if (e.key === 'ArrowRight') navigateImages(1);
+                    if (e.key === 'Escape') closeModal();
+                }
+            });
+
+            const createExpandIcon = (container) => {
+                const icon = document.createElement('img');
+                icon.src = "{{ 'icon-expand.svg' | asset_url }}";
+                icon.className = 'expand-icon';
+                icon.alt = 'Expand image';
+                container.appendChild(icon);
+            };
+
+            const makeImageExpandable = (imgElement, index) => {
+                const container = document.createElement('div');
+                container.className = 'image-container';
+                imgElement.parentNode.insertBefore(container, imgElement);
+                container.appendChild(imgElement);
+                createExpandIcon(container);
+
+                container.addEventListener('click', (e) => {
+                    updateGalleryImages();
+                    showImage(index);
+                    modal.style.display = 'block';
+                });
+            };
+
+            return {
+                initializeImages: () => {
+                    updateGalleryImages();
+                    galleryImages.forEach((img, index) => {
+                        makeImageExpandable(img, index);
+                    });
+                }
+            };
+        };
 
         const getVariantFromURL = () => {
             try {
                 let url = window.location.href;
         
-                // Controleer of er meerdere '?' in de URL zitten
                 if ((url.match(/\?/g) || []).length > 1) {
                     debugLog("Ongeldige URL gedetecteerd, corrigeren...");
                     const [base, ...queryParts] = url.split('?');
-                    url = `${base}?${queryParts.join('&')}`; // Corrigeer door '?' na de eerste te vervangen door '&'
+                    url = `${base}?${queryParts.join('&')}`;
                     debugLog("Gecorrigeerde URL:", url);
                 }
         
-                const parsedURL = new URL(url); // Parse de URL
-                const params = new URLSearchParams(parsedURL.search); // Haal de queryparameters op
+                const parsedURL = new URL(url);
+                const params = new URLSearchParams(parsedURL.search);
         
                 debugLog("Huidige queryparameters:", Array.from(params.entries()));
         
-                const variantId = params.get('variant'); // Zoek de 'variant'-parameter
+                const variantId = params.get('variant');
                 if (variantId) {
                     debugLog("Variant ID gevonden in URL:", variantId);
-                    return variantId; // Return de gevonden 'variant'-waarde
+                    return variantId;
                 }
         
                 debugLog("Geen 'variant' parameter gevonden in URL.");
-                return null; // Return null als er geen 'variant'-parameter is
+                return null;
             } catch (error) {
                 console.error("Fout bij het ophalen van variant ID uit URL:", error);
                 return null;
@@ -118,6 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     mobileMediaGallery.appendChild(mobileImgElement);
                 });
             }
+
+            // Re-initialize expandable images after gallery update
+            setTimeout(() => gallery.initializeImages(), 100);
         };
 
         const updateBuyButton = (variantId) => {
@@ -194,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
+        // Initialize option buttons
         productData.options.forEach((optionName, index) => {
             debugLog(`Optie "${optionName}" verwerken`, index);
             const uniqueValues = [...new Set(productData.variants.map(variant => variant[`option${index + 1}`]))];
@@ -217,7 +313,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.dataset.value = value;
 
                 if (optionName.toLowerCase() === 'color') {
-                    const variantWithImage = productData.variants.find(variant => variant[`option${index + 1}`] === value && variant.featured_image);
+                    const variantWithImage = productData.variants.find(variant => 
+                        variant[`option${index + 1}`] === value && variant.featured_image);
                     if (variantWithImage && variantWithImage.featured_image) {
                         const imgElement = document.createElement('img');
                         imgElement.src = variantWithImage.featured_image.src;
@@ -246,11 +343,27 @@ document.addEventListener('DOMContentLoaded', () => {
             optionsContainer.appendChild(optionContainer);
         });
 
+        // Initialize accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            debugLog('Accordion header gevonden:', header);
+            header.addEventListener('click', () => {
+                debugLog('Accordion header geklikt:', header);
+                const content = header.nextElementSibling;
+                header.classList.toggle('active');
+                content.classList.toggle('active');
+            });
+        });
+
+        // Initialize the gallery functionality
+        gallery = initializeGallery();
+
+        // Handle initial variant selection
         const variantIdFromURL = getVariantFromURL();
         let initialVariant = productData.variants[0];
 
         if (variantIdFromURL) {
-            const variantFromURL = productData.variants.find(variant => variant.id.toString() === variantIdFromURL);
+            const variantFromURL = productData.variants.find(variant => 
+                variant.id.toString() === variantIdFromURL);
             if (variantFromURL) {
                 initialVariant = variantFromURL;
             }
@@ -259,19 +372,15 @@ document.addEventListener('DOMContentLoaded', () => {
         productData.options.forEach((optionName, index) => {
             const value = initialVariant[`option${index + 1}`];
             selectedOptions[optionName] = value;
-            const button = optionsContainer.querySelector(`[data-option="${optionName}"][data-value="${value}"]`);
+            const button = optionsContainer.querySelector(
+                `[data-option="${optionName}"][data-value="${value}"]`);
             if (button) {
                 button.classList.add('active');
             }
         });
 
+        // Initialize with initial variant
         updateGallery(initialVariant.id);
         updateBuyButton(initialVariant.id);
         updateProductTitle();
-        updateProductDescription(initialVariant.id);
-        updatePrice(initialVariant.id);
-
-    } catch (error) {
-        console.error("Fout tijdens initialisatie van de productgalerij:", error);
-    }
-});
+        updateProductDescription(initialVariant.
