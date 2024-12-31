@@ -1,129 +1,106 @@
-{{ 'two-grid-lookbook.css' | asset_url | stylesheet_tag }}
-
 {% schema %}
 {
-"name": "2 Column Lookbook Section",
-"settings": [
-  {
-    "type": "image_picker",
-    "label": "Left Column Image",
-    "id": "left_column_image"
-  },
-  {
-    "type": "image_picker",
-    "label": "Right Column Image",
-    "id": "right_column_image"
-  },
-  {
-    "type": "text",
-    "label": "Left Column Header",
-    "id": "left_column_header",
-    "default": "Left Column Header"
-  },
-  {
-    "type": "textarea",
-    "label": "Left Column Subheader",
-    "id": "left_column_subhead",
-    "default": "Left Column Subheader"
-  },
-  {
-    "type": "product_list",
-    "label": "Left Column Products",
-    "id": "left_column_products"
-  },
-  {
-    "type": "text",
-    "label": "Right Column Header",
-    "id": "right_column_header",
-    "default": "Right Column Header"
-  },
-  {
-    "type": "textarea",
-    "label": "Right Column Subheader",
-    "id": "right_column_subhead",
-    "default": "Right Column Subheader"
-  },
-  {
-    "type": "product_list",
-    "label": "Right Column Products",
-    "id": "right_column_products"
-  }
-],
-"presets": [
-  {
-    "name": "2 Column Lookbook",
-    "settings": {
-      "left_column_image": "shopify://shop_images/default_left_image.jpg",
-      "right_column_image": "shopify://shop_images/default_right_image.jpg",
-      "left_column_header": "Explore Our Collection",
-      "left_column_subhead": "Find the perfect pieces to complete your look.",
-      "right_column_header": "Special Offers",
-      "right_column_subhead": "Exclusive discounts on select items.",
-      "left_column_products": [ "product_1", "product_2", "product_3" ],
-      "right_column_products": [ "product_4", "product_5", "product_6" ]
+  "name": "2 Column Collections Grid",
+  "settings": [
+    {
+      "type": "image_picker",
+      "label": "Left Column Image",
+      "id": "left_column_image"
+    },
+    {
+      "type": "image_picker",
+      "label": "Right Column Image",
+      "id": "right_column_image"
+    },
+    {
+      "type": "text",
+      "label": "Left Column Header",
+      "id": "left_column_header",
+      "default": "Left Column Header"
+    },
+    {
+      "type": "textarea",
+      "label": "Left Column Subheader",
+      "id": "left_column_subhead",
+      "default": "Left Column Subheader"
+    },
+    {
+      "type": "collection",
+      "label": "Left Column Collection",
+      "id": "left_column_collection"
+    },
+    {
+      "type": "text",
+      "label": "Right Column Header",
+      "id": "right_column_header",
+      "default": "Right Column Header"
+    },
+    {
+      "type": "textarea",
+      "label": "Right Column Subheader",
+      "id": "right_column_subhead",
+      "default": "Right Column Subheader"
+    },
+    {
+      "type": "collection",
+      "label": "Right Column Collection",
+      "id": "right_column_collection"
     }
-  }
-]
+  ],
+  "presets": [
+    {
+      "name": "2 Column Collections",
+      "settings": {
+        "left_column_header": "Explore Our Collection",
+        "left_column_subhead": "Find the perfect pieces to complete your look.",
+        "right_column_header": "Special Offers",
+        "right_column_subhead": "Exclusive discounts on select items."
+      }
+    }
+  ]
 }
 {% endschema %}
 
-{% assign left_products = section.settings.left_column_products %}
-{% assign right_products = section.settings.right_column_products %}
-
 <div class="col-12 two-column-section">
-  <div class="column left-column" onclick="showProducts('left')">
-    <img src="{{ section.settings.left_column_image | image_url }}" height="" width="" alt="Left Column Image">
-    <div class="badge">{% if left_products %}{{ left_products | size }}{% else %}0{% endif %} articles</div>
-    <div class="card-body text-left">
-      <h5 class="card-title">{{ section.settings.left_column_header }}</h5>
-      <p>{{ section.settings.left_column_subhead }}</p>
-    </div>
-  </div>
-  <div class="column right-column" onclick="showProducts('right')">
-    <img src="{{ section.settings.right_column_image | image_url }}" height="" width="" alt="Right Column Image">
-    <div class="badge">{% if right_products %}{{ right_products | size }}{% else %}0{% endif %} articles</div>
-    <div class="card-body text-left">
-      <h5 class="card-title">{{ section.settings.right_column_header }}</h5>
-      <p>{{ section.settings.right_column_subhead }}</p>
-    </div>
-  </div>
-</div>
-
-<!-- Product Cards -->
-<div id="left-products" class="product-cards" style="display: none;">
-  {% for product in left_products %}
-    <div class="product-card">
-      <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
-      <h5>{{ product.title }}</h5>
-      <p>{{ product.price | money }}</p>
-      <a href="{{ product.url }}">View Product</a>
-    </div>
-  {% endfor %}
-</div>
-
-<div id="right-products" class="product-cards" style="display: none;">
-  {% for product in right_products %}
-    <div class="product-card">
-      <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
-      <div class="card-body text-left">
-        <h5 class="card-title">{{ product.title }}</h5>
-        <p>{{ product.price | money }}</p>
-        <a href="{{ product.url }}">View Product</a>
+  <div class="column left-column">
+    {% if section.settings.left_column_collection %}
+      <a href="{{ section.settings.left_column_collection.url }}">
+    {% endif %}
+      <img src="{{ section.settings.left_column_image | image_url }}" width="" height="" alt="Left Column Image">
+      <div class="badge">
+        {% if section.settings.left_column_collection %}
+          {{ section.settings.left_column_collection.all_products_count }} articles
+        {% else %}
+          0 articles
+        {% endif %}
       </div>
-    </div>
-  {% endfor %}
+      <div class="card-body text-left">
+        <h5 class="card-title">{{ section.settings.left_column_header }}</h5>
+        <p>{{ section.settings.left_column_subhead }}</p>
+      </div>
+    {% if section.settings.left_column_collection %}
+      </a>
+    {% endif %}
+  </div>
+  
+  <div class="column right-column">
+    {% if section.settings.right_column_collection %}
+      <a href="{{ section.settings.right_column_collection.url }}">
+    {% endif %}
+      <img src="{{ section.settings.right_column_image | image_url }}" width="" height="" alt="Right Column Image">
+      <div class="badge">
+        {% if section.settings.right_column_collection %}
+          {{ section.settings.right_column_collection.all_products_count }} articles
+        {% else %}
+          0 articles
+        {% endif %}
+      </div>
+      <div class="card-body text-left">
+        <h5 class="card-title">{{ section.settings.right_column_header }}</h5>
+        <p>{{ section.settings.right_column_subhead }}</p>
+      </div>
+    {% if section.settings.right_column_collection %}
+      </a>
+    {% endif %}
+  </div>
 </div>
-
-<script>
-function showProducts(column) {
-  var leftProducts = document.getElementById('left-products');
-  var rightProducts = document.getElementById('right-products');
-  if (column === 'left') {
-    leftProducts.style.display = leftProducts.style.display === 'block' ? 'none' : 'block';
-    rightProducts.style.display = 'none';
-  } else {
-    rightProducts.style.display = rightProducts.style.display === 'block' ? 'none' : 'block';
-    leftProducts.style.display = 'none';
-  }
-}
-</script>
