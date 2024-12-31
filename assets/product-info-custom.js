@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
             const makeImageExpandable = (imgElement, index) => {
                 const container = document.createElement('div');
-                container.className = 'image-container';
+                container.className = 'col-12 image-container';
                 imgElement.parentNode.insertBefore(container, imgElement);
                 container.appendChild(imgElement);
                 createExpandIcon(container);
