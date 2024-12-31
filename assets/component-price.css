@@ -20,7 +20,7 @@
 
 .price-current {
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: rgb(var(--color-primary));
   font-family: TradeGothicLT, sans-serif;
 }
