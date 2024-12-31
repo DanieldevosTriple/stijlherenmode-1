@@ -7,14 +7,8 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
-    "product_banner": {
-      "type": "main-product-banner",
-      "settings": {
-        "color_scheme": "scheme-1"
-      }
-    },
     "main_product_custom_9F9PJb": {
       "type": "main-product-custom",
       "blocks": {
@@ -44,14 +38,13 @@
     "related_products_eXUzFK": {
       "type": "related-products",
       "settings": {
-        "related_title": "You may also like",
-        "complementary_title": "Pair it with",
+        "related_title": "Misschien vind je het ook leuk",
+        "complementary_title": "Combineer met",
         "recommendations_limit": 8
       }
     }
   },
   "order": [
-    "product_banner",
     "main_product_custom_9F9PJb",
     "related_products_eXUzFK"
   ]
