@@ -371,6 +371,20 @@
     }
   },
   "sections": {
+    "main-banner": {
+      "name": "Banner",
+      "settings": {
+        "paragraph": {
+          "content": "Banner instellingen"
+        },
+        "show_collection_description": {
+          "label": "Toon collectie beschrijving"
+        },
+        "color_scheme": {
+          "label": "Kleurenschema"
+        }
+      }
+    },
     "all": {
       "padding": {
         "section_padding_heading": "Opvulling voor sectie",

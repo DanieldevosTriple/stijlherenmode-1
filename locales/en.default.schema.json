@@ -440,6 +440,20 @@
         "info": "Standard-styled cards have no borders when an image shape is active."
       }
     },
+    "main-banner": {
+      "name": "Banner",
+      "settings": {
+        "paragraph": {
+          "content": "Banner instellingen"
+        },
+        "show_collection_description": {
+          "label": "Toon collectie beschrijving"
+        },
+        "color_scheme": {
+          "label": "Kleurenschema"
+        }
+      }
+    },
     "announcement-bar": {
       "name": "Announcement bar",
       "settings": {
