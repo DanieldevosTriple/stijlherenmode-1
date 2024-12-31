@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-{
+ {
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
@@ -44,10 +44,18 @@
         "sticky": true,
         "transparent": false
       }
+    },
+    "main-banner": {
+      "type": "main-banner",
+      "settings": {
+        "show_collection_description": true,
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
     "announcement-bar",
-    "header"
+    "header",
+    "main-banner"
   ]
 }

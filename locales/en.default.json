@@ -272,7 +272,20 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
+    "main-banner": {
+      "name": "Banner",
+      "settings": {
+        "paragraph": {
+          "content": "Banner instellingen"
+        },
+        "show_collection_description": {
+          "label": "Toon collectie beschrijving"
+        },
+        "color_scheme": {
+          "label": "Kleurenschema"
+        }
+      }
+    },
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
