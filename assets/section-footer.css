@@ -89,6 +89,17 @@
   text-decoration: none; /* Optioneel: voegt onderstreping toe bij hover */
 }
 
+.list-social__item {
+  color: #000;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding-top: 1rem;
+}
+
+
 /* Verberg de toggle knoppen op tablet en desktop */
 @media (min-width: 768px) {
   .footer__toggle {
