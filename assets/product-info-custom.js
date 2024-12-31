@@ -199,9 +199,10 @@ document.addEventListener('DOMContentLoaded', () => {
             mediaGallery.innerHTML = '';
             secondaryGallery.innerHTML = '';
             mobileMediaGallery.innerHTML = '';
-
+        
             const selectedVariant = productData.variants.find(variant => variant.id === variantId);
-
+            let allImages = []; // Array to collect all images for mobile gallery
+        
             const createImageElement = (src, alt, classes = []) => {
                 const imgElement = document.createElement('img');
                 imgElement.src = src;
@@ -209,7 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 classes.forEach(cls => imgElement.classList.add(cls));
                 return imgElement;
             };
-
+        
+            // Add featured/main image
             if (selectedVariant && selectedVariant.featured_image) {
                 const imgElement = createImageElement(
                     selectedVariant.featured_image.src,
@@ -217,13 +219,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     ['img-fluid', 'w-100', 'mb-3']
                 );
                 mediaGallery.appendChild(imgElement);
-
-                const mobileImgElement = createImageElement(
-                    selectedVariant.featured_image.src,
-                    `Featured image for variant ID: ${variantId}`,
-                    ['col-12', 'product-gallery-mobile-item']
-                );
-                mobileMediaGallery.appendChild(mobileImgElement);
+                allImages.push({
+                    src: selectedVariant.featured_image.src,
+                    alt: `Featured image for variant ID: ${variantId}`
+                });
             } else {
                 const fallbackImage = createImageElement(
                     productData.featured_image,
@@ -231,34 +230,79 @@ document.addEventListener('DOMContentLoaded', () => {
                     ['img-fluid', 'w-100', 'mb-3']
                 );
                 mediaGallery.appendChild(fallbackImage);
-
-                const mobileFallbackImage = createImageElement(
-                    productData.featured_image,
-                    "Fallback featured image",
-                    ['col-12', 'product-gallery-mobile-item']
-                );
-                mobileMediaGallery.appendChild(mobileFallbackImage);
+                allImages.push({
+                    src: productData.featured_image,
+                    alt: "Fallback featured image"
+                });
             }
-
+        
+            // Add secondary images
             if (selectedVariant) {
                 const relevantOptions = Object.values(selectedOptions).filter(option => option.length > 3);
                 const secondaryImages = productData.media.filter(media =>
-                    media.alt && relevantOptions.some(option => media.alt.toLowerCase().includes(option.toLowerCase()))
+                    media.alt && relevantOptions.some(option => 
+                        media.alt.toLowerCase().includes(option.toLowerCase())
+                    )
                 );
-
+        
                 secondaryImages.forEach(image => {
                     const colDiv = document.createElement('div');
                     colDiv.classList.add('secondary-image');
-
-                    const imgElement = createImageElement(image.src, image.alt || "Secondary image", ['img-fluid', 'rounded']);
+        
+                    const imgElement = createImageElement(
+                        image.src, 
+                        image.alt || "Secondary image", 
+                        ['img-fluid', 'rounded']
+                    );
                     colDiv.appendChild(imgElement);
                     secondaryGallery.appendChild(colDiv);
-
-                    const mobileImgElement = createImageElement(image.src, image.alt || "Secondary image", ['col-12', 'product-gallery-mobile-item']);
-                    mobileMediaGallery.appendChild(mobileImgElement);
+        
+                    allImages.push({
+                        src: image.src,
+                        alt: image.alt || "Secondary image"
+                    });
                 });
             }
-
+        
+            // Create or get dots container
+            let dotsContainer = document.querySelector('.slider-dots');
+            if (!dotsContainer) {
+                dotsContainer = document.createElement('ul');
+                dotsContainer.className = 'slider-dots';
+                mobileMediaGallery.parentNode.appendChild(dotsContainer);
+            }
+            dotsContainer.innerHTML = '';
+        
+            // Add all images to mobile gallery with dots
+            allImages.forEach((image, index) => {
+                // Create image for mobile gallery
+                const mobileImgElement = createImageElement(
+                    image.src,
+                    image.alt,
+                    ['col-12', 'product-gallery-mobile-item']
+                );
+                mobileMediaGallery.appendChild(mobileImgElement);
+        
+                // Create corresponding dot
+                const dot = document.createElement('li');
+                dot.classList.add('slider-dot');
+                if (index === 0) dot.classList.add('active');
+                dotsContainer.appendChild(dot);
+            });
+        
+            // Update dots on scroll
+            const updateDots = () => {
+                const index = Math.round(mobileMediaGallery.scrollLeft / mobileMediaGallery.offsetWidth);
+                dotsContainer.querySelectorAll('.slider-dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+            };
+        
+            // Add scroll event listener for dots
+            mobileMediaGallery.addEventListener('scroll', () => {
+                requestAnimationFrame(updateDots);
+            });
+        
             // Re-initialize expandable images after gallery update
             setTimeout(() => gallery.initializeImages(), 100);
         };
