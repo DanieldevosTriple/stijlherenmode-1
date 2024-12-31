@@ -13,31 +13,13 @@
             </div>
             {% endif %}
           {% else %}
+            {% if block.settings.video != blank %}
             <div class="image-overlay-block__video">
-              {% if block.settings.video_url contains "youtube.com" or block.settings.video_url contains "youtu.be" %}
-                {% assign video_id = block.settings.video_url | split: "=" | last %}
-                <iframe 
-                  src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&mute=1&loop=1&playlist={{ video_id }}"
-                  frameborder="0"
-                  allow="autoplay; encrypted-media"
-                  allowfullscreen
-                  loading="lazy">
-                </iframe>
-              {% elsif block.settings.video_url contains "vimeo.com" %}
-                {% assign video_id = block.settings.video_url | split: "/" | last %}
-                <iframe
-                  src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1&loop=1&background=1&muted=1"
-                  frameborder="0"
-                  allow="autoplay; encrypted-media"
-                  allowfullscreen
-                  loading="lazy">
-                </iframe>
-              {% else %}
-                <video autoplay loop muted playsinline>
-                  <source src="{{ block.settings.video_url }}" type="video/mp4">
-                </video>
-              {% endif %}
+              <video autoplay loop muted playsinline>
+                <source src="{{ block.settings.video }}" type="video/mp4">
+              </video>
             </div>
+            {% endif %}
           {% endif %}
           <div class="image-overlay-block__content text-center">
             {% if block.settings.title != blank %}
@@ -87,10 +69,10 @@
           "info": "Select when Media Type is Image"
         },
         {
-          "type": "url",
-          "id": "video_url",
-          "label": "Video URL",
-          "info": "Supports Shopify CDN videos, YouTube URLs, and Vimeo URLs"
+          "type": "video",
+          "id": "video",
+          "label": "Video",
+          "info": "Select when Media Type is Video"
         },
         {
           "type": "text",
