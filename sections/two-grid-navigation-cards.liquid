@@ -23,6 +23,15 @@
                   allowfullscreen
                   loading="lazy">
                 </iframe>
+              {% elsif block.settings.video_url contains "vimeo.com" %}
+                {% assign video_id = block.settings.video_url | split: "/" | last %}
+                <iframe
+                  src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1&loop=1&background=1&muted=1"
+                  frameborder="0"
+                  allow="autoplay; encrypted-media"
+                  allowfullscreen
+                  loading="lazy">
+                </iframe>
               {% else %}
                 <video autoplay loop muted playsinline>
                   <source src="{{ block.settings.video_url }}" type="video/mp4">
@@ -81,7 +90,7 @@
           "type": "url",
           "id": "video_url",
           "label": "Video URL",
-          "info": "Supports Shopify CDN videos and YouTube URLs. Enter when Media Type is Video"
+          "info": "Supports Shopify CDN videos, YouTube URLs, and Vimeo URLs"
         },
         {
           "type": "text",
