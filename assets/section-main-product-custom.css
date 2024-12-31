@@ -583,3 +583,7 @@
         display: none;
     }
 }
+
+.no-padding {
+    padding: 0;
+}
