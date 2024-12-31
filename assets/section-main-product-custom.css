@@ -439,7 +439,6 @@
 
   /* Modal styles */
 .image-modal {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -449,10 +448,24 @@
     z-index: 1000;
     padding: 20px;
     box-sizing: border-box;
+    /* Add flexbox for centering */
+    display: none; /* This will be overridden when modal is shown */
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
     max-width: 50%;
+    display: block;
+    /* Remove the old positioning */
+    position: static;
+    transform: none;
+    /* Optional: maintain aspect ratio */
+    object-fit: contain;
+}
+
+.image-modal[style*="display: block"] {
+    display: flex !important;
 }
 
 .close-modal {
