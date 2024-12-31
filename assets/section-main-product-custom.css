@@ -121,6 +121,8 @@
 
   .option-swatch img.swatch-image {
       object-fit: cover;
+      height: 100%;
+      width: 100%;
   }
 
   .option-swatch.has-image {
