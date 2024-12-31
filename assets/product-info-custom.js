@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const createImageModal = () => {
             const modal = document.createElement('div');
             modal.className = 'image-modal';
+            // Simplified modal HTML structure
             modal.innerHTML = `
                 <span class="close-modal">&times;</span>
                 <img class="modal-content" id="modal-image">
@@ -72,16 +73,21 @@ document.addEventListener('DOMContentLoaded', () => {
             let galleryImages = [];
 
             const updateGalleryImages = () => {
+                // Create an array of only the actual img elements, not their containers
                 galleryImages = [
-                    ...Array.from(document.querySelectorAll('.media-gallery img')),
-                    ...Array.from(document.querySelectorAll('.secondary-gallery img')),
-                    ...Array.from(document.querySelectorAll('.product-gallery-mobile img'))
-                ];
+                    ...document.querySelectorAll('.media-gallery img'),
+                    ...document.querySelectorAll('.secondary-gallery img'),
+                    ...document.querySelectorAll('.product-gallery-mobile img')
+                ].map(img => ({
+                    src: img.src,
+                    alt: img.alt
+                }));
             };
 
             const showImage = (index) => {
                 currentImageIndex = index;
                 modalImg.src = galleryImages[index].src;
+                modalImg.alt = galleryImages[index].alt;
             };
 
             const closeModal = () => {
