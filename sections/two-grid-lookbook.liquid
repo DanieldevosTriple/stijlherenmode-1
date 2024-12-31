@@ -1,3 +1,5 @@
+{{ 'two-grid-lookbook.css' | asset_url | stylesheet_tag }}
+
 {% schema %}
 {
   "name": "2 Column Collections Grid",
@@ -66,7 +68,7 @@
     {% if section.settings.left_column_collection %}
       <a href="{{ section.settings.left_column_collection.url }}">
     {% endif %}
-      <img src="{{ section.settings.left_column_image | image_url }}" width="" height="" alt="Left Column Image">
+      <img src="{{ section.settings.left_column_image | image_url }}" height="" width="" alt="Left Column Image">
       <div class="badge">
         {% if section.settings.left_column_collection %}
           {{ section.settings.left_column_collection.all_products_count }} articles
@@ -87,7 +89,7 @@
     {% if section.settings.right_column_collection %}
       <a href="{{ section.settings.right_column_collection.url }}">
     {% endif %}
-      <img src="{{ section.settings.right_column_image | image_url }}" width="" height="" alt="Right Column Image">
+      <img src="{{ section.settings.right_column_image | image_url }}" height="" width="" alt="Right Column Image">
       <div class="badge">
         {% if section.settings.right_column_collection %}
           {{ section.settings.right_column_collection.all_products_count }} articles
