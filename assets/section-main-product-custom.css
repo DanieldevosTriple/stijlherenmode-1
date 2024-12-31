@@ -390,12 +390,13 @@
   }
 
   .breadcrumb span {
+      display: flex;
       margin-left: 0.5rem;
       margin-right: 0.5rem;
       color: black !important;
       flex-wrap: nowrap;
       text-overflow: ellipsis;
-      max-width: 135px;
+      max-width: 200px;
       overflow: hidden;
   }
 
