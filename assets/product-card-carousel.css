@@ -52,7 +52,7 @@
 /* Navigation styles */
 .slider-nav {
     position: absolute;
-    bottom: 10px;
+    bottom: 50%;
     left: 0;
     right: 0;
     display: flex;
