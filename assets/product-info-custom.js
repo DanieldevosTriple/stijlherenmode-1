@@ -379,8 +379,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Initialize with initial variant
-        updateGallery(initialVariant.id);
-        updateBuyButton(initialVariant.id);
-        updateProductTitle();
-        updateProductDescription(initialVariant.
+// Initialize with initial variant
+updateGallery(initialVariant.id);
+updateBuyButton(initialVariant.id);
+updateProductTitle();
+updateProductDescription(initialVariant.id);
+updatePrice(initialVariant.id);
+
+} catch (error) {
+console.error("Fout tijdens initialisatie van de productgalerij:", error);
+}
+});
