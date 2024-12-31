@@ -292,6 +292,9 @@
         },
         "color_scheme": {
           "label": "Kleurenschema"
+        },
+        "hide_on_homepage": {
+          "label": "Verberg op homepage"
         }
       }
     },
