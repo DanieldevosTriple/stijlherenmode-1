@@ -2,83 +2,82 @@
 
 {% schema %}
 {
-  "name": "2 Column Lookbook Section",
-  "settings": [
-    {
-      "type": "image_picker",
-      "label": "Left Column Image",
-      "id": "left_column_image"
-    },
-    {
-      "type": "image_picker",
-      "label": "Right Column Image",
-      "id": "right_column_image"
-    },
-    {
-      "type": "text",
-      "label": "Left Column Header",
-      "id": "left_column_header",
-      "default": "Left Column Header"
-    },
-    {
-      "type": "textarea",
-      "label": "Left Column Subheader",
-      "id": "left_column_subhead",
-      "default": "Left Column Subheader"
-    },
-    {
-      "type": "product_list",
-      "label": "Left Column Products",
-      "id": "left_column_products"
-    },
-    {
-      "type": "text",
-      "label": "Right Column Header",
-      "id": "right_column_header",
-      "default": "Right Column Header"
-    },
-    {
-      "type": "textarea",
-      "label": "Right Column Subheader",
-      "id": "right_column_subhead",
-      "default": "Right Column Subheader"
-    },
-    {
-      "type": "product_list",
-      "label": "Right Column Products",
-      "id": "right_column_products"
+"name": "2 Column Lookbook Section",
+"settings": [
+  {
+    "type": "image_picker",
+    "label": "Left Column Image",
+    "id": "left_column_image"
+  },
+  {
+    "type": "image_picker",
+    "label": "Right Column Image",
+    "id": "right_column_image"
+  },
+  {
+    "type": "text",
+    "label": "Left Column Header",
+    "id": "left_column_header",
+    "default": "Left Column Header"
+  },
+  {
+    "type": "textarea",
+    "label": "Left Column Subheader",
+    "id": "left_column_subhead",
+    "default": "Left Column Subheader"
+  },
+  {
+    "type": "product_list",
+    "label": "Left Column Products",
+    "id": "left_column_products"
+  },
+  {
+    "type": "text",
+    "label": "Right Column Header",
+    "id": "right_column_header",
+    "default": "Right Column Header"
+  },
+  {
+    "type": "textarea",
+    "label": "Right Column Subheader",
+    "id": "right_column_subhead",
+    "default": "Right Column Subheader"
+  },
+  {
+    "type": "product_list",
+    "label": "Right Column Products",
+    "id": "right_column_products"
+  }
+],
+"presets": [
+  {
+    "name": "2 Column Lookbook",
+    "settings": {
+      "left_column_image": "shopify://shop_images/default_left_image.jpg",
+      "right_column_image": "shopify://shop_images/default_right_image.jpg",
+      "left_column_header": "Explore Our Collection",
+      "left_column_subhead": "Find the perfect pieces to complete your look.",
+      "right_column_header": "Special Offers",
+      "right_column_subhead": "Exclusive discounts on select items.",
+      "left_column_products": [ "product_1", "product_2", "product_3" ],
+      "right_column_products": [ "product_4", "product_5", "product_6" ]
     }
-  ],
-  "presets": [
-    {
-      "name": "2 Column Lookbook",
-      "settings": {
-        "left_column_image": "shopify://shop_images/default_left_image.jpg",
-        "right_column_image": "shopify://shop_images/default_right_image.jpg",
-        "left_column_header": "Explore Our Collection",
-        "left_column_subhead": "Find the perfect pieces to complete your look.",
-        "right_column_header": "Special Offers",
-        "right_column_subhead": "Exclusive discounts on select items.",
-        "left_column_products": [ "product_1", "product_2", "product_3" ],
-        "right_column_products": [ "product_4", "product_5", "product_6" ]
-      }
-    }
-  ]
+  }
+]
 }
 {% endschema %}
 
 <div class="col-12 two-column-section">
   <div class="column left-column" onclick="showProducts('left')">
     <img src="{{ section.settings.left_column_image | image_url }}" height="" width="" alt="Left Column Image">
-    <div class="badge">New</div>
-    <h2>{{ section.settings.left_column_header }}</h2>
+    <div class="badge">{{ section.settings.left_column_products.size }} articles</div>
+    <h5>{{ section.settings.left_column_header }}</h5>
     <p>{{ section.settings.left_column_subhead }}</p>
   </div>
-
   <div class="column right-column" onclick="showProducts('right')">
     <img src="{{ section.settings.right_column_image | image_url }}" height="" width="" alt="Right Column Image">
-    <div class="badge">Sale</div>
-    <h2>{{ section.settings.right_column_header }}</h2>
+    <div class="badge">{{ section.settings.right_column_products.size }} articles</div>
+    <h5>{{ section.settings.right_column_header }}</h5>
     <p>{{ section.settings.right_column_subhead }}</p>
   </div>
 </div>
@@ -107,16 +106,15 @@
 </div>
 
 <script>
-  function showProducts(column) {
-    var leftProducts = document.getElementById('left-products');
-    var rightProducts = document.getElementById('right-products');
-
-    if (column === 'left') {
-      leftProducts.style.display = leftProducts.style.display === 'block' ? 'none' : 'block';
-      rightProducts.style.display = 'none';
-    } else {
-      rightProducts.style.display = rightProducts.style.display === 'block' ? 'none' : 'block';
-      leftProducts.style.display = 'none';
-    }
+function showProducts(column) {
+  var leftProducts = document.getElementById('left-products');
+  var rightProducts = document.getElementById('right-products');
+  if (column === 'left') {
+    leftProducts.style.display = leftProducts.style.display === 'block' ? 'none' : 'block';
+    rightProducts.style.display = 'none';
+  } else {
+    rightProducts.style.display = rightProducts.style.display === 'block' ? 'none' : 'block';
+    leftProducts.style.display = 'none';
   }
+}
 </script>
