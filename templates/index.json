@@ -132,12 +132,12 @@
         "block_pDxANz": {
           "type": "block",
           "settings": {
-            "media_type": "image",
+            "media_type": "video",
             "image": "shopify://shop_images/Frame_25.png",
-            "video_url": "",
-            "title": "Casual",
-            "subtitle": "Casual",
-            "link": "shopify://collections/aeden",
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/61197c3d1e0a496ba41d7210696b7254.mp4",
+            "title": "",
+            "subtitle": "Les Deux",
+            "link": "shopify://collections/les-deux",
             "linktitle": "Bekijk nu"
           }
         }
