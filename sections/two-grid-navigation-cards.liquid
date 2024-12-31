@@ -16,7 +16,7 @@
             {% if block.settings.video != blank %}
             <div class="image-overlay-block__video">
               <video autoplay loop muted playsinline>
-                <source src="{{ block.settings.video | file_url }}" type="video/mp4">
+                <source src="{{ block.settings.video_url }}" type="video/mp4">
               </video>
             </div>
             {% endif %}
