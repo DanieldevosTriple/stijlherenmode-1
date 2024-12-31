@@ -18,7 +18,7 @@
   text-align: right;
 }
 
-.price-item--sale {
+.price--on-sale .price-current {
   font-weight: 800 !important;
   font-size: 1.5rem !important;
   color: red;
