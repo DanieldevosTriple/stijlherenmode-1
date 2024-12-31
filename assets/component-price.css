@@ -20,7 +20,7 @@
 
 .price-current {
   font-weight: 600;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   color: rgb(var(--color-primary));
   font-family: TradeGothicLT, sans-serif;
 }
@@ -29,16 +29,19 @@
   font-weight: 800 !important;
   font-size: 1.5rem !important;
   color: red;
+  font-family: TradeGothicLT, sans-serif;
 }
 
 .price--on-sale .price-regular {
   font-weight: 300 !important;
   font-size: 1.1rem !important;
   color: rgb(97, 97, 97);
+  font-family: TradeGothicLT, sans-serif;
 }
 
 .price--on-sale .price-discount {
   font-weight: 800 !important;
   font-size: 1.5rem !important;
   color: rgb(97, 97, 97);
+  font-family: TradeGothicLT, sans-serif;
 }
