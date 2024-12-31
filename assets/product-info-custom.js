@@ -323,17 +323,59 @@ document.addEventListener('DOMContentLoaded', () => {
         const updatePrice = (variantId) => {
             const priceElement = document.querySelector('.product-price');
             const selectedVariant = productData.variants.find(variant => variant.id === variantId);
-
+        
             if (selectedVariant && selectedVariant.price) {
-                const formattedPrice = (selectedVariant.price / 100).toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'EUR'
-                });
-                priceElement.textContent = formattedPrice;
+                const formatPrice = (cents) => {
+                    return (cents / 100).toLocaleString('nl-NL', {
+                        style: 'currency',
+                        currency: 'EUR'
+                    });
+                };
+        
+                // Check if item is on sale
+                if (selectedVariant.compare_at_price && selectedVariant.compare_at_price > selectedVariant.price) {
+                    const discountPercentage = Math.round(
+                        ((selectedVariant.compare_at_price - selectedVariant.price) / selectedVariant.compare_at_price) * 100
+                    );
+        
+                    priceElement.innerHTML = `
+                        <div class="price-container">
+                            <div class="price-sale">
+                                <span class="price-current">
+                                    ${formatPrice(selectedVariant.price)}
+                                </span>
+                                <s class="price-regular">
+                                    ${formatPrice(selectedVariant.compare_at_price)}
+                                </s>
+                                <span class="price-discount">
+                                    -${discountPercentage}%
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    priceElement.innerHTML = `
+                        <div class="price-container">
+                            <div class="price-regular">
+                                <span class="price-current">
+                                    ${formatPrice(selectedVariant.price)}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                }
             } else {
-                priceElement.textContent = "Price not available";
+                priceElement.innerHTML = `
+                    <div class="price-container">
+                        <div class="price-regular">
+                            <span class="price-unavailable">
+                                Price not available
+                            </span>
+                        </div>
+                    </div>
+                `;
             }
-            debugLog("Prijs bijgewerkt:", priceElement.textContent);
+            debugLog("Prijs bijgewerkt:", priceElement.innerHTML);
         };
 
         const updateURLWithVariant = (variantId) => {
