@@ -7,6 +7,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Initialize accordion functionality - Separate from product logic
+    const initializeAccordions = () => {
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            debugLog('Accordion header gevonden:', header);
+            header.addEventListener('click', () => {
+                debugLog('Accordion header geklikt:', header);
+                const content = header.nextElementSibling;
+                if (content) {
+                    header.classList.toggle('active');
+                    content.classList.toggle('active');
+                    
+                    // Log the state for debugging
+                    debugLog('Accordion state:', {
+                        headerActive: header.classList.contains('active'),
+                        contentActive: content.classList.contains('active')
+                    });
+                }
+            });
+        });
+    };
+
+    // Initialize accordions immediately
+    initializeAccordions();    
+
     try {
         const productDataElement = document.getElementById('product-data');
         if (!productDataElement) throw new Error("Product data element ontbreekt op de pagina.");
