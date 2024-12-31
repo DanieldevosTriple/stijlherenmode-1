@@ -18,7 +18,12 @@
   text-align: right;
 }
 
-.price-current {}
+.price-current {
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: rgb(var(--color-primary));
+  font-family: TradeGothicLT, sans-serif;
+}
 
 .price--on-sale .price-current {
   font-weight: 800 !important;
