@@ -23,7 +23,7 @@
   }
 
   .product-description ul {
-    display: block;
+      display: block;
   }
 
   .product-title {
@@ -139,7 +139,7 @@
   }
 
   .option-swatch.has-image:hover {
-     border: 1px solid black;
+      border: 1px solid black;
   }
 
   .option-swatch.has-image.active {
@@ -163,9 +163,9 @@
   }
 
   .option-swatch:not(.has-image):hover {
-    border: 1px solid black;
-    background-color: #000;
-    color: white;
+      border: 1px solid black;
+      background-color: #000;
+      color: white;
   }
 
   .option-swatch:not(.has-image).active {
@@ -378,8 +378,10 @@
       font-family: 'TradeGothicLT';
       text-transform: uppercase;
       margin: 0px;
-      padding-left: 0px; 
+      padding-left: 0px;
       color: black;
+      flex-wrap: nowrap;
+      text-overflow: ellipsis;
   }
 
   .breadcrumb-mobile {
@@ -387,15 +389,20 @@
   }
 
   .breadcrumb span {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    color: black !important;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      color: black !important;
+      flex-wrap: nowrap;
+      text-overflow: ellipsis;
   }
 
-  .breadcrumb a, .breadcrumb-link {
-    color: gray;
-    text-decoration: none;
-}
+  .breadcrumb a,
+  .breadcrumb-link {
+      color: gray;
+      text-decoration: none;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+  }
 
   @media screen and (max-width: 991px) {
       .breadcrumb {
