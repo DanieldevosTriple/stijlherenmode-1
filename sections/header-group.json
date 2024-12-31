@@ -47,7 +47,6 @@
     },
     "main-banner": {
       "type": "main-banner",
-      "disabled": true,
       "settings": {
         "show_collection_description": true,
         "color_scheme": "scheme-1"
