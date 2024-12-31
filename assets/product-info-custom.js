@@ -71,41 +71,45 @@ document.addEventListener('DOMContentLoaded', () => {
             const nextBtn = modal.querySelector('.next-image');
             let currentImageIndex = 0;
             let galleryImages = [];
-
+            let modalImages = []; // Separate array for modal display
+        
             const updateGalleryImages = () => {
-                // Create an array of only the actual img elements, not their containers
+                // Keep the DOM elements for the expandable functionality
                 galleryImages = [
-                    ...document.querySelectorAll('.media-gallery img'),
-                    ...document.querySelectorAll('.secondary-gallery img'),
-                    ...document.querySelectorAll('.product-gallery-mobile img')
-                ].map(img => ({
+                    ...Array.from(document.querySelectorAll('.media-gallery img')),
+                    ...Array.from(document.querySelectorAll('.secondary-gallery img')),
+                    ...Array.from(document.querySelectorAll('.product-gallery-mobile img'))
+                ];
+                
+                // Create clean data for modal display
+                modalImages = galleryImages.map(img => ({
                     src: img.src,
                     alt: img.alt
                 }));
             };
-
+        
             const showImage = (index) => {
                 currentImageIndex = index;
-                modalImg.src = galleryImages[index].src;
-                modalImg.alt = galleryImages[index].alt;
+                modalImg.src = modalImages[index].src;
+                modalImg.alt = modalImages[index].alt;
             };
-
+        
             const closeModal = () => {
                 modal.style.display = 'none';
             };
-
+        
             const navigateImages = (direction) => {
-                currentImageIndex = (currentImageIndex + direction + galleryImages.length) % galleryImages.length;
+                currentImageIndex = (currentImageIndex + direction + modalImages.length) % modalImages.length;
                 showImage(currentImageIndex);
             };
-
+        
             prevBtn.addEventListener('click', () => navigateImages(-1));
             nextBtn.addEventListener('click', () => navigateImages(1));
             closeBtn.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) closeModal();
             });
-
+        
             document.addEventListener('keydown', (e) => {
                 if (modal.style.display === 'block') {
                     if (e.key === 'ArrowLeft') navigateImages(-1);
@@ -113,29 +117,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (e.key === 'Escape') closeModal();
                 }
             });
-
+        
             const createExpandIcon = (container) => {
                 const icon = document.createElement('img');
-                icon.src = "/cdn/shop/t/22/assets/icon-zoom.svg";
-                icon.className = 'icon-zoom';
+                icon.src = "{{ 'icon-expand.svg' | asset_url }}";
+                icon.className = 'expand-icon';
                 icon.alt = 'Expand image';
                 container.appendChild(icon);
             };
-
+        
             const makeImageExpandable = (imgElement, index) => {
                 const container = document.createElement('div');
                 container.className = 'image-container';
                 imgElement.parentNode.insertBefore(container, imgElement);
                 container.appendChild(imgElement);
                 createExpandIcon(container);
-
-                container.addEventListener('click', (e) => {
+        
+                container.addEventListener('click', () => {
                     updateGalleryImages();
                     showImage(index);
                     modal.style.display = 'block';
                 });
             };
-
+        
             return {
                 initializeImages: () => {
                     updateGalleryImages();
