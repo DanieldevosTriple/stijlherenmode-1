@@ -146,6 +146,15 @@
     }
 }
 
+@media (max-width: 991px) {
+
+    .slider-nav {
+        bottom: 0%;
+    }
+}
+
+
+
 /* Adjust for mobile */
 @media screen and (max-width: 991px) {
     .product-grid {
