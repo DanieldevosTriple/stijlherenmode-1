@@ -67,28 +67,31 @@
 }
 {% endschema %}
 
+{% assign left_products = section.settings.left_column_products %}
+{% assign right_products = section.settings.right_column_products %}
+
 <div class="col-12 two-column-section">
   <div class="column left-column" onclick="showProducts('left')">
     <img src="{{ section.settings.left_column_image | image_url }}" height="" width="" alt="Left Column Image">
-    <div class="badge">{{ section.settings.left_column_products.size }} articles</div>
+    <div class="badge">{% if left_products %}{{ left_products | size }}{% else %}0{% endif %} articles</div>
     <div class="card-body text-left">
-    <h5 class="card-title">{{ section.settings.left_column_header }}</h5>
-    <p>{{ section.settings.left_column_subhead }}</p>
-  </div>
+      <h5 class="card-title">{{ section.settings.left_column_header }}</h5>
+      <p>{{ section.settings.left_column_subhead }}</p>
+    </div>
   </div>
   <div class="column right-column" onclick="showProducts('right')">
     <img src="{{ section.settings.right_column_image | image_url }}" height="" width="" alt="Right Column Image">
-    <div class="badge">{{ section.settings.right_column_products.size }} articles</div>
+    <div class="badge">{% if right_products %}{{ right_products | size }}{% else %}0{% endif %} articles</div>
     <div class="card-body text-left">
-    <h5 class="card-title">{{ section.settings.right_column_header }}</h5>
-    <p>{{ section.settings.right_column_subhead }}</p>
+      <h5 class="card-title">{{ section.settings.right_column_header }}</h5>
+      <p>{{ section.settings.right_column_subhead }}</p>
     </div>
   </div>
 </div>
 
 <!-- Product Cards -->
 <div id="left-products" class="product-cards" style="display: none;">
-  {% for product in section.settings.left_column_products %}
+  {% for product in left_products %}
     <div class="product-card">
       <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
       <h5>{{ product.title }}</h5>
@@ -99,13 +102,13 @@
 </div>
 
 <div id="right-products" class="product-cards" style="display: none;">
-  {% for product in section.settings.right_column_products %}
+  {% for product in right_products %}
     <div class="product-card">
       <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
       <div class="card-body text-left">
-      <h5 class="card-title">{{ product.title }}</h5>
-      <p>{{ product.price | money }}</p>
-      <a href="{{ product.url }}">View Product</a>
+        <h5 class="card-title">{{ product.title }}</h5>
+        <p>{{ product.price | money }}</p>
+        <a href="{{ product.url }}">View Product</a>
       </div>
     </div>
   {% endfor %}
