@@ -578,7 +578,7 @@
 }
 
 /* Hide on desktop */
-@media (min-width: 768px) {
+@media (min-width: 992px) {
     .slider-dots {
         display: none;
     }
@@ -586,4 +586,10 @@
 
 .no-padding {
     padding: 0;
+}
+
+@media (max-width: 991px) {
+    .container-mobile {
+        padding: 0rem;
+    }
 }
