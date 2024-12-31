@@ -592,4 +592,12 @@
     .container-mobile {
         padding: 0rem;
     }
+
+    .modal-content {
+    max-width: 100%;
+    display: block;
+    position: static;
+    transform: none;
+    object-fit: contain;
+    }
 }
