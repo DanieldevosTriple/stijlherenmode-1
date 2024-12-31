@@ -7,6 +7,14 @@
   assign banner_class = template_type | append: '-hero'
 -%}
 
+{% liquid
+    assign should_show = true
+    if template_type == 'index' and section.settings.show_on_homepage == false
+      assign should_show = false
+    endif
+  %}
+
+  {% if should_show %}
 <div class="{{ banner_class }} color-{{ section.settings.color_scheme }} gradient">
   {%- comment -%} Mobile layout {%- endcomment -%}
   <div class="col-12 mobile-header">
@@ -164,6 +172,7 @@
     </div>
   {% endif %}
 </div>
+{% endif %}
 
 {% schema %}
 {
