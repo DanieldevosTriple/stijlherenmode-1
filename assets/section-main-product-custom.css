@@ -604,28 +604,28 @@
 
 .price-current {
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: rgb(var(--color-primary));
     font-family: TradeGothicLT, sans-serif;
   }
   
   .price-sale .price-current {
     font-weight: 800 !important;
-    font-size: 1.5rem !important;
+    font-size: 1.4rem !important;
     color: red;
     font-family: TradeGothicLT, sans-serif;
   }
   
   .price-sale .price-regular {
     font-weight: 300 !important;
-    font-size: 1.2rem !important;
+    font-size: 1.1rem !important;
     color: rgb(97, 97, 97);
     font-family: TradeGothicLT, sans-serif;
   }
   
   .price-sale .price-discount {
     font-weight: 800 !important;
-    font-size: 1.2rem !important;
+    font-size: 1.5rem !important;
     color: rgb(97, 97, 97);
     font-family: TradeGothicLT, sans-serif;
   }
