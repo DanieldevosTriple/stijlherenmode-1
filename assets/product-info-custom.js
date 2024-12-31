@@ -74,15 +74,21 @@ document.addEventListener('DOMContentLoaded', () => {
             let modalImages = []; // Separate array for modal display
         
             const updateGalleryImages = () => {
-                // Keep the DOM elements for the expandable functionality
-                galleryImages = [
+                // Get all images and filter out SVGs
+                const allImages = [
                     ...Array.from(document.querySelectorAll('.media-gallery img')),
                     ...Array.from(document.querySelectorAll('.secondary-gallery img')),
                     ...Array.from(document.querySelectorAll('.product-gallery-mobile img'))
-                ];
+                ].filter(img => {
+                    // Filter out SVGs and expand icons
+                    return !img.src.includes('.svg') && !img.classList.contains('expand-icon');
+                });
+            
+                // Keep the DOM elements for the expandable functionality
+                galleryImages = allImages;
                 
                 // Create clean data for modal display
-                modalImages = galleryImages.map(img => ({
+                modalImages = allImages.map(img => ({
                     src: img.src,
                     alt: img.alt
                 }));
