@@ -13,7 +13,7 @@
             </div>
             {% endif %}
           {% else %}
-            {% if block.settings.video != blank %}
+            {% if block.settings.video_url != blank %}
             <div class="image-overlay-block__video">
               <video autoplay loop muted playsinline>
                 <source src="{{ block.settings.video_url }}" type="video/mp4">
@@ -69,10 +69,10 @@
           "info": "Select when Media Type is Image"
         },
         {
-          "type": "video",
-          "id": "video",
-          "label": "Video",
-          "info": "Select when Media Type is Video"
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL",
+          "info": "Enter Shopify CDN video URL (e.g., https://cdn.shopify.com/videos/...)"
         },
         {
           "type": "text",
