@@ -138,12 +138,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 imgElement.parentNode.insertBefore(container, imgElement);
                 container.appendChild(imgElement);
                 createExpandIcon(container);
-        
-                container.addEventListener('click', () => {
+            
+                // Make the image itself clickable
+                imgElement.style.cursor = 'pointer';
+            
+                // Add click handler to both container and image
+                const handleClick = () => {
                     updateGalleryImages();
                     showImage(index);
                     modal.style.display = 'block';
-                });
+                };
+            
+                // Listen for clicks on both the container and the image
+                container.addEventListener('click', handleClick);
+                imgElement.addEventListener('click', handleClick);
             };
         
             return {
