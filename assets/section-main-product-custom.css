@@ -452,7 +452,7 @@
 }
 
 .modal-content {
-    transform: scale(0.4);
+    max-width: 50%;
 }
 
 .close-modal {
