@@ -87,10 +87,12 @@
   {% for product in section.settings.left_column_products %}
     <div class="product-card">
       <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
-      <h3>{{ product.title }}</h3>
+      <div class="card-body text-left">
+      <h5 class="card-title">{{ product.title }}</h5>
       <p>{{ product.price | money }}</p>
       <a href="{{ product.url }}">View Product</a>
     </div>
+  </div>
   {% endfor %}
 </div>
 
@@ -98,9 +100,11 @@
   {% for product in section.settings.right_column_products %}
     <div class="product-card">
       <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
-      <h3>{{ product.title }}</h3>
+      <div class="card-body text-left">
+      <h5 class="card-title">{{ product.title }}</h5>
       <p>{{ product.price | money }}</p>
       <a href="{{ product.url }}">View Product</a>
+      </div>
     </div>
   {% endfor %}
 </div>
