@@ -126,29 +126,35 @@
       console.log('Settings initialized:', this.settings);
   
       this.init();
-    }  
-
+    }
+  
     show() {
       this.scrollPos = window.scrollY;
       this.overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
       this.overlay.style.top = '0';
       this.overlay.style.position = 'fixed';
-    }    
-
+    }
+  
     showSuccess() {
       if (this.mainContent && this.successContent) {
         this.mainContent.classList.add('hidden');
         this.successContent.classList.remove('hidden');
       }
     }
-
+  
+    hide() {
+      this.overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      window.scrollTo(0, this.scrollPos);
+    }
+  
     init() {
       if (!this.overlay || !this.closeBtn || !this.form) {
         console.log('One or more required elements are missing!');
         return;
       }
-    
+  
       // Check if the URL contains `customer_posted=true` and `#contact_form_pop_up`
       if (window.location.search.indexOf('customer_posted=true') !== -1 && window.location.hash === '#contact_form_pop_up') {
         console.log('Customer has posted, showing success immediately.');
@@ -160,14 +166,14 @@
           this.show();
         }, this.settings.delay);
       }
-    
+  
       // Event listeners
       this.closeBtn.addEventListener('click', () => {
         console.log('Closing popup...');
         this.hide();
         this.setCookie();  // Set cookie when popup is closed
       });
-    
+  
       this.overlay.addEventListener('click', (e) => {
         if (e.target === this.overlay) {
           console.log('Clicked outside popup, closing...');
@@ -175,7 +181,7 @@
           this.setCookie();  // Set cookie when clicking outside the popup
         }
       });
-    
+  
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           console.log('Escape key pressed, closing popup...');
@@ -183,18 +189,17 @@
           this.setCookie();  // Set cookie when escape key is pressed
         }
       });
-    
-      // Handle form submission
+  
       this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-    }    
-
+    }
+  
     handleSubmit(e) {
       e.preventDefault();  // Prevent form from submitting immediately
       
       const formData = new FormData(this.form);
       formData.append('form_type', 'customer');
       formData.append('utf8', '✓');
-    
+  
       fetch('/contact', {
         method: 'POST',
         body: formData,
@@ -205,9 +210,7 @@
       })
       .then(response => {
         if (response.ok) {
-          // Show success message immediately after form submission
           this.showSuccess();
-          // Redirect with customer_posted=true and custom fragment
           window.location.search = "?customer_posted=true#contact_form_pop_up";
         } else {
           throw new Error('Network response was not ok');
@@ -216,6 +219,23 @@
       .catch(error => {
         console.error('Newsletter subscription failed:', error);
       });
+    }
+  
+    setCookie() {
+      try {
+        const date = new Date();
+        date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
+        const cookieString = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;
+        document.cookie = cookieString;
+        console.log('Cookie set successfully:', cookieString);
+      } catch (error) {
+        console.error('Error setting cookie:', error);
+      }
+    }
+  
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+      return match ? match[2] : null;
     }
   }
   
