@@ -253,23 +253,12 @@ sections/newsletter-popup.liquid
               autocorrect="off"
               autocapitalize="off">
               
-            <!-- Interest section -->
-            <p class="newsletter-interest">Ik ben geinteresseerd in:</p>
-            <div class="interests">
-              <label>
-                <input type="checkbox" name="contact[tags][]" value="Stijl Casual" /> Stijl Casual
-              </label>
-              <label>
-                <input type="checkbox" name="contact[tags][]" value="Stijl Herenmode" /> Stijl Herenmode
-              </label>
-            </div>
-            
             <!-- Submit button -->
             <button type="submit" class="newsletter-button" name="commit" id="Subscribe">
               <span>{{ section.settings.button_text }}</span>
             </button>
           </div>
-        {% endform %}
+        {% endform %}        
       </div>
 
       <!-- Success message container outside the form -->
