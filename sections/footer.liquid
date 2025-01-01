@@ -136,6 +136,58 @@
 </footer>
 
 <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggles = document.querySelectorAll('.footer-block__heading__menu');
+
+    // Functie om het menu te toggelen
+    function handleToggle(event) {
+        const toggle = event.currentTarget;
+        const menu = toggle.nextElementSibling;
+        const isExpanded = menu.classList.contains('footer__menu--expanded');
+
+        // Toggle zichtbaar/onzichtbaar menu
+        if (isExpanded) {
+            menu.hidden = true;
+            menu.classList.remove('footer__menu--expanded');
+            toggle.classList.remove('footer-block__heading__menu__expand');
+        } else {
+            menu.hidden = false;
+            menu.classList.add('footer__menu--expanded');
+            toggle.classList.add('footer-block__heading__menu__expand');
+        }
+    }
+
+    // Functie om menu's te configureren op basis van schermgrootte
+    function configureToggles() {
+        const screenWidth = window.innerWidth;
+
+        toggles.forEach((toggle) => {
+            const menu = toggle.nextElementSibling;
+
+            if (screenWidth < 768) {
+                toggle.style.cursor = 'pointer';
+                toggle.removeEventListener('click', handleToggle);
+                toggle.addEventListener('click', handleToggle);
+                menu.hidden = true; // Verberg menu standaard
+                menu.classList.remove('footer__menu--expanded');
+                toggle.classList.remove('footer-block__heading__menu__expand');
+            } else {
+                toggle.style.cursor = 'default';
+                toggle.removeEventListener('click', handleToggle);
+                menu.hidden = false; // Toon menu standaard
+                menu.classList.remove('footer__menu--expanded');
+                toggle.classList.remove('footer-block__heading__menu__expand');
+            }
+        });
+    }
+
+    // Initialiseer configuratie en luister naar venster-resizes
+    configureToggles();
+    window.addEventListener('resize', configureToggles);
+});
+</script>
+
+<script>
   document.querySelector('.footer__newsletter').addEventListener('submit', function(e) {
     e.preventDefault();  // Prevent the form from submitting immediately
 
