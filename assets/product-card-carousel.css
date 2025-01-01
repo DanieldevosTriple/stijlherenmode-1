@@ -82,6 +82,12 @@
         color: white;
     }
 
+    .prev,
+    .next {
+        background: #5c7561;
+    }
+
+
     .prev {
         left: 10px;
     }
