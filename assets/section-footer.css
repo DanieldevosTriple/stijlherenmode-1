@@ -132,6 +132,10 @@ footer .footer-block--newsletter {
   color: black;
 }
 
+footer .interests input[type=checkbox]:checked::after {
+  border: 2px solid black;
+}
+
 /* Verberg de toggle knoppen op tablet en desktop */
 @media (min-width: 768px) {
   .footer__toggle {
