@@ -356,8 +356,6 @@ sections/newsletter-popup.liquid
         this.hide();
       });
   
-      this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-  
       this.overlay.addEventListener('click', (e) => {
         if (e.target === this.overlay) {
           console.log('Clicked outside popup, closing...');
@@ -371,6 +369,11 @@ sections/newsletter-popup.liquid
           this.hide();
         }
       });
+  
+      // Detect if the form was successfully submitted and the page has reloaded
+      if (window.location.search.indexOf('customer_posted=true') !== -1) {
+        this.showSuccess();
+      }
     }
   
     shouldShowPopup() {
@@ -412,38 +415,6 @@ sections/newsletter-popup.liquid
       }
     }
   
-    handleSubmit(e) {
-      e.preventDefault(); // Need to prevent default for proper handling
-      
-      const formData = new FormData(this.form);
-      
-      // Add required Shopify form fields
-      formData.append('form_type', 'customer');
-      formData.append('utf8', '✓');
-    
-      fetch('/contact', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-        }
-      })
-      .then(response => {
-        if (response.ok) {
-          // Set cookie and show success message
-          this.setCookie();
-          this.showSuccess();
-          setTimeout(() => this.hide(), this.settings.confirmationDuration);
-        } else {
-          throw new Error('Network response was not ok');
-        }
-      })
-      .catch(error => {
-        console.error('Newsletter subscription failed:', error);
-      });
-    }
-  
     showSuccess() {
       if (this.mainContent && this.successContent) {
         this.mainContent.classList.add('hidden');
@@ -474,7 +445,7 @@ sections/newsletter-popup.liquid
     document.addEventListener('DOMContentLoaded', () => new NewsletterPopup());
   } else {
     new NewsletterPopup();
-  }  
+  }   
 </script>
 
 {% schema %}
