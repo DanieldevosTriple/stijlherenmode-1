@@ -240,7 +240,7 @@ sections/newsletter-popup.liquid
           <div class="newsletter-pop-up-field" data-popup-form>
             <input type="hidden" name="form_type" value="customer" />
             <input type="hidden" name="utf8" value="✓" />
-            <input type="hidden" name="contact[tags]" value="newsletter" />
+            <input type="hidden" name="contact[tags]" value="newsletter" id="contact_tags" />
             
             <!-- Email field -->
             <input type="email"
@@ -253,12 +253,23 @@ sections/newsletter-popup.liquid
               autocorrect="off"
               autocapitalize="off">
               
+            <!-- Interest section -->
+            <p class="newsletter-interest">Ik ben geinteresseerd in:</p>
+            <div class="interests">
+              <label>
+                <input type="checkbox" name="interest_tags" value="Stijl Casual" /> Stijl Casual
+              </label>
+              <label>
+                <input type="checkbox" name="interest_tags" value="Stijl Herenmode" /> Stijl Herenmode
+              </label>
+            </div>
+            
             <!-- Submit button -->
             <button type="submit" class="newsletter-button" name="commit" id="Subscribe">
               <span>{{ section.settings.button_text }}</span>
             </button>
           </div>
-        {% endform %}        
+        {% endform %}               
       </div>
 
       <!-- Success message container outside the form -->
@@ -269,6 +280,26 @@ sections/newsletter-popup.liquid
     </div>    
   </div>
 </div>
+
+<script>document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+  e.preventDefault();  // Prevent the form from submitting immediately
+
+  // Collect the selected checkboxes
+  const selectedTags = [];
+  document.querySelectorAll('input[name="interest_tags"]:checked').forEach(function(checkbox) {
+    selectedTags.push(checkbox.value);
+  });
+
+  // If there are selected tags, append them to the contact[tags] hidden field
+  if (selectedTags.length > 0) {
+    const tagsField = document.getElementById('contact_tags');
+    tagsField.value = 'newsletter,' + selectedTags.join(',');
+  }
+
+  // Now submit the form after modifying the contact[tags] field
+  this.submit();
+});
+</script>
 
 <script>
 class NewsletterPopup {
