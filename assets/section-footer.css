@@ -134,7 +134,16 @@ footer .footer-block--newsletter {
 
 footer .interests input[type=checkbox]:checked {
   border-color: black;
-  border: 2px;
+  border: 2px solid black;
+}
+
+footer .interests input[type=checkbox]:checked::after {
+  content: '✔';
+  color: black;
+  font-size: 15px;
+  position: absolute;
+  top: 0px;
+  left: 4px;
 }
 
 /* Verberg de toggle knoppen op tablet en desktop */
