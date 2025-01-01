@@ -236,7 +236,7 @@ sections/newsletter-popup.liquid
           <div class="popup-policy"><p>{{ section.settings.disclaimer | escape }}</p></div>
         {% endif %}
     
-        {% form 'contact', class: 'newsletter-form' %}
+        {% form 'contact', id: 'PopUp', class: 'newsletter-form' %}
           <div class="newsletter-pop-up-field" data-popup-form>
             <input type="hidden" name="form_type" value="customer" />
             <input type="hidden" name="utf8" value="✓" />

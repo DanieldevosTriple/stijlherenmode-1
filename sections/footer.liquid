@@ -27,6 +27,18 @@
               placeholder="{{ 'newsletter.label' | t }}"
               required
             >
+              
+            <!-- Interest section -->
+            <p class="newsletter-interest">Ik ben geinteresseerd in:</p>
+            <div class="interests">
+              <label>
+                <input type="checkbox" name="interest_tags" value="Stijl Casual" /> Stijl Casual
+              </label>
+              <label>
+                <input type="checkbox" name="interest_tags" value="Stijl Herenmode" /> Stijl Herenmode
+              </label>
+            </div>
+
             <button type="submit" class="newsletter-form__button">
               <span class="button-text">Abonneer</span> 
             </button>
@@ -102,7 +114,7 @@
             {%- render 'social-icons', class: 'footer__list-social' -%}
         </div>
       {%- else -%}
-        <p>Social icons zijn uitgeschakeld</p>
+        <p>Social icons zijn uitgeschakeld</p> 
       {%- endif -%}
       <div class="footer-block footer__payment">
         <h2 class="footer-block__heading__menu custom-padding-payments">Betaalmethodes</h2>
