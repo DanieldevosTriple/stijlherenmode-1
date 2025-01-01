@@ -126,8 +126,23 @@
       console.log('Settings initialized:', this.settings);
   
       this.init();
+    }  
+
+    show() {
+      this.scrollPos = window.scrollY;
+      this.overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      this.overlay.style.top = '0';
+      this.overlay.style.position = 'fixed';
+    }    
+
+    showSuccess() {
+      if (this.mainContent && this.successContent) {
+        this.mainContent.classList.add('hidden');
+        this.successContent.classList.remove('hidden');
+      }
     }
-  
+
     init() {
       if (!this.overlay || !this.closeBtn || !this.form) {
         console.log('One or more required elements are missing!');
