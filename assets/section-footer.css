@@ -98,6 +98,26 @@
     padding-top: 1rem;
 }
 
+footer .newsletter-interest {
+  color: black;
+}
+
+footer .interests input[type="checkbox"] {
+  position: relative;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-right: .8rem;
+  display: inline-flex
+;
+  flex-shrink: 0;
+  background-color: white;
+  border-radius: 50%;
+  border: 2px solid black;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  vertical-align: middle;
+}
 
 /* Verberg de toggle knoppen op tablet en desktop */
 @media (min-width: 768px) {
