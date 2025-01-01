@@ -131,14 +131,14 @@ sup {
 }
 
 a {
-  color: #a59580;
+  color: #5c7561;
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
 }
 
 a:hover {
-  color: #a59580;
+  color: #5c7561;
   text-decoration: none;
 }
 

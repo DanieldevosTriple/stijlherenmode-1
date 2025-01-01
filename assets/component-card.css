@@ -308,6 +308,17 @@
   }
 }
 
+.card__content a,
+.card__content .price-current {
+  transition: color 0.3s ease; /* Zorgt voor een vloeiende overgang van kleur */
+}
+
+.card__content:hover a,
+.card__content:hover .price-current {
+  color: #5c7561; /* Kies de hoverkleur die je wilt */
+}
+
+
 .card--card.card--media>.card__content {
   margin-top: calc(0rem - var(--image-padding));
 }
