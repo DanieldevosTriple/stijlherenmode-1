@@ -94,6 +94,10 @@
     display: none;
   }
 
+  .page-hero__inner {
+    display: none;
+  }
+
   .mobile-header {
     display: grid;
     grid-template-columns: 1fr 1fr;
