@@ -269,15 +269,15 @@ sections/newsletter-popup.liquid
               <span>{{ section.settings.button_text }}</span>
             </button>
           </div>
-        {% endform %}               
-      </div>
-
-      <!-- Success message container outside the form -->
-      <div class="popup-success hidden" data-popup-success>
-        <h2>{{ section.settings.confirmation_title }}</h2>
-        <div>{{ section.settings.confirmation_message }}</div>
-      </div>
-    </div>    
+        {% endform %}
+        
+        <!-- Success Message -->
+        <div class="popup-success hidden" data-popup-success>
+          <h2>{{ section.settings.confirmation_title }}</h2>
+          <div>{{ section.settings.confirmation_message }}</div>
+        </div>     
+      </div>      
+    </div>
   </div>
 </div>
 
