@@ -6,7 +6,7 @@
   if search.terms != blank and search.performed
     assign page_title = 'templates.search.results_with_count_and_term' | t: terms: search.terms, count: search.results_count
   endif
--%}
+-%} 
 
 <div class="collection-hero color-{{ section.settings.color_scheme }} gradient">
   {%- comment -%} Mobile layout {%- endcomment -%}

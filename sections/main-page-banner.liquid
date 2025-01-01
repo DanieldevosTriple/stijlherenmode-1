@@ -1,10 +1,9 @@
-{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
-
-<div class="collection-hero color-{{ section.settings.color_scheme }} gradient">
-  {%- comment -%} Mobile layout {%- endcomment -%}
-  <div class="col-12 mobile-header">
-    <div class="mobile-breadcrumb">
+{% comment %} Combine main page and search banner {% endcomment %}
+{% if search.performed %}
+  {%- comment -%} Search banner layout {%- endcomment -%}
+  <div class="collection-hero color-{{ section.settings.color_scheme }} gradient">
+    <div class="col-12 mobile-header">
+      <div class="mobile-breadcrumb">
         <nav aria-label="Mobile breadcrumb">
           <ol class="breadcrumbs__list">
             <li class="breadcrumbs__item">
@@ -19,29 +18,77 @@
             </li>
           </ol>
         </nav>
-    </div>
-    <div class="mobile-policy-page-title">
-        {% if request.path == '/policies/legal-notice' %}
-            {{ shop.legal_notice.title }}
-        {% elsif request.path == '/policies/refund-policy' %}
-            {{ shop.refund_policy.title }}
-          {% elsif request.path contains '/policies/privacy-policy' %}
-            {{ shop.privacy_policy.title }}
-          {% elsif request.path contains '/policies/terms-of-service' %}
-            {{ shop.terms_of_service.title }}
-          {% elsif request.path contains '/policies/shipping-policy' %}
-            {{ shop.shipping_policy.title }}
-          {% else %}
-            {{ page.title }}
-          {% endif %}
+      </div>
+      {% if search.results_count > 0 %}
+        <div class="mobile-facets__filter">
+          <button type="button" class="mobile-facets__open-button">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.6606 12.9973V14.3303H17.3257V16.3294H12.6606V17.6616H10.6616V12.9973H12.6606ZM9.32936 14.3303V16.3294H0V14.3303H9.32936ZM5.99727 6.66337V11.3284H3.99818V9.99545H0V7.99636H3.99818V6.66337H5.99727ZM17.3257 7.99636V9.99545H7.99636V7.99636H17.3257ZM12.6606 0V1.33299H17.3257V3.33208H12.6606V4.66428H10.6616V0H12.6606ZM9.32936 1.33299V3.33208H0V1.33299H9.32936Z" fill="black"/>
+            </svg>
+            {{ 'products.facets.filter_button' | t }}
+          </button>
         </div>
+      {% endif %}
+    </div>
+
+    <div class="collection-hero__inner scroll-trigger animate--fade-in">
+      <div class="breadcrumbs">
+        <nav class="breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a>
+          <span> / </span>
+          <span>{{ 'templates.search.title' | t }}</span>
+          {% if search.terms != blank %}
+            <span> / </span>
+            <span>"{{ search.terms }}"</span>
+          {% endif %}
+        </nav> 
+      </div>
+      <div class="collection-title">
+        <h1>
+          {%- if search.performed -%}
+            {{- page_title -}}
+          {%- else -%}
+            {{- 'templates.search.title' | t -}}
+          {%- endif -%}
+        </h1>
+      </div>
+      
+      {% if search.performed %}
+        <div class="product-count">
+          {% paginate search.results by settings.products_per_page %}
+            <span>{{ search.results_count }} {% if search.results_count == 1 %}product{% else %}producten{% endif %}</span>
+          {% endpaginate %}
+        </div>
+      {% endif %}
+    </div>
   </div>
 
-  {%- comment -%} Desktop layout {%- endcomment -%}
-  <div class="collection-hero__inner scroll-trigger animate--fade-in">
-    <div class="breadcrumbs">
-      <nav class="breadcrumb">
-        <a href="{{ routes.root_url }}">Home</a>
+{% else %}
+  {%- comment -%} Main page banner layout {%- endcomment -%}
+  <div class="collection-hero color-{{ section.settings.color_scheme }} gradient">
+    <div class="col-12 mobile-header">
+      <div class="mobile-breadcrumb">
+        <nav aria-label="Mobile breadcrumb">
+          <ol class="breadcrumbs__list">
+            <li class="breadcrumbs__item">
+              <a href="javascript:history.back()" class="breadcrumbs__link">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M15 18l-6-6 6-6" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </a>
+            </li>
+            <li class="breadcrumbs__item">
+              <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="collection-hero__inner scroll-trigger animate--fade-in">
+      <div class="breadcrumbs">
+        <nav class="breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a>
           <span> / </span>
           <span> Policy </span>
           <span> / </span>
@@ -60,44 +107,35 @@
                 {{ page.title }}
               {% endif %}
           </span>
-      </nav> 
-    </div>
-    
-    <div class="collection-title">
+        </nav> 
+      </div>
+      
+      <div class="collection-title">
         <h1>
-            {% if request.path == '/policies/legal-notice' %}
-                {{ shop.legal_notice.title }}
-            {% elsif request.path == '/policies/refund-policy' %}
-                {{ shop.refund_policy.title }}
-              {% elsif request.path contains '/policies/privacy-policy' %}
-                {{ shop.privacy_policy.title }}
-              {% elsif request.path contains '/policies/terms-of-service' %}
-                {{ shop.terms_of_service.title }}
-              {% elsif request.path contains '/policies/shipping-policy' %}
-                {{ shop.shipping_policy.title }}
-              {% else %}
-                {{ page.title }}
-              {% endif %}
-          </h1>
+          {% if request.path == '/policies/legal-notice' %}
+              {{ shop.legal_notice.title }}
+          {% elsif request.path == '/policies/refund-policy' %}
+              {{ shop.refund_policy.title }}
+            {% elsif request.path contains '/policies/privacy-policy' %}
+              {{ shop.privacy_policy.title }}
+            {% elsif request.path contains '/policies/terms-of-service' %}
+              {{ shop.terms_of_service.title }}
+            {% elsif request.path contains '/policies/shipping-policy' %}
+              {{ shop.shipping_policy.title }}
+            {% else %}
+              {{ page.title }}
+          {% endif %}
+        </h1>
+      </div>
     </div>
   </div>
-</div>
+{% endif %}
 
 {% schema %}
 {
-  "name": "Main Page Banner",
+  "name": "Main Page or Search Banner",
   "class": "section",
   "settings": [
-    {
-      "type": "paragraph",
-      "content": "t:sections.main-collection-banner.settings.paragraph.content"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_collection_description",
-      "default": true,
-      "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
-    },
     {
       "type": "color_scheme",
       "id": "color_scheme",
