@@ -302,179 +302,179 @@ sections/newsletter-popup.liquid
 </script>
 
 <script>
-class NewsletterPopup {
-  constructor() {
-    console.log('Initializing NewsletterPopup...');
-    this.overlay = document.querySelector('.js-newsletter-popup');
-    console.log('Overlay found:', this.overlay);
-    if (!this.overlay) {
-      console.log('Overlay not found!');
-      return;
-    }
-
-    this.closeBtn = this.overlay.querySelector('[data-popup-close]');
-    console.log('Close Button:', this.closeBtn);
-    this.form = this.overlay.querySelector('form');  // Changed to select form directly
-    console.log('Form:', this.form);
-
-    this.mainContent = this.overlay.querySelector('[data-popup-main]');
-    console.log('Main Content:', this.mainContent);
-    this.successContent = this.overlay.querySelector('[data-popup-success]');
-    console.log('Success Content:', this.successContent);
-
-    this.settings = {
-      showOn: this.overlay.dataset.showOn,
-      delay: parseInt(this.overlay.dataset.delay, 10) * 1000,
-      showOnce: this.overlay.dataset.showOnce === 'true',
-      cookieName: this.overlay.dataset.cookieName || 'newsletter_popup',
-      cookieDuration: parseInt(this.overlay.dataset.cookieDuration, 10) || 30,
-      confirmationDuration: parseInt(this.overlay.dataset.confirmationDuration, 10) * 1000
-    };
-    console.log('Settings initialized:', this.settings);
-
-    this.init();
-  }
-
-  init() {
-    if (!this.overlay || !this.closeBtn || !this.form) {
-      console.log('One or more required elements are missing!');
-      return;
-    }
-
-    if (!this.shouldShowPopup()) {
-      console.log('Popup should not be shown');
-      return;
-    }
-
-    setTimeout(() => {
-      console.log('Displaying popup...');
-      this.show();
-    }, this.settings.delay);
-
-    this.closeBtn.addEventListener('click', () => {
-      console.log('Closing popup...');
-      this.hide();
-    });
-
-    this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-
-    this.overlay.addEventListener('click', (e) => {
-      if (e.target === this.overlay) {
-        console.log('Clicked outside popup, closing...');
-        this.hide();
+  class NewsletterPopup {
+    constructor() {
+      console.log('Initializing NewsletterPopup...');
+      this.overlay = document.querySelector('.js-newsletter-popup');
+      console.log('Overlay found:', this.overlay);
+      if (!this.overlay) {
+        console.log('Overlay not found!');
+        return;
       }
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        console.log('Escape key pressed, closing popup...');
-        this.hide();
-      }
-    });
-  }
-
-  shouldShowPopup() {
-    const isHomepage = document.body.classList.contains('template-index');
-    console.log('Is homepage:', isHomepage);
-
-    if (this.settings.showOn === 'homepage' && !isHomepage) {
-      console.log('Popup should only show on homepage but not on current page');
-      return false;
-    }
-
-    if (this.settings.showOn === 'all_pages') {
-      console.log('Popup should show on all pages');
-    }
-
-    if (this.settings.showOnce && this.getCookie(this.settings.cookieName)) {
-      console.log('Cookie present, not showing popup again');
-      return false;
-    }
-
-    return true;
-  }
-
-  show() {
-    this.scrollPos = window.scrollY;
-    this.overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    this.overlay.style.top = '0';
-    this.overlay.style.position = 'fixed';
-  }
-
-  hide() {
-    this.overlay.classList.remove('active');
-    document.body.style.overflow = '';
-    window.scrollTo(0, this.scrollPos);
-
-    if (this.settings.showOnce) {
-      this.setCookie();
-    }
-  }
-
-  handleSubmit(e) {
-    e.preventDefault(); // Need to prevent default for proper handling
-    
-    const formData = new FormData(this.form);
-    
-    // Add required Shopify form fields
-    formData.append('form_type', 'customer');
-    formData.append('utf8', '✓');
   
-    fetch('/contact', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
+      this.closeBtn = this.overlay.querySelector('[data-popup-close]');
+      console.log('Close Button:', this.closeBtn);
+      this.form = this.overlay.querySelector('form');
+      console.log('Form:', this.form);
+  
+      this.mainContent = this.overlay.querySelector('[data-popup-main]');
+      console.log('Main Content:', this.mainContent);
+      this.successContent = this.overlay.querySelector('[data-popup-success]');
+      console.log('Success Content:', this.successContent);
+  
+      this.settings = {
+        showOn: this.overlay.dataset.showOn,
+        delay: parseInt(this.overlay.dataset.delay, 10) * 1000,
+        showOnce: this.overlay.dataset.showOnce === 'true',
+        cookieName: this.overlay.dataset.cookieName || 'newsletter_popup',
+        cookieDuration: parseInt(this.overlay.dataset.cookieDuration, 10) || 30,
+        confirmationDuration: parseInt(this.overlay.dataset.confirmationDuration, 10) * 1000
+      };
+      console.log('Settings initialized:', this.settings);
+  
+      this.init();
+    }
+  
+    init() {
+      if (!this.overlay || !this.closeBtn || !this.form) {
+        console.log('One or more required elements are missing!');
+        return;
       }
-    })
-    .then(response => {
-      if (response.ok) {
-        // Set cookie and show success message
+  
+      if (!this.shouldShowPopup()) {
+        console.log('Popup should not be shown');
+        return;
+      }
+  
+      setTimeout(() => {
+        console.log('Displaying popup...');
+        this.show();
+      }, this.settings.delay);
+  
+      this.closeBtn.addEventListener('click', () => {
+        console.log('Closing popup...');
+        this.hide();
+      });
+  
+      this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+  
+      this.overlay.addEventListener('click', (e) => {
+        if (e.target === this.overlay) {
+          console.log('Clicked outside popup, closing...');
+          this.hide();
+        }
+      });
+  
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          console.log('Escape key pressed, closing popup...');
+          this.hide();
+        }
+      });
+    }
+  
+    shouldShowPopup() {
+      const isHomepage = document.body.classList.contains('template-index');
+      console.log('Is homepage:', isHomepage);
+  
+      if (this.settings.showOn === 'homepage' && !isHomepage) {
+        console.log('Popup should only show on homepage but not on current page');
+        return false;
+      }
+  
+      if (this.settings.showOn === 'all_pages') {
+        console.log('Popup should show on all pages');
+      }
+  
+      if (this.settings.showOnce && this.getCookie(this.settings.cookieName)) {
+        console.log('Cookie present, not showing popup again');
+        return false;
+      }
+  
+      return true;
+    }
+  
+    show() {
+      this.scrollPos = window.scrollY;
+      this.overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      this.overlay.style.top = '0';
+      this.overlay.style.position = 'fixed';
+    }
+  
+    hide() {
+      this.overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      window.scrollTo(0, this.scrollPos);
+  
+      if (this.settings.showOnce) {
         this.setCookie();
-        this.showSuccess();
-        setTimeout(() => this.hide(), this.settings.confirmationDuration);
-      } else {
-        throw new Error('Network response was not ok');
       }
-    })
-    .catch(error => {
-      console.error('Newsletter subscription failed:', error);
-    });
-  }
-
-  showSuccess() {
-    if (this.mainContent && this.successContent) {
-      this.mainContent.classList.add('hidden');
-      this.successContent.classList.remove('hidden');
+    }
+  
+    handleSubmit(e) {
+      e.preventDefault(); // Need to prevent default for proper handling
+      
+      const formData = new FormData(this.form);
+      
+      // Add required Shopify form fields
+      formData.append('form_type', 'customer');
+      formData.append('utf8', '✓');
+    
+      fetch('/contact', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          // Set cookie and show success message
+          this.setCookie();
+          this.showSuccess();
+          setTimeout(() => this.hide(), this.settings.confirmationDuration);
+        } else {
+          throw new Error('Network response was not ok');
+        }
+      })
+      .catch(error => {
+        console.error('Newsletter subscription failed:', error);
+      });
+    }
+  
+    showSuccess() {
+      if (this.mainContent && this.successContent) {
+        this.mainContent.classList.add('hidden');
+        this.successContent.classList.remove('hidden');
+      }
+    }
+  
+    setCookie() {
+      try {
+        const date = new Date();
+        date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
+        const cookieString = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;
+        document.cookie = cookieString;
+        console.log('Cookie set successfully:', cookieString);
+      } catch (error) {
+        console.error('Error setting cookie:', error);
+      }
+    }
+  
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+      return match ? match[2] : null;
     }
   }
-
-  setCookie() {
-    try {
-      const date = new Date();
-      date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
-      const cookieString = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;
-      document.cookie = cookieString;
-      console.log('Cookie set successfully:', cookieString);
-    } catch (error) {
-      console.error('Error setting cookie:', error);
-    }
-  }
-
-  getCookie(name) {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    return match ? match[2] : null;
-  }
-}
-
-// Initialize popup
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => new NewsletterPopup());
-} else {
-  new NewsletterPopup();
-}
+  
+  // Initialize popup
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new NewsletterPopup());
+  } else {
+    new NewsletterPopup();
+  }  
 </script>
 
 {% schema %}
