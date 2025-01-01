@@ -136,55 +136,31 @@
 </footer>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const toggles = document.querySelectorAll('.footer-block__heading__menu');
+  document.querySelector('.footer__newsletter').addEventListener('submit', function(e) {
+    e.preventDefault();  // Prevent the form from submitting immediately
 
-    // Functie om het menu te toggelen
-    function handleToggle(event) {
-        const toggle = event.currentTarget;
-        const menu = toggle.nextElementSibling;
-        const isExpanded = menu.classList.contains('footer__menu--expanded');
+    // Collect the selected checkboxes
+    const selectedTags = [];
+    document.querySelectorAll('input[name="interest_tags"]:checked').forEach(function(checkbox) {
+      selectedTags.push(checkbox.value);
+    });
 
-        // Toggle zichtbaar/onzichtbaar menu
-        if (isExpanded) {
-            menu.hidden = true;
-            menu.classList.remove('footer__menu--expanded');
-            toggle.classList.remove('footer-block__heading__menu__expand');
-        } else {
-            menu.hidden = false;
-            menu.classList.add('footer__menu--expanded');
-            toggle.classList.add('footer-block__heading__menu__expand');
-        }
+    // If there are selected tags, append them to the contact[tags] hidden field
+    if (selectedTags.length > 0) {
+      const tagsField = document.querySelector('input[name="contact[tags]"]');
+      tagsField.value = 'newsletter,' + selectedTags.join(',');
     }
 
-    // Functie om menu's te configureren op basis van schermgrootte
-    function configureToggles() {
-        const screenWidth = window.innerWidth;
+    // Show success message
+    document.querySelector('.footer__newsletter').innerHTML = `
+      <div class="footer__newsletter-success">
+        <p>Bedankt voor je inschrijving! Je ontvangt binnenkort een nieuwsbrief.</p>
+      </div>
+    `;
 
-        toggles.forEach((toggle) => {
-            const menu = toggle.nextElementSibling;
-
-            if (screenWidth < 768) {
-                toggle.style.cursor = 'pointer';
-                toggle.removeEventListener('click', handleToggle);
-                toggle.addEventListener('click', handleToggle);
-                menu.hidden = true; // Verberg menu standaard
-                menu.classList.remove('footer__menu--expanded');
-                toggle.classList.remove('footer-block__heading__menu__expand');
-            } else {
-                toggle.style.cursor = 'default';
-                toggle.removeEventListener('click', handleToggle);
-                menu.hidden = false; // Toon menu standaard
-                menu.classList.remove('footer__menu--expanded');
-                toggle.classList.remove('footer-block__heading__menu__expand');
-            }
-        });
-    }
-
-    // Initialiseer configuratie en luister naar venster-resizes
-    configureToggles();
-    window.addEventListener('resize', configureToggles);
-});
+    // Optionally, submit the form after showing success
+    this.submit();
+  });
 </script>
 
 {% schema %}

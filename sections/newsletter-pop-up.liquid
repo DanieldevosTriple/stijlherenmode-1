@@ -209,6 +209,9 @@ sections/newsletter-popup.liquid
 }
 {%- endstyle -%}
 
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
+{{ 'newsletter-popup.css' | asset_url | stylesheet_tag }}
+
 <div 
   class="popup-overlay js-newsletter-popup" 
   data-popup-overlay
@@ -281,24 +284,25 @@ sections/newsletter-popup.liquid
   </div>
 </div>
 
-<script>document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
-  e.preventDefault();  // Prevent the form from submitting immediately
+<script>
+  document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+    e.preventDefault();  // Prevent the form from submitting immediately
 
-  // Collect the selected checkboxes
-  const selectedTags = [];
-  document.querySelectorAll('input[name="interest_tags"]:checked').forEach(function(checkbox) {
-    selectedTags.push(checkbox.value);
+    // Collect the selected checkboxes
+    const selectedTags = [];
+    document.querySelectorAll('input[name="interest_tags"]:checked').forEach(function(checkbox) {
+      selectedTags.push(checkbox.value);
+    });
+
+    // If there are selected tags, append them to the contact[tags] hidden field
+    if (selectedTags.length > 0) {
+      const tagsField = document.getElementById('contact_tags');
+      tagsField.value = 'newsletter,' + selectedTags.join(',');
+    }
+
+    // Now submit the form after modifying the contact[tags] field
+    this.submit();
   });
-
-  // If there are selected tags, append them to the contact[tags] hidden field
-  if (selectedTags.length > 0) {
-    const tagsField = document.getElementById('contact_tags');
-    tagsField.value = 'newsletter,' + selectedTags.join(',');
-  }
-
-  // Now submit the form after modifying the contact[tags] field
-  this.submit();
-});
 </script>
 
 <script>
@@ -357,12 +361,14 @@ sections/newsletter-popup.liquid
       this.closeBtn.addEventListener('click', () => {
         console.log('Closing popup...');
         this.hide();
+        this.setCookie();  // Set cookie when popup is closed
       });
     
       this.overlay.addEventListener('click', (e) => {
         if (e.target === this.overlay) {
           console.log('Clicked outside popup, closing...');
           this.hide();
+          this.setCookie();  // Set cookie when clicking outside the popup
         }
       });
     
@@ -370,76 +376,14 @@ sections/newsletter-popup.liquid
         if (e.key === 'Escape') {
           console.log('Escape key pressed, closing popup...');
           this.hide();
+          this.setCookie();  // Set cookie when escape key is pressed
         }
       });
     
       // Handle form submission
       this.form.addEventListener('submit', (e) => this.handleSubmit(e));
     }    
-  
-    shouldShowPopup() {
-      const isHomepage = document.body.classList.contains('template-index');
-      console.log('Is homepage:', isHomepage);
-  
-      if (this.settings.showOn === 'homepage' && !isHomepage) {
-        console.log('Popup should only show on homepage but not on current page');
-        return false;
-      }
-  
-      if (this.settings.showOn === 'all_pages') {
-        console.log('Popup should show on all pages');
-      }
-  
-      if (this.settings.showOnce && this.getCookie(this.settings.cookieName)) {
-        console.log('Cookie present, not showing popup again');
-        return false;
-      }
-  
-      return true;
-    }
-  
-    show() {
-      this.scrollPos = window.scrollY;
-      this.overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      this.overlay.style.top = '0';
-      this.overlay.style.position = 'fixed';
-    }
-  
-    hide() {
-      this.overlay.classList.remove('active');
-      document.body.style.overflow = '';
-      window.scrollTo(0, this.scrollPos);
-  
-      if (this.settings.showOnce) {
-        this.setCookie();
-      }
-    }
-  
-    showSuccess() {
-      if (this.mainContent && this.successContent) {
-        this.mainContent.classList.add('hidden');
-        this.successContent.classList.remove('hidden');
-      }
-    }
-  
-    setCookie() {
-      try {
-        const date = new Date();
-        date.setTime(date.getTime() + (this.settings.cookieDuration * 24 * 60 * 60 * 1000));
-        const cookieString = `${this.settings.cookieName}=true; expires=${date.toUTCString()}; path=/`;
-        document.cookie = cookieString;
-        console.log('Cookie set successfully:', cookieString);
-      } catch (error) {
-        console.error('Error setting cookie:', error);
-      }
-    }
-  
-    getCookie(name) {
-      const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-      return match ? match[2] : null;
-    }
-  
+
     handleSubmit(e) {
       e.preventDefault();  // Prevent form from submitting immediately
       
@@ -468,7 +412,7 @@ sections/newsletter-popup.liquid
       .catch(error => {
         console.error('Newsletter subscription failed:', error);
       });
-    }    
+    }
   }
   
   // Initialize popup
