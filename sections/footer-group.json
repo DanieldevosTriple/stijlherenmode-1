@@ -14,6 +14,9 @@
     "newsletter_pop_up_jxqFXD": {
       "type": "newsletter-pop-up",
       "settings": {
+        "header": "Abonneer op onze nieuwsbrief",
+        "subheader": "Meld je aan en blijf op de hoogte van de laatste aanbiedingen en nieuws.",
+        "disclaimer": "Voorwaarden zijn van toepassing. Deze actie geldt alleen voor nieuwe abonnees.",
         "button_text": "Subscribe",
         "confirmation_title": "Thank You!",
         "confirmation_message": "<p>You've successfully subscribed to our newsletter.</p>",
@@ -22,7 +25,8 @@
         "delay": 5,
         "show_once": true,
         "cookie_name": "newsletter_popup",
-        "cookie_duration": 30
+        "cookie_duration": 30,
+        "select_option": "Stijl Casual"
       }
     },
     "footer": {
@@ -44,8 +48,8 @@
       "settings": {
         "newsletter_enable": true,
         "newsletter_heading": "Nieuwsbrief",
-        "newsletter_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        "newsletter_disclaimer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "newsletter_description": "Meld je aan en blijf op de hoogte van de laatste aanbiedingen en nieuws.",
+        "newsletter_disclaimer": "Voorwaarden zijn van toepassing. Deze actie geldt alleen voor nieuwe abonnees.",
         "menu_1": "legal",
         "menu_2": "menu-new",
         "show_social": true
