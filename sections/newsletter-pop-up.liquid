@@ -149,9 +149,15 @@
       window.scrollTo(0, this.scrollPos);
     }
   
+    // Check if the cookie is set
+    checkCookie() {
+      return document.cookie.indexOf(`${this.settings.cookieName}=true`) !== -1;
+    }
+  
     init() {
-      if (!this.overlay || !this.closeBtn || !this.form) {
-        console.log('One or more required elements are missing!');
+      // Check if the cookie is set and show the popup only if it's not
+      if (this.checkCookie()) {
+        console.log('Cookie found, popup will not be shown.');
         return;
       }
   
