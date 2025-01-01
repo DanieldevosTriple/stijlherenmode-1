@@ -11,6 +11,7 @@
   "sections": {
     "main-search-banner": {
       "type": "main-search-banner",
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-1"
       }
