@@ -340,9 +340,9 @@ sections/newsletter-popup.liquid
         console.log('One or more required elements are missing!');
         return;
       }
-  
-      // Check if the URL contains `customer_posted=true`
-      if (window.location.search.indexOf('customer_posted=true') !== -1) {
+    
+      // Check if the URL contains `customer_posted=true` and `#contact_form_pop_up`
+      if (window.location.search.indexOf('customer_posted=true') !== -1 && window.location.hash === '#contact_form_pop_up') {
         console.log('Customer has posted, showing success immediately.');
         this.showSuccess();
       } else {
@@ -352,30 +352,30 @@ sections/newsletter-popup.liquid
           this.show();
         }, this.settings.delay);
       }
-  
+    
       // Event listeners
       this.closeBtn.addEventListener('click', () => {
         console.log('Closing popup...');
         this.hide();
       });
-  
+    
       this.overlay.addEventListener('click', (e) => {
         if (e.target === this.overlay) {
           console.log('Clicked outside popup, closing...');
           this.hide();
         }
       });
-  
+    
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           console.log('Escape key pressed, closing popup...');
           this.hide();
         }
       });
-  
+    
       // Handle form submission
       this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-    }
+    }    
   
     shouldShowPopup() {
       const isHomepage = document.body.classList.contains('template-index');
@@ -457,8 +457,10 @@ sections/newsletter-popup.liquid
       })
       .then(response => {
         if (response.ok) {
-          // Redirect with customer_posted=true
-          window.location.search = "?customer_posted=true";
+          // Show success message immediately after form submission
+          this.showSuccess();
+          // Redirect with customer_posted=true and custom fragment
+          window.location.search = "?customer_posted=true#contact_form_pop_up";
         } else {
           throw new Error('Network response was not ok');
         }
@@ -466,7 +468,7 @@ sections/newsletter-popup.liquid
       .catch(error => {
         console.error('Newsletter subscription failed:', error);
       });
-    }
+    }    
   }
   
   // Initialize popup
