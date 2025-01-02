@@ -6,7 +6,8 @@
 
 .two-column-section .column {
   position: relative;
-  height: 400px; /* Adjust height as needed */
+  width: 100%; /* Zorg ervoor dat de breedte 100% is van de container */
+  padding-top: 56.25%; /* Verhouding van 16:9 (9 / 16 = 0.5625 * 100 = 56.25%) */
   background-size: cover;
   background-position: center;
 }
