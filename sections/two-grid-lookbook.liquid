@@ -76,7 +76,7 @@
           {% if product_count < 3 %}
             <div class="product-item">
               <a href="{{ product.url }}">
-                <img src="{{ product.featured_image | image_url: 'small' }}" height="" width="" alt="{{ product.title }}">
+                <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
                 <div class="product-info">
                   <p>{{ product.title }}</p>
                 </div>
@@ -101,7 +101,7 @@
           {% if product_count < 3 %}
             <div class="product-item">
               <a href="{{ product.url }}">
-                <img src="{{ product.featured_image | image_url: 'small' }}" height="" width="" alt="{{ product.title }}">
+                <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
                 <div class="product-info">
                   <p>{{ product.title }}</p>
                 </div>
