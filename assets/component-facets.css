@@ -338,10 +338,9 @@
     font-weight: 800;
     text-transform: uppercase;
     margin: 0;
+    text-align: center;
     flex-grow: 1;
     font-family: TradeGothicLT, sans-serif;
-    left: 50%;
-    transform: translateX(-50%);
   }
 
   .mobile-facets__close-button {
