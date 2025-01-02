@@ -186,7 +186,6 @@ li.search {
 /* Mobile Menu Styles */
 .mobile-menu-overlay {
     position: fixed;
-    top: 80px; /* Adjust to the height of the header */
     left: 0;
     width: 100%;
     height: calc(100% - 80px); /* Ensure it fits under the header */
@@ -195,6 +194,8 @@ li.search {
     visibility: hidden;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    display: grid;
+    grid-template-columns: 1fr;
 }
 
 .mobile-menu-overlay.show {
