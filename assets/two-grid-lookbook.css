@@ -64,6 +64,7 @@
   font-family: TradeGothicLT;
   color: black;
   vertical-align: middle;
+  margin: 0px;
 }
 
 .product-link {
@@ -97,9 +98,5 @@
   .product-item img {
     max-width: 30px;
     height: auto;
-  }
-
-  .product-info p {
-    margin-bottom: 1px;
   }
 }
