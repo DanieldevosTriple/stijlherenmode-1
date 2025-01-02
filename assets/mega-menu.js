@@ -107,6 +107,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 const previousPanel = previousState.panel;
                 console.log('Returning to Previous Panel:', previousPanel);
 
+                // Remove the current submenu from history
+                menuHistory.pop();
+
                 // Show the previous panel (main menu)
                 previousPanel.classList.add('active');
                 menuTitle.textContent = previousState.title;
