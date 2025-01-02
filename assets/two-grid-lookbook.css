@@ -89,4 +89,8 @@
   .column .content p {
     display: none;
   }
+
+  .product-block {
+    opacity: 1;
+  }
 }
