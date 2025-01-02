@@ -93,4 +93,9 @@
   .product-block {
     opacity: 1;
   }
+
+  .product-item img {
+    max-width: 30px;
+    height: auto;
+  }
 }
