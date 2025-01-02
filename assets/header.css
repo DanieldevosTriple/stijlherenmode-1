@@ -127,6 +127,53 @@
     text-align: center; /* Optioneel, om tekst te centreren */
 }
 
+/* Mega menu wrapper */
+.nav-item.has-mega-menu {
+    position: relative;
+  }
+  
+  /* Hide mega menu by default */
+  .mega-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 10;
+  }
+  
+  /* Show mega menu when hovering on the parent item */
+  .nav-item.has-mega-menu:hover .mega-menu {
+    display: block;
+  }
+  
+  /* Layout for the mega menu - 3 columns */
+  .mega-menu-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .mega-menu-column {
+    width: 30%;
+  }
+  
+  /* Styling for the links in the mega menu */
+  .mega-menu-column a {
+    display: block;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .mega-menu-column a:hover {
+    color: #000;
+    background-color: #f4f4f4;
+  }
+  
+
 .col-align-left {
     justify-content: left;
 }

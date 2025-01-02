@@ -53,6 +53,24 @@
   });   
 </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const menuItems = document.querySelectorAll('.nav-item.has-mega-menu');
+  
+    menuItems.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        const megaMenu = item.querySelector('.mega-menu');
+        megaMenu.style.display = 'block';
+      });
+  
+      item.addEventListener('mouseleave', () => {
+        const megaMenu = item.querySelector('.mega-menu');
+        megaMenu.style.display = 'none';
+      });
+    });
+  });  
+  </script>
+
 {% if section.settings.sticky %}
     <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer></script>
 {% else %}
@@ -77,6 +95,21 @@
                 {% for link in menu.links %}
                   <li class="nav-item">
                     <a class="nav-link {%if link.active %}active{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+
+                    <!-- Mega Menu for Sub-menu links -->
+                    {% if section.settings.enable_mega_menu %}
+                    {% if link.links.size > 0 %}
+                      <div class="mega-menu">
+                        <div class="mega-menu-container">
+                          {% for sublink in link.links %}
+                            <div class="mega-menu-column">
+                              <a href="{{ sublink.url }}">{{ sublink.title }}</a>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endif %}
                   </li>
                 {% endfor %}
               </ul>
@@ -211,6 +244,12 @@
       "id": "menu",
       "label": "Select Menu",
       "info": "Choose a menu to display in the header."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mega_menu",
+      "label": "Enable Mega Menu",
+      "info": "Enable or disable mega menu on hover for selected items."
     },
     {
       "type": "checkbox",
