@@ -64,31 +64,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Navigate forward (submenu sliding in from the right)
     function navigateForward(nextPanel, title) {
-        console.log(`Navigating Forward: ${title}`);
-
         const currentPanel = menuHistory[menuHistory.length - 1].panel;
-        console.log('Current Panel:', currentPanel);
-
-        // Show the header for submenu
-        document.querySelector('.mobile-menu-header').style.display = 'flex';
-
-        // Hide the current panel
-        currentPanel.classList.remove('active');
         
-        // Show the next panel (submenu)
-        nextPanel.classList.add('active');
+        // Prepare panels for animation
+        currentPanel.style.transform = 'translateX(-100%)';
+        nextPanel.style.transform = 'translateX(100%)';
+        nextPanel.style.visibility = 'visible';
         
-        // Update the menu history
-        menuHistory.push({
-            title: title,
-            panel: nextPanel
+        // Trigger animation
+        requestAnimationFrame(() => {
+            nextPanel.style.transform = 'translateX(0)';
+            nextPanel.classList.add('active');
         });
-
-        // Update title and show the back button
+    
+        menuHistory.push({ title, panel: nextPanel });
         menuTitle.textContent = title;
         backButton.style.display = 'block';
-
-        console.log('Menu History after forward navigation:', menuHistory);
+        document.querySelector('.mobile-menu-header').style.display = 'flex';
     }
 
     // Navigate back (submenu closes, menu comes back from left)
