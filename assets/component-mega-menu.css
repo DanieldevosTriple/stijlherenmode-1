@@ -1,23 +1,51 @@
-/* Zorg ervoor dat het mega-menu standaard verborgen is */
-.mega-menu {
-  display: none;
-  position: absolute;
-  top: 100%; /* Plaats onder het nav-item */
+/* Mega Menu */
+.mega-menu-container {
+  display: none; /* Verberg het mega-menu standaard */
+  position: absolute; /* Positioneer het buiten de header */
+  top: 100%; /* Plaats het onder de header */
   left: 0;
-  right: 0;
+  width: 100%; /* Zorg ervoor dat het menu de volledige breedte heeft */
+  z-index: 9999; /* Zet het menu boven andere elementen */
+}
+
+/* Toon het mega-menu bij hover op het nav-item */
+.nav-item.has-megamenu:hover + .mega-menu-container {
+  display: block; /* Maak het mega-menu zichtbaar bij hover */
+}
+
+/* Mega-menu styling */
+.mega-menu {
   background-color: rgb(var(--color-background));
   border-radius: 0;
-  z-index: 10;
+  padding: 3rem 0;
 }
 
-/* Toon het mega-menu wanneer het nav-item wordt gehoverd */
-.nav-item:hover .mega-menu {
-  display: block;
+.mega-menu .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
-/* Verberg mega-menu als je buiten het nav-item komt */
-.nav-item .mega-menu {
-  display: none;
+.mega-menu .col-md-3 {
+  width: 25%;
+}
+
+.mega-menu .mega-submenu {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.mega-menu .mega-submenu li {
+  margin: 5px 0;
+}
+
+.mega-menu a {
+  color: rgba(var(--color-foreground), 0.75);
+  text-decoration: none;
+}
+
+.mega-menu a:hover {
+  color: rgb(var(--color-foreground));
 }
 
 .mega-menu__content {
