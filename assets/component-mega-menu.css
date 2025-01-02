@@ -39,6 +39,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
+  padding: 0px;
 }
 
 .mega-menu .col-md-3 {
