@@ -159,7 +159,6 @@
 /* Fix menu position */
 .mobile-menu-overlay {
   position: fixed;
-  top: var(--header-height, 80px); /* Position below header */
   left: 0;
   width: 100%;
   height: calc(100% - var(--header-height, 80px)); /* Subtract header height */
