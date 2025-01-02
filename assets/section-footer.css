@@ -185,6 +185,7 @@ footer .interests input[type=checkbox]:checked::after {
   .footer__content-top {
     display: block;
     order: 2;
+    padding: 0rem;
   }
 
   .footer__copyright {
