@@ -55,6 +55,22 @@
   });   
 </script>
 
+<script>document.addEventListener('DOMContentLoaded', function() {
+  const header = document.querySelector('header');
+  
+  function setHeaderHeight() {
+      if (header) {
+          document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
+      }
+  }
+
+  // Set initial height
+  setHeaderHeight();
+
+  // Update on window resize
+  window.addEventListener('resize', setHeaderHeight);
+});</script>
+
 {% if section.settings.sticky %}
     <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer></script>
 {% else %}
