@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (menuHistory.length === 1) {
                     document.querySelector('.mobile-menu-header').style.display = 'none';
                 }
-            }, 300);
+            }, 200);
         }
      }
 
