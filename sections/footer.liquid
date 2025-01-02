@@ -5,52 +5,6 @@
 {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 
 <footer class="footer col-12 color-black gradient section-{{ section.id }}-padding">
-  <!-- Newsletter Section -->
-  {%- if section.settings.newsletter_enable -%}
-    <div class="footer-block--newsletter">
-      <div class="footer-block__newsletter">
-        {%- if section.settings.newsletter_heading != blank -%}
-          <h2 class="footer-block__heading-newsletter">{{ section.settings.newsletter_heading }}</h2>
-        {%- endif -%}
-        {%- if section.settings.newsletter_description != blank -%}
-          <p class="footer-column-description">
-            {{ section.settings.newsletter_description }}
-          </p>
-        {%- endif -%}        
-        {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
-          <input type="hidden" name="contact[tags]" value="newsletter">
-          <div class="newsletter-form__field">
-            <input
-              type="email"
-              name="contact[email]"
-              class="newsletter-form__field-input"
-              placeholder="{{ 'newsletter.label' | t }}"
-              required
-            >
-              
-            <!-- Interest section -->
-            <p class="newsletter-interest">Ik ben geinteresseerd in:</p>
-            <div class="interests">
-              <label>
-                <input type="checkbox" name="interest_tags" value="Stijl Casual" /> Stijl Casual
-              </label>
-              <label>
-                <input type="checkbox" name="interest_tags" value="Stijl Herenmode" /> Stijl Herenmode
-              </label>
-            </div>
-
-            <button type="submit" class="newsletter-form__button">
-              <span class="button-text">Abonneer</span> 
-            </button>
-          </div>
-        {%- endform -%}
-        <p class="disclaimer">
-          {{ section.settings.newsletter_disclaimer }}
-        </p>        
-      </div>
-    </div>
-  {%- endif -%}
-
   <!-- Content Section -->
   <div class="footer__content-top">
     <!-- Column 1 -->
@@ -133,6 +87,52 @@
       <small class="copyright-text">&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</small>
     </div>
   </div>
+
+    <!-- Newsletter Section -->
+    {%- if section.settings.newsletter_enable -%}
+      <div class="footer-block--newsletter">
+        <div class="footer-block__newsletter">
+          {%- if section.settings.newsletter_heading != blank -%}
+            <h2 class="footer-block__heading-newsletter">{{ section.settings.newsletter_heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.newsletter_description != blank -%}
+            <p class="footer-column-description">
+              {{ section.settings.newsletter_description }}
+            </p>
+          {%- endif -%}        
+          {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="newsletter-form__field">
+              <input
+                type="email"
+                name="contact[email]"
+                class="newsletter-form__field-input"
+                placeholder="{{ 'newsletter.label' | t }}"
+                required
+              >
+                
+              <!-- Interest section -->
+              <p class="newsletter-interest">Ik ben geinteresseerd in:</p>
+              <div class="interests">
+                <label>
+                  <input type="checkbox" name="interest_tags" value="Stijl Casual" /> Stijl Casual
+                </label>
+                <label>
+                  <input type="checkbox" name="interest_tags" value="Stijl Herenmode" /> Stijl Herenmode
+                </label>
+              </div>
+  
+              <button type="submit" class="newsletter-form__button">
+                <span class="button-text">Abonneer</span> 
+              </button>
+            </div>
+          {%- endform -%}
+          <p class="disclaimer">
+            {{ section.settings.newsletter_disclaimer }}
+          </p>        
+        </div>
+      </div>
+    {%- endif -%}
 </footer>
 
 <script>
