@@ -137,73 +137,47 @@
       {% if section.settings.menu != blank %}
         {% assign menu = linklists[section.settings.menu] %}
         <div class="mobile-menu-overlay">
-          <div class="mobile-facets__header">
-            <button type="button" class="mobile-facets__back-button hidden">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7"></path>
-              </svg>
-              <span>Back</span>
+          <div class="mobile-menu-header">
+            <button class="back-button">
+              {% render 'icon-arrow-left' %}
             </button>
-            <h2 class="mobile-facets__title">Menu</h2>
-            <button type="button" class="mobile-facets__close-button">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
+            <span class="current-menu-title">Menu</span>
+            <button class="close-menu">
+              {% render 'icon-close' %}
             </button>
           </div>
-
-          <div class="facets__mobile">
+          
+          <ul class="mobile-menu">
             {% for link in menu.links %}
-              <div class="facet-accordion__item" data-submenu="{{ link.title | handle }}">
+              <li class="nav-item {% if link.links.size > 0 %}has-submenu{% endif %}">
+                <a class="nav-link {% if link.active %}active{% endif %}" href="{{ link.url }}">
+                  {{ link.title }}
+                </a>
                 {% if link.links.size > 0 %}
-                  <button type="button" class="mobile-facets__menu-button">
-                    <span>{{ link.title }}</span>
-                    <svg class="mobile-facets__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M9 18l6-6-6-6"></path>
-                    </svg>
-                  </button>
-                  <div class="mobile-facets__submenu">
-                    <ul class="facet-accordion__list">
-                      {% for child_link in link.links %}
-                        <li class="facet-accordion__list-item">
-                          {% if child_link.links.size > 0 %}
-                            <div class="facet-accordion__item" data-submenu="{{ child_link.title | handle }}">
-                              <button type="button" class="mobile-facets__menu-button">
-                                <span>{{ child_link.title }}</span>
-                                <svg class="mobile-facets__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                  <path d="M9 18l6-6-6-6"></path>
-                                </svg>
-                              </button>
-                              <div class="mobile-facets__submenu">
-                                <ul class="facet-accordion__list">
-                                  {% for grandchild_link in child_link.links %}
-                                    <li class="facet-accordion__list-item">
-                                      <a href="{{ grandchild_link.url }}" class="mobile-facets__link">
-                                        {{ grandchild_link.title }}
-                                      </a>
-                                    </li>
-                                  {% endfor %}
-                                </ul>
-                              </div>
-                            </div>
-                          {% else %}
-                            <a href="{{ child_link.url }}" class="mobile-facets__link">
-                              {{ child_link.title }}
-                            </a>
-                          {% endif %}
-                        </li>
-                      {% endfor %}
-                    </ul>
-                  </div>
-                {% else %}
-                  <a href="{{ link.url }}" class="mobile-facets__menu-button">
-                    <span>{{ link.title }}</span>
-                  </a>
+                  <span class="submenu-toggle">
+                    {% render 'icon-arrow-right' %}
+                  </span>
+                  <ul class="submenu-panel" data-parent="{{ link.title }}">
+                    {% for child_link in link.links %}
+                      <li class="nav-item {% if child_link.links.size > 0 %}has-submenu{% endif %}">
+                        <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        {% if child_link.links.size > 0 %}
+                          <span class="submenu-toggle">
+                            {% render 'icon-arrow-right' %}
+                          </span>
+                          <ul class="submenu-panel" data-parent="{{ child_link.title }}">
+                            {% for grandchild_link in child_link.links %}
+                              <li><a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
                 {% endif %}
-              </div>
+              </li>
             {% endfor %}
-          </div>
+          </ul>
         </div>
       {% endif %}
   </header>
