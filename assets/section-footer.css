@@ -775,8 +775,7 @@ footer .interests input[type=checkbox]:checked::after {
   text-transform: uppercase;
   font-weight: 600;
   text-align: left;
-  background-color: #faf7f3;
-  border: 2px solid black;
+  background-color: rgb(241, 241, 241);
   color: black;
   border-radius: 0px;
 }
