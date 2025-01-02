@@ -543,7 +543,7 @@
 
     /* Sticky header adjustments */
     .sticky .mega-menu {
-        position: fixed;
+        position: absolute;
         top: var(--header-height, 80px);
     }
 
