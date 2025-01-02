@@ -56,3 +56,9 @@
   text-transform: uppercase;
   font-family: TradeGothicLT;
 }
+
+.product-link {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
