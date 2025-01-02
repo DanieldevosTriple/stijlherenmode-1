@@ -87,22 +87,26 @@ document.addEventListener('DOMContentLoaded', function () {
             const currentPanel = menuHistory[menuHistory.length - 1].panel;
             const previousState = menuHistory[menuHistory.length - 2];
             const previousPanel = previousState.panel;
-    
+     
             previousPanel.style.visibility = 'visible';
             previousPanel.classList.add('active');
             previousPanel.style.transform = 'translateX(0)';
-    
             currentPanel.style.transform = 'translateX(100%)';
-            
+     
             setTimeout(() => {
                 currentPanel.classList.remove('active');
                 currentPanel.style.visibility = 'hidden';
                 menuHistory.pop();
                 menuTitle.textContent = previousState.title;
                 backButton.style.display = menuHistory.length > 1 ? 'block' : 'none';
+                
+                // Hide header when returning to main menu
+                if (menuHistory.length === 1) {
+                    document.querySelector('.mobile-menu-header').style.display = 'none';
+                }
             }, 300);
         }
-    }
+     }
 
     // Close the mobile menu
     function closeMobileMenu() {
