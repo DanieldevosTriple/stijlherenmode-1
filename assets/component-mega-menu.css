@@ -1,16 +1,21 @@
+/* Reset */
 .mega-menu-container {
   display: none;
-  position: absolute;
+  position: fixed;
   top: var(--header-height, 80px);
   left: 0;
   width: 100%;
   background: rgb(var(--color-background));
-  z-index: 99;
+  z-index: 98;  /* Below header but above other content */
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Show on hover */
-.nav-item.has-megamenu:hover .mega-menu-container,
+/* Enable hover */
+.nav-item.has-megamenu:hover .mega-menu-container {
+  display: block;
+}
+
+/* Keep visible while hovering mega menu */
 .mega-menu-container:hover {
   display: block;
 }
