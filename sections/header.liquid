@@ -53,39 +53,6 @@
   });   
 </script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const hamburgerMenu = document.querySelector('.hamburger-menu');
-    const closeMenuButton = document.querySelector('.close-menu');
-    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-    const menuItems = document.querySelectorAll('.nav-item.has-submenu');
-  
-    // Open the mobile menu drawer
-    hamburgerMenu.addEventListener('click', function () {
-      mobileMenuOverlay.classList.add('show');
-    });
-  
-    // Close the mobile menu drawer
-    closeMenuButton.addEventListener('click', function () {
-      mobileMenuOverlay.classList.remove('show');
-    });
-  
-    // Toggle submenu visibility when clicking a parent item
-    menuItems.forEach(item => {
-      item.addEventListener('click', function () {
-        this.classList.toggle('active');
-      });
-    });
-  
-    // Close the menu when clicking outside of it
-    mobileMenuOverlay.addEventListener('click', function (e) {
-      if (e.target === mobileMenuOverlay) {
-        mobileMenuOverlay.classList.remove('show');
-      }
-    });
-  });   
-  </script>
-
 {% if section.settings.sticky %}
     <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer></script>
 {% else %}
@@ -103,75 +70,26 @@
       <div class="new-header">
         <!-- Left: Dynamic Menu -->
         <div class="col-menu col-align-left menu-items first-menu">
-         <!-- Desktop Mega Menu (When enabled) -->
-          <!-- Desktop Mega Menu (When enabled) -->
-          {% if section.settings.enable_mega_menu %}
-            <nav class="navbar navbar-expand-lg d-none d-lg-block">
-              {% if section.settings.menu != blank %}
-                {% assign menu = linklists[section.settings.menu] %}
-                <ul class="navbar-nav">
-                  {% for link in menu.links %}
-                    <li class="nav-item {% if link.links.size > 0 %}has-mega-menu{% endif %}">
-                      <a class="nav-link {% if link.active %}active{% endif %}" href="{{ link.url }}">
-                        {{ link.title }}
-                      </a>
-                      
-                      <!-- Mega Menu for Sub-menu links -->
-                      {% if link.links.size > 0 %}
-                        <div class="mega-menu-wrapper">
-                          <div class="mega-menu">
-                            <div class="mega-menu-container">
-                              {% for sublink in link.links %}
-                                <div class="mega-menu-column">
-                                  <a href="{{ sublink.url }}">{{ sublink.title }}</a>
-                                </div>
-                              {% endfor %}
-                            </div>
-                          </div>
-                        </div>
-                      {% endif %}
-                    </li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
-            </nav>
-          {% endif %}
-
-          <!-- Mobile Drawer Menu (When enabled) -->
-          {% if not section.settings.enable_mega_menu %}
-            <nav class="col-menu col-align-left menu-items first-menu d-lg-none">
-              <button class="hamburger-menu">
-                {{- 'icon-hamburger.svg' | inline_asset_content -}}
-              </button>
-              <button class="close-menu">
-                {{- 'icon-close.svg' | inline_asset_content -}}
-              </button>
-
-              <!-- Mobile Menu Drawer -->
-              <div class="mobile-menu-overlay">
-                <ul class="mobile-menu">
-                  {% for link in menu.links %}
-                    <li class="nav-item {% if link.links.size > 0 %}has-submenu{% endif %}">
-                      <a class="nav-link {% if link.active %}active{% endif %}" href="{{ link.url }}">
-                        {{ link.title }}
-                      </a>
-                      
-                      <!-- Submenu Drawer -->
-                      {% if link.links.size > 0 %}
-                        <ul class="submenu">
-                          {% for sublink in link.links %}
-                            <li class="submenu-item">
-                              <a href="{{ sublink.url }}">{{ sublink.title }}</a>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                      {% endif %}
-                    </li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </nav>
-          {% endif %}
+          <nav class="navbar navbar-expand-lg d-none d-lg-block">
+            {% if section.settings.menu != blank %}
+              {% assign menu = linklists[section.settings.menu] %}
+              <ul class="navbar-nav">
+                {% for link in menu.links %}
+                  <li class="nav-item">
+                    <a class="nav-link {%if link.active %}active{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </nav>
+          <nav class="col-menu col-align-left menu-items first-menu d-lg-none">
+            <button class="hamburger-menu">
+              {{- 'icon-hamburger.svg' | inline_asset_content -}}
+            </button>
+            <button class="close-menu">
+              {{- 'icon-close.svg' | inline_asset_content -}}
+            </button>
+          </nav>
         </div>        
   
         <!-- Center: Logo -->
@@ -293,12 +211,6 @@
       "id": "menu",
       "label": "Select Menu",
       "info": "Choose a menu to display in the header."
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_mega_menu",
-      "label": "Enable Mega Menu",
-      "info": "Enable or disable mega menu on hover for selected items."
     },
     {
       "type": "checkbox",
