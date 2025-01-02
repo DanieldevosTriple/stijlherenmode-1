@@ -407,7 +407,7 @@ li.search {
     right: 0;
     top: 100%;
     background: var(--background-color-light-mode);
-    padding: 2rem 1rem; /* Add padding */
+    padding: 2rem 1.5rem; /* Add padding */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
