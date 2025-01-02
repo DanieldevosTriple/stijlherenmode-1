@@ -43,7 +43,7 @@
 }
 
 .product-item {
-  background-color: #faf7f3;
+  background-color: rgb(250, 247, 243, 0.6);
   margin: 5px 0;
   padding: 10px;
   display: flex;
