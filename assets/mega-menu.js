@@ -126,26 +126,38 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }    
 
-    function resetMenuState() {
-        // Reset menu history
-        menuHistory.length = 1;
-        currentLevel = 0;
-        
-        // Hide all panels except main menu
-        document.querySelectorAll('.menu-panel').forEach(panel => {
-            panel.classList.remove('active');
-        });
-        document.querySelector('.menu-panel[data-level="0"]').classList.add('active');
-        
-        // Reset title and back button
-        menuTitle.textContent = 'Menu';
-        backButton.style.display = 'none';
-        
-        // Reset transform
-        if (menuContainer) {
-            menuContainer.style.transform = 'translateX(0)';
+    function navigateBack() {
+        if (menuHistory.length > 1) {
+            // Slide animatie
+            menuContainer.style.transform = 'translateX(100%)';
+            
+            setTimeout(() => {
+                // Verwijder de huidige menu status
+                menuHistory.pop();
+                const previousState = menuHistory[menuHistory.length - 1];
+                
+                // Verberg alle panelen
+                document.querySelectorAll('.menu-panel').forEach(panel => {
+                    panel.classList.remove('active');
+                });
+                
+                // Toon het vorige paneel
+                previousState.panel.classList.add('active');
+                
+                // Herstel de titel en de back-knop
+                menuTitle.textContent = previousState.title;
+                backButton.style.display = menuHistory.length > 1 ? 'block' : 'none';
+                
+                // Verberg de header als we teruggaan naar het hoofdmenu
+                document.querySelector('.mobile-menu-header').style.display = 'none';
+                
+                // Reset de transform
+                menuContainer.style.transform = 'translateX(0)';
+                
+                currentLevel--;
+            }, 300);
         }
-    }
+    }    
 
     function closeMobileMenu() {
         mobileMenuOverlay.classList.remove('show');
