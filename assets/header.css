@@ -411,21 +411,38 @@
 
     /* Mega Menu Styles */
     .has-megamenu {
+        position: static;
+        /* Changed from relative to static */
+    }
+
+    .header-wrapper {
         position: relative;
+        z-index: 1001;
+        /* Increased z-index to be above mega menu */
     }
 
     .mega-menu {
-        position: fixed;
+        position: absolute;
+        /* Changed from fixed to absolute */
         left: 0;
         right: 0;
+        top: 100%;
+        /* Position relative to header */
         background: var(--background-color-light-mode);
         padding: 2rem 0;
         opacity: 0;
         visibility: hidden;
-        transform: translateY(10px);
+        transform: translateY(-10px);
         transition: all 0.3s ease;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 999;
+        z-index: 1000;
+        /* Below header z-index */
+    }
+
+    /* When header is sticky, adjust mega menu */
+    .sticky .mega-menu {
+        position: absolute;
+        top: 100%;
     }
 
     .mega-menu.active {
