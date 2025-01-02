@@ -66,22 +66,20 @@ document.addEventListener('DOMContentLoaded', function () {
     function navigateForward(nextPanel, title) {
         const currentPanel = menuHistory[menuHistory.length - 1].panel;
         
-        // Prepare panels for animation
-        currentPanel.style.transform = 'translateX(-100%)';
-        nextPanel.style.transform = 'translateX(100%)';
-        nextPanel.style.visibility = 'visible';
+        // Only show header when entering submenu
+        if (menuHistory.length === 1) {
+            document.querySelector('.mobile-menu-header').style.display = 'flex';
+        }
         
-        // Trigger animation
-        requestAnimationFrame(() => {
-            nextPanel.style.transform = 'translateX(0)';
-            nextPanel.classList.add('active');
-        });
-    
+        currentPanel.style.transform = 'translateX(-100%)';
+        nextPanel.style.visibility = 'visible';
+        nextPanel.classList.add('active');
+        nextPanel.style.transform = 'translateX(0)';
+        
         menuHistory.push({ title, panel: nextPanel });
         menuTitle.textContent = title;
         backButton.style.display = 'block';
-        document.querySelector('.mobile-menu-header').style.display = 'flex';
-    }
+     }
 
     // Navigate back (submenu closes, menu comes back from left)
     function navigateBack() {
@@ -118,17 +116,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Reset menu state
     function resetMenuState() {
-        console.log('Resetting Menu State');
-        // Hide all panels
         document.querySelectorAll('.menu-panel').forEach(panel => {
-            panel.classList.remove('active', 'submenu');
+            panel.classList.remove('active');
+            panel.style.transform = '';
+            panel.style.visibility = 'hidden';
         });
-
-        // Reset history
+     
         menuHistory.length = 1;
-        menuHistory[0].panel.classList.add('active');
-        console.log('Menu History after reset:', menuHistory);
-    }
+        const mainPanel = menuHistory[0].panel;
+        mainPanel.style.visibility = 'visible'; 
+        mainPanel.style.transform = 'translateX(0)';
+        mainPanel.classList.add('active');
+        
+        // Hide header when returning to main menu
+        document.querySelector('.mobile-menu-header').style.display = 'none';
+        backButton.style.display = 'none';
+        menuTitle.textContent = 'Menu';
+     }
 
     // Initialize mobile menu
     initializeMobileMenu();
