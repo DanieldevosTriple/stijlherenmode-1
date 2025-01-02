@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    sectionHeader.classList.add('sticky');
+    sectionHeader.classList.add('sticky'); 
 
     let lastScrollY = window.scrollY;
     const visibilityThreshold = 50;
