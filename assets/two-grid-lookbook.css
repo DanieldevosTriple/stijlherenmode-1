@@ -4,12 +4,6 @@
   gap: 1rem;
 }
 
-@media (max-width: 992px) {
-  .two-column-section {
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
-
 .two-column-section .column {
   position: relative;
   width: 100%; /* Zorg ervoor dat de breedte 100% is van de container */
@@ -81,4 +75,18 @@
 
 .product-info .product-price {
   font-weight: 600;
+}
+
+@media (max-width: 992px) {
+  .two-column-section {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .two-column-section .content {
+    padding: 0.5em;
+  }
+
+  .column .content p {
+    display: none;
+  }
 }
