@@ -19,8 +19,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Mobile Menu Functionality
     // ==========================================
     function initializeMobileMenu() {
+        console.log("Initializing mobile menu...");
+        
         // Toggle menu visibility
         hamburgerMenu?.addEventListener('click', () => {
+            console.log("Hamburger menu clicked");
             mobileMenuOverlay.classList.add('show');
             closeMenuButton.classList.add('show');
             hamburgerMenu.classList.add('hidden');
@@ -42,6 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const nextPanel = document.querySelector(`.menu-panel[data-menu="${targetId}"]`);
                 const nextTitle = toggle.closest('.nav-item').querySelector('.nav-link').textContent.trim();
                 
+                console.log("Submenu toggle clicked for:", nextTitle);
+
                 if (nextPanel) {
                     // Show the mobile menu header when opening a submenu
                     document.querySelector('.mobile-menu-header').style.display = 'flex';
@@ -66,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Mobile Menu Navigation Functions
     function navigateForward(nextPanel, title) {
+        console.log("Navigating forward to:", title);
         const currentPanel = menuHistory[menuHistory.length - 1].panel;
         
         // Slide animation
@@ -95,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function navigateBack() {
+        console.log("Navigating back...");
         if (menuHistory.length > 1) {
             // Slide animation
             menuContainer.style.transform = 'translateX(100%)';
@@ -125,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }    
 
     function closeMobileMenu() {
+        console.log("Closing mobile menu...");
         mobileMenuOverlay.classList.remove('show');
         closeMenuButton.classList.remove('show');
         hamburgerMenu.classList.remove('hidden');
@@ -148,17 +156,21 @@ document.addEventListener('DOMContentLoaded', function () {
     // Desktop Menu Functionality (Mega Menu)
     // ==========================================
     const desktopNavItems = document.querySelectorAll('.nav-item');
+    console.log("Desktop navigation items found:", desktopNavItems.length);
 
     // Show mega-menu on hover
     desktopNavItems.forEach(item => {
         const megaMenu = item.querySelector('.mega-menu');
-
         if (megaMenu) {
+            console.log("Mega menu found for item:", item);
+
             item.addEventListener('mouseenter', function () {
+                console.log("Mouse entered item, showing mega menu.");
                 megaMenu.style.display = 'block';
             });
 
             item.addEventListener('mouseleave', function () {
+                console.log("Mouse left item, hiding mega menu.");
                 megaMenu.style.display = 'none';
             });
         }
@@ -177,6 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
             columns = 4;
         }
 
+        console.log(`Updating mega menu columns to: ${columns}`);
         megaMenu.querySelector('.mega-menu__content').style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
     }
 
