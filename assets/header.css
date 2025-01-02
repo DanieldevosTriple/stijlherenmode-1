@@ -233,6 +233,7 @@ li.search {
 .back-button svg {
     width: 20px;
     height: 20px;
+    transform: scaleX(-1);
 }
 
 .menu-container {
