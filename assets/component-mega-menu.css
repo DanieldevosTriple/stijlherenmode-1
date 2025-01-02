@@ -131,3 +131,87 @@
 .mega-menu__list--condensed .mega-menu__link {
   font-weight: normal;
 }
+
+/* ========================================== */
+/* Mobile Menu Drawer Effect (submenu) */
+/* ========================================== */
+
+/* Basisstyling voor menu-container */
+.menu-container {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+/* Panelen in het menu */
+.menu-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+}
+
+.menu-panel.active {
+  display: block;
+}
+
+/* Submenu drawer effect (van rechts) */
+.menu-panel.submenu {
+  transform: translateX(100%); /* Begin buiten beeld aan de rechterkant */
+  transition: transform 0.3s ease;
+}
+
+.menu-panel.submenu.active {
+  transform: translateX(0); /* Beweeg het naar binnen */
+}
+
+/* Sluiten van het submenu (beweegt naar rechts) */
+.menu-panel.submenu.close {
+  transform: translateX(100%); /* Verplaats naar buiten */
+}
+
+/* Mega-menu voor mobiele weergave */
+.mega-menu-container.mobile-menu-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Overlay */
+  display: none;
+  z-index: 9999;
+}
+
+/* Overlay zichtbaar maken bij klikken op hamburger */
+.mega-menu-container.mobile-menu-container.show {
+  display: block;
+}
+
+/* Submenu transition naar rechts */
+.mega-menu-container.mobile-menu-container .submenu {
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.mega-menu-container.mobile-menu-container .submenu.active {
+  transform: translateX(0);
+}
+
+/* Terugknop voor mobiele weergave */
+.back-button {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: #fff;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+/* Toont de terugknop bij submenu-navigatie */
+.mega-menu-container.mobile-menu-container .submenu.active + .back-button {
+  display: block;
+}
