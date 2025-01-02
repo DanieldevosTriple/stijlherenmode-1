@@ -45,6 +45,8 @@
     height: 100%;
     box-sizing: border-box;
     padding: 0.5rem 0rem;
+    position: relative;
+    z-index: 1003; /* Ensure this is higher than other sections */
 }
 
 .logo {
@@ -184,12 +186,12 @@ li.search {
 /* Mobile Menu Styles */
 .mobile-menu-overlay {
     position: fixed;
-    top: 0;
+    top: 80px; /* Adjust to the height of the header */
     left: 0;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 80px); /* Ensure it fits under the header */
     background-color: var(--background-color-light-mode);
-    z-index: 9999;
+    z-index: 5;
     visibility: hidden;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
