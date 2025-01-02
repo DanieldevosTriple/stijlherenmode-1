@@ -1,4 +1,4 @@
-/* Reset */
+/* Base state */
 .mega-menu-container {
   display: none;
   position: fixed;
@@ -6,13 +6,23 @@
   left: 0;
   width: 100%;
   background: rgb(var(--color-background));
-  z-index: 98;  /* Below header but above other content */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 98;
 }
 
-/* Enable hover */
+.mega-menu {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Hover states */
 .nav-item.has-megamenu:hover .mega-menu-container {
   display: block;
+}
+
+.nav-item.has-megamenu:hover .mega-menu {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Keep visible while hovering mega menu */
@@ -20,11 +30,9 @@
   display: block;
 }
 
-/* Mega-menu styling */
-.mega-menu {
-  background-color: rgb(var(--color-background));
-  border-radius: 0;
-  padding: 3rem 0;
+.mega-menu-container:hover .mega-menu {
+  opacity: 1;
+  visibility: visible;
 }
 
 .mega-menu .container {
