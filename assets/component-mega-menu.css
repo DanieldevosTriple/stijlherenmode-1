@@ -1,16 +1,20 @@
-/* Mega Menu */
 .mega-menu-container {
   display: none;
-  /* Verberg het mega-menu standaard */
   position: absolute;
-  /* Positioneer het buiten de header */
-  top: 100%;
-  /* Plaats het onder de header */
+  top: var(--header-height, 80px);
   left: 0;
   width: 100%;
-  /* Zorg ervoor dat het menu de volledige breedte heeft */
-  z-index: 9999;
-  /* Zet het menu boven andere elementen */
+  background: rgb(var(--color-background));
+  z-index: 99;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-item.has-megamenu:hover .mega-menu-container {
+  display: block;
+}
+
+.sticky-header .mega-menu-container {
+  position: fixed;
 }
 
 /* Toon het mega-menu bij hover op het nav-item */

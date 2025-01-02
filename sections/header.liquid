@@ -82,7 +82,26 @@
                     <a class="nav-link {% if link.active %}active{% endif %}" href="{{ link.url }}">
                       {{ link.title }}
                     </a>
-                    {% comment %}Remove the mega menu from here since it's now after sticky-header{% endcomment %}
+                    {% if link.links.size > 0 and section.settings.enable_mega_menu %}
+                      <div class="mega-menu-container">
+                          <div class="mega-menu">
+                              <div class="container">
+                                  {% for child_link in link.links %}
+                                      <div class="col-md-3">
+                                          <h3>{{ child_link.title }}</h3>
+                                          {% if child_link.links.size > 0 %}
+                                              <ul class="mega-submenu">
+                                                  {% for grandchild_link in child_link.links %}
+                                                      <li><a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+                                                  {% endfor %}
+                                              </ul>
+                                          {% endif %}
+                                      </div>
+                                  {% endfor %}
+                              </div>
+                          </div>
+                      </div>
+                  {% endif %}
                   </li>
                 {% endfor %}
               </ul>
