@@ -173,6 +173,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log("Mouse left item, hiding mega menu.");
                 megaMenu.style.display = 'none';
             });
+        } else {
+            console.log("No mega menu found for item:", item);
         }
     });
 
