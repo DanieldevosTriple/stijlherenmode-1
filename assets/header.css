@@ -441,7 +441,7 @@ li.search {
 .mega-menu .col-md-3 {
     flex: 0 0 25%;
     max-width: 25%;
-    padding: 0px;
+    padding: 0px; /* Remove padding */
 }
 
 .mega-menu h3 {
