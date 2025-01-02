@@ -154,6 +154,7 @@ footer .interests input[type=checkbox]:checked::after {
     flex-wrap: wrap;
     padding-top: 0;
     row-gap: 1.5rem;
+    order: 3;
   }
 
   .footer__content-bottom-wrapper {
@@ -187,6 +188,7 @@ footer .interests input[type=checkbox]:checked::after {
     padding-left: 0px;
     padding-top: 5rem;
     padding-bottom: 0rem;
+    order: 2;
   }
 
   .footer__copyright {
@@ -435,6 +437,7 @@ footer .interests input[type=checkbox]:checked::after {
     flex-direction: column;
     flex: 1 1 100%;
     gap: 3rem;
+    order: 1;
   }
 
   .footer__list-social.list-social,
