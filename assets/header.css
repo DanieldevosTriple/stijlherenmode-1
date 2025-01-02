@@ -157,7 +157,7 @@ li.search {
     gap: 2rem !important; /* Add gap */
 }
 
-.nav-link {
+.navbar-expand-lg .navbar-nav .nav-link {
     padding-right: 0rem;
     padding-left: 0rem;
 }
