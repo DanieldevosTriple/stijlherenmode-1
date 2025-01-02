@@ -184,10 +184,6 @@ footer .interests input[type=checkbox]:checked::after {
 
   .footer__content-top {
     display: block;
-    padding-right: 0px;
-    padding-left: 0px;
-    padding-top: 5rem;
-    padding-bottom: 0rem;
     order: 2;
   }
 
