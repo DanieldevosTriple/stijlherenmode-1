@@ -1,5 +1,92 @@
+/* Zorg ervoor dat het mega-menu verborgen is bij standaardweergave */
 .mega-menu {
-  position: static;
+  display: none;
+  position: absolute;
+  top: 100%; /* Plaats onder het nav-item */
+  left: 0;
+  right: 0;
+  background-color: rgb(var(--color-background));
+  border-radius: 0;
+  z-index: 10;
+}
+
+/* Toon het mega-menu bij hover over nav-item */
+.nav-item:hover .mega-menu {
+  display: block;
+}
+
+/* Standaard styling voor de mega-menu inhoud */
+.mega-menu__content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Standaard 4 kolommen */
+  gap: 1.5rem;
+  padding: 3rem;
+  max-width: 100%; /* Zorg ervoor dat de mega-menu niet breder wordt dan de container */
+  box-sizing: border-box;
+}
+
+/* Responsieve kolommen aanpassen voor grotere schermen */
+@media (max-width: 1200px) {
+  .mega-menu__content {
+    grid-template-columns: repeat(3, 1fr); /* 3 kolommen voor grotere schermen */
+  }
+}
+
+@media (max-width: 992px) {
+  .mega-menu__content {
+    grid-template-columns: repeat(2, 1fr); /* 2 kolommen voor kleinere schermen */
+  }
+}
+
+/* Desktop-specifieke stijlen (hoe het mega-menu eruit ziet op desktop) */
+.mega-menu__link {
+  color: rgba(var(--color-foreground), 0.75);
+  display: block;
+  padding: 0.6rem 0;
+  text-decoration: none;
+  transition: text-decoration var(--duration-short) ease;
+}
+
+/* Verhoog de zichtbaarheid van actieve links en hover-effecten */
+.mega-menu__link:hover,
+.mega-menu__link--active {
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+}
+
+.mega-menu__link--active:hover {
+  text-decoration-thickness: 0.2rem;
+}
+
+/* Zorg ervoor dat mega-menu content goed wordt weergegeven onder de header */
+.shopify-section-header-sticky .mega-menu__content {
+  max-height: calc(100vh - var(--header-bottom-position-desktop, 20rem) - 4rem);
+}
+
+/* Sticky header specifieke mega-menu stijl */
+.header-wrapper--border-bottom .mega-menu__content {
+  border-top: 0;
+}
+
+/* Zorg ervoor dat het mega-menu visueel goed wordt weergegeven */
+.mega-menu[open] .mega-menu__content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mega-menu .mega-menu__list {
+  display: grid;
+  gap: 1.8rem 4rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  list-style: none;
+}
+
+.mega-menu__list--condensed {
+  display: block;
+}
+
+.mega-menu__list--condensed .mega-menu__link {
+  font-weight: normal;
 }
 
 .mega-menu__content {
