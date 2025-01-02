@@ -778,6 +778,7 @@ footer .interests input[type=checkbox]:checked::after {
   background-color: rgb(241, 241, 241);
   color: black;
   border-radius: 0px;
+  border: 0px;
 }
 
 .disclaimer {
