@@ -32,7 +32,7 @@
 }
 
 /* Mobile swipe overlay */
-@media (max-width: 768px) {
+@media (max-width: 991px) {
     .slider-wrapper:before {
         content: '';
         position: absolute;
@@ -64,7 +64,7 @@
 }
 
 /* Desktop arrows */
-@media (min-width: 769px) {
+@media (min-width: 992px) {
 
     .prev,
     .next {
@@ -103,7 +103,7 @@
 }
 
 /* Mobile dots */
-@media (max-width: 768px) {
+@media (max-width: 991px) {
 
     .prev,
     .next {
@@ -133,7 +133,7 @@
 }
 
 /* Maak de dots groter of anders op mobiel */
-@media (max-width: 768px) {
+@media (max-width: 991px) {
     .dot {
         width: 10px;
         height: 10px;
