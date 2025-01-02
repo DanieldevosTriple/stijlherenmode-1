@@ -98,4 +98,8 @@
     max-width: 30px;
     height: auto;
   }
+
+  .product-info p {
+    margin-bottom: 1px;
+  }
 }
