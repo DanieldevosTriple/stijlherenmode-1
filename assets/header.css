@@ -203,6 +203,14 @@ li.search {
 
 .mobile-menu-header {
     display: none; /* Standaard verbergen */
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #f2f2f2;
+    position: relative;
+    background-color: #eee;
+    color: #000;
 }
 
 .current-menu-title {
