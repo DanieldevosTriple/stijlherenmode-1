@@ -150,11 +150,11 @@ li.search {
 }
 
 .navbar-nav {
-    gap: 2rem !important;
+    gap: 2rem !important; /* Add gap */
 }
 
 .search-cart {
-    gap: 2rem !important;
+    gap: 2rem !important; /* Add gap */
 }
 
 .navbar-nav .nav-link {
