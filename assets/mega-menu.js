@@ -44,8 +44,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     backButton.style.display = 'block'; // Show back button
                     menuTitle.textContent = nextTitle;
 
-                    // Show the next panel as a drawer sliding from the right
+                    // Eerst de volgende panel zichtbaar maken en daarna de transitie toepassen
                     nextPanel.classList.add('active', 'submenu');
+                    setTimeout(() => {
+                        // Pas de transitie toe van rechts naar links
+                        nextPanel.style.transform = 'translateX(0)';
+                    }, 10); // Dit zorgt ervoor dat de transitie wordt uitgevoerd
                     navigateForward(nextPanel, nextTitle);
                 }
             });
