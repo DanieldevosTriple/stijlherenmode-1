@@ -50,11 +50,12 @@
 }
 
 .product-info p {
-  text-align: center;
+  text-align: left;
   font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;
   font-family: TradeGothicLT;
+  color: black;
 }
 
 .product-link {
