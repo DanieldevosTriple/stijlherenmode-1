@@ -1669,6 +1669,7 @@ input[type='checkbox'] {
   min-height: 3.8rem;
   margin-bottom: 0px !important;
   text-decoration: underline;
+  line-height: 1.82;
 }
 
 .announcement-bar-slider--fade-in-next .announcement-bar__message,
