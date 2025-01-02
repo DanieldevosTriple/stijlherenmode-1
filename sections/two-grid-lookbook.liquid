@@ -64,45 +64,53 @@
 {% endschema %}
 
 <div class="col-12 two-column-section">
-  <div class="column left-column">
+  <div class="column left-column" style="background-image: url('{{ section.settings.left_column_image | image_url }}');">
+    <div class="content">
+      <h5 class="card-title">{{ section.settings.left_column_header }}</h5>
+      <p>{{ section.settings.left_column_subhead }}</p>
+    </div>
     {% if section.settings.left_column_collection %}
-      <a href="{{ section.settings.left_column_collection.url }}">
-    {% endif %}
-      <img src="{{ section.settings.left_column_image | image_url }}" height="" width="" alt="Left Column Image">
-      <div class="badge">
-        {% if section.settings.left_column_collection %}
-          {{ section.settings.left_column_collection.all_products_count }} articles
-        {% else %}
-          0 articles
-        {% endif %}
+      <div class="product-block">
+        {% assign product_count = 0 %}
+        {% for product in section.settings.left_column_collection.products limit: 3 %}
+          {% if product_count < 3 %}
+            <div class="product-item">
+              <a href="{{ product.url }}">
+                <img src="{{ product.featured_image | image_url: 'small' }}" height="" width="" alt="{{ product.title }}">
+                <div class="product-info">
+                  <p>{{ product.title }}</p>
+                </div>
+              </a>
+            </div>
+            {% assign product_count = product_count | plus: 1 %}
+          {% endif %}
+        {% endfor %}
       </div>
-      <div class="card-body text-left">
-        <h5 class="card-title">{{ section.settings.left_column_header }}</h5>
-        <p>{{ section.settings.left_column_subhead }}</p>
-      </div>
-    {% if section.settings.left_column_collection %}
-      </a>
     {% endif %}
   </div>
   
-  <div class="column right-column">
+  <div class="column right-column" style="background-image: url('{{ section.settings.right_column_image | image_url }}');">
+    <div class="content">
+      <h5 class="card-title">{{ section.settings.right_column_header }}</h5>
+      <p>{{ section.settings.right_column_subhead }}</p>
+    </div>
     {% if section.settings.right_column_collection %}
-      <a href="{{ section.settings.right_column_collection.url }}">
-    {% endif %}
-      <img src="{{ section.settings.right_column_image | image_url }}" height="" width="" alt="Right Column Image">
-      <div class="badge">
-        {% if section.settings.right_column_collection %}
-          {{ section.settings.right_column_collection.all_products_count }} articles
-        {% else %}
-          0 articles
-        {% endif %}
+      <div class="product-block">
+        {% assign product_count = 0 %}
+        {% for product in section.settings.right_column_collection.products limit: 3 %}
+          {% if product_count < 3 %}
+            <div class="product-item">
+              <a href="{{ product.url }}">
+                <img src="{{ product.featured_image | image_url: 'small' }}" height="" width="" alt="{{ product.title }}">
+                <div class="product-info">
+                  <p>{{ product.title }}</p>
+                </div>
+              </a>
+            </div>
+            {% assign product_count = product_count | plus: 1 %}
+          {% endif %}
+        {% endfor %}
       </div>
-      <div class="card-body text-left">
-        <h5 class="card-title">{{ section.settings.right_column_header }}</h5>
-        <p>{{ section.settings.right_column_subhead }}</p>
-      </div>
-    {% if section.settings.right_column_collection %}
-      </a>
     {% endif %}
   </div>
 </div>
