@@ -296,7 +296,6 @@ li.search {
     align-items: center;
     background: none;
     border: none;
-    border-bottom: 1px solid #f2f2f2;
     font-size: 1.4rem;
     text-transform: uppercase;
     cursor: pointer;
@@ -307,11 +306,9 @@ li.search {
 
 .nav-item {
     position: relative;
-    font-size: 1.5rem;
 }
 
 .mobile-menu .nav-item:not(:last-child) {
-    padding: 10px 0;
     font-family: TradeGothicLT;
     text-transform: uppercase;
     border-bottom: 1px solid rgb(242, 242, 242);

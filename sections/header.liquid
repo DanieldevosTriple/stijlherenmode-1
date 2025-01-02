@@ -167,9 +167,11 @@
                         </button>
                       </div>
                     {% else %}
+                    <div class="menu-item-wrapper">
                       <a class="nav-link {% if link.active %}active{% endif %}" href="{{ link.url }}">
                         {{ link.title }}
                       </a>
+                    </div>
                     {% endif %}
                   </li>
                 {% endfor %}
