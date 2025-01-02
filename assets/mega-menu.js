@@ -13,9 +13,12 @@ document.addEventListener('DOMContentLoaded', function () {
         panel: document.querySelector('.menu-panel[data-level="0"]')
     }];
 
+    console.log('Menu Initialized', menuHistory);
+
     // Mobile Menu Functionality
     function initializeMobileMenu() {
         hamburgerMenu?.addEventListener('click', () => {
+            console.log('Hamburger Menu Clicked');
             mobileMenuOverlay.classList.add('show');
             closeMenuButton.classList.add('show');
             hamburgerMenu.classList.add('hidden');
@@ -34,11 +37,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 const nextPanel = document.querySelector(`.menu-panel[data-menu="${targetId}"]`);
                 const nextTitle = toggle.closest('.nav-item').querySelector('.nav-link').textContent.trim();
 
+                console.log(`Submenu Toggle Clicked: ${nextTitle}`);
+
                 if (nextPanel) {
-                    document.querySelector('.mobile-menu-header').style.display = 'flex';
-                    backButton.style.display = 'block';
+                    document.querySelector('.mobile-menu-header').style.display = 'flex'; // Show header for submenu
+                    backButton.style.display = 'block'; // Show back button
                     menuTitle.textContent = nextTitle;
-                    
+
                     // Show the next panel as a drawer sliding from the right
                     nextPanel.classList.add('active', 'submenu');
                     navigateForward(nextPanel, nextTitle);
@@ -59,54 +64,67 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Navigate forward (submenu sliding in from the right)
     function navigateForward(nextPanel, title) {
-        const currentPanel = menuHistory[menuHistory.length - 1].panel;
-        
-        // Verberg de hoofdmenu header en toon de submenu header bij het openen van een submenu
-        document.querySelector('.mobile-menu-header').style.display = 'flex'; // Toon de header bij submenu
+        console.log(`Navigating Forward: ${title}`);
 
-        // Verberg de huidige panel
+        const currentPanel = menuHistory[menuHistory.length - 1].panel;
+        console.log('Current Panel:', currentPanel);
+
+        // Show the header for submenu
+        document.querySelector('.mobile-menu-header').style.display = 'flex';
+
+        // Hide the current panel
         currentPanel.classList.remove('active');
         
-        // Toon de volgende panel (submenu)
+        // Show the next panel (submenu)
         nextPanel.classList.add('active');
         
-        // Update de menu geschiedenis
+        // Update the menu history
         menuHistory.push({
             title: title,
             panel: nextPanel
         });
 
-        // Update de titel en toon de back-knop
+        // Update title and show the back button
         menuTitle.textContent = title;
         backButton.style.display = 'block';
+
+        console.log('Menu History after forward navigation:', menuHistory);
     }
 
     // Navigate back (submenu closes, menu comes back from left)
     function navigateBack() {
         if (menuHistory.length > 1) {
             const currentPanel = menuHistory[menuHistory.length - 1].panel;
-            currentPanel.classList.add('close');  // Sluit het huidige submenu (beweegt naar rechts)
+            console.log('Navigating Back from Panel:', currentPanel);
+
+            currentPanel.classList.add('close');  // Close the current submenu (slide to the right)
 
             setTimeout(() => {
-                // Verwijder de actieve klasse en reset de positie
+                // Remove active class and reset position
                 currentPanel.classList.remove('active', 'close');
                 
                 const previousState = menuHistory[menuHistory.length - 2];
                 const previousPanel = previousState.panel;
-                
-                // Toon het vorige paneel (hoofdmenu)
+                console.log('Returning to Previous Panel:', previousPanel);
+
+                // Show the previous panel (main menu)
                 previousPanel.classList.add('active');
                 menuTitle.textContent = previousState.title;
                 
-                // Verberg de terugknop en de header bij terug naar het hoofdmenu
+                // Hide the back button and the header when returning to the main menu
                 backButton.style.display = menuHistory.length > 1 ? 'block' : 'none';
-                document.querySelector('.mobile-menu-header').style.display = 'none'; // Verberg de header bij het hoofdmenu
+                document.querySelector('.mobile-menu-header').style.display = 'none'; // Hide the header at main menu
+
+                console.log('Menu History after back navigation:', menuHistory);
             }, 300);
+        } else {
+            console.log('Already at the main menu, no further back navigation possible.');
         }
     }
 
     // Close the mobile menu
     function closeMobileMenu() {
+        console.log('Closing Mobile Menu');
         mobileMenuOverlay.classList.remove('show');
         closeMenuButton.classList.remove('show');
         hamburgerMenu.classList.remove('hidden');
@@ -116,14 +134,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Reset menu state
     function resetMenuState() {
+        console.log('Resetting Menu State');
         // Hide all panels
         document.querySelectorAll('.menu-panel').forEach(panel => {
             panel.classList.remove('active', 'submenu');
         });
-        
+
         // Reset history
         menuHistory.length = 1;
         menuHistory[0].panel.classList.add('active');
+        console.log('Menu History after reset:', menuHistory);
     }
 
     // Initialize mobile menu

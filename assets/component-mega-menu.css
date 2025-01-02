@@ -1,16 +1,22 @@
 /* Mega Menu */
 .mega-menu-container {
-  display: none; /* Verberg het mega-menu standaard */
-  position: absolute; /* Positioneer het buiten de header */
-  top: 100%; /* Plaats het onder de header */
+  display: none;
+  /* Verberg het mega-menu standaard */
+  position: absolute;
+  /* Positioneer het buiten de header */
+  top: 100%;
+  /* Plaats het onder de header */
   left: 0;
-  width: 100%; /* Zorg ervoor dat het menu de volledige breedte heeft */
-  z-index: 9999; /* Zet het menu boven andere elementen */
+  width: 100%;
+  /* Zorg ervoor dat het menu de volledige breedte heeft */
+  z-index: 9999;
+  /* Zet het menu boven andere elementen */
 }
 
 /* Toon het mega-menu bij hover op het nav-item */
-.nav-item.has-megamenu:hover + .mega-menu-container {
-  display: block; /* Maak het mega-menu zichtbaar bij hover */
+.nav-item.has-megamenu:hover+.mega-menu-container {
+  display: block;
+  /* Maak het mega-menu zichtbaar bij hover */
 }
 
 /* Mega-menu styling */
@@ -109,7 +115,7 @@
   column-gap: 0;
 }
 
-.header--top-center .mega-menu__list > li {
+.header--top-center .mega-menu__list>li {
   width: 16%;
   padding-right: 2.4rem;
 }
@@ -134,12 +140,14 @@
 
 /* Zorg ervoor dat de mobile-menu-header standaard verborgen is */
 .mobile-menu-header {
-  display: none; /* Verberg de header standaard */
+  display: none;
+  /* Verberg de header standaard */
 }
 
 /* Toon de mobile-menu-header wanneer een submenu actief is */
-.menu-panel.submenu.active ~ .mobile-menu-header {
-  display: flex; /* Toon de header alleen als een submenu actief is */
+.menu-panel.submenu.active~.mobile-menu-header {
+  display: flex;
+  /* Toon de header alleen als een submenu actief is */
 }
 
 
@@ -169,18 +177,21 @@
 
 /* Zorg ervoor dat de submenu's standaard buiten het scherm beginnen (rechts) */
 .menu-panel.submenu {
-  transform: translateX(100%); /* Begin buiten het scherm aan de rechterkant */
+  transform: translateX(100%);
+  /* Begin buiten het scherm aan de rechterkant */
   transition: transform 0.3s ease-in-out;
 }
 
 /* Het submenu komt van rechts als het geactiveerd wordt */
 .menu-panel.submenu.active {
-  transform: translateX(0); /* Beweeg het naar binnen */
+  transform: translateX(0);
+  /* Beweeg het naar binnen */
 }
 
 /* Teruggaan naar het vorige submenu, schuift naar links */
 .menu-panel.submenu.close {
-  transform: translateX(100%); /* Verplaats naar buiten */
+  transform: translateX(100%);
+  /* Verplaats naar buiten */
 }
 
 /* Mega-menu voor mobiele weergave */
@@ -190,7 +201,8 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Overlay */
+  background-color: rgba(0, 0, 0, 0.7);
+  /* Overlay */
   display: none;
   z-index: 9999;
 }
@@ -223,6 +235,6 @@
 }
 
 /* Toont de terugknop bij submenu-navigatie */
-.mega-menu-container.mobile-menu-container .submenu.active + .back-button {
+.mega-menu-container.mobile-menu-container .submenu.active+.back-button {
   display: block;
 }
