@@ -61,42 +61,48 @@ document.addEventListener('DOMContentLoaded', function () {
     function navigateForward(nextPanel, title) {
         const currentPanel = menuHistory[menuHistory.length - 1].panel;
         
-        // Slide current panel out
+        // Verberg de hoofdmenu header en toon de submenu header bij het openen van een submenu
+        document.querySelector('.mobile-menu-header').style.display = 'flex'; // Toon de header bij submenu
+    
+        // Verberg de huidige panel
         currentPanel.classList.remove('active');
-
-        // Slide next panel in from the right
+        
+        // Toon de volgende panel (submenu)
         nextPanel.classList.add('active');
-
-        // Update menu history
+        
+        // Update de menu geschiedenis
         menuHistory.push({
             title: title,
             panel: nextPanel
         });
-
-        // Show back button and update title
+    
+        // Update de titel en toon de back-knop
         menuTitle.textContent = title;
+        backButton.style.display = 'block';
     }
-
-    // Navigate back (submenu closes, menu comes back from left)
+    
     function navigateBack() {
         if (menuHistory.length > 1) {
             const currentPanel = menuHistory[menuHistory.length - 1].panel;
-            currentPanel.classList.add('close');  // Close current submenu (slide out)
-
+            currentPanel.classList.add('close');  // Sluit het huidige submenu (beweegt naar rechts)
+    
             setTimeout(() => {
-                // Remove active class and reset position
+                // Verwijder de actieve klasse en reset de positie
                 currentPanel.classList.remove('active', 'close');
                 
                 const previousState = menuHistory[menuHistory.length - 2];
                 const previousPanel = previousState.panel;
                 
-                // Show previous panel
+                // Toon het vorige paneel (hoofdmenu)
                 previousPanel.classList.add('active');
                 menuTitle.textContent = previousState.title;
+                
+                // Verberg de terugknop en de header bij terug naar het hoofdmenu
                 backButton.style.display = menuHistory.length > 1 ? 'block' : 'none';
+                document.querySelector('.mobile-menu-header').style.display = 'none'; // Verberg de header bij het hoofdmenu
             }, 300);
         }
-    }
+    }    
 
     // Close the mobile menu
     function closeMobileMenu() {

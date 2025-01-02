@@ -132,6 +132,17 @@
   font-weight: normal;
 }
 
+/* Zorg ervoor dat de mobile-menu-header standaard verborgen is */
+.mobile-menu-header {
+  display: none; /* Verberg de header standaard */
+}
+
+/* Toon de mobile-menu-header wanneer een submenu actief is */
+.menu-panel.submenu.active ~ .mobile-menu-header {
+  display: flex; /* Toon de header alleen als een submenu actief is */
+}
+
+
 /* ========================================== */
 /* Mobile Menu Drawer Effect (submenu) */
 /* ========================================== */
