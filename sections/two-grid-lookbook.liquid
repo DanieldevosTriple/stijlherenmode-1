@@ -100,7 +100,7 @@
         {% for product in section.settings.right_column_collection.products limit: 3 %}
           {% if product_count < 3 %}
             <div class="product-item">
-              <a href="{{ product.url }}">
+              <a href="{{ product.url }}" class="product-link">
                 <img src="{{ product.featured_image | image_url }}" height="" width="" alt="{{ product.title }}">
                 <div class="product-info">
                   <p>{{ product.title }}</p>
