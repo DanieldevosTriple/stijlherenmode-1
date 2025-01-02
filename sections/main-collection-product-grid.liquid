@@ -14,7 +14,7 @@
           {
             "id": {{ variant.id }},
             "color": "{{ variant.option1 }}",
-            "image": "{{ variant.image | img_url: 'medium' }}"
+            "image": "{{ variant.image | image_url }}"
           }
           {% unless forloop.last %},{% endunless %}
         {% endfor %}
