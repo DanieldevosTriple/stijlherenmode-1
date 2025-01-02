@@ -93,7 +93,7 @@
               {% assign menu = linklists[section.settings.menu] %}
               <ul class="navbar-nav">
                 {% for link in menu.links %}
-                  <li class="nav-item">
+                  <li class="nav-item {% if link.links.size > 0 %}has-mega-menu{% endif %}">
                     <a class="nav-link {%if link.active %}active{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
 
                     <!-- Mega Menu for Sub-menu links -->
