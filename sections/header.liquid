@@ -157,7 +157,9 @@
                 </a>
                 {% if link.links.size > 0 %}
                   <span class="submenu-toggle">
-                    {% render 'icon-arrow-right' %}
+                    <svg class="mobile-facets__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 18l6-6-6-6"></path>
+                    </svg>
                   </span>
                   <ul class="submenu-panel" data-parent="{{ link.title }}">
                     {% for child_link in link.links %}
@@ -165,7 +167,9 @@
                         <a href="{{ child_link.url }}">{{ child_link.title }}</a>
                         {% if child_link.links.size > 0 %}
                           <span class="submenu-toggle">
-                            {% render 'icon-arrow-right' %}
+                            <svg class="mobile-facets__arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <path d="M9 18l6-6-6-6"></path>
+                            </svg>
                           </span>
                           <ul class="submenu-panel" data-parent="{{ child_link.title }}">
                             {% for grandchild_link in child_link.links %}
