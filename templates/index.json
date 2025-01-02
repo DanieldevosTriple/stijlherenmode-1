@@ -278,6 +278,7 @@
     },
     "two_grid_lookbook_FtX8f4": {
       "type": "two-grid-lookbook",
+      "disabled": true,
       "settings": {
         "left_column_image": "shopify://shop_images/Jassen.png",
         "right_column_image": "shopify://shop_images/Frame_31_1128949d-fa44-4798-8d36-c7e5a51af18c.png",
