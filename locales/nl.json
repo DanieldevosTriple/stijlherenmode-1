@@ -8,6 +8,7 @@
  * ------------------------------------------------------------
  */
 {
+  "cart": "Winkelwagen",
   "general": {
     "Cart": "Winkelwagen",
     "Search": "Zoeken",

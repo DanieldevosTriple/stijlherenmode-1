@@ -23,7 +23,7 @@
                 preload="auto"
                 defaultMuted
                 webkit-playsinline>
-                <source src="{{ block.settings.video_url }}" type="video/mp4">
+                <source src="{{ block.settings.video_url | asset_url }}" type="video/mp4">
               </video>
             </div>
             {% endif %}

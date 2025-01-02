@@ -1,14 +1,15 @@
 {{ 'featured-banner.css' | asset_url | stylesheet_tag }}
 
 <section class="featured-banner" style="height: {{ section.settings.banner_height }}px;">
-  <a href="{{ section.settings.link_to_collection | link }}" class="featured-banner__link" {% if section.settings.link_to_collection == blank %}style="pointer-events: none;"{% endif %}>
+  <a href="{{ section.settings.link_to_collection }}" class="featured-banner__link" {% if section.settings.link_to_collection == blank %}style="pointer-events: none;"{% endif %}>
     <div class="featured-banner__content">
       <!-- Desktop Image -->
       <img 
         src="{{ section.settings.image | image_url }}" 
         alt="{{ section.settings.image_alt }}" 
         class="featured-banner__image featured-banner__image--desktop"
-        style="width: 100%; height: {{ section.settings.banner_height }}px;">
+        style="width: 100%; height: {{ section.settings.banner_height }}px;"
+      width="" height="">
       
       <!-- Mobile Image -->
       {% if section.settings.mobile_image != blank %}
@@ -16,7 +17,8 @@
           src="{{ section.settings.mobile_image | image_url }}" 
           alt="{{ section.settings.image_alt }}" 
           class="featured-banner__image featured-banner__image--mobile"
-          style="width: 100%; height: 100%;">
+          style="width: 100%; height: 100%;"
+          width="" height="">
       {% endif %}
       
       {% if section.settings.logo != blank %}
@@ -24,7 +26,8 @@
           src="{{ section.settings.logo | image_url }}" 
           alt="Banner Logo" 
           class="featured-banner__logo"
-          style="width: 150px; height: 100%;">
+          style="width: 150px; height: 100%;"
+          width="" height="">
       {% endif %}
 
       <!-- Quote Section -->
@@ -96,8 +99,7 @@
   ],
   "presets": [
     {
-      "name": "Featured Banner",
-      "category": "Custom"
+      "name": "Featured Banner"
     }
   ]
 }
