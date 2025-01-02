@@ -275,6 +275,19 @@
       "settings": {
         "title": "Shop op Merk"
       }
+    },
+    "two_grid_lookbook_etqeMz": {
+      "type": "two-grid-lookbook",
+      "settings": {
+        "left_column_image": "shopify://shop_images/Frame_30.png",
+        "right_column_image": "shopify://shop_images/Jassen.png",
+        "left_column_header": "Explore Our Collection",
+        "left_column_subhead": "Find the perfect pieces to complete your look.",
+        "left_column_collection": "7-for-all-mankind",
+        "right_column_header": "Special Offers",
+        "right_column_subhead": "Exclusive discounts on select items.",
+        "right_column_collection": "aeden"
+      }
     }
   },
   "order": [
@@ -285,6 +298,7 @@
     "two_grid_navigation_cards_gLnhfz",
     "popular_now_tAFG44",
     "featured_product_custom_BpBaCC",
-    "collection_navigation_akMifc"
+    "collection_navigation_akMifc",
+    "two_grid_lookbook_etqeMz"
   ]
 }
