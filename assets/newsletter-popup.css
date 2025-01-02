@@ -64,7 +64,6 @@
       display: inline-flex;
       flex-shrink: 0;
       background-color: #f1f1f1;
-      border-radius: 50%;
       -webkit-appearance: none;
       appearance: none;
       cursor: pointer;
