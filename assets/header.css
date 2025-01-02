@@ -210,6 +210,7 @@ li.search {
     position: relative;
     background-color: #eee;
     color: #000;
+    min-height: 55px;
 }
 
 .current-menu-title {
