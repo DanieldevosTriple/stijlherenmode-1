@@ -98,33 +98,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function navigateBack() {
         if (menuHistory.length > 1) {
-            // Slide animation
+            // Slide animatie
             menuContainer.style.transform = 'translateX(100%)';
             
             setTimeout(() => {
-                // Remove current menu state
+                // Verwijder de huidige menu status
                 menuHistory.pop();
                 const previousState = menuHistory[menuHistory.length - 1];
                 
-                // Hide all panels
+                // Verberg alle panelen
                 document.querySelectorAll('.menu-panel').forEach(panel => {
                     panel.classList.remove('active');
                 });
                 
-                // Show previous panel
+                // Toon het vorige paneel
                 previousState.panel.classList.add('active');
                 
-                // Update title and back button
+                // Herstel de titel en de back-knop
                 menuTitle.textContent = previousState.title;
                 backButton.style.display = menuHistory.length > 1 ? 'block' : 'none';
                 
-                // Reset transform
+                // Reset de transform
                 menuContainer.style.transform = 'translateX(0)';
                 
                 currentLevel--;
             }, 300);
         }
-    }
+    }    
 
     function resetMenuState() {
         // Reset menu history

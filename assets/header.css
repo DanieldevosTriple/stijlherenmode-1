@@ -261,6 +261,7 @@ li.search {
     padding: 0.75rem 1rem;
     display: grid;
     grid-template-columns: 1fr;
+    gap: 0px;
 }
 
 .mobile-menu .nav-item {
@@ -278,7 +279,6 @@ li.search {
 .menu-item-wrapper {
     display: flex;
     align-items: center;
-    padding: 0 0.5rem;
 }
 
 .nav-item {
