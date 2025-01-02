@@ -324,7 +324,7 @@
         "name": "{{ product.title | escape }}",
         "image": [
           {% for image in product.images %}
-            "{{ image | img_url: 'master' }}"{% unless forloop.last %},{% endunless %}
+            "{{ image | image_url }}"{% unless forloop.last %},{% endunless %}
           {% endfor %}
         ],
         "description": "{{ product.description | strip_html | escape }}",
@@ -362,7 +362,7 @@
             "@type": "Product",
             "name": "{{ product.title | escape }}",
             "url": "{{ product.url }}",
-            "image": "{{ product.featured_image | img_url: 'master' }}",
+            "image": "{{ product.featured_image | image_url }}",
             "priceCurrency": "{{ shop.currency }}",
             "price": "{{ product.price | divided_by: 100.0 }}",
             "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
@@ -386,7 +386,7 @@
           "name": "{{ shop.name | escape }}",
           "logo": {
             "@type": "ImageObject",
-            "url": "{{ shop.logo | img_url: 'master' }}"
+            "url": "{{ shop.logo | image_url }}"
           }
         },
         "mainEntity": [
