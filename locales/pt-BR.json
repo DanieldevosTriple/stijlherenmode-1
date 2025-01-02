@@ -29,6 +29,8 @@
         "tiktok": "TikTok"
       }
     },
+    "Cart": "Carrinho",
+    "Search": "Pesquisar",
     "continue_shopping": "Voltar à loja",
     "pagination": {
       "label": "Paginação",
@@ -275,9 +277,27 @@
     }
   },
   "sections": {
+    "main-banner": {
+      "name": "Banner Principal",
+      "settings": {
+        "paragraph": {
+          "content": "Conteúdo do parágrafo"
+        },
+        "show_collection_description": {
+          "label": "Mostrar descrição da coleção"
+        },
+        "color_scheme": {
+          "label": "Esquema de cores"
+        },
+        "hide_on_homepage": {
+          "label": "Ocultar na página inicial"
+        }
+      }
+    },
     "header": {
       "announcement": "Comunicado",
       "menu": "Menu",
+      "cart": "Carrinho",
       "cart_count": {
         "one": "{{ count }} item",
         "other": "{{ count }} itens",
