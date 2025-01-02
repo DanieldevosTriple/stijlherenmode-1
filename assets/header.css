@@ -157,6 +157,11 @@ li.search {
     gap: 2rem !important; /* Add gap */
 }
 
+.nav-link {
+    padding-right: 0rem;
+    padding-left: 0rem;
+}
+
 .navbar-nav .nav-link {
     text-transform: uppercase;
     font-family: TradeGothicLT;
