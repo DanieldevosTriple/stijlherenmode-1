@@ -87,33 +87,22 @@ document.addEventListener('DOMContentLoaded', function () {
     function navigateBack() {
         if (menuHistory.length > 1) {
             const currentPanel = menuHistory[menuHistory.length - 1].panel;
-            console.log('Navigating Back from Panel:', currentPanel);
-
-            currentPanel.classList.add('close');  // Close the current submenu (slide to the right)
-
+            const previousState = menuHistory[menuHistory.length - 2];
+            const previousPanel = previousState.panel;
+    
+            previousPanel.style.visibility = 'visible';
+            previousPanel.classList.add('active');
+            previousPanel.style.transform = 'translateX(0)';
+    
+            currentPanel.style.transform = 'translateX(100%)';
+            
             setTimeout(() => {
-                // Remove active class and reset position
-                currentPanel.classList.remove('active', 'close');
-                
-                const previousState = menuHistory[menuHistory.length - 2];
-                const previousPanel = previousState.panel;
-                console.log('Returning to Previous Panel:', previousPanel);
-
-                // Remove the current submenu from history
+                currentPanel.classList.remove('active');
+                currentPanel.style.visibility = 'hidden';
                 menuHistory.pop();
-
-                // Show the previous panel (main menu)
-                previousPanel.classList.add('active');
                 menuTitle.textContent = previousState.title;
-                
-                // Hide the back button and the header when returning to the main menu
                 backButton.style.display = menuHistory.length > 1 ? 'block' : 'none';
-                document.querySelector('.mobile-menu-header').style.display = 'none'; // Hide the header at main menu
-
-                console.log('Menu History after back navigation:', menuHistory);
             }, 300);
-        } else {
-            console.log('Already at the main menu, no further back navigation possible.');
         }
     }
 

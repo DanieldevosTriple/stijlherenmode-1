@@ -156,13 +156,25 @@
 /* ========================================== */
 
 /* Basisstyling voor menu-container */
-.menu-container {
-  position: relative;
-  transition: transform 0.3s ease;
+.mobile-menu-overlay {
+  background-color: rgb(var(--color-background));
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: none;
+}
+
+.mobile-menu-overlay.show {
+  display: block;
 }
 
 .menu-panel {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   transform: translateX(100%);
@@ -174,7 +186,6 @@
   visibility: visible;
   transform: translateX(0);
 }
-
 /* Zorg ervoor dat de submenu's standaard buiten het scherm beginnen (rechts) */
 .menu-panel.submenu {
   transform: translateX(100%); /* Begin buiten het scherm aan de rechterkant */
