@@ -4,6 +4,12 @@
   gap: 1rem;
 }
 
+@media (max-width: 992) {
+  .two-column-section {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
 .two-column-section .column {
   position: relative;
   width: 100%; /* Zorg ervoor dat de breedte 100% is van de container */
