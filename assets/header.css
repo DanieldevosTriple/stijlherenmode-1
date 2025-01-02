@@ -218,9 +218,10 @@ li.search {
     font-weight: 800;
     text-transform: uppercase;
     margin: 0;
-    text-align: center;
-    flex-grow: 1;
     font-size: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
 }
 
 .back-button {
