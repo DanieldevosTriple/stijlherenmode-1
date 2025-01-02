@@ -9,18 +9,10 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.nav-item.has-megamenu:hover .mega-menu-container {
+/* Show on hover */
+.nav-item.has-megamenu:hover .mega-menu-container,
+.mega-menu-container:hover {
   display: block;
-}
-
-.sticky-header .mega-menu-container {
-  position: fixed;
-}
-
-/* Toon het mega-menu bij hover op het nav-item */
-.nav-item.has-megamenu:hover+.mega-menu-container {
-  display: block;
-  /* Maak het mega-menu zichtbaar bij hover */
 }
 
 /* Mega-menu styling */
