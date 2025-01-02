@@ -22,6 +22,10 @@
   padding: 1rem;
 }
 
+.two-column-section .content p {
+  color: black;
+}
+
 .product-block {
   display: flex;
   flex-direction: column;
