@@ -22,7 +22,7 @@
   padding-left: 0;
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 749px) {
   
   .footer-block__social {
     margin-bottom: unset;
@@ -139,25 +139,13 @@ footer .interests input[type=checkbox]:checked::after {
 }
 
 /* Verberg de toggle knoppen op tablet en desktop */
-@media (min-width: 991px) {
+@media (min-width: 768px) {
   .footer__toggle {
     display: none;
   }
 
   .footer__menu {
     display: block !important;
-  }
-
-  .footer-block--newsletter {
-    order: 2;
-  }
-
-  .footer__content-top {
-    order: 1;
-  }
-
-  .footer__content-bottom {
-    order: 3;
   }
 }
 
@@ -199,7 +187,6 @@ footer .interests input[type=checkbox]:checked::after {
     padding-left: 0px;
     padding-top: 5rem;
     padding-bottom: 0rem;
-    order: 2;
   }
 
   .footer__copyright {
@@ -369,6 +356,7 @@ footer .interests input[type=checkbox]:checked::after {
 .footer-block__heading {
   margin-bottom: 2rem;
   margin-top: 0;
+  font-size: ;
 }
 
 @media screen and (min-width: 990px) {
