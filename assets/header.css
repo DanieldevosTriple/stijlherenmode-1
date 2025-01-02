@@ -338,7 +338,6 @@ li.search {
 .submenu-toggle {
     all: unset;
     cursor: pointer;
-    padding: 0.5rem;
     display: flex;
     align-items: center;
 }
