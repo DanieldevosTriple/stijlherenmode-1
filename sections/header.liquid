@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="{{ 'component-cart-notification.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'header.css' | asset_url }}">
+<link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {%- style -%}
 :root {
@@ -17,6 +18,7 @@
 </script>
 <script src="{{ 'slider-title.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'real-time-cart.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'mega-menu.js' | asset_url }}" defer="defer"></script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -75,8 +77,30 @@
               {% assign menu = linklists[section.settings.menu] %}
               <ul class="navbar-nav">
                 {% for link in menu.links %}
-                  <li class="nav-item">
-                    <a class="nav-link {%if link.active %}active{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+                  <li class="nav-item {% if link.links.size > 0 and section.settings.enable_mega_menu %}has-megamenu{% endif %}">
+                    <a class="nav-link {% if link.active %}active{% endif %}" href="{{ link.url }}">
+                      {{ link.title }}
+                    </a>
+                    {% if link.links.size > 0 and section.settings.enable_mega_menu %}
+                      <div class="mega-menu">
+                        <div class="container">
+                          <div class="row">
+                            {% for child_link in link.links %}
+                              <div class="col-md-3">
+                                <h3>{{ child_link.title }}</h3>
+                                {% if child_link.links.size > 0 %}
+                                  <ul class="mega-submenu">
+                                    {% for grandchild_link in child_link.links %}
+                                      <li><a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+                                    {% endfor %}
+                                  </ul>
+                                {% endif %}
+                              </div>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                    {% endif %}
                   </li>
                 {% endfor %}
               </ul>
@@ -127,19 +151,51 @@
         </div>
         </div>
       </div>
-      <!-- Mobile Mobile -->
+      <!-- Mobile Menu -->
       {% if section.settings.menu != blank %}
         {% assign menu = linklists[section.settings.menu] %}
-        <div class="row mobile-menu-overlay">
+        <div class="mobile-menu-overlay">
+          <div class="mobile-menu-header">
+            <button class="back-button">
+              {% render 'icon-arrow-left' %}
+            </button>
+            <span class="current-menu-title">Menu</span>
+            <button class="close-menu">
+              {% render 'icon-close' %}
+            </button>
+          </div>
+          
           <ul class="mobile-menu">
             {% for link in menu.links %}
-              <li class="nav-item">
-                <a class="nav-link {%if link.active %}active{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+              <li class="nav-item {% if link.links.size > 0 %}has-submenu{% endif %}">
+                <a class="nav-link {% if link.active %}active{% endif %}" href="{{ link.url }}">
+                  {{ link.title }}
+                </a>
+                {% if link.links.size > 0 %}
+                  <span class="submenu-toggle">
+                    {% render 'icon-arrow-right' %}
+                  </span>
+                  <ul class="submenu-panel" data-parent="{{ link.title }}">
+                    {% for child_link in link.links %}
+                      <li class="nav-item {% if child_link.links.size > 0 %}has-submenu{% endif %}">
+                        <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                        {% if child_link.links.size > 0 %}
+                          <span class="submenu-toggle">
+                            {% render 'icon-arrow-right' %}
+                          </span>
+                          <ul class="submenu-panel" data-parent="{{ child_link.title }}">
+                            {% for grandchild_link in child_link.links %}
+                              <li><a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
               </li>
             {% endfor %}
           </ul>
-          <div class="mobile-menu-wrapper"></div>
-          <div class="mobile-menu menu-secondary"></div> 
         </div>
       {% endif %}
   </header>
@@ -211,6 +267,13 @@
       "id": "menu",
       "label": "Select Menu",
       "info": "Choose a menu to display in the header."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mega_menu",
+      "label": "Enable Mega Menu",
+      "default": false,
+      "info": "Enable mega menu for menu items with submenus"
     },
     {
       "type": "checkbox",
