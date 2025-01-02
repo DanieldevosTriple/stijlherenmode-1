@@ -22,7 +22,7 @@
   padding-left: 0;
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 991px) {
   
   .footer-block__social {
     margin-bottom: unset;
@@ -139,13 +139,21 @@ footer .interests input[type=checkbox]:checked::after {
 }
 
 /* Verberg de toggle knoppen op tablet en desktop */
-@media (min-width: 768px) {
+@media (min-width: 991px) {
   .footer__toggle {
     display: none;
   }
 
   .footer__menu {
     display: block !important;
+  }
+
+  .footer-block--newsletter {
+    order: 1;
+  }
+
+  .footer__content-top {
+    order: 2;
   }
 }
 
