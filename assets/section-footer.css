@@ -155,6 +155,10 @@ footer .interests input[type=checkbox]:checked::after {
   .footer__content-top {
     order: 2;
   }
+
+  .footer__content-bottom {
+    order: 3;
+  }
 }
 
 @media screen and (max-width: 991px) {
@@ -364,7 +368,6 @@ footer .interests input[type=checkbox]:checked::after {
 .footer-block__heading {
   margin-bottom: 2rem;
   margin-top: 0;
-  font-size: ;
 }
 
 @media screen and (min-width: 990px) {
