@@ -284,6 +284,7 @@ li.search {
     text-decoration: none;
     font-size: 0.875rem;
     white-space: nowrap;
+    font-size: 1.4rem;
 }
 
 .menu-item-wrapper {
@@ -324,6 +325,7 @@ li.search {
 .mobile-menu .nav-link {
     color: black;
     font-weight: 700;
+    padding: 0px;
 }
 
 .mobile-menu .nav-link:hover {
