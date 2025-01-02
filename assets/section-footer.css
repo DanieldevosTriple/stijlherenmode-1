@@ -109,7 +109,7 @@ footer .interests input[type="checkbox"] {
   margin-right: .8rem;
   display: inline-flex;
   flex-shrink: 0;
-  background-color: #bbbbbb;
+  background-color: rgb(241, 241, 241);
   -webkit-appearance: none;
   appearance: none;
   cursor: pointer;

@@ -63,7 +63,7 @@
       margin-right: .8rem;
       display: inline-flex;
       flex-shrink: 0;
-      background-color: #bbbbbb;
+      background-color: rgb(241, 241, 241);
       -webkit-appearance: none;
       appearance: none;
       cursor: pointer;
@@ -71,8 +71,8 @@
   }
   
   .interests input[type=checkbox]:checked {
-      background-color: #bbbbbb;
-      border-color: #bbbbbb;
+      background-color: rgb(241, 241, 241);
+      border-color: rgb(241, 241, 241);
   }
   
   .interests input[type=checkbox]:checked::after {
