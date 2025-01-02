@@ -441,7 +441,6 @@ li.search {
 .mega-menu .col-md-3 {
     flex: 0 0 25%;
     max-width: 25%;
-    padding: 0 15px;
 }
 
 .mega-menu h3 {
@@ -456,7 +455,8 @@ li.search {
 
 .mega-submenu {
     list-style: none;
-    padding: 0;
+    padding-left: 15px;
+    padding-right: 15px;
     margin: 0;
 }
 
