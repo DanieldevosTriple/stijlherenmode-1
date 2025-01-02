@@ -303,6 +303,7 @@ li.search {
     font-family: TradeGothicLT, sans-serif;
     color: #000;
     font-weight: 800;
+    min-height: 55px;
 }
 
 .nav-item {
