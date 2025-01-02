@@ -81,13 +81,6 @@
     </div>
   </div>
 
-  <!-- Bottom Section -->
-  <div class="footer__content-bottom">
-    <div class="footer__copyright col-12">
-      <small class="copyright-text">&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</small>
-    </div>
-  </div>
-
     <!-- Newsletter Section -->
     {%- if section.settings.newsletter_enable -%}
       <div class="footer-block--newsletter">
@@ -133,6 +126,14 @@
         </div>
       </div>
     {%- endif -%}
+
+      <!-- Bottom Section -->
+  <div class="footer__content-bottom">
+    <div class="footer__copyright col-12">
+      <small class="copyright-text">&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</small>
+    </div>
+  </div>
+  
 </footer>
 
 <script>
