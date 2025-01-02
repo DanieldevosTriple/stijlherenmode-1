@@ -215,7 +215,6 @@ li.search {
 
 .current-menu-title {
     font-family: TradeGothicLT;
-    font-size: 1.2rem;
     font-weight: 800;
     text-transform: uppercase;
     margin: 0;
@@ -291,6 +290,19 @@ li.search {
 .menu-item-wrapper {
     display: flex;
     align-items: center;
+    width: 100%;
+    padding: 1.5rem;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #f2f2f2;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: TradeGothicLT, sans-serif;
+    color: #000;
+    font-weight: 800;
 }
 
 .nav-item {
