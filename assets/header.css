@@ -216,8 +216,11 @@ li.search {
 .current-menu-title {
     font-family: TradeGothicLT;
     font-size: 1.2rem;
-    font-weight: bold;
+    font-weight: 800;
     text-transform: uppercase;
+    margin: 0;
+    text-align: center;
+    flex-grow: 1;
 }
 
 .back-button {
