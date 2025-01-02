@@ -60,6 +60,6 @@
 .product-link {
   width: 100%;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto 1fr;
   gap: 2rem;
 }
