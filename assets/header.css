@@ -407,7 +407,7 @@ li.search {
     right: 0;
     top: 100%;
     background: var(--background-color-light-mode);
-    padding: 2rem 0;
+    padding: 2rem 1rem;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -429,7 +429,6 @@ li.search {
 
 .mega-menu .container {
     margin: 0;
-    padding: 0 1rem;
 }
 
 .mega-menu .row {
