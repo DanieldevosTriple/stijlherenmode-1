@@ -149,6 +149,14 @@ li.search {
     padding: 0.5rem 0px;
 }
 
+.navbar-nav {
+    gap: 3rem !important;
+}
+
+.search-cart {
+    gap: 3rem !important;
+}
+
 .navbar-nav .nav-link {
     text-transform: uppercase;
     font-family: TradeGothicLT;
