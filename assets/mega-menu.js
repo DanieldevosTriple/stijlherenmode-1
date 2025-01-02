@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Verberg de hoofdmenu header en toon de submenu header bij het openen van een submenu
         document.querySelector('.mobile-menu-header').style.display = 'flex'; // Toon de header bij submenu
-    
+
         // Verberg de huidige panel
         currentPanel.classList.remove('active');
         
@@ -75,17 +75,18 @@ document.addEventListener('DOMContentLoaded', function () {
             title: title,
             panel: nextPanel
         });
-    
+
         // Update de titel en toon de back-knop
         menuTitle.textContent = title;
         backButton.style.display = 'block';
     }
-    
+
+    // Navigate back (submenu closes, menu comes back from left)
     function navigateBack() {
         if (menuHistory.length > 1) {
             const currentPanel = menuHistory[menuHistory.length - 1].panel;
             currentPanel.classList.add('close');  // Sluit het huidige submenu (beweegt naar rechts)
-    
+
             setTimeout(() => {
                 // Verwijder de actieve klasse en reset de positie
                 currentPanel.classList.remove('active', 'close');
@@ -102,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.querySelector('.mobile-menu-header').style.display = 'none'; // Verberg de header bij het hoofdmenu
             }, 300);
         }
-    }    
+    }
 
     // Close the mobile menu
     function closeMobileMenu() {

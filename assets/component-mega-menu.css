@@ -167,17 +167,18 @@
   display: block;
 }
 
-/* Submenu drawer effect (van rechts) */
+/* Zorg ervoor dat de submenu's standaard buiten het scherm beginnen (rechts) */
 .menu-panel.submenu {
-  transform: translateX(100%); /* Begin buiten beeld aan de rechterkant */
-  transition: transform 0.3s ease;
+  transform: translateX(100%); /* Begin buiten het scherm aan de rechterkant */
+  transition: transform 0.3s ease-in-out;
 }
 
+/* Het submenu komt van rechts als het geactiveerd wordt */
 .menu-panel.submenu.active {
   transform: translateX(0); /* Beweeg het naar binnen */
 }
 
-/* Sluiten van het submenu (beweegt naar rechts) */
+/* Teruggaan naar het vorige submenu, schuift naar links */
 .menu-panel.submenu.close {
   transform: translateX(100%); /* Verplaats naar buiten */
 }
