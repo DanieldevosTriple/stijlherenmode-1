@@ -409,30 +409,47 @@
         color: #5c7561;
     }
 
-    /* Mega menu */
+    /* Mega Menu Styles */
     .has-megamenu {
-        position: static;
+        position: relative;
     }
 
     .mega-menu {
-        position: absolute;
+        position: fixed;
         left: 0;
         right: 0;
-        top: 100%;
         background: var(--background-color-light-mode);
         padding: 2rem 0;
         opacity: 0;
         visibility: hidden;
-        transform: translateY(-10px);
+        transform: translateY(10px);
         transition: all 0.3s ease;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
+        z-index: 999;
     }
 
-    .has-megamenu:hover .mega-menu {
+    .mega-menu.active {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
+    }
+
+    .mega-menu .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .mega-menu .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+    }
+
+    .mega-menu .col-md-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+        padding: 0 15px;
     }
 
     .mega-menu h3 {
@@ -450,6 +467,10 @@
         margin: 0;
     }
 
+    .mega-submenu li {
+        margin-bottom: 0.5rem;
+    }
+
     .mega-submenu li a {
         color: var(--font-color-light-mode);
         text-decoration: none;
@@ -457,91 +478,56 @@
         display: block;
         font-size: 1rem;
         transition: color 0.2s ease;
+        font-family: TradeGothicLT;
     }
 
     .mega-submenu li a:hover {
         color: #5c7561;
     }
 
-    /* Mobile Multi-level Menu Styles */
-    .mobile-menu-header {
-        display: flex;
-        align-items: center;
-        padding: 1rem;
-        border-bottom: 1px solid rgb(242, 242, 242);
-        position: sticky;
-        top: 0;
+    /* Transparent header adjustments */
+    .index-page .mega-menu {
         background: var(--background-color-light-mode);
-        z-index: 1;
     }
 
-    .back-button {
-        all: unset;
-        cursor: pointer;
-        padding: 0.5rem;
-        display: none;
+    .index-page .mega-menu h3,
+    .index-page .mega-menu a {
+        color: var(--font-color-light-mode);
     }
 
-    .current-menu-title {
-        flex-grow: 1;
-        text-align: center;
-        font-family: TradeGothicLT;
-        font-weight: 600;
-        text-transform: uppercase;
+    /* Mobile adjustments */
+    @media (max-width: 991px) {
+        .mega-menu {
+            display: none;
+        }
+
+        .col-md-3 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
     }
 
-    .submenu-panel {
-        position: absolute;
-        top: 0;
-        left: 100%;
-        width: 100%;
-        height: 100%;
-        background: var(--background-color-light-mode);
-        transition: transform 0.3s ease;
-        transform: translateX(100%);
-        visibility: hidden;
-        padding: 1rem 0;
-        overflow-y: auto;
-    }
-
-    .submenu-panel.active {
-        transform: translateX(0);
-        visibility: visible;
-    }
-
-    .submenu-toggle {
+    /* RTL Support */
+    [dir="rtl"] .mega-menu .col-md-3 {
         float: right;
-        padding: 0.5rem;
     }
 
-    /* Mobile menu adjustments for header */
-    .mobile-menu-overlay {
-        padding-top: 60px;
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+        .mega-menu {
+            background: var(--background-color-dark-mode, #1a1a1a);
+        }
+
+        .mega-menu h3,
+        .mega-menu a {
+            color: var(--font-color-dark-mode, #ffffff);
+        }
     }
 
-    .sticky .mobile-menu-overlay {
-        margin-top: 0;
-    }
-
-    /* Mobile menu item adjustments */
-    .mobile-menu .nav-item.has-submenu {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .mobile-menu .nav-item.has-submenu>.nav-link {
-        flex: 1;
-    }
-
-    .mobile-menu .submenu-toggle {
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-left: 10px;
+    /* Sticky header adjustments */
+    .sticky .mega-menu {
+        position: fixed;
+        top: var(--header-height, 80px);
     }
 
     /* Maintain existing mobile menu transitions */
