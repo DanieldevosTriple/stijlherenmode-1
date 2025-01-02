@@ -149,11 +149,11 @@ footer .interests input[type=checkbox]:checked::after {
   }
 
   .footer-block--newsletter {
-    order: 1;
+    order: 2;
   }
 
   .footer__content-top {
-    order: 2;
+    order: 1;
   }
 
   .footer__content-bottom {
@@ -199,6 +199,7 @@ footer .interests input[type=checkbox]:checked::after {
     padding-left: 0px;
     padding-top: 5rem;
     padding-bottom: 0rem;
+    order: 2;
   }
 
   .footer__copyright {
