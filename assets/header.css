@@ -221,6 +221,7 @@ li.search {
     margin: 0;
     text-align: center;
     flex-grow: 1;
+    font-size: 2rem;
 }
 
 .back-button {
