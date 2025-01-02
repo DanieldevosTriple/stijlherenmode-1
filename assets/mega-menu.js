@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Common Elements
+document.addEventListener('DOMContentLoaded', function () {
     const hamburgerMenu = document.querySelector('.hamburger-menu');
     const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
     const closeMenuButton = document.querySelector('.close-menu');
@@ -15,65 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
         title: 'Menu',
         panel: document.querySelector('.menu-panel[data-level="0"]')
     }];
-
-    // ==========================================
-    // Mega Menu Desktop Functionality
-    // ==========================================
-    function initializeMegaMenu() {
-        const menuItems = document.querySelectorAll('.has-megamenu');
-        
-        menuItems.forEach(item => {
-            const link = item.querySelector('.nav-link');
-            const menuId = link.textContent.trim().toLowerCase().replace(/\s+/g, '-');
-            const megaMenu = document.querySelector(`.mega-menu[data-parent="${menuId}"]`);
-            
-            if (megaMenu) {
-                // Handle mouse enter on menu item
-                item.addEventListener('mouseenter', () => {
-                    // Close any other open mega menus
-                    document.querySelectorAll('.mega-menu.active').forEach(menu => {
-                        if (menu !== megaMenu) {
-                            menu.classList.remove('active');
-                        }
-                    });
-
-                    // Update mega menu position based on header height
-                    const headerHeight = document.querySelector('sticky-header').offsetHeight;
-                    megaMenu.style.setProperty('--header-height', `${headerHeight}px`);
-                    megaMenu.classList.add('active');
-                });
-
-                // Handle mouse leave from menu item
-                item.addEventListener('mouseleave', (event) => {
-                    if (!event.relatedTarget?.closest('.mega-menu')) {
-                        megaMenu.classList.remove('active');
-                    }
-                });
-
-                // Handle mouse leave from mega menu
-                megaMenu.addEventListener('mouseleave', () => {
-                    megaMenu.classList.remove('active');
-                });
-
-                // Handle touch events for mobile/tablet
-                link.addEventListener('click', (event) => {
-                    if (window.innerWidth > 991 && megaMenu && !megaMenu.classList.contains('active')) {
-                        event.preventDefault();
-                        megaMenu.classList.add('active');
-                    }
-                });
-            }
-        });
-
-        // Close mega menu when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!event.target.closest('.has-megamenu') && !event.target.closest('.mega-menu')) {
-                document.querySelectorAll('.mega-menu.active').forEach(menu => {
-                    menu.classList.remove('active');
-                });
-            }
-        });
-    }
 
     // ==========================================
     // Mobile Menu Functionality
@@ -103,6 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const nextTitle = toggle.closest('.nav-item').querySelector('.nav-link').textContent.trim();
                 
                 if (nextPanel) {
+                    // Toon de mobile menu header bij het openen van een submenu
+                    document.querySelector('.mobile-menu-header').style.display = 'flex';
+                    backButton.style.display = 'block';
+                    menuTitle.textContent = nextTitle;
+
                     navigateForward(nextPanel, nextTitle);
                 }
             });
@@ -210,28 +155,6 @@ document.addEventListener('DOMContentLoaded', function() {
         resetMenuState();
     }
 
-    // ==========================================
-    // Window Resize Handling
-    // ==========================================
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            if (window.innerWidth > 991) {
-                // Reset mobile menu state when switching to desktop
-                if (mobileMenuOverlay?.classList.contains('show')) {
-                    closeMobileMenu();
-                }
-            }
-            
-            // Update mega menu positions
-            document.querySelectorAll('.mega-menu.active').forEach(menu => {
-                const headerHeight = document.querySelector('sticky-header').offsetHeight;
-                menu.style.setProperty('--header-height', `${headerHeight}px`);
-            });
-        }, 250);
-    });
-
-    // Initialize both menus
-    initializeMegaMenu();
+    // Initialize mobile menu
     initializeMobileMenu();
 });

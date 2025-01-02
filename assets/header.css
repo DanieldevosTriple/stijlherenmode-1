@@ -203,11 +203,7 @@ li.search {
 }
 
 .mobile-menu-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: none; /* Standaard verbergen */
 }
 
 .current-menu-title {
@@ -259,7 +255,6 @@ li.search {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
     width: 100%;
     background: #fff;
     justify-content: space-between;
