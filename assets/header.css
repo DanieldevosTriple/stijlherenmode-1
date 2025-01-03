@@ -97,7 +97,7 @@ li.search {
 }
 
 .search-text {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 800;
 }
 
@@ -166,7 +166,7 @@ li.search {
     text-transform: uppercase;
     font-family: TradeGothicLT;
     color: var(--font-color-light-mode);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 800;
     padding: 0px;
 }
@@ -185,7 +185,7 @@ li.search {
 
 .cart-link {
     color: var(--font-color-light-mode);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 800;
 }
 
