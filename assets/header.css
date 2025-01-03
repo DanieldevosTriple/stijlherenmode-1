@@ -581,3 +581,34 @@ li.search {
     position: absolute;
     top: var(--header-height, 80px);
 }
+
+.announcement-bar-section {
+    position: fixed;
+    width: 100%;
+    z-index: 101;
+    transition: transform 0.3s ease;
+  }
+  
+  .announcement-bar-section.hidden {
+    transform: translateY(-100%);
+  }
+  
+  .announcement-bar-section.scroll-up {
+    transform: translateY(0);
+  }
+
+  .section-header {
+    position: fixed;
+    top: var(--announcement-height, 40px);
+    width: 100%;
+    z-index: 100;
+    transition: transform 0.3s ease;
+  }
+  
+  .section-header.hidden {
+    transform: translateY(-100%);
+  }
+  
+  .section-header.scroll-up {
+    transform: translateY(0);
+  }
