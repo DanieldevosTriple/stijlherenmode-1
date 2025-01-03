@@ -1,16 +1,37 @@
 /* Base state */
 .mega-menu-container {
-  display: none;
-  position: fixed;
-  top: var(--header-height, 80px);
+  position: absolute;  /* Changed from fixed */
+  top: 100%;          /* Position below nav item */
   left: 0;
   width: 100%;
   background: rgb(var(--color-background));
   z-index: 98;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .scroll-up .mega-menu-container {
-  top: 0px !important;
+  top: 100%;
+}
+
+/* Show mega menu on hover */
+.nav-item.has-megamenu:hover .mega-menu-container {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Keep mega menu visible while hovering */
+.mega-menu-container:hover {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Sub menu hover styles */
+.mega-submenu li a {
+  transition: color 0.3s ease;
+  padding: 5px 0;
+  display: block;
 }
 
 .mega-menu {
