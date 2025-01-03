@@ -385,7 +385,7 @@
 
   .mobile-facets__submenu.active {
     visibility: visible;
-    transform: translateX(0);
+    transform: translateX(-100%);
     animation: slideDown 0.3s ease-in-out; /* Zorg ervoor dat de open animatie is */
     overflow-y: auto;
     padding: 1.5rem;
