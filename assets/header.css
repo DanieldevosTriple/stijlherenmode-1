@@ -251,6 +251,10 @@ li.search {
     transform: scaleX(-1);
 }
 
+.mobile-facets__close-button {
+    height: 100%;
+}
+
 .menu-container {
     position: relative;
     height: calc(100% - 60px);
