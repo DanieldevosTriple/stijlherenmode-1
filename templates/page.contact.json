@@ -32,7 +32,7 @@
       "type": "text-block",
       "settings": {
         "heading": "Klantenservice",
-        "description": "Email: webshop@stijlherenmode.nl",
+        "description": "<b>EMAIL:</b> webshop@stijlherenmode.nl",
         "heading_size": "h2",
         "animations_reveal_on_scroll": false
       }
