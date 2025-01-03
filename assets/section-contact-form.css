@@ -46,6 +46,7 @@
   color: rgba(var(--color-foreground), 0.75);
   letter-spacing: 0.1rem;
   line-height: 1.5;
+  text-transform: uppercase;
 }
 
 @media screen and (min-width: 750px) {
