@@ -615,8 +615,3 @@ li.search {
 .mega-menu h3 a:hover {
     color: #5c7561;
 }
-
-/* Add wrapper class to HTML around new-header and nav */
-.header-nav-wrapper:hover .header-wrapper {
-    border-bottom: 6px solid rgb(242, 242, 242);
-}

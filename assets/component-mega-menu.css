@@ -13,7 +13,7 @@
 }
 
 .scroll-up .mega-menu-container {
-  top: 100%;
+  top: calc(var(--header-height) - 10px);
 }
 
 /* Show mega menu on hover */
