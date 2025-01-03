@@ -9,6 +9,10 @@
   z-index: 98;
 }
 
+.sticky.scroll-up .mega-menu-container {
+  top: var(--header-height);
+}
+
 .mega-menu {
   opacity: 0;
   visibility: hidden;
