@@ -100,16 +100,18 @@
                           <div class="col-12 mega-menu">
                               <div class="container">
                                   {% for child_link in link.links %}
-                                      <div class="col-md-3">
-                                          <h3>{{ child_link.title }}</h3>
-                                          {% if child_link.links.size > 0 %}
-                                              <ul class="mega-submenu">
-                                                  {% for grandchild_link in child_link.links %}
-                                                      <li><a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
-                                                  {% endfor %}
-                                              </ul>
-                                          {% endif %}
-                                      </div>
+                                    <div class="col-md-3">
+                                      <h3>
+                                          <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                                      </h3>
+                                      {% if child_link.links.size > 0 %}
+                                          <ul class="mega-submenu">
+                                              {% for grandchild_link in child_link.links %}
+                                                  <li><a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+                                              {% endfor %}
+                                          </ul>
+                                      {% endif %}
+                                  </div>
                                   {% endfor %}
                               </div>
                           </div>
