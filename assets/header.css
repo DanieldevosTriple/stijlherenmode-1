@@ -615,3 +615,7 @@ li.search {
 .mega-menu h3 a:hover {
     color: #5c7561;
 }
+
+.nav-item:hover ~ .new-header {
+    border-bottom: 1px solid rgb(242, 242, 242);
+   }
