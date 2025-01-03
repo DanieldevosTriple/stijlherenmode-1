@@ -45,20 +45,9 @@
     height: 100%;
     box-sizing: border-box;
     padding: 0.5rem 0rem;
-    position: fixed;
-    z-index: 1002;
-    /* Ensure this is higher than other sections */
-    transition: transform 0.3s ease;
-    background-color: var(--background-color-light-mode);
+    position: relative;
+    z-index: 1003; /* Ensure this is higher than other sections */
 }
-
-.main-banner {
-    position: fixed;
-    top: calc(var(--announcement-height) + var(--header-height));
-    width: 100%;
-    z-index: 1001;
-    transition: transform 0.3s ease;
-  }
 
 .logo {
     display: block !important;
@@ -161,13 +150,11 @@ li.search {
 }
 
 .navbar-nav {
-    gap: 2rem !important;
-    /* Add gap */
+    gap: 2rem !important; /* Add gap */
 }
 
 .search-cart {
-    gap: 2rem !important;
-    /* Add gap */
+    gap: 2rem !important; /* Add gap */
 }
 
 .navbar-expand-lg .navbar-nav .nav-link {
@@ -215,8 +202,7 @@ li.search {
     position: fixed;
     left: 0;
     width: 100%;
-    height: calc(100% - 80px);
-    /* Ensure it fits under the header */
+    height: calc(100% - 80px); /* Ensure it fits under the header */
     background-color: var(--background-color-light-mode);
     z-index: 5;
     visibility: hidden;
@@ -230,8 +216,7 @@ li.search {
 }
 
 .mobile-menu-header {
-    display: none;
-    /* Standaard verbergen */
+    display: none; /* Standaard verbergen */
     padding: 0.5rem;
     justify-content: space-between;
     align-items: center;
@@ -267,8 +252,7 @@ li.search {
 }
 
 .mobile-facets__close-button {
-    height: 24px;
-    /* Add height */
+    height: 24px; /* Add height */
 }
 
 .menu-container {
@@ -441,8 +425,7 @@ li.search {
     right: 0;
     top: 100%;
     background: var(--background-color-light-mode);
-    padding: 2rem 1.5rem;
-    /* Add padding */
+    padding: 2rem 1.5rem; /* Add padding */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -475,8 +458,7 @@ li.search {
 .mega-menu .col-md-3 {
     flex: 0 0 25%;
     max-width: 25%;
-    padding: 0px;
-    /* Remove padding */
+    padding: 0px; /* Remove padding */
 }
 
 .mega-menu h3 {
@@ -598,20 +580,4 @@ li.search {
 .sticky .mega-menu {
     position: absolute;
     top: var(--header-height, 80px);
-}
-
-.announcement-bar-section {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1003;
-    transition: transform 0.3s ease;
-  }
-
-.announcement-bar-section.hidden {
-    transform: translateY(-100%);
-}
-
-.announcement-bar-section.scroll-up {
-    transform: translateY(0);
 }
