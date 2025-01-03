@@ -375,27 +375,23 @@
     width: 100%;
     height: 100%;
     background: white;
-    visibility: hidden;
     display: flex;
     flex-direction: column;
-    transform: translate(0); 
+    transform: translateX(0);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
   }
-
-  /* Wanneer het submenu gesloten is */
-  .mobile-facets__submenu:not(.active) {
-    transform: translateX(0); /* Begin buiten het scherm */
-    visibility: hidden; /* Maak het verborgen als het niet actief is */
-    transition: transform 0.3s ease-in-out;
-  }
-
+  
+  /* When submenu becomes active */
   .mobile-facets__submenu.active {
-    visibility: visible;
     transform: translateX(-100%);
+    opacity: 1;
+    visibility: visible;
     overflow-y: auto;
     padding: 1.5rem;
     padding-bottom: 80px;
-    transition: transform 0.3s ease-in-out;
-    /* Add padding to account for fixed footer */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0s linear 0s;
   }
 
   .facets__mobile {
