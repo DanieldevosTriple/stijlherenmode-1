@@ -47,9 +47,6 @@
     padding: 0.5rem 0rem;
     position: relative;
     z-index: 1003; /* Ensure this is higher than other sections */
-    border-bottom: 1px solid rgb(242, 242, 242);
-    padding-left: 15px;
-    padding-right: 15px;
 }
 
 .logo {
@@ -188,7 +185,7 @@ li.search {
 
 .cart-link {
     color: var(--font-color-light-mode);
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 800;
 }
 
@@ -518,20 +515,15 @@ li.search {
         height: 20px;
     }
 
-    .navbar-nav, .search-cart {
-        gap: 1rem !important;
-    }
-
     .cart-bubble {
         position: absolute;
         top: 34px;
         transform: translateY(-50%);
-        background-color: #000;
+        background-color: black;
         border-radius: 50px;
         color: #5c7561;
-        padding: 1.25px 6px;
-        right: 6px;
-        font-size: 1rem;
+        padding: 0.5px 5px;
+        right: -6px;
     }
 
     .ml-3 {
