@@ -44,7 +44,7 @@
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    padding: 0.5rem 15px;
+    padding: 0.5rem 1.5rem;
     position: relative;
     z-index: 1003;
     /* Ensure this is higher than other sections */
