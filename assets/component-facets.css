@@ -379,6 +379,7 @@
     transition: transform 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
+    transform: translate(0);
   }
 
   .mobile-facets__submenu.active {
