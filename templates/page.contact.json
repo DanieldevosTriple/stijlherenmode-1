@@ -26,10 +26,20 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "text_block_46Q6fz": {
+      "type": "text-block",
+      "settings": {
+        "heading": "Klantenservice",
+        "description": "Email: webshop@stijlherenmode.nl",
+        "heading_size": "h2",
+        "animations_reveal_on_scroll": false
+      }
     }
   },
   "order": [
     "main",
-    "form"
+    "form",
+    "text_block_46Q6fz"
   ]
 }
