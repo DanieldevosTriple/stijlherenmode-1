@@ -79,10 +79,8 @@
 <sticky-header
   data-sticky-enabled="{{ section.settings.sticky }}"
   data-theme-mode="{{ section.settings.header_theme_mode }}"
-  class="header-wrapper gradient {% if section.settings.transparent %}{{ template }}-page{% endif %}">
+  class="new-header header-wrapper gradient {% if section.settings.transparent %}{{ template }}-page{% endif %}">
 
-  <header class="col-12">
-      <div class="new-header">
         <!-- Left: Dynamic Menu -->
         <div class="col-menu col-align-left menu-items first-menu">
           <!-- Change this part in the desktop navigation -->
@@ -164,7 +162,6 @@
           </div>
         </div>
         </div>
-      </div> 
       <!-- Mobile Menu -->
       {% if section.settings.menu != blank %}
         {% assign menu = linklists[section.settings.menu] %}
@@ -249,7 +246,6 @@
           </div>
         </div>
       {% endif %}
-  </header>
 </sticky-header>
 
 <script type="application/ld+json">

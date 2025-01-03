@@ -47,6 +47,7 @@
     padding: 0.5rem 0rem;
     position: relative;
     z-index: 1003; /* Ensure this is higher than other sections */
+    border-bottom: 1px solid rgb(242, 242, 242);
 }
 
 .logo {
