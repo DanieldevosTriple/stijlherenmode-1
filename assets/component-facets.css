@@ -335,7 +335,9 @@
   }
 
   .mobile-facets__back-button svg {
-  transform: scaleX(-1);
+    transform: scaleX(-1);
+    height: 24px;
+    width: 24px;
   }
 
   .mobile-facets__title {
