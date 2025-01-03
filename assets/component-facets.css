@@ -368,28 +368,32 @@
     font-weight: 800;
   }
 
+  /* Submenu CSS */
   .mobile-facets__submenu {
     position: absolute;
     top: 0;
-    left: 100%;
+    left: 100%; /* Begin buiten het scherm rechts */
     width: 100%;
     height: 100%;
     background: white;
-    visibility: hidden;
     display: flex;
     flex-direction: column;
-    transform: translate(0); 
-    transition: transform 0.3s ease-out; 
+    transform: translateX(100%); /* Start buiten beeld aan de rechterkant */
+    transition: transform 0.3s ease-out; /* Voeg transitie toe voor vloeiende beweging */
   }
 
+  /* Wanneer het submenu actief is (geopend) */
   .mobile-facets__submenu.active {
-    visibility: visible;
-    transform: translateX(-100%);
+    transform: translateX(0); /* Verplaats het submenu naar zijn normale positie */
+    visibility: visible; /* Zorg ervoor dat het submenu zichtbaar is */
     overflow-y: auto;
     padding: 1.5rem;
-    padding-bottom: 80px;
-    transition: transform 0.3s ease-in-out;
-    /* Add padding to account for fixed footer */
+    padding-bottom: 80px; /* Voeg padding toe voor een vaste footer */
+  }
+
+  /* Voeg een transitie toe voor het sluiten van het submenu */
+  .mobile-facets__submenu:not(.active) {
+    visibility: hidden; /* Verberg het submenu wanneer het niet actief is */
   }
 
   .facets__mobile {

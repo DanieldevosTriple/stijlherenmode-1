@@ -132,19 +132,20 @@ class FacetFiltersForm extends HTMLElement {
 
   openMobileSubmenu(submenuId) {
     if (!submenuId) return;
-
-    // Show back button
+  
+    // Maak het submenu zichtbaar met animatie
+    this.querySelector(`.facet-accordion__item[data-submenu="${submenuId}"] .mobile-facets__submenu`).classList.add('active');
     const backButton = this.querySelector('.mobile-facets__back-button');
     backButton?.classList.remove('hidden');
-
-    // Update title
-    const submenuTitle = this.querySelector(`.facet-accordion__item[data-submenu="${submenuId}"] .mobile-facets__menu-button span`)?.textContent;
-    if (submenuTitle) {
-      this.querySelector('.mobile-facets__title').textContent = submenuTitle;
-    }
-
-    // Show submenu content
-    this.querySelector(`.facet-accordion__item[data-submenu="${submenuId}"] .mobile-facets__submenu`)?.classList.add('active');
+  }
+  
+  closeMobileSubmenu() {
+    // Verberg het submenu met animatie
+    this.querySelector('.mobile-facets__submenu').classList.remove('active');
+    this.querySelector('.mobile-facets__back-button')?.classList.add('hidden');
+  
+    // Reset de titel
+    this.querySelector('.mobile-facets__title').textContent = 'Filter & Sort';
   }
 
   closeMobileSubmenu() {
