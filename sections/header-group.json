@@ -33,7 +33,7 @@
         "change_slides_speed": 5,
         "enable_country_selector": false,
         "enable_language_selector": false,
-        "sticky_enabled": true
+        "sticky": true
       }
     },
     "header": {
