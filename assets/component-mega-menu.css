@@ -20,6 +20,11 @@
   display: block;
 }
 
+.nav-item.has-megamenu:hover .mega-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
 /* Keep visible while hovering mega menu */
 .mega-menu-container:hover {
   display: block;
@@ -28,18 +33,6 @@
 .mega-menu-container:hover .mega-menu {
   opacity: 1;
   visibility: visible;
-}
-
-/* Toevoegen van een blur-effect wanneer een nav-link wordt gehoverd */
-.nav-item.has-megamenu:hover ~ body {
-  filter: blur(5px);
-  pointer-events: none; /* Zorg ervoor dat de geblurde achtergrond niet interactief is */
-}
-
-/* Verwijder de blur wanneer de hover stopt */
-.nav-item.has-megamenu:hover ~ body {
-  filter: none;
-  pointer-events: auto;
 }
 
 .mega-menu .container {
@@ -225,7 +218,8 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgb(var(--color-background));
+  background-color: rgba(0, 0, 0, 0.7);
+  /* Overlay */
   display: none;
   z-index: 9999;
 }
