@@ -37,6 +37,17 @@
     width: 100%;
 }
 
+.custom__field__label {
+  font-size: 1.2rem;
+  margin-bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: top var(--duration-short) ease, font-size var(--duration-short) ease;
+  color: rgba(var(--color-foreground), 0.75);
+  letter-spacing: 0.1rem;
+  line-height: 1.5;
+}
+
 @media screen and (min-width: 750px) {
   .contact__button {
     margin-top: 4rem;
