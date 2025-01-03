@@ -36,6 +36,8 @@
 }
 
 .new-header {
+    padding-left: 15px;
+    padding-right: 15px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: minmax(20px, 1fr);

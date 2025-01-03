@@ -5,8 +5,6 @@
   left: 0;
   right: 0;
   width: 100vw;
-  margin-left: calc((-100vw + 100%) / 2);
-  margin-right: calc((-100vw + 100%) / 2);
   background: rgb(var(--color-background));
   z-index: 98;
   opacity: 0;
