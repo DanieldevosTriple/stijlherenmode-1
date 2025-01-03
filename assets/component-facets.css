@@ -379,11 +379,14 @@
     transition: transform 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
+    transform: translateX(100%); /* Begin uit zicht */
+    animation: slideUp 0.3s ease-in-out forwards; /* Sluit met een animatie */
   }
 
   .mobile-facets__submenu.active {
     visibility: visible;
-    transform: translateX(-100%);
+    transform: translateX(0);
+    animation: slideDown 0.3s ease-in-out; /* Zorg ervoor dat de open animatie is */
     overflow-y: auto;
     padding: 1.5rem;
     padding-bottom: 80px;
@@ -466,6 +469,17 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateX(0); /* Begin in de normale positie */
+  }
+  to {
+    opacity: 0;
+    transform: translateX(10px); /* Verschuif naar rechts bij sluiten */
   }
 }
 
