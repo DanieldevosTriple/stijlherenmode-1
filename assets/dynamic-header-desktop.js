@@ -18,40 +18,45 @@ document.addEventListener('DOMContentLoaded', function () {
     let resetTimeout;
   
     function resetHeaderState() {
-      sectionHeader.classList.remove('hidden');
-      sectionHeader.classList.remove('scroll-up');
-      if (sectionIndexPage) {
-        sectionIndexPage.classList.remove('hidden', 'scroll-up');
+      // Force immediate class removal at top
+      if (window.scrollY === 0) {
+        clearTimeout(resetTimeout);
+        sectionHeader.style.transition = 'none';
+        sectionHeader.classList.remove('hidden', 'scroll-up');
+        if (sectionIndexPage) {
+          sectionIndexPage.classList.remove('hidden', 'scroll-up');
+        }
+        // Re-enable transitions after reset
+        setTimeout(() => {
+          sectionHeader.style.transition = '';
+        }, 10);
+        isHidden = false;
+        return;
       }
-      isHidden = false;
     }
   
     function updateHeaderVisibility() {
       const currentScrollY = window.scrollY;
       const currentTime = Date.now();
   
+      // Always check for top position first
+      if (currentScrollY === 0) {
+        resetHeaderState();
+        return;
+      }
+  
       if (currentTime - lastTime < scrollDelay) return;
   
       const scrollDistance = Math.abs(currentScrollY - lastScrollY);
       if (scrollDistance < 5) return;
   
-      // Clear any pending reset
-      if (resetTimeout) {
-        clearTimeout(resetTimeout);
-      }
-  
-      if (currentScrollY < visibilityThreshold) {
-        // Smoothly transition when near top
-        resetTimeout = setTimeout(resetHeaderState, 150);
-      } else if (currentScrollY > lastScrollY) {
-        // Scrolling down
+      if (currentScrollY > lastScrollY && currentScrollY > visibilityThreshold) {
         if (!isHidden) {
           sectionHeader.classList.add('hidden');
           sectionHeader.classList.remove('scroll-up');
           isHidden = true;
         }
-      } else {
-        // Scrolling up
+      } else if (currentScrollY < lastScrollY) {
         if (isHidden) {
           sectionHeader.classList.remove('hidden');
           sectionHeader.classList.add('scroll-up');
@@ -73,4 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ticking = true;
       }
     }, { passive: true });
+  
+    // Initial state check
+    resetHeaderState();
   });
