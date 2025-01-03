@@ -11,15 +11,19 @@
   "sections": {
     "featured_sales_banner_BCAt9h": {
       "type": "featured-sales-banner",
+      "disabled": true,
       "settings": {
         "subheader": "WINTER SALE",
         "title": "Tot 50% korting",
         "description": "Stijlvol voor minder",
         "button_link": "shopify://collections/all",
         "button_text": "Ontdek het aanbod",
-        "background": "shopify://shop_images/1e885b44-a80e-4aff-ae0a-fca8da0f0699_2880-cny-dds-241108-palm-angels-285-1-300dpiawevwe.webp",
         "text_alignment": "center",
         "title_size": 36,
+        "text_color": "#000",
+        "button_text_color": "#000",
+        "button_bg_color": "rgba(0,0,0,0)",
+        "button_border_color": "#000",
         "padding_top": 50,
         "padding_bottom": 50
       }
