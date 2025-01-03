@@ -313,7 +313,7 @@
     color: black;
   }
 
-  .mobile-facets__back-button {
+  .mobile-facets__back-button { 
     display: flex;
     align-items: center;
     gap: 0.8rem;
@@ -331,6 +331,10 @@
 
   .mobile-facets__back-button.hidden {
     display: none;
+  }
+  
+  .mobile-facets__back-button svg {
+  transform: scaleX(-1);
   }
 
   .mobile-facets__title {
