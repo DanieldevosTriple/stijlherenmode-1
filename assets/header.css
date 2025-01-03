@@ -587,7 +587,7 @@ li.search {
 /* Sticky Header Adjustments */
 .sticky .mega-menu {
     position: absolute;
-    top: var(--header-height, 80px);
+    top: 100%;
 }
 
 /* Add hover state for nav-item and mega-menu */
