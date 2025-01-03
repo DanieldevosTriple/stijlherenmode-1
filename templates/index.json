@@ -27,6 +27,16 @@
     "slideshow_adRpPg": {
       "type": "slideshow",
       "blocks": {
+        "slide_FcQWfx": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/1e885b44-a80e-4aff-ae0a-fca8da0f0699_2880-cny-dds-241108-palm-angels-285-1-300dpi.png",
+            "heading": "Peuterey",
+            "image_overlay_opacity": 0,
+            "image_theme": "light",
+            "repeated_text": "Herhaal mij"
+          }
+        },
         "slide_fBRMXA": {
           "type": "slide",
           "settings": {
@@ -46,22 +56,12 @@
             "image_theme": "light",
             "repeated_text": "Herhaal mij"
           }
-        },
-        "slide_FcQWfx": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/1e885b44-a80e-4aff-ae0a-fca8da0f0699_2880-cny-dds-241108-palm-angels-285-1-300dpi.png",
-            "heading": "Peuterey",
-            "image_overlay_opacity": 0,
-            "image_theme": "light",
-            "repeated_text": "Herhaal mij"
-          }
         }
       },
       "block_order": [
+        "slide_FcQWfx",
         "slide_fBRMXA",
-        "slide_XwABWT",
-        "slide_FcQWfx"
+        "slide_XwABWT"
       ],
       "settings": {
         "auto_rotate": false,
