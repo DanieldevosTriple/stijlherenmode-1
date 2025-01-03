@@ -58,6 +58,30 @@
       "default": 36
     },
     {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button Border Color",
+      "default": "#000000"
+    },    
+    {
       "type": "range",
       "id": "padding_top",
       "label": "Padding Top",
@@ -89,22 +113,28 @@
          padding-top: {{ section.settings.padding_top }}px; 
          padding-bottom: {{ section.settings.padding_bottom }}px;
          background-image: url('{{ section.settings.background | image_url }}');">
+  <link rel="stylesheet" href="{{ 'featured-sales-banner.css' | asset_url }}">
 
-<link rel="stylesheet" href="{{ 'featured-sales-banner.css' | asset_url }}">
-
-<div class="featured-sales-banner__content">
-{% if section.settings.subheader != blank %}
-<h4 class="featured-sales-banner__subheader">{{ section.settings.subheader }}</h4>
-{% endif %}
-{% if section.settings.title != blank %}
-<h1 class="featured-sales-banner__title" style="font-size: {{ section.settings.title_size }}px;">{{ section.settings.title }}</h1>
-{% endif %}
-{% if section.settings.description != blank %}
-<p class="featured-sales-banner__description">{{ section.settings.description }}</p>
-{% endif %}
-{% if section.settings.button_text != blank and section.settings.button_link != blank %}
-<a href="{{ section.settings.button_link }}" class="featured-sales-banner__button">{{ section.settings.button_text }}</a>
-{% endif %}
-</div>
+  <div class="featured-sales-banner__content">
+    {% if section.settings.subheader != blank %}
+      <h4 class="featured-sales-banner__subheader" style="color: {{ section.settings.text_color }};">{{ section.settings.subheader }}</h4>
+    {% endif %}
+    {% if section.settings.title != blank %}
+      <h1 class="featured-sales-banner__title" 
+          style="font-size: {{ section.settings.title_size }}px; color: {{ section.settings.text_color }};">
+        {{ section.settings.title }}
+      </h1>
+    {% endif %}
+    {% if section.settings.description != blank %}
+      <p class="featured-sales-banner__description" style="color: {{ section.settings.text_color }};">{{ section.settings.description }}</p>
+    {% endif %}
+    {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+      <a href="{{ section.settings.button_link }}" class="featured-sales-banner__button"
+         style="color: {{ section.settings.button_text_color }}; background-color: {{ section.settings.button_bg_color }}; border-color: {{ section.settings.button_border_color }};">
+        {{ section.settings.button_text }}
+      </a>
+    {% endif %}
+  </div>
 </section>
+
 

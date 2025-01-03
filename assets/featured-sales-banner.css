@@ -1,7 +1,6 @@
 .featured-sales-banner {
     position: relative;
     text-align: center;
-    color: black;
     padding: 50px 20px;
     background-size: cover;
     background-position: center;
@@ -32,7 +31,6 @@
   .featured-sales-banner__button {
     background-color: transparent;
     border: 2px solid black;
-    color: black;
     padding: 10px 50px;
     text-align: center;
     text-decoration: none;
@@ -42,10 +40,6 @@
     font-weight: 600;
     font-family: 'TradeGothicLT', sans-serif;
   }
-  
-  .featured-sales-banner__button:hover {
-    color: white;
-    background-color: black;
-  }
+
 
   
