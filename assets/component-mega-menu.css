@@ -1,7 +1,7 @@
 /* Base state */
 .mega-menu-container {
   position: absolute;
-  top: 100%;
+  top: calc(var(--header-height) - 10px);
   left: -1.5rem;
   right: 0;
   width: 100vw;
