@@ -378,20 +378,18 @@
     display: flex;
     flex-direction: column;
     transform: translateX(0);
-    opacity: 0;
     visibility: hidden;
-    transition: transform 0.7s ease-in-out, opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+    transition: transform 0.5s ease-in-out, visibility 0s linear 0.5s;
   }
   
   /* When submenu becomes active */
   .mobile-facets__submenu.active {
     transform: translateX(-100%);
-    opacity: 1;
     visibility: visible;
     overflow-y: auto;
     padding: 1.5rem;
     padding-bottom: 80px;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0s linear 0s;
+    transition: transform 0.5s ease-in-out, visibility 0s linear 0s;
   }
 
   .facets__mobile {
