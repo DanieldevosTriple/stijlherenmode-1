@@ -518,15 +518,20 @@ li.search {
         height: 20px;
     }
 
+    .navbar-nav, .search-cart {
+        gap: 1rem !important;
+    }
+
     .cart-bubble {
         position: absolute;
         top: 34px;
         transform: translateY(-50%);
-        background-color: black;
+        background-color: #000;
         border-radius: 50px;
         color: #5c7561;
-        padding: 0.5px 5px;
-        right: -6px;
+        padding: 1.25px 6px;
+        right: 6px;
+        font-size: 1rem;
     }
 
     .ml-3 {
