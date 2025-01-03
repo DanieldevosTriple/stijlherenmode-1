@@ -530,8 +530,8 @@ li.search {
         background-color: black;
         border-radius: 50px;
         color: #5c7561;
-        padding: 0.5px 5px;
-        right: -6px;
+        padding: .5px 6px;
+        right: 7px;
     }
 
     .ml-3 {
