@@ -379,14 +379,11 @@
     transition: transform 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
-    transform: translateX(100%); /* Begin uit zicht */
-    animation: slideUp 0.3s ease-in-out forwards; /* Sluit met een animatie */
   }
 
   .mobile-facets__submenu.active {
     visibility: visible;
     transform: translateX(-100%);
-    animation: slideDown 0.3s ease-in-out; /* Zorg ervoor dat de open animatie is */
     overflow-y: auto;
     padding: 1.5rem;
     padding-bottom: 80px;
