@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const sectionHeader = document.querySelector('.section-header');
     const sectionIndexPage = document.querySelector('.index-page');
+    const isUtilityBarSticky = utilityBar?.dataset.stickyEnabled === 'true';
     
     if (!sectionHeader) {
       console.warn('Element with class "section-header" not found.');
