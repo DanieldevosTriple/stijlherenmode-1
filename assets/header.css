@@ -252,7 +252,7 @@ li.search {
 }
 
 .mobile-facets__close-button {
-    height: 100%; /* Add height */
+    height: 24px; /* Add height */
 }
 
 .menu-container {
