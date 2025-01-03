@@ -376,7 +376,6 @@
     height: 100%;
     background: white;
     visibility: hidden;
-    transition: transform 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     transform: translate(0);
@@ -388,6 +387,7 @@
     overflow-y: auto;
     padding: 1.5rem;
     padding-bottom: 80px;
+    transition: transform 0.3s ease-in-out;
     /* Add padding to account for fixed footer */
   }
 
