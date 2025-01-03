@@ -617,6 +617,6 @@ li.search {
 }
 
 /* Add wrapper class to HTML around new-header and nav */
-.header-nav-wrapper:hover .new-header {
-    border-bottom: 1px solid rgb(242, 242, 242);
+.header-nav-wrapper:hover .header-wrapper {
+    border-bottom: 6px solid rgb(242, 242, 242);
 }
