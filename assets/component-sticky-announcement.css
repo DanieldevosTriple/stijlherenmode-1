@@ -1,4 +1,4 @@
-.announcement-bar-section .sticky .scroll-up {
+.announcement-bar-section.sticky.scroll-up {
     position: sticky;
-    top: var(--header-height);
+    top: var(--header-height) !important;
 }
