@@ -38,14 +38,15 @@ document.addEventListener('DOMContentLoaded', function () {
   if (stickyType === 'enabled') return;
 
   // Scroll configuration
-  const DEBOUNCE_TIME = 150;      // Time to wait before executing scroll action
   const SCROLL_START = 100;       // When to start considering header actions
+  const DEBOUNCE_DOWN = 150;      // Debounce time for hiding (scrolling down)
   
   // State variables
   let lastScrollY = window.scrollY;
   let isHidden = false;
-  let debounceTimer = null;
+  let hideDebounceTimer = null;
   let lastDirection = null;
+  let scrollingUp = false;
   
   function updateDebugInfo() {
       debugDisplay.innerHTML = `
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
           Last Scroll: ${Math.round(lastScrollY)}px<br>
           Direction: ${lastDirection}<br>
           Is Hidden: ${isHidden}<br>
-          Timer Active: ${debounceTimer !== null}
+          Scrolling Up: ${scrollingUp}
       `;
   }
 
@@ -75,17 +76,8 @@ document.addEventListener('DOMContentLoaded', function () {
       }
   }
 
-  // Debounce function to prevent rapid execution
-  function debounce(fn) {
-      if (debounceTimer) clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-          fn();
-          debounceTimer = null;
-      }, DEBOUNCE_TIME);
-  }
-
   let lastCallTime = Date.now();
-  const THROTTLE_TIME = 100; // Throttle scroll events to every 100ms
+  const THROTTLE_TIME = 50;
 
   function handleScroll() {
       const now = Date.now();
@@ -95,15 +87,31 @@ document.addEventListener('DOMContentLoaded', function () {
       const currentScrollY = window.scrollY;
       const direction = currentScrollY > lastScrollY ? 'down' : 'up';
 
-      // Only process if we've scrolled enough and direction is consistent
-      if (Math.abs(currentScrollY - lastScrollY) > 5 && direction !== lastDirection) {
-          lastDirection = direction;
+      // Only process if we've scrolled enough
+      if (Math.abs(currentScrollY - lastScrollY) > 5) {
+          if (direction !== lastDirection) {
+              // Direction changed
+              lastDirection = direction;
+              if (direction === 'up') {
+                  // Clear any pending hide operation
+                  if (hideDebounceTimer) {
+                      clearTimeout(hideDebounceTimer);
+                      hideDebounceTimer = null;
+                  }
+                  showHeader();
+              }
+          }
 
           if (currentScrollY > SCROLL_START) {
               if (direction === 'down' && !isHidden) {
-                  debounce(hideHeader);
-              } else if (direction === 'up' && isHidden) {
-                  debounce(showHeader);
+                  // Debounce the hide operation
+                  if (hideDebounceTimer) clearTimeout(hideDebounceTimer);
+                  hideDebounceTimer = setTimeout(() => {
+                      if (lastDirection === 'down') { // Double-check direction
+                          hideHeader();
+                      }
+                      hideDebounceTimer = null;
+                  }, DEBOUNCE_DOWN);
               }
           }
       }
