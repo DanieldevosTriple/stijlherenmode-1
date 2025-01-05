@@ -22,9 +22,11 @@ document.addEventListener('DOMContentLoaded', function () {
   let lastScrollY = window.scrollY;
   const visibilityThreshold = 50;
   let isHidden = false;
+  let isScrollingUp = false;  // Flag to track if user is scrolling up
   let ticking = false;  // For requestAnimationFrame
   let lastTime = Date.now();
   const scrollDelay = 100;  // Minimum time between scroll updates in ms
+  let scrollTimeout;  // Timeout to detect when scrolling stops
 
   function updateHeaderVisibility() {
       const currentScrollY = window.scrollY;
@@ -55,14 +57,12 @@ document.addEventListener('DOMContentLoaded', function () {
       } else if (currentScrollY < lastScrollY) {
           // Scrolling up
           if (isHidden) {
-              // Use a timeout to ensure smooth transition
-              setTimeout(() => {
-                  sectionHeader.classList.remove('hidden');
-                  sectionAnnouncementBar.classList.remove('hidden');
-                  sectionHeader.classList.add('scroll-up');
-                  sectionAnnouncementBar.classList.add('scroll-up');
-              }, 50);
+              sectionHeader.classList.remove('hidden');
+              sectionAnnouncementBar.classList.remove('hidden');
+              sectionHeader.classList.add('scroll-up');
+              sectionAnnouncementBar.classList.add('scroll-up');
               isHidden = false;
+              isScrollingUp = true;
           }
       }
 
@@ -74,6 +74,16 @@ document.addEventListener('DOMContentLoaded', function () {
               sectionIndexPage.classList.remove('hidden', 'scroll-up');
           }
           isHidden = false;
+      }
+
+      // Remove scroll-up class when scrolling stops
+      if (!isScrollingUp) {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+              sectionHeader.classList.remove('scroll-up');
+              sectionAnnouncementBar.classList.remove('scroll-up');
+              isScrollingUp = false;
+          }, 150); // Delay to detect when scrolling has truly stopped
       }
 
       lastScrollY = currentScrollY;
