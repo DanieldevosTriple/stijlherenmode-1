@@ -1,69 +1,59 @@
 .product-grid-collection {
-    position: relative;
-    width: 100%;
-    min-height: 0; /* Add this to prevent overflow issues */
-}
-
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-.vertical-facets {
-    position: relative;
-    width: 100%;
-    min-height: 0;
+    position: fixed; /* Change to fixed */
+    top: var(--header-height); /* Use your header height variable or specific value */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden; /* Prevent body scroll */
+    z-index: 1; /* Keep below header */
   }
-
-@media screen and (max-width: 991px) {
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        /* Pas min-width naar wens aan */
-    }
-}
-
-
-@media screen and (min-width: 992px) {
+  
+  .vertical-facets {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  @media screen and (min-width: 992px) {
     .vertical-facets {
-        display: grid;
-        grid-template-columns: 25% 75%;
-        gap: 2rem;
-      }
-    
-      /* Add sticky behavior for facets on desktop */
-      .facets-wrapper {
-        position: sticky;
-        top: 20px; /* Adjust based on your header height */
-        height: calc(100vh - 100px); /* Adjust based on your needs */
-        overflow-y: auto;
-        padding-right: 1rem;
-      }
-}
-
-.product-grid {
+      display: grid;
+      grid-template-columns: 25% 75%;
+      gap: 2rem;
+    }
+  
+    .facets-wrapper {
+      overflow-y: auto;
+      padding-right: 1rem;
+      height: 100%;
+    }
+  
+    .product-grid-container {
+      overflow-y: auto;
+      height: 100%;
+      padding-bottom: 2rem; /* Add space at bottom of scroll area */
+    }
+  }
+  
+  .product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     max-width: 100%;
     box-sizing: border-box;
   }
-
-
-/* Preserve your existing media query for tablet/mobile grid */
-@media screen and (max-width: 991px) {
+  
+  @media screen and (max-width: 991px) {
     .product-grid {
       grid-template-columns: repeat(2, 1fr);
     }
     
-    /* Remove sticky behavior on mobile */
+    /* Handle mobile scrolling */
+    .vertical-facets {
+      overflow-y: auto;
+    }
+    
     .facets-wrapper {
       position: relative;
-      height: auto;
-      top: 0;
     }
   }
   
@@ -95,15 +85,18 @@
   }
   
   @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
   
-  /* Add this to ensure proper spacing above footer */
-  #ProductGridContainer {
-    padding-bottom: 2rem;
+  /* Add this to your main layout CSS */
+  body {
+    padding-bottom: calc(100vh - var(--header-height)); /* Create space for fixed collection grid */
+  }
+  
+  /* Footer styles */
+  footer {
+    position: relative; /* Keep footer in normal flow */
+    margin-top: 100vh; /* Push footer below the fixed collection grid */
+    z-index: 2; /* Keep above collection grid */
   }
