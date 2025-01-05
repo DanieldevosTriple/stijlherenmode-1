@@ -37,3 +37,13 @@
     position: absolute;
     top: 100%;
 }
+
+.section-header,
+.navigation-banner {
+    transition: transform 0.2s ease-out;
+}
+
+.section-header.hidden,
+.navigation-banner.hidden {
+    transform: translateY(-100%);
+}
