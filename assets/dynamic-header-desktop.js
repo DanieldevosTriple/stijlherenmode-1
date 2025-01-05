@@ -46,9 +46,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // Variables for scroll handling
   let lastScrollY = window.scrollY;
   let isHidden = false;
-  let scrollingTimeout = null;
   let scrollDirection = null;
+  let lastDirectionChange = Date.now();
   const SCROLL_THRESHOLD = 50;
+  const DIRECTION_CHANGE_TIMEOUT = 100;
 
   function updateDebugInfo() {
       debugDisplay.innerHTML = `
@@ -56,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
           Last Scroll: ${Math.round(lastScrollY)}px<br>
           Direction: ${scrollDirection}<br>
           Is Hidden: ${isHidden}<br>
-          Sticky Type: ${stickyType}
+          Time since direction change: ${Date.now() - lastDirectionChange}ms
       `;
   }
 
@@ -79,6 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   let ticking = false;
+  let upScrollAccumulator = 0;
+  const UP_SCROLL_THRESHOLD = 100;
 
   function handleScroll() {
       if (ticking) return;
@@ -86,26 +89,35 @@ document.addEventListener('DOMContentLoaded', function () {
       ticking = true;
       requestAnimationFrame(() => {
           const currentScroll = window.scrollY;
+          const scrollDelta = currentScroll - lastScrollY;
+          const currentTime = Date.now();
           
-          // Determine scroll direction if moved more than threshold
-          if (Math.abs(currentScroll - lastScrollY) > SCROLL_THRESHOLD) {
-              const newDirection = currentScroll > lastScrollY ? 'down' : 'up';
-              
-              // Only update if direction changed
-              if (newDirection !== scrollDirection) {
+          // Determine scroll direction
+          const newDirection = scrollDelta > 0 ? 'down' : 'up';
+          
+          // Handle direction changes
+          if (newDirection !== scrollDirection) {
+              if (currentTime - lastDirectionChange > DIRECTION_CHANGE_TIMEOUT) {
                   scrollDirection = newDirection;
-                  
-                  // Apply header visibility based on direction
-                  if (scrollDirection === 'down' && !isHidden) {
-                      hideHeader();
-                  } else if (scrollDirection === 'up' && isHidden) {
-                      showHeader();
-                  }
+                  lastDirectionChange = currentTime;
+                  upScrollAccumulator = 0;
               }
-              
-              lastScrollY = currentScroll;
           }
           
+          // Handle scroll down
+          if (scrollDirection === 'down' && scrollDelta > SCROLL_THRESHOLD && !isHidden) {
+              hideHeader();
+              upScrollAccumulator = 0;
+          }
+          // Handle scroll up
+          else if (scrollDirection === 'up' && scrollDelta < 0) {
+              upScrollAccumulator += Math.abs(scrollDelta);
+              if (upScrollAccumulator > UP_SCROLL_THRESHOLD && isHidden) {
+                  showHeader();
+              }
+          }
+          
+          lastScrollY = currentScroll;
           updateDebugInfo();
           ticking = false;
       });
