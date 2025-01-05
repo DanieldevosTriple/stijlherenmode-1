@@ -26,62 +26,67 @@ document.addEventListener('DOMContentLoaded', function () {
   sectionHeader.classList.add('sticky');
   sectionAnnouncementBar.classList.add('sticky');
   
-  const enableHideOnScroll = true;
-  if (!enableHideOnScroll) return;
-  
-  let lastScrollY = window.scrollY;
   const SCROLL_DOWN_THRESHOLD = 100;
   const SCROLL_UP_THRESHOLD = 50;
+  
+  let lastScrollY = window.scrollY;
   let isHidden = false;
   let ticking = false;
-  let scrollDistance = 0;
+  let lastScrollTime = Date.now();
+  let scrollDirection = null;
+  let scrollTimeout = null;
   
-  function updateDebugInfo(currentScrollY, isScrollingDown) {
+  function updateDebugInfo(currentScrollY) {
       debugDisplay.innerHTML = `
           Current Scroll: ${Math.round(currentScrollY)}px<br>
           Last Scroll: ${Math.round(lastScrollY)}px<br>
-          Scroll Distance: ${Math.round(scrollDistance)}px<br>
-          Direction: ${isScrollingDown ? 'DOWN' : 'UP'}<br>
+          Direction: ${scrollDirection}<br>
           Is Hidden: ${isHidden}<br>
-          Down Threshold: ${SCROLL_DOWN_THRESHOLD}px<br>
-          Up Threshold: ${SCROLL_UP_THRESHOLD}px
+          Time since last scroll: ${Date.now() - lastScrollTime}ms
       `;
   }
   
   function updateHeaderVisibility() {
       const currentScrollY = window.scrollY;
-      const isScrollingDown = currentScrollY > lastScrollY;
+      const currentTime = Date.now();
+      const newDirection = currentScrollY > lastScrollY ? 'down' : 'up';
       
-      // Update scroll distance based on direction
-      if (isScrollingDown) {
-          scrollDistance += (currentScrollY - lastScrollY);
-      } else {
-          scrollDistance -= (lastScrollY - currentScrollY);
+      // Clear existing timeout
+      if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
       }
       
-      // Reset scroll distance if direction changes
-      if ((isScrollingDown && scrollDistance < 0) || (!isScrollingDown && scrollDistance > 0)) {
-          scrollDistance = 0;
+      // Update direction only if it's different
+      if (newDirection !== scrollDirection) {
+          scrollDirection = newDirection;
+          lastScrollTime = currentTime;
       }
       
-      // Update debug before applying changes
-      updateDebugInfo(currentScrollY, isScrollingDown);
-      
-      // Apply threshold checks
-      if (isScrollingDown && scrollDistance > SCROLL_DOWN_THRESHOLD && !isHidden && currentScrollY > SCROLL_DOWN_THRESHOLD) {
-          console.log('🔴 Hiding header - Down threshold reached');
+      // Handle scroll down
+      if (scrollDirection === 'down' && 
+          currentScrollY > SCROLL_DOWN_THRESHOLD && 
+          !isHidden) {
           sectionHeader.classList.add('hidden');
           sectionAnnouncementBar.classList.add('hidden');
           isHidden = true;
-          scrollDistance = 0;
-      } else if (!isScrollingDown && Math.abs(scrollDistance) > SCROLL_UP_THRESHOLD && isHidden) {
-          console.log('🟢 Showing header - Up threshold reached');
-          sectionHeader.classList.remove('hidden');
-          sectionAnnouncementBar.classList.remove('hidden');
-          isHidden = false;
-          scrollDistance = 0;
+          console.log('🔴 Hiding header - Down threshold reached');
       }
       
+      // Handle scroll up
+      if (scrollDirection === 'up' && 
+          currentScrollY < document.documentElement.scrollHeight - window.innerHeight - SCROLL_UP_THRESHOLD && 
+          isHidden) {
+          scrollTimeout = setTimeout(() => {
+              if (scrollDirection === 'up') {
+                  sectionHeader.classList.remove('hidden');
+                  sectionAnnouncementBar.classList.remove('hidden');
+                  isHidden = false;
+                  console.log('🟢 Showing header - Up threshold reached');
+              }
+          }, 150); // Small delay to prevent flickering
+      }
+      
+      updateDebugInfo(currentScrollY);
       lastScrollY = currentScrollY;
       ticking = false;
   }
@@ -95,11 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
   // Reset on page load
   window.addEventListener('load', function() {
-      if (window.scrollY < SCROLL_DOWN_THRESHOLD) {
-          sectionHeader.classList.remove('hidden');
-          sectionAnnouncementBar.classList.remove('hidden');
-          isHidden = false;
-      }
-      updateDebugInfo(window.scrollY, false);
+      lastScrollY = window.scrollY;
+      updateDebugInfo(window.scrollY);
   });
 });
