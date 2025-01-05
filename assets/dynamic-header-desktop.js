@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }
       } else if (currentScrollY < lastScrollY) {
           // Scrolling up
-          if (isHidden) {
+          if (isHidden && !isScrollingUp) {
               clearTimeout(actionTimeout); // Clear any existing timeout before applying changes
               actionTimeout = setTimeout(() => {
                   sectionHeader.classList.remove('hidden');
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   sectionHeader.classList.add('scroll-up');
                   sectionAnnouncementBar.classList.add('scroll-up');
                   isHidden = false;
-                  isScrollingUp = true;
+                  isScrollingUp = true; // Mark as scrolling up
               }, 100);  // Add a slight delay before showing the header
           }
       }
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       // Remove scroll-up class when scrolling stops
-      if (!isScrollingUp) {
+      if (isScrollingUp) {
           clearTimeout(scrollTimeout);
           scrollTimeout = setTimeout(() => {
               sectionHeader.classList.remove('scroll-up');
