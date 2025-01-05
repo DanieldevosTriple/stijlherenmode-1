@@ -63,6 +63,8 @@ section {
 
 .container-general {
   overflow: hidden;
+  position: relative;
+  top: var(--full-header-height);
 }
 
 @media screen and (min-width: 991px) and (max-width: 1099px) {
