@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
   const SCROLL_DOWN_THRESHOLD = 100;
   const SCROLL_UP_THRESHOLD = 50;
-  const DEBOUNCE_DELAY = 150; // Debounce delay in ms
+  const DEBOUNCE_DELAY = 100; // Debounce delay in ms
   
   let lastScrollY = window.scrollY;
   let isHidden = false;
