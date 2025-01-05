@@ -44,14 +44,20 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Variables for scroll handling
+  const MIN_SCROLL = 20;          // Minimum scroll movement to consider
+  const SCROLL_DOWN_START = 100;  // When to start considering hiding header
+  
   let lastScrollY = window.scrollY;
   let isHidden = false;
   let ticking = false;
+  let scrollDirection = null;
+  let lastDirectionChange = Date.now();
   
   function updateDebugInfo() {
       debugDisplay.innerHTML = `
           Current Scroll: ${Math.round(window.scrollY)}px<br>
           Last Scroll: ${Math.round(lastScrollY)}px<br>
+          Direction: ${scrollDirection}<br>
           Is Hidden: ${isHidden}<br>
           Delta: ${Math.round(window.scrollY - lastScrollY)}px
       `;
@@ -83,13 +89,25 @@ document.addEventListener('DOMContentLoaded', function () {
           const currentScrollY = window.scrollY;
           const delta = currentScrollY - lastScrollY;
 
-          // Scrolling down
-          if (delta > 0) {
-              hideHeader();
-          } 
-          // Scrolling up
-          else if (delta < 0) {
-              showHeader();
+          // Only process significant scroll movements
+          if (Math.abs(delta) >= MIN_SCROLL) {
+              const newDirection = delta > 0 ? 'down' : 'up';
+              
+              // Update direction if it changed
+              if (newDirection !== scrollDirection) {
+                  const now = Date.now();
+                  if (now - lastDirectionChange > 50) {  // Debounce direction changes
+                      scrollDirection = newDirection;
+                      lastDirectionChange = now;
+                  }
+              }
+
+              // Apply show/hide logic based on direction
+              if (scrollDirection === 'down' && currentScrollY > SCROLL_DOWN_START && !isHidden) {
+                  hideHeader();
+              } else if (scrollDirection === 'up' && isHidden) {
+                  showHeader();
+              }
           }
 
           lastScrollY = currentScrollY;
