@@ -271,12 +271,10 @@
       <link rel="stylesheet" href="{{ 'header-custom-logo-index.css' | asset_url }}">
     {% endif %}    
 
-    {{ 'bootstrap-grid.css' | asset_url | stylesheet_tag }}
-    {{ 'bootstrap-reboot.css' | asset_url | stylesheet_tag }}
-    {{ 'bootstrap.css' | asset_url | stylesheet_tag }}
     {{ 'bootstrap.min.css' | asset_url | stylesheet_tag }}
     {{ 'bootstrap-grid.min.css' | asset_url | stylesheet_tag }}
     {{ 'bootstrap-reboot.min.css' | asset_url | stylesheet_tag }}
+    
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
     
     {{ 'base.css' | asset_url | stylesheet_tag }}
