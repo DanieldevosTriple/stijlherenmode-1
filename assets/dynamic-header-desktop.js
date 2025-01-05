@@ -37,24 +37,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (stickyType === 'enabled') return;
 
-  // Scroll configuration
-  const SCROLL_START = 100;       // When to start considering header actions
-  const DEBOUNCE_DOWN = 150;      // Debounce time for hiding (scrolling down)
+  // Configuration
+  const DEBOUNCE_TIME = 150;       // Time to wait before processing scroll
+  const SCROLL_THRESHOLD = 50;      // Minimum scroll amount to trigger action
   
-  // State variables
+  // State
   let lastScrollY = window.scrollY;
   let isHidden = false;
-  let hideDebounceTimer = null;
-  let lastDirection = null;
-  let scrollingUp = false;
+  let debounceTimer = null;
+  let currentDirection = null;
   
   function updateDebugInfo() {
       debugDisplay.innerHTML = `
-          Current Scroll: ${Math.round(window.scrollY)}px<br>
-          Last Scroll: ${Math.round(lastScrollY)}px<br>
-          Direction: ${lastDirection}<br>
+          Scroll Y: ${Math.round(window.scrollY)}px<br>
+          Last Y: ${Math.round(lastScrollY)}px<br>
+          Direction: ${currentDirection}<br>
           Is Hidden: ${isHidden}<br>
-          Scrolling Up: ${scrollingUp}
+          Debouncing: ${debounceTimer !== null}
       `;
   }
 
@@ -76,51 +75,43 @@ document.addEventListener('DOMContentLoaded', function () {
       }
   }
 
-  let lastCallTime = Date.now();
-  const THROTTLE_TIME = 50;
-
   function handleScroll() {
-      const now = Date.now();
-      if (now - lastCallTime < THROTTLE_TIME) return;
-      lastCallTime = now;
-
-      const currentScrollY = window.scrollY;
-      const direction = currentScrollY > lastScrollY ? 'down' : 'up';
-
-      // Only process if we've scrolled enough
-      if (Math.abs(currentScrollY - lastScrollY) > 5) {
-          if (direction !== lastDirection) {
-              // Direction changed
-              lastDirection = direction;
-              if (direction === 'up') {
-                  // Clear any pending hide operation
-                  if (hideDebounceTimer) {
-                      clearTimeout(hideDebounceTimer);
-                      hideDebounceTimer = null;
-                  }
-                  showHeader();
-              }
-          }
-
-          if (currentScrollY > SCROLL_START) {
-              if (direction === 'down' && !isHidden) {
-                  // Debounce the hide operation
-                  if (hideDebounceTimer) clearTimeout(hideDebounceTimer);
-                  hideDebounceTimer = setTimeout(() => {
-                      if (lastDirection === 'down') { // Double-check direction
-                          hideHeader();
-                      }
-                      hideDebounceTimer = null;
-                  }, DEBOUNCE_DOWN);
-              }
-          }
+      // Clear existing timer
+      if (debounceTimer) {
+          clearTimeout(debounceTimer);
       }
 
-      lastScrollY = currentScrollY;
+      // Set new timer
+      debounceTimer = setTimeout(() => {
+          const currentScrollY = window.scrollY;
+          const scrollDelta = currentScrollY - lastScrollY;
+
+          // Only process if we've scrolled enough
+          if (Math.abs(scrollDelta) > SCROLL_THRESHOLD) {
+              // Determine scroll direction
+              const newDirection = scrollDelta > 0 ? 'down' : 'up';
+              
+              if (newDirection !== currentDirection) {
+                  currentDirection = newDirection;
+                  
+                  // Apply header visibility based on direction
+                  if (currentDirection === 'down') {
+                      hideHeader();
+                  } else {
+                      showHeader();
+                  }
+              }
+          }
+
+          lastScrollY = currentScrollY;
+          debounceTimer = null;
+          updateDebugInfo();
+      }, DEBOUNCE_TIME);
+
       updateDebugInfo();
   }
 
-  // Use passive scroll listener with throttling
+  // Use passive scroll listener
   window.addEventListener('scroll', handleScroll, { passive: true });
 
   // Initialize state
