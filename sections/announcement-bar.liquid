@@ -18,7 +18,7 @@
   {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 {% endif %}
 
-{% if sticky %}
+{% if section.settings.sticky %}
   {{'component-sticky-announcement.css' | asset_url | stylesheet_tag }}
 {% endif %}
 
