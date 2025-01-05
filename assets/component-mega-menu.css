@@ -287,10 +287,3 @@
 .mega-menu-container.mobile-menu-container .submenu.active+.back-button {
   display: block;
 }
-
-/* Ensure header stays on top */
-.header-wrapper {
-  position: relative;
-  z-index: 100;
-  background: rgb(var(--color-background));
-}
