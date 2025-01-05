@@ -89,6 +89,26 @@
   class="header-wrapper gradient {% if section.settings.transparent %}{{ template }}-page{% endif %}"
   data-section-type="header">
 
+  {% if section.settings.announcement_bar %}
+    <div class="utility-bar color-{{ section.settings.color_scheme }}" data-section-type="announcement-bar">
+      <div class="utility-bar__grid">
+        <div class="announcement-bar{% if section.settings.show_social %} announcement-bar--one-announcement{% endif %}" role="region" aria-label="{{ 'sections.header.announcement' | t }}" {{ block.shopify_attributes }}>
+          {%- if section.settings.announcement_text != blank -%}
+            {%- if section.settings.announcement_link != blank -%}
+              <a href="{{ section.settings.announcement_link }}" class="announcement-bar__link link link--text focus-inset animate-arrow">
+            {%- endif -%}
+            <p class="h5 announcement-bar__message">
+              <span>{{ section.settings.announcement_text | escape }}</span>
+            </p>
+            {%- if section.settings.announcement_link != blank -%}
+              </a>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
   <header class="header-wrapper">
       <div class="new-header">
         <!-- Left: Dynamic Menu -->
@@ -305,7 +325,7 @@
 {% schema %}
 {
   "name": "Header",
-  "class": "section-header-test",
+  "class": "section-header",
   "settings": [
     {
       "type": "image_picker",
@@ -342,10 +362,26 @@
       "id": "transparent",
       "label": "Enable Transparent Header",
       "info": "Make the header background transparent."
+    },
+    {
+      "type": "checkbox",
+      "id": "announcement_bar",
+      "label": "Enable Announcement Bar",
+      "default": false,
+      "info": "Enable the announcement bar in the header."
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement Bar Text",
+      "info": "Enter the text for the announcement bar."
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Announcement Bar Link",
+      "info": "Enter a link for the announcement bar."
     }
   ]
 }
 {% endschema %}
-
-
-
