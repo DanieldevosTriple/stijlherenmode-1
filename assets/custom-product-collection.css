@@ -20,6 +20,14 @@
     }
 }
 
+@media screen and (max-width: 991px) {
+    .product-grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
 /* Allow the product grid to scroll */
 .product-grid-collection {
     position: relative;
