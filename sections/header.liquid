@@ -52,35 +52,6 @@
     });
   });   
 </script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const header = document.querySelector('.section-header');
-    
-    function setElementHeight() {
-      if (header) {
-        // Get the border width (if any)
-        const borderTop = parseInt(window.getComputedStyle(header).borderTopWidth, 10);
-        const borderBottom = parseInt(window.getComputedStyle(header).borderBottomWidth, 10);
-        
-        // Get the clientHeight (height excluding borders and padding)
-        const clientHeight = header.clientHeight;
-        
-        // Calculate the height excluding the border
-        const heightWithoutBorders = clientHeight - borderTop - borderBottom;
-        
-        // Set the CSS variable to the height excluding borders
-        document.documentElement.style.setProperty('--header-height', `${heightWithoutBorders}px`);
-      }
-    }
-  
-    // Set initial heights on page load
-    setElementHeight();
-    
-    // Update on window resize
-    window.addEventListener('resize', setElementHeight);
-  });  
-</script>
   
 {% if section.settings.sticky_behavior != 'disabled' %}
     <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer></script>
