@@ -9,12 +9,22 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Controleer of data-sticky-enabled op zowel header en utilityBar "true" is
+  console.log('sectionHeader dataset.stickyEnabled:', sectionHeader?.dataset.stickyEnabled);
+  console.log('utilityBar dataset.stickyEnabled:', utilityBar?.dataset.stickyEnabled);
+
   if (sectionHeader?.dataset.stickyEnabled === 'true') {
+    console.log('sectionHeader heeft data-sticky-enabled=true, sticky wordt toegevoegd');
     sectionHeader.classList.add('sticky');
+  } else {
+    console.log('sectionHeader heeft geen data-sticky-enabled=true');
   }
+
   if (utilityBar?.dataset.stickyEnabled === 'true') {
+    console.log('utilityBar heeft data-sticky-enabled=true, sticky wordt toegevoegd');
     sectionAnnouncementBar.classList.add('sticky');
     utilityBar.classList.add('sticky');
+  } else {
+    console.log('utilityBar heeft geen data-sticky-enabled=true');
   }
   
   let lastScrollY = window.scrollY;
