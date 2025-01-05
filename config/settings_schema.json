@@ -16,7 +16,17 @@
         "min": 0,
         "max": 10,
         "step": 1,
-        "default": 4,
+        "default": 5,
+        "unit": "rem",
+      },
+      {
+        "type": "range",
+        "id": "header_height",
+        "label": "Set the height of the header",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "default": 5,
         "unit": "rem",
       }
     ]
