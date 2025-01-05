@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
   const sectionHeader = document.querySelector('.section-header');
-  const sectionIndexPage = document.querySelector('.index-page');
   const sectionAnnouncementBar = document.querySelector('.navigation-banner'); 
   
   if (!sectionHeader) {
@@ -22,12 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
   let lastScrollY = window.scrollY;
   const visibilityThreshold = 50;
   let isHidden = false;
-  let isScrollingUp = false;  // Flag to track if user is scrolling up
   let ticking = false;  // For requestAnimationFrame
   let lastTime = Date.now();
   const scrollDelay = 100;  // Minimum time between scroll updates in ms
-  let scrollTimeout;  // Timeout to detect when scrolling stops
-  let actionTimeout;  // Timeout for preventing flicker between scroll-up and hidden
+  let actionTimeout;  // Timeout for preventing flicker between scroll up and down
 
   function updateHeaderVisibility() {
       const currentScrollY = window.scrollY;
@@ -53,44 +50,19 @@ document.addEventListener('DOMContentLoaded', function () {
               actionTimeout = setTimeout(() => {
                   sectionHeader.classList.add('hidden');
                   sectionAnnouncementBar.classList.add('hidden');
-                  sectionHeader.classList.remove('scroll-up');
-                  sectionAnnouncementBar.classList.remove('scroll-up');
                   isHidden = true;
               }, 100);  // Add a slight delay before hiding the header
           }
       } else if (currentScrollY < lastScrollY) {
           // Scrolling up
-          if (isHidden && !isScrollingUp) {
+          if (isHidden) {
               clearTimeout(actionTimeout); // Clear any existing timeout before applying changes
               actionTimeout = setTimeout(() => {
                   sectionHeader.classList.remove('hidden');
                   sectionAnnouncementBar.classList.remove('hidden');
-                  sectionHeader.classList.add('scroll-up');
-                  sectionAnnouncementBar.classList.add('scroll-up');
                   isHidden = false;
-                  isScrollingUp = true; // Mark as scrolling up
               }, 100);  // Add a slight delay before showing the header
           }
-      }
-
-      // Reset header at top of page
-      if (currentScrollY === 0) {
-          sectionHeader.classList.remove('hidden', 'scroll-up');
-          sectionAnnouncementBar.classList.remove('hidden', 'scroll-up');
-          if (sectionIndexPage) {
-              sectionIndexPage.classList.remove('hidden', 'scroll-up');
-          }
-          isHidden = false;
-      }
-
-      // Remove scroll-up class when scrolling stops
-      if (isScrollingUp) {
-          clearTimeout(scrollTimeout);
-          scrollTimeout = setTimeout(() => {
-              sectionHeader.classList.remove('scroll-up');
-              sectionAnnouncementBar.classList.remove('scroll-up');
-              isScrollingUp = false;
-          }, 150); // Delay to detect when scrolling has truly stopped
       }
 
       lastScrollY = currentScrollY;
