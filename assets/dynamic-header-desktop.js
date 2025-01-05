@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const sectionHeader = document.querySelector('.section-header');
+  const sectionAnnouncementBar = document.querySelector('.announcement-bar-section');
   const utilityBar = document.querySelector('.announcement-bar-section');
   const sectionIndexPage = document.querySelector('.index-page');
   
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   sectionHeader.classList.add('sticky');
+  sectionAnnouncementBar.classList.add('sticky');
   let lastScrollY = window.scrollY;
   const visibilityThreshold = 50;
   let isHidden = false;
