@@ -26,55 +26,63 @@ document.addEventListener('DOMContentLoaded', function () {
   sectionHeader.classList.add('sticky');
   sectionAnnouncementBar.classList.add('sticky');
   
-  const SCROLL_DOWN_THRESHOLD = 100;  // How far to scroll down before hiding
-  const SCROLL_UP_THRESHOLD = 50;     // How far to scroll up before showing
+  const SCROLL_DOWN_THRESHOLD = 100;
+  const SCROLL_UP_THRESHOLD = 50;
+  const DEBOUNCE_DELAY = 150; // Debounce delay in ms
   
   let lastScrollY = window.scrollY;
   let isHidden = false;
   let ticking = false;
-  let upScrollDistance = 0;           // Track continuous upward scroll
+  let downDebounceTimer = null;
+  let upDebounceTimer = null;
   
   function updateDebugInfo(currentScrollY) {
       debugDisplay.innerHTML = `
           Current Scroll: ${Math.round(currentScrollY)}px<br>
           Last Scroll: ${Math.round(lastScrollY)}px<br>
-          Up Scroll Distance: ${Math.round(upScrollDistance)}px<br>
           Is Hidden: ${isHidden}<br>
           Down Threshold: ${SCROLL_DOWN_THRESHOLD}px<br>
           Up Threshold: ${SCROLL_UP_THRESHOLD}px
       `;
   }
   
+  function hideHeader() {
+      if (!isHidden) {
+          sectionHeader.classList.add('hidden');
+          sectionAnnouncementBar.classList.add('hidden');
+          isHidden = true;
+          console.log('🔴 Hiding header - Down threshold reached');
+      }
+  }
+  
+  function showHeader() {
+      if (isHidden) {
+          sectionHeader.classList.remove('hidden');
+          sectionAnnouncementBar.classList.remove('hidden');
+          isHidden = false;
+          console.log('🟢 Showing header - Up threshold reached');
+      }
+  }
+  
   function updateHeaderVisibility() {
       const currentScrollY = window.scrollY;
       const scrollDelta = currentScrollY - lastScrollY;
       
+      // Clear existing timers
+      if (downDebounceTimer) clearTimeout(downDebounceTimer);
+      if (upDebounceTimer) clearTimeout(upDebounceTimer);
+      
       // Scrolling down
-      if (scrollDelta > 0) {
-          // Reset upward scroll tracking when direction changes
-          upScrollDistance = 0;
-          
-          // Hide header when scrolling down past threshold
-          if (currentScrollY > SCROLL_DOWN_THRESHOLD && !isHidden) {
-              sectionHeader.classList.add('hidden');
-              sectionAnnouncementBar.classList.add('hidden');
-              isHidden = true;
-              console.log('🔴 Hiding header - Down threshold reached');
-          }
+      if (scrollDelta > 0 && currentScrollY > SCROLL_DOWN_THRESHOLD) {
+          downDebounceTimer = setTimeout(() => {
+              hideHeader();
+          }, DEBOUNCE_DELAY);
       }
       // Scrolling up
       else if (scrollDelta < 0) {
-          // Accumulate upward scroll distance
-          upScrollDistance += Math.abs(scrollDelta);
-          
-          // Show header when enough upward scroll has accumulated
-          if (upScrollDistance > SCROLL_UP_THRESHOLD && isHidden) {
-              sectionHeader.classList.remove('hidden');
-              sectionAnnouncementBar.classList.remove('hidden');
-              isHidden = false;
-              upScrollDistance = 0;  // Reset after showing
-              console.log('🟢 Showing header - Up threshold reached');
-          }
+          upDebounceTimer = setTimeout(() => {
+              showHeader();
+          }, DEBOUNCE_DELAY);
       }
       
       updateDebugInfo(currentScrollY);
@@ -92,7 +100,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Reset on page load
   window.addEventListener('load', function() {
       lastScrollY = window.scrollY;
-      upScrollDistance = 0;
       updateDebugInfo(window.scrollY);
   });
 });
