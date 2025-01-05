@@ -1,0 +1,39 @@
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--background-color-light-mode);
+}
+
+.sticky.scroll-up {
+    background-color: var(--background-color-light-mode) !important;
+    top: var(--utility-bar-height);
+}
+
+.navigation-banner .sticky {
+    position: sticky;
+    top: var(--header-height);
+    z-index: 888;
+}
+
+.sticky .scroll-up .logo {
+    display: block !important;
+    background-image: var(--logo-light);
+    width: 150px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.sticky .mega-menu {
+    position: absolute;
+    top: 100%;
+}
+
+/* Sticky Header Adjustments */
+.sticky .mega-menu {
+    position: absolute;
+    top: 100%;
+}

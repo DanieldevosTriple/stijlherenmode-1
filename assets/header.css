@@ -15,19 +15,6 @@
     color: white
 }
 
-.sticky {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background-color: var(--background-color-light-mode);
-}
-
-.sticky.scroll-up {
-    background-color: var(--background-color-light-mode) !important;
-    top: var(--utility-bar-height);
-}
-
 .index-page.scroll-up .navbar-nav .nav-link {
     color: black
 }
@@ -76,16 +63,6 @@
 .index-page .logo .transparent {
     display: block !important;
     background-image: var(--logo-dark);
-    width: 150px;
-    height: 40px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-}
-
-.sticky .scroll-up .logo {
-    display: block !important;
-    background-image: var(--logo-light);
     width: 150px;
     height: 40px;
     background-repeat: no-repeat;
@@ -442,11 +419,6 @@ li.search {
     z-index: 1000;
 }
 
-.sticky .mega-menu {
-    position: absolute;
-    top: 100%;
-}
-
 .mega-menu.active {
     opacity: 1;
     visibility: visible;
@@ -583,12 +555,6 @@ li.search {
     overflow: hidden;
     position: fixed;
     width: 100%;
-}
-
-/* Sticky Header Adjustments */
-.sticky .mega-menu {
-    position: absolute;
-    top: 100%;
 }
 
 /* Add hover state for nav-item and mega-menu */
