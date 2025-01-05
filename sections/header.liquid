@@ -59,23 +59,24 @@
     
     function setElementHeight() {
       if (header) {
-        const headerHeight = header.offsetHeight;
-        document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
-        console.log('Header height set to:', headerHeight); // Log the header height
-      } else {
-        console.log('Header element not found'); // Log if the header is not found
+        // Get the border width (if any)
+        const borderTop = parseInt(window.getComputedStyle(header).borderTopWidth, 10);
+        const borderBottom = parseInt(window.getComputedStyle(header).borderBottomWidth, 10);
+        
+        // Calculate the height excluding the border
+        const heightWithoutBorders = header.offsetHeight - borderTop - borderBottom;
+        
+        // Set the CSS variable to the height excluding borders
+        document.documentElement.style.setProperty('--header-height', `${heightWithoutBorders}px`);
       }
-    } 
+    }
   
     // Set initial heights
     setElementHeight();
     
     // Update on window resize
-    window.addEventListener('resize', function() {
-      setElementHeight();
-      console.log('Window resized, header height updated');
-    });
-  });  
+    window.addEventListener('resize', setElementHeight);
+  });
 </script>
   
 {% if section.settings.sticky %}
