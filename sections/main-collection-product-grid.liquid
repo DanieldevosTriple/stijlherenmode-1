@@ -165,11 +165,10 @@
                     %}
                   </div>
                 {% endif %}
-              {% endfor %}                                                         
-                         
-            {%- if paginate.pages > 1 -%}
-              {% render 'pagination', paginate: paginate, anchor: '' %}
-            {%- endif -%}
+              {% endfor %}                                                                                  
+        {%- endif -%}
+        {%- if paginate.pages > 1 -%}
+          {% render 'pagination', paginate: paginate, anchor: '' %}
         {%- endif -%}
       </div>
     </div>
