@@ -1,26 +1,21 @@
-.product-grid-collection {
-    position: relative;
-    overflow: auto;
-    /* Zorgt voor scrollen binnen de product grid */
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-
 /* Make the facets sticky on desktop */
 @media screen and (min-width: 992px) {
     .vertical-facets {
         position: sticky;
-        top: 0;
-        /* This ensures that the facets stay at the top of the viewport */
-        z-index: 10;
-        /* Ensure the facets are above the product grid */
+        top: 0; /* Keeps the facets at the top of the screen while scrolling */
+        z-index: 10; /* Ensures the facets stay on top of other content */
+        height: 100%; /* Full height to allow scrolling of the main content */
+        display: flex;
+        flex-direction: column; /* Ensures the facets are vertically stacked */
+    }
+
+    /* Ensure the facets wrapper takes up the full column width */
+    .facets-wrapper {
+        width: 25%; /* Adjust based on your design */
+    }
+
+    .product-grid-container {
+        width: 75%; /* Take up the rest of the space for product grid */
     }
 }
 
@@ -28,7 +23,6 @@
 .product-grid-collection {
     position: relative;
     overflow: hidden;
-    /* Hide overflow within the main collection container */
 }
 
 .product-grid-container {
@@ -37,10 +31,8 @@
     gap: 1rem;
     max-width: 100%;
     box-sizing: border-box;
-    overflow-y: auto;
-    /* Allow vertical scrolling */
-    height: calc(100vh - 100px);
-    /* Adjust this value depending on the space for your header and footer */
+    overflow-y: auto; /* Allow vertical scrolling */
+    height: calc(100vh - 100px); /* Adjust this value depending on the space for your header and footer */
 }
 
 @media screen and (max-width: 991px) {
@@ -49,38 +41,7 @@
     }
 }
 
-.product-grid-container.is-loading::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.8);
-    z-index: 2;
-}
-
-.product-grid-container.is-loading::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 50px;
-    height: 50px;
-    margin: -25px 0 0 -25px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #000;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    z-index: 3;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+/* Optional: Adjust padding for sections to make space for sticky facets */
+.product-grid-collection {
+    padding-top: 60px; /* Adjust according to your design needs */
 }
