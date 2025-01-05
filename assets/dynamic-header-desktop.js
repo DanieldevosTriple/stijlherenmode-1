@@ -2,15 +2,21 @@ document.addEventListener('DOMContentLoaded', function () {
   const sectionHeader = document.querySelector('.section-header');
   const sectionAnnouncementBar = document.querySelector('.announcement-bar-section');
   const utilityBar = document.querySelector('.announcement-bar-section');
-  const sectionIndexPage = document.querySelector('.index-page');
   
-  if (!sectionHeader) {
-    console.warn('Element with class "section-header" not found.');
+  if (!sectionHeader || !utilityBar) {
+    console.warn('Elementen met de juiste klassen niet gevonden.');
     return;
   }
 
-  sectionHeader.classList.add('sticky');
-  sectionAnnouncementBar.classList.add('sticky');
+  // Controleer of data-sticky-enabled op zowel header en utilityBar "true" is
+  if (sectionHeader?.dataset.stickyEnabled === 'true') {
+    sectionHeader.classList.add('sticky');
+  }
+  if (utilityBar?.dataset.stickyEnabled === 'true') {
+    sectionAnnouncementBar.classList.add('sticky');
+    utilityBar.classList.add('sticky');
+  }
+  
   let lastScrollY = window.scrollY;
   const visibilityThreshold = 50;
   let isHidden = false;
@@ -26,9 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
       sectionHeader.classList.remove('hidden', 'scroll-up');
       if (utilityBar?.dataset.stickyEnabled === 'true') {
         utilityBar.classList.remove('hidden', 'scroll-up');
-      }
-      if (sectionIndexPage) {
-        sectionIndexPage.classList.remove('hidden', 'scroll-up');
       }
       setTimeout(() => {
         sectionHeader.style.transition = '';
