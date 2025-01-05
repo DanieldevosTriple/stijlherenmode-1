@@ -1,6 +1,7 @@
 .product-grid-collection {
     position: relative;
-    overflow: auto; /* Zorgt voor scrollen binnen de product grid */
+    overflow: auto;
+    /* Zorgt voor scrollen binnen de product grid */
 }
 
 .product-grid {
@@ -11,18 +12,40 @@
     box-sizing: border-box;
 }
 
-@media screen and (max-width: 991px) {
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        /* Pas min-width naar wens aan */
+
+/* Make the facets sticky on desktop */
+@media screen and (min-width: 992px) {
+    .vertical-facets {
+        position: sticky;
+        top: 0;
+        /* This ensures that the facets stay at the top of the viewport */
+        z-index: 10;
+        /* Ensure the facets are above the product grid */
     }
 }
 
+/* Allow the product grid to scroll */
+.product-grid-collection {
+    position: relative;
+    overflow: hidden;
+    /* Hide overflow within the main collection container */
+}
 
-@media screen and (min-width: 992px) {
-    .vertical-facets {
-        grid-template-columns: 25% 75%;
-        display: grid;
+.product-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    /* Allow vertical scrolling */
+    height: calc(100vh - 100px);
+    /* Adjust this value depending on the space for your header and footer */
+}
+
+@media screen and (max-width: 991px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
