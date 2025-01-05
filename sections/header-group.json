@@ -19,7 +19,10 @@
         "menu": "menu-new",
         "enable_mega_menu": true,
         "sticky": true,
-        "transparent": false
+        "transparent": false,
+        "announcement_bar": true,
+        "announcement_text": "Lorem ipsum",
+        "announcement_link": ""
       }
     },
     "main-banner": {
