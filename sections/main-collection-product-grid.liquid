@@ -77,12 +77,6 @@
             </div>
           </div>
         {%- else -%}
-          <div class="collection">
-            <div
-              id="product-grid"
-              data-id="{{ section.id }}"
-              class="product-grid">
-              
               {% for product in collection.products %}
                 {%- comment -%}
                   Determine if the product has variants.
@@ -171,14 +165,11 @@
                     %}
                   </div>
                 {% endif %}
-              {% endfor %}                                                       
-
-            </div>    
+              {% endfor %}                                                         
                          
             {%- if paginate.pages > 1 -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
-          </div>
         {%- endif -%}
       </div>
     </div>

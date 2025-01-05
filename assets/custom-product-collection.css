@@ -34,6 +34,7 @@
     box-sizing: border-box;
     overflow-y: auto; /* Allow vertical scrolling */
     height: calc(100vh - 100px); /* Adjust this value depending on the space for your header and footer */
+    width: 100%;
 }
 
 @media screen and (max-width: 991px) {
