@@ -82,7 +82,7 @@
   });  
 </script>
   
-{% if section.settings.sticky %}
+{% if section.settings.sticky_behavior != 'disabled' %}
     <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer></script>
 {% else %}
   <script>
@@ -91,7 +91,7 @@
 {% endif %}
 
 <sticky-header
-  data-sticky-enabled="{{ section.settings.sticky }}"
+  data-sticky-type="{{ section.settings.sticky_behavior }}"
   data-theme-mode="{{ section.settings.header_theme_mode }}"
   class="header-wrapper gradient {% if section.settings.transparent %}{{ template }}-page{% endif %}"
   data-section-type="header">
@@ -331,9 +331,30 @@
 
 {% schema %}
 {
-  "name": "Header",
-  "class": "section-header",
-  "settings": [
+    "name": "Header",
+    "class": "section-header",
+    "settings": [
+      {
+        "type": "select",
+        "id": "sticky_behavior",
+        "label": "Header Behavior",
+        "options": [
+          {
+            "value": "disabled",
+            "label": "No sticky header"
+          },
+          {
+            "value": "enabled",
+            "label": "Sticky header"
+          },
+          {
+            "value": "hide_scroll",
+            "label": "Sticky header hide when scrolling"
+          }
+        ],
+        "default": "disabled",
+        "info": "Choose how the header behaves when scrolling"
+      },
     {
       "type": "image_picker",
       "id": "logo_light",
@@ -358,11 +379,6 @@
       "label": "Enable Mega Menu",
       "default": false,
       "info": "Enable mega menu for menu items with submenus"
-    },
-    {
-      "type": "checkbox",
-      "id": "sticky",
-      "label": "Enable Sticky Header"
     },
     {
       "type": "checkbox",

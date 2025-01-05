@@ -1,16 +1,3 @@
-.sticky {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background-color: var(--background-color-light-mode);
-}
-
-.sticky.scroll-up {
-    background-color: var(--background-color-light-mode) !important;
-    top: 0px;
-}
-
 .navigation-banner.sticky {
     position: sticky;
     top: var(--header-height);
@@ -27,13 +14,58 @@
     background-size: contain;
 }
 
-.sticky .mega-menu {
-    position: absolute;
-    top: 100%;
-}
-
 /* Sticky Header Adjustments */
 .sticky .mega-menu {
     position: absolute;
     top: 100%;
 }
+
+.section-header {
+    position: relative;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .utility-bar {
+    position: relative;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Sticky styles */
+  .section-header.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--header-background);
+  }
+  
+  .utility-bar.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .section-header {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .utility-bar {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  
+  .section-header.sticky-hide {
+    transform: translateY(-100%);
+  }
+  
+  .utility-bar.sticky-hide {
+    transform: translateY(-100%);
+  }
+  
+  /* When header is hidden, move it up by the announcement bar height */
+  .utility-bar.sticky.sticky-hide + .section-header.sticky.sticky-hide {
+    transform: translateY(calc(-100% - var(--announcement-bar-height, 40px)));
+  }
