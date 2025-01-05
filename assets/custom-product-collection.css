@@ -84,29 +84,3 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-  
-  /* Add these root variables to your CSS */
-  :root {
-    --header-height: 80px; /* Adjust to match your header height */
-    --footer-height: 100px; /* Adjust to match your footer height */
-  }
-  
-  /* Footer styles */
-  footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: var(--footer-height);
-    z-index: 2;
-  }
-  
-  /* Ensure the header stays on top */
-  header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 3;
-    height: var(--header-height);
-  }
