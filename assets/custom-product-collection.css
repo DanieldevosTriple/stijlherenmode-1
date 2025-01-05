@@ -6,10 +6,12 @@
         /* Keeps the facets at the top of the screen while scrolling */
         z-index: 10;
         /* Ensures the facets stay on top of other content */
-        height: 100vh; /* Full height to allow scrolling of the main content */
+        height: 100%;
+        /* Full height to allow scrolling of the main content */
         display: grid;
-        grid-template-columns: 25% 75%;
+        flex-direction: column;
         /* Ensures the facets are vertically stacked */
+        grid-template-columns: 25% 75%;
     }
 
     /* Ensure the facets wrapper takes up the full column width */
@@ -21,28 +23,20 @@
     .product-grid-container {
         width: 75%;
         /* Take up the rest of the space for product grid */
+    }
+
+    .product-grid-container {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 1rem;
         max-width: 100%;
         box-sizing: border-box;
-        height: 100%; /* Ensure this takes up the available space */
+        overflow-y: auto;
+        /* Allow vertical scrolling */
+        height: calc(100vh - 100px);
+        /* Adjust this value depending on the space for your header and footer */
+        width: 100%;
     }
-}
-
-/* Allow the product grid to scroll */
-.product-grid-collection {
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    max-width: 100%;
-    box-sizing: border-box;
 }
 
 @media screen and (max-width: 991px) {
@@ -53,8 +47,14 @@
     }
 }
 
-/* Optional: Adjust padding for sections to make space for sticky facets */
+/* Allow the product grid to scroll */
 .product-grid-collection {
-    padding-top: 60px; /* Adjust according to your design needs */
+    position: relative;
+    overflow: hidden;
 }
 
+@media screen and (max-width: 991px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
