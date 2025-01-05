@@ -63,8 +63,11 @@
         const borderTop = parseInt(window.getComputedStyle(header).borderTopWidth, 10);
         const borderBottom = parseInt(window.getComputedStyle(header).borderBottomWidth, 10);
         
+        // Get the clientHeight (height excluding borders and padding)
+        const clientHeight = header.clientHeight;
+        
         // Calculate the height excluding the border
-        const heightWithoutBorders = header.offsetHeight - borderTop - borderBottom;
+        const heightWithoutBorders = clientHeight - borderTop - borderBottom;
         
         // Set the CSS variable to the height excluding borders
         document.documentElement.style.setProperty('--header-height', `${heightWithoutBorders}px`);
@@ -76,7 +79,7 @@
     
     // Update on window resize
     window.addEventListener('resize', setElementHeight);
-  });
+  });  
 </script>
   
 {% if section.settings.sticky %}
