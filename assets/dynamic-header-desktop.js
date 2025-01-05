@@ -38,13 +38,14 @@ document.addEventListener('DOMContentLoaded', function () {
   if (stickyType === 'enabled') return;
 
   // Configuration
-  const DEBOUNCE_TIME = 150;       // Time to wait before processing scroll
-  const SCROLL_THRESHOLD = 50;      // Minimum scroll amount to trigger action
+  const SCROLL_START = 100;        // Amount of pixels to scroll before hiding
+  const DIRECTION_THRESHOLD = 50;   // Amount of pixels to determine direction change
+  const DEBOUNCE_DELAY = 150;      // Delay for direction changes
   
   // State
   let lastScrollY = window.scrollY;
   let isHidden = false;
-  let debounceTimer = null;
+  let directionChangeTimer = null;
   let currentDirection = null;
   
   function updateDebugInfo() {
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
           Last Y: ${Math.round(lastScrollY)}px<br>
           Direction: ${currentDirection}<br>
           Is Hidden: ${isHidden}<br>
-          Debouncing: ${debounceTimer !== null}
+          Start Threshold: ${SCROLL_START}px
       `;
   }
 
@@ -76,38 +77,31 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function handleScroll() {
-      // Clear existing timer
-      if (debounceTimer) {
-          clearTimeout(debounceTimer);
+      const currentScrollY = window.scrollY;
+      const scrollDelta = currentScrollY - lastScrollY;
+      const newDirection = scrollDelta > 0 ? 'down' : 'up';
+
+      // If direction changed, wait to confirm it's not just a tiny movement
+      if (newDirection !== currentDirection) {
+          if (directionChangeTimer) clearTimeout(directionChangeTimer);
+          
+          directionChangeTimer = setTimeout(() => {
+              // Only update direction if we've scrolled enough
+              if (Math.abs(window.scrollY - lastScrollY) > DIRECTION_THRESHOLD) {
+                  currentDirection = newDirection;
+              }
+              directionChangeTimer = null;
+          }, DEBOUNCE_DELAY);
       }
 
-      // Set new timer
-      debounceTimer = setTimeout(() => {
-          const currentScrollY = window.scrollY;
-          const scrollDelta = currentScrollY - lastScrollY;
+      // Immediate response to scroll position
+      if (currentScrollY > SCROLL_START && !isHidden && scrollDelta > 0) {
+          hideHeader();
+      } else if (isHidden && scrollDelta < 0) {
+          showHeader();
+      }
 
-          // Only process if we've scrolled enough
-          if (Math.abs(scrollDelta) > SCROLL_THRESHOLD) {
-              // Determine scroll direction
-              const newDirection = scrollDelta > 0 ? 'down' : 'up';
-              
-              if (newDirection !== currentDirection) {
-                  currentDirection = newDirection;
-                  
-                  // Apply header visibility based on direction
-                  if (currentDirection === 'down') {
-                      hideHeader();
-                  } else {
-                      showHeader();
-                  }
-              }
-          }
-
-          lastScrollY = currentScrollY;
-          debounceTimer = null;
-          updateDebugInfo();
-      }, DEBOUNCE_TIME);
-
+      lastScrollY = currentScrollY;
       updateDebugInfo();
   }
 
