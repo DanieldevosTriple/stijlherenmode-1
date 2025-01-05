@@ -11,7 +11,7 @@
     top: 0px;
 }
 
-.navigation-banner .sticky {
+.navigation-banner.sticky {
     position: sticky;
     top: var(--header-height);
     z-index: 888;
