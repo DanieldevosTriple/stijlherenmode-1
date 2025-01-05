@@ -52,21 +52,28 @@
   });   
 </script>
 
-<script>document.addEventListener('DOMContentLoaded', function() {
-  const header = document.querySelector('header');
-  
-  function setHeaderHeight() {
-      if (header) {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const header = document.querySelector('header');
+      const utilityBar = document.querySelector('.utility-bar');
+      
+      function setElementHeight() {
+        if (header) {
           document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
+        }
+        if (utilityBar) {
+          document.documentElement.style.setProperty('--utility-bar-height', `${utilityBar.offsetHeight}px`);
+        }
       }
-  }
-
-  // Set initial height
-  setHeaderHeight();
-
-  // Update on window resize
-  window.addEventListener('resize', setHeaderHeight);
-});</script>
+    
+      // Set initial heights
+      setElementHeight();
+    
+      // Update on window resize
+      window.addEventListener('resize', setElementHeight);
+    });
+</script>
+  
 
 {% if section.settings.sticky %}
     <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer></script>
