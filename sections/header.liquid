@@ -54,17 +54,17 @@
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  window.onload = function () {
     const headerGroup = document.querySelector('.shopify-section-group-header-group');
     
     if (headerGroup) {
-      // Get the height using getBoundingClientRect() for fixed position elements
+      // Haal de hoogte op met getBoundingClientRect() voor vaste positie-elementen
       const headerHeight = headerGroup.getBoundingClientRect().height;
       
-      // Set the height as a CSS variable
+      // Stel de hoogte in als een CSS-variabele
       document.documentElement.style.setProperty('--full-header-height', `${headerHeight}px`);
     }
-  });
+  };  
 </script>
   
 {% if section.settings.sticky_behavior != 'disabled' %}

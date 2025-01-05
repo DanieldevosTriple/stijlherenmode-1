@@ -1,6 +1,6 @@
 .product-grid-collection {
     position: relative;
-    top: var(--full-header-height);
+    height: var(--full-header-height, auto);
 }
 
 .product-grid {
@@ -24,11 +24,6 @@
         grid-template-columns: 25% 75%;
         display: grid;
     }
-}
-
-.product-grid-container {
-    position: relative;
-    min-height: 200px;
 }
 
 .product-grid-container.is-loading::after {
