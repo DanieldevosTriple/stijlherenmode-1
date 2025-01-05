@@ -17,30 +17,30 @@ document.addEventListener('DOMContentLoaded', function () {
   const visibilityThreshold = 50;
   let isHidden = false;
   let ticking = false;
-  
-  // Remove the delay variables and timeout
-  // lastTime and scrollDelay are no longer needed
+  let scrollDirection = 'none';
+  let lastDirectionChange = Date.now();
+  const directionChangeThreshold = 150; // ms to wait before changing direction
   
   function updateHeaderVisibility() {
       const currentScrollY = window.scrollY;
-      const scrollDistance = Math.abs(currentScrollY - lastScrollY);
+      const currentTime = Date.now();
+      const newDirection = currentScrollY > lastScrollY ? 'down' : 'up';
       
-      // Reduce minimum scroll distance for faster response
-      if (scrollDistance < 2) return;
-      
-      if (currentScrollY > lastScrollY && currentScrollY > visibilityThreshold) {
-          // Scrolling down - hide immediately
-          if (!isHidden) {
-              sectionHeader.classList.add('hidden');
-              sectionAnnouncementBar.classList.add('hidden');
-              isHidden = true;
-          }
-      } else if (currentScrollY < lastScrollY) {
-          // Scrolling up - show immediately
-          if (isHidden) {
-              sectionHeader.classList.remove('hidden');
-              sectionAnnouncementBar.classList.remove('hidden');
-              isHidden = false;
+      // Only update if we've been scrolling in the same direction for a while
+      if (newDirection !== scrollDirection) {
+          if (currentTime - lastDirectionChange > directionChangeThreshold) {
+              scrollDirection = newDirection;
+              lastDirectionChange = currentTime;
+              
+              if (scrollDirection === 'down' && currentScrollY > visibilityThreshold && !isHidden) {
+                  sectionHeader.classList.add('hidden');
+                  sectionAnnouncementBar.classList.add('hidden');
+                  isHidden = true;
+              } else if (scrollDirection === 'up' && isHidden) {
+                  sectionHeader.classList.remove('hidden');
+                  sectionAnnouncementBar.classList.remove('hidden');
+                  isHidden = false;
+              }
           }
       }
       
@@ -48,10 +48,20 @@ document.addEventListener('DOMContentLoaded', function () {
       ticking = false;
   }
   
+  // Optimized scroll event listener
   window.addEventListener('scroll', function() {
       if (!ticking) {
           window.requestAnimationFrame(updateHeaderVisibility);
           ticking = true;
+      }
+  }, { passive: true });
+  
+  // Add resize handler to ensure proper visibility on window resize
+  window.addEventListener('resize', function() {
+      if (isHidden && window.scrollY <= visibilityThreshold) {
+          sectionHeader.classList.remove('hidden');
+          sectionAnnouncementBar.classList.remove('hidden');
+          isHidden = false;
       }
   }, { passive: true });
 });
