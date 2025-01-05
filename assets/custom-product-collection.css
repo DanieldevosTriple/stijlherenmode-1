@@ -42,8 +42,3 @@
         grid-template-columns: repeat(2, 1fr);
     }
 }
-
-/* Optional: Adjust padding for sections to make space for sticky facets */
-.product-grid-collection {
-    padding-top: 60px; /* Adjust according to your design needs */
-}
