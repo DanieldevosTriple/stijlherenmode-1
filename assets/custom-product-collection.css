@@ -1,5 +1,10 @@
 .product-grid-collection {
     position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 100px; /* Zorgt ervoor dat de absolute grid niet over de footer heen gaat */
+    overflow: auto; /* Zorgt voor scrollen binnen de product grid */
 }
 
 .product-grid {
