@@ -13,7 +13,7 @@
 
 .navigation-banner.sticky {
     position: sticky;
-    top: var(--header-height);
+    top: calc(var(--header-height) + var(--utility-bar));
     z-index: 888;
 }
 
