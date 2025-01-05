@@ -38,7 +38,7 @@
         width: 100%;
     }
 
-    
+
 }
 
 @media screen and (max-width: 991px) {
@@ -53,6 +53,7 @@
 .product-grid-collection {
     position: relative;
     overflow: hidden;
+    z-index: 1;
 }
 
 @media screen and (max-width: 991px) {
