@@ -38,23 +38,22 @@ document.addEventListener('DOMContentLoaded', function () {
   if (stickyType === 'enabled') return;
 
   // Configuration
-  const SCROLL_START = 100;        // Amount of pixels to scroll before hiding
-  const DIRECTION_THRESHOLD = 50;   // Amount of pixels to determine direction change
-  const DEBOUNCE_DELAY = 150;      // Delay for direction changes
+  const SCROLL_START = 100;      // Amount of pixels to scroll before hiding
+  const THROTTLE_TIME = 150;     // Throttle time for scroll events
   
   // State
   let lastScrollY = window.scrollY;
   let isHidden = false;
-  let directionChangeTimer = null;
-  let currentDirection = null;
+  let lastScrollTime = Date.now();
+  let lastDirection = null;
+  let ticking = false;
   
   function updateDebugInfo() {
       debugDisplay.innerHTML = `
           Scroll Y: ${Math.round(window.scrollY)}px<br>
           Last Y: ${Math.round(lastScrollY)}px<br>
-          Direction: ${currentDirection}<br>
-          Is Hidden: ${isHidden}<br>
-          Start Threshold: ${SCROLL_START}px
+          Direction: ${lastDirection}<br>
+          Is Hidden: ${isHidden}
       `;
   }
 
@@ -77,32 +76,51 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function handleScroll() {
-      const currentScrollY = window.scrollY;
-      const scrollDelta = currentScrollY - lastScrollY;
-      const newDirection = scrollDelta > 0 ? 'down' : 'up';
+      const now = Date.now();
+      
+      // Throttle scroll events
+      if (now - lastScrollTime < THROTTLE_TIME) {
+          if (!ticking) {
+              requestAnimationFrame(() => {
+                  updateDebugInfo();
+                  ticking = false;
+              });
+              ticking = true;
+          }
+          return;
+      }
 
-      // If direction changed, wait to confirm it's not just a tiny movement
-      if (newDirection !== currentDirection) {
-          if (directionChangeTimer) clearTimeout(directionChangeTimer);
-          
-          directionChangeTimer = setTimeout(() => {
-              // Only update direction if we've scrolled enough
-              if (Math.abs(window.scrollY - lastScrollY) > DIRECTION_THRESHOLD) {
-                  currentDirection = newDirection;
+      lastScrollTime = now;
+      
+      if (!ticking) {
+          requestAnimationFrame(() => {
+              const currentScrollY = window.scrollY;
+              const scrollDelta = currentScrollY - lastScrollY;
+              const newDirection = scrollDelta > 0 ? 'down' : 'up';
+
+              // Only process if there's significant movement
+              if (Math.abs(scrollDelta) > 5) {
+                  // Update last direction if it changed
+                  if (newDirection !== lastDirection) {
+                      lastDirection = newDirection;
+                  }
+
+                  // Handle scroll down
+                  if (newDirection === 'down' && currentScrollY > SCROLL_START) {
+                      hideHeader();
+                  }
+                  // Handle scroll up
+                  else if (newDirection === 'up') {
+                      showHeader();
+                  }
               }
-              directionChangeTimer = null;
-          }, DEBOUNCE_DELAY);
-      }
 
-      // Immediate response to scroll position
-      if (currentScrollY > SCROLL_START && !isHidden && scrollDelta > 0) {
-          hideHeader();
-      } else if (isHidden && scrollDelta < 0) {
-          showHeader();
+              lastScrollY = currentScrollY;
+              updateDebugInfo();
+              ticking = false;
+          });
+          ticking = true;
       }
-
-      lastScrollY = currentScrollY;
-      updateDebugInfo();
   }
 
   // Use passive scroll listener
