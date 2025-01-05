@@ -37,7 +37,7 @@
   }
 {%- endstyle -%}
 
-<section class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }} product-grid-collection-wrapper">
+<section class="section-{{ section.id }}-padding product-grid-collection-wrapper">
   {%- paginate collection.products by section.settings.products_per_page -%}
 
     <div class="col-12 vertical-facets">
