@@ -401,6 +401,7 @@ li.search {
 .header-wrapper {
     position: relative;
     z-index: 1001;
+    height: calc(100% - var(--utility-bar));
 }
 
 .mega-menu {
