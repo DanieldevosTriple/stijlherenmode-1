@@ -14,11 +14,11 @@
     "header": {
       "type": "header",
       "settings": {
+        "sticky_behavior": "hide_scroll",
         "logo_light": "shopify://shop_images/logo-black_9fc0fe0d-ff3f-4db5-bc6c-5e47a69939c6.svg",
         "logo_dark": "shopify://shop_images/logo_06621b6d-d757-423c-9182-b844ddd6225c.svg",
         "menu": "menu-new",
         "enable_mega_menu": true,
-        "sticky": true,
         "transparent": false,
         "announcement_bar": true,
         "announcement_text": "Lorem ipsum",
