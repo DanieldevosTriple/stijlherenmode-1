@@ -58,14 +58,3 @@
     padding-top: 60px; /* Adjust according to your design needs */
 }
 
-/* Remove unnecessary overflow and double scrollbars */
-body, html {
-    height: 100%; /* Ensure the body and html take up the full height of the page */
-    overflow: hidden; /* Hide the internal scroll on the body */
-}
-
-/* Allow the page to scroll */
-.main-content {
-    overflow-y: auto; /* Allow the page to scroll */
-    height: 100%; /* Full height to allow the scroll */
-}
