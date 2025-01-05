@@ -1508,7 +1508,7 @@ input[type='checkbox'] {
 /* utility-bar */
 .utility-bar {
   background-color: #5c7561;
-  height: var(--utility-bar)rem;
+  height: var(--utility-bar);
 }
 
 .utility-bar--bottom-border {
