@@ -6,10 +6,6 @@ body {
   top: var(--full-header-height);
 }
 
-footer {
-  position: relative !important;
-}
-
 section {
   padding-bottom: var(--section-padding-bottom);
 } 
