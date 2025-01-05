@@ -7,10 +7,6 @@
     overflow: auto; /* Zorgt voor scrollen binnen de product grid */
 }
 
-.product-grid-collection-wrapper {
-    position: absolute;
-}
-
 .product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
