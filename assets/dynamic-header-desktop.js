@@ -46,18 +46,14 @@ document.addEventListener('DOMContentLoaded', function () {
   // Variables for scroll handling
   let lastScrollY = window.scrollY;
   let isHidden = false;
-  let scrollDirection = null;
-  let lastDirectionChange = Date.now();
-  const SCROLL_THRESHOLD = 50;
-  const DIRECTION_CHANGE_TIMEOUT = 100;
-
+  let ticking = false;
+  
   function updateDebugInfo() {
       debugDisplay.innerHTML = `
           Current Scroll: ${Math.round(window.scrollY)}px<br>
           Last Scroll: ${Math.round(lastScrollY)}px<br>
-          Direction: ${scrollDirection}<br>
           Is Hidden: ${isHidden}<br>
-          Time since direction change: ${Date.now() - lastDirectionChange}ms
+          Delta: ${Math.round(window.scrollY - lastScrollY)}px
       `;
   }
 
@@ -79,45 +75,24 @@ document.addEventListener('DOMContentLoaded', function () {
       }
   }
 
-  let ticking = false;
-  let upScrollAccumulator = 0;
-  const UP_SCROLL_THRESHOLD = 100;
-
   function handleScroll() {
       if (ticking) return;
       
       ticking = true;
       requestAnimationFrame(() => {
-          const currentScroll = window.scrollY;
-          const scrollDelta = currentScroll - lastScrollY;
-          const currentTime = Date.now();
-          
-          // Determine scroll direction
-          const newDirection = scrollDelta > 0 ? 'down' : 'up';
-          
-          // Handle direction changes
-          if (newDirection !== scrollDirection) {
-              if (currentTime - lastDirectionChange > DIRECTION_CHANGE_TIMEOUT) {
-                  scrollDirection = newDirection;
-                  lastDirectionChange = currentTime;
-                  upScrollAccumulator = 0;
-              }
-          }
-          
-          // Handle scroll down
-          if (scrollDirection === 'down' && scrollDelta > SCROLL_THRESHOLD && !isHidden) {
+          const currentScrollY = window.scrollY;
+          const delta = currentScrollY - lastScrollY;
+
+          // Scrolling down
+          if (delta > 0) {
               hideHeader();
-              upScrollAccumulator = 0;
+          } 
+          // Scrolling up
+          else if (delta < 0) {
+              showHeader();
           }
-          // Handle scroll up
-          else if (scrollDirection === 'up' && scrollDelta < 0) {
-              upScrollAccumulator += Math.abs(scrollDelta);
-              if (upScrollAccumulator > UP_SCROLL_THRESHOLD && isHidden) {
-                  showHeader();
-              }
-          }
-          
-          lastScrollY = currentScroll;
+
+          lastScrollY = currentScrollY;
           updateDebugInfo();
           ticking = false;
       });
