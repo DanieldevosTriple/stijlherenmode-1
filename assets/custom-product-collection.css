@@ -10,7 +10,7 @@
       .vertical-facets {
           display: grid;
           grid-template-columns: 25% 75%;
-          gap: 2rem;
+          gap: 1rem;
           flex: 1;
           position: relative;
           height: auto;
@@ -26,13 +26,13 @@
       }
   
       .product-grid-container {
-          width: 75%;
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 1rem;
           height: auto;
           overflow: visible;
           box-sizing: border-box;
+          padding-right: 15px;
       }
   }
   
