@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
   const sectionHeader = document.querySelector('.section-header');
-  const sectionAnnouncementBar = document.querySelector('.navigation-banner'); 
+  const sectionAnnouncementBar = document.querySelector('.navigation-banner');
   
   if (!sectionHeader) {
       console.warn('Element with class "section-header" not found. Check if the class is correctly set in HTML.');
       return;
   }
 
-  sectionHeader.classList.add('sticky'); 
+  sectionHeader.classList.add('sticky');
   sectionAnnouncementBar.classList.add('sticky');
 
   // ** Toggle this variable to enable or disable hiding behavior **
@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
   let lastTime = Date.now();
   const scrollDelay = 100;  // Minimum time between scroll updates in ms
   let actionTimeout;  // Timeout for preventing flicker between scroll up and down
+  const hideDelay = 150;  // Delay for hiding header (in ms)
+  const showDelay = 200;  // Delay for showing header (in ms)
 
   function updateHeaderVisibility() {
       const currentScrollY = window.scrollY;
@@ -51,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   sectionHeader.classList.add('hidden');
                   sectionAnnouncementBar.classList.add('hidden');
                   isHidden = true;
-              }, 100);  // Add a slight delay before hiding the header
+              }, hideDelay);  // Add a slight delay before hiding the header
           }
       } else if (currentScrollY < lastScrollY) {
           // Scrolling up
@@ -61,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   sectionHeader.classList.remove('hidden');
                   sectionAnnouncementBar.classList.remove('hidden');
                   isHidden = false;
-              }, 100);  // Add a slight delay before showing the header
+              }, showDelay);  // Add a slight delay before showing the header
           }
       }
 
