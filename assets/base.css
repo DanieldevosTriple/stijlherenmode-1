@@ -7,7 +7,7 @@ body {
 }
 
 footer {
-  position: relative;
+  position: relative !important;
 }
 
 section {
