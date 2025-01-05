@@ -52,6 +52,18 @@
     });
   });   
 </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const headerGroup = document.querySelector('.shopify-section-group-header-group');
+    
+    if (headerGroup) {
+      // Set a custom property for height
+      const headerHeight = `${headerGroup.scrollHeight}px`;
+      headerGroup.style.setProperty('--full-header-height', headerHeight);
+    }
+  });
+</script>
   
 {% if section.settings.sticky_behavior != 'disabled' %}
     <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer></script>
