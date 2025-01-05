@@ -1,11 +1,9 @@
 .product-grid-collection {
     position: relative;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 100px; /* Zorgt ervoor dat de absolute grid niet over de footer heen gaat */
-    overflow: auto; /* Zorgt voor scrollen binnen de product grid */
+    width: 100%;
+    min-height: 0; /* Add this to prevent overflow issues */
 }
+
 
 .product-grid {
     display: grid;
@@ -14,6 +12,12 @@
     max-width: 100%;
     box-sizing: border-box;
 }
+
+.vertical-facets {
+    position: relative;
+    width: 100%;
+    min-height: 0;
+  }
 
 @media screen and (max-width: 991px) {
     .product-grid {
@@ -25,12 +29,46 @@
 
 @media screen and (min-width: 992px) {
     .vertical-facets {
-        grid-template-columns: 25% 75%;
         display: grid;
-    }
+        grid-template-columns: 25% 75%;
+        gap: 2rem;
+      }
+    
+      /* Add sticky behavior for facets on desktop */
+      .facets-wrapper {
+        position: sticky;
+        top: 20px; /* Adjust based on your header height */
+        height: calc(100vh - 100px); /* Adjust based on your needs */
+        overflow-y: auto;
+        padding-right: 1rem;
+      }
 }
 
-.product-grid-container.is-loading::after {
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+
+/* Preserve your existing media query for tablet/mobile grid */
+@media screen and (max-width: 991px) {
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Remove sticky behavior on mobile */
+    .facets-wrapper {
+      position: relative;
+      height: auto;
+      top: 0;
+    }
+  }
+  
+  /* Keep your existing loading states */
+  .product-grid-container.is-loading::after {
     content: '';
     position: absolute;
     top: 0;
@@ -39,9 +77,9 @@
     bottom: 0;
     background: rgba(255, 255, 255, 0.8);
     z-index: 2;
-}
-
-.product-grid-container.is-loading::before {
+  }
+  
+  .product-grid-container.is-loading::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -54,14 +92,18 @@
     border-radius: 50%;
     animation: spin 1s linear infinite;
     z-index: 3;
-}
-
-@keyframes spin {
+  }
+  
+  @keyframes spin {
     0% {
-        transform: rotate(0deg);
+      transform: rotate(0deg);
     }
-
     100% {
-        transform: rotate(360deg);
+      transform: rotate(360deg);
     }
-}
+  }
+  
+  /* Add this to ensure proper spacing above footer */
+  #ProductGridContainer {
+    padding-bottom: 2rem;
+  }
