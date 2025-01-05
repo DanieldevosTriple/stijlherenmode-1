@@ -27,10 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Get sticky behavior type
   const stickyType = stickyHeader.dataset.stickyType;
   
-  // Exit if sticky is disabled
-  if (stickyType === 'disabled') {
-      return;
-  }
+  if (stickyType === 'disabled') return;
 
   // Add sticky class for enabled and hide_scroll
   if (['enabled', 'hide_scroll'].includes(stickyType)) {
@@ -38,30 +35,25 @@ document.addEventListener('DOMContentLoaded', function () {
       sectionAnnouncementBar?.classList.add('sticky');
   }
 
-  // Exit if just sticky enabled (no hide on scroll)
-  if (stickyType === 'enabled') {
-      return;
-  }
+  if (stickyType === 'enabled') return;
 
-  // Variables for scroll handling
-  const MIN_SCROLL = 20;           // Minimum scroll movement to consider
-  const SCROLL_DOWN_START = 100;   // When to start considering hiding header
-  const SCROLL_UP_SHOW = 50;      // How far to scroll up before showing header
+  // Scroll configuration
+  const DEBOUNCE_TIME = 150;      // Time to wait before executing scroll action
+  const SCROLL_START = 100;       // When to start considering header actions
   
+  // State variables
   let lastScrollY = window.scrollY;
   let isHidden = false;
-  let ticking = false;
-  let scrollDirection = null;
-  let upScrollDistance = 0;        // Track continuous upward scroll
+  let debounceTimer = null;
+  let lastDirection = null;
   
   function updateDebugInfo() {
       debugDisplay.innerHTML = `
           Current Scroll: ${Math.round(window.scrollY)}px<br>
           Last Scroll: ${Math.round(lastScrollY)}px<br>
-          Direction: ${scrollDirection}<br>
-          Up Distance: ${Math.round(upScrollDistance)}px<br>
+          Direction: ${lastDirection}<br>
           Is Hidden: ${isHidden}<br>
-          Up Show At: ${SCROLL_UP_SHOW}px
+          Timer Active: ${debounceTimer !== null}
       `;
   }
 
@@ -83,50 +75,44 @@ document.addEventListener('DOMContentLoaded', function () {
       }
   }
 
-  function handleScroll() {
-      if (ticking) return;
-      
-      ticking = true;
-      requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-          const delta = currentScrollY - lastScrollY;
-
-          // Only process significant scroll movements
-          if (Math.abs(delta) >= MIN_SCROLL) {
-              const newDirection = delta > 0 ? 'down' : 'up';
-              
-              // Handle direction change
-              if (newDirection !== scrollDirection) {
-                  scrollDirection = newDirection;
-                  if (scrollDirection === 'up') {
-                      upScrollDistance = 0;  // Reset up scroll tracking on direction change
-                  }
-              }
-
-              // Handle scroll down
-              if (scrollDirection === 'down') {
-                  upScrollDistance = 0;  // Reset up scroll tracking
-                  if (currentScrollY > SCROLL_DOWN_START && !isHidden) {
-                      hideHeader();
-                  }
-              } 
-              // Handle scroll up
-              else if (scrollDirection === 'up' && isHidden) {
-                  upScrollDistance += Math.abs(delta);
-                  if (upScrollDistance >= SCROLL_UP_SHOW) {
-                      showHeader();
-                      upScrollDistance = 0;
-                  }
-              }
-          }
-
-          lastScrollY = currentScrollY;
-          updateDebugInfo();
-          ticking = false;
-      });
+  // Debounce function to prevent rapid execution
+  function debounce(fn) {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+          fn();
+          debounceTimer = null;
+      }, DEBOUNCE_TIME);
   }
 
-  // Throttled scroll listener
+  let lastCallTime = Date.now();
+  const THROTTLE_TIME = 100; // Throttle scroll events to every 100ms
+
+  function handleScroll() {
+      const now = Date.now();
+      if (now - lastCallTime < THROTTLE_TIME) return;
+      lastCallTime = now;
+
+      const currentScrollY = window.scrollY;
+      const direction = currentScrollY > lastScrollY ? 'down' : 'up';
+
+      // Only process if we've scrolled enough and direction is consistent
+      if (Math.abs(currentScrollY - lastScrollY) > 5 && direction !== lastDirection) {
+          lastDirection = direction;
+
+          if (currentScrollY > SCROLL_START) {
+              if (direction === 'down' && !isHidden) {
+                  debounce(hideHeader);
+              } else if (direction === 'up' && isHidden) {
+                  debounce(showHeader);
+              }
+          }
+      }
+
+      lastScrollY = currentScrollY;
+      updateDebugInfo();
+  }
+
+  // Use passive scroll listener with throttling
   window.addEventListener('scroll', handleScroll, { passive: true });
 
   // Initialize state
