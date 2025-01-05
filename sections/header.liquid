@@ -54,21 +54,28 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const header = document.querySelector('section-header');
-      
-      function setElementHeight() {
-        if (header) {
-          document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
-        }
+  document.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('section-header');
+    
+    function setElementHeight() {
+      if (header) {
+        const headerHeight = header.offsetHeight;
+        document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+        console.log('Header height set to:', headerHeight); // Log the header height
+      } else {
+        console.log('Header element not found'); // Log if the header is not found
       }
+    }
+  
+    // Set initial heights
+    setElementHeight();
     
-      // Set initial heights
+    // Update on window resize
+    window.addEventListener('resize', function() {
       setElementHeight();
-    
-      // Update on window resize
-      window.addEventListener('resize', setElementHeight);
+      console.log('Window resized, header height updated');
     });
+  });  
 </script>
   
 {% if section.settings.sticky %}
