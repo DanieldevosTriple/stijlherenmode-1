@@ -26,64 +26,55 @@ document.addEventListener('DOMContentLoaded', function () {
   sectionHeader.classList.add('sticky');
   sectionAnnouncementBar.classList.add('sticky');
   
-  const SCROLL_DOWN_THRESHOLD = 100;
-  const SCROLL_UP_THRESHOLD = 50;
+  const SCROLL_DOWN_THRESHOLD = 100;  // How far to scroll down before hiding
+  const SCROLL_UP_THRESHOLD = 50;     // How far to scroll up before showing
   
   let lastScrollY = window.scrollY;
   let isHidden = false;
   let ticking = false;
-  let lastScrollTime = Date.now();
-  let scrollDirection = null;
-  let scrollTimeout = null;
+  let upScrollDistance = 0;           // Track continuous upward scroll
   
   function updateDebugInfo(currentScrollY) {
       debugDisplay.innerHTML = `
           Current Scroll: ${Math.round(currentScrollY)}px<br>
           Last Scroll: ${Math.round(lastScrollY)}px<br>
-          Direction: ${scrollDirection}<br>
+          Up Scroll Distance: ${Math.round(upScrollDistance)}px<br>
           Is Hidden: ${isHidden}<br>
-          Time since last scroll: ${Date.now() - lastScrollTime}ms
+          Down Threshold: ${SCROLL_DOWN_THRESHOLD}px<br>
+          Up Threshold: ${SCROLL_UP_THRESHOLD}px
       `;
   }
   
   function updateHeaderVisibility() {
       const currentScrollY = window.scrollY;
-      const currentTime = Date.now();
-      const newDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+      const scrollDelta = currentScrollY - lastScrollY;
       
-      // Clear existing timeout
-      if (scrollTimeout) {
-          clearTimeout(scrollTimeout);
+      // Scrolling down
+      if (scrollDelta > 0) {
+          // Reset upward scroll tracking when direction changes
+          upScrollDistance = 0;
+          
+          // Hide header when scrolling down past threshold
+          if (currentScrollY > SCROLL_DOWN_THRESHOLD && !isHidden) {
+              sectionHeader.classList.add('hidden');
+              sectionAnnouncementBar.classList.add('hidden');
+              isHidden = true;
+              console.log('🔴 Hiding header - Down threshold reached');
+          }
       }
-      
-      // Update direction only if it's different
-      if (newDirection !== scrollDirection) {
-          scrollDirection = newDirection;
-          lastScrollTime = currentTime;
-      }
-      
-      // Handle scroll down
-      if (scrollDirection === 'down' && 
-          currentScrollY > SCROLL_DOWN_THRESHOLD && 
-          !isHidden) {
-          sectionHeader.classList.add('hidden');
-          sectionAnnouncementBar.classList.add('hidden');
-          isHidden = true;
-          console.log('🔴 Hiding header - Down threshold reached');
-      }
-      
-      // Handle scroll up
-      if (scrollDirection === 'up' && 
-          currentScrollY < document.documentElement.scrollHeight - window.innerHeight - SCROLL_UP_THRESHOLD && 
-          isHidden) {
-          scrollTimeout = setTimeout(() => {
-              if (scrollDirection === 'up') {
-                  sectionHeader.classList.remove('hidden');
-                  sectionAnnouncementBar.classList.remove('hidden');
-                  isHidden = false;
-                  console.log('🟢 Showing header - Up threshold reached');
-              }
-          }, 150); // Small delay to prevent flickering
+      // Scrolling up
+      else if (scrollDelta < 0) {
+          // Accumulate upward scroll distance
+          upScrollDistance += Math.abs(scrollDelta);
+          
+          // Show header when enough upward scroll has accumulated
+          if (upScrollDistance > SCROLL_UP_THRESHOLD && isHidden) {
+              sectionHeader.classList.remove('hidden');
+              sectionAnnouncementBar.classList.remove('hidden');
+              isHidden = false;
+              upScrollDistance = 0;  // Reset after showing
+              console.log('🟢 Showing header - Up threshold reached');
+          }
       }
       
       updateDebugInfo(currentScrollY);
@@ -101,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Reset on page load
   window.addEventListener('load', function() {
       lastScrollY = window.scrollY;
+      upScrollDistance = 0;
       updateDebugInfo(window.scrollY);
   });
 });
