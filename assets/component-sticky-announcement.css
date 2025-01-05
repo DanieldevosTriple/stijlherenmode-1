@@ -1,0 +1,4 @@
+utility-bar {
+    position: sticky;
+    top: var(--header-height);
+}
