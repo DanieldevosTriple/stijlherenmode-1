@@ -1,16 +1,14 @@
 .product-grid-collection {
-    position: fixed; /* Change to fixed */
-    top: var(--header-height); /* Use your header height variable or specific value */
+    position: absolute;
+    top: var(--header-height); /* Match your header height */
     left: 0;
     right: 0;
-    bottom: 0;
-    overflow: hidden; /* Prevent body scroll */
-    z-index: 1; /* Keep below header */
+    bottom: var(--footer-height); /* Match your footer height */
+    overflow: hidden;
   }
   
   .vertical-facets {
     height: 100%;
-    overflow: hidden;
     position: relative;
   }
   
@@ -19,6 +17,8 @@
       display: grid;
       grid-template-columns: 25% 75%;
       gap: 2rem;
+      height: 100%;
+      overflow: hidden;
     }
   
     .facets-wrapper {
@@ -30,7 +30,7 @@
     .product-grid-container {
       overflow-y: auto;
       height: 100%;
-      padding-bottom: 2rem; /* Add space at bottom of scroll area */
+      padding: 1rem;
     }
   }
   
@@ -47,13 +47,9 @@
       grid-template-columns: repeat(2, 1fr);
     }
     
-    /* Handle mobile scrolling */
     .vertical-facets {
       overflow-y: auto;
-    }
-    
-    .facets-wrapper {
-      position: relative;
+      height: 100%;
     }
   }
   
@@ -89,14 +85,28 @@
     100% { transform: rotate(360deg); }
   }
   
-  /* Add this to your main layout CSS */
-  body {
-    padding-bottom: calc(100vh - var(--header-height)); /* Create space for fixed collection grid */
+  /* Add these root variables to your CSS */
+  :root {
+    --header-height: 80px; /* Adjust to match your header height */
+    --footer-height: 100px; /* Adjust to match your footer height */
   }
   
   /* Footer styles */
   footer {
-    position: relative; /* Keep footer in normal flow */
-    margin-top: 100vh; /* Push footer below the fixed collection grid */
-    z-index: 2; /* Keep above collection grid */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--footer-height);
+    z-index: 2;
+  }
+  
+  /* Ensure the header stays on top */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    height: var(--header-height);
   }
