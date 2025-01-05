@@ -1,95 +1,86 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const sectionHeader = document.querySelector('.section-header');
-  const sectionAnnouncementBar = document.querySelector('.announcement-bar-section');
-  const utilityBar = document.querySelector('.announcement-bar-section');
-  
-  if (!sectionHeader || !utilityBar) {
-    console.warn('Elementen met de juiste klassen niet gevonden.');
-    return;
-  }
+    const sectionHeader = document.querySelector('.section-header');
+    const sectionIndexPage = document.querySelector('.index-page');
+    const sectionAnnouncementBar = document.querySelector('.announcement-bar-section'); 
+    
+    if (!sectionHeader) {
+        console.warn('Element with class "section-header" not found. Check if the class is correctly set in HTML.');
+        return;
+    }
 
-  // Controleer of data-sticky-enabled aanwezig is op zowel header en utilityBar
-  if (sectionHeader?.dataset.stickyEnabled) {
-    sectionHeader.classList.add('sticky');
-  }
-  if (utilityBar?.dataset.stickyEnabled) {
+    sectionHeader.classList.add('sticky'); 
     sectionAnnouncementBar.classList.add('sticky');
-    utilityBar.classList.add('sticky');
-  }
-  
-  let lastScrollY = window.scrollY;
-  const visibilityThreshold = 50;
-  let isHidden = false;
-  let ticking = false;
-  let lastTime = Date.now();
-  const scrollDelay = 100;
-  let resetTimeout;
 
-  function resetHeaderState() {
-    if (window.scrollY === 0) {
-      clearTimeout(resetTimeout);
-      sectionHeader.style.transition = 'none';
-      sectionHeader.classList.remove('hidden', 'scroll-up');
-      if (utilityBar?.dataset.stickyEnabled) {
-        utilityBar.classList.remove('hidden', 'scroll-up');
-      }
-      setTimeout(() => {
-        sectionHeader.style.transition = '';
-      }, 10);
-      isHidden = false;
-      return;
-    }
-  }
+    let lastScrollY = window.scrollY;
+    const visibilityThreshold = 50;
+    let isHidden = false;
+    let ticking = false;  // For requestAnimationFrame
+    let lastTime = Date.now();
+    const scrollDelay = 100;  // Minimum time between scroll updates in ms
 
-  function updateHeaderVisibility() {
-    const currentScrollY = window.scrollY;
-    const currentTime = Date.now();
+    function updateHeaderVisibility() {
+        const currentScrollY = window.scrollY;
+        const currentTime = Date.now();
 
-    if (currentScrollY === 0) {
-      resetHeaderState();
-      return;
-    }
-
-    if (currentTime - lastTime < scrollDelay) return;
-    const scrollDistance = Math.abs(currentScrollY - lastScrollY);
-    if (scrollDistance < 5) return;
-
-    if (currentScrollY > lastScrollY && currentScrollY > visibilityThreshold) {
-      if (!isHidden) {
-        sectionHeader.classList.add('hidden');
-        sectionHeader.classList.remove('scroll-up');
-        if (utilityBar?.dataset.stickyEnabled) {
-          utilityBar.classList.add('hidden');
-          utilityBar.classList.remove('scroll-up');
+        // Only process scroll events if enough time has passed
+        if (currentTime - lastTime < scrollDelay) {
+            return;
         }
-        isHidden = true;
-      }
-    } else if (currentScrollY < lastScrollY) {
-      if (isHidden) {
-        sectionHeader.classList.remove('hidden');
-        sectionHeader.classList.add('scroll-up');
-        if (utilityBar?.dataset.stickyEnabled) {
-          utilityBar.classList.remove('hidden');
-          utilityBar.classList.add('scroll-up');
+
+        // Determine scroll direction and distance
+        const scrollDistance = Math.abs(currentScrollY - lastScrollY);
+        
+        // Only process significant scroll movements
+        if (scrollDistance < 5) {
+            return;
         }
-        isHidden = false;
-      }
-    }
 
-    lastScrollY = currentScrollY;
-    lastTime = currentTime;
-    ticking = false;
-  }
+        if (currentScrollY > lastScrollY && currentScrollY > visibilityThreshold) {
+            // Scrolling down
+            if (!isHidden) {
+                sectionHeader.classList.add('hidden');
+                sectionAnnouncementBar.classList.add('hidden');
+                sectionHeader.classList.remove('scroll-up');
+                sectionAnnouncementBar.classList.remove('scroll-up');
+                isHidden = true;
+            }
+        } else if (currentScrollY < lastScrollY) {
+            // Scrolling up
+            if (isHidden) {
+                // Use a timeout to ensure smooth transition
+                setTimeout(() => {
+                    sectionHeader.classList.remove('hidden');
+                    sectionAnnouncementBar.classList.remove('hidden');
+                    sectionHeader.classList.add('scroll-up');
+                    sectionAnnouncementBar.classList.add('scroll-up');
+                }, 50);
+                isHidden = false;
+            }
+        }
 
-  window.addEventListener('scroll', function() {
-    if (!ticking) {
-      window.requestAnimationFrame(function() {
-        updateHeaderVisibility();
+        // Reset header at top of page
+        if (currentScrollY === 0) {
+            sectionHeader.classList.remove('hidden', 'scroll-up');
+            sectionAnnouncementBar.classList.remove('hidden', 'scroll-up');
+            if (sectionIndexPage) {
+                sectionIndexPage.classList.remove('hidden', 'scroll-up');
+            }
+            isHidden = false;
+        }
+
+        lastScrollY = currentScrollY;
+        lastTime = currentTime;
         ticking = false;
-      });
-      ticking = true;
     }
-  }, { passive: true });
 
-  resetHeaderState();
+    // Optimized scroll event listener with requestAnimationFrame
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                updateHeaderVisibility();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
 });
