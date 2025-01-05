@@ -6,8 +6,7 @@
         /* Keeps the facets at the top of the screen while scrolling */
         z-index: 10;
         /* Ensures the facets stay on top of other content */
-        height: 100%;
-        /* Full height to allow scrolling of the main content */
+        height: 100vh; /* Full height to allow scrolling of the main content */
         display: grid;
         grid-template-columns: 25% 75%;
         /* Ensures the facets are vertically stacked */
@@ -27,19 +26,7 @@
         gap: 1rem;
         max-width: 100%;
         box-sizing: border-box;
-        overflow-y: auto;
-        /* Allow vertical scrolling */
-        height: calc(100vh - 100px);
-        /* Adjust this value depending on the space for your header and footer */
-        width: 100%;
-    }
-}
-
-@media screen and (max-width: 991px) {
-    .product-grid-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
+        height: 100%; /* Ensure this takes up the available space */
     }
 }
 
@@ -50,8 +37,35 @@
     z-index: 1;
 }
 
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
 @media screen and (max-width: 991px) {
-    .product-grid {
+    .product-grid-container {
+        display: grid;
         grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
+}
+
+/* Optional: Adjust padding for sections to make space for sticky facets */
+.product-grid-collection {
+    padding-top: 60px; /* Adjust according to your design needs */
+}
+
+/* Remove unnecessary overflow and double scrollbars */
+body, html {
+    height: 100%; /* Ensure the body and html take up the full height of the page */
+    overflow: hidden; /* Hide the internal scroll on the body */
+}
+
+/* Allow the page to scroll */
+.main-content {
+    overflow-y: auto; /* Allow the page to scroll */
+    height: 100%; /* Full height to allow the scroll */
 }
