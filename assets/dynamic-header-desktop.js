@@ -80,4 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
           ticking = true;
       }
   }, { passive: true });
+
+  // Trigger a scroll update when the page is loaded
+  window.scrollTo(0, 0);
 });
