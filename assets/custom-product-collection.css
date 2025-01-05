@@ -1,60 +1,37 @@
 .product-grid-collection {
-    position: absolute;
-    top: var(--header-height); /* Match your header height */
+    position: relative;
+    top: 0;
     left: 0;
     right: 0;
-    bottom: var(--footer-height); /* Match your footer height */
-    overflow: hidden;
-  }
-  
-  .vertical-facets {
-    height: 100%;
-    position: relative;
-  }
-  
-  @media screen and (min-width: 992px) {
-    .vertical-facets {
-      display: grid;
-      grid-template-columns: 25% 75%;
-      gap: 2rem;
-      height: 100%;
-      overflow: hidden;
-    }
-  
-    .facets-wrapper {
-      overflow-y: auto;
-      padding-right: 1rem;
-      height: 100%;
-    }
-  
-    .product-grid-container {
-      overflow-y: auto;
-      height: 100%;
-      padding: 1rem;
-    }
-  }
-  
-  .product-grid {
+    bottom: 100px; /* Zorgt ervoor dat de absolute grid niet over de footer heen gaat */
+    overflow: auto; /* Zorgt voor scrollen binnen de product grid */
+}
+
+
+.product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     max-width: 100%;
     box-sizing: border-box;
-  }
-  
-  @media screen and (max-width: 991px) {
+}
+
+@media screen and (max-width: 991px) {
     .product-grid {
-      grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        /* Pas min-width naar wens aan */
     }
-    
+}
+
+
+@media screen and (min-width: 992px) {
     .vertical-facets {
-      overflow-y: auto;
-      height: 100%;
+        grid-template-columns: 25% 75%;
+        display: grid;
     }
-  }
-  
-  /* Keep your existing loading states */
-  .product-grid-container.is-loading::after {
+}
+
+.product-grid-container.is-loading::after {
     content: '';
     position: absolute;
     top: 0;
@@ -63,9 +40,9 @@
     bottom: 0;
     background: rgba(255, 255, 255, 0.8);
     z-index: 2;
-  }
-  
-  .product-grid-container.is-loading::before {
+}
+
+.product-grid-container.is-loading::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -78,9 +55,14 @@
     border-radius: 50%;
     animation: spin 1s linear infinite;
     z-index: 3;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
