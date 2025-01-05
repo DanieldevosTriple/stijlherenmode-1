@@ -54,15 +54,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const header = document.querySelector('header');
-      const utilityBar = document.querySelector('.utility-bar');
+      const header = document.querySelector('sticky-header');
       
       function setElementHeight() {
         if (header) {
           document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
-        }
-        if (utilityBar) {
-          document.documentElement.style.setProperty('--utility-bar-height', `${utilityBar.offsetHeight}px`);
         }
       }
     
@@ -74,7 +70,6 @@
     });
 </script>
   
-
 {% if section.settings.sticky %}
     <script src="{{ 'dynamic-header-desktop.js' | asset_url }}" defer></script>
 {% else %}
