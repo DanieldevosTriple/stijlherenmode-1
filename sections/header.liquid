@@ -54,29 +54,21 @@
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const header = document.querySelector('.sticky-header');
-    
-    function setElementHeight() {
-      if (header) {
-        // Get the border width (if any)
-        const borderTop = parseInt(window.getComputedStyle(header).borderTopWidth, 10);
-        const borderBottom = parseInt(window.getComputedStyle(header).borderBottomWidth, 10);
-        
-        // Calculate the height excluding the border
-        const heightWithoutBorders = header.offsetHeight - borderTop - borderBottom;
-        
-        // Set the CSS variable to the height excluding borders
-        document.documentElement.style.setProperty('--header-height', `${heightWithoutBorders}px`);
+    document.addEventListener('DOMContentLoaded', function() {
+      const header = document.querySelector('sticky-header');
+      
+      function setElementHeight() {
+        if (header) {
+          document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
+        }
       }
-    }
-  
-    // Set initial heights
-    setElementHeight();
     
-    // Update on window resize
-    window.addEventListener('resize', setElementHeight);
-  });  
+      // Set initial heights
+      setElementHeight();
+    
+      // Update on window resize
+      window.addEventListener('resize', setElementHeight);
+    });
 </script>
   
 {% if section.settings.sticky %}
