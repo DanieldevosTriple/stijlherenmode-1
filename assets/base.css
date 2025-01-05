@@ -6,6 +6,10 @@ body {
   top: var(--full-header-height);
 }
 
+footer {
+  position: unset;
+}
+
 section {
   padding-bottom: var(--section-padding-bottom);
 } 
