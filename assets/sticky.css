@@ -8,7 +8,7 @@
 
 .sticky.scroll-up {
     background-color: var(--background-color-light-mode) !important;
-    top: var(--utility-bar-height);
+    top: 0px;
 }
 
 .navigation-banner .sticky {
