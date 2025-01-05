@@ -1,3 +1,8 @@
+.product-grid-collection {
+    position: relative;
+    top: var(--full-header-height);
+}
+
 .product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
