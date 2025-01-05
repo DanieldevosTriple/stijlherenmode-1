@@ -1,3 +1,44 @@
+/* Add this to your sticky.css file */
+
+/* Create space for the sticky header */
+sticky-header {
+    display: block;
+}
+
+/* When sticky is enabled */
+sticky-header[data-sticky-type="enabled"],
+sticky-header[data-sticky-type="hide_scroll"] {
+    height: var(--header-height);
+    position: relative;
+}
+
+/* Main content spacing */
+sticky-header[data-sticky-type="enabled"]+main,
+sticky-header[data-sticky-type="hide_scroll"]+main {
+    padding-top: var(--header-height);
+}
+
+/* When announcement bar is present */
+sticky-header[data-sticky-type="enabled"].has-announcement-bar,
+sticky-header[data-sticky-type="hide_scroll"].has-announcement-bar {
+    height: calc(var(--header-height) + var(--announcement-bar-height, 40px));
+}
+
+sticky-header[data-sticky-type="enabled"].has-announcement-bar+main,
+sticky-header[data-sticky-type="hide_scroll"].has-announcement-bar+main {
+    padding-top: calc(var(--header-height) + var(--announcement-bar-height, 40px));
+}
+
+/* Ensure the header stays on top */
+.section-header {
+    z-index: 1000;
+}
+
+/* Ensure announcement bar stays on top of header */
+.utility-bar {
+    z-index: 1001;
+}
+
 .navigation-banner.sticky {
     position: sticky;
     top: var(--header-height);
@@ -24,48 +65,48 @@
     position: relative;
     z-index: 1000;
     transition: transform 0.3s ease-in-out;
-  }
-  
-  .utility-bar {
+}
+
+.utility-bar {
     position: relative;
     z-index: 1000;
     transition: transform 0.3s ease-in-out;
-  }
-  
-  /* Sticky styles */
-  .section-header.sticky {
+}
+
+/* Sticky styles */
+.section-header.sticky {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     background: var(--header-background);
-  }
-  
-  .utility-bar.sticky {
+}
+
+.utility-bar.sticky {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-  }
+}
 
-  .section-header {
+.section-header {
     transition: transform 0.3s ease-in-out;
-  }
-  
-  .utility-bar {
+}
+
+.utility-bar {
     transition: transform 0.3s ease-in-out;
-  }
-  
-  
-  .section-header.sticky-hide {
+}
+
+
+.section-header.sticky-hide {
     transform: translateY(-100%);
-  }
-  
-  .utility-bar.sticky-hide {
+}
+
+.utility-bar.sticky-hide {
     transform: translateY(-100%);
-  }
-  
-  /* When header is hidden, move it up by the announcement bar height */
-  .utility-bar.sticky.sticky-hide + .section-header.sticky.sticky-hide {
+}
+
+/* When header is hidden, move it up by the announcement bar height */
+.utility-bar.sticky.sticky-hide+.section-header.sticky.sticky-hide {
     transform: translateY(calc(-100% - var(--announcement-bar-height, 40px)));
-  }
+}
