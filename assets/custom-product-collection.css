@@ -2,21 +2,27 @@
 @media screen and (min-width: 992px) {
     .vertical-facets {
         position: sticky;
-        top: 0; /* Keeps the facets at the top of the screen while scrolling */
-        z-index: 10; /* Ensures the facets stay on top of other content */
-        height: 100%; /* Full height to allow scrolling of the main content */
+        top: 0;
+        /* Keeps the facets at the top of the screen while scrolling */
+        z-index: 10;
+        /* Ensures the facets stay on top of other content */
+        height: 100%;
+        /* Full height to allow scrolling of the main content */
         display: grid;
-        flex-direction: column; /* Ensures the facets are vertically stacked */
+        flex-direction: column;
+        /* Ensures the facets are vertically stacked */
         grid-template-columns: 25% 75%;
     }
 
     /* Ensure the facets wrapper takes up the full column width */
     .facets-wrapper {
-        width: 25%; /* Adjust based on your design */
+        width: 25%;
+        /* Adjust based on your design */
     }
 
     .product-grid-container {
-        width: 75%; /* Take up the rest of the space for product grid */
+        width: 75%;
+        /* Take up the rest of the space for product grid */
     }
 }
 
@@ -40,8 +46,10 @@
     gap: 1rem;
     max-width: 100%;
     box-sizing: border-box;
-    overflow-y: auto; /* Allow vertical scrolling */
-    height: calc(100vh - 100px); /* Adjust this value depending on the space for your header and footer */
+    overflow-y: auto;
+    /* Allow vertical scrolling */
+    height: calc(100vh - 100px);
+    /* Adjust this value depending on the space for your header and footer */
     width: 100%;
 }
 
