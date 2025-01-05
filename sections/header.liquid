@@ -58,9 +58,11 @@
     const headerGroup = document.querySelector('.shopify-section-group-header-group');
     
     if (headerGroup) {
-      // Set a custom property for height
-      const headerHeight = `${headerGroup.scrollHeight}px`;
-      headerGroup.style.setProperty('--full-header-height', headerHeight);
+      // Set the height dynamically based on content
+      const headerHeight = headerGroup.scrollHeight;
+      
+      // Set the height as a CSS variable
+      document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
     }
   });
 </script>
