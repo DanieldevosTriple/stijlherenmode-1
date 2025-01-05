@@ -1,99 +1,83 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const stickyHeader = document.querySelector('sticky-header');
-  const header = document.querySelector('.section-header');
-  const banner = document.querySelector('.utility-bar');
+document.addEventListener('DOMContentLoaded', function () {
+  const sectionHeader = document.querySelector('.section-header');
+  const sectionAnnouncementBar = document.querySelector('.navigation-banner'); 
   
-  if (!stickyHeader || !header) return;
-
-  const config = {
-    hideThreshold: 50,
-    scrollThreshold: 5,
-    hideDelay: 150,
-    showDelay: 200
-  };
-
-  let state = {
-    lastScrollY: window.scrollY,
-    isHidden: false,
-    scrollTimeout: null,
-    actionTimeout: null
-  };
-
-  const stickyType = stickyHeader.dataset.stickyType;
-
-  function initializeHeader() {
-    switch (stickyType) {
-      case 'enabled':
-        enableSticky();
-        break;
-      case 'hide_scroll':
-        enableStickyWithHide();
-        break;
-      case 'disabled':
-      default:
-        disableSticky();
-        break;
-    }
+  if (!sectionHeader) {
+      console.warn('Element with class "section-header" not found. Check if the class is correctly set in HTML.');
+      return;
   }
 
-  function disableSticky() {
-    header.style.position = 'relative';
-    if (banner) banner.style.position = 'relative';
-    window.removeEventListener('scroll', handleScroll);
+  sectionHeader.classList.add('sticky'); 
+  sectionAnnouncementBar.classList.add('sticky');
+
+  // ** Toggle this variable to enable or disable hiding behavior **
+  const enableHideOnScroll = true;  // Set to `false` for always sticky
+
+  if (!enableHideOnScroll) {
+      // If hiding behavior is disabled, keep header always visible
+      return;
   }
 
-  function enableSticky() {
-    header.style.position = 'fixed';
-    if (banner) banner.style.position = 'fixed';
-    window.removeEventListener('scroll', handleScroll);
-  }
-
-  function enableStickyWithHide() {
-    header.style.position = 'fixed';
-    if (banner) banner.style.position = 'fixed';
-    window.addEventListener('scroll', handleScroll, { passive: true });
-  }
-
-  function handleScroll() {
-    if (state.scrollTimeout) return;
-
-    state.scrollTimeout = setTimeout(() => {
-      requestAnimationFrame(() => {
-        updateHeaderVisibility();
-        state.scrollTimeout = null;
-      });
-    }, 10);
-  }
+  let lastScrollY = window.scrollY;
+  const visibilityThreshold = 50;
+  let isHidden = false;
+  let ticking = false;  // For requestAnimationFrame
+  let lastTime = Date.now();
+  const scrollDelay = 100;  // Minimum time between scroll updates in ms
+  let actionTimeout;  // Timeout for preventing flicker between scroll up and down
 
   function updateHeaderVisibility() {
-    const currentScrollY = window.scrollY;
-    const scrollDistance = Math.abs(currentScrollY - state.lastScrollY);
+      const currentScrollY = window.scrollY;
+      const currentTime = Date.now();
 
-    if (scrollDistance < config.scrollThreshold) return;
-
-    if (currentScrollY > state.lastScrollY && currentScrollY > config.hideThreshold) {
-      if (!state.isHidden) {
-        clearTimeout(state.actionTimeout);
-        state.actionTimeout = setTimeout(() => {
-          header.classList.add('sticky-hide');
-          if (banner) banner.classList.add('sticky-hide');
-          state.isHidden = true;
-        }, config.hideDelay);
+      // Only process scroll events if enough time has passed
+      if (currentTime - lastTime < scrollDelay) {
+          return;
       }
-    } else {
-      if (state.isHidden) {
-        clearTimeout(state.actionTimeout);
-        state.actionTimeout = setTimeout(() => {
-          header.classList.remove('sticky-hide');
-          if (banner) banner.classList.remove('sticky-hide');
-          state.isHidden = false;
-        }, config.showDelay);
-      }
-    }
 
-    state.lastScrollY = currentScrollY;
+      // Determine scroll direction and distance
+      const scrollDistance = Math.abs(currentScrollY - lastScrollY);
+      
+      // Only process significant scroll movements
+      if (scrollDistance < 5) {
+          return;
+      }
+
+      if (currentScrollY > lastScrollY && currentScrollY > visibilityThreshold) {
+          // Scrolling down
+          if (!isHidden) {
+              clearTimeout(actionTimeout); // Clear any existing timeout before applying changes
+              actionTimeout = setTimeout(() => {
+                  sectionHeader.classList.add('hidden');
+                  sectionAnnouncementBar.classList.add('hidden');
+                  isHidden = true;
+              }, 100);  // Add a slight delay before hiding the header
+          }
+      } else if (currentScrollY < lastScrollY) {
+          // Scrolling up
+          if (isHidden) {
+              clearTimeout(actionTimeout); // Clear any existing timeout before applying changes
+              actionTimeout = setTimeout(() => {
+                  sectionHeader.classList.remove('hidden');
+                  sectionAnnouncementBar.classList.remove('hidden');
+                  isHidden = false;
+              }, 100);  // Add a slight delay before showing the header
+          }
+      }
+
+      lastScrollY = currentScrollY;
+      lastTime = currentTime;
+      ticking = false;
   }
 
-  // Initialize header behavior
-  initializeHeader();
+  // Optimized scroll event listener with requestAnimationFrame
+  window.addEventListener('scroll', function() {
+      if (!ticking) {
+          window.requestAnimationFrame(function() {
+              updateHeaderVisibility();
+              ticking = false;
+          });
+          ticking = true;
+      }
+  }, { passive: true });
 });
