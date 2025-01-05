@@ -58,8 +58,8 @@
     const headerGroup = document.querySelector('.shopify-section-group-header-group');
     
     if (headerGroup) {
-      // Set the height dynamically based on content
-      const headerHeight = headerGroup.scrollHeight;
+      // Get the height using getBoundingClientRect() for fixed position elements
+      const headerHeight = headerGroup.getBoundingClientRect().height;
       
       // Set the height as a CSS variable
       document.documentElement.style.setProperty('--full-header-height', `${headerHeight}px`);
