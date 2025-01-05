@@ -24,6 +24,21 @@
         width: 75%;
         /* Take up the rest of the space for product grid */
     }
+
+    .product-grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-y: auto;
+        /* Allow vertical scrolling */
+        height: calc(100vh - 100px);
+        /* Adjust this value depending on the space for your header and footer */
+        width: 100%;
+    }
+
+    
 }
 
 @media screen and (max-width: 991px) {
@@ -38,19 +53,6 @@
 .product-grid-collection {
     position: relative;
     overflow: hidden;
-}
-
-.product-grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    max-width: 100%;
-    box-sizing: border-box;
-    overflow-y: auto;
-    /* Allow vertical scrolling */
-    height: calc(100vh - 100px);
-    /* Adjust this value depending on the space for your header and footer */
-    width: 100%;
 }
 
 @media screen and (max-width: 991px) {
