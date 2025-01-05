@@ -2,10 +2,6 @@ body {
   overflow-x: hidden;
 }
 
-#MainContent {
-  top: var(--full-header-height);
-}
-
 section {
   padding-bottom: var(--section-padding-bottom);
 } 
