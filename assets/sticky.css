@@ -1,42 +1,14 @@
-/* Add this to your sticky.css file */
-
-/* Create space for the sticky header */
-sticky-header {
-    display: block;
-}
-
-/* When sticky is enabled */
-sticky-header[data-sticky-type="enabled"],
-sticky-header[data-sticky-type="hide_scroll"] {
-    height: var(--header-height);
-    position: relative;
-}
-
-/* Main content spacing */
-sticky-header[data-sticky-type="enabled"]+main,
-sticky-header[data-sticky-type="hide_scroll"]+main {
-    padding-top: var(--header-height);
-}
-
-/* When announcement bar is present */
-sticky-header[data-sticky-type="enabled"].has-announcement-bar,
-sticky-header[data-sticky-type="hide_scroll"].has-announcement-bar {
-    height: calc(var(--header-height) + var(--announcement-bar-height, 40px));
-}
-
-sticky-header[data-sticky-type="enabled"].has-announcement-bar+main,
-sticky-header[data-sticky-type="hide_scroll"].has-announcement-bar+main {
-    padding-top: calc(var(--header-height) + var(--announcement-bar-height, 40px));
-}
-
-/* Ensure the header stays on top */
-.section-header {
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
     z-index: 1000;
+    background-color: var(--background-color-light-mode);
 }
 
-/* Ensure announcement bar stays on top of header */
-.utility-bar {
-    z-index: 1001;
+.sticky.scroll-up {
+    background-color: var(--background-color-light-mode) !important;
+    top: 0px;
 }
 
 .navigation-banner.sticky {
@@ -55,58 +27,13 @@ sticky-header[data-sticky-type="hide_scroll"].has-announcement-bar+main {
     background-size: contain;
 }
 
-/* Sticky Header Adjustments */
 .sticky .mega-menu {
     position: absolute;
     top: 100%;
 }
 
-.section-header {
-    position: relative;
-    z-index: 1000;
-    transition: transform 0.3s ease-in-out;
-}
-
-.utility-bar {
-    position: relative;
-    z-index: 1000;
-    transition: transform 0.3s ease-in-out;
-}
-
-/* Sticky styles */
-.section-header.sticky {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: var(--header-background);
-}
-
-.utility-bar.sticky {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-}
-
-.section-header {
-    transition: transform 0.3s ease-in-out;
-}
-
-.utility-bar {
-    transition: transform 0.3s ease-in-out;
-}
-
-
-.section-header.sticky-hide {
-    transform: translateY(-100%);
-}
-
-.utility-bar.sticky-hide {
-    transform: translateY(-100%);
-}
-
-/* When header is hidden, move it up by the announcement bar height */
-.utility-bar.sticky.sticky-hide+.section-header.sticky.sticky-hide {
-    transform: translateY(calc(-100% - var(--announcement-bar-height, 40px)));
+/* Sticky Header Adjustments */
+.sticky .mega-menu {
+    position: absolute;
+    top: 100%;
 }
