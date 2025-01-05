@@ -25,7 +25,7 @@
 
 .sticky.scroll-up {
     background-color: var(--background-color-light-mode) !important;
-    top: var(--announcement-bar-height);
+    top: var(--utility-bar-height);
 }
 
 .index-page.scroll-up .navbar-nav .nav-link {
