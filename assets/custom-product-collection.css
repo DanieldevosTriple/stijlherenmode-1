@@ -3,7 +3,6 @@
     overflow: auto; /* Zorgt voor scrollen binnen de product grid */
 }
 
-
 .product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
