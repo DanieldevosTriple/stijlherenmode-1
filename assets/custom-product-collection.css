@@ -1,6 +1,5 @@
 .product-grid-collection {
-    position: relative;
-    height: var(--full-header-height, auto);
+    position: absolute;
 }
 
 .product-grid {
