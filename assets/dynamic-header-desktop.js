@@ -44,22 +44,24 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Variables for scroll handling
-  const MIN_SCROLL = 20;          // Minimum scroll movement to consider
-  const SCROLL_DOWN_START = 100;  // When to start considering hiding header
+  const MIN_SCROLL = 20;           // Minimum scroll movement to consider
+  const SCROLL_DOWN_START = 100;   // When to start considering hiding header
+  const SCROLL_UP_SHOW = 50;      // How far to scroll up before showing header
   
   let lastScrollY = window.scrollY;
   let isHidden = false;
   let ticking = false;
   let scrollDirection = null;
-  let lastDirectionChange = Date.now();
+  let upScrollDistance = 0;        // Track continuous upward scroll
   
   function updateDebugInfo() {
       debugDisplay.innerHTML = `
           Current Scroll: ${Math.round(window.scrollY)}px<br>
           Last Scroll: ${Math.round(lastScrollY)}px<br>
           Direction: ${scrollDirection}<br>
+          Up Distance: ${Math.round(upScrollDistance)}px<br>
           Is Hidden: ${isHidden}<br>
-          Delta: ${Math.round(window.scrollY - lastScrollY)}px
+          Up Show At: ${SCROLL_UP_SHOW}px
       `;
   }
 
@@ -93,20 +95,28 @@ document.addEventListener('DOMContentLoaded', function () {
           if (Math.abs(delta) >= MIN_SCROLL) {
               const newDirection = delta > 0 ? 'down' : 'up';
               
-              // Update direction if it changed
+              // Handle direction change
               if (newDirection !== scrollDirection) {
-                  const now = Date.now();
-                  if (now - lastDirectionChange > 50) {  // Debounce direction changes
-                      scrollDirection = newDirection;
-                      lastDirectionChange = now;
+                  scrollDirection = newDirection;
+                  if (scrollDirection === 'up') {
+                      upScrollDistance = 0;  // Reset up scroll tracking on direction change
                   }
               }
 
-              // Apply show/hide logic based on direction
-              if (scrollDirection === 'down' && currentScrollY > SCROLL_DOWN_START && !isHidden) {
-                  hideHeader();
-              } else if (scrollDirection === 'up' && isHidden) {
-                  showHeader();
+              // Handle scroll down
+              if (scrollDirection === 'down') {
+                  upScrollDistance = 0;  // Reset up scroll tracking
+                  if (currentScrollY > SCROLL_DOWN_START && !isHidden) {
+                      hideHeader();
+                  }
+              } 
+              // Handle scroll up
+              else if (scrollDirection === 'up' && isHidden) {
+                  upScrollDistance += Math.abs(delta);
+                  if (upScrollDistance >= SCROLL_UP_SHOW) {
+                      showHeader();
+                      upScrollDistance = 0;
+                  }
               }
           }
 
