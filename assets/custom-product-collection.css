@@ -5,6 +5,11 @@
     flex-direction: column;
   }
   
+.aside {
+    position: sticky;
+    top: 0;
+}
+
   /* Make the facets sticky on desktop */
   @media screen and (min-width: 992px) {
       .vertical-facets {
