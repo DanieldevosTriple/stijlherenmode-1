@@ -168,12 +168,12 @@
               {% endfor %}                                                                                  
         {%- endif -%}
       </div>
+      {%- if paginate.pages > 1 -%}
+        <div class="pagination-wrapper">
+          {% render 'pagination', paginate: paginate, anchor: '' %}
+        </div>
+      {%- endif -%}
     </div>
-    {%- if paginate.pages > 1 -%}
-      <div class="pagination-wrapper">
-        {% render 'pagination', paginate: paginate, anchor: '' %}
-      </div>
-    {%- endif -%}
   {%- endpaginate -%}
 </section>
 
