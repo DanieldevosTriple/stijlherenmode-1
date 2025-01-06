@@ -8,6 +8,7 @@
 .aside {
     position: sticky;
     top: 0;
+    align-self: start;
 }
 
   /* Make the facets sticky on desktop */
