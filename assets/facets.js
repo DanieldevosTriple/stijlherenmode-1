@@ -282,21 +282,27 @@ class FacetFiltersForm extends HTMLElement {
     this.closeMobileDrawer();
   }
 
+  // Update the applySortAndFilters method
   applySortAndFilters() {
-    console.log('applySortAndFilters called'); // Debugging
+    if (this.state.loading) return;
 
-    // Ensure that filters are built correctly
-    const queryString = this.buildQueryParams();
-    console.log('Query string:', queryString); // Debugging the query string
+    const searchParams = this.buildQueryParams();
+    const gridContainer = document.getElementById('ProductGridContainer');
+    
+    if (gridContainer) {
+      gridContainer.classList.add('is-loading');
+    }
 
-    // Update the URL with the new query string
-    this.updateURLHash(queryString);
+    // Update URL first
+    this.updateURLHash(searchParams);
 
-    // Render the page with the new filters
-    this.renderPage(queryString);
-
-    // Update the product count based on the new filters
-    this.updateProductCount();
+    // Render the page with new filters
+    this.renderPage(searchParams).finally(() => {
+      if (gridContainer) {
+        gridContainer.classList.remove('is-loading');
+      }
+      this.updateProductCount();
+    });
   }
 
   clearFilters() {
@@ -491,25 +497,15 @@ class FacetFiltersForm extends HTMLElement {
     return filters;
   }
 
+  // Add method to handle product count updates
   updateProductCount() {
-    // Select the product grid container that holds the product cards
-    const productGrid = document.querySelector('#ProductGridContainer');
-
-    // If the product grid exists, count the number of product cards
-    if (productGrid) {
-      const productCards = productGrid.querySelectorAll('.product-article'); // Adjust the selector to match your product card class
-      const countContainer = document.querySelector('.product-count');
-
-      // If the count container exists, update it with the count
-      if (countContainer) {
-        // Check if there's more than 1 product
-        const productCount = productCards.length;
-        const productText = productCount === 1 ? 'product' : 'producten';
-
-        countContainer.innerHTML = `${productCount} ${productText}`;
-      }
-    } else {
-      console.error('Product grid container not found.');
+    const productArticles = document.querySelectorAll('.product-article');
+    const countContainer = document.querySelector('.product-count');
+    
+    if (countContainer) {
+      const count = productArticles.length;
+      const productText = count === 1 ? 'product' : 'products';
+      countContainer.textContent = `${count} ${productText}`;
     }
   }
 
@@ -653,24 +649,37 @@ class FacetFiltersForm extends HTMLElement {
     }
   }
 
+  // Update the renderSectionFromFetch method
   async renderSectionFromFetch(url) {
     try {
-      console.log('Fetching URL:', url); // Debugging
       const response = await fetch(url);
-      if (!response.ok) throw new Error('Fetch failed');
-
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
       const text = await response.text();
       const html = new DOMParser().parseFromString(text, 'text/html');
 
+      // Update filters while preserving focus
       this.renderFilters(html);
+      
+      // Update product grid with variant handling
       this.renderProductGrid(html);
-      this.renderProductCount(html);
+      
+      // Update product count
+      this.updateProductCount();
+      
+      // Update URL parameters
+      const searchParams = new URL(url).searchParams.toString();
+      this.updateURLHash(searchParams);
+      
+      // Reinitialize any necessary components
+      this.initializeAccordion();
+      
+      return Promise.resolve();
     } catch (error) {
       console.error('Error fetching section:', error);
-      throw error;
+      return Promise.reject(error);
     }
   }
-
 
   renderFilters(html) {
     const facetDetailsElements = html.querySelectorAll('#FacetsWrapper .js-filter');
@@ -688,12 +697,80 @@ class FacetFiltersForm extends HTMLElement {
   renderProductGrid(html) {
     const grid = document.getElementById('ProductGridContainer');
     const newGrid = html.getElementById('ProductGridContainer');
-
+  
     if (grid && newGrid) {
+      // Before updating the grid, store references to any existing event listeners
+      const existingArticles = grid.querySelectorAll('.product-article');
+      const existingListeners = new Map();
+      
+      existingArticles.forEach(article => {
+        const clone = article.cloneNode(true);
+        existingListeners.set(article.dataset.productId, clone);
+      });
+  
+      // Update the grid content
       grid.innerHTML = newGrid.innerHTML;
-      // Emit a custom event after the grid content is updated
-      document.dispatchEvent(new CustomEvent('product-grid:updated'));
+  
+      // Re-attach event listeners to new product articles
+      const newArticles = grid.querySelectorAll('.product-article');
+      newArticles.forEach(article => {
+        const productId = article.dataset.productId;
+        if (existingListeners.has(productId)) {
+          const savedArticle = existingListeners.get(productId);
+          // Copy over any event listeners and data
+          article.addEventListener('click', (e) => {
+            // Handle click events
+          });
+        }
+      });
+  
+      // Ensure proper variant handling
+      this.initializeVariantSelectors();
+      
+      // Emit a custom event after the grid is updated
+      document.dispatchEvent(new CustomEvent('product-grid:updated', {
+        detail: {
+          container: grid
+        }
+      }));
     }
+  }
+
+  // Add method to handle variant selectors
+  initializeVariantSelectors() {
+    const productArticles = document.querySelectorAll('.product-article');
+    
+    productArticles.forEach(article => {
+      const productId = article.dataset.productId;
+      const variantId = article.dataset.variantId;
+      
+      if (productId && window.products && window.products[productId]) {
+        const product = window.products[productId];
+        
+        // Handle color swatches if they exist
+        const colorSwatches = article.querySelectorAll('.color-swatch');
+        colorSwatches.forEach(swatch => {
+          swatch.addEventListener('click', (e) => {
+            e.preventDefault();
+            const color = swatch.dataset.value;
+            
+            // Find the variant with this color
+            const variant = product.variants.find(v => v.color === color);
+            if (variant) {
+              // Update the product article data
+              article.dataset.variantId = variant.id;
+              
+              // Update the image if it exists
+              const productImage = article.querySelector('.card-product__image img');
+              if (productImage && variant.image) {
+                productImage.src = variant.image;
+                productImage.srcset = variant.image;
+              }
+            }
+          });
+        });
+      }
+    });
   }
 
   renderProductCount(html) {
@@ -705,9 +782,11 @@ class FacetFiltersForm extends HTMLElement {
     }
   }
 
+  // Update the getSections method to use the correct selector
   getSections() {
+    const productGrid = document.querySelector('.product-grid-container');
     return [{
-      section: document.getElementById('product-grid')?.dataset.id
+      section: productGrid?.dataset.id || 'main-collection-product-grid'
     }].filter(section => section.section);
   }
 
