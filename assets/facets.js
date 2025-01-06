@@ -303,7 +303,12 @@ class FacetFiltersForm extends HTMLElement {
       const baseUrl = window.location.origin;
       const fullUrl = new URL(url, baseUrl);
       
-      const response = await fetch(fullUrl.toString());
+      const response = await fetch(fullUrl.toString(), {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest' // Add this header for AJAX requests
+        }
+      });
+      
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       
       const text = await response.text();
@@ -313,12 +318,9 @@ class FacetFiltersForm extends HTMLElement {
       this.renderProductGrid(html);
       this.updateProductCount();
       
-      const searchParams = fullUrl.searchParams.toString();
-      if (searchParams) {
-        this.updateURLHash(searchParams);
-      }
-      
+      // Initialize any new components
       this.initializeAccordion();
+      this.initializeVariantSelectors();
       
       return Promise.resolve();
     } catch (error) {
