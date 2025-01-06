@@ -43,6 +43,7 @@ slider-component.slider-component-full-width {
   display: table;
   color: #fff !important; /* Standaard tekstkleur */
   font-family: 'TradeGothicLT' !important;
+  animation: wave 2s ease-in-out infinite;
 }
 
 .slider__slide {
