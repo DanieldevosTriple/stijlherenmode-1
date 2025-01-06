@@ -5,8 +5,6 @@
     flex-direction: column;
   }
   
-
-
   /* Make the facets sticky on desktop */
   @media screen and (min-width: 992px) {
       .vertical-facets {
@@ -16,17 +14,6 @@
           flex: 1;
           position: relative;
           height: auto;
-      }
-  
-      /* Sticky facets wrapper */
-      .facets-wrapper {
-          position: sticky;
-          top: 2rem;
-          height: calc(100vh - 4rem);
-          overflow-y: auto;
-          width: 25%;
-          top: 0;
-          align-self: start;
       }
   
       .product-grid-container {
@@ -57,31 +44,4 @@
       .product-grid {
           grid-template-columns: repeat(2, 1fr);
       }
-  }
-  
-  /* Product grid collection container */
-  .product-grid-collection {
-      position: relative;
-      width: 100%;
-  }
-  
-  /* Allow the product grid to scroll */
-  .product-grid-collection {
-      position: relative;
-      overflow: hidden;
-  }
-  
-  /* Pagination styles */
-  .pagination-wrapper {
-      margin-top: 2rem;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      padding: 1rem 0;
-  }
-  
-  /* Product article styles - maintaining any existing styles */
-  .product-article {
-      width: 100%;
-      position: relative;
   }
