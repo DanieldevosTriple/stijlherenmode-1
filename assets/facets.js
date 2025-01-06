@@ -8,8 +8,8 @@ class FacetFiltersForm extends HTMLElement {
       filterCache: new Map(),
       isMobileView: window.innerWidth <= 991,
       currentSort: '',
-      isSearchPage: window.location.pathname.includes('/search'), // Add check for search page
-      searchTerms: new URLSearchParams(window.location.search).get('q') || '' // Store search terms
+      isSearchPage: window.location.pathname.includes('/search'),
+      searchTerms: new URLSearchParams(window.location.search).get('q') || ''
     };
 
     this.filterPreview = new FilterPreview();
@@ -22,20 +22,17 @@ class FacetFiltersForm extends HTMLElement {
     this.updateProductCount();
   }
 
-
   setupEventListeners() {
     // Price range inputs - both mobile and desktop
     const priceInputs = this.querySelectorAll('.facet-range__input');
     priceInputs.forEach(input => {
-      input.addEventListener('change', (e) => this.handlePriceRangeChange(e)); // Updated handler
+      input.addEventListener('change', (e) => this.handlePriceRangeChange(e));
     });
 
-    // Add sort input handlers
+    // Sort inputs
     const sortInputs = this.querySelectorAll('input[name="sort_by_desktop"], input[name="sort_by_mobile"]');
-    console.log('Sort inputs found:', sortInputs); // Debug: Controleer gevonden inputs
     sortInputs.forEach(input => {
       input.addEventListener('change', (event) => {
-        console.log('Sort input changed:', event.target.value); // Debug: Log verandering
         this.handleSortChange(event);
       });
     });
@@ -79,32 +76,38 @@ class FacetFiltersForm extends HTMLElement {
         }
       }
     });
+
+    // Selected filter removal
+    const selectedFiltersContainer = this.querySelector('#SelectedFilters');
+    if (selectedFiltersContainer) {
+      selectedFiltersContainer.addEventListener('click', (event) => {
+        const removeButton = event.target.closest('.selected-filter__remove');
+        if (removeButton) {
+          const filter = removeButton.closest('.selected-filter');
+          this.removeFilter(filter.dataset.key, filter.dataset.value);
+        }
+      });
+    }
   }
 
   handleSortChange(event) {
-    console.log('handleSortChange triggered'); // Log aanroepen van de functie
     const sortValue = event.target.value;
-    console.log('Selected radio value:', sortValue); // Log de waarde van de geselecteerde radio
-
     this.state.currentSort = sortValue;
 
-    // Synchroniseer tussen desktop en mobiel
+    // Sync between desktop and mobile
     const isDesktop = event.target.name === 'sort_by_desktop';
     const otherInputName = isDesktop ? 'sort_by_mobile' : 'sort_by_desktop';
     const otherInput = this.querySelector(`input[name="${otherInputName}"][value="${sortValue}"]`);
 
     if (otherInput) {
       otherInput.checked = true;
-      console.log(`Synchronized ${otherInputName} to value:`, sortValue);
     }
 
     this.applySortAndFilters();
   }
 
-
   initializeAccordion() {
     const accordionItems = this.querySelectorAll('.facet-accordion__item');
-
     accordionItems.forEach((item) => {
       const toggle = item.querySelector('.facet-accordion__toggle');
       if (toggle) {
@@ -116,7 +119,6 @@ class FacetFiltersForm extends HTMLElement {
   openMobileDrawer() {
     const wrapper = this.querySelector('.facets__wrapper');
     if (!wrapper) return;
-
     wrapper.setAttribute('open', '');
     document.body.classList.add('overflow-hidden-mobile');
   }
@@ -124,7 +126,6 @@ class FacetFiltersForm extends HTMLElement {
   closeMobileDrawer() {
     const wrapper = this.querySelector('.facets__wrapper');
     if (!wrapper) return;
-
     wrapper.removeAttribute('open');
     document.body.classList.remove('overflow-hidden-mobile');
     this.closeMobileSubmenu();
@@ -132,32 +133,25 @@ class FacetFiltersForm extends HTMLElement {
 
   openMobileSubmenu(submenuId) {
     if (!submenuId) return;
-
-    // Show back button
     const backButton = this.querySelector('.mobile-facets__back-button');
     backButton?.classList.remove('hidden');
 
-    // Update title
     const submenuTitle = this.querySelector(`.facet-accordion__item[data-submenu="${submenuId}"] .mobile-facets__menu-button span`)?.textContent;
     if (submenuTitle) {
       this.querySelector('.mobile-facets__title').textContent = submenuTitle;
     }
 
-    // Show submenu content
     this.querySelector(`.facet-accordion__item[data-submenu="${submenuId}"] .mobile-facets__submenu`)?.classList.add('active');
+    this.state.currentView = 'submenu';
   }
 
   closeMobileSubmenu() {
-    // Hide back button
     this.querySelector('.mobile-facets__back-button')?.classList.add('hidden');
-
-    // Reset title
     this.querySelector('.mobile-facets__title').textContent = 'Filter & Sort';
-
-    // Hide all submenus
     this.querySelectorAll('.mobile-facets__submenu').forEach(submenu => {
       submenu.classList.remove('active');
     });
+    this.state.currentView = 'main';
   }
 
   setupResizeObserver() {
@@ -175,33 +169,27 @@ class FacetFiltersForm extends HTMLElement {
   handleFilterChange(event) {
     if (this.state.loading) return;
 
-    // Determine if the input is a checkbox
     const input = event.target;
     const isCheckbox = input.type === 'checkbox';
     const formData = new FormData(input.closest('form'));
     const queryParams = {};
 
     if (isCheckbox && !input.checked) {
-      // If a checkbox is unchecked, remove the corresponding filter
       const filterKey = input.name;
       const filterValue = input.value;
-
       this.state.selectedFilters.delete(`${filterKey}-${filterValue}`);
 
-      // Uncheck the corresponding checkbox on the other view (desktop/mobile)
       const otherInput = this.querySelector(
         `.facets__${this.state.isMobileView ? 'desktop' : 'mobile'} input[name="${filterKey}"][value="${filterValue}"]`
       );
       if (otherInput) otherInput.checked = false;
 
-      // Update the UI and URL
       this.renderSelectedFilters();
       this.updateMobileApplyButton();
       this.applySortAndFilters();
       return;
     }
 
-    // Update selected filters for checked checkboxes and other inputs
     formData.forEach((value, key) => {
       if (queryParams[key]) {
         queryParams[key] = queryParams[key] + `,${value}`;
@@ -210,13 +198,11 @@ class FacetFiltersForm extends HTMLElement {
       }
     });
 
-    // Clear and rebuild the selectedFilters state
     this.state.selectedFilters.clear();
     Object.entries(queryParams).forEach(([key, value]) => {
       value.split(',').forEach(singleValue => {
         const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
         const label = this.getFilterLabel(input);
-
         if (label) {
           this.state.selectedFilters.set(`${key}-${singleValue}`, {
             key,
@@ -227,177 +213,213 @@ class FacetFiltersForm extends HTMLElement {
       });
     });
 
-    // Sync checkboxes between mobile and desktop
-    this.state.selectedFilters.forEach(filter => {
-      const desktopInput = this.querySelector(
-        `.facets__desktop input[name="${filter.key}"][value="${filter.value}"]`
-      );
-      const mobileInput = this.querySelector(
-        `.facets__mobile input[name="${filter.key}"][value="${filter.value}"]`
-      );
-
-      if (desktopInput) desktopInput.checked = true;
-      if (mobileInput) mobileInput.checked = true;
-    });
-
-    // Update UI and apply filters
+    this.syncFiltersAcrossViews();
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
     this.applySortAndFilters();
   }
 
-  applyMobileFilters() {
-    // Get current form data to capture unchecked boxes
-    const form = this.querySelector('form');
-    const formData = new FormData(form);
-
-    // Clear existing filters that aren't in form data
-    this.state.selectedFilters.forEach((filter, key) => {
-      if (filter.key !== 'price_filter' && !formData.has(filter.key)) {
-        this.state.selectedFilters.delete(key);
-      }
+  syncFiltersAcrossViews() {
+    this.state.selectedFilters.forEach(filter => {
+      ['desktop', 'mobile'].forEach(view => {
+        const input = this.querySelector(
+          `.facets__${view} input[name="${filter.key}"][value="${filter.value}"]`
+        );
+        if (input) input.checked = true;
+      });
     });
-
-    // Handle price range inputs
-    const minInput = this.querySelector('input[name^="min_"]');
-    const maxInput = this.querySelector('input[name^="max_"]');
-
-    if (minInput && maxInput) {
-      const min = parseInt(minInput.value) || '';
-      const max = parseInt(maxInput.value) || '';
-
-      if (min || max) {
-        this.state.selectedFilters.set('price_filter', {
-          key: 'price_filter',
-          value: `${min}-${max}`,
-          label: `Price: $${min || '0'} - $${max || '∞'}`
-        });
-      } else {
-        this.state.selectedFilters.delete('price_filter');
-      }
-    }
-
-    // Apply sorting and filtering then close drawer
-    this.applySortAndFilters();
-    this.closeMobileDrawer();
   }
 
-  // Update the applySortAndFilters method
-  applySortAndFilters() {
+  async renderPage(searchParams) {
     if (this.state.loading) return;
 
-    const searchParams = this.buildQueryParams();
-    const gridContainer = document.getElementById('ProductGridContainer');
-    
-    if (gridContainer) {
-      gridContainer.classList.add('is-loading');
-    }
+    try {
+      const gridContainer = document.getElementById('ProductGridContainer');
+      if (gridContainer) {
+        gridContainer.classList.add('is-loading');
+      }
 
-    // Update URL first
-    this.updateURLHash(searchParams);
+      this.state.loading = true;
+      const sections = this.getSections();
 
-    // Render the page with new filters
-    this.renderPage(searchParams).finally(() => {
+      if (sections.length === 0) {
+        console.warn('No sections found to render');
+        return;
+      }
+
+      await Promise.all(
+        sections.map(section => {
+          const basePath = this.state.isSearchPage ? '/search' : window.location.pathname;
+          let url = basePath;
+          
+          if (section.section) {
+            url += `?section_id=${encodeURIComponent(section.section)}`;
+          }
+          
+          if (searchParams) {
+            url += (url.includes('?') ? '&' : '?') + searchParams;
+          }
+          
+          return this.renderSectionFromFetch(url);
+        })
+      );
+
       if (gridContainer) {
         gridContainer.classList.remove('is-loading');
       }
+
+      this.state.loading = false;
       this.updateProductCount();
-    });
-  }
-
-  clearFilters() {
-    // Add radio reset
-    this.querySelectorAll('input[type="radio"]').forEach(input => {
-      input.checked = false;
-    });
-    this.state.currentSort = '';
-
-    // Clear all price inputs (mobile + desktop)
-    this.querySelectorAll('.facet-range__input').forEach(input => {
-      input.value = '';
-    });
-
-    // Clear all checkboxes (both mobile and desktop)
-    this.querySelectorAll('input[type="checkbox"]').forEach(input => {
-      input.checked = false;
-    });
-
-    this.state.selectedFilters.clear();
-    this.state.filterCache.clear();
-
-    this.renderSelectedFilters();
-    this.updateMobileApplyButton();
-
-    // Update URL and re-render page
-    history.pushState({}, '', window.location.pathname);
-    this.renderPage('');
-
-    // Close mobile drawer after clearing
-    this.closeMobileDrawer();
-  }
-
-  updateMobileApplyButton() {
-    const applyButton = this.querySelector('.mobile-facets__apply');
-    if (!applyButton) return;
-
-    const hasChanges = this.state.selectedFilters.size > 0 || this.state.currentSort;
-    applyButton.disabled = !hasChanges;
-    applyButton.textContent = hasChanges ? `Apply (${this.state.selectedFilters.size})` : 'Apply';
-  }
-
-  getFilterLabel(input) {
-    if (!input) return '';
-    const label = input.closest('label')?.querySelector('.facet-checkbox__text');
-    return label ? label.textContent.split(' (')[0] : '';
-  }
-
-  handlePriceRangeChange(event) {
-    const minInput = this.querySelector('input[name="min_filter.v.price"]');
-    const maxInput = this.querySelector('input[name="max_filter.v.price"]');
-
-    if (!minInput || !maxInput) return;
-
-    const min = parseInt(minInput.value) || '';
-    const max = parseInt(maxInput.value) || '';
-
-    // Prevent min > max scenario
-    if (min && max && min > max) {
-      if (event.target === minInput) {
-        minInput.value = max;
-      } else {
-        maxInput.value = min;
+    } catch (error) {
+      console.error('Error rendering page:', error);
+      this.state.loading = false;
+      if (gridContainer) {
+        gridContainer.classList.remove('is-loading');
       }
     }
+  }
 
-    const filterKey = 'price_filter';
+  async renderSectionFromFetch(url) {
+    try {
+      const baseUrl = window.location.origin;
+      const fullUrl = new URL(url, baseUrl);
+      
+      const response = await fetch(fullUrl.toString());
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const text = await response.text();
+      const html = new DOMParser().parseFromString(text, 'text/html');
 
-    // Update the selected filters for price range
-    if (min || max) {
-      this.state.selectedFilters.set(filterKey, {
-        key: filterKey,
-        value: `${min}-${max}`,
-        label: `Price: €${min || '0'} - €${max || '∞'}`
-      });
-    } else {
-      this.state.selectedFilters.delete(filterKey);
+      this.renderFilters(html);
+      this.renderProductGrid(html);
+      this.updateProductCount();
+      
+      const searchParams = fullUrl.searchParams.toString();
+      if (searchParams) {
+        this.updateURLHash(searchParams);
+      }
+      
+      this.initializeAccordion();
+      
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Error fetching section:', error);
+      return Promise.reject(error);
     }
+  }
 
-    // Update the UI and apply filters
-    this.renderSelectedFilters();
-    this.updateMobileApplyButton();
-    this.applySortAndFilters();
+  renderFilters(html) {
+    const facetDetailsElements = html.querySelectorAll('#FacetsWrapper .js-filter');
+    facetDetailsElements.forEach((element) => {
+      const target = document.querySelector(`[data-index="${element.dataset.index}"]`);
+      if (target && !target.contains(document.activeElement)) {
+        target.innerHTML = element.innerHTML;
+      }
+    });
+
+    this.initializeAccordion();
+  }
+
+  renderProductGrid(html) {
+    const grid = document.getElementById('ProductGridContainer');
+    const newGrid = html.getElementById('ProductGridContainer');
+  
+    if (grid && newGrid) {
+      // Store existing event listeners and data
+      const existingArticles = grid.querySelectorAll('.product-article');
+      const existingListeners = new Map();
+      
+      existingArticles.forEach(article => {
+        const clone = article.cloneNode(true);
+        existingListeners.set(article.dataset.productId, clone);
+      });
+  
+      // Update grid content
+      grid.innerHTML = newGrid.innerHTML;
+  
+      // Re-attach event listeners to new articles
+      const newArticles = grid.querySelectorAll('.product-article');
+      newArticles.forEach(article => {
+        const productId = article.dataset.productId;
+        if (existingListeners.has(productId)) {
+          const savedArticle = existingListeners.get(productId);
+          article.addEventListener('click', (e) => {
+            // Handle click events
+          });
+        }
+      });
+  
+      // Initialize variant selectors and swatches
+      this.initializeVariantSelectors();
+      
+      // Dispatch update event
+      document.dispatchEvent(new CustomEvent('product-grid:updated', {
+        detail: { container: grid }
+      }));
+    }
+  }
+
+  initializeVariantSelectors() {
+    const productArticles = document.querySelectorAll('.product-article');
+    
+    productArticles.forEach(article => {
+      const productId = article.dataset.productId;
+      const variantId = article.dataset.variantId;
+      
+      if (productId && window.products && window.products[productId]) {
+        const product = window.products[productId];
+        
+        // Handle color swatches
+        const colorSwatches = article.querySelectorAll('.color-swatch');
+        colorSwatches.forEach(swatch => {
+          swatch.addEventListener('click', (e) => {
+            e.preventDefault();
+            const color = swatch.dataset.value;
+            
+            const variant = product.variants.find(v => v.color === color);
+            if (variant) {
+              article.dataset.variantId = variant.id;
+              
+              const productImage = article.querySelector('.card-product__image img');
+              if (productImage && variant.image) {
+                productImage.src = variant.image;
+                productImage.srcset = variant.image;
+              }
+            }
+          });
+        });
+      }
+    });
+  }
+
+  getSections() {
+    const productGrid = document.querySelector('.product-grid-container');
+    return [{
+      section: productGrid?.dataset.id || 'main-collection-product-grid'
+    }].filter(section => section.section);
+  }
+
+  updateProductCount() {
+    const productArticles = document.querySelectorAll('.product-article');
+    const countContainer = document.querySelector('.product-count');
+    
+    if (countContainer) {
+      const count = productArticles.length;
+      const productText = count === 1 ? 'product' : 'products';
+      countContainer.textContent = `${count} ${productText}`;
+    }
   }
 
   buildQueryParams() {
     const urlParts = [];
 
-    // Preserve search query if on search page
+    // Add search parameters if on search page
     if (this.state.isSearchPage && this.state.searchTerms) {
       urlParts.push(`q=${encodeURIComponent(this.state.searchTerms)}`);
       urlParts.push('options[prefix]=last');
     }
 
-    // Add the sort if it's set
+    // Add sort parameter
     if (this.state.currentSort) {
       urlParts.push(`sort_by=${encodeURIComponent(this.state.currentSort)}`);
     }
@@ -429,93 +451,126 @@ class FacetFiltersForm extends HTMLElement {
     return urlParts.join('&');
   }
 
-  async renderPage(searchParams) {
-    if (this.state.loading) return;
+  applyMobileFilters() {
+    // Get current form data to capture unchecked boxes
+    const form = this.querySelector('form');
+    const formData = new FormData(form);
 
-    try {
-      const gridContainer = document.getElementById('ProductGridContainer');
-      if (gridContainer) {
-        gridContainer.classList.add('is-loading');
-      }
-
-      this.state.loading = true;
-      const sections = this.getSections();
-
-      await Promise.all(
-        sections.map(section => {
-          // Build URL based on whether we're on search page or collection page
-          const baseUrl = this.state.isSearchPage ? '/search' : window.location.pathname;
-          const url = `${baseUrl}?section_id=${section.section}&${searchParams}`;
-          return this.renderSectionFromFetch(url);
-        })
-      );
-
-      if (gridContainer) {
-        gridContainer.classList.remove('is-loading');
-      }
-
-      this.state.loading = false;
-      this.updateProductCount();
-    } catch (error) {
-      console.error('Error rendering page:', error);
-      this.state.loading = false;
-    }
-  }
-
-  getSelectedFiltersFromURL() {
-    const filters = new Map();
-    const params = new URLSearchParams(window.location.search);
-
-    params.forEach((value, key) => {
-      if (key.startsWith('filter.') && !key.includes('price')) {
-        value.split(',').forEach(singleValue => {
-          const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-          const label = this.getFilterLabel(input);
-
-          if (label) {
-            filters.set(`${key}-${singleValue}`, {
-              key,
-              value: singleValue,
-              label
-            });
-          }
-        });
+    // Clear existing filters that aren't in form data
+    this.state.selectedFilters.forEach((filter, key) => {
+      if (filter.key !== 'price_filter' && !formData.has(filter.key)) {
+        this.state.selectedFilters.delete(key);
       }
     });
 
-    const min = params.get('filter.v.price.gte');
-    const max = params.get('filter.v.price.lte');
+    // Handle price range inputs
+    const minInput = this.querySelector('input[name^="min_"]');
+    const maxInput = this.querySelector('input[name^="max_"]');
 
-    if (min || max) {
-      filters.set('price_filter', {
-        key: 'price_filter',
-        value: `${min || ''}-${max || ''}`,
-        label: `Price: $${min || '0'} - $${max || '∞'}`
-      });
+    if (minInput && maxInput) {
+      const min = parseInt(minInput.value) || '';
+      const max = parseInt(maxInput.value) || '';
+
+      if (min || max) {
+        this.state.selectedFilters.set('price_filter', {
+          key: 'price_filter',
+          value: `${min}-${max}`,
+          label: `Price: €${min || '0'} - €${max || '∞'}`
+        });
+      } else {
+        this.state.selectedFilters.delete('price_filter');
+      }
     }
 
-    return filters;
+    // Apply filters and close drawer
+    this.applySortAndFilters();
+    this.closeMobileDrawer();
   }
 
-  // Add method to handle product count updates
-  updateProductCount() {
-    const productArticles = document.querySelectorAll('.product-article');
-    const countContainer = document.querySelector('.product-count');
-    
-    if (countContainer) {
-      const count = productArticles.length;
-      const productText = count === 1 ? 'product' : 'products';
-      countContainer.textContent = `${count} ${productText}`;
+  handlePriceRangeChange(event) {
+    const minInput = this.querySelector('input[name="min_filter.v.price"]');
+    const maxInput = this.querySelector('input[name="max_filter.v.price"]');
+
+    if (!minInput || !maxInput) return;
+
+    const min = parseInt(minInput.value) || '';
+    const max = parseInt(maxInput.value) || '';
+
+    // Prevent min > max scenario
+    if (min && max && min > max) {
+      if (event.target === minInput) {
+        minInput.value = max;
+      } else {
+        maxInput.value = min;
+      }
     }
+
+    const filterKey = 'price_filter';
+
+    if (min || max) {
+      this.state.selectedFilters.set(filterKey, {
+        key: filterKey,
+        value: `${min}-${max}`,
+        label: `Price: €${min || '0'} - €${max || '∞'}`
+      });
+    } else {
+      this.state.selectedFilters.delete(filterKey);
+    }
+
+    this.renderSelectedFilters();
+    this.updateMobileApplyButton();
+    this.applySortAndFilters();
+  }
+
+  clearFilters() {
+    // Reset all inputs
+    this.querySelectorAll('input[type="radio"]').forEach(input => {
+      input.checked = false;
+    });
+    this.state.currentSort = '';
+
+    this.querySelectorAll('.facet-range__input').forEach(input => {
+      input.value = '';
+    });
+
+    this.querySelectorAll('input[type="checkbox"]').forEach(input => {
+      input.checked = false;
+    });
+
+    // Clear state
+    this.state.selectedFilters.clear();
+    this.state.filterCache.clear();
+
+    // Update UI
+    this.renderSelectedFilters();
+    this.updateMobileApplyButton();
+
+    // Reset URL and re-render
+    history.pushState({}, '', window.location.pathname);
+    this.renderPage('');
+
+    // Close mobile drawer
+    this.closeMobileDrawer();
+  }
+
+  updateMobileApplyButton() {
+    const applyButton = this.querySelector('.mobile-facets__apply');
+    if (!applyButton) return;
+
+    const hasChanges = this.state.selectedFilters.size > 0 || this.state.currentSort;
+    applyButton.disabled = !hasChanges;
+    applyButton.textContent = hasChanges ? `Apply (${this.state.selectedFilters.size})` : 'Apply';
+  }
+
+  getFilterLabel(input) {
+    if (!input) return '';
+    const label = input.closest('label')?.querySelector('.facet-checkbox__text');
+    return label ? label.textContent.split(' (')[0] : '';
   }
 
   initializeFromURL() {
     const params = new URLSearchParams(window.location.search);
-
-    // Store search terms if present
     this.state.searchTerms = params.get('q') || '';
-    
-    // Initialize the selected filters based on URL parameters
     this.state.selectedFilters = new Map();
 
     params.forEach((value, key) => {
@@ -529,6 +584,12 @@ class FacetFiltersForm extends HTMLElement {
             value: `${min}-${max}`,
             label: `Price: €${min || '0'} - €${max || '∞'}`
           });
+
+          // Set input values
+          const minInput = this.querySelector('input[name^="min_filter.v.price"]');
+          const maxInput = this.querySelector('input[name^="max_filter.v.price"]');
+          if (minInput) minInput.value = min;
+          if (maxInput) maxInput.value = max;
         }
       } else if (key.startsWith('filter.')) {
         value.split(',').forEach(singleValue => {
@@ -547,65 +608,16 @@ class FacetFiltersForm extends HTMLElement {
         });
       } else if (key === 'sort_by') {
         this.state.currentSort = value;
-        const sortInputs = this.querySelectorAll(`input[name^="sort_by"][value="${value}"]`);
-        sortInputs.forEach(input => input.checked = true);
+        this.querySelectorAll(`input[name^="sort_by"][value="${value}"]`)
+          .forEach(input => input.checked = true);
       }
     });
-
-    // Initialize price range inputs
-    const minPriceInput = this.querySelector('input[name^="min_filter.v.price"]');
-    const maxPriceInput = this.querySelector('input[name^="max_filter.v.price"]');
-    const minPrice = params.get('filter.v.price.gte') || '';
-    const maxPrice = params.get('filter.v.price.lte') || '';
-
-    if (minPriceInput) minPriceInput.value = minPrice;
-    if (maxPriceInput) maxPriceInput.value = maxPrice;
 
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
   }
 
-  syncFromURL() {
-    try {
-      const params = new URLSearchParams(window.location.search);
-
-      // Reset all inputs first
-      this.querySelectorAll('input[type="checkbox"], .facet-range__input, input[name="sort_by"]').forEach(input => {
-        if (input.type === 'checkbox') {
-          input.checked = false;
-        } else if (input.type === 'radio') {
-          input.checked = input.value === this.state.currentSort;
-        } else {
-          input.value = '';
-        }
-      });
-
-      // Set other filter values from URL
-      params.forEach((value, key) => {
-        if (key.startsWith('filter.')) {
-          if (key === 'filter.v.price.gte' || key === 'filter.v.price.lte') {
-            const inputName = key === 'filter.v.price.gte' ? 'min_price' : 'max_price';
-            const inputs = this.querySelectorAll(`input[name="${inputName}"]`);
-            inputs.forEach(input => input.value = value);
-          } else {
-            value.split(',').forEach(singleValue => {
-              const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-              if (input) input.checked = true;
-            });
-          }
-        }
-      });
-
-      this.renderSelectedFilters();
-      this.updateMobileApplyButton();
-      this.updateFilterPreview();
-    } catch (error) {
-      console.error('Error syncing from URL:', error);
-    }
-  }
-
   updateURLHash(searchParams) {
-    console.log('Updating URL with:', searchParams); // Debugging
     history.pushState(
       { searchParams },
       '',
@@ -613,181 +625,23 @@ class FacetFiltersForm extends HTMLElement {
     );
   }
 
-  // Voeg dit toe aan je facets.js
-  async renderPage(searchParams) {
+  applySortAndFilters() {
     if (this.state.loading) return;
 
-    try {
-      // Voeg loading class toe
-      const gridContainer = document.getElementById('ProductGridContainer');
-      if (gridContainer) {
-        gridContainer.classList.add('is-loading');
-      }
+    const searchParams = this.buildQueryParams();
+    const gridContainer = document.getElementById('ProductGridContainer');
+    
+    if (gridContainer) {
+      gridContainer.classList.add('is-loading');
+    }
 
-      this.state.loading = true;
-      const sections = this.getSections();
-      console.log('Sections to render:', sections);
-
-      await Promise.all(
-        sections.map(section => {
-          const url = `${window.location.pathname}?section_id=${section.section}&${searchParams}`;
-          console.log('Fetching section from URL:', url);
-          return this.renderSectionFromFetch(url);
-        })
-      );
-
-      // Verwijder loading class
+    this.updateURLHash(searchParams);
+    this.renderPage(searchParams).finally(() => {
       if (gridContainer) {
         gridContainer.classList.remove('is-loading');
       }
-
-      this.state.loading = false;
-      this.updateProductCount(); // Ensure the product count is updated after rendering
-    } catch (error) {
-      console.error('Error rendering page:', error);
-      this.state.loading = false;
-    }
-  }
-
-  // Update the renderSectionFromFetch method
-  async renderSectionFromFetch(url) {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      
-      const text = await response.text();
-      const html = new DOMParser().parseFromString(text, 'text/html');
-
-      // Update filters while preserving focus
-      this.renderFilters(html);
-      
-      // Update product grid with variant handling
-      this.renderProductGrid(html);
-      
-      // Update product count
       this.updateProductCount();
-      
-      // Update URL parameters
-      const searchParams = new URL(url).searchParams.toString();
-      this.updateURLHash(searchParams);
-      
-      // Reinitialize any necessary components
-      this.initializeAccordion();
-      
-      return Promise.resolve();
-    } catch (error) {
-      console.error('Error fetching section:', error);
-      return Promise.reject(error);
-    }
-  }
-
-  renderFilters(html) {
-    const facetDetailsElements = html.querySelectorAll('#FacetsWrapper .js-filter');
-
-    facetDetailsElements.forEach((element) => {
-      const target = document.querySelector(`[data-index="${element.dataset.index}"]`);
-      if (target && !target.contains(document.activeElement)) {
-        target.innerHTML = element.innerHTML;
-      }
     });
-
-    this.initializeAccordion();
-  }
-
-  renderProductGrid(html) {
-    const grid = document.getElementById('ProductGridContainer');
-    const newGrid = html.getElementById('ProductGridContainer');
-  
-    if (grid && newGrid) {
-      // Before updating the grid, store references to any existing event listeners
-      const existingArticles = grid.querySelectorAll('.product-article');
-      const existingListeners = new Map();
-      
-      existingArticles.forEach(article => {
-        const clone = article.cloneNode(true);
-        existingListeners.set(article.dataset.productId, clone);
-      });
-  
-      // Update the grid content
-      grid.innerHTML = newGrid.innerHTML;
-  
-      // Re-attach event listeners to new product articles
-      const newArticles = grid.querySelectorAll('.product-article');
-      newArticles.forEach(article => {
-        const productId = article.dataset.productId;
-        if (existingListeners.has(productId)) {
-          const savedArticle = existingListeners.get(productId);
-          // Copy over any event listeners and data
-          article.addEventListener('click', (e) => {
-            // Handle click events
-          });
-        }
-      });
-  
-      // Ensure proper variant handling
-      this.initializeVariantSelectors();
-      
-      // Emit a custom event after the grid is updated
-      document.dispatchEvent(new CustomEvent('product-grid:updated', {
-        detail: {
-          container: grid
-        }
-      }));
-    }
-  }
-
-  // Add method to handle variant selectors
-  initializeVariantSelectors() {
-    const productArticles = document.querySelectorAll('.product-article');
-    
-    productArticles.forEach(article => {
-      const productId = article.dataset.productId;
-      const variantId = article.dataset.variantId;
-      
-      if (productId && window.products && window.products[productId]) {
-        const product = window.products[productId];
-        
-        // Handle color swatches if they exist
-        const colorSwatches = article.querySelectorAll('.color-swatch');
-        colorSwatches.forEach(swatch => {
-          swatch.addEventListener('click', (e) => {
-            e.preventDefault();
-            const color = swatch.dataset.value;
-            
-            // Find the variant with this color
-            const variant = product.variants.find(v => v.color === color);
-            if (variant) {
-              // Update the product article data
-              article.dataset.variantId = variant.id;
-              
-              // Update the image if it exists
-              const productImage = article.querySelector('.card-product__image img');
-              if (productImage && variant.image) {
-                productImage.src = variant.image;
-                productImage.srcset = variant.image;
-              }
-            }
-          });
-        });
-      }
-    });
-  }
-
-  renderProductCount(html) {
-    const count = document.getElementById('ProductCount');
-    const newCount = html.getElementById('ProductCount');
-
-    if (count && newCount) {
-      count.innerHTML = newCount.innerHTML;
-    }
-  }
-
-  // Update the getSections method to use the correct selector
-  getSections() {
-    const productGrid = document.querySelector('.product-grid-container');
-    return [{
-      section: productGrid?.dataset.id || 'main-collection-product-grid'
-    }].filter(section => section.section);
   }
 
   renderSelectedFilters() {
@@ -809,6 +663,7 @@ class FacetFiltersForm extends HTMLElement {
 
     container.innerHTML = filterElements;
 
+    // Attach event listeners for filter removal
     container.querySelectorAll('.selected-filter__remove').forEach(button => {
       button.addEventListener('click', (e) => {
         const filter = e.target.closest('.selected-filter');
@@ -818,29 +673,24 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   removeFilter(key, value) {
-    // Handle the price filter specifically
     if (key === 'price_filter') {
       this.state.selectedFilters.delete('price_filter');
-
-      // Reset price input fields
+      
+      // Reset price inputs
       const minInput = this.querySelector('input[name="min_filter.v.price"]');
       const maxInput = this.querySelector('input[name="max_filter.v.price"]');
       if (minInput) minInput.value = '';
       if (maxInput) maxInput.value = '';
-
     } else {
-      // For other filters, uncheck the input elements
-      const desktopInput = this.querySelector(`.facets__desktop input[name="${key}"][value="${value}"]`);
-      const mobileInput = this.querySelector(`.facets__mobile input[name="${key}"][value="${value}"]`);
-
-      // Reset UI for both desktop and mobile
-      if (desktopInput) desktopInput.checked = false;
-      if (mobileInput) mobileInput.checked = false;
+      // Uncheck both desktop and mobile inputs
+      ['desktop', 'mobile'].forEach(view => {
+        const input = this.querySelector(`.facets__${view} input[name="${key}"][value="${value}"]`);
+        if (input) input.checked = false;
+      });
 
       this.state.selectedFilters.delete(`${key}-${value}`);
     }
 
-    // Update the UI after deletion
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
     this.applySortAndFilters();
