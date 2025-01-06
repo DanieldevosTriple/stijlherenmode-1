@@ -3,7 +3,6 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding-top: var(--header-height, 80px); /* Add padding to account for fixed header */
   }
   
   /* Make the facets sticky on desktop */
@@ -19,47 +18,12 @@
   
       /* Sticky facets wrapper */
       .facets-wrapper {
-        position: sticky;
-        /* Adjust top position to account for header */
-        top: var(--header-height, 80px);
-        /* Subtract header height from viewport height */
-        height: calc(100vh - var(--header-height, 80px) - 2rem);
-        overflow-y: auto;
-        width: 25%;
-        /* Ensure smooth scrolling */
-        scroll-behavior: smooth;
-        /* Add padding to prevent content from touching the bottom */
-        padding-bottom: 2rem;
-        /* Improve scrollbar appearance */
-        scrollbar-width: thin;
-        scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+          position: sticky;
+          top: 2rem;
+          height: calc(100vh - 4rem);
+          overflow-y: auto;
+          width: 25%;
       }
-
-      /* Scrollbar styling for webkit browsers */
-  .facets-wrapper::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .facets-wrapper::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .facets-wrapper::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-  }
-
-  .product-grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    height: auto;
-    overflow: visible;
-    box-sizing: border-box;
-    padding-right: 15px;
-    /* Ensure container takes remaining space */
-    flex: 1;
-  }
   
       .product-grid-container {
           display: grid;
