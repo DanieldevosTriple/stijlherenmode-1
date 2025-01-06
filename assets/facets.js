@@ -92,17 +92,36 @@ class FacetFiltersForm extends HTMLElement {
 
   handleSortChange(event) {
     const sortValue = event.target.value;
+    console.log('Sort changed to:', sortValue);
+    
+    // Clear previous sort value
+    this.querySelectorAll('input[name="sort_by_desktop"], input[name="sort_by_mobile"]').forEach(input => {
+      if (input.value !== sortValue) {
+        input.checked = false;
+      }
+    });
+
+    // Set new sort value
     this.state.currentSort = sortValue;
 
-    // Sync between desktop and mobile
+    // Sync between desktop and mobile views
     const isDesktop = event.target.name === 'sort_by_desktop';
     const otherInputName = isDesktop ? 'sort_by_mobile' : 'sort_by_desktop';
     const otherInput = this.querySelector(`input[name="${otherInputName}"][value="${sortValue}"]`);
-
+    
     if (otherInput) {
       otherInput.checked = true;
     }
 
+    // Set URL parameter for sort
+    const searchParams = new URLSearchParams(window.location.search);
+    if (sortValue) {
+      searchParams.set('sort_by', sortValue);
+    } else {
+      searchParams.delete('sort_by');
+    }
+
+    // Apply the sorting
     this.applySortAndFilters();
   }
 
@@ -573,6 +592,20 @@ class FacetFiltersForm extends HTMLElement {
     this.state.searchTerms = params.get('q') || '';
     this.state.selectedFilters = new Map();
 
+    // Initialize sort
+    const sortValue = params.get('sort_by');
+    if (sortValue) {
+      this.state.currentSort = sortValue;
+      // Set both desktop and mobile sort inputs
+      ['desktop', 'mobile'].forEach(view => {
+        const input = this.querySelector(`input[name="sort_by_${view}"][value="${sortValue}"]`);
+        if (input) {
+          input.checked = true;
+        }
+      });
+    }
+
+    // Initialize filters
     params.forEach((value, key) => {
       if (key === 'filter.v.price.gte' || key === 'filter.v.price.lte') {
         const min = params.get('filter.v.price.gte') || '';
@@ -606,15 +639,17 @@ class FacetFiltersForm extends HTMLElement {
             }
           }
         });
-      } else if (key === 'sort_by') {
-        this.state.currentSort = value;
-        this.querySelectorAll(`input[name^="sort_by"][value="${value}"]`)
-          .forEach(input => input.checked = true);
       }
     });
 
     this.renderSelectedFilters();
     this.updateMobileApplyButton();
+
+    // Log current state for debugging
+    console.log('Initialized state:', {
+      currentSort: this.state.currentSort,
+      selectedFilters: Array.from(this.state.selectedFilters.entries())
+    });
   }
 
   updateURLHash(searchParams) {
