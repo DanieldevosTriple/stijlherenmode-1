@@ -6,6 +6,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
   position: relative !important;
+  top: calc(var(--full-header-height) - 10px);
 }
 
 .footer-block__heading__menu {
