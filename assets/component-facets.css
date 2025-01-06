@@ -508,7 +508,6 @@
     position: sticky;
     top: 20px;
     height: calc(100vh - 40px);
-    overflow-y: auto;
     scrollbar-width: thin;
     width: 100%;
     /* Voor Firefox */
