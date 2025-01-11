@@ -464,6 +464,10 @@
     object-fit: contain;
 }
 
+.product-info {
+    z-index: 1;
+}
+
 .image-modal[style*="display: block"] {
     display: flex !important;
 }
