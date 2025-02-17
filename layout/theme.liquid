@@ -310,8 +310,6 @@
       >
     {%- endif -%}
 
-    {{ 'page-loader.css' | asset_url | stylesheet_tag }}
-
     <script>
       if (Shopify.designMode) {
         document.documentElement.classList.add('shopify-design-mode');
@@ -422,25 +420,18 @@
 
     <main id="MainContent" class="content-for-layout focus-none container-general" role="main" tabindex="-1">
       {% if request.path == '/policies/legal-notice' %}
-        {% section 'main-page-banner' %}
         {% section 'policy-body' %}
       {% elsif request.path == '/policies/refund-policy' %}
-        {% section 'main-page-banner' %}
         {% section 'policy-body' %}
       {% elsif request.path contains '/policies/privacy-policy' %}
-        {% section 'main-page-banner' %}
         {% section 'policy-body' %}
       {% elsif request.path contains '/policies/terms-of-service' %}
-        {% section 'main-page-banner' %}
         {% section 'policy-body' %}
       {% elsif request.path contains '/policies/shipping-policy' %}
-        {% section 'main-page-banner' %}
         {% section 'policy-body' %}
       {% elsif request.path contains '/policies/subscription-policy' %}
-        {% section 'main-page-banner' %}
         {% section 'policy-body' %}
       {% elsif request.path contains '/pages/betalen' %}
-        {% section 'main-page-banner' %}
         {% section 'policy-body' %}  
       {% else %}
         {{ content_for_layout }}
