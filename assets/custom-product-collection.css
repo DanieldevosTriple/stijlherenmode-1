@@ -7,6 +7,8 @@
 
   .product-padding {
     top: calc(var(--full-header-height) - 10px);
+    overflow: hidden;
+    position: relative;
   }
   
   /* Make the facets sticky on desktop */
