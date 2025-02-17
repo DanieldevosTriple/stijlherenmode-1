@@ -5,8 +5,7 @@
 
 {{ 'component-rating.css' | asset_url | stylesheet_tag }}
 {{ 'product-card-carousel.css' | asset_url | stylesheet_tag }}
-{{ 'product-card-carousel.js' | asset_url | script_tag }}
-
+{{ 'product-card-carousel.js' | asset_url | stylesheet_tag }}
 
 {%- if variant and variant != empty -%}
   {%- liquid
@@ -14,25 +13,44 @@
     assign variant_color = variant.options | first
     assign variant_color_downcase = variant_color | downcase
     assign variant_images = card_product.media | where: 'alt', variant_color_downcase
+    
+    # Calculate optimal image dimensions
+    assign card_width = settings.page_width | minus: 130 | divided_by: 4
+    assign default_width = 533
+    assign mobile_width = "calc((100vw - 35px) / 2)"
+    assign tablet_width = "calc((100vw - 120px) / 3)"
+    assign desktop_width = card_width | append: 'px'
   -%}
-    <!-- product-card-carousel.liquid -->
+
   <div class="product-card">
     <div class="product-card-media-slider" id="slider-{{ variant.id }}">
       <div class="slider-wrapper">
         {%- if variant.featured_media -%}
           <div class="slide">
             <a href="{{ card_product.url }}?variant={{ variant.id }}" class="product-link">
-            <img
-              srcset="{{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
-              src="{{ variant.featured_media | img_url: '533x' }}"
-              alt="{{ variant.featured_media.alt | escape }}"
-              class="product-card-carousel-image"
-              loading="lazy"
-              width="{{ variant.featured_media.width }}"
-              height="{{ variant.featured_media.height }}"
-            >
-              </a>
+              <img
+                srcset="{%- if variant.featured_media.width >= 360 -%}{{ variant.featured_media | img_url: '360x' }} 360w,{%- endif -%}
+                        {%- if variant.featured_media.width >= 533 -%}{{ variant.featured_media | img_url: '533x' }} 533w,{%- endif -%}
+                        {%- if variant.featured_media.width >= 720 -%}{{ variant.featured_media | img_url: '720x' }} 720w,{%- endif -%}
+                        {{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
+                sizes="(min-width: {{ settings.page_width }}px) {{ desktop_width }},
+                       (min-width: 990px) {{ tablet_width }},
+                       (min-width: 750px) {{ tablet_width }},
+                       {{ mobile_width }}"
+                src="{{ variant.featured_media | img_url: '533x' }}"
+                alt="{{ variant.featured_media.alt | escape }}"
+                class="product-card-carousel-image"
+                loading="eager"
+                fetchpriority="high"
+                width="{{ variant.featured_media.width }}"
+                height="{{ variant.featured_media.height }}"
+                style="aspect-ratio: {{ variant.featured_media.aspect_ratio | default: 1 }};"
+                onerror="this.onerror=null; this.src='{{ variant.featured_media | img_url: '533x' }}';"
+              >
+            </a>
           </div>
+
+          <link rel="preload" as="image" href="{{ variant.featured_media | img_url: '533x' }}">
         {%- endif -%}
 
         {% for media_item in card_product.media %}
@@ -42,15 +60,24 @@
             {% if alt_color_part == variant_color_downcase %}
               <div class="slide">
                 <a href="{{ card_product.url }}?variant={{ variant.id }}" class="product-link">
-                <img
-                  srcset="{{ media_item | img_url: 'master' }} {{ media_item.width }}w"
-                  src="{{ media_item | img_url: '533x' }}"
-                  alt="{{ media_item.alt | escape }}"
-                  class="product-card-carousel-image"
-                  loading="lazy"
-                  width="{{ media_item.width }}"
-                  height="{{ media_item.height }}"
-                >
+                  <img
+                    srcset="{%- if media_item.width >= 360 -%}{{ media_item | img_url: '360x' }} 360w,{%- endif -%}
+                            {%- if media_item.width >= 533 -%}{{ media_item | img_url: '533x' }} 533w,{%- endif -%}
+                            {%- if media_item.width >= 720 -%}{{ media_item | img_url: '720x' }} 720w,{%- endif -%}
+                            {{ media_item | img_url: 'master' }} {{ media_item.width }}w"
+                    sizes="(min-width: {{ settings.page_width }}px) {{ desktop_width }},
+                           (min-width: 990px) {{ tablet_width }},
+                           (min-width: 750px) {{ tablet_width }},
+                           {{ mobile_width }}"
+                    src="{{ media_item | img_url: '533x' }}"
+                    alt="{{ media_item.alt | escape }}"
+                    class="product-card-carousel-image"
+                    loading="lazy"
+                    width="{{ media_item.width }}"
+                    height="{{ media_item.height }}"
+                    style="aspect-ratio: {{ media_item.aspect_ratio | default: 1 }};"
+                    onerror="this.onerror=null; this.src='{{ media_item | img_url: '533x' }}';"
+                  >
                 </a>
               </div>
             {% endif %}
@@ -66,24 +93,24 @@
     </div>
   </div>
 
-      <!-- Rest of the card content remains the same -->
-      <div class="card__content">
-        <div class="card__information">
-          <h3 class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}">
-            <a href="{{ card_product.url }}?variant={{ variant.id }}" class="full-unstyled-link">
-              {{ card_product.title | escape }} - {{ variant.options | first }}
-            </a>
-          </h3>
-          <div class="card-information">
-            {%- if show_vendor -%}
-              <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-              <div class="caption-with-letter-spacing light">{{ card_product.vendor }}</div>
-            {%- endif -%}
+  <!-- Rest of the card content remains the same -->
+  <div class="card__content">
+    <div class="card__information">
+      <h3 class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}">
+        <a href="{{ card_product.url }}?variant={{ variant.id }}" class="full-unstyled-link">
+          {{ card_product.title | escape }} - {{ variant.options | first }}
+        </a>
+      </h3>
+      <div class="card-information">
+        {%- if show_vendor -%}
+          <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+          <div class="caption-with-letter-spacing light">{{ card_product.vendor }}</div>
+        {%- endif -%}
 
-            <span class="caption-large light">{{ block.settings.description | escape }}</span>
+        <span class="caption-large light">{{ block.settings.description | escape }}</span>
 
-            {% render 'price', product: variant, price_class: '' %}
-          </div>
-        </div>
+        {% render 'price', product: variant, price_class: '' %}
       </div>
+    </div>
+  </div>
 {%- endif -%}
