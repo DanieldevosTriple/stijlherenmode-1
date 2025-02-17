@@ -768,7 +768,7 @@ class FilterPreview {
   update(count) {
     this.container.innerHTML = `
       <div class="preview-content">
-        <span class="preview-count">${count} products</span>
+        <span class="preview-count">${count} producten</span>
       </div>
     `;
   }
