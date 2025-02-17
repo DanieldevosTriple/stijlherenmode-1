@@ -143,8 +143,6 @@
       </div>
     {% endif %}
 
-    {{ shop.privacy_policy.title }}
-
     {% if template_type == 'page' %}
       <div class="collection-title">
         <h1>
@@ -152,7 +150,7 @@
             {{ shop.legal_notice.title }}
           {% elsif request.path == '/policies/refund-policy' %}
             {{ shop.refund_policy.title }}
-          {% elsif request.path == '/policies/privacy-policy' or request.path contains '/privacy-policy' %}
+          {% elsif request.path contains '/policies/privacy-policy' %}
             {{ shop.privacy_policy.title }}
           {% elsif request.path contains '/policies/terms-of-service' %}
             {{ shop.terms_of_service.title }}
