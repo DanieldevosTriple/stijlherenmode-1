@@ -54,17 +54,67 @@
 </script>
 
 <script>
-  window.onload = function () {
-    const headerGroup = document.querySelector('.shopify-section-group-header-group');
-    
-    if (headerGroup) {
-      // Haal de hoogte op met getBoundingClientRect() voor vaste positie-elementen
+  window.onload = function() {
+    // Enable debug mode - set to true to see console logs
+    const DEBUG = true;
+  
+    function log(message, data = '') {
+      if (DEBUG) {
+        console.log(`[Header Height Debug] ${message}`, data);
+      }
+    }
+  
+    try {
+      // Select the header group element
+      const headerGroup = document.querySelector('.shopify-section-group-header-group');
+      
+      log('Searching for header group element');
+  
+      if (!headerGroup) {
+        throw new Error('Header group element not found');
+      }
+  
+      log('Header group element found:', headerGroup);
+  
+      // Get the height using getBoundingClientRect()
       const headerHeight = headerGroup.getBoundingClientRect().height;
       
-      // Stel de hoogte in als een CSS-variabele
+      if (headerHeight === 0) {
+        throw new Error('Header height calculation returned 0');
+      }
+  
+      log('Calculated header height:', `${headerHeight}px`);
+  
+      // Set the CSS variable
       document.documentElement.style.setProperty('--full-header-height', `${headerHeight}px`);
+      
+      log('CSS variable set successfully');
+  
+      // Verify the CSS variable was set correctly
+      const computedValue = getComputedStyle(document.documentElement)
+        .getPropertyValue('--full-header-height');
+      
+      log('Verified CSS variable value:', computedValue);
+  
+      // Add resize handler to update height when window is resized
+      let resizeTimeout;
+      window.addEventListener('resize', function() {
+        // Debounce the resize handler
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+          const newHeight = headerGroup.getBoundingClientRect().height;
+          document.documentElement.style.setProperty('--full-header-height', `${newHeight}px`);
+          log('Header height updated after resize:', `${newHeight}px`);
+        }, 250); // Wait 250ms after resize ends before updating
+      });
+  
+    } catch (error) {
+      console.error('[Header Height Error]', error.message);
+      // Fallback to a default height if there's an error
+      document.documentElement.style.setProperty('--full-header-height', '80px');
+      log('Fallback height set due to error');
     }
-  };  
+  };
 </script>
   
 {% if section.settings.sticky_behavior != 'disabled' %}
