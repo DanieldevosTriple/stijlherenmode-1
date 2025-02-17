@@ -307,7 +307,285 @@ class FacetFiltersForm extends HTMLElement {
     }
   }
 
-  // ... rest of your existing methods ...
+  handleFilterChange(event) {
+    if (this.state.loading) return;
+
+    const input = event.target;
+    const isCheckbox = input.type === 'checkbox';
+    const formData = new FormData(input.closest('form'));
+    const queryParams = {};
+
+    if (isCheckbox && !input.checked) {
+      const filterKey = input.name;
+      const filterValue = input.value;
+      this.state.selectedFilters.delete(`${filterKey}-${filterValue}`);
+
+      const otherInput = this.querySelector(
+        `.facets__${this.state.isMobileView ? 'desktop' : 'mobile'} input[name="${filterKey}"][value="${filterValue}"]`
+      );
+      if (otherInput) otherInput.checked = false;
+
+      this.renderSelectedFilters();
+      this.updateMobileApplyButton();
+      this.applySortAndFilters();
+      return;
+    }
+
+    formData.forEach((value, key) => {
+      if (queryParams[key]) {
+        queryParams[key] = queryParams[key] + `,${value}`;
+      } else {
+        queryParams[key] = value;
+      }
+    });
+
+    this.state.selectedFilters.clear();
+    Object.entries(queryParams).forEach(([key, value]) => {
+      value.split(',').forEach(singleValue => {
+        const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
+        const label = this.getFilterLabel(input);
+        if (label) {
+          this.state.selectedFilters.set(`${key}-${singleValue}`, {
+            key,
+            value: singleValue,
+            label,
+          });
+        }
+      });
+    });
+
+    this.syncFiltersAcrossViews();
+    this.renderSelectedFilters();
+    this.updateMobileApplyButton();
+    this.applySortAndFilters();
+  }
+
+  initializeAccordion() {
+    const accordionItems = this.querySelectorAll('.facet-accordion__item');
+    accordionItems.forEach((item) => {
+      const toggle = item.querySelector('.facet-accordion__toggle');
+      if (toggle) {
+        toggle.textContent = item.hasAttribute('open') ? '-' : '+';
+      }
+    });
+  }
+
+  openMobileDrawer() {
+    const wrapper = this.querySelector('.facets__wrapper');
+    if (!wrapper) return;
+    wrapper.setAttribute('open', '');
+    document.body.classList.add('overflow-hidden-mobile');
+  }
+
+  closeMobileDrawer() {
+    const wrapper = this.querySelector('.facets__wrapper');
+    if (!wrapper) return;
+    wrapper.removeAttribute('open');
+    document.body.classList.remove('overflow-hidden-mobile');
+    this.closeMobileSubmenu();
+  }
+
+  openMobileSubmenu(submenuId) {
+    if (!submenuId) return;
+    const backButton = this.querySelector('.mobile-facets__back-button');
+    backButton?.classList.remove('hidden');
+
+    const submenuTitle = this.querySelector(`.facet-accordion__item[data-submenu="${submenuId}"] .mobile-facets__menu-button span`)?.textContent;
+    if (submenuTitle) {
+      this.querySelector('.mobile-facets__title').textContent = submenuTitle;
+    }
+
+    this.querySelector(`.facet-accordion__item[data-submenu="${submenuId}"] .mobile-facets__submenu`)?.classList.add('active');
+    this.state.currentView = 'submenu';
+  }
+
+  closeMobileSubmenu() {
+    this.querySelector('.mobile-facets__back-button')?.classList.add('hidden');
+    this.querySelector('.mobile-facets__title').textContent = 'Filter & Sort';
+    this.querySelectorAll('.mobile-facets__submenu').forEach(submenu => {
+      submenu.classList.remove('active');
+    });
+    this.state.currentView = 'main';
+  }
+
+  setupResizeObserver() {
+    window.addEventListener('resize', debounce(() => {
+      const isMobile = window.innerWidth <= 991;
+      if (isMobile !== this.state.isMobileView) {
+        this.state.isMobileView = isMobile;
+        if (!isMobile) {
+          this.closeMobileDrawer();
+        }
+      }
+    }, 250));
+  }
+
+  getSections() {
+    const productGrid = document.querySelector('.product-grid-container');
+    return [{
+      section: productGrid?.dataset.id || 'main-collection-product-grid'
+    }].filter(section => section.section);
+  }
+
+  buildQueryParams() {
+    const urlParts = [];
+
+    // Add search parameters if on search page
+    if (this.state.isSearchPage && this.state.searchTerms) {
+      urlParts.push(`q=${encodeURIComponent(this.state.searchTerms)}`);
+      urlParts.push('options[prefix]=last');
+    }
+
+    // Add sort parameter
+    if (this.state.currentSort) {
+      urlParts.push(`sort_by=${encodeURIComponent(this.state.currentSort)}`);
+    }
+
+    const groupedParams = {};
+    this.state.selectedFilters.forEach(filter => {
+      if (filter.key === 'price_filter') {
+        const [min, max] = filter.value.split('-');
+        if (min) groupedParams['filter.v.price.gte'] = min;
+        if (max) groupedParams['filter.v.price.lte'] = max;
+      } else {
+        if (!groupedParams[filter.key]) {
+          groupedParams[filter.key] = [];
+        }
+        groupedParams[filter.key].push(filter.value);
+      }
+    });
+
+    Object.entries(groupedParams).forEach(([key, values]) => {
+      const encodedKey = encodeURIComponent(key);
+      if (Array.isArray(values)) {
+        const encodedValues = values.map(v => encodeURIComponent(v)).join(',');
+        urlParts.push(`${encodedKey}=${encodedValues}`);
+      } else {
+        urlParts.push(`${encodedKey}=${encodeURIComponent(values)}`);
+      }
+    });
+
+    return urlParts.join('&');
+  }
+
+  applySortAndFilters() {
+    if (this.state.loading) return;
+
+    const searchParams = this.buildQueryParams();
+    const gridContainer = document.getElementById('ProductGridContainer');
+    
+    if (gridContainer) {
+      gridContainer.classList.add('is-loading');
+    }
+
+    this.updateURLHash(searchParams);
+    this.renderPage(searchParams).finally(() => {
+      if (gridContainer) {
+        gridContainer.classList.remove('is-loading');
+      }
+      this.updateProductCount();
+    });
+  }
+
+  updateURLHash(searchParams) {
+    history.pushState(
+      { searchParams },
+      '',
+      `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
+    );
+  }
+
+  getFilterLabel(input) {
+    if (!input) return '';
+    const label = input.closest('label')?.querySelector('.facet-checkbox__text');
+    return label ? label.textContent.split(' (')[0] : '';
+  }
+
+  syncFiltersAcrossViews() {
+    this.state.selectedFilters.forEach(filter => {
+      ['desktop', 'mobile'].forEach(view => {
+        const input = this.querySelector(
+          `.facets__${view} input[name="${filter.key}"][value="${filter.value}"]`
+        );
+        if (input) input.checked = true;
+      });
+    });
+  }
+
+  clearFilters() {
+    // Reset all inputs
+    this.querySelectorAll('input[type="radio"]').forEach(input => {
+      input.checked = false;
+    });
+    this.state.currentSort = '';
+
+    this.querySelectorAll('.facet-range__input').forEach(input => {
+      input.value = '';
+    });
+
+    this.querySelectorAll('input[type="checkbox"]').forEach(input => {
+      input.checked = false;
+    });
+
+    // Clear state
+    this.state.selectedFilters.clear();
+    this.state.filterCache.clear();
+
+    // Update UI
+    this.renderSelectedFilters();
+    this.updateMobileApplyButton();
+
+    // Reset URL and re-render
+    history.pushState({}, '', window.location.pathname);
+    this.renderPage('');
+
+    // Close mobile drawer
+    this.closeMobileDrawer();
+  }
+
+  renderSelectedFilters() {
+    const container = this.querySelector('#SelectedFilters');
+    if (!container) return;
+
+    const filterElements = Array.from(this.state.selectedFilters.values()).map(filter => {
+      return `
+        <div class="selected-filter" data-key="${filter.key}" data-value="${filter.value}">
+          <span>${filter.label}</span>
+          <button type="button" class="selected-filter__remove" aria-label="Remove ${filter.label} filter">
+            <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </button>
+        </div>
+      `;
+    }).join('');
+
+    container.innerHTML = filterElements;
+  }
+
+  removeFilter(key, value) {
+    if (key === 'price_filter') {
+      this.state.selectedFilters.delete('price_filter');
+      
+      // Reset price inputs
+      const minInput = this.querySelector('input[name="min_filter.v.price"]');
+      const maxInput = this.querySelector('input[name="max_filter.v.price"]');
+      if (minInput) minInput.value = '';
+      if (maxInput) maxInput.value = '';
+    } else {
+      // Uncheck both desktop and mobile inputs
+      ['desktop', 'mobile'].forEach(view => {
+        const input = this.querySelector(`.facets__${view} input[name="${key}"][value="${value}"]`);
+        if (input) input.checked = false;
+      });
+
+      this.state.selectedFilters.delete(`${key}-${value}`);
+    }
+
+    this.renderSelectedFilters();
+    this.updateMobileApplyButton();
+    this.applySortAndFilters();
+  }
 }
 
 class FilterPreview {
