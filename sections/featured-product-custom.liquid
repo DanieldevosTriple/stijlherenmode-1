@@ -12,9 +12,27 @@
       </div>
     </li>
     <li class="text-center image-container">
-      <img src="{{ section.settings.featured_image | image_url }}" 
-           alt="{{ section.settings.featured_image_alt }}"  width="" height=""
-           class="img-fluid featured-product__image">
+      <img 
+        srcset="
+          {{ section.settings.featured_image | image_url: width: 360 }} 360w,
+          {{ section.settings.featured_image | image_url: width: 533 }} 533w,
+          {{ section.settings.featured_image | image_url: width: 720 }} 720w,
+          {{ section.settings.featured_image | image_url: width: 1080 }} 1080w,
+          {{ section.settings.featured_image | image_url: width: 1500 }} 1500w"
+        sizes="(max-width: 360px) 360px,
+               (max-width: 720px) 533px,
+               (max-width: 1080px) 720px,
+               (max-width: 1500px) 1080px,
+               1500px"
+        src="{{ section.settings.featured_image | image_url: width: 533 }}"
+        alt="{{ section.settings.featured_image_alt | escape }}"
+        width="{{ section.settings.featured_image.width }}"
+        height="{{ section.settings.featured_image.height }}"
+        class="img-fluid featured-product__image"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      >
     </li>
   </ul>
 </section>
