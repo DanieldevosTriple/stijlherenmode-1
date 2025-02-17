@@ -142,7 +142,7 @@
         {% endpaginate %}
       </div>
     {% endif %}
-
+    
     {% if template_type == 'page' %}
       <div class="collection-title">
         <h1>
@@ -183,16 +183,15 @@
         </h1>
       </div>
     {% endif %}
-  </div>
-
-  {% if template_type == 'collection' and collection.handle == blank %}
-    <div class="collection-title">
-      <h1>
-        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
-      </h1>
-    </div>
-  {% endif %}
+    
+    {% if template_type == 'collection' and collection.handle == blank %}
+      <div class="collection-title">
+        <h1>
+          <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+          {{- collection.title | escape -}}
+        </h1>
+      </div>
+    {% endif %}
 </div>
 {% endif %}
 
