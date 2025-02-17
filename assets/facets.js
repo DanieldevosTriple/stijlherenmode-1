@@ -431,12 +431,23 @@ class FacetFiltersForm extends HTMLElement {
     // Parse the count and format the text
     const count = parseInt(totalCount, 10);
     const productText = count === 1 ? 'product' : 'products';
-    countContainer.textContent = `${count} ${productText}`;
+    
+    // Update all product count elements
+    const countElements = document.querySelectorAll('.product-count');
+    countElements.forEach(element => {
+      element.textContent = `${count} ${productText}`;
+    });
 
-    // Update mobile filter preview if it exists
-    const mobilePreview = this.querySelector('.filter-preview');
-    if (mobilePreview) {
-      mobilePreview.querySelector('.preview-count').textContent = `${count} ${productText}`;
+    // Update mobile filter preview
+    if (this.filterPreview) {
+      this.filterPreview.update(count);
+    }
+    
+    // Update mobile apply button count
+    const applyButton = this.querySelector('.mobile-facets__apply');
+    if (applyButton) {
+      const filterCount = this.state.selectedFilters.size;
+      applyButton.textContent = filterCount > 0 ? `Apply (${filterCount})` : 'Apply';
     }
   }
 
