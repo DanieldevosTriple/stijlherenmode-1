@@ -9,6 +9,7 @@
     top: calc(var(--full-header-height) - 10px);
   }
   
+  
   /* Make the facets sticky on desktop */
   @media screen and (min-width: 992px) {
       .vertical-facets {
