@@ -9,6 +9,15 @@
   top: calc(var(--full-header-height) - 10px);
 }
 
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
 .footer-block__heading__menu {
   text-transform: uppercase;
   color: black !important;
