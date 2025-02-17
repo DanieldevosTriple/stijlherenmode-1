@@ -22,16 +22,27 @@
         {%- if variant.featured_media -%}
           <div class="slide">
             <a href="{{ card_product.url }}?variant={{ variant.id }}" class="product-link">
-            <img
-              srcset="{{ variant.featured_media | img_url: 'master' }} {{ variant.featured_media.width }}w"
-              src="{{ variant.featured_media | img_url: '533x' }}"
-              alt="{{ variant.featured_media.alt | escape }}"
-              class="product-card-carousel-image"
-              loading="lazy"
-              width="{{ variant.featured_media.width }}"
-              height="{{ variant.featured_media.height }}"
-            >
-              </a>
+              <img
+                srcset="
+                  {{ variant.featured_media | img_url: '180x' }} 180w,
+                  {{ variant.featured_media | img_url: '360x' }} 360w,
+                  {{ variant.featured_media | img_url: '533x' }} 533w,
+                  {{ variant.featured_media | img_url: '720x' }} 720w,
+                  {{ variant.featured_media | img_url: '1080x' }} 1080w"
+                sizes="(max-width: 360px) 180px,
+                       (max-width: 720px) 360px,
+                       (max-width: 1080px) 533px,
+                       720px"
+                src="{{ variant.featured_media | img_url: '533x' }}"
+                alt="{{ variant.featured_media.alt | escape }}"
+                class="product-card-carousel-image"
+                loading="lazy"
+                width="{{ variant.featured_media.width }}"
+                height="{{ variant.featured_media.height }}"
+                decoding="async"
+                fetchpriority="low"
+              >
+            </a>
           </div>
         {%- endif -%}
 
