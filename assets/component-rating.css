@@ -12,6 +12,10 @@
   --font-size: 1.7;
 }
 
+.card__content {
+  padding-top: 1rem;
+}
+
 .card-wrapper .rating-star {
   --letter-spacing: 0.7;
   --font-size: 1.4;
