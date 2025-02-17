@@ -1,131 +1,104 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const stickyHeader = document.querySelector('sticky-header');
-  const sectionHeader = document.querySelector('.section-header');
-  const sectionAnnouncementBar = document.querySelector('.navigation-banner');
-  
-  // Debug element setup
-  const debugDisplay = document.createElement('div');
-  debugDisplay.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 10px;
-      font-family: monospace;
-      z-index: 9999;
-      border-radius: 4px;
-      max-width: 300px;
-  `;
-  document.body.appendChild(debugDisplay);
+    // Configuration
+    const CONFIG = {
+        SCROLL_START: 100,      // Pixels to scroll before hiding
+        THROTTLE_TIME: 150,     // Throttle time for scroll events in ms
+        SCROLL_THRESHOLD: 5     // Minimum scroll movement to trigger header change
+    };
 
-  if (!sectionHeader || !stickyHeader) {
-      console.warn('Required elements not found');
-      return;
-  }
+    // Element selectors
+    const elements = {
+        stickyHeader: document.querySelector('sticky-header'),
+        sectionHeader: document.querySelector('.section-header'),
+        navigationBanner: document.querySelector('.navigation-banner')
+    };
 
-  // Get sticky behavior type
-  const stickyType = stickyHeader.dataset.stickyType;
-  
-  if (stickyType === 'disabled') return;
+    // Validate required elements
+    if (!elements.sectionHeader || !elements.stickyHeader) {
+        console.warn('Required sticky header elements not found');
+        return;
+    }
 
-  // Add sticky class for enabled and hide_scroll
-  if (['enabled', 'hide_scroll'].includes(stickyType)) {
-      sectionHeader.classList.add('sticky');
-      sectionAnnouncementBar?.classList.add('sticky');
-  }
+    // Get and validate sticky behavior type
+    const stickyType = elements.stickyHeader.dataset.stickyType;
+    if (stickyType === 'disabled') return;
 
-  if (stickyType === 'enabled') return;
+    // Initialize sticky classes
+    if (['enabled', 'hide_scroll'].includes(stickyType)) {
+        elements.sectionHeader.classList.add('sticky');
+        elements.navigationBanner?.classList.add('sticky');
+    }
 
-  // Configuration
-  const SCROLL_START = 100;      // Amount of pixels to scroll before hiding
-  const THROTTLE_TIME = 150;     // Throttle time for scroll events
-  
-  // State
-  let lastScrollY = window.scrollY;
-  let isHidden = false;
-  let lastScrollTime = Date.now();
-  let lastDirection = null;
-  let ticking = false;
-  
-  function updateDebugInfo() {
-      debugDisplay.innerHTML = `
-          Scroll Y: ${Math.round(window.scrollY)}px<br>
-          Last Y: ${Math.round(lastScrollY)}px<br>
-          Direction: ${lastDirection}<br>
-          Is Hidden: ${isHidden}
-      `;
-  }
+    // Exit early if simple sticky behavior
+    if (stickyType === 'enabled') return;
 
-  function hideHeader() {
-      if (!isHidden) {
-          sectionHeader.classList.add('hidden');
-          sectionAnnouncementBar?.classList.add('hidden');
-          isHidden = true;
-          console.log('🔴 Hiding header');
-      }
-  }
+    // State management
+    const state = {
+        lastScrollY: window.scrollY,
+        isHidden: false,
+        lastScrollTime: Date.now(),
+        lastDirection: null,
+        ticking: false
+    };
 
-  function showHeader() {
-      if (isHidden) {
-          sectionHeader.classList.remove('hidden');
-          sectionAnnouncementBar?.classList.remove('hidden');
-          isHidden = false;
-          console.log('🟢 Showing header');
-      }
-  }
+    // Header visibility handlers
+    const headerActions = {
+        hide: () => {
+            if (!state.isHidden) {
+                elements.sectionHeader.classList.add('hidden');
+                elements.navigationBanner?.classList.add('hidden');
+                state.isHidden = true;
+                console.log('🔴 Hiding header');
+            }
+        },
+        show: () => {
+            if (state.isHidden) {
+                elements.sectionHeader.classList.remove('hidden');
+                elements.navigationBanner?.classList.remove('hidden');
+                state.isHidden = false;
+                console.log('🟢 Showing header');
+            }
+        }
+    };
 
-  function handleScroll() {
-      const now = Date.now();
-      
-      // Throttle scroll events
-      if (now - lastScrollTime < THROTTLE_TIME) {
-          if (!ticking) {
-              requestAnimationFrame(() => {
-                  updateDebugInfo();
-                  ticking = false;
-              });
-              ticking = true;
-          }
-          return;
-      }
+    function handleScroll() {
+        const now = Date.now();
 
-      lastScrollTime = now;
-      
-      if (!ticking) {
-          requestAnimationFrame(() => {
-              const currentScrollY = window.scrollY;
-              const scrollDelta = currentScrollY - lastScrollY;
-              const newDirection = scrollDelta > 0 ? 'down' : 'up';
+        // Throttle scroll events
+        if (now - state.lastScrollTime < CONFIG.THROTTLE_TIME) {
+            return;
+        }
 
-              // Only process if there's significant movement
-              if (Math.abs(scrollDelta) > 5) {
-                  // Update last direction if it changed
-                  if (newDirection !== lastDirection) {
-                      lastDirection = newDirection;
-                  }
+        state.lastScrollTime = now;
 
-                  // Handle scroll down
-                  if (newDirection === 'down' && currentScrollY > SCROLL_START) {
-                      hideHeader();
-                  }
-                  // Handle scroll up
-                  else if (newDirection === 'up') {
-                      showHeader();
-                  }
-              }
+        if (!state.ticking) {
+            requestAnimationFrame(() => {
+                const currentScrollY = window.scrollY;
+                const scrollDelta = currentScrollY - state.lastScrollY;
+                const newDirection = scrollDelta > 0 ? 'down' : 'up';
 
-              lastScrollY = currentScrollY;
-              updateDebugInfo();
-              ticking = false;
-          });
-          ticking = true;
-      }
-  }
+                // Process significant movement
+                if (Math.abs(scrollDelta) > CONFIG.SCROLL_THRESHOLD) {
+                    // Update direction if changed
+                    if (newDirection !== state.lastDirection) {
+                        state.lastDirection = newDirection;
+                    }
 
-  // Use passive scroll listener
-  window.addEventListener('scroll', handleScroll, { passive: true });
+                    // Handle scroll direction
+                    if (newDirection === 'down' && currentScrollY > CONFIG.SCROLL_START) {
+                        headerActions.hide();
+                    } else if (newDirection === 'up') {
+                        headerActions.show();
+                    }
+                }
 
-  // Initialize state
-  updateDebugInfo();
+                state.lastScrollY = currentScrollY;
+                state.ticking = false;
+            });
+            state.ticking = true;
+        }
+    }
+
+    // Attach scroll listener with passive option for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
 });
