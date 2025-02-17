@@ -421,13 +421,22 @@ class FacetFiltersForm extends HTMLElement {
   }
 
   updateProductCount() {
-    const productArticles = document.querySelectorAll('.product-article');
     const countContainer = document.querySelector('.product-count');
+    if (!countContainer) return;
+
+    // Get the total count from the grid container's data attribute
+    const gridContainer = document.getElementById('ProductGridContainer');
+    const totalCount = gridContainer?.dataset.totalProducts || '0';
     
-    if (countContainer) {
-      const count = productArticles.length;
-      const productText = count === 1 ? 'product' : 'products';
-      countContainer.textContent = `${count} ${productText}`;
+    // Parse the count and format the text
+    const count = parseInt(totalCount, 10);
+    const productText = count === 1 ? 'product' : 'products';
+    countContainer.textContent = `${count} ${productText}`;
+
+    // Update mobile filter preview if it exists
+    const mobilePreview = this.querySelector('.filter-preview');
+    if (mobilePreview) {
+      mobilePreview.querySelector('.preview-count').textContent = `${count} ${productText}`;
     }
   }
 

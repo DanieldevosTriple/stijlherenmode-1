@@ -226,7 +226,7 @@
           {%- endif -%}
         {%- endif -%}
 
-        <div class="product-grid-container" id="ProductGridContainer">
+        <div class="product-grid-container" id="ProductGridContainer" data-total-products="{{ search.results_count }}">
           {%- if search.results.size == 0 and search.filters != empty -%}
             <div class="collection collection--empty" id="product-grid" data-id="{{ section.id }}">
               <div class="title-wrapper center">
