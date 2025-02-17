@@ -49,7 +49,9 @@
           {{ 'products.facets.filter_button' | t }}
         </button> 
       </div>
-    {% else %}
+    {% endif %}
+
+    {% if template_type == 'page' %}
       <div class="mobile-policy-page-title">
         {% if request.path == '/policies/legal-notice' %}
           {{ shop.legal_notice.title }}
