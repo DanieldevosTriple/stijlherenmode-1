@@ -109,7 +109,7 @@
             <span> / </span>
             <span>Policy</span>
             <span> / </span>
-            <span>
+            <span class="breadcrumb-link">
               {% if request.path == '/policies/legal-notice' %}
                 {{ shop.legal_notice.title }}
               {% elsif request.path == '/policies/refund-policy' %}
@@ -146,19 +146,40 @@
     {% if template_type == 'page' %}
       <div class="collection-title">
         <h1>
-          {% if request.path == '/policies/legal-notice' %}
-            {{ shop.legal_notice.title }}
-          {% elsif request.path == '/policies/refund-policy' %}
-            {{ shop.refund_policy.title }}
-          {% elsif request.path contains '/policies/privacy-policy' %}
-            {{ shop.privacy_policy.title }}
-          {% elsif request.path contains '/policies/terms-of-service' %}
-            {{ shop.terms_of_service.title }}
-          {% elsif request.path contains '/policies/shipping-policy' %}
-            {{ shop.shipping_policy.title }}
-          {% else %}
-            {{ page.title }}
-          {% endif %}
+          {% case request.path %}
+            {% when '/policies/legal-notice' %}
+              {% if shop.policies.legal_notice.title != blank %}
+                {{ shop.policies.legal_notice.title }}
+              {% else %}
+                Legal Notice
+              {% endif %}
+            {% when '/policies/refund-policy' %}
+              {% if shop.policies.refund.title != blank %}
+                {{ shop.policies.refund.title }}
+              {% else %}
+                Refund Policy
+              {% endif %}
+            {% when '/policies/privacy-policy' %}
+              {% if shop.policies.privacy.title != blank %}
+                {{ shop.policies.privacy.title }}
+              {% else %}
+                Privacy Policy
+              {% endif %}
+            {% when '/policies/terms-of-service' %}
+              {% if shop.policies.terms_of_service.title != blank %}
+                {{ shop.policies.terms_of_service.title }}
+              {% else %}
+                Terms of Service
+              {% endif %}
+            {% when '/policies/shipping-policy' %}
+              {% if shop.policies.shipping.title != blank %}
+                {{ shop.policies.shipping.title }}
+              {% else %}
+                Shipping Policy
+              {% endif %}
+            {% else %}
+              {{ page.title }}
+          {% endcase %}
         </h1>
       </div>
     {% endif %}
