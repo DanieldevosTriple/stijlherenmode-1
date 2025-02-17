@@ -141,9 +141,9 @@
           <span>{{ paginate.items }} {% if paginate.items == 1 %}product{% else %}producten{% endif %}</span>
         {% endpaginate %}
       </div>
-    {% endif %} 
+    {% endif %}
 
-    {% if template_type == 'page.policy' %}
+    {% if template_type == 'page' %}
       <div class="collection-title">
         <h1>
           {% if request.path == '/policies/legal-notice' %}
