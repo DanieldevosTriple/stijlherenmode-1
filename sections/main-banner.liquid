@@ -5,70 +5,70 @@
 {{ 'component-page-hero.css' | asset_url | stylesheet_tag }}
 
 
-{%- liquid
+{%- liquid 
   assign template_type = template.name
+  if template_type == blank
+    assign template_type = 'page'
+  endif
   assign banner_class = template_type | append: '-hero'
-  
   assign show_banner = true
   if template_type == 'index' and section.settings.hide_on_homepage
     assign show_banner = false
-  endif
+  endif 
 -%}
 
 {% if show_banner %}
-    <div section data-section-type="navigation-banner" class="{{ banner_class }} color-{{ section.settings.color_scheme }} gradient">
-      {%- comment -%} Mobile layout {%- endcomment -%}
-  <div class="col-12 mobile-header">
-    <div class="mobile-breadcrumb">
-      <nav aria-label="Mobile breadcrumb">
-        <ol class="breadcrumbs__list">
-          <li class="breadcrumbs__item">
-            <a href="javascript:history.back()" class="breadcrumbs__link">
-              <svg width="24" height="24" viewBox="0 0 24 24">
-                <path d="M15 18l-6-6 6-6" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </a>
-          </li>
-          <li class="breadcrumbs__item">
-            {% if template_type == 'product' and product.collections.first %}
-              <a href="{{ product.collections.first.url }}" class="breadcrumbs__link">{{ product.collections.first.title }}</a>
-            {% else %}
-              <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
-            {% endif %}
-          </li>
-        </ol>
-      </nav>
-    </div>
-
-    {% if template_type == 'collection' %}
-      <div class="mobile-facets__filter">
-        <button type="button" class="mobile-facets__open-button">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.6606 12.9973V14.3303H17.3257V16.3294H12.6606V17.6616H10.6616V12.9973H12.6606ZM9.32936 14.3303V16.3294H0V14.3303H9.32936ZM5.99727 6.66337V11.3284H3.99818V9.99545H0V7.99636H3.99818V6.66337H5.99727ZM17.3257 7.99636V9.99545H7.99636V7.99636H17.3257ZM12.6606 0V1.33299H17.3257V3.33208H12.6606V4.66428H10.6616V0H12.6606ZM9.32936 1.33299V3.33208H0V1.33299H9.32936Z" fill="black"/>
-          </svg>
-          {{ 'products.facets.filter_button' | t }}
-        </button> 
-      </div>
-    {% endif %}
-
-    {% if template_type == 'page' %}
-      <div class="mobile-policy-page-title">
-        {% if request.path == '/policies/legal-notice' %}
-          {{ shop.legal_notice.title }}
-        {% elsif request.path == '/policies/refund-policy' %}
-          {{ shop.refund_policy.title }}
-        {% elsif request.path contains '/policies/privacy-policy' %}
-          {{ shop.privacy_policy.title }}
-        {% elsif request.path contains '/policies/terms-of-service' %}
-          {{ shop.terms_of_service.title }}
-        {% elsif request.path contains '/policies/shipping-policy' %}
-          {{ shop.shipping_policy.title }}
-        {% else %}
-          {{ page.title }}
-        {% endif %}
-      </div>
-    {% endif %}
+  <div section data-section-type="navigation-banner" class="{{ banner_class }} color-{{ section.settings.color_scheme }} gradient">
+    {%- comment -%} Mobile layout {%- endcomment -%}
+<div class="col-12 mobile-header">
+  <div class="mobile-breadcrumb">
+    <nav aria-label="Mobile breadcrumb">
+      <ol class="breadcrumbs__list">
+        <li class="breadcrumbs__item">
+          <a href="javascript:history.back()" class="breadcrumbs__link">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </a>
+        </li>
+        <li class="breadcrumbs__item">
+          {% if template_type == 'product' and product.collections.first %}
+            <a href="{{ product.collections.first.url }}" class="breadcrumbs__link">{{ product.collections.first.title }}</a>
+          {% else %}
+            <a href="{{ routes.root_url }}" class="breadcrumbs__link">Home</a>
+          {% endif %}
+        </li>
+      </ol>
+    </nav>
   </div>
+
+  {% if template_type == 'collection' %}
+    <div class="mobile-facets__filter">
+      <button type="button" class="mobile-facets__open-button">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M12.6606 12.9973V14.3303H17.3257V16.3294H12.6606V17.6616H10.6616V12.9973H12.6606ZM9.32936 14.3303V16.3294H0V14.3303H9.32936ZM5.99727 6.66337V11.3284H3.99818V9.99545H0V7.99636H3.99818V6.66337H5.99727ZM17.3257 7.99636V9.99545H7.99636V7.99636H17.3257ZM12.6606 0V1.33299H17.3257V3.33208H12.6606V4.66428H10.6616V0H12.6606ZM9.32936 1.33299V3.33208H0V1.33299H9.32936Z" fill="black"/>
+        </svg>
+        {{ 'products.facets.filter_button' | t }}
+      </button>
+    </div>
+  {% else %}
+    <div class="mobile-policy-page-title">
+      {% if request.path == '/policies/legal-notice' %}
+        {{ shop.legal_notice.title }}
+      {% elsif request.path == '/policies/refund-policy' %}
+        {{ shop.refund_policy.title }}
+      {% elsif request.path contains '/policies/privacy-policy' %}
+        {{ shop.privacy_policy.title }}
+      {% elsif request.path contains '/policies/terms-of-service' %}
+        {{ shop.terms_of_service.title }}
+      {% elsif request.path contains '/policies/shipping-policy' %}
+        {{ shop.shipping_policy.title }}
+      {% else %}
+        {{ page.title }}
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
 
   {%- comment -%} Desktop layout {%- endcomment -%}
   <div class="{{ banner_class }}__inner scroll-trigger animate--fade-in">
@@ -105,7 +105,7 @@
             <span> / </span>
             <span>Zoekresultaten voor "{{ search.terms }}"</span>
 
-          {% when 'page' %}
+          {% else %}
             <span> / </span>
             <span>Policy</span>
             <span> / </span>
@@ -141,7 +141,9 @@
           <span>{{ paginate.items }} {% if paginate.items == 1 %}product{% else %}producten{% endif %}</span>
         {% endpaginate %}
       </div>
-    {% else %}
+    {% endif %}
+
+    {% if template_type == 'page' %}
       <div class="collection-title">
         <h1>
           {% if request.path == '/policies/legal-notice' %}
