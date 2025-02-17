@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
             const createExpandIcon = (container) => {
                 const icon = document.createElement('img');
-                icon.src = "/cdn/shop/t/22/assets/icon-zoom.svg";
+                icon.src = "https://stijlherenmode.nl/cdn/shop/t/22/assets/icon-zoom.svg";
                 icon.className = 'icon-zoom';
                 icon.alt = 'Expand image';
                 container.appendChild(icon);
