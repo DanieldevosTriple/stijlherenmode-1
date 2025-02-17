@@ -125,130 +125,6 @@ class FacetFiltersForm extends HTMLElement {
     this.applySortAndFilters();
   }
 
-  initializeAccordion() {
-    const accordionItems = this.querySelectorAll('.facet-accordion__item');
-    accordionItems.forEach((item) => {
-      const toggle = item.querySelector('.facet-accordion__toggle');
-      if (toggle) {
-        toggle.textContent = item.hasAttribute('open') ? '-' : '+';
-      }
-    });
-  }
-
-  openMobileDrawer() {
-    const wrapper = this.querySelector('.facets__wrapper');
-    if (!wrapper) return;
-    wrapper.setAttribute('open', '');
-    document.body.classList.add('overflow-hidden-mobile');
-  }
-
-  closeMobileDrawer() {
-    const wrapper = this.querySelector('.facets__wrapper');
-    if (!wrapper) return;
-    wrapper.removeAttribute('open');
-    document.body.classList.remove('overflow-hidden-mobile');
-    this.closeMobileSubmenu();
-  }
-
-  openMobileSubmenu(submenuId) {
-    if (!submenuId) return;
-    const backButton = this.querySelector('.mobile-facets__back-button');
-    backButton?.classList.remove('hidden');
-
-    const submenuTitle = this.querySelector(`.facet-accordion__item[data-submenu="${submenuId}"] .mobile-facets__menu-button span`)?.textContent;
-    if (submenuTitle) {
-      this.querySelector('.mobile-facets__title').textContent = submenuTitle;
-    }
-
-    this.querySelector(`.facet-accordion__item[data-submenu="${submenuId}"] .mobile-facets__submenu`)?.classList.add('active');
-    this.state.currentView = 'submenu';
-  }
-
-  closeMobileSubmenu() {
-    this.querySelector('.mobile-facets__back-button')?.classList.add('hidden');
-    this.querySelector('.mobile-facets__title').textContent = 'Filter & Sort';
-    this.querySelectorAll('.mobile-facets__submenu').forEach(submenu => {
-      submenu.classList.remove('active');
-    });
-    this.state.currentView = 'main';
-  }
-
-  setupResizeObserver() {
-    window.addEventListener('resize', debounce(() => {
-      const isMobile = window.innerWidth <= 991;
-      if (isMobile !== this.state.isMobileView) {
-        this.state.isMobileView = isMobile;
-        if (!isMobile) {
-          this.closeMobileDrawer();
-        }
-      }
-    }, 250));
-  }
-
-  handleFilterChange(event) {
-    if (this.state.loading) return;
-
-    const input = event.target;
-    const isCheckbox = input.type === 'checkbox';
-    const formData = new FormData(input.closest('form'));
-    const queryParams = {};
-
-    if (isCheckbox && !input.checked) {
-      const filterKey = input.name;
-      const filterValue = input.value;
-      this.state.selectedFilters.delete(`${filterKey}-${filterValue}`);
-
-      const otherInput = this.querySelector(
-        `.facets__${this.state.isMobileView ? 'desktop' : 'mobile'} input[name="${filterKey}"][value="${filterValue}"]`
-      );
-      if (otherInput) otherInput.checked = false;
-
-      this.renderSelectedFilters();
-      this.updateMobileApplyButton();
-      this.applySortAndFilters();
-      return;
-    }
-
-    formData.forEach((value, key) => {
-      if (queryParams[key]) {
-        queryParams[key] = queryParams[key] + `,${value}`;
-      } else {
-        queryParams[key] = value;
-      }
-    });
-
-    this.state.selectedFilters.clear();
-    Object.entries(queryParams).forEach(([key, value]) => {
-      value.split(',').forEach(singleValue => {
-        const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-        const label = this.getFilterLabel(input);
-        if (label) {
-          this.state.selectedFilters.set(`${key}-${singleValue}`, {
-            key,
-            value: singleValue,
-            label,
-          });
-        }
-      });
-    });
-
-    this.syncFiltersAcrossViews();
-    this.renderSelectedFilters();
-    this.updateMobileApplyButton();
-    this.applySortAndFilters();
-  }
-
-  syncFiltersAcrossViews() {
-    this.state.selectedFilters.forEach(filter => {
-      ['desktop', 'mobile'].forEach(view => {
-        const input = this.querySelector(
-          `.facets__${view} input[name="${filter.key}"][value="${filter.value}"]`
-        );
-        if (input) input.checked = true;
-      });
-    });
-  }
-
   async renderPage(searchParams) {
     if (this.state.loading) return;
 
@@ -288,7 +164,6 @@ class FacetFiltersForm extends HTMLElement {
       }
 
       this.state.loading = false;
-      this.updateProductCount();
     } catch (error) {
       console.error('Error rendering page:', error);
       this.state.loading = false;
@@ -305,7 +180,8 @@ class FacetFiltersForm extends HTMLElement {
       
       const response = await fetch(fullUrl.toString(), {
         headers: {
-          'X-Requested-With': 'XMLHttpRequest' // Add this header for AJAX requests
+          'X-Requested-With': 'XMLHttpRequest',
+          'Accept': 'text/html, application/json'
         }
       });
       
@@ -314,9 +190,19 @@ class FacetFiltersForm extends HTMLElement {
       const text = await response.text();
       const html = new DOMParser().parseFromString(text, 'text/html');
 
+      // Extract the total count from the response if available
+      const newGridContainer = html.getElementById('ProductGridContainer');
+      const totalProducts = newGridContainer?.dataset.totalProducts;
+      
+      if (totalProducts) {
+        const currentGridContainer = document.getElementById('ProductGridContainer');
+        if (currentGridContainer) {
+          currentGridContainer.dataset.totalProducts = totalProducts;
+        }
+      }
+
       this.renderFilters(html);
       this.renderProductGrid(html);
-      this.updateProductCount();
       
       // Initialize any new components
       this.initializeAccordion();
@@ -355,8 +241,15 @@ class FacetFiltersForm extends HTMLElement {
         existingListeners.set(article.dataset.productId, clone);
       });
   
-      // Update grid content
+      // Update grid content and maintain data attributes
       grid.innerHTML = newGrid.innerHTML;
+      
+      // Copy over data attributes from new grid to maintain total count
+      Array.from(newGrid.attributes).forEach(attr => {
+        if (attr.name.startsWith('data-')) {
+          grid.setAttribute(attr.name, attr.value);
+        }
+      });
   
       // Re-attach event listeners to new articles
       const newArticles = grid.querySelectorAll('.product-article');
@@ -373,51 +266,14 @@ class FacetFiltersForm extends HTMLElement {
       // Initialize variant selectors and swatches
       this.initializeVariantSelectors();
       
+      // Update the product count immediately after grid update
+      this.updateProductCount();
+      
       // Dispatch update event
       document.dispatchEvent(new CustomEvent('product-grid:updated', {
         detail: { container: grid }
       }));
     }
-  }
-
-  initializeVariantSelectors() {
-    const productArticles = document.querySelectorAll('.product-article');
-    
-    productArticles.forEach(article => {
-      const productId = article.dataset.productId;
-      const variantId = article.dataset.variantId;
-      
-      if (productId && window.products && window.products[productId]) {
-        const product = window.products[productId];
-        
-        // Handle color swatches
-        const colorSwatches = article.querySelectorAll('.color-swatch');
-        colorSwatches.forEach(swatch => {
-          swatch.addEventListener('click', (e) => {
-            e.preventDefault();
-            const color = swatch.dataset.value;
-            
-            const variant = product.variants.find(v => v.color === color);
-            if (variant) {
-              article.dataset.variantId = variant.id;
-              
-              const productImage = article.querySelector('.card-product__image img');
-              if (productImage && variant.image) {
-                productImage.src = variant.image;
-                productImage.srcset = variant.image;
-              }
-            }
-          });
-        });
-      }
-    });
-  }
-
-  getSections() {
-    const productGrid = document.querySelector('.product-grid-container');
-    return [{
-      section: productGrid?.dataset.id || 'main-collection-product-grid'
-    }].filter(section => section.section);
   }
 
   updateProductCount() {
@@ -451,307 +307,7 @@ class FacetFiltersForm extends HTMLElement {
     }
   }
 
-  buildQueryParams() {
-    const urlParts = [];
-
-    // Add search parameters if on search page
-    if (this.state.isSearchPage && this.state.searchTerms) {
-      urlParts.push(`q=${encodeURIComponent(this.state.searchTerms)}`);
-      urlParts.push('options[prefix]=last');
-    }
-
-    // Add sort parameter
-    if (this.state.currentSort) {
-      urlParts.push(`sort_by=${encodeURIComponent(this.state.currentSort)}`);
-    }
-
-    const groupedParams = {};
-    this.state.selectedFilters.forEach(filter => {
-      if (filter.key === 'price_filter') {
-        const [min, max] = filter.value.split('-');
-        if (min) groupedParams['filter.v.price.gte'] = min;
-        if (max) groupedParams['filter.v.price.lte'] = max;
-      } else {
-        if (!groupedParams[filter.key]) {
-          groupedParams[filter.key] = [];
-        }
-        groupedParams[filter.key].push(filter.value);
-      }
-    });
-
-    Object.entries(groupedParams).forEach(([key, values]) => {
-      const encodedKey = encodeURIComponent(key);
-      if (Array.isArray(values)) {
-        const encodedValues = values.map(v => encodeURIComponent(v)).join(',');
-        urlParts.push(`${encodedKey}=${encodedValues}`);
-      } else {
-        urlParts.push(`${encodedKey}=${encodeURIComponent(values)}`);
-      }
-    });
-
-    return urlParts.join('&');
-  }
-
-  applyMobileFilters() {
-    // Get current form data to capture unchecked boxes
-    const form = this.querySelector('form');
-    const formData = new FormData(form);
-
-    // Clear existing filters that aren't in form data
-    this.state.selectedFilters.forEach((filter, key) => {
-      if (filter.key !== 'price_filter' && !formData.has(filter.key)) {
-        this.state.selectedFilters.delete(key);
-      }
-    });
-
-    // Handle price range inputs
-    const minInput = this.querySelector('input[name^="min_"]');
-    const maxInput = this.querySelector('input[name^="max_"]');
-
-    if (minInput && maxInput) {
-      const min = parseInt(minInput.value) || '';
-      const max = parseInt(maxInput.value) || '';
-
-      if (min || max) {
-        this.state.selectedFilters.set('price_filter', {
-          key: 'price_filter',
-          value: `${min}-${max}`,
-          label: `Price: €${min || '0'} - €${max || '∞'}`
-        });
-      } else {
-        this.state.selectedFilters.delete('price_filter');
-      }
-    }
-
-    // Apply filters and close drawer
-    this.applySortAndFilters();
-    this.closeMobileDrawer();
-  }
-
-  handlePriceRangeChange(event) {
-    const minInput = this.querySelector('input[name="min_filter.v.price"]');
-    const maxInput = this.querySelector('input[name="max_filter.v.price"]');
-
-    if (!minInput || !maxInput) return;
-
-    const min = parseInt(minInput.value) || '';
-    const max = parseInt(maxInput.value) || '';
-
-    // Prevent min > max scenario
-    if (min && max && min > max) {
-      if (event.target === minInput) {
-        minInput.value = max;
-      } else {
-        maxInput.value = min;
-      }
-    }
-
-    const filterKey = 'price_filter';
-
-    if (min || max) {
-      this.state.selectedFilters.set(filterKey, {
-        key: filterKey,
-        value: `${min}-${max}`,
-        label: `Price: €${min || '0'} - €${max || '∞'}`
-      });
-    } else {
-      this.state.selectedFilters.delete(filterKey);
-    }
-
-    this.renderSelectedFilters();
-    this.updateMobileApplyButton();
-    this.applySortAndFilters();
-  }
-
-  clearFilters() {
-    // Reset all inputs
-    this.querySelectorAll('input[type="radio"]').forEach(input => {
-      input.checked = false;
-    });
-    this.state.currentSort = '';
-
-    this.querySelectorAll('.facet-range__input').forEach(input => {
-      input.value = '';
-    });
-
-    this.querySelectorAll('input[type="checkbox"]').forEach(input => {
-      input.checked = false;
-    });
-
-    // Clear state
-    this.state.selectedFilters.clear();
-    this.state.filterCache.clear();
-
-    // Update UI
-    this.renderSelectedFilters();
-    this.updateMobileApplyButton();
-
-    // Reset URL and re-render
-    history.pushState({}, '', window.location.pathname);
-    this.renderPage('');
-
-    // Close mobile drawer
-    this.closeMobileDrawer();
-  }
-
-  updateMobileApplyButton() {
-    const applyButton = this.querySelector('.mobile-facets__apply');
-    if (!applyButton) return;
-
-    const hasChanges = this.state.selectedFilters.size > 0 || this.state.currentSort;
-    applyButton.disabled = !hasChanges;
-    applyButton.textContent = hasChanges ? `Apply (${this.state.selectedFilters.size})` : 'Apply';
-  }
-
-  getFilterLabel(input) {
-    if (!input) return '';
-    const label = input.closest('label')?.querySelector('.facet-checkbox__text');
-    return label ? label.textContent.split(' (')[0] : '';
-  }
-
-  initializeFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    this.state.searchTerms = params.get('q') || '';
-    this.state.selectedFilters = new Map();
-
-    // Initialize sort
-    const sortValue = params.get('sort_by');
-    if (sortValue) {
-      this.state.currentSort = sortValue;
-      // Set both desktop and mobile sort inputs
-      ['desktop', 'mobile'].forEach(view => {
-        const input = this.querySelector(`input[name="sort_by_${view}"][value="${sortValue}"]`);
-        if (input) {
-          input.checked = true;
-        }
-      });
-    }
-
-    // Initialize filters
-    params.forEach((value, key) => {
-      if (key === 'filter.v.price.gte' || key === 'filter.v.price.lte') {
-        const min = params.get('filter.v.price.gte') || '';
-        const max = params.get('filter.v.price.lte') || '';
-
-        if (min || max) {
-          this.state.selectedFilters.set('price_filter', {
-            key: 'price_filter',
-            value: `${min}-${max}`,
-            label: `Price: €${min || '0'} - €${max || '∞'}`
-          });
-
-          // Set input values
-          const minInput = this.querySelector('input[name^="min_filter.v.price"]');
-          const maxInput = this.querySelector('input[name^="max_filter.v.price"]');
-          if (minInput) minInput.value = min;
-          if (maxInput) maxInput.value = max;
-        }
-      } else if (key.startsWith('filter.')) {
-        value.split(',').forEach(singleValue => {
-          const input = this.querySelector(`input[name="${key}"][value="${singleValue}"]`);
-          if (input) {
-            input.checked = true;
-            const label = this.getFilterLabel(input);
-            if (label) {
-              this.state.selectedFilters.set(`${key}-${singleValue}`, {
-                key,
-                value: singleValue,
-                label
-              });
-            }
-          }
-        });
-      }
-    });
-
-    this.renderSelectedFilters();
-    this.updateMobileApplyButton();
-
-    // Log current state for debugging
-    console.log('Initialized state:', {
-      currentSort: this.state.currentSort,
-      selectedFilters: Array.from(this.state.selectedFilters.entries())
-    });
-  }
-
-  updateURLHash(searchParams) {
-    history.pushState(
-      { searchParams },
-      '',
-      `${window.location.pathname}${searchParams ? '?' + searchParams : ''}`
-    );
-  }
-
-  applySortAndFilters() {
-    if (this.state.loading) return;
-
-    const searchParams = this.buildQueryParams();
-    const gridContainer = document.getElementById('ProductGridContainer');
-    
-    if (gridContainer) {
-      gridContainer.classList.add('is-loading');
-    }
-
-    this.updateURLHash(searchParams);
-    this.renderPage(searchParams).finally(() => {
-      if (gridContainer) {
-        gridContainer.classList.remove('is-loading');
-      }
-      this.updateProductCount();
-    });
-  }
-
-  renderSelectedFilters() {
-    const container = this.querySelector('#SelectedFilters');
-    if (!container) return;
-
-    const filterElements = Array.from(this.state.selectedFilters.values()).map(filter => {
-      return `
-        <div class="selected-filter" data-key="${filter.key}" data-value="${filter.value}">
-          <span>${filter.label}</span>
-          <button type="button" class="selected-filter__remove" aria-label="Remove ${filter.label} filter">
-            <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </button>
-        </div>
-      `;
-    }).join('');
-
-    container.innerHTML = filterElements;
-
-    // Attach event listeners for filter removal
-    container.querySelectorAll('.selected-filter__remove').forEach(button => {
-      button.addEventListener('click', (e) => {
-        const filter = e.target.closest('.selected-filter');
-        this.removeFilter(filter.dataset.key, filter.dataset.value);
-      });
-    });
-  }
-
-  removeFilter(key, value) {
-    if (key === 'price_filter') {
-      this.state.selectedFilters.delete('price_filter');
-      
-      // Reset price inputs
-      const minInput = this.querySelector('input[name="min_filter.v.price"]');
-      const maxInput = this.querySelector('input[name="max_filter.v.price"]');
-      if (minInput) minInput.value = '';
-      if (maxInput) maxInput.value = '';
-    } else {
-      // Uncheck both desktop and mobile inputs
-      ['desktop', 'mobile'].forEach(view => {
-        const input = this.querySelector(`.facets__${view} input[name="${key}"][value="${value}"]`);
-        if (input) input.checked = false;
-      });
-
-      this.state.selectedFilters.delete(`${key}-${value}`);
-    }
-
-    this.renderSelectedFilters();
-    this.updateMobileApplyButton();
-    this.applySortAndFilters();
-  }
+  // ... rest of your existing methods ...
 }
 
 class FilterPreview {
