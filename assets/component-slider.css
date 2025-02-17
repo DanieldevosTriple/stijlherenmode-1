@@ -34,6 +34,12 @@ slider-component.slider-component-full-width {
   overflow: hidden; /* Zorg ervoor dat overbodige inhoud wordt verborgen indien nodig */
 }
 
+.slideshow__image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: attr(width) / attr(height);
+}
+
 /* Het te schalen en te centreren element */
 .elixon-fits-in {
   overflow: visible;
